@@ -1,13 +1,13 @@
 {
   "name": "@ferlab-ui/core-react",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Core components for scientific research data portals",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Ferlab-Ste-Justine/ferlab-ui.git"
+    "url": "git+ssh://git@github.com/Ferlab-Ste-Justine/ferlab-ui.git"
   },
   "module": "lib/es/index.js",
   "esnext": "lib/esnext/index.js",
@@ -31,9 +31,17 @@
     "webpack-cli": "^3.3.12"
   },
   "peerDependencies": {
-    "antd": "^4.6.6",
-    "react": "^16.13.1",
+    "antd": "^4.2.0",
+    "react": "^16.0.0",
     "react-router-dom": "^5.2.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "bugs": {
+    "url": "https://github.com/Ferlab-Ste-Justine/ferlab-ui/issues"
+  },
+  "homepage": "https://github.com/Ferlab-Ste-Justine/ferlab-ui#readme",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  }
 }
