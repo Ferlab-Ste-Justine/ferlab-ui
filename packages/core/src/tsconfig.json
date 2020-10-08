@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./",
+      // "paths": {
+      //   "core": ["src/index.tsx"],
+      //   "core/es/*": ["lib/cjs/*"]
+      // },
+      "strictNullChecks": true,
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "experimentalDecorators": true,
+      "jsx": "react",
+      "noUnusedParameters": true,
+      "noUnusedLocals": true,
+      "noImplicitAny": true,
+      "target": "es6",
+      "lib": ["dom", "es2017"],
+      "skipLibCheck": true
+    },
+    "exclude": ["node_modules", "lib", "es"]
+}
