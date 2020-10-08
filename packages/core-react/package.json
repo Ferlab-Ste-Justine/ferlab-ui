@@ -1,5 +1,5 @@
 {
-  "name": "@ferlab-ui/core",
+  "name": "@ferlab-ui/core-react",
   "version": "0.0.1",
   "description": "Core components for scientific research data portals",
   "module": "lib/es/index.js",
