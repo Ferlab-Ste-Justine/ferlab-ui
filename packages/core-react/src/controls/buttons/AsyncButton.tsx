@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import React, { FunctionComponent, useState } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { ButtonProps } from 'antd/lib/button';
 import { Button } from 'antd';
 
@@ -9,11 +8,10 @@ type OwnProps = {
   getLink: () => Promise<string>;
 };
 
-type Props = OwnProps & RouteComponentProps & ButtonProps;
+type Props = OwnProps & ButtonProps;
 
-export const ButtonWithRouter: FunctionComponent<Props> = ({
+const AsyncButton: FunctionComponent<Props> = ({
   getLink,
-  history,
   children,
   type = 'primary',
 }) => {
@@ -29,7 +27,7 @@ export const ButtonWithRouter: FunctionComponent<Props> = ({
         const url = await getLink();
         setIsLoading(false);
         if (url) {
-          history.push(url);
+          window.location.href = url;
         }
       }}
     >
@@ -38,4 +36,4 @@ export const ButtonWithRouter: FunctionComponent<Props> = ({
   );
 };
 
-export default withRouter(ButtonWithRouter);
+export default AsyncButton;
