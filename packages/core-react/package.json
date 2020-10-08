@@ -1,6 +1,6 @@
 {
   "name": "@ferlab-ui/core-react",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Core components for scientific research data portals",
   "publishConfig": {
     "access": "public"

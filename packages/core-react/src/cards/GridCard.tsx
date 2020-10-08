@@ -5,15 +5,20 @@ type CardProps = {
   title?: string;
   loading?: boolean;
   children: ReactElement[] | React.ReactNode | Function;
+  classNameContainer?: string;
+  classNameContent?: string;
 };
 
-const GridCard = ({ title, loading, children, ...props }: CardProps) => {
+const GridCard = ({ title, loading, children, classNameContainer, classNameContent, ...props }: CardProps) => {
   const divElem = useRef() as RefObject<HTMLDivElement> | undefined;
   return (
     <Card title={title} loading={loading} className="core-grid-card" {...props}>
-      <div className="core-grid-card-content-container" ref={divElem}>
+      <div
+          className={`core-grid-card-content-container ${classNameContainer}`}
+          ref={divElem}
+      >
         {typeof children === 'function' ? (
-          <div className="core-grid-card-dynamic-content">
+          <div className={`core-grid-card-dynamic-content ${classNameContent}`}>
             {children({ height: divElem?.current?.offsetHeight })}
           </div>
         ) : (
