@@ -7,18 +7,19 @@ type CardProps = {
   children: ReactElement[] | React.ReactNode | Function;
   classNameContainer?: string;
   classNameContent?: string;
+  classNameCardItem?: string;
 };
 
-const GridCard = ({ title, loading, children, classNameContainer, classNameContent, ...props }: CardProps) => {
+const GridCard = ({ title, loading, children, classNameContainer, classNameContent, classNameCardItem, ...props }: CardProps) => {
   const divElem = useRef() as RefObject<HTMLDivElement> | undefined;
   return (
-    <Card title={title} loading={loading} className="core-grid-card" {...props}>
+    <Card title={title} loading={loading} className={`core-grid-card ${classNameCardItem || ''}`} {...props}>
       <div
-          className={`core-grid-card-content-container ${classNameContainer}`}
+          className={`core-grid-card-content-container ${classNameContainer || ''}`}
           ref={divElem}
       >
         {typeof children === 'function' ? (
-          <div className={`core-grid-card-dynamic-content ${classNameContent}`}>
+          <div className={`core-grid-card-dynamic-content ${classNameContent || ''}`}>
             {children({ height: divElem?.current?.offsetHeight })}
           </div>
         ) : (
