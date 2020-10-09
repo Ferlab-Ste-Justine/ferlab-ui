@@ -3,12 +3,12 @@ import React, { FunctionComponent, useState } from 'react';
 import { ButtonProps } from 'antd/lib/button';
 import { Button } from 'antd';
 
-type OwnProps = {
+export type AsyncButtonProps = {
   children: React.ReactNode;
   getLink: () => Promise<string>;
 };
 
-type Props = OwnProps & ButtonProps;
+type Props = AsyncButtonProps & ButtonProps;
 
 const AsyncButton: FunctionComponent<Props> = ({
   getLink,

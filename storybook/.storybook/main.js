@@ -9,6 +9,7 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-viewport",
     "@storybook/addon-essentials",
+    '@storybook/addon-controls',
     '@storybook/preset-scss',
     "storybook-addon-jsx",
     '@storybook/preset-ant-design'
