@@ -13,6 +13,7 @@
   "esnext": "lib/esnext/index.js",
   "typings": "lib/es/index.d.ts",
   "scripts": {
+    "dev:watch": "",
     "compile": "npm-run-all compile:es compile:esnext",
     "compile:es": "tsc -p ./src --declaration --outDir lib/es",
     "compile:esnext": "tsc -p ./src --declaration -t esnext --outDir lib/esnext",
@@ -25,6 +26,7 @@
     "@types/antd": "^1.0.0",
     "@types/react": "^16.9.51",
     "@types/react-router-dom": "^5.1.6",
+    "core-js": "^3.6.5",
     "npm-run-all": "^4.1.5",
     "sass": "^1.26.12",
     "typescript": "^4.0.3",
@@ -32,8 +34,7 @@
   },
   "peerDependencies": {
     "antd": "^4.2.0",
-    "react": "^16.0.0",
-    "react-router-dom": "^5.2.0"
+    "react": "^16.0.0"
   },
   "dependencies": {},
   "bugs": {
