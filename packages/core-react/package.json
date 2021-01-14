@@ -1,6 +1,6 @@
 {
   "name": "@ferlab-ui/core-react",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Core components for scientific research data portals",
   "publishConfig": {
     "access": "public"
@@ -30,7 +30,13 @@
     "npm-run-all": "^4.1.5",
     "sass": "^1.26.12",
     "typescript": "^4.0.3",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "@typescript-eslint/eslint-plugin": "^4.10.0",
+    "@typescript-eslint/parser": "^4.10.0",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "prettier": "^2.2.1"
   },
   "peerDependencies": {
     "antd": "^4.2.0",
