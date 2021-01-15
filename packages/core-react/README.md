@@ -27,6 +27,9 @@ To publish a new release
     > cd [test dir] && npm i [full_path]/ferlab-ui/packages/core-react
 - Login to npm
     > npm login
+  
+- prepare
+  > npm run prepare
 - Push the new version
     > npm publish
 
