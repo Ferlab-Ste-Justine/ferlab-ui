@@ -1,0 +1,59 @@
+@import 'colors';
+
+@mixin margin-16-bottom {
+    margin: 0 0 1.6rem 0;
+}
+@mixin margin-8-bottom {
+    margin: 0 0 .8rem 0;
+}
+
+@mixin h1-white-bold {
+    @include margin-16-bottom;
+    font-size: 3.8rem;
+    line-height: 4.6rem;
+    color: $white;
+}
+
+@mixin h2-white-bold {
+    font-size: 2rem;
+    line-height: 2.8rem;
+    color: $white;
+}
+
+@mixin h3-primary-16px {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    color: $gray-8;
+}
+
+@mixin default-link-action {
+    padding: 0;
+    color: $gray-7;
+
+    &:not([disabled]):hover {
+        color: $gray-7;
+        text-decoration: underline;
+    }
+    &:focus {
+        color: $gray-7;
+        text-decoration: underline;
+    }
+}
+
+@mixin default-action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    padding: 0;
+
+    &:not(:last-child) {
+        margin-right: .4rem;
+    }
+
+    > svg {
+        width: 1.6rem;
+        height: 1.6rem;
+    }
+}
