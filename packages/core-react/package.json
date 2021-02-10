@@ -1,6 +1,6 @@
 {
   "name": "@ferlab-ui/core-react",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "Core components for scientific research data portals",
   "publishConfig": {
     "access": "public"
@@ -12,12 +12,16 @@
   "module": "lib/es/index.js",
   "esnext": "lib/esnext/index.js",
   "typings": "lib/es/index.d.ts",
+  "exports": {
+    "./": "./lib/esnext/",
+    "./es/": "./lib/es/"
+  },
   "scripts": {
-    "dev:watch": "",
-    "compile": "npm-run-all compile:es compile:esnext",
-    "compile:es": "tsc -p ./src --declaration --outDir lib/es",
-    "compile:esnext": "tsc -p ./src --declaration -t esnext --outDir lib/esnext",
-    "compile:scss": "sass ./src:./lib/esnext",
+    "build:watch": "tsc -w -p ./src --declaration -t esnext --outDir ./",
+    "build": "npm-run-all build:es build:esnext",
+    "build:es": "tsc -p ./src --declaration --outDir lib/es",
+    "build:esnext": "tsc -p ./src --declaration -t esnext --outDir ./",
+    "build:scss": "sass ./src:./lib/esnext",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ferlab - Centre de recherche du CHU Ste-Justine",
@@ -40,15 +44,16 @@
   },
   "peerDependencies": {
     "antd": "^4.2.0",
-    "react": "^16.0.0"
+    "react": "^16.0.0",
+    "@ferlab-ui/core-style": "^0.0.9"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@types/classnames": "^2.2.11",
+    "classnames": "^2.2.6"
+  },
   "bugs": {
     "url": "https://github.com/Ferlab-Ste-Justine/ferlab-ui/issues"
   },
   "homepage": "https://github.com/Ferlab-Ste-Justine/ferlab-ui#readme",
-  "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  }
+  "main": "index.js"
 }

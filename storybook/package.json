@@ -29,6 +29,7 @@
     "core-js": "^3.6.5",
     "css-loader": "^4.3.0",
     "fork-ts-checker-webpack-plugin": "^5.2.0",
+    "react-docgen-typescript": "^1.21.0",
     "react-is": "^16.13.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
