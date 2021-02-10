@@ -74,14 +74,23 @@
 
 }
 
+// Link & Text
 @btn-text-hover-bg: @gray-3;
 
-// Link
 .ant-btn-link, .ant-btn-text {
     border: none;
 
-    &:hover, &:focus, &:active {
+    &:hover, &:focus, &:active, &:disabled {
         background-color: transparent;
+    }
+    &:disabled {
+        color: @gray-6;
+    }
+}
+
+.ant-btn-text[disabled] {
+    &:hover {
+        color: @gray-6;
     }
 }
 
@@ -104,15 +113,15 @@
     }    
 }
 
+.ant-tabs-content {
+    height: 100%;
+}
+
 .ant-tabs-card {
     .ant-tabs-nav {
         .ant-tabs-tab {
             border: 1px solid @gray-4;
         }
-    }
-
-    .ant-tabs-content {
-        height: 100%;
     }
 }
 

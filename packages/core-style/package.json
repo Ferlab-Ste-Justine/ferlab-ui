@@ -37,11 +37,10 @@
   },
   "peerDependencies": {
     "react": "^16.13.1",
-    "react-router-dom": "^5.2.0"
-  },
-  "dependencies": {
+    "react-router-dom": "^5.2.0",
     "antd": "^4.11.1"
   },
+  "dependencies": {},
   "bugs": {
     "url": "https://github.com/Ferlab-Ste-Justine/ferlab-ui/issues"
   },
