@@ -2,13 +2,13 @@
 
 ### Install
 
-    npm i @ferlab-ui/core-react
+    npm i @ferlab/ui
 
 ### Requirements
 
 Styles are installed separetly
 
-[@ferlab-ui/core-style](github/)
+[@ferlab/style](github/)
 
 
 ### Storybook

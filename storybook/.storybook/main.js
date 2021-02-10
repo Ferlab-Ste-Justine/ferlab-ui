@@ -1,4 +1,5 @@
 const path = require('path');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
   "stories": [
@@ -20,6 +21,12 @@ module.exports = {
       use: ['style-loader', 'css-loader', { loader: 'less-loader', options:{ lessOptions: {javascriptEnabled : true }}}],
       include: path.resolve(__dirname, '../'),
     });
+    
+    config.resolve.plugins = [
+      new TsconfigPathsPlugin({
+        configFile: path.resolve(__dirname, "../tsconfig.json")
+      })
+    ];
 
     return config;
   },

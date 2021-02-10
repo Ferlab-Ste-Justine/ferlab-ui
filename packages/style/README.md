@@ -1,4 +1,4 @@
-# SCSS file for styling @ferlab-ui/core
+# SCSS file for styling @ferlab/style
 
 Base scss for all reusable components.
 
@@ -9,11 +9,11 @@ Base scss for all reusable components.
 
 ## Installation
 
-    npm i @ferlab-ui/core-style
+    npm i @ferlab/style
 
 In your `main.scss` file add 
 
-> @import '@ferlab-ui/core-style/index.scss';
+> @import '@ferlab/style/index.scss';
 
 ## Developper
 
@@ -21,7 +21,7 @@ To publish a new release
 
 - Update package.json version
 - Try to install the package to make sure everything work corretly
-    > cd [test dir] && npm i [full_path]/ferlab-ui/packages/core-style
+    > cd [test dir] && npm i [full_path]/ferlab-ui/packages/style
 - Login to npm
     > npm login
 - Push the new version
