@@ -5,6 +5,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "bin": {
+    "ferlabui-script": "bin/style-script.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Ferlab-Ste-Justine/ferlab-ui.git"
@@ -14,6 +17,7 @@
   "typings": "lib/es/index.d.ts",
   "scripts": {
     "storybook": "npm run storybook",
+    "compile:colors": "./bin/style-script.js colors",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ferlab - Centre de recherche du CHU Ste-Justine",
@@ -25,12 +29,16 @@
     "npm-run-all": "^4.1.5",
     "sass": "^1.26.12",
     "typescript": "^4.0.3",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "command-line-args": "^5.1.1",
+    "cross-spawn": "^7.0.3",
+    "less": "^4.1.0",
+    "less2sass": "^1.0.3"
   },
   "peerDependencies": {
-    "antd": "^4.6.6",
     "react": "^16.13.1",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "antd": "^4.11.1"
   },
   "dependencies": {},
   "bugs": {
