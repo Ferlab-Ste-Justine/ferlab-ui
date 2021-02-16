@@ -1,4 +1,4 @@
-import '!style-loader!css-loader!sass-loader!../../packages/core-style/index.scss';
+import '!style-loader!css-loader!sass-loader!../../packages/style/index.scss';
 import 'antd/dist/antd.css';
 
 export const parameters = {
