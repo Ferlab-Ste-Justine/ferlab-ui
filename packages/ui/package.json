@@ -45,7 +45,7 @@
   "peerDependencies": {
     "antd": "^4.2.0",
     "react": "^16.0.0",
-    "@ferlab/style": "^0.1.0"
+    "@ferlab/style": "^1.0.0"
   },
   "dependencies": {
     "@types/classnames": "^2.2.11",

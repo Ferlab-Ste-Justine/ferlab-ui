@@ -12,12 +12,6 @@ export default {
     className: {
       control: 'string',
     },
-    fitContent: {
-      control: 'boolean',
-    },
-    flexContent: {
-      control: 'boolean',
-    },
     orientation: {
       control: {
         type: 'select',
