@@ -8,12 +8,12 @@ export enum StackOrientation {
     Horizontal = 'horizontal',
 }
 
-interface IExtraProps {
+type ExtraProps = {
     onClick?: (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => null;
     onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => null;
 }
 
-export interface IStackLayoutProps extends IExtraProps {
+export type StackLayoutOwnProps = {
     center?: boolean;
     className?: string;
     fitContent?: boolean;
@@ -23,7 +23,10 @@ export interface IStackLayoutProps extends IExtraProps {
     horizontal?: boolean;
     style?: React.CSSProperties
 }
-const StackLayout: React.FC<IStackLayoutProps> = ({
+
+export type StackLayoutProps = StackLayoutOwnProps & ExtraProps;
+
+const StackLayout: React.FC<StackLayoutProps> = ({
     center,
     children,
     className,
@@ -41,7 +44,7 @@ const StackLayout: React.FC<IStackLayoutProps> = ({
         ? StackOrientation.Horizontal
         : orientation || StackOrientation.Horizontal;
 
-    const extraProps: IExtraProps = {};
+    const extraProps: ExtraProps = {};
     if (onClick) {
         extraProps.onClick = onClick;
         extraProps.onKeyDown = onClick;
@@ -49,7 +52,7 @@ const StackLayout: React.FC<IStackLayoutProps> = ({
 
     const compoundCN = cx(className, { center, flexContent, fitContent });
     return (
-        <div className={`fui-stack-layout ${definedOrientation} ${compoundCN}`} {...extraProps} style={style || {}}>
+        <div className={`ferlabui-stack-layout ${definedOrientation} ${compoundCN}`} {...extraProps} style={style || {}}>
             {children}
         </div>
     );

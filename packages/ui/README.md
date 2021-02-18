@@ -24,7 +24,7 @@ To publish a new release
 
 - Update package.json version
 - Try to install the package to make sure everything work corretly
-    > cd [test dir] && npm i [full_path]/ferlab-ui/packages/core-react
+    > cd [test dir] && npm i [full_path]/ferlab-ui/packages/ui
 - Login to npm
     > npm login
 - Push the new version
