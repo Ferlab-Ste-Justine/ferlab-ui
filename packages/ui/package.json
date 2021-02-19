@@ -1,6 +1,6 @@
 {
   "name": "@ferlab/ui",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Core components for scientific research data portals",
   "publishConfig": {
     "access": "public"
@@ -10,11 +10,10 @@
     "url": "git+ssh://git@github.com/Ferlab-Ste-Justine/ferlab-ui.git"
   },
   "module": "core/",
-  "main": "core/",
   "sideEffects": false,
   "typings": "index.d.ts",
   "files": [
-    "./core/**/*"
+    "core/**/*"
   ],
   "scripts": {
     "build": "npm-run-all build:es build:esnext",
@@ -46,7 +45,7 @@
   "peerDependencies": {
     "antd": "^4.2.0",
     "react": "^16.0.0",
-    "@ferlab/style": "^0.0.9"
+    "@ferlab/style": "^1.0.0"
   },
   "dependencies": {
     "@types/classnames": "^2.2.11",
