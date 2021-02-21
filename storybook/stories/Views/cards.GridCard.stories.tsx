@@ -1,10 +1,10 @@
 import React from 'react';
-import GridCard from '../../packages/ui/src/cards/GridCard';
+import GridCard from '@ferlab/ui/view/GridCard';
 import 'antd/dist/antd.css'
 
 
 export default {
-  title: '@ferlab/ui/cards/GridCard',
+  title: '@ferlab/Views/GridCard',
   component: GridCard,
   argTypes: {
     label: {
