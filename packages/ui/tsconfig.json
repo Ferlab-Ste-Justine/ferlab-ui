@@ -21,8 +21,8 @@
         "noEmit": true,
         "jsx": "react-jsx",
         "paths": {
-            "@ferlab/style": ["../../packages/style"],
-            "@ferlab/style/*": ["../../packages/style/*"],
+            "@ferlab/style": ["../packages/style"],
+            "@ferlab/style/*": ["../packages/style/*"],
         },
     },
     "include": [

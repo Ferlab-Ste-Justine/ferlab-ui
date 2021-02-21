@@ -1,11 +1,11 @@
 import React from "react";
 import StackLayout, 
-  { IStackLayoutProps, StackOrientation } 
+  { StackOrientation } 
 from '@ferlab/ui/layout/StackLayout';
 import { Story, Meta } from '@storybook/react/types-6-0';
 
 export default {
-  title: "@ferlab/ui/layout/StackLayout",
+  title: "@ferlab/Layout/StackLayout",
   component: StackLayout,
   decorators: [(Story) => <><h2>{Story}</h2><Story/></>],
   argTypes: {

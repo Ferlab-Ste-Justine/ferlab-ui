@@ -5,7 +5,7 @@ from '@ferlab/ui/layout/ScrollView';
 import { Story, Meta } from '@storybook/react/types-6-0';
 
 export default {
-  title: "@ferlab/ui/layout/ScrollView",
+  title: "@ferlab/Layout/ScrollView",
   component: ScrollView,
   decorators: [(Story) => <><h2>{Story}</h2><Story/></>],
   argTypes: {

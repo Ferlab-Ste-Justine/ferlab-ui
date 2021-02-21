@@ -15,18 +15,23 @@ Styles are installed separetly
 
 In order to see and test all available components, you can run 
 
-> npm run storybook
-
+```bash
+cd ferlab-ui/storybook
+npm start
+```
 
 ## Developper
 
-To publish a new release
+All work must be done based on master
+All styles automatically reference to the @ferlab/styles package
+## Publish new release
+To publish a new release once a PR as been validated and merged
 
-- Update package.json version
-- Try to install the package to make sure everything work corretly
+1. Try to install the package to make sure everything work corretly
     > cd [test dir] && npm i [full_path]/ferlab-ui/packages/ui
-- Login to npm
+2. On master Update package.json version
+3. Create a tag to the new version `git tag [semantic version]`
+4. Login to npm
     > npm login
-- Push the new version
+5. Push the new version
     > npm publish
-

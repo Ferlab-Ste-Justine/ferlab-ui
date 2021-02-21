@@ -1,12 +1,12 @@
 import React from "react";
-import Grid, { GridProps } from "../../packages/ui/src/layout/Grid";
-import GridCard from "../../packages/ui/src/cards/GridCard";
+import Grid, { GridProps } from "@ferlab/ui//layout/Grid";
+import GridCard from "@ferlab/ui/view/GridCard";
 import "antd/dist/antd.css";
 // @ts-ignore
-import somegraph from "./assets/somegraph.png";
+import somegraph from "../assets/somegraph.png";
 
 export default {
-  title: "@ferlab/ui/layout/Grid",
+  title: "@ferlab/Layout/Grid",
   component: Grid,
   argTypes: {
     backgroundColor: {
