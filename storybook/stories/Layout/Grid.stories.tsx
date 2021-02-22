@@ -1,5 +1,5 @@
 import React from "react";
-import Grid, { GridProps } from "@ferlab/ui//layout/Grid";
+import Grid, { GridProps } from "@ferlab/ui/layout/Grid";
 import GridCard from "@ferlab/ui/view/GridCard";
 import "antd/dist/antd.css";
 // @ts-ignore
