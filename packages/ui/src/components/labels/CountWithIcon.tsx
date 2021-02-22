@@ -11,8 +11,8 @@ export type ICountWithIconProps = {
     className?: string;
     Icon: React.ReactNode;
     type?: CountWithIconTypeEnum;
-    label: string;
-    total: number | string;
+    label: React.ReactNode;
+    total: React.ReactNode;
     style?: React.CSSProperties;
 }
 

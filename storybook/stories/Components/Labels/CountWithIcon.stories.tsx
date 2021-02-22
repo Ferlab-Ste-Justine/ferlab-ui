@@ -20,16 +20,13 @@ export default {
     label: {
       control: 'string',
     },
-    total: {
-      control: 'number',
-    },
   },
 } as Meta;
 
 const CountWithIconStory = ({title, label, total, Icon, style, ...props} : {
   title: string,
-  label: string,
-  total: number,
+  label: React.ReactNode,
+  total: React.ReactNode,
   Icon: React.ReactNode,
   style: React.CSSProperties,
   props: Story<ICountWithIconProps>
@@ -60,8 +57,8 @@ CountWithIconInline.args = {
 export const CountWithIconStack = CountWithIconStory.bind({});
 CountWithIconStack.args = {
   title: 'Stack',
-  label: 'My Label',
+  label: <div>My Label</div>,
   Icon:  <SmileOutlined/>,
   type: 'stack',
-  total: 12,
+  total: <div>total</div>,
 };
