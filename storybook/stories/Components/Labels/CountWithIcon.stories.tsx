@@ -4,7 +4,7 @@ import CountWithIcon, {CountWithIconTypeEnum, ICountWithIconProps} from '@ferlab
 import {SmileOutlined,} from '@ant-design/icons';
 
 export default {
-  title: "@ferlab/ui/components/labels/CountWithIcon",
+  title: "@ferlab/Components/Labels/CountWithIcon",
   component: CountWithIcon,
   decorators: [(Story) => <><h2>{Story}</h2><Story/></>],
   argTypes: {
