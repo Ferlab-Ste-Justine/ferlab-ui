@@ -1,0 +1,26 @@
+.table-scrollable {
+    overflow: auto;
+}
+
+.table-scrollable table thead > tr > th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.table-scrollable-container {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.table-scrollable-container .scroll-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
+    pointer-events: none;
+}
