@@ -1,0 +1,109 @@
+:root {
+  --color-text-1: #212121;
+  --color-grey-1: #c1c1c1;
+  --color-grey-2: #edece8;
+  --color-grey-3: #faf9f5;
+  --color-accent: #FFD261;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-header: --font-body;
+}
+
+.card--notched {
+  --component-border: #b5c6d8;
+  --component-bg: #fff;
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
+  grid-template-rows: 24px 1fr 24px;
+}
+
+.card--notched > * {
+  background: var(--component-bg);
+}
+
+.card--notched .notch-content {
+  grid-column: 1/-1;
+  grid-row: 2;
+  padding: 8px 10px;
+  border-left: 1px solid var(--component-border);
+  border-right: 1px solid var(--component-border);
+}
+
+.card--notched .notch-top {
+  grid-column: 2/-1;
+  grid-row: 1;
+  border-radius: 0 2px 0 0;
+  border-top: 1px solid var(--component-border);
+  border-right: 1px solid var(--component-border);
+}
+
+.card--notched .notch-btm {
+  grid-column: 1/3;
+  grid-row: 3;
+  display: -webkit-box;
+  display: flex;
+  border-radius: 0 0 0 2px;
+  border-left: 1px solid var(--component-border);
+  border-bottom: 1px solid var(--component-border);
+}
+
+.notch--top {
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+}
+.notch--btm {
+  margin-left: auto;
+  -webkit-transform: translateX(100%);
+          transform: translateX(100%);
+}
+.notch__triangle {
+  fill: var(--component-bg);
+}
+.notch__border {
+  fill: var(--component-border);
+}
+
+/* hover type */
+
+.card--notched-hovered {
+  --component-border: #91dcf8;
+  -webkit-filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
+          filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
+}
+
+.card--notched-hover:hover {
+  --component-border: #91dcf8;
+  -webkit-filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
+          filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
+}
+
+/* header type */
+.card--notched-header {
+  --component-border: #b5c6d8;
+  --component-bg: #F0F3F8;
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
+  grid-template-rows: 24px 1fr 24px;
+}
+
+.card--notched-header .notch--top, .card--notched-header .notch-top{
+  --component-bg: var(--color-accent);
+  --component-border: var(--color-accent);
+}
+
+.card--notched-header .notch--btm{
+  --component-border: var(--component-bg);
+}
+
+.card--notched-header header {
+  background: var(--color-accent);
+}
+
+.card--notched-header .notch-content {
+  padding: 0;
+}
+
+.card--notched-header .notch-top, .card--notched-header .notch-content, .card--notched-header .notch-btm {
+  border: none;
+}
+
+
