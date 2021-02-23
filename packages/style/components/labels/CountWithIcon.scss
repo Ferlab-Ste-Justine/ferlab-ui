@@ -1,0 +1,22 @@
+
+.count__container {
+    display: flex;
+    align-items: center;
+
+    &--stack {
+        .wrapper__text {
+            margin-left: 1.6rem;
+            display: flex;
+            flex-direction: column;
+        }
+    }
+    &--inline {
+        .wrapper__text {
+            margin-left: .6rem;
+
+            .count {
+                margin-right: .5rem;
+            }
+        }
+    }
+}
