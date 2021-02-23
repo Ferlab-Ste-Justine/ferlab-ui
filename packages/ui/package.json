@@ -17,10 +17,9 @@
   ],
   "scripts": {
     "build": "npm-run-all build:es build:esnext",
-    "build:es": "tsc -p ./src --declaration --outDir lib/es",
-    "build:esnext": "tsc -p ./src --declaration",
+    "build:es": "tsc --declaration --outDir lib/es",
+    "build:esnext": "tsc --declaration",
     "build:scss": "sass ./src:./lib/esnext",
-    "prepare": "npm run build",
     "start": "tsc -w -p ./src --declaration",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
