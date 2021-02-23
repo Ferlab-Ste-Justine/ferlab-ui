@@ -1,11 +1,11 @@
 import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
-import TableContent, {TableContentProps} from "@ferlab/ui/TableContent/TableContent";
+import TableContent, {TableContentProps} from "@ferlab/ui/components/tables/TableContent";
 import {Table} from "antd";
 
 
 export default {
-  title: "@ferlab/Components/TableContent",
+  title: "@ferlab/Components/Tables/TableContent",
   component: TableContent,
   decorators: [(Story) => <><h2>{Story}</h2><Story/></>],
   argTypes: {
@@ -69,8 +69,8 @@ export const StackLayoutHorizontal = TableContentStory.bind({});
 StackLayoutHorizontal.args = {
   title: 'Horizontal',
   children: (
-      <Table columns={columns} dataSource={data} />
-      // <div>totototo</div>
+      // <Table columns={columns} dataSource={data} />
+      <div>totototo</div>
   ),
 };
 

@@ -1,9 +1,6 @@
-import React, { useRef, RefObject } from 'react';
-import { Card } from 'antd';
-import { CardProps } from 'antd/lib/card';
-import {StackLayoutProps} from "../layout/StackLayout";
+import React from 'react';
 
-import '@ferlab/style/layout/TableContent.scss'
+import '@ferlab/style/components/tables/TableContent.scss'
 
 export type TableContentProps = {
     className?: string;
