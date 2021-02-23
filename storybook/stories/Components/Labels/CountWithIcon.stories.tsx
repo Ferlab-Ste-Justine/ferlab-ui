@@ -1,6 +1,6 @@
 import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
-import CountWithIcon, {CountWithIconTypeEnum, ICountWithIconProps} from '@ferlab/ui/components/labels/CountWithIcon';
+import CountWithIcon, {CountWithIconTypeEnum, CountWithIconProps} from '@ferlab/ui/components/labels/CountWithIcon';
 import {SmileOutlined,} from '@ant-design/icons';
 
 export default {
@@ -29,7 +29,7 @@ const CountWithIconStory = ({title, label, total, Icon, style, ...props} : {
   total: React.ReactNode,
   Icon: React.ReactNode,
   style: React.CSSProperties,
-  props: Story<ICountWithIconProps>
+  props: Story<CountWithIconProps>
 }) => (
   <>
     <h3>{title}</h3>

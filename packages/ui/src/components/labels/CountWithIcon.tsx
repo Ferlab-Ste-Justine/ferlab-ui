@@ -7,7 +7,7 @@ export enum CountWithIconTypeEnum  {
     Stack = 'stack',
 }
 
-export type ICountWithIconProps = {
+export type CountWithIconProps = {
     className?: string;
     Icon: React.ReactNode;
     type?: CountWithIconTypeEnum;
@@ -16,23 +16,22 @@ export type ICountWithIconProps = {
     style?: React.CSSProperties;
 }
 
-const CountWithIcon = ({
-                           className = '',
-                           Icon,
-                           label,
-                           total,
-                           type = CountWithIconTypeEnum.Stack,
-                           style = {},
-                       }: ICountWithIconProps): React.ReactElement => {
-    return (
-        <div className={`count__container count__container--${type} ${className}`}  style={style}>
-            {Icon}
-            <div className="wrapper__text">
-                <span className="count">{total}</span>
-                <span className="label">{label}</span>
+const CountWithIcon: React.FC< CountWithIconProps> =
+    ({
+       className = '',
+       Icon,
+       label,
+       total,
+       type = CountWithIconTypeEnum.Stack,
+       style = {},
+   }) => (
+            <div className={`count__container count__container--${type} ${className}`}  style={style}>
+                {Icon}
+                <div className="wrapper__text">
+                    <span className="count">{total}</span>
+                    <span className="label">{label}</span>
+                </div>
             </div>
-        </div>
-    );
-};
+         )
 
 export default CountWithIcon;
