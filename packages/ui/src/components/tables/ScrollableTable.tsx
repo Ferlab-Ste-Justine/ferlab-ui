@@ -1,18 +1,18 @@
 import React from 'react';
 
-import '@ferlab/style/components/tables/TableContent.scss'
+import '@ferlab/style/components/tables/ScrollableTable.scss'
 
-export type TableContentProps = {
+export type ScrollableTableProps = {
     className?: string;
     children?: React.ReactNode;
 };
 
-const TableContent: React.FC<TableContentProps> = ({
+const ScrollableTable: React.FC<ScrollableTableProps> = ({
     children,
     className = '',
-}: TableContentProps) => {
+}) => {
     return (
-        <div className="table-scrollable-container">
+        <div className="table-scrollable-container" >
             <div
                 className={`table-scrollable ${className}`}
                 id="table-scroll"
@@ -22,9 +22,9 @@ const TableContent: React.FC<TableContentProps> = ({
             >
                 {children}
             </div>
-            <div className="scroll-overlay" />
         </div>
-    );
-};
+    )
+}
 
-export default TableContent;
+
+export default ScrollableTable;
