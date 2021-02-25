@@ -20,7 +20,7 @@
     "build:es": "tsc --declaration --outDir lib/es",
     "build:esnext": "tsc --declaration",
     "build:scss": "sass ./src:./lib/esnext",
-    "start": "tsc -w -p ./src --declaration",
+    "start": "tsc -w --declaration",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ferlab - Centre de recherche du CHU Ste-Justine",
