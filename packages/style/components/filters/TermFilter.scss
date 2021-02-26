@@ -1,0 +1,112 @@
+.fui-filters {
+    .fui-filters-types-mc-footer {
+        color: #008FC7; /* blue-7 */
+        padding: 0;
+        text-align: left;
+        height: auto;
+        font-size: 1.2rem;
+        text-transform: capitalize;
+        > * {
+            text-decoration: underline;
+        }
+
+        &:hover > * {
+            text-decoration: none;
+        }
+    }
+
+    .fui-mc-item-checkbox {
+        font-size: 1.2rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        & > span + span {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 176px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+}
+.fui-search-wrapper {
+    margin-bottom: .8rem;
+
+    .fui-search-input {
+        width: 100%;
+    }
+}
+
+
+.fui-filters-types-mc-footer:hover, .fui-filters-actions .fui-filters-links:hover {
+    color: #0075A2;
+    text-decoration: none;
+}
+
+.fui-mc-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 9px;
+    flex: auto 0;
+}
+
+.fui-mc-item:last-child {
+    margin-bottom: 0px;
+}
+
+
+
+.fui-filters-actions {
+    margin-bottom: 1.5rem;
+
+    .separator {
+        height: 1.2rem;
+        align-self: center;
+        background: #90A9C1;
+        margin: 0 .5rem;
+    }
+
+    .fui-filters-links {
+        color: #008FC7; /* blue-7 */
+        text-transform: capitalize;
+        padding: 0;
+        font-size: 1.2rem;
+        line-height: 2rem;
+        height: auto;
+
+        > * {
+            text-decoration: underline;
+        }
+
+        &:hover > * {
+            text-decoration: none;
+        }
+    }
+}
+
+.no-results-text {
+    background: #F0F3F8;
+    color: #18486B;
+    font-size: 14px;
+    line-height: 22px;
+    padding: 8px 16px;
+}
+
+.fui-mc-search-input {
+    border-radius: 4px;
+    margin-bottom: 6px;
+}
+
+.fui-mc-search-reset-icon {
+    position: absolute;
+    right: 0;
+    padding: 10px;
+    transition: all 0.3s ease;
+    outline: 0;
+}
+
+.fui-mc-search-reset-icon:hover {
+    cursor: pointer;
+}
