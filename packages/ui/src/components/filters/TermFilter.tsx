@@ -4,7 +4,6 @@ import { AutoComplete, Button, Checkbox, Divider, Tag } from 'antd';
 import {IFilter, IFilterCount, IFilterGroup, onChangeType} from "./Filters";
 import StackLayout from "../../layout/StackLayout";
 
-import './MultipleChoice.scss';
 import '@ferlab/style/components/filters/TermFilter.scss'
 
 export type TermFilterProps = {
@@ -14,7 +13,7 @@ export type TermFilterProps = {
     moreText?: string;
     lessText?: string;
     noDataText?: string;
-    field: string;
+    field: string; //TODO put back into filterGroup
     filterGroup: IFilterGroup;
     onChange: onChangeType;
     selectedFilters?: IFilter[];

@@ -2,6 +2,7 @@ import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
 import TermFilter, {TermFilterProps} from "@ferlab/ui/components/filters/TermFilter";
 import {IFilter, IFilterCount, IFilterGroup, onChangeType} from "@ferlab/ui/components/filters/Filters";
+import {filters} from "./data";
 
 export default {
   title: "@ferlab/Components/Filters/TermFilter",
@@ -33,15 +34,22 @@ const TermFilterStory = ({title, maxShowing, field, filterGroup, onChange, ...pr
   </>
 );
 
+const filerGroup: IFilterGroup = {
+    field: 'this.field',
+    title: 'title_filter_group',
+}
+
+const onChangeTypeR: onChangeType =
+    (filerGroup, filters) => console.log(filters, `${filerGroup} change `)
+
+
 export const TermFilterStoryTOTO = TermFilterStory.bind({});
 TermFilterStoryTOTO.args = {
-    title: 'TableContent',
+    title: 'TermFilter',
     field: 'this.field',
     maxShowing: 6,
-    filterGroup:
-
-
+    filterGroup: filerGroup,
+    onChangeType: onChangeTypeR(filerGroup, []),
+    hasSearchInput: true,
+    filters: filters,
 };
-
-
-
