@@ -47,7 +47,6 @@ const QueryPill: React.FC<IQueryBarProps> = ({
     currentSelectedQuery,
 }) => {
     const containerClassNames = cx(styles.container, { [styles.selected]: currentSelectedQuery });
-    console.log(query);
     return (
         <StackLayout className={containerClassNames}>
             {showLabels && (

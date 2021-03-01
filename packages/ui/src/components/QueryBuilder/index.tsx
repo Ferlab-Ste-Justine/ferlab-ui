@@ -68,10 +68,18 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     const canCombine = queries.filter((obj) => !isEmpty(obj.query)).length >= 2 && combination.length >= 2;
 
     useEffect(() => {
+        if (queries.length > 0) {
+            const queryState = queries.find((o) => o.id === activeQuery);
+            if (!isEmpty(queryState)) {
+                onChangeQuery(activeQuery, queryState!.query);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
         if ((isEmpty(currentQuery) && total === 0) || loading) return;
         if (queries.length === 0) {
             setQueries([{ id: activeQuery, name: '#1', query: currentQuery, total }]);
-            onUpdate(getUpdatedState(queries, activeQuery));
         } else {
             setQueries(
                 queries.map((obj, i) => {
