@@ -1,0 +1,75 @@
+@import 'theme.template';
+
+.container {
+    background: $query-bar-bg;
+    position: relative;
+
+    > * {
+        padding: 1.2rem;
+        border: 1px solid $query-bar-border-color;
+        align-items: center;
+
+        &:not(:first-child) {
+            border-left: none;
+        }
+    }
+
+    &.selected {
+        background: $query-bar-bg-active;
+        > * {
+            border-color: $query-bar-border-color-active;
+        }
+
+        .identifier {
+            background: $query-bar-identifier-active;
+        }
+    
+    }
+
+    .identifier {
+        position: absolute;
+        height: 100%;
+        left: 0;
+        top: 0;
+        width: 4px;
+        background: $query-bar-identifier;
+    }
+
+
+    .selectionWrapper {
+        .label {
+            font-size: 1.2rem;
+        }
+    }
+
+    .queryContent {
+        justify-content: space-between;
+
+        .queryValues {
+            flex-wrap: wrap;
+            margin: -.6rem -.6rem -.6rem 1.2rem;
+
+            > * {
+                margin: .4rem 0;
+            }
+        }
+
+        .total {
+            font-weight: 600;
+        }
+    }
+
+    .actions {
+        >  * {
+            height: auto;
+            line-height: normal;
+            padding: 0;
+            display: flex;
+            align-items: center;
+
+            &:first-child {
+                margin-right: 1.6rem;
+            }
+        }
+    }
+}

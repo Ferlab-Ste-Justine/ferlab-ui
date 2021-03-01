@@ -1,0 +1,9 @@
+@import 'theme.template';
+
+.icon {
+    color:$query-icon-operator-color;
+
+    &:hover, &:active {
+        color: $query-icon-operator-color-hover;
+    }
+}

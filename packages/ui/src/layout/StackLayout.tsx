@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import cx from 'classnames';
-import '@ferlab/style/layout/StackLayout.scss'
+
+import '@ferlab/style/layout/StackLayout.scss';
 
 export enum StackOrientation {
     Vertical = 'vertical',
@@ -9,9 +10,9 @@ export enum StackOrientation {
 }
 
 type ExtraProps = {
-    onClick?: (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => null;
-    onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => null;
-}
+    onClick?: (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void;
+    onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
+};
 
 export type StackLayoutOwnProps = {
     center?: boolean;
@@ -21,8 +22,8 @@ export type StackLayoutOwnProps = {
     orientation?: StackOrientation;
     vertical?: boolean;
     horizontal?: boolean;
-    style?: React.CSSProperties
-}
+    style?: React.CSSProperties;
+};
 
 export type StackLayoutProps = StackLayoutOwnProps & ExtraProps;
 
@@ -35,8 +36,8 @@ const StackLayout: React.FC<StackLayoutProps> = ({
     horizontal,
     onClick,
     orientation,
+    style,
     vertical,
-    style
 }) => {
     const definedOrientation = vertical
         ? StackOrientation.Vertical
@@ -50,9 +51,9 @@ const StackLayout: React.FC<StackLayoutProps> = ({
         extraProps.onKeyDown = onClick;
     }
 
-    const compoundCN = cx(className, { center, flexContent, fitContent });
+    const compoundCN = cx('ferlabui-stack-layout', definedOrientation, { center, fitContent, flexContent }, className);
     return (
-        <div className={`ferlabui-stack-layout ${definedOrientation} ${compoundCN}`} {...extraProps} style={style || {}}>
+        <div className={compoundCN} {...extraProps} style={style || {}}>
             {children}
         </div>
     );
