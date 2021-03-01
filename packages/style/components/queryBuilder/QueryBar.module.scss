@@ -56,6 +56,12 @@
 
         .total {
             font-weight: 600;
+            display: flex;
+            align-items: center;
+
+            >  :first-child {
+                margin-right: .5rem;
+            }
         }
     }
 

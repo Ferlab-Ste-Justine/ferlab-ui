@@ -7,7 +7,12 @@
 .ant-btn {
     padding: .5rem .8rem;
     color: @gray-8;
-    &:hover, &:focus{
+    border-color: @gray-5;
+    &:hover{
+        color: @blue-8;
+        border-color: @gray-4;
+    }
+    &:focus{
         color: @blue-8;
         border-color: @blue-8;
     }
@@ -77,11 +82,25 @@
 // Link & Text
 @btn-text-hover-bg: @gray-3;
 
-.ant-btn-link, .ant-btn-text {
+.ant-btn-text {
     border: none;
 
     &:hover, &:focus, &:active, &:disabled {
         background-color: transparent;
+    }
+    &:disabled {
+        color: @gray-6;
+    }
+}
+.ant-btn-link {
+    border: none;
+    text-decoration: underline;
+    color: @blue-8;
+
+    &:hover, &:focus, &:active, &:disabled {
+        background-color: transparent;
+        text-decoration: none;
+
     }
     &:disabled {
         color: @gray-6;

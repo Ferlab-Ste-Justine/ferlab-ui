@@ -14,7 +14,8 @@ import styles from '@ferlab/style/components/queryBuilder/QueryBar.module.scss';
 
 interface IQueryBarProps {
     id: string;
-    total: number | React.ReactNode;
+    Icon: React.ReactNode;
+    total: number;
     number?: number;
     dictionary?: IDictionary;
     query: ISqonGroupFilter | Record<string, never>;
@@ -33,6 +34,7 @@ interface IQueryBarProps {
 }
 const QueryBar: React.FC<IQueryBarProps> = ({
     id,
+    Icon,
     number,
     total,
     dictionary = {},
@@ -99,7 +101,9 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                         ))}
                     </StackLayout>
                 )}
-                <span className={styles.total}>{total}</span>
+                <span className={styles.total}>
+                    {Icon} {total}
+                </span>
             </StackLayout>
             {!actionDisabled && (
                 <StackLayout className={styles.actions}>

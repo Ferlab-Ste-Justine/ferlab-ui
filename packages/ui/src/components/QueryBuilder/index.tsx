@@ -16,7 +16,8 @@ import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.sc
 export interface IQueryBuilderProps {
     className?: string;
     dictionary?: IDictionary;
-    total?: number | React.ReactNode;
+    total?: number;
+    IconTotal?: React.ReactNode;
     currentQuery?: ISqonGroupFilter;
     onRemoveFacet: TCallbackRemoveAction;
     onChangeQuery: TOnChange;
@@ -33,7 +34,7 @@ interface IInitialQueryState {
 
 interface IQueriesState {
     query: ISqonGroupFilter | Record<string, never>;
-    total: number | React.ReactNode;
+    total: number;
     id: string;
     name?: string;
 }
@@ -47,6 +48,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     className = '',
     dictionary = {},
     total = 0,
+    IconTotal = null,
     currentQuery = {},
     onRemoveFacet,
     onChangeQuery,
@@ -91,6 +93,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
             <StackLayout className={styles.queryBars} vertical>
                 {queries.map((obj, i) => (
                     <QueryBar
+                        Icon={IconTotal}
                         actionDisabled={isEmpty(obj.query)}
                         active={obj.id === activeQuery}
                         canDelete={!noData}
