@@ -16,6 +16,7 @@
     "core/**/*"
   ],
   "scripts": {
+    "fix-linter": "eslint --fix --rule 'no-console: 2'",
     "build": "npm-run-all build:es build:esnext",
     "build:es": "tsc --declaration --outDir lib/es",
     "build:esnext": "tsc --declaration",
