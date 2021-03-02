@@ -1,0 +1,7 @@
+[{package.json}]
+indent_style = space
+indent_size = 2
+
+[*.{ts,tsx,js,jsx}]
+indent_style = space
+indent_size = 4
