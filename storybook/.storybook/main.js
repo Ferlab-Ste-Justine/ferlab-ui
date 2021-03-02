@@ -1,6 +1,5 @@
 const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-
 module.exports = {
   "stories": [
     "../stories/**/*.stories.mdx",
@@ -11,7 +10,16 @@ module.exports = {
     "@storybook/addon-viewport",
     "@storybook/addon-essentials",
     '@storybook/addon-controls',
-    '@storybook/preset-scss',
+    {
+        name: '@storybook/preset-scss',
+        options: {
+            sassLoaderOptions: {
+                sassOptions: {
+                    includePaths: [path.resolve(__dirname, "../../packages/style/themes/default")],
+                }
+            }
+        }
+    },
     "storybook-addon-jsx",
     '@storybook/preset-ant-design'
   ],

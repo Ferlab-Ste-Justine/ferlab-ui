@@ -1,0 +1,33 @@
+@import 'colors';
+
+// QueryBuilder
+$query-builder-bg: $white;
+
+$query-bar-bg: #F1F4F8;
+$query-bar-bg-active: #FFEFC1;
+$query-bar-border-color: #BCC9DC;
+$query-bar-border-color-active: #FFDC73;
+
+$query-bar-identifier: #BCC9DC;
+$query-bar-identifier-active: #F5B800; 
+
+$query-pill-bg: #DDE4EE;
+$query-pill-bg-active: #FFC926;
+
+$query-values-bg: $white;
+
+$query-icon-operator-color: #5A77A0;
+$query-icon-operator-color-hover: #26436E; 
+$query-icon-label-operator-color: #26436E;
+
+
+// CountWithIcon
+$count-with-icon-inline-label-size: 1.4rem; 
+$count-with-icon-inline-label-weight: 600; 
+$count-with-icon-inline-total-size: 1.4rem; 
+$count-with-icon-inline-total-weight: 600; 
+
+$count-with-icon-stack-label-size: inherit; 
+$count-with-icon-stack-label-weight: normal; 
+$count-with-icon-stack-total-size: 1.6rem; 
+$count-with-icon-stack-total-weight: 600; 

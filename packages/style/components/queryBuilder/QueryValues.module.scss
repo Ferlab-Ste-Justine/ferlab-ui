@@ -1,0 +1,32 @@
+@import 'theme.template';
+
+.container {
+    border-radius: 2px;
+    background: $query-values-bg;
+    padding: 0 .8rem;
+    height: 100%;
+
+    .valueWrapper {
+        align-items: center;
+
+        .value {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+    
+        .operator {
+            margin: 0 .7rem;
+        }
+    }
+
+    .button {
+        padding: 0;
+        height: auto;
+        margin-left: .5rem;
+        display: flex;
+
+        &.icon {
+            align-items: center;
+        }
+    }
+}

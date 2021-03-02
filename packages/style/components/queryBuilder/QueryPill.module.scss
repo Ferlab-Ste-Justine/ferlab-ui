@@ -1,0 +1,27 @@
+@import 'theme.template';
+
+.container {
+    background: $query-pill-bg;
+    padding: .2rem .6rem;
+    border-radius: 2px;
+    align-items: center;
+
+    &.selected {
+        background: $query-pill-bg-active;
+    }
+
+    > *:not(:last-child) {
+        margin-right: .6rem;
+    }
+
+    .field {
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .close {
+        height: auto;
+        display: flex;
+        align-items: center;
+    }
+}
