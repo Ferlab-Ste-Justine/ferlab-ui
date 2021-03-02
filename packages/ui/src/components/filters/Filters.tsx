@@ -14,8 +14,8 @@ export interface IFilterRange {
 }
 
 export interface IFilterRangeConfig {
-    max?: number | undefined;
-    min?: number | undefined;
+    max: number | undefined;
+    min: number | undefined;
     rangeTypes: IFilterRangeTypes[];
 }
 
@@ -25,6 +25,7 @@ export interface IFilterGroup {
     field: string;
     config?: TFilterGroupConfig;
     title: string | ReactNode;
+    type: VisualType;
 }
 
 export interface IFilterCount {
@@ -38,4 +39,10 @@ export interface IFilter<T extends TFilterData = any> {
     data: T;
     name: string | ReactNode;
     id: string; //  dash (-) separated key
+}
+
+export enum VisualType {
+    Checkbox = 'checkbox',
+    Toggle = 'toggle',
+    Range = 'range',
 }

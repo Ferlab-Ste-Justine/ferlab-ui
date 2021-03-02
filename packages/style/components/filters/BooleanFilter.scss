@@ -1,0 +1,21 @@
+@import 'colors';
+.fui-filter-sc {
+    justify-content: space-between;
+    align-items: center;
+
+    .fui-filter-sc-button {
+        padding: 0;
+        color: $blue-7;
+        > * {
+            text-decoration: underline;
+        }
+
+        &:hover > * {
+            text-decoration: none;
+        }
+
+        &-disabled {
+            display: none;
+        }
+    }
+}

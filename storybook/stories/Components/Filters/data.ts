@@ -1,4 +1,4 @@
-import {IFilter, IFilterCount} from "@ferlab/ui/components/filters/Filters";
+import {IFilter, IFilterCount, IFilterRange} from "@ferlab/ui/components/filters/Filters";
 
 export const filters: IFilter<IFilterCount>[] = [
     {
@@ -74,4 +74,72 @@ export const filters: IFilter<IFilterCount>[] = [
         id: 'id_nine'
     },
 
+]
+
+
+export const rangeFilters: IFilter<IFilterRange>[] = [
+    {
+        data: {
+            max: 10,
+            min: 1,
+            rangeType: '',
+        },
+        name: 'one',
+        id: 'id_one'
+    },
+    {
+        data: {
+            max: 5,
+            min: 2,
+            rangeType: '',
+        },
+        name: 'two',
+        id: 'id_two'
+    },
+    {
+        data: {
+            max: 15,
+            min: 3,
+            rangeType: '',
+        },
+        name: 'three',
+        id: 'id_three'
+    },
+    {
+        data: {
+            max: 12,
+            min: 4,
+            rangeType: '',
+        },
+        name: 'four',
+        id: 'id_four'
+    },
+    {
+        data: {
+            max: 17,
+            min: 5,
+            rangeType: '',
+        },
+        name: 'five',
+        id: 'id_five'
+    },
+]
+
+export const booleanFilters: IFilter<IFilterCount>[] = [
+    {
+        data: {
+            count: 1000,
+            key: 'true'
+        },
+        name: 'true',
+        id: 'id_one'
+    },
+    {
+        data: {
+            count: 200,
+            key: 'false'
+        },
+        name: 'false',
+        id: 'id_two'
+    },
 ]

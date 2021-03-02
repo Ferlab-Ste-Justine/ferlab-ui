@@ -5,15 +5,15 @@ import '../assets/main.scss';
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   backgrounds: {
-    default: 'facebook',
+    default: 'kids first',
     values: [
         { 
             name: 'twitter', 
             value: '#00aced'
         },
         { 
-            name: 'facebook', 
-            value: '#3b5998' 
+            name: 'kids first',
+            value: '#f4f5f8'
         },
       ],
     }

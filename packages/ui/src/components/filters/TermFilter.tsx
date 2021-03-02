@@ -13,7 +13,6 @@ export type TermFilterProps = {
     moreText?: string;
     lessText?: string;
     noDataText?: string;
-    field: string; //TODO put back into filterGroup
     filterGroup: IFilterGroup;
     onChange: onChangeType;
     selectedFilters?: IFilter[];
@@ -29,7 +28,6 @@ const TermFilter: React.FC<TermFilterProps> = ({
                                                    moreText= 'more',
                                                    lessText= 'less',
                                                    noDataText= 'No values found for this request',
-                                                   field,
                                                    filterGroup,
                                                    filters,
                                                    hasSearchInput,
@@ -92,7 +90,7 @@ const TermFilter: React.FC<TermFilterProps> = ({
                             <StackLayout
                                 className="fui-mc-item"
                                 horizontal
-                                key={`${field}-${filter.id}-${filter.data.count}-${selectedFilters.length}-${i}`}
+                                key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${selectedFilters.length}-${i}`}
                             >
                                 <Checkbox
                                     className="fui-mc-item-checkbox"

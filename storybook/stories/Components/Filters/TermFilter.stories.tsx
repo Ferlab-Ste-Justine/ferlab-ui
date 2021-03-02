@@ -8,7 +8,7 @@ export default {
   title: "@ferlab/Components/Filters/TermFilter",
   component: TermFilter,
     decorators: [(Story) =>
-        <><div className={'story_container'} style={{height: 300, width: 400, display:'inline-grid'}}><Story/></div></>],
+        <><div className={'story_container'} style={{display:'inline-grid'}}><Story/></div></>],
   argTypes: {
     className: {
       control: 'string',
@@ -19,9 +19,8 @@ export default {
   },
 } as Meta;
 
-const TermFilterStory = ({title, maxShowing, field, filterGroup, onChange, ...props} : {
+const TermFilterStory = ({title, maxShowing, filterGroup, onChange, ...props} : {
     title: string,
-    field: string,
     maxShowing: number,
     filterGroup: IFilterGroup,
     onChange: onChangeType,
@@ -30,7 +29,7 @@ const TermFilterStory = ({title, maxShowing, field, filterGroup, onChange, ...pr
     props: Story<TermFilterProps>}) => (
   <>
     <h3>{title}</h3>
-    <TermFilter maxShowing={maxShowing} field={field} filterGroup={filterGroup} onChange={onChange} {...props} />
+    <TermFilter maxShowing={maxShowing} filterGroup={filterGroup} onChange={onChange} {...props} />
   </>
 );
 
@@ -39,17 +38,35 @@ const filerGroup: IFilterGroup = {
     title: 'title_filter_group',
 }
 
-const onChangeTypeR: onChangeType =
-    (filerGroup, filters) => console.log(filters, `${filerGroup} change `)
+const onChangeTypeStory: onChangeType = () => null
 
 
-export const TermFilterStoryTOTO = TermFilterStory.bind({});
-TermFilterStoryTOTO.args = {
-    title: 'TermFilter',
-    field: 'this.field',
+export const TermFilterStoryMore = TermFilterStory.bind({});
+TermFilterStoryMore.args = {
+    title: 'TermFilter More',
     maxShowing: 6,
     filterGroup: filerGroup,
-    onChangeType: onChangeTypeR(filerGroup, []),
+    onChangeType: onChangeTypeStory(filerGroup, filters),
     hasSearchInput: true,
     filters: filters,
+};
+
+export const TermFilterStoryFew = TermFilterStory.bind({});
+TermFilterStoryFew.args = {
+    title: 'TermFilter Few',
+    maxShowing: 6,
+    filterGroup: filerGroup,
+    onChangeType: onChangeTypeStory(filerGroup, filters),
+    hasSearchInput: true,
+    filters: filters.slice(0, 4),
+};
+
+export const TermFilterStoryNoData = TermFilterStory.bind({});
+TermFilterStoryNoData.args = {
+    title: 'TermFilter No Data',
+    maxShowing: 6,
+    filterGroup: filerGroup,
+    onChangeType: onChangeTypeStory(filerGroup, filters),
+    hasSearchInput: true,
+    filters: [],
 };

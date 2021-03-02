@@ -1,0 +1,28 @@
+.fui-filters-container-header {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+
+    .title {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        margin-right: .5rem;
+    }
+
+    .fui-search-icon-wrapper {
+        display: flex;
+        .fui-search-icon {
+            width: 16px;
+            height: 16px;
+        }
+    }
+}
+
+.filter-container {
+    width: 100%;
+
+    .filter-container-content {
+
+    }
+}

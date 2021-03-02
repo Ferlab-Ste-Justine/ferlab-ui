@@ -1,0 +1,61 @@
+@import 'colors';
+.fui-rf-container {
+    .fui-rf-grouped {
+        .fui-rf-range-target {
+            display: flex;
+            height: 100%;
+            width: 40%;
+
+            .fui-rf-range-target-select {
+                width: 100%;
+                .ant-select-selector {
+                    border-radius: 2px 0 0 2px;
+                }
+            }
+        }
+
+        .fui-rf-grouped-inputs-spacer {
+            background-color: $gray-5;
+            margin: 0 4px;
+        }
+    }
+
+    .fui-rf-grouped-inputs {
+        align-items: center;
+        height: 32px;
+        margin-bottom: 1.6rem;
+        width: 60%;
+        border-top: 1px solid #d9d9d9;
+        border-bottom: 1px solid #d9d9d9;
+        border-right: 1px solid #d9d9d9;
+        border-radius: 0 2px 2px 0;
+
+        .range-input {
+            border: none;
+        }
+    }
+
+    .fui-rf-actions {
+        border-top: 1px solid $gray-4;
+        justify-content: flex-end;
+        padding-top: 1.3rem;
+
+        .fui-rf-actions-apply {
+            background: $blue-7;
+            border-color: $blue-7;
+            color: $white;
+
+            &:disabled {
+                color: $gray-6;
+                background: $gray-3;
+                border-color: $gray-5;
+            }
+        }
+
+        > * {
+            text-transform: capitalize;
+            margin-left: 8px;
+        }
+    }
+}
+
