@@ -1,4 +1,4 @@
-import {IFilter, IFilterCount, IFilterRange} from "@ferlab/ui/components/filters/Filters";
+import {IFilter, IFilterCount, IFilterRange} from "@ferlab/ui/components/filters/types";
 
 export const filters: IFilter<IFilterCount>[] = [
     {

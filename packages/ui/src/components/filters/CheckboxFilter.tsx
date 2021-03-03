@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { AutoComplete, Button, Checkbox, Divider, Tag } from 'antd';
 
-import {IFilter, IFilterCount, IFilterGroup, onChangeType} from "./Filters";
+import {IFilter, IFilterCount, IFilterGroup, onChangeType} from "./types";
 import StackLayout from "../../layout/StackLayout";
 
-import '@ferlab/style/components/filters/TermFilter.scss'
+import styles from '@ferlab/style/components/filters/CheckboxFilter.module.scss';
 
 export type TermFilterProps = {
     searchPlaceHolder?: string;
@@ -21,7 +21,7 @@ export type TermFilterProps = {
     filters: IFilter<IFilterCount>[];
 }
 
-const TermFilter: React.FC<TermFilterProps> = ({
+const CheckboxFilter: React.FC<TermFilterProps> = ({
                                                    searchPlaceHolder= 'search...',
                                                    selectAllText= 'select all',
                                                    clearText= 'none',
@@ -48,12 +48,12 @@ const TermFilter: React.FC<TermFilterProps> = ({
     return (
         <Fragment>
             {hasSearchInput && (
-                <div className="fui-search-wrapper">
+                <div className={styles.filterSearchWrapper}>
                     <AutoComplete
                         allowClear
                         aria-label={searchPlaceHolder}
                         autoFocus
-                        className="fui-search-input"
+                        className={styles.filterSearchInput}
                         onChange={(value) => {
                             if (value) {
                                 setSearch(value);
@@ -68,18 +68,18 @@ const TermFilter: React.FC<TermFilterProps> = ({
                 </div>
             )}
             {filteredFilters.length > 0 && (
-                <StackLayout className="fui-filters" vertical>
-                    <StackLayout className="fui-filters-actions">
+                <StackLayout className={styles.checkboxFilter} vertical>
+                    <StackLayout className={styles.checkboxFilterActions}>
                         <Button
-                            className="fui-filters-links"
+                            className={styles.checkboxFilterLinks}
                             onClick={() => onChange(filterGroup, filters)}
                             type="text"
                         >
                             {selectAllText}
                         </Button>
 
-                        <Divider className="separator" type="vertical" />
-                        <Button className="fui-filters-links" onClick={() => onChange(filterGroup, [])} type="text">
+                        <Divider className={styles.separator} type="vertical" />
+                        <Button className={styles.checkboxFilterLinks} onClick={() => onChange(filterGroup, [])} type="text">
                             {clearText}
                         </Button>
                     </StackLayout>
@@ -88,12 +88,12 @@ const TermFilter: React.FC<TermFilterProps> = ({
                         .slice(0, isShowingMore ? Infinity : maxShowing)
                         .map((filter, i) => (
                             <StackLayout
-                                className="fui-mc-item"
+                                className={styles.checkboxFilterItem}
                                 horizontal
                                 key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${selectedFilters.length}-${i}`}
                             >
                                 <Checkbox
-                                    className="fui-mc-item-checkbox"
+                                    className={styles.fuiMcItemCheckbox}
                                     defaultChecked={selectedFilters.some((f) => f.data.key === filter.data.key)}
                                     id={`input-${filter.data.key}`}
                                     name={`input-${filter.id}`}
@@ -116,7 +116,7 @@ const TermFilter: React.FC<TermFilterProps> = ({
                         ))}
                     {filteredFilters.length > maxShowing && (
                         <Button
-                            className="fui-filters-types-mc-footer"
+                            className={styles.filtersTypesFooter}
                             onClick={() => setShowingMore(!isShowingMore)}
                             onKeyPress={() => setShowingMore(!isShowingMore)}
                             tabIndex={0}
@@ -132,7 +132,7 @@ const TermFilter: React.FC<TermFilterProps> = ({
             )}
             {filteredFilters.length === 0 && (
                 <StackLayout className="fui-no-filters" vertical>
-                    <span className="no-results-text">
+                    <span className={styles.noResultsText}>
                         {noDataText}
                     </span>
                 </StackLayout>
@@ -141,4 +141,4 @@ const TermFilter: React.FC<TermFilterProps> = ({
     );
 };
 
-export default TermFilter;
+export default CheckboxFilter;

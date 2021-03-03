@@ -1,7 +1,7 @@
 import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
-import {TermFilterProps} from "@ferlab/ui/components/filters/TermFilter";
-import {IFilter, IFilterCount, IFilterGroup, onChangeType, VisualType} from "@ferlab/ui/components/filters/Filters";
+import {TermFilterProps} from "@ferlab/ui/components/filters/CheckboxFilter";
+import {IFilter, IFilterCount, IFilterGroup, onChangeType, VisualType} from "@ferlab/ui/components/filters/types";
 import {filters} from "./data";
 import FilterContainer from "@ferlab/ui/components/filters/FilterContainer";
 

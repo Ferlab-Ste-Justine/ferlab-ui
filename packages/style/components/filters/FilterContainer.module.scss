@@ -1,4 +1,4 @@
-.fui-filters-container-header {
+.filtersContainerHeader {
     align-items: center;
     box-sizing: border-box;
     display: flex;
@@ -10,19 +10,19 @@
         margin-right: .5rem;
     }
 
-    .fui-search-icon-wrapper {
+    .searchIconWrapper {
         display: flex;
-        .fui-search-icon {
+        .fuiSearchIcon {
             width: 16px;
             height: 16px;
         }
     }
 }
 
-.filter-container {
+.filterContainer {
     width: 100%;
 
-    .filter-container-content {
+    .filterContainerContent {
 
     }
 }

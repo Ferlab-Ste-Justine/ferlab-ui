@@ -1,11 +1,11 @@
-@import 'colors';
+@import 'theme.template';
 .fui-filter-sc {
     justify-content: space-between;
     align-items: center;
 
     .fui-filter-sc-button {
         padding: 0;
-        color: $blue-7;
+        color: $toggle-filter-sc-button-color;
         > * {
             text-decoration: underline;
         }

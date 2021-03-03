@@ -1,12 +1,12 @@
 import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
-import {IFilter, IFilterCount, IFilterGroup, onChangeType, VisualType} from "@ferlab/ui/components/filters/Filters";
+import {IFilter, IFilterCount, IFilterGroup, onChangeType, VisualType} from "@ferlab/ui/components/filters/types";
 import {booleanFilters} from "./data";
-import BooleanFilter, {BooleanFilterProps} from "@ferlab/ui/components/filters/BooleanFilter";
+import ToggleFilter, {BooleanFilterProps} from "@ferlab/ui/components/filters/ToggleFilter";
 
 export default {
-  title: "@ferlab/Components/Filters/BooleanFilter",
-  component: BooleanFilter,
+  title: "@ferlab/Components/Filters/ToggleFilter",
+  component: ToggleFilter,
     decorators: [(Story) =>
         <><div className={'story_container'} style={{display:'inline-grid'}}><Story/></div></>],
   argTypes: {
@@ -19,7 +19,7 @@ export default {
   },
 } as Meta;
 
-const BooleanFilterStory = ({title, filterGroup, onChange, ...props} : {
+const ToggleFilterStory = ({title, filterGroup, onChange, ...props} : {
     title: string,
     filterGroup: IFilterGroup,
     onChange: onChangeType,
@@ -27,7 +27,7 @@ const BooleanFilterStory = ({title, filterGroup, onChange, ...props} : {
     props: Story<BooleanFilterProps>}) => (
   <>
     <h3>{title}</h3>
-    <BooleanFilter
+    <ToggleFilter
         filterGroup={filterGroup}
         onChange={onChange}
         {...props} />
@@ -43,9 +43,9 @@ const filerGroup: IFilterGroup = {
 const onChangeTypeStory: onChangeType = () => null
 
 
-export const TermFilterStoryMore = BooleanFilterStory.bind({});
+export const TermFilterStoryMore = ToggleFilterStory.bind({});
 TermFilterStoryMore.args = {
-    title: 'BooleanFilter',
+    title: 'ToggleFilter',
     filterGroup: filerGroup,
     filters: booleanFilters,
     onChange: onChangeTypeStory,

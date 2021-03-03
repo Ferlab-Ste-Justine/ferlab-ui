@@ -6,7 +6,7 @@ import {
     IFilterRange,
     onChangeType,
     TFilterGroupConfig, VisualType
-} from "@ferlab/ui/components/filters/Filters";
+} from "@ferlab/ui/components/filters/types";
 import {filters, rangeFilters} from "./data";
 import RangeFilter, {RangeFilterProps} from "@ferlab/ui/components/filters/RangeFilter";
 

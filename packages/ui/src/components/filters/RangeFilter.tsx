@@ -2,10 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {Button, Divider, InputNumber, Select} from 'antd';
 import StackLayout from "../../layout/StackLayout";
 
-import {IFilter, IFilterGroup, IFilterRange, onChangeType} from "./Filters";
+import {IFilter, IFilterGroup, IFilterRange, onChangeType} from "./types";
 
-import '@ferlab/style/components/filters/RangeFilter.scss'
-
+import styles from '@ferlab/style/components/filters/RangeFilter.module.scss';
 
 const { Option } = Select;
 
@@ -81,11 +80,11 @@ const RangeFilter: React.FC<RangeFilterProps> = ({
     const dotField = filterGroup.field;
     const buttonActionDisabled = typeof min !== 'number' && typeof max !== 'number';
     return (
-        <StackLayout className="fui-rf-container" vertical>
-            <StackLayout className="fui-rf-grouped" horizontal>
+        <StackLayout className={styles.fuiRfContainer} vertical>
+            <StackLayout className={styles.fuiRfGrouped} horizontal>
                 {range.rangeTypes.length > 0 && (
-                    <div className="fui-rf-range-target">
-                        <Select className="fui-rf-range-target-select" onChange={onRangeTypeChanged} value={rangeType}>
+                    <div className= {styles.fuiRfRangeTarget}>
+                        <Select className={styles.fuiRfRangeTargetSelect} onChange={onRangeTypeChanged} value={rangeType}>
                             {range.rangeTypes.map((u) => (
                                 <Option key={u.key} value={u.key}>
                                     {u.name}
@@ -94,9 +93,9 @@ const RangeFilter: React.FC<RangeFilterProps> = ({
                         </Select>
                     </div>
                 )}
-                <StackLayout className="fui-rf-grouped-inputs">
+                <StackLayout className={styles.fuiRfGroupedInputs}>
                     <InputNumber
-                        className="range-input"
+                        className={styles.rangeInput}
                         id={`from-${dotField}`}
                         key={`from-${dotField}`}
                         max={range.max}
@@ -107,9 +106,9 @@ const RangeFilter: React.FC<RangeFilterProps> = ({
                         type="number"
                         value={min}
                     />
-                    <Divider className="fui-rf-grouped-inputs-spacer" type="vertical" />
+                    <Divider className={styles.fuiRfGroupedInputsSpacer} type="vertical" />
                     <InputNumber
-                        className="range-input"
+                        className={styles.rangeInput}
                         id={`to-${dotField}`}
                         key={`to-${dotField}`}
                         max={range.max}
@@ -123,12 +122,12 @@ const RangeFilter: React.FC<RangeFilterProps> = ({
                 </StackLayout>
             </StackLayout>
 
-            <StackLayout className="fui-rf-actions" horizontal>
+            <StackLayout className={styles.fuiRfActions} horizontal>
                 <Button disabled={buttonActionDisabled} onClick={() => onChange(filterGroup, [])} type="text">
                     {textClear}
                 </Button>
                 <Button
-                    className="fui-rf-actions-apply"
+                    className={styles.fuiRfActionsApply}
                     disabled={buttonActionDisabled}
                     onClick={() => {
                         onChange(filterGroup, [{ ...currentFilter, data: rangeFilter }]);

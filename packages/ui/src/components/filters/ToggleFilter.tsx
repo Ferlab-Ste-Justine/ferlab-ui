@@ -4,11 +4,11 @@ import cx from 'classnames';
 
 import StackLayout from "../../layout/StackLayout";
 
-import {IFilter, IFilterCount} from "./Filters";
+import {IFilter, IFilterCount} from "./types";
 
-import {IFilterGroup, onChangeType} from "./Filters";
+import {IFilterGroup, onChangeType} from "./types";
 
-import '@ferlab/style/components/filters/BooleanFilter.scss'
+import '@ferlab/style/components/filters/ToggleFilter.scss'
 
 export type BooleanFilterProps = {
     filters: IFilter<IFilterCount>[];
@@ -18,7 +18,7 @@ export type BooleanFilterProps = {
     textClear?: string
 }
 
-const BooleanFilter: React.FC<BooleanFilterProps> = ({
+const ToggleFilter: React.FC<BooleanFilterProps> = ({
 
                                                          filterGroup,
                                                          filters,
@@ -64,4 +64,4 @@ const BooleanFilter: React.FC<BooleanFilterProps> = ({
     );
 };
 
-export default BooleanFilter;
+export default ToggleFilter;

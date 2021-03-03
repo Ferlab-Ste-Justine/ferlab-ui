@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {IFilter, IFilterGroup, onChangeType, VisualType} from './Filters';
+import {IFilter, IFilterGroup, onChangeType, VisualType} from './types';
 
-import BooleanFilter from "./BooleanFilter";
+import ToggleFilter from "./ToggleFilter";
 import RangeFilter from "./RangeFilter";
-import TermFilter from "./TermFilter";
+import CheckboxFilter from "./CheckboxFilter";
 
 type FilterSelectorProps = {
     onChange: onChangeType;
@@ -38,7 +38,7 @@ const FilterSelector: React.FC<FilterSelectorProps> = ({
     };
     switch (filterGroup.type) {
         case VisualType.Toggle:
-            return <BooleanFilter {...commonProps} textClear={textClear} filters={filters} />;
+            return <ToggleFilter {...commonProps} textClear={textClear} filters={filters} />;
         case VisualType.Range:
             return <RangeFilter
                 {...commonProps}
@@ -51,7 +51,7 @@ const FilterSelector: React.FC<FilterSelectorProps> = ({
         case VisualType.Checkbox:
         default:
             return (
-                <TermFilter
+                <CheckboxFilter
                     {...commonProps}
                     filters={filters}
                     hasSearchInput={searchInputVisible}

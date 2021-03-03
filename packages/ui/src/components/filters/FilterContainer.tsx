@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {Collapse} from 'antd';
 import {SearchOutlined} from '@ant-design/icons';
 
-import {IFilter, IFilterGroup, onChangeType, VisualType} from './Filters';
+import {IFilter, IFilterGroup, onChangeType, VisualType} from './types';
 import StackLayout from "../../layout/StackLayout";
 import FilterSelector from "./FilterSelector";
 
-import '@ferlab/style/components/filters/FilterContainer.scss'
+import styles from '@ferlab/style/components/filters/FilterContainer.module.scss';
 
 const { Panel } = Collapse;
 
@@ -34,12 +34,12 @@ const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({
                                                                           title,
                                                                           isCollapsed,
                                                                       }) => (
-    <StackLayout className={'fui-filters-container-header'}>
-        <span className={'title'}>{title}</span>
+    <StackLayout className={styles.filtersContainerHeader}>
+        <span className={styles.title}>{title}</span>
         {searchEnabled && !isCollapsed && (
-            <div className={'fui-search-icon-wrapper'}>
+            <div className={styles.searchIconWrapper}>
                 <SearchOutlined
-                    className={'search-icon fui-search-icon'}
+                    className={`search-icon ${styles.fuiSearchIcon}`}
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -65,7 +65,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
 
     const defaultActiveKey = isCollapsed ? {} : { defaultActiveKey: '1' };
     return (
-        <div className={'filter-container'}>
+        <div className={styles.filterContainer}>
             <Collapse
                 {...defaultActiveKey}
                 onChange={(panels) => {
@@ -73,7 +73,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
                 }}
             >
                 <Panel
-                    className={'filter-container-content'}
+                    className={styles.filterContainerContent}
                     header={
                         <FilterContainerHeader
                             isCollapsed={isCollapsed}

@@ -1,12 +1,12 @@
 import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
-import TermFilter, {TermFilterProps} from "@ferlab/ui/components/filters/TermFilter";
-import {IFilter, IFilterCount, IFilterGroup, onChangeType} from "@ferlab/ui/components/filters/Filters";
+import CheckboxFilter, {TermFilterProps} from "@ferlab/ui/components/filters/CheckboxFilter";
+import {IFilter, IFilterCount, IFilterGroup, onChangeType} from "@ferlab/ui/components/filters/types";
 import {filters} from "./data";
 
 export default {
-  title: "@ferlab/Components/Filters/TermFilter",
-  component: TermFilter,
+  title: "@ferlab/Components/Filters/CheckboxFilter",
+  component: CheckboxFilter,
     decorators: [(Story) =>
         <><div className={'story_container'} style={{display:'inline-grid'}}><Story/></div></>],
   argTypes: {
@@ -29,7 +29,7 @@ const TermFilterStory = ({title, maxShowing, filterGroup, onChange, ...props} : 
     props: Story<TermFilterProps>}) => (
   <>
     <h3>{title}</h3>
-    <TermFilter maxShowing={maxShowing} filterGroup={filterGroup} onChange={onChange} {...props} />
+    <CheckboxFilter maxShowing={maxShowing} filterGroup={filterGroup} onChange={onChange} {...props} />
   </>
 );
 
@@ -43,7 +43,7 @@ const onChangeTypeStory: onChangeType = () => null
 
 export const TermFilterStoryMore = TermFilterStory.bind({});
 TermFilterStoryMore.args = {
-    title: 'TermFilter More',
+    title: 'CheckboxFilter More',
     maxShowing: 6,
     filterGroup: filerGroup,
     onChangeType: onChangeTypeStory(filerGroup, filters),
@@ -53,7 +53,7 @@ TermFilterStoryMore.args = {
 
 export const TermFilterStoryFew = TermFilterStory.bind({});
 TermFilterStoryFew.args = {
-    title: 'TermFilter Few',
+    title: 'CheckboxFilter Few',
     maxShowing: 6,
     filterGroup: filerGroup,
     onChangeType: onChangeTypeStory(filerGroup, filters),
@@ -63,7 +63,7 @@ TermFilterStoryFew.args = {
 
 export const TermFilterStoryNoData = TermFilterStory.bind({});
 TermFilterStoryNoData.args = {
-    title: 'TermFilter No Data',
+    title: 'CheckboxFilter No Data',
     maxShowing: 6,
     filterGroup: filerGroup,
     onChangeType: onChangeTypeStory(filerGroup, filters),
