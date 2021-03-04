@@ -70,7 +70,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     useEffect(() => {
         if (queries.length > 0) {
             const queryState = queries.find((o) => o.id === activeQuery);
-            if (!isEmpty(queryState)) {
+            if (!isEmpty(queryState) && isEmpty(currentQuery)) {
                 onChangeQuery(activeQuery, queryState!.query);
             }
         }
