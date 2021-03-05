@@ -1,0 +1,61 @@
+@import 'theme.template';
+.fuiRfContainer {
+    .fuiRfGrouped {
+        .fuiRfRangeTarget {
+            display: flex;
+            height: 100%;
+            width: 40%;
+
+            .fuiRfRangeTargetSelect {
+                width: 100%;
+                .ant-select-selector {
+                    border-radius: 2px 0 0 2px;
+                }
+            }
+        }
+
+        .fuiRfGroupedInputsSpacer {
+            background-color: $range-filter-grouped-inputs-spacer-color;
+            margin: 0 4px;
+        }
+    }
+
+    .fuiRfGroupedInputs {
+        align-items: center;
+        height: 32px;
+        margin-bottom: 1.6rem;
+        width: 60%;
+        border-top: 1px solid $range-filter-grouped-inputs-color-color;
+        border-bottom: 1px solid $range-filter-grouped-inputs-color-color;
+        border-right: 1px solid $range-filter-grouped-inputs-color-color;
+        border-radius: 0 2px 2px 0;
+
+        .rangeInput {
+            border: none;
+        }
+    }
+
+    .fuiRfActions {
+        border-top: 1px solid $range-filter-actions-border-color;
+        justify-content: flex-end;
+        padding-top: 1.3rem;
+
+        .fuiRfActionsApply {
+            background: $range-filter-actions-border-apply-background-color;
+            border-color: $range-filter-actions-border-apply-border-color;
+            color: $white;
+
+            &:disabled {
+                color: $range-filter-actions-border-disabled-color;
+                background: $range-filter-actions-border-disabled-background-color;
+                border-color: $range-filter-actions-border-disabled-border-color;
+            }
+        }
+
+        > * {
+            text-transform: capitalize;
+            margin-left: 8px;
+        }
+    }
+}
+

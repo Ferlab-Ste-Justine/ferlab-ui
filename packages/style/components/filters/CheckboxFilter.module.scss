@@ -1,0 +1,96 @@
+@import 'theme.template';
+.checkboxFilter {
+    .filtersTypesFooter {
+        color: $checkbox-filter-types-mc-footer;
+        padding: 0;
+        text-align: left;
+        height: auto;
+        font-size: 1.2rem;
+        text-transform: capitalize;
+        > * {
+            text-decoration: underline;
+        }
+
+        &:hover > * {
+            text-decoration: none;
+        }
+    }
+
+    .fuiMcItemCheckbox {
+        font-size: 1.2rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        & > span + span {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 176px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+}
+.filterSearchWrapper {
+    margin-bottom: .8rem;
+
+    .filterSearchInput {
+        width: 100%;
+    }
+}
+
+
+.filtersTypesFooter:hover, .checkboxFilterActions .checkboxFilterLinks:hover {
+    color: $checkbox-filter-links-hover;
+    text-decoration: none;
+}
+
+.checkboxFilterItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 9px;
+    flex: auto 0;
+}
+
+.checkboxFilterItem:last-child {
+    margin-bottom: 0;
+}
+
+
+
+.checkboxFilterActions {
+    margin-bottom: 1.5rem;
+
+    .separator {
+        height: 1.2rem;
+        align-self: center;
+        background: $checkbox-filter-actions-separator-background;
+        margin: 0 .5rem;
+    }
+
+    .checkboxFilterLinks {
+        color: $checkbox-filter-actions-separator-links;
+        text-transform: capitalize;
+        padding: 0;
+        font-size: 1.2rem;
+        line-height: 2rem;
+        height: auto;
+
+        > * {
+            text-decoration: underline;
+        }
+
+        &:hover > * {
+            text-decoration: none;
+        }
+    }
+}
+
+.noResultsText {
+    background: $checkbox-filter-no-results-text-background-color;
+    color: $checkbox-filter-no-results-text-color;
+    font-size: 14px;
+    line-height: 22px;
+    padding: 8px 16px;
+}
