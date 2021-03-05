@@ -46,3 +46,40 @@ export enum VisualType {
     Toggle = 'toggle',
     Range = 'range',
 }
+
+export interface IDictionary {
+    actions: IActions;
+    globalSearch: IGlobalSearch;
+    messages: IMessages;
+    checkBox: ICheckBox;
+    range: IRange;
+}
+
+export interface IActions {
+    all: string;
+    apply: string;
+    clear: string;
+    less: string;
+    more: string;
+    none: string;
+    searchPlaceholder: string;
+}
+
+export interface IGlobalSearch {
+    infoTooltip: string;
+    placeholder: string;
+}
+
+export interface ICheckBox {
+    searchPlaceholder: string;
+}
+
+export interface IMessages {
+    errorNoData: string;
+    errorNotFound: string;
+}
+
+export interface IRange {
+    max: string;
+    min: string;
+}

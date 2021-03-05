@@ -1,18 +1,14 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { AutoComplete, Button, Checkbox, Divider, Tag } from 'antd';
 
-import {IFilter, IFilterCount, IFilterGroup, onChangeType} from "./types";
+import {IDictionary, IFilter, IFilterCount, IFilterGroup, onChangeType} from "./types";
 import StackLayout from "../../layout/StackLayout";
 
 import styles from '@ferlab/style/components/filters/CheckboxFilter.module.scss';
+import get from 'lodash/get';
 
 export type TermFilterProps = {
-    searchPlaceHolder?: string;
-    selectAllText?: string;
-    clearText?: string;
-    moreText?: string;
-    lessText?: string;
-    noDataText?: string;
+    dictionary?: IDictionary | Record<string, never>,
     filterGroup: IFilterGroup;
     onChange: onChangeType;
     selectedFilters?: IFilter[];
@@ -22,12 +18,7 @@ export type TermFilterProps = {
 }
 
 const CheckboxFilter: React.FC<TermFilterProps> = ({
-                                                   searchPlaceHolder= 'search...',
-                                                   selectAllText= 'select all',
-                                                   clearText= 'none',
-                                                   moreText= 'more',
-                                                   lessText= 'less',
-                                                   noDataText= 'No values found for this request',
+                                                       dictionary,
                                                    filterGroup,
                                                    filters,
                                                    hasSearchInput,
@@ -51,7 +42,7 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
                 <div className={styles.filterSearchWrapper}>
                     <AutoComplete
                         allowClear
-                        aria-label={searchPlaceHolder}
+                        aria-label={get(dictionary, 'checkBox.searchPlaceholder', 'search...')}
                         autoFocus
                         className={styles.filterSearchInput}
                         onChange={(value) => {
@@ -62,7 +53,7 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
                             }
                         }}
                         options={filteredFilters.map((filter) => ({ label: filter.name, value: filter.data.key }))}
-                        placeholder={searchPlaceHolder}
+                        placeholder={get(dictionary, 'checkBox.searchPlaceholder', 'search...')}
                         value={search}
                     />
                 </div>
@@ -75,12 +66,12 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
                             onClick={() => onChange(filterGroup, filters)}
                             type="text"
                         >
-                            {selectAllText}
+                            {get(dictionary, 'actions.all', 'select all')}
                         </Button>
 
                         <Divider className={styles.separator} type="vertical" />
                         <Button className={styles.checkboxFilterLinks} onClick={() => onChange(filterGroup, [])} type="text">
-                            {clearText}
+                            {get(dictionary, 'actions.none', 'none')}
                         </Button>
                     </StackLayout>
                     {filteredFilters
@@ -123,9 +114,9 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
                             type="text"
                         >
                             {isShowingMore
-                                ? lessText
+                                ? get(dictionary, 'actions.less', 'less')
                                 : filteredFilters.length - 5 &&
-                                `${filteredFilters.length - 5} ${moreText}...`}
+                                `${filteredFilters.length - 5} ${get(dictionary, 'actions.more', 'more')}`}
                         </Button>
                     )}
                 </StackLayout>
@@ -133,7 +124,7 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
             {filteredFilters.length === 0 && (
                 <StackLayout className="fui-no-filters" vertical>
                     <span className={styles.noResultsText}>
-                        {noDataText}
+                        {get(dictionary, 'messages.errorNoData', 'No values found for this request')}
                     </span>
                 </StackLayout>
             )}

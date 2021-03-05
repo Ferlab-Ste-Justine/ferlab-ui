@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {Button, Divider, InputNumber, Select} from 'antd';
 import StackLayout from "../../layout/StackLayout";
 
-import {IFilter, IFilterGroup, IFilterRange, onChangeType} from "./types";
+import {IDictionary, IFilter, IFilterGroup, IFilterRange, onChangeType} from "./types";
 
 import styles from '@ferlab/style/components/filters/RangeFilter.module.scss';
+import get from 'lodash/get';
 
 const { Option } = Select;
 
@@ -13,10 +14,7 @@ export type RangeFilterProps = {
     filterGroup: IFilterGroup;
     onChange: onChangeType;
     selectedFilters?: IFilter[];
-    textMin?: string;
-    textMax?: string;
-    textClear?: string;
-    textApply?: string;
+    dictionary?: IDictionary | Record<string, never>,
 }
 
 const RangeFilter: React.FC<RangeFilterProps> = ({
@@ -24,10 +22,7 @@ const RangeFilter: React.FC<RangeFilterProps> = ({
                                                       filters,
                                                       onChange,
                                                       selectedFilters,
-                                                      textMin= 'min',
-                                                      textMax= 'max',
-                                                      textClear= 'clear',
-                                                      textApply= 'apply',
+                                                     dictionary,
 }) => {
     const defaultStateValue = {
         max: selectedFilters && selectedFilters[0].data.max ,
@@ -101,8 +96,8 @@ const RangeFilter: React.FC<RangeFilterProps> = ({
                         max={range.max}
                         min={range.min}
                         onChange={onMinChanged}
-                        placeholder={textMin}
-                        title={textMin}
+                        placeholder={get(dictionary, 'range.min', 'min')}
+                        title={get(dictionary, 'range.min', 'min')}
                         type="number"
                         value={min}
                     />
@@ -114,8 +109,8 @@ const RangeFilter: React.FC<RangeFilterProps> = ({
                         max={range.max}
                         min={range.min}
                         onChange={onMaxChanged}
-                        placeholder={textMax}
-                        title={textMax}
+                        placeholder={get(dictionary, 'range.max', 'max')}
+                        title={get(dictionary, 'range.max', 'max')}
                         type="number"
                         value={max}
                     />
@@ -124,7 +119,7 @@ const RangeFilter: React.FC<RangeFilterProps> = ({
 
             <StackLayout className={styles.fuiRfActions} horizontal>
                 <Button disabled={buttonActionDisabled} onClick={() => onChange(filterGroup, [])} type="text">
-                    {textClear}
+                    {get(dictionary, 'actions.none', 'clear')}
                 </Button>
                 <Button
                     className={styles.fuiRfActionsApply}
@@ -133,7 +128,7 @@ const RangeFilter: React.FC<RangeFilterProps> = ({
                         onChange(filterGroup, [{ ...currentFilter, data: rangeFilter }]);
                     }}
                 >
-                    {textApply}
+                    {get(dictionary, 'actions.apply', 'apply')}
                 </Button>
             </StackLayout>
         </StackLayout>
