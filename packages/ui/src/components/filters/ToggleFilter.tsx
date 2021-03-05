@@ -4,9 +4,10 @@ import cx from 'classnames';
 
 import StackLayout from "../../layout/StackLayout";
 
-import {IFilter, IFilterCount} from "./types";
+import {IDictionary, IFilter, IFilterCount} from "./types";
 
 import {IFilterGroup, onChangeType} from "./types";
+import get from 'lodash/get';
 
 import '@ferlab/style/components/filters/ToggleFilter.scss'
 
@@ -15,7 +16,7 @@ export type BooleanFilterProps = {
     filterGroup: IFilterGroup;
     onChange: onChangeType;
     selectedFilters?: IFilter[];
-    textClear?: string
+    dictionary?: IDictionary | Record<string, never>,
 }
 
 const ToggleFilter: React.FC<BooleanFilterProps> = ({
@@ -24,7 +25,7 @@ const ToggleFilter: React.FC<BooleanFilterProps> = ({
                                                          filters,
                                                          onChange,
                                                          selectedFilters = [],
-                                                         textClear = 'clear'
+                                                         dictionary,
                                                      }) => {
     const selectedFilter = selectedFilters.length > 0 ? selectedFilters[0].data.key : '';
     const [selected, setSelected] = useState(selectedFilter);
@@ -58,7 +59,7 @@ const ToggleFilter: React.FC<BooleanFilterProps> = ({
                 tabIndex={0}
                 type="text"
             >
-                {textClear}
+                {get(dictionary, 'actions.clear', 'clear')}
             </Button>
         </StackLayout>
     );

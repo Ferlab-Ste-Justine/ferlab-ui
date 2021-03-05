@@ -5,9 +5,10 @@ import {
     IFilterGroup,
     IFilterRange,
     onChangeType,
-    TFilterGroupConfig, VisualType
+    TFilterGroupConfig,
+    VisualType
 } from "@ferlab/ui/components/filters/types";
-import {filters, rangeFilters} from "./data";
+import {dictionaryFrench, filters, rangeFilters} from "./data";
 import RangeFilter, {RangeFilterProps} from "@ferlab/ui/components/filters/RangeFilter";
 
 export default {
@@ -67,6 +68,18 @@ TermFilterStoryMore.args = {
     onChange: onChangeTypeStory,
     maxShowing: 6,
 
+    onChangeType: onChangeTypeStory(filerGroup, filters),
+    hasSearchInput: true,
+};
+
+export const TermFilterStoryDictionary = RangeFilterStory.bind({});
+TermFilterStoryDictionary.args = {
+    title: 'RangeFilter in French',
+    filterGroup: filerGroup,
+    filters: rangeFilters,
+    onChange: onChangeTypeStory,
+    maxShowing: 6,
+    dictionary: dictionaryFrench,
     onChangeType: onChangeTypeStory(filerGroup, filters),
     hasSearchInput: true,
 };

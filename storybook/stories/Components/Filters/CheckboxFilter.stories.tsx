@@ -1,8 +1,15 @@
 import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
 import CheckboxFilter, {TermFilterProps} from "@ferlab/ui/components/filters/CheckboxFilter";
-import {IFilter, IFilterCount, IFilterGroup, onChangeType} from "@ferlab/ui/components/filters/types";
-import {filters} from "./data";
+import {
+    IDictionary,
+    IFilter,
+    IFilterCount,
+    IFilterGroup,
+    onChangeType,
+    VisualType
+} from "@ferlab/ui/components/filters/types";
+import {dictionaryFrench, filters} from "./data";
 
 export default {
   title: "@ferlab/Components/Filters/CheckboxFilter",
@@ -26,6 +33,7 @@ const TermFilterStory = ({title, maxShowing, filterGroup, onChange, ...props} : 
     onChange: onChangeType,
     hasSearchInput: boolean;
     filters: IFilter<IFilterCount>[];
+    dictionary: IDictionary;
     props: Story<TermFilterProps>}) => (
   <>
     <h3>{title}</h3>
@@ -34,8 +42,9 @@ const TermFilterStory = ({title, maxShowing, filterGroup, onChange, ...props} : 
 );
 
 const filerGroup: IFilterGroup = {
+    type: VisualType.Checkbox,
     field: 'this.field',
-    title: 'title_filter_group',
+    title: 'title_filter_group'
 }
 
 const onChangeTypeStory: onChangeType = () => null
@@ -69,4 +78,15 @@ TermFilterStoryNoData.args = {
     onChangeType: onChangeTypeStory(filerGroup, filters),
     hasSearchInput: true,
     filters: [],
+};
+
+export const TermFilterStoryInFrench = TermFilterStory.bind({});
+TermFilterStoryInFrench.args = {
+    dictionary: dictionaryFrench,
+    title: 'CheckboxFilter in French',
+    maxShowing: 6,
+    filterGroup: filerGroup,
+    onChangeType: onChangeTypeStory(filerGroup, filters),
+    hasSearchInput: true,
+    filters: filters,
 };

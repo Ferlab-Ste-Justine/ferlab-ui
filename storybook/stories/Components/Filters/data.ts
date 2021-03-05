@@ -1,4 +1,11 @@
-import {IFilter, IFilterCount, IFilterRange} from "@ferlab/ui/components/filters/types";
+import {
+    IActions, ICheckBox, IDictionary,
+    IFilter,
+    IFilterCount,
+    IFilterRange,
+    IGlobalSearch,
+    IMessages, IRange
+} from "@ferlab/ui/components/filters/types";
 
 export const filters: IFilter<IFilterCount>[] = [
     {
@@ -143,3 +150,40 @@ export const booleanFilters: IFilter<IFilterCount>[] = [
         id: 'id_two'
     },
 ]
+
+const action: IActions = {
+    all: 'tout',
+    apply: 'appliquer',
+    clear: 'dégager',
+    less: 'moins',
+    more: 'plus',
+    none: 'aucun',
+    searchPlaceholder: 'recherche',
+}
+
+const globalSearch: IGlobalSearch = {
+    infoTooltip: 'info',
+    placeholder: 'recherche',
+}
+
+const message: IMessages = {
+    errorNoData: 'aucune donné',
+    errorNotFound: 'rien',
+}
+
+const checkBox: ICheckBox = {
+    searchPlaceholder: 'recherche',
+}
+
+const range: IRange = {
+    max: 'FMin',
+    min: 'FMax',
+}
+
+export const dictionaryFrench: IDictionary = {
+    actions: action,
+    globalSearch: globalSearch,
+    messages: message,
+    checkBox: checkBox,
+    range: range,
+}

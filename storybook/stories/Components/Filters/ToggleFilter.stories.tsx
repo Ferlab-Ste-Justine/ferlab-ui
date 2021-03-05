@@ -1,7 +1,7 @@
 import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
 import {IFilter, IFilterCount, IFilterGroup, onChangeType, VisualType} from "@ferlab/ui/components/filters/types";
-import {booleanFilters} from "./data";
+import {booleanFilters, dictionaryFrench} from "./data";
 import ToggleFilter, {BooleanFilterProps} from "@ferlab/ui/components/filters/ToggleFilter";
 
 export default {
@@ -43,12 +43,23 @@ const filerGroup: IFilterGroup = {
 const onChangeTypeStory: onChangeType = () => null
 
 
-export const TermFilterStoryMore = ToggleFilterStory.bind({});
-TermFilterStoryMore.args = {
+export const ToggleFilterStoryMore = ToggleFilterStory.bind({});
+ToggleFilterStoryMore.args = {
     title: 'ToggleFilter',
     filterGroup: filerGroup,
     filters: booleanFilters,
     onChange: onChangeTypeStory,
 
+    onChangeType: onChangeTypeStory(filerGroup, booleanFilters),
+};
+
+
+export const ToggleFilterStoryDictionary = ToggleFilterStory.bind({});
+ToggleFilterStoryDictionary.args = {
+    title: 'ToggleFilter in French',
+    filterGroup: filerGroup,
+    filters: booleanFilters,
+    onChange: onChangeTypeStory,
+    dictionary: dictionaryFrench,
     onChangeType: onChangeTypeStory(filerGroup, booleanFilters),
 };
