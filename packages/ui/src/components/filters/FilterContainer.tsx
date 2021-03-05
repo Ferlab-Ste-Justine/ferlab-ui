@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Collapse} from 'antd';
 import {SearchOutlined} from '@ant-design/icons';
 
-import {IFilter, IFilterGroup, onChangeType, VisualType} from './types';
+import {IDictionary, IFilter, IFilterGroup, onChangeType, VisualType} from './types';
 import StackLayout from "../../layout/StackLayout";
 import FilterSelector from "./FilterSelector";
 
@@ -17,6 +17,7 @@ type FilterContainerProps = {
     onChange: onChangeType;
     maxShowing?: number;
     isOpen?: boolean;
+    dictionary?: IDictionary;
 }
 
 type FilterContainerHeaderProps = {
@@ -59,6 +60,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
                                                               onChange,
                                                               selectedFilters,
                                                               isOpen = true,
+                                                             dictionary,
                                                           }) => {
     const [hasSearchInput, setSearchInputVisible] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(!isOpen);
@@ -92,6 +94,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
                         onChange={onChange}
                         searchInputVisible={hasSearchInput}
                         selectedFilters={selectedFilters}
+                        dictionary={dictionary}
                     />
                 </Panel>
             </Collapse>

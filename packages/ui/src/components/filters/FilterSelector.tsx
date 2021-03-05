@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {IFilter, IFilterGroup, onChangeType, VisualType} from './types';
+import {IDictionary, IFilter, IFilterGroup, onChangeType, VisualType} from './types';
 
 import ToggleFilter from "./ToggleFilter";
 import RangeFilter from "./RangeFilter";
@@ -13,10 +13,7 @@ type FilterSelectorProps = {
     searchInputVisible: boolean;
     maxShowing: number;
     filters: IFilter[];
-    textMin?: string,
-    textMax?: string,
-    textClear?: string,
-    textApply?: string,
+    dictionary?: IDictionary;
 }
 
 const FilterSelector: React.FC<FilterSelectorProps> = ({
@@ -26,10 +23,7 @@ const FilterSelector: React.FC<FilterSelectorProps> = ({
                                                       onChange,
                                                       searchInputVisible,
                                                       selectedFilters,
-                                                      textMin,
-                                                      textMax,
-                                                      textClear,
-                                                      textApply,
+                                                      dictionary,
                                                   }) => {
     const commonProps = {
         filterGroup,
@@ -38,15 +32,12 @@ const FilterSelector: React.FC<FilterSelectorProps> = ({
     };
     switch (filterGroup.type) {
         case VisualType.Toggle:
-            return <ToggleFilter {...commonProps} textClear={textClear} filters={filters} />;
+            return <ToggleFilter {...commonProps} dictionary={dictionary} filters={filters} />;
         case VisualType.Range:
             return <RangeFilter
                 {...commonProps}
                 filters={filters}
-                textApply={textApply}
-                textMax={textMax}
-                textMin={textMin}
-                textClear={textClear}
+                dictionary={dictionary}
             />;
         case VisualType.Checkbox:
         default:
