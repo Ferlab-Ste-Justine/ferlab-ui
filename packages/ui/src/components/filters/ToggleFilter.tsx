@@ -1,32 +1,30 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Radio} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Radio } from 'antd';
 import cx from 'classnames';
-
-import StackLayout from "../../layout/StackLayout";
-
-import {IDictionary, IFilter, IFilterCount} from "./types";
-
-import {IFilterGroup, onChangeType} from "./types";
 import get from 'lodash/get';
 
-import '@ferlab/style/components/filters/ToggleFilter.scss'
+import StackLayout from '../../layout/StackLayout';
+
+import { IDictionary, IFilter, IFilterCount } from './types';
+import { IFilterGroup, onChangeType } from './types';
+
+import '@ferlab/style/components/filters/ToggleFilter.scss';
 
 export type BooleanFilterProps = {
     filters: IFilter<IFilterCount>[];
     filterGroup: IFilterGroup;
     onChange: onChangeType;
     selectedFilters?: IFilter[];
-    dictionary?: IDictionary | Record<string, never>,
-}
+    dictionary?: IDictionary | Record<string, never>;
+};
 
 const ToggleFilter: React.FC<BooleanFilterProps> = ({
-
-                                                         filterGroup,
-                                                         filters,
-                                                         onChange,
-                                                         selectedFilters = [],
-                                                         dictionary,
-                                                     }) => {
+    filterGroup,
+    filters,
+    onChange,
+    selectedFilters = [],
+    dictionary,
+}) => {
     const selectedFilter = selectedFilters.length > 0 ? selectedFilters[0].data.key : '';
     const [selected, setSelected] = useState(selectedFilter);
 
@@ -37,9 +35,9 @@ const ToggleFilter: React.FC<BooleanFilterProps> = ({
         label: filter.name,
         value: filter.data.key,
     }));
-    const classNames = cx('fui-filter-sc-button',
-        {'fui-filter-sc-button-disabled': selectedFilter && selectedFilter.length > 0}
-    );
+    const classNames = cx('fui-filter-sc-button', {
+        'fui-filter-sc-button-disabled': selectedFilter && selectedFilter.length > 0,
+    });
 
     return (
         <StackLayout className="fui-filter-sc" horizontal>

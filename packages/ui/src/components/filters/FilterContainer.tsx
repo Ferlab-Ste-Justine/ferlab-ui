@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
-import {Collapse} from 'antd';
-import {SearchOutlined} from '@ant-design/icons';
+import React, { useState } from 'react';
+import { SearchOutlined } from '@ant-design/icons';
+import { Collapse } from 'antd';
 
-import {IDictionary, IFilter, IFilterGroup, onChangeType, VisualType} from './types';
-import StackLayout from "../../layout/StackLayout";
-import FilterSelector from "./FilterSelector";
+import StackLayout from '../../layout/StackLayout';
+
+import FilterSelector from './FilterSelector';
+import { IDictionary, IFilter, IFilterGroup, onChangeType, VisualType } from './types';
 
 import styles from '@ferlab/style/components/filters/FilterContainer.module.scss';
 
@@ -18,7 +19,7 @@ type FilterContainerProps = {
     maxShowing?: number;
     isOpen?: boolean;
     dictionary?: IDictionary;
-}
+};
 
 type FilterContainerHeaderProps = {
     searchEnabled?: boolean;
@@ -26,15 +27,15 @@ type FilterContainerHeaderProps = {
     searchInputVisibled: boolean;
     title: string | React.ReactNode;
     isCollapsed: boolean;
-}
+};
 
 const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({
-                                                                          searchEnabled = false,
-                                                                          onSearchClick = (f) => f,
-                                                                          searchInputVisibled,
-                                                                          title,
-                                                                          isCollapsed,
-                                                                      }) => (
+    searchEnabled = false,
+    onSearchClick = (f) => f,
+    searchInputVisibled,
+    title,
+    isCollapsed,
+}) => (
     <StackLayout className={styles.filtersContainerHeader}>
         <span className={styles.title}>{title}</span>
         {searchEnabled && !isCollapsed && (
@@ -52,16 +53,15 @@ const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({
     </StackLayout>
 );
 
-
 const FilterContainer: React.FC<FilterContainerProps> = ({
-                                                              filterGroup,
-                                                              filters = [],
-                                                              maxShowing = 5,
-                                                              onChange,
-                                                              selectedFilters,
-                                                              isOpen = true,
-                                                             dictionary,
-                                                          }) => {
+    filterGroup,
+    filters = [],
+    maxShowing = 5,
+    onChange,
+    selectedFilters,
+    isOpen = true,
+    dictionary,
+}) => {
     const [hasSearchInput, setSearchInputVisible] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(!isOpen);
 
@@ -88,13 +88,13 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
                     key={`1`}
                 >
                     <FilterSelector
+                        dictionary={dictionary}
                         filterGroup={filterGroup}
                         filters={filters}
                         maxShowing={maxShowing}
                         onChange={onChange}
                         searchInputVisible={hasSearchInput}
                         selectedFilters={selectedFilters}
-                        dictionary={dictionary}
                     />
                 </Panel>
             </Collapse>
