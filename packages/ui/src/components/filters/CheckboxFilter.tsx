@@ -1,32 +1,32 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { AutoComplete, Button, Checkbox, Divider, Tag } from 'antd';
-
-import {IDictionary, IFilter, IFilterCount, IFilterGroup, onChangeType} from "./types";
-import StackLayout from "../../layout/StackLayout";
-
-import styles from '@ferlab/style/components/filters/CheckboxFilter.module.scss';
 import get from 'lodash/get';
 
+import StackLayout from '../../layout/StackLayout';
+
+import { IDictionary, IFilter, IFilterCount, IFilterGroup, onChangeType } from './types';
+
+import styles from '@ferlab/style/components/filters/CheckboxFilter.module.scss';
+
 export type TermFilterProps = {
-    dictionary?: IDictionary | Record<string, never>,
+    dictionary?: IDictionary | Record<string, never>;
     filterGroup: IFilterGroup;
     onChange: onChangeType;
     selectedFilters?: IFilter[];
     maxShowing: number;
     hasSearchInput: boolean;
     filters: IFilter<IFilterCount>[];
-}
+};
 
 const CheckboxFilter: React.FC<TermFilterProps> = ({
-                                                       dictionary,
-                                                   filterGroup,
-                                                   filters,
-                                                   hasSearchInput,
-                                                   maxShowing,
-                                                   onChange,
-                                                   selectedFilters = [],
-                                               }) => {
-
+    dictionary,
+    filterGroup,
+    filters,
+    hasSearchInput,
+    maxShowing,
+    onChange,
+    selectedFilters = [],
+}) => {
     const [isShowingMore, setShowingMore] = useState(false);
     const [search, setSearch] = useState('');
     const [filteredFilters, setFilteredFilters] = useState(filters);
@@ -70,7 +70,11 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
                         </Button>
 
                         <Divider className={styles.separator} type="vertical" />
-                        <Button className={styles.checkboxFilterLinks} onClick={() => onChange(filterGroup, [])} type="text">
+                        <Button
+                            className={styles.checkboxFilterLinks}
+                            onClick={() => onChange(filterGroup, [])}
+                            type="text"
+                        >
                             {get(dictionary, 'actions.none', 'none')}
                         </Button>
                     </StackLayout>
@@ -116,7 +120,7 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
                             {isShowingMore
                                 ? get(dictionary, 'actions.less', 'less')
                                 : filteredFilters.length - 5 &&
-                                `${filteredFilters.length - 5} ${get(dictionary, 'actions.more', 'more')}`}
+                                  `${filteredFilters.length - 5} ${get(dictionary, 'actions.more', 'more')}`}
                         </Button>
                     )}
                 </StackLayout>

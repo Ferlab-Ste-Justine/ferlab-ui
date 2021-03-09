@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Divider, InputNumber, Select} from 'antd';
-import StackLayout from "../../layout/StackLayout";
+import React, { useEffect, useState } from 'react';
+import { Button, Divider, InputNumber, Select } from 'antd';
+import get from 'lodash/get';
 
-import {IDictionary, IFilter, IFilterGroup, IFilterRange, onChangeType} from "./types";
+import StackLayout from '../../layout/StackLayout';
+
+import { IDictionary, IFilter, IFilterGroup, IFilterRange, onChangeType } from './types';
 
 import styles from '@ferlab/style/components/filters/RangeFilter.module.scss';
-import get from 'lodash/get';
 
 const { Option } = Select;
 
@@ -14,21 +15,14 @@ export type RangeFilterProps = {
     filterGroup: IFilterGroup;
     onChange: onChangeType;
     selectedFilters?: IFilter[];
-    dictionary?: IDictionary | Record<string, never>,
-}
+    dictionary?: IDictionary | Record<string, never>;
+};
 
-const RangeFilter: React.FC<RangeFilterProps> = ({
-                                                      filterGroup,
-                                                      filters,
-                                                      onChange,
-                                                      selectedFilters,
-                                                     dictionary,
-}) => {
+const RangeFilter: React.FC<RangeFilterProps> = ({ dictionary, filterGroup, filters, onChange, selectedFilters }) => {
     const defaultStateValue = {
-        max: selectedFilters && selectedFilters[0].data.max ,
-        min: selectedFilters && selectedFilters[0].data.min,
-        rangeType: selectedFilters && selectedFilters[0] ?
-            selectedFilters[0].data.rangeType : filterGroup.config!.rangeTypes[0].key,
+        max: get(selectedFilters, '[0].data.max', undefined),
+        min: get(selectedFilters, '[0].data.min', undefined),
+        rangeType: get(selectedFilters, '[0].data.rangeType', filterGroup.config!.rangeTypes[0].key),
     };
 
     const currentFilter: IFilter<IFilterRange> = filters[0];
@@ -78,8 +72,12 @@ const RangeFilter: React.FC<RangeFilterProps> = ({
         <StackLayout className={styles.fuiRfContainer} vertical>
             <StackLayout className={styles.fuiRfGrouped} horizontal>
                 {range.rangeTypes.length > 0 && (
-                    <div className= {styles.fuiRfRangeTarget}>
-                        <Select className={styles.fuiRfRangeTargetSelect} onChange={onRangeTypeChanged} value={rangeType}>
+                    <div className={styles.fuiRfRangeTarget}>
+                        <Select
+                            className={styles.fuiRfRangeTargetSelect}
+                            onChange={onRangeTypeChanged}
+                            value={rangeType}
+                        >
                             {range.rangeTypes.map((u) => (
                                 <Option key={u.key} value={u.key}>
                                     {u.name}
