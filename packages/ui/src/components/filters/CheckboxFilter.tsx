@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { AutoComplete, Button, Checkbox, Divider, Tag } from 'antd';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 
 import StackLayout from '../../layout/StackLayout';
 
@@ -29,13 +30,15 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
 }) => {
     const [isShowingMore, setShowingMore] = useState(false);
     const [search, setSearch] = useState('');
-    const [filteredFilters, setFilteredFilters] = useState(filters);
+    const [filteredFilters, setFilteredFilters] = useState(filters.filter((f) => !isEmpty(f.data)));
 
     useEffect(() => {
-        const newFilters = filters.filter(({ data }) => data.key.toLowerCase().includes(search.toLowerCase()));
+        const filtersWithData = filters.filter((f) => !isEmpty(f.data));
+        const newFilters = filtersWithData.filter(({ data }) => data.key.toLowerCase().includes(search.toLowerCase()));
 
         setFilteredFilters(newFilters);
     }, [filters, search]);
+
     return (
         <Fragment>
             {hasSearchInput && (
