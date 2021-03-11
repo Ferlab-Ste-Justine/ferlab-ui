@@ -87,7 +87,7 @@ QueryBuilderOneWihtIconQuery.args = {
 /* multi query */
 export const QueryBuilderMultiQuery = QueryBuilderStory.bind({});
 QueryBuilderMultiQuery.args = {
-    title: 'QueryBuilder 1 Query',
+    title: 'QueryBuilder Multi Query',
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
