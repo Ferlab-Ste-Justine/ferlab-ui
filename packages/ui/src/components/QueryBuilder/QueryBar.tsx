@@ -61,6 +61,7 @@ const QueryBar: React.FC<IQueryBarProps> = ({
     return (
         <StackLayout
             className={containerClassNames}
+            flexContent
             onClick={() => {
                 if (!active) onChangeQuery(id, query);
             }}
@@ -84,7 +85,7 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                 {isEmpty(query) ? (
                     <StackLayout>{dictionary.query?.noQuery || 'Use the filters to build a query'}</StackLayout>
                 ) : (
-                    <StackLayout className={styles.queryValues}>
+                    <StackLayout className={styles.queryValues} flexContent>
                         {query.content.map((f, i) => (
                             <StackLayout key={f.content.field}>
                                 <QueryPill

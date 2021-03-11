@@ -1,5 +1,6 @@
 import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
+import { MdPeople } from 'react-icons/md';
 
 import QueryBuilder, {IQueryBuilderProps} from '@ferlab/ui/components/QueryBuilder';
 
@@ -62,6 +63,25 @@ QueryBuilderOneQuery.args = {
         }],
         active: '1'
     }
+};
+
+/* 1 query with icon */
+export const QueryBuilderOneWihtIconQuery = QueryBuilderStory.bind({});
+QueryBuilderOneWihtIconQuery.args = {
+    title: 'QueryBuilder 1 Query With Icon',
+    onRemoveFacet: (f) => f,
+    onChangeQuery: (f) => f,
+    initialState: {
+        state: [{
+            query: {op: 'and', content: [{
+                content: {value: ['something'], field: 'test', op: 'in'}
+            }]},
+            total: 1500,
+            id: '1',  
+        }],
+        active: '1'
+    },
+    IconTotal:<MdPeople />
 };
 
 /* multi query */
