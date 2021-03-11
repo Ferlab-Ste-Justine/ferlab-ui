@@ -93,7 +93,13 @@ QueryBuilderMultiQuery.args = {
     initialState: {
         state: [{
             query: {op: 'and', content: [{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'test'}, op: 'in'
+                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test'}, op: 'in'
+            },{
+                content: {value: ['something', 'else', 'more', 'perfect'], field: 'More Data'}, op: 'in'
+            },{
+                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 2'}, op: 'in'
+            },{
+                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 3'}, op: 'in'
             },{
                 content: {value: [10,15], field: 'age'},  op: 'between'
             }]},
