@@ -2,7 +2,7 @@
 @import '_colors.less';
 
 @text-color: @gray-8;
-
+@border-color-base:@gray-5;
 // Buttons
 .ant-btn {
     padding: .5rem .8rem;
@@ -311,3 +311,51 @@
 .ant-tag {
     border-color: @gray-3;
 }
+
+
+// Pagination
+.ant-pagination {
+    &.mini {
+        .ant-pagination-item {
+            &:hover {
+                background: @gray-3;
+                color: @blue-8;
+        
+            }
+            &.ant-pagination-item-active {
+                border: none;
+                background: @gray-3;
+        
+                a {
+                    color: @gray-8;
+                }
+            }
+        }
+
+        .ant-pagination-jump-next {
+            &:hover {
+                .ant-pagination-item-link {
+                    .ant-pagination-item-link-icon {
+                        color: @blue-8;
+                    }
+                }
+            }
+        }
+        
+        .ant-pagination-item-link {
+            &:hover {
+                color: @blue-8;
+            }
+        }
+        
+        .ant-pagination-disabled {
+            .ant-pagination-item-link {
+                color: @gray-6;
+            }
+        }
+    }
+}
+
+// Tooltip
+@tooltip-color: @gray-9;
+@tooltip-bg: @gold-5;

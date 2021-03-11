@@ -18,7 +18,7 @@ export interface IQueryBuilderProps {
     dictionary?: IDictionary;
     total?: number;
     IconTotal?: React.ReactNode;
-    currentQuery?: ISqonGroupFilter;
+    currentQuery?: ISqonGroupFilter | Record<string, never>;
     onRemoveFacet: TCallbackRemoveAction;
     onChangeQuery: TOnChange;
     onUpdate?: (state: IInitialQueryState) => void;
@@ -73,6 +73,10 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
             if (!isEmpty(queryState) && isEmpty(currentQuery)) {
                 onChangeQuery(activeQuery, queryState!.query);
             }
+        }
+
+        if (isEmpty(queries) && isEmpty(currentQuery) && total === 0) {
+            setQueries([{ id: activeQuery, name: '#1', query: currentQuery, total }]);
         }
     }, []);
 
