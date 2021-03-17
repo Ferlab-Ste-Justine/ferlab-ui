@@ -36,7 +36,7 @@
                 background-color: $white;
                 border-color: $gray-4;
             }
-            &:focus{
+            &:focus {
                 color: $gray-8;
                 background-color: $white;
                 border-color: $gray-8;
@@ -45,14 +45,19 @@
                 color: $blue-7;
                 border-color: $blue-7;
             }    
-        
-
         }
 
         a:not(:last-child){
             margin-right: 1rem;
         }
 
+        a:focus-visible {
+            .menu-item {
+                color: $gray-8;
+                background-color: $white;
+                border-color: $gray-4;
+            }
+        }
     }
   
     &__actions {
@@ -81,6 +86,7 @@
             padding: 0;
             margin-right: 1rem;
             color: $gray-7;
+            text-decoration: none;
             &--icon {
                 margin-left: .5rem;
             }
@@ -88,6 +94,12 @@
             &:not([disable]):hover {
                 text-decoration: underline;
                 color: $gray-7;
+            }
+        }
+
+        a:focus-visible {
+            .ant-btn-text {
+                color: $blue-7;
             }
         }
     }
