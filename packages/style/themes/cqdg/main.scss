@@ -9,3 +9,18 @@ p, h1, h2, h3, h4, h5, h6 {
 h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
 }
+
+a.link {
+    color: $blue-8;
+    text-decoration: underline;
+
+    &.small {
+        font-size: 1.2rem;
+    }
+
+
+    &:hover {
+        color: $blue-8;
+        text-decoration: none;
+    }
+}
