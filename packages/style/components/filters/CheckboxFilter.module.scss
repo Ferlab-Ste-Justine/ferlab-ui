@@ -20,12 +20,19 @@
         font-size: 1.2rem;
         text-overflow: ellipsis;
         white-space: nowrap;
+        display: flex;
+        flex: 1;
+        align-items: center;
+        width: 80%;
+
+        & > span {
+            top: 0;
+        }
 
         & > span + span {
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
-            width: 176px;
             display: inline-block;
             vertical-align: middle;
         }
@@ -49,7 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 9px;
+    margin-bottom: 8px;
     flex: auto 0;
 }
 
