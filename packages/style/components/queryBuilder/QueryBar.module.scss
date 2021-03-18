@@ -39,6 +39,7 @@
     .selectionWrapper {
         .label {
             font-size: 1.2rem;
+            align-self: flex-start;
         }
     }
 
@@ -47,7 +48,7 @@
 
         .queryValues {
             flex-wrap: wrap;
-            margin: -.6rem -.6rem -.6rem 1.2rem;
+            margin: -.6rem -.6rem -.6rem 0;
 
             > * {
                 margin: .4rem 0;
@@ -58,6 +59,7 @@
             font-weight: 600;
             display: flex;
             align-items: center;
+            align-self: flex-start;
 
             >  :first-child {
                 margin-right: .5rem;
@@ -72,6 +74,8 @@
             padding: 0;
             display: flex;
             align-items: center;
+            padding: .3rem;
+            align-self: flex-start;
 
             &:first-child {
                 margin-right: 1.6rem;

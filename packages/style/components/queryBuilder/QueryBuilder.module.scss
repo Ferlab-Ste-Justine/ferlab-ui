@@ -2,6 +2,8 @@
 
 .container {
     background: $query-builder-bg;
+    border: 1px solid $query-builder-border-color;
+    border-radius: 2px;
     padding: 2.4rem 3.2rem;
 
     .queryBars {

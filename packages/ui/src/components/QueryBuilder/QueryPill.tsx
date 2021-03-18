@@ -24,18 +24,19 @@ interface IQueryBarProps {
 
 interface IOperatorProps {
     type: string;
+    className?: string;
 }
 
-const Operator: React.FC<IOperatorProps> = ({ type }) => {
+const Operator: React.FC<IOperatorProps> = ({ className = '', type }) => {
     switch (type) {
         case '>=':
-            return <GreaterThanOrEqualOperator />;
+            return <GreaterThanOrEqualOperator className={className} />;
         case '<=':
-            return <LessThanOrEqualOperator />;
+            return <LessThanOrEqualOperator className={className} />;
         case 'between':
-            return <ElementOperator />;
+            return <ElementOperator className={className} />;
         default:
-            return <EqualOperator />;
+            return <EqualOperator className={className} />;
     }
 };
 
@@ -50,11 +51,11 @@ const QueryPill: React.FC<IQueryBarProps> = ({
     return (
         <StackLayout className={containerClassNames}>
             {showLabels && (
-                <span className={styles.field}>
+                <span className={`${styles.field} ${styles.textSpace}`}>
                     {dictionary.query?.facet(query.content.field) || query.content.field}
                 </span>
             )}
-            <Operator type={query.op} />
+            <Operator className={styles.textSpace} type={query.op} />
             <QueryValues isElement={query.op === 'between'} query={query} />
             <Button className={styles.close} type="text">
                 <AiOutlineClose onClick={() => onRemove(query)} />
