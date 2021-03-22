@@ -115,7 +115,7 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                         }}
                         type="text"
                     >
-                        <AiOutlineCopy />
+                        <AiOutlineCopy size={18} />
                     </Button>
 
                     <Button
@@ -126,7 +126,7 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                         }}
                         type="text"
                     >
-                        <AiOutlineDelete />
+                        <AiOutlineDelete size={18} />
                     </Button>
                 </StackLayout>
             )}

@@ -2,7 +2,7 @@
 
 .container {
     background: $query-pill-bg;
-    padding: .2rem .6rem;
+    padding: .2rem .2rem .2rem .6rem;
     border-radius: 2px;
     align-items: center;
 
@@ -10,7 +10,7 @@
         background: $query-pill-bg-active;
     }
 
-    > *:not(:last-child) {
+    .textSpace {
         margin-right: .6rem;
     }
 
@@ -20,6 +20,7 @@
     }
 
     .close {
+        padding: .3rem .2rem .3rem .4rem;
         height: auto;
         display: flex;
         align-items: center;

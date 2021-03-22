@@ -36,7 +36,6 @@ interface IQueriesState {
     query: ISqonGroupFilter | Record<string, never>;
     total: number;
     id: string;
-    name?: string;
 }
 
 const getUpdatedState = (state: IQueriesState[], active: string): IInitialQueryState => ({
@@ -76,24 +75,33 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         }
 
         if (isEmpty(queries) && isEmpty(currentQuery) && total === 0) {
-            setQueries([{ id: activeQuery, name: '#1', query: currentQuery, total }]);
+            setQueries([{ id: activeQuery, query: currentQuery, total }]);
         }
     }, []);
 
     useEffect(() => {
         if ((isEmpty(currentQuery) && total === 0) || loading) return;
         if (queries.length === 0) {
-            setQueries([{ id: activeQuery, name: '#1', query: currentQuery, total }]);
+            setQueries([{ id: activeQuery, query: currentQuery, total }]);
         } else {
-            setQueries(
-                queries.map((obj, i) => {
-                    if (obj.id === activeQuery) {
-                        return { ...obj, name: `#${i + 1}`, query: currentQuery, total };
-                    }
+            const tmpQuery = queries.map((obj) => {
+                if (obj.id === activeQuery) {
+                    return { ...obj, query: currentQuery, total };
+                }
 
-                    return { ...obj, name: `#${i + 1}` };
-                }),
-            );
+                return { ...obj };
+            });
+
+            // Manage to remove multiple empty queries and put one at the bottom
+            let newQueries = tmpQuery;
+            const currentEmptyQueries = tmpQuery.filter((obj) => isEmpty(obj.query));
+            if (currentEmptyQueries.length >= 1) {
+                const emptyQuery = currentEmptyQueries[0];
+                const fullQueries = tmpQuery.filter((obj) => !isEmpty(obj.query));
+                newQueries = [...fullQueries, emptyQuery];
+            }
+
+            setQueries(newQueries);
         }
     }, [currentQuery, total, loading]);
 
@@ -185,6 +193,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                         setQueries([...queries, { id, query: {}, total: 0 }]);
                         onChangeQuery(id, {});
                     }}
+                    size="small"
                 >
                     <AiOutlinePlus />
                     {dictionary.actions?.addQuery || 'New query'}
@@ -204,12 +213,17 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                         }
                         trigger={['click']}
                     >
-                        <Button className={styles.buttons}>
+                        <Button className={styles.buttons} size="small">
                             {dictionary.actions?.combine || 'Combine'} <AiOutlineDown />
                         </Button>
                     </Dropdown>
                 )}
-                <Button className={styles.buttons} disabled={noData} onClick={() => setShowLabels(!showLabels)}>
+                <Button
+                    className={styles.buttons}
+                    disabled={noData}
+                    onClick={() => setShowLabels(!showLabels)}
+                    size="small"
+                >
                     {showLabels ? (
                         <>
                             <AiOutlineEyeInvisible />
@@ -230,6 +244,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                             setQueries([{ id: activeQuery, query: {}, total: 0 }]);
                             onChangeQuery(activeQuery, {});
                         }}
+                        size="small"
                         type="link"
                     >
                         {dictionary.actions?.clear || 'Clear all'}

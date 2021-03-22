@@ -31,12 +31,12 @@
                 margin-right: .8rem;
             }
 
-            &:hover{
+            &:hover,&:focus-visible{
                 color: $gray-8;
                 background-color: $white;
                 border-color: $gray-4;
             }
-            &:focus{
+            &:focus {
                 color: $gray-8;
                 background-color: $white;
                 border-color: $gray-8;
@@ -45,14 +45,11 @@
                 color: $blue-7;
                 border-color: $blue-7;
             }    
-        
-
         }
 
         a:not(:last-child){
             margin-right: 1rem;
         }
-
     }
   
     &__actions {
@@ -70,7 +67,7 @@
         .login, .logout {
             display: flex;
             align-items: center;
-
+            padding: .5rem .8rem;
             .icon {
                 margin-right: .5rem;
             }
@@ -81,6 +78,7 @@
             padding: 0;
             margin-right: 1rem;
             color: $gray-7;
+            text-decoration: none;
             &--icon {
                 margin-left: .5rem;
             }
@@ -88,6 +86,10 @@
             &:not([disable]):hover {
                 text-decoration: underline;
                 color: $gray-7;
+            }
+
+            &:focus-visible {
+                color: $blue-7;
             }
         }
     }

@@ -64,16 +64,24 @@
 
 /* hover type */
 
-.card--notched-hovered {
-  --component-border: #91dcf8;
+.card--notched.card--notched-hovered {
   -webkit-filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
           filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
+
+    > * {
+        border: none;
+    }
+
+    .notch__border {
+        display: none;
+    }
 }
 
-.card--notched-hover:hover {
+.card--notched-hover:hover, .card--notched-hover:focus, a:focus-visible .card--notched-hover {
   --component-border: #91dcf8;
   -webkit-filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
           filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
+    outline: none;
 }
 
 /* header type */

@@ -36,7 +36,7 @@ const ToggleFilter: React.FC<BooleanFilterProps> = ({
         value: filter.data.key,
     }));
     const classNames = cx('fui-filter-sc-button', {
-        'fui-filter-sc-button-disabled': selectedFilter && selectedFilter.length > 0,
+        'fui-filter-sc-button-disabled': selectedFilter.length === 0,
     });
 
     return (
@@ -48,6 +48,7 @@ const ToggleFilter: React.FC<BooleanFilterProps> = ({
                 }}
                 optionType="button"
                 options={options}
+                size="small"
                 value={selected}
             />
             <Button
