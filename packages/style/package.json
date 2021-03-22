@@ -19,7 +19,7 @@
   "author": "Ferlab - Centre de recherche du CHU Ste-Justine",
   "license": "SEE LICENSE IN LICENSE",
   "devDependencies": {
-    "antd": "^4.12.3"
+    "antd": "^4.14.0"
   },
   "peerDependencies": {
     "react": "^16.13.1",
