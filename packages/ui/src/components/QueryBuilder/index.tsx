@@ -24,6 +24,7 @@ export interface IQueryBuilderProps {
     onUpdate?: (state: IInitialQueryState) => void;
     loading?: boolean;
     enableCombine?: boolean;
+    enableSingleQuery?: boolean;
     initialState?: IInitialQueryState;
 }
 
@@ -54,6 +55,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     onUpdate = (f) => f,
     loading = false,
     enableCombine = false,
+    enableSingleQuery = false,
     initialState = {},
 }) => {
     const [activeQuery, setActiveQuery] = useState(initialState?.active || v4());
@@ -183,21 +185,23 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                 ))}
             </StackLayout>
             <StackLayout className={styles.actions}>
-                <Button
-                    className={styles.buttons}
-                    disabled={noData || hasEmptyQuery}
-                    onClick={() => {
-                        const id = v4();
+                {!enableSingleQuery && (
+                    <Button
+                        className={styles.buttons}
+                        disabled={noData || hasEmptyQuery}
+                        onClick={() => {
+                            const id = v4();
 
-                        setActiveQuery(id);
-                        setQueries([...queries, { id, query: {}, total: 0 }]);
-                        onChangeQuery(id, {});
-                    }}
-                    size="small"
-                >
-                    <AiOutlinePlus />
-                    {dictionary.actions?.addQuery || 'New query'}
-                </Button>
+                            setActiveQuery(id);
+                            setQueries([...queries, { id, query: {}, total: 0 }]);
+                            onChangeQuery(id, {});
+                        }}
+                        size="small"
+                    >
+                        <AiOutlinePlus />
+                        {dictionary.actions?.addQuery || 'New query'}
+                    </Button>
+                )}
                 {enableCombine && (
                     <Dropdown
                         disabled={!canCombine}

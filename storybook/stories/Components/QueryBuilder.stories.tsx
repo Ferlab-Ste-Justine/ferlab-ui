@@ -65,6 +65,25 @@ QueryBuilderOneQuery.args = {
     }
 };
 
+/* 1 query */
+export const QueryBuilderOneQuerySingleQuery = QueryBuilderStory.bind({});
+QueryBuilderOneQuerySingleQuery.args = {
+    title: 'QueryBuilder Single Query',
+    enableSingleQuery: true,
+    onRemoveFacet: (f) => f,
+    onChangeQuery: (f) => f,
+    initialState: {
+        state: [{
+            query: {op: 'and', content: [{
+                content: {value: ['something'], field: 'test', op: 'in'}
+            }]},
+            total: 1500,
+            id: '1',  
+        }],
+        active: '1'
+    }
+};
+
 /* 1 query with icon */
 export const QueryBuilderOneWihtIconQuery = QueryBuilderStory.bind({});
 QueryBuilderOneWihtIconQuery.args = {
