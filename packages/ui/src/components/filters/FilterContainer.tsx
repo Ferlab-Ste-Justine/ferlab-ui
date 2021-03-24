@@ -59,7 +59,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
     maxShowing = 5,
     onChange,
     selectedFilters,
-    isOpen = false,
+    isOpen = true,
     dictionary,
 }) => {
     const [hasSearchInput, setSearchInputVisible] = useState(false);
