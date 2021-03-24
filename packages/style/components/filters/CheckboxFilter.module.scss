@@ -17,7 +17,6 @@
     }
 
     .fuiMcItemCheckbox {
-        font-size: 1.2rem;
         text-overflow: ellipsis;
         white-space: nowrap;
         display: flex;
@@ -80,8 +79,6 @@
         color: $checkbox-filter-actions-separator-links;
         text-transform: capitalize;
         padding: 0;
-        font-size: 1.2rem;
-        line-height: 2rem;
         height: auto;
 
         > * {
