@@ -9,9 +9,14 @@ Base scss for all reusable components.
 
 ## Installation
 
-    npm i @ferlab/style
+1. Installation the library
+    >npm i @ferlab/style
 
-In your `main.scss` file add 
+2. Create a default theme file if it does not exist
+
+    >touch style/themes/default/main.scss
+
+3. Add ferlab/style import
 
 > @import '@ferlab/style/index.scss';
 

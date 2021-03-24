@@ -13,16 +13,27 @@ export type ScrollViewProps = {
     horizontal?: boolean;
     children: React.ReactNode;
     className?: string;
-    style?: React.CSSProperties
-}
+    style?: React.CSSProperties;
+};
 
-const ScrollView: React.FC<ScrollViewProps> = ({ children, className, horizontal, orientation, vertical, style={} }) => {
+const ScrollView: React.FC<ScrollViewProps> = ({
+    children,
+    className,
+    horizontal,
+    orientation,
+    vertical,
+    style = {},
+}) => {
     const definedOrientation = vertical
         ? StackOrientation.Vertical
         : horizontal
         ? StackOrientation.Horizontal
         : orientation || StackOrientation.Vertical;
-    return <div className={`ferlabui-scroll-view ${definedOrientation} ${className || ''}`} style={style}>{children}</div>;
+    return (
+        <div className={`ferlabui-scroll-view ${definedOrientation} ${className || ''}`} style={style}>
+            {children}
+        </div>
+    );
 };
 
 export default ScrollView;
