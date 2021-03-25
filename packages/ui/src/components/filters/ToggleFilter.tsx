@@ -31,15 +31,18 @@ const ToggleFilter: React.FC<BooleanFilterProps> = ({
     useEffect(() => {
         setSelected(selectedFilter);
     }, [selectedFilters]);
-    const options = filters.map((filter) => ({
-        label: (
-            <>
-                {filter.name}
-                <Tag className={styles.tag}>{filter.data.count.toLocaleString()}</Tag>
-            </>
-        ),
-        value: filter.data.key,
-    }));
+    const options = filters.map((filter) => {
+        const count = filter.data.count || 0;
+        return {
+            label: (
+                <>
+                    {filter.name}
+                    <Tag className={styles.tag}>{count.toLocaleString()}</Tag>
+                </>
+            ),
+            value: filter.data.key,
+        };
+    });
     const classNames = cx(styles['fui-filter-sc-button'], {
         [styles['fui-filter-sc-button-disabled']]: selectedFilter.length === 0,
     });
