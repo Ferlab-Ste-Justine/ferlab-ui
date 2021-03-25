@@ -25,6 +25,8 @@ export interface IQueryBuilderProps {
     loading?: boolean;
     enableCombine?: boolean;
     enableSingleQuery?: boolean;
+    enableShowHideLabels?: boolean;
+    initialShowLabelState?: boolean;
     initialState?: IInitialQueryState;
 }
 
@@ -56,10 +58,12 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     loading = false,
     enableCombine = false,
     enableSingleQuery = false,
+    enableShowHideLabels = false,
+    initialShowLabelState = true,
     initialState = {},
 }) => {
     const [activeQuery, setActiveQuery] = useState(initialState?.active || v4());
-    const [showLabels, setShowLabels] = useState(false);
+    const [showLabels, setShowLabels] = useState(initialShowLabelState);
     const [queries, setQueries] = useState<IQueriesState[]>(initialState?.state || []);
     const [combination, setCombination] = useState<string[]>([]);
 
@@ -222,24 +226,26 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                         </Button>
                     </Dropdown>
                 )}
-                <Button
-                    className={styles.buttons}
-                    disabled={noData}
-                    onClick={() => setShowLabels(!showLabels)}
-                    size="small"
-                >
-                    {showLabels ? (
-                        <>
-                            <AiOutlineEyeInvisible />
-                            {dictionary.actions?.hideLabels || 'Hide labels'}
-                        </>
-                    ) : (
-                        <>
-                            <AiOutlineEye />
-                            {dictionary.actions?.showLabels || 'Show labels'}
-                        </>
-                    )}
-                </Button>
+                {enableShowHideLabels && (
+                    <Button
+                        className={styles.buttons}
+                        disabled={noData}
+                        onClick={() => setShowLabels(!showLabels)}
+                        size="small"
+                    >
+                        {showLabels ? (
+                            <>
+                                <AiOutlineEyeInvisible />
+                                {dictionary.actions?.hideLabels || 'Hide labels'}
+                            </>
+                        ) : (
+                            <>
+                                <AiOutlineEye />
+                                {dictionary.actions?.showLabels || 'Show labels'}
+                            </>
+                        )}
+                    </Button>
+                )}
                 {!noData && (
                     <Button
                         className={styles.buttons}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Radio } from 'antd';
+import { Button, Radio, Tag } from 'antd';
 import cx from 'classnames';
 import get from 'lodash/get';
 
@@ -8,7 +8,7 @@ import StackLayout from '../../layout/StackLayout';
 import { IDictionary, IFilter, IFilterCount } from './types';
 import { IFilterGroup, onChangeType } from './types';
 
-import '@ferlab/style/components/filters/ToggleFilter.scss';
+import styles from '@ferlab/style/components/filters/ToggleFilter.module.scss';
 
 export type BooleanFilterProps = {
     filters: IFilter<IFilterCount>[];
@@ -31,22 +31,30 @@ const ToggleFilter: React.FC<BooleanFilterProps> = ({
     useEffect(() => {
         setSelected(selectedFilter);
     }, [selectedFilters]);
-    const options = filters.map((filter) => ({
-        label: filter.name,
-        value: filter.data.key,
-    }));
-    const classNames = cx('fui-filter-sc-button', {
-        'fui-filter-sc-button-disabled': selectedFilter.length === 0,
+    const options = filters.map((filter) => {
+        const count = filter.data.count || 0;
+        return {
+            label: (
+                <>
+                    {filter.name}
+                    <Tag className={styles.tag}>{count.toLocaleString()}</Tag>
+                </>
+            ),
+            value: filter.data.key,
+        };
+    });
+    const classNames = cx(styles['fui-filter-sc-button'], {
+        [styles['fui-filter-sc-button-disabled']]: selectedFilter.length === 0,
     });
 
     return (
-        <StackLayout className="fui-filter-sc" horizontal>
+        <StackLayout className={styles['fui-filter-sc']} vertical>
             <Radio.Group
+                className={styles.radio}
                 onChange={(e) => {
                     const newSelection = filters.filter((f) => f.data.key === e.target.value);
                     onChange(filterGroup, newSelection);
                 }}
-                optionType="button"
                 options={options}
                 size="small"
                 value={selected}

@@ -1,2 +1,7 @@
 @import 'colors';
 @import '../default/theme.template';
+
+$small-font: 1.2rem;
+
+$checkbox-filter-item-font-size: $small-font;
+$checkbox-filter-link-font-size: $small-font;
