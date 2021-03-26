@@ -4,7 +4,7 @@
     background: $query-builder-bg;
     border: 1px solid $query-builder-border-color;
     border-radius: 2px;
-    padding: 2.4rem 3.2rem;
+    padding: $query-builder-padding;
 
     .queryBars {
         margin-bottom: 1.6rem;
