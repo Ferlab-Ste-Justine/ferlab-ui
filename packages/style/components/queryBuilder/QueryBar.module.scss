@@ -2,10 +2,11 @@
 
 .container {
     background: $query-bar-bg;
+    height: $query-bar-height;
     position: relative;
 
     > * {
-        padding: 1.2rem;
+        padding: $query-bar-padding;
         border: 1px solid $query-bar-border-color;
         align-items: center;
 
@@ -45,6 +46,7 @@
 
     .queryContent {
         justify-content: space-between;
+        color: $query-total-color;
 
         .queryValues {
             flex-wrap: wrap;
@@ -64,6 +66,15 @@
 
             >  :first-child {
                 margin-right: .5rem;
+            }
+
+            img,svg {
+                height: 22px;
+                vertical-align: middle;
+                path {
+                    fill: $query-total-color;
+                }
+                
             }
         }
     }

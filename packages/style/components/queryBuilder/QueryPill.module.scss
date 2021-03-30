@@ -5,6 +5,7 @@
     padding: .2rem .2rem .2rem .6rem;
     border-radius: 2px;
     align-items: center;
+    line-height: 20px;
 
     &.selected {
         background: $query-pill-bg-active;
@@ -20,7 +21,7 @@
     }
 
     .close {
-        padding: .3rem .2rem .3rem .4rem;
+        padding: 0 .2rem 0 .4rem;
         height: auto;
         display: flex;
         align-items: center;
