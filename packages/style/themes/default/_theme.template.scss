@@ -9,6 +9,8 @@ $query-bar-bg: #F1F4F8;
 $query-bar-bg-active: #FFEFC1;
 $query-bar-border-color: #BCC9DC;
 $query-bar-border-color-active: #FFDC73;
+$query-bar-height: 100%;
+$query-bar-padding: 1.2rem;
 
 $query-bar-identifier: #BCC9DC;
 $query-bar-identifier-active: #F5B800; 
@@ -21,7 +23,7 @@ $query-values-bg: $white;
 $query-icon-operator-color: #5A77A0;
 $query-icon-operator-color-hover: #26436E; 
 $query-icon-label-operator-color: #26436E;
-
+$query-total-color: inherit;
 
 // CountWithIcon
 $count-with-icon-inline-label-size: 1.4rem; 
