@@ -91,8 +91,8 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
                                 key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${selectedFilters.length}-${i}`}
                             >
                                 <Checkbox
+                                    checked={selectedFilters.some((f) => f.data.key === filter.data.key)}
                                     className={styles.fuiMcItemCheckbox}
-                                    defaultChecked={selectedFilters.some((f) => f.data.key === filter.data.key)}
                                     id={`input-${filter.data.key}`}
                                     name={`input-${filter.id}`}
                                     onChange={(e) => {
