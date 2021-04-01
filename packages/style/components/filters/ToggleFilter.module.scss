@@ -5,13 +5,27 @@
     .radio {
         display: flex;
         flex-direction: column;
+        width: 100%;
+
         > * {
             margin-bottom: .8rem;
+            width: 100%;
+        }
+
+        > label {
+            align-items: center;
+            display: flex;
+        }
+        > label > span:last-child {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding-right: 0px;
         }
     }
 
     .tag {
-        margin-left: .8rem;
+        margin-right: .8rem;
     }
 
     .fui-filter-sc-button {
