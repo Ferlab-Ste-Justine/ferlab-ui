@@ -28,32 +28,31 @@ a.ant-btn {
         background-color: @gray-3;
         border-color: @gray-5;
     }
+
+    > .ant-btn-loading-icon {
+        margin-right: .8rem;
+    }
 }
 
 .ant-btn-primary {
-    font-size: 1.6rem; 
-    display: flex;
-    align-items: center;
-    padding: .8rem 1.6rem;
-    height: 4rem;
-    color: @gray-8;
-    background: @gold-4;
-    border-color: @gold-4;
+    color: @white;
+    background: @blue-8;
+    border-color: @blue-8;
 
     &:hover{
-        background-color: @gold-5;
-        border-color: @gold-5;
-        color: @gray-8;
+        color: @white;
+        background: @blue-7;
+        border-color: @blue-7;
     }
     &:focus{
-        background-color: @white;
-        border-color: @gold-5;
-        color: @gray-8;
+        color: @white;
+        background: @blue-9;
+        border-color: @blue-9;
     }
     &:disabled {
-        color: @gray-4;
-        background-color: @gray-6;
-        border-color: @gray-6;
+        color: @gray-6;
+        background: @gray-3;
+        border-color: @gray-3;
     }
 }
 
@@ -366,3 +365,54 @@ a.ant-btn {
 // Tooltip
 @tooltip-color: @gray-9;
 @tooltip-bg: @gold-5;
+
+// Modal
+@modal-mask-bg: fade(@gray-10, 45%);
+@modal-close-color: @gray-9;
+.ant-modal-title {
+    font-weight: 600;
+    color: @gray-9;
+}
+
+// Notification
+.ant-notification-notice{
+    &.ant-notification-notice-success {
+        color: @green-9;
+        background: @green-2;
+
+        .ant-notification-notice-message {
+            color: @green-9;
+            font-weight: 600;
+        }
+
+        .ant-notification-notice-icon-success, .ant-notification-close-icon {
+            color: @green-9;
+        }
+    }
+}
+
+.ant-notification-notice{
+    &.ant-notification-notice-error {
+        color: @red-8;
+        background: @red-2;
+
+        .ant-notification-notice-message {
+            color: @red-8;
+            font-weight: 600;
+        }
+
+        .ant-notification-notice-icon-error, .ant-notification-close-icon {
+            color: @red-8;
+        }
+    }
+}
+
+// Select
+.ant-select {
+    .ant-select-selection-overflow-item-rest {
+        font-size: 1.2rem;
+        .ant-select-selection-item {
+            background: @gray-3;
+        }
+    }
+}
