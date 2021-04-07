@@ -57,3 +57,20 @@
         height: 1.6rem;
     }
 }
+
+@mixin input-error {
+    border-color: $red-6!important;
+
+    &:hover {
+        box-shadow: 0px 0px 4px rgba(245, 34, 45, 0.5);
+        border-color: $red-6;
+    }
+    &:focus {
+        box-shadow: 0px 0px 4px rgba(245, 34, 45, 0.5)!important;
+        border-color: $red-6;
+    }
+
+    svg[data-icon=close-circle] {
+        color: $red-6;
+    }
+}
