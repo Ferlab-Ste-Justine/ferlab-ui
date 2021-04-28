@@ -63,7 +63,6 @@
 }
 
 /* hover type */
-
 .card--notched.card--notched-hovered {
   -webkit-filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
           filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
@@ -78,10 +77,24 @@
 }
 
 .card--notched-hover:hover, .card--notched-hover:focus, a:focus-visible .card--notched-hover {
-  --component-border: #91dcf8;
-  -webkit-filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
-          filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
+    --component-border: #91dcf8;
+    -webkit-filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
+            filter: drop-shadow(0px 6px 12px rgba(0, 174, 239, 0.2));
     outline: none;
+}
+
+/* shadow */
+.card--notched.card--notched-shadow {
+    -webkit-filter: drop-shadow(0px 4px 12px rgba(47, 94, 125, 0.18));
+    filter: drop-shadow(0px 4px 12px rgba(47, 94, 125, 0.18));
+
+    > * {
+        border: none;
+    }
+
+    .notch__border {
+        display: none;
+    }
 }
 
 /* header type */

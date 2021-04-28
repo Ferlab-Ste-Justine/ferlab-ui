@@ -203,6 +203,14 @@ a.ant-btn {
             }
         }
     }
+    > tr.ant-table-row-selected {
+        > td.ant-table-cell {
+            background: @gray-3;
+        }
+        &:hover > td.ant-table-cell {
+            background: @gray-3;
+        }
+    }
 }
 
 // Menu
@@ -414,5 +422,80 @@ a.ant-btn {
         .ant-select-selection-item {
             background: @gray-3;
         }
+    }
+}
+
+// Page Header
+@page-header-padding: 2.4rem;
+
+.ant-page-header {
+    &-heading-title {
+        color: @gray-9;
+    }
+    &-heading-extra {
+        display: flex;
+    }
+}
+
+// Card
+@card-head-color: @gray-9;
+.ant-card-bordered {
+    border: 1px solid @gray-4;;
+}
+.ant-card {
+    &-head {
+        padding:0;
+        margin: 0 2.4rem;
+        &-title {
+            font-weight: 600;
+        }
+    }
+}
+
+.ant-card-body-small {
+    .ant-card-body {
+        padding: 1.6rem .8rem;
+    }
+}
+
+// Descriptions
+@descriptions-item-padding-bottom: 0;
+
+.ant-descriptions.ant-descriptions-small {
+    .ant-descriptions-item {
+        &-label {
+            padding: .8rem 1.6rem;
+        }
+
+        &-content {
+            padding: .8rem 1.6rem;
+        }
+    }
+}
+.ant-descriptions {
+    .ant-descriptions-item {
+        &-label {
+            padding: 1.6rem 2.4rem;
+        }
+
+        &-content {
+            padding: 1.6rem 2.4rem;
+        }
+    }
+}
+
+// Progress
+.ant-progress {
+    &-status-success {
+        .ant-progress-bg {
+            background: @blue-6;
+        }
+    }
+}
+
+// List
+.ant-list {
+    .ant-list-item {
+        padding: 0 1.6rem;
     }
 }
