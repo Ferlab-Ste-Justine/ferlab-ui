@@ -460,6 +460,15 @@ a.ant-btn {
     }
 }
 
+.ant-inner-card-small {
+    .ant-card-head {
+        margin: 0 1.6rem;
+    }
+    .ant-card-body {
+        padding: 1.6rem 0rem;
+    }
+}
+
 // Descriptions
 @descriptions-item-padding-bottom: 0;
 
@@ -498,6 +507,10 @@ a.ant-btn {
 // List
 .ant-list {
     .ant-list-item {
-        padding: 0 1.6rem;
+        > * {
+            display: inline-flex;
+            align-items: center;
+        }
+        padding: 0 0 0 1.6rem;
     }
 }
