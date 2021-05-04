@@ -1,6 +1,6 @@
 {
   "name": "@ferlab/style",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "description": "Core components for scientific research data portals",
   "publishConfig": {
     "access": "public"
