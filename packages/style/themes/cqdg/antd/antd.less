@@ -282,6 +282,7 @@ a.ant-btn {
 @alert-info-bg-color: @blue-2;
 
 // Input
+@input-placeholder-color: @gray-6;
 @input-hover-border-color: @blue-7;
 .ant-input {
     &:focus {
@@ -419,9 +420,17 @@ a.ant-btn {
 
 // Select
 .ant-select {
-    .ant-select-selection-overflow-item-rest {
+    &-item-group {
+        color: @gray-7;
+    }
+    &-item-option {
+        &-disabled {
+            color: @gray-6;
+        }
+    }
+    &-selection-overflow-item-rest {
         font-size: 1.2rem;
-        .ant-select-selection-item {
+        &-item {
             background: @gray-3;
         }
     }
