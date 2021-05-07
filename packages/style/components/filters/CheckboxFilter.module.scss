@@ -18,22 +18,22 @@
 
     .fuiMcItemCheckbox {
         text-overflow: ellipsis;
-        white-space: nowrap;
         display: flex;
         flex: 1;
-        align-items: center;
-        font-size: $checkbox-filter-item-font-size;
+        align-items: flex-start;
         line-height: $checkbox-filter-item-line-height;
         width: 80%;
 
         & > span {
-            top: 0;
+            align-items: center;
+            display: flex;
+            min-height: if($checkbox-filter-item-line-height == 'inherit', 2.4rem, inherit);
+            line-height: $checkbox-filter-item-line-height;
         }
 
         & > span + span {
             text-overflow: ellipsis;
             overflow: hidden;
-            white-space: nowrap;
             display: inline-block;
             vertical-align: middle;
         }
@@ -55,7 +55,6 @@
 
 .checkboxFilterItem {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     margin-bottom: 8px;
     flex: auto 0;
