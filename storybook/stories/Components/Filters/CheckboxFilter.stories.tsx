@@ -15,7 +15,7 @@ export default {
   title: "@ferlab/Components/Filters/CheckboxFilter",
   component: CheckboxFilter,
     decorators: [(Story) =>
-        <><div className={'story_container'} style={{display:'inline-grid'}}><Story/></div></>],
+        <><div className={'story_container'} style={{display:'inline-grid', maxWidth: '260px'}}><Story/></div></>],
   argTypes: {
     className: {
       control: 'string',

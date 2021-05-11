@@ -109,7 +109,7 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
                                 >
                                     {filter.name}
                                 </Checkbox>
-                                <Tag>{filter.data.count.toLocaleString()}</Tag>
+                                <Tag className={styles.tag}>{filter.data.count.toLocaleString()}</Tag>
                             </StackLayout>
                         ))}
                     {filteredFilters.length > maxShowing && (

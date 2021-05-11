@@ -3,13 +3,33 @@ interface IActions {
     combine?: string | React.ReactNode;
     showLabels?: string | React.ReactNode;
     hideLabels?: string | React.ReactNode;
-    clear?: string | React.ReactNode;
+    delete?: IDeleteTranslation;
+    clear?: IClearTranslation;
+}
+
+interface IClearTranslation {
+    title: string | React.ReactNode;
+    cancel: string | React.ReactNode;
+    confirm: string | React.ReactNode;
+    buttonTitle: string | React.ReactNode;
+    description: string | React.ReactNode;
+}
+interface IDeleteTranslation {
+    title: string | React.ReactNode;
+    cancel: string | React.ReactNode;
+    confirm: string | React.ReactNode;
 }
 
 type TTranslation = (key: string) => string | React.ReactNode;
 interface IQuery {
+    combine?: ICombineTranslation;
     noQuery?: string | React.ReactNode;
     facet: TTranslation;
+}
+
+interface ICombineTranslation {
+    intersection: string | React.ReactNode;
+    union: string | React.ReactNode;
 }
 
 export enum CombinerEnum {

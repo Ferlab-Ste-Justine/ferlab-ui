@@ -58,13 +58,15 @@
     justify-content: space-between;
     margin-bottom: 8px;
     flex: auto 0;
+
+    .tag {
+        height: fit-content;
+    }
 }
 
 .checkboxFilterItem:last-child {
     margin-bottom: 0;
 }
-
-
 
 .checkboxFilterActions {
     margin-bottom: 1.5rem;

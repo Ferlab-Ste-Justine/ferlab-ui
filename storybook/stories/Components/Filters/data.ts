@@ -37,7 +37,7 @@ export const filters: IFilter<IFilterCount>[] = [
             count: 4,
             key: 'Four',
         },
-        name: 'four',
+        name: 'four super long data with very long name',
         id: 'id_four'
     },
     {

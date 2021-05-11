@@ -9,3 +9,12 @@
         height: auto;
     }
 }
+
+.menuItem {
+    display: flex;
+    align-items: center;
+
+    .itemIcon {
+        margin-right: .8rem;
+    }
+}
