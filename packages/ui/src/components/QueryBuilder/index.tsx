@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineDown, AiOutlineEye, AiOutlineEyeInvisible, AiOutlinePlus } from 'react-icons/ai';
-import { Button, Dropdown, Menu } from 'antd';
+import { Button, Dropdown, Menu, Modal } from 'antd';
 import isEmpty from 'lodash/isEmpty';
 import { v4 } from 'uuid';
 
@@ -66,6 +66,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     const [showLabels, setShowLabels] = useState(initialShowLabelState);
     const [queries, setQueries] = useState<IQueriesState[]>(initialState?.state || []);
     const [combination, setCombination] = useState<string[]>([]);
+    const [showClearAll, setShowClearAll] = useState<boolean>(false);
 
     const emptyQueries = queries.filter((obj) => isEmpty(obj.query));
     const noData = queries.length === emptyQueries.length;
@@ -249,15 +250,25 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                 {!noData && (
                     <Button
                         className={styles.buttons}
-                        onClick={() => {
-                            setCombination([]);
-                            setQueries([{ id: activeQuery, query: {}, total: 0 }]);
-                            onChangeQuery(activeQuery, {});
-                        }}
+                        onClick={() =>
+                            Modal.confirm({
+                                cancelText: dictionary.actions?.clear?.cancel || 'Cancel',
+                                content:
+                                    dictionary.actions?.clear?.description ||
+                                    'You are about to delete all your queries. They will be lost forever.',
+                                okText: dictionary.actions?.clear?.confirm || 'Delete',
+                                onOk: () => {
+                                    setCombination([]);
+                                    setQueries([{ id: activeQuery, query: {}, total: 0 }]);
+                                    onChangeQuery(activeQuery, {});
+                                },
+                                title: dictionary.actions?.clear?.title || 'Delete all queries?',
+                            })
+                        }
                         size="small"
                         type="link"
                     >
-                        {dictionary.actions?.clear || 'Clear all'}
+                        {dictionary.actions?.clear?.buttonTitle || 'Clear all'}
                     </Button>
                 )}
             </StackLayout>

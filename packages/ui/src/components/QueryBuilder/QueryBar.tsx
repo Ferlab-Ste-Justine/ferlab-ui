@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineCopy, AiOutlineDelete } from 'react-icons/ai';
-import { Button, Checkbox } from 'antd';
+import { Button, Checkbox, Popconfirm } from 'antd';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 
@@ -97,7 +97,11 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                                     showLabels={showLabels}
                                 />
                                 {query.content.length - 1 > i && (
-                                    <Combiner onChange={(type) => onCombineChange(id, type)} type={query.op} />
+                                    <Combiner
+                                        dictionary={dictionary}
+                                        onChange={(type) => onCombineChange(id, type)}
+                                        type={query.op}
+                                    />
                                 )}
                             </StackLayout>
                         ))}
@@ -119,16 +123,26 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                         <AiOutlineCopy size={18} />
                     </Button>
 
-                    <Button
+                    <Popconfirm
+                        arrowPointAtCenter
+                        cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
                         disabled={!canDelete}
-                        onClick={(e) => {
-                            e.stopPropagation();
+                        okText={dictionary.actions?.delete?.confirm || 'Delete'}
+                        onConfirm={() => {
                             onDeleteQuery(id, query);
                         }}
-                        type="text"
+                        placement="topRight"
+                        title={dictionary.actions?.delete?.title || 'Delete this query?'}
                     >
-                        <AiOutlineDelete size={18} />
-                    </Button>
+                        <Button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                            }}
+                            type="text"
+                        >
+                            <AiOutlineDelete size={18} />
+                        </Button>
+                    </Popconfirm>
                 </StackLayout>
             )}
         </StackLayout>

@@ -34,6 +34,10 @@ a.ant-btn {
     }
 }
 
+.ant-btn-sm {
+    padding: .1rem .8rem;
+}
+
 .ant-btn-primary {
     color: @white;
     background: @blue-8;
@@ -149,8 +153,15 @@ a.ant-btn {
 // Table
 @table-header-bg: @gray-3;
 @table-header-color: @gray-9;
-@table-header-sort-bg: @gray-6;
-@table-header-sort-active-bg:@gray-4;
+
+.ant-table-column-sorter-inner {
+    .ant-table-column-sorter-up, .ant-table-column-sorter-down {
+        color: @gray-6;
+    }
+    .ant-table-column-sorter-up.active, .ant-table-column-sorter-down.active {
+        color: @gray-9;
+    }
+}
 
 .ant-table-thead {
     tr th {
@@ -203,7 +214,7 @@ a.ant-btn {
             }
         }
     }
-    > tr.ant-table-row-selected {
+    > tr.ant-table-row.ant-table-row-selected {
         > td.ant-table-cell {
             background: @gold-2;
             border-bottom-color: @gold-4;
@@ -380,6 +391,10 @@ a.ant-btn {
 // Modal
 @modal-mask-bg: fade(@gray-10, 45%);
 @modal-close-color: @gray-9;
+.ant-modal-confirm-body .ant-modal-confirm-title {
+    font-weight: 600;
+    color: @gray-9;
+}
 .ant-modal-title {
     font-weight: 600;
     color: @gray-9;

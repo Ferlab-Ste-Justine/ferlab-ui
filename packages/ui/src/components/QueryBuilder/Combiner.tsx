@@ -5,25 +5,27 @@ import StackLayout from '../../layout/StackLayout';
 
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
-import { CombinerEnum, TSqonGroupOp } from './types';
+import { CombinerEnum, IDictionary, TSqonGroupOp } from './types';
 
 import styles from '@ferlab/style/components/queryBuilder/Combiner.module.scss';
 
 interface ICombinerProps {
+    dictionary?: IDictionary;
     type: TSqonGroupOp;
     onChange: (type: TSqonGroupOp) => void;
 }
 
-const Combiner: React.FC<ICombinerProps> = ({ onChange, type }) => (
+const Combiner: React.FC<ICombinerProps> = ({ onChange, type, dictionary = {} }) => (
     <StackLayout className={styles.container}>
         <Dropdown
             overlay={
                 <Menu>
-                    <Menu.Item onClick={() => onChange(CombinerEnum.And)}>
-                        <AndOperator />
+                    <Menu.Item className={styles.menuItem} onClick={() => onChange(CombinerEnum.And)}>
+                        <AndOperator className={styles.itemIcon} />{' '}
+                        {dictionary.query?.combine?.intersection || 'Intersection'}
                     </Menu.Item>
-                    <Menu.Item onClick={() => onChange(CombinerEnum.Or)}>
-                        <OrOperator />
+                    <Menu.Item className={styles.menuItem} onClick={() => onChange(CombinerEnum.Or)}>
+                        <OrOperator className={styles.itemIcon} /> {dictionary.query?.combine?.union || 'Union'}
                     </Menu.Item>
                 </Menu>
             }
