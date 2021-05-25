@@ -86,15 +86,23 @@ a.ant-btn {
 }
 
 // Link & Text
-@btn-text-hover-bg: @gray-3;
-
+@btn-text-hover-bg: @gray-8;
 .ant-btn-text {
-    border: none;
+    border: 1px solid transparent;
 
-    &:hover, &:focus, &:active, &:disabled {
-        background-color: transparent;
+    &:hover {
+        color: @gray-8;
+        background-color: @gray-3;
+        border: 1px solid @gray-3;
+    }
+    &:focus, &:active {
+        color: @gray-8;
+        border: 1px solid @gray-8;
+        background-color: @gray-3;
     }
     &:disabled {
+        background-color: transparent;
+        border: 1px solid transparent;
         color: @gray-6;
     }
 }
@@ -292,6 +300,19 @@ a.ant-btn {
 @alert-info-border-color: @blue-4;
 @alert-info-bg-color: @blue-2;
 
+.ant-alert{
+    &-info {
+        .ant-alert-message {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: @blue-9;
+        }
+        .ant-alert-description {
+            color: @blue-9;
+        }
+    }
+}
+
 // Input
 @input-placeholder-color: @gray-6;
 @input-hover-border-color: @blue-7;
@@ -387,6 +408,10 @@ a.ant-btn {
 // Tooltip
 @tooltip-color: @gray-9;
 @tooltip-bg: @gold-5;
+.ant-tooltip {
+    max-width: 285px;
+}
+
 
 // Modal
 @modal-mask-bg: fade(@gray-10, 45%);
@@ -434,6 +459,9 @@ a.ant-btn {
 }
 
 // Select
+@select-item-selected-bg: @gray-4;
+@select-item-active-bg: @gray-3;
+@select-selection-item-bg: @blue-8;
 .ant-select {
     &-item-group {
         color: @gray-7;
@@ -442,13 +470,27 @@ a.ant-btn {
         &-disabled {
             color: @gray-6;
         }
-    }
-    &-selection-overflow-item-rest {
-        font-size: 1.2rem;
-        &-item {
-            background: @gray-3;
+        &-state {
+            .anticon-check {
+                color: @gray-6;
+            }
+        }
+        &-content {
+            overflow: initial;
+            white-space: initial;
+            text-overflow: initial;
         }
     }
+    &-selection-overflow-item {
+        &-rest {
+            font-size: 1.2rem;
+            .ant-select-selection-item {
+                color: @white;
+                background: @blue-8;
+            }
+        }    
+    }
+    
 }
 
 // Page Header
