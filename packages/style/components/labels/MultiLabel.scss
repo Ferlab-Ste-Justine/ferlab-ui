@@ -23,6 +23,13 @@
     
     }
 
+    &--stack.multilabel__container--top-icon {
+        .wrapper {
+            &__icon {
+                margin-right: $multi-label-stack-top-icon-space;
+            }
+        }
+    }
     &--stack.multilabel__container--middle-icon {
         grid-template-areas: 
             "icon label"

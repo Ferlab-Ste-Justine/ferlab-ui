@@ -15,6 +15,7 @@ export type MultiLabelProps = {
     className?: string;
     labelClassName?: string;
     subLabelClassName?: string;
+    iconClassName?: string;
     iconPosition?: MultiLabelIconPositionEnum;
     Icon: React.ReactNode;
     type?: MultiLabelTypeEnum;
@@ -27,6 +28,7 @@ const MultiLabel: React.FC<MultiLabelProps> = ({
     className = '',
     labelClassName = '',
     subLabelClassName = '',
+    iconClassName = '',
     Icon,
     label,
     subLabel,
@@ -38,7 +40,7 @@ const MultiLabel: React.FC<MultiLabelProps> = ({
         className={`multilabel__container multilabel__container--${type} multilabel__container--${iconPosition} ${className}`}
         style={style}
     >
-        <div className="wrapper__icon">{Icon}</div>
+        <div className={`wrapper__icon ${iconClassName}`}>{Icon}</div>
         <span className={`wrapper__label ${labelClassName}`}>{label}</span>
         <span className={`wrapper__subLabel ${subLabelClassName}`}>{subLabel}</span>
     </div>
