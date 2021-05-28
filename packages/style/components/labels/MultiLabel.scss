@@ -1,0 +1,73 @@
+@import 'theme.template';
+.multilabel__container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+        "icon label"
+        ". subLabel"
+    ;
+    align-items: center;
+
+    .wrapper {
+        &__icon {
+            grid-area: icon;
+            display: flex;
+        }
+        &__label {
+            grid-area: label;
+        }
+        &__subLabel {
+            grid-area: subLabel;
+        }
+    
+    }
+
+    &--stack.multilabel__container--middle-icon {
+        grid-template-areas: 
+            "icon label"
+            "icon subLabel"
+        ;
+    }
+
+    &--stack {
+        .wrapper {
+            &__icon {
+                margin-right: $multi-label-stack-icon-space;
+            }
+
+            &__label {
+                font-size: $multi-label-stack-label-size;
+                font-weight: $multi-label-stack-label-weight;
+            }
+            &__subLabel {
+                font-size: $multi-label-stack-sub-label-size;
+                font-weight: $multi-label-stack-sub-label-weight;
+            }
+        }
+    }
+    &--inline {
+        grid-template-rows: 1fr;
+        grid-template-columns: auto auto 1fr;
+        grid-template-areas: 
+            "icon label subLabel"
+        ;
+    
+        .wrapper {
+            &__icon {
+                margin-right: $multi-label-inline-icon-space;
+            }
+            &__label {
+                font-size: $multi-label-inline-label-size;
+                font-weight: $multi-label-inline-label-weight;
+                margin-right: $multi-label-inline-label-space;
+            }
+
+            &__subLabel {
+                font-size: $multi-label-inline-sub-label-size;
+                font-weight: $multi-label-inline-sub-label-weight;
+            }
+
+        }
+    }
+}

@@ -26,16 +26,18 @@ $query-icon-label-operator-color: #26436E;
 $query-total-color: inherit;
 
 // CountWithIcon
-$count-with-icon-inline-label-size: 1.4rem; 
-$count-with-icon-inline-label-weight: 600; 
-$count-with-icon-inline-total-size: 1.4rem; 
-$count-with-icon-inline-total-weight: 600; 
+$multi-label-inline-label-size: 1.4rem; 
+$multi-label-inline-label-weight: 600; 
+$multi-label-inline-sub-label-size: 1.4rem; 
+$multi-label-inline-sub-label-weight: 600; 
+$multi-label-inline-icon-space: .6rem;
+$multi-label-inline-label-space: .5rem;
 
-$count-with-icon-stack-label-size: inherit; 
-$count-with-icon-stack-label-weight: normal; 
-$count-with-icon-stack-total-size: 1.6rem; 
-$count-with-icon-stack-total-weight: 600; 
-
+$multi-label-stack-label-size: 1.6rem; 
+$multi-label-stack-label-weight: 600; 
+$multi-label-stack-sub-label-size: inherit; 
+$multi-label-stack-sub-label-weight: normal; 
+$multi-label-stack-icon-space: 1.6rem;
 
 // Filters
 $toggle-filter-sc-button-color: #008FC7;
