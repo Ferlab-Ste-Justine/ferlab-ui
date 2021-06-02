@@ -48,38 +48,30 @@ export enum VisualType {
 }
 
 export interface IDictionary {
-    actions: IActions;
-    globalSearch: IGlobalSearch;
-    messages: IMessages;
-    checkBox: ICheckBox;
-    range: IRange;
+    actions?: IActions;
+    messages?: IMessages;
+    checkBox?: ICheckBox;
+    range?: IRange;
 }
 
 export interface IActions {
-    all: string;
-    apply: string;
-    clear: string;
-    less: string;
-    more: string;
-    none: string;
-    searchPlaceholder: string;
-}
-
-export interface IGlobalSearch {
-    infoTooltip: string;
-    placeholder: string;
+    all: string | ReactNode;
+    apply: string | ReactNode;
+    clear: string | ReactNode;
+    less: string | ReactNode;
+    more: string | ReactNode;
+    none: string | ReactNode;
 }
 
 export interface ICheckBox {
-    searchPlaceholder: string;
+    searchPlaceholder: string | ReactNode;
 }
 
 export interface IMessages {
-    errorNoData: string;
-    errorNotFound: string;
+    errorNoData: string | ReactNode;
 }
 
 export interface IRange {
-    max: string;
-    min: string;
+    max: string | ReactNode;
+    min: string | ReactNode;
 }

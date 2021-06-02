@@ -1,12 +1,12 @@
 @import 'theme.template';
 .checkboxFilter {
     .filtersTypesFooter {
+        border: none;
         color: $checkbox-filter-types-mc-footer;
         padding: 0;
         text-align: left;
         height: auto;
         font-size: 1.2rem;
-        text-transform: capitalize;
         > * {
             text-decoration: underline;
         }
@@ -49,8 +49,14 @@
 
 
 .filtersTypesFooter:hover, .checkboxFilterActions .checkboxFilterLinks:hover {
+    background: transparent;
+    border: none;
     color: $checkbox-filter-links-hover;
     text-decoration: none;
+}
+.filtersTypesFooter:focus, .checkboxFilterActions .checkboxFilterLinks:focus {
+    background: transparent;
+    border: none;
 }
 
 .checkboxFilterItem {
@@ -79,8 +85,8 @@
     }
 
     .checkboxFilterLinks {
+        border: none;
         color: $checkbox-filter-actions-separator-links;
-        text-transform: capitalize;
         padding: 0;
         font-size: $checkbox-filter-link-font-size;
         line-height: $checkbox-filter-link-line-height;
@@ -91,6 +97,7 @@
         }
 
         &:hover > * {
+            background: transparent;
             text-decoration: none;
         }
     }
