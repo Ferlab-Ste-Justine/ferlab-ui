@@ -66,7 +66,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     const [showLabels, setShowLabels] = useState(initialShowLabelState);
     const [queries, setQueries] = useState<IQueriesState[]>(initialState?.state || []);
     const [combination, setCombination] = useState<string[]>([]);
-    const [showClearAll, setShowClearAll] = useState<boolean>(false);
 
     const emptyQueries = queries.filter((obj) => isEmpty(obj.query));
     const noData = queries.length === emptyQueries.length;

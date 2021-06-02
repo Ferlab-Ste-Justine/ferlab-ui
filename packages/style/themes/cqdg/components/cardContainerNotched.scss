@@ -39,7 +39,6 @@
 .card--notched .notch-btm {
   grid-column: 1/3;
   grid-row: 3;
-  display: -webkit-box;
   display: flex;
   border-radius: 0 0 0 2px;
   border-left: 1px solid var(--component-border);

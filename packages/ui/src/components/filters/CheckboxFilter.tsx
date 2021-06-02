@@ -45,7 +45,7 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
                 <div className={styles.filterSearchWrapper}>
                     <AutoComplete
                         allowClear
-                        aria-label={get(dictionary, 'checkBox.searchPlaceholder', 'search...')}
+                        aria-label={get(dictionary, 'checkBox.searchPlaceholder', 'Search...')}
                         autoFocus
                         className={styles.filterSearchInput}
                         onChange={(value) => {
@@ -56,7 +56,7 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
                             }
                         }}
                         options={filteredFilters.map((filter) => ({ label: filter.name, value: filter.data.key }))}
-                        placeholder={get(dictionary, 'checkBox.searchPlaceholder', 'search...')}
+                        placeholder={get(dictionary, 'checkBox.searchPlaceholder', 'Search...')}
                         value={search}
                     />
                 </div>
@@ -69,7 +69,7 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
                             onClick={() => onChange(filterGroup, filters)}
                             type="text"
                         >
-                            {get(dictionary, 'actions.all', 'select all')}
+                            {get(dictionary, 'actions.all', 'Select All')}
                         </Button>
 
                         <Divider className={styles.separator} type="vertical" />
@@ -78,40 +78,37 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
                             onClick={() => onChange(filterGroup, [])}
                             type="text"
                         >
-                            {get(dictionary, 'actions.none', 'none')}
+                            {get(dictionary, 'actions.none', 'None')}
                         </Button>
                     </StackLayout>
-                    {filteredFilters
-                        .sort((a, b) => b.data.count - a.data.count)
-                        .slice(0, isShowingMore ? Infinity : maxShowing)
-                        .map((filter, i) => (
-                            <StackLayout
-                                className={styles.checkboxFilterItem}
-                                horizontal
-                                key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${selectedFilters.length}-${i}`}
+                    {filteredFilters.slice(0, isShowingMore ? Infinity : maxShowing).map((filter, i) => (
+                        <StackLayout
+                            className={styles.checkboxFilterItem}
+                            horizontal
+                            key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${selectedFilters.length}-${i}`}
+                        >
+                            <Checkbox
+                                checked={selectedFilters.some((f) => f.data.key === filter.data.key)}
+                                className={styles.fuiMcItemCheckbox}
+                                id={`input-${filter.data.key}`}
+                                name={`input-${filter.id}`}
+                                onChange={(e) => {
+                                    const { checked } = e.target;
+                                    let newFilter: IFilter[];
+                                    if (checked) {
+                                        newFilter = [...selectedFilters, filter];
+                                    } else {
+                                        newFilter = selectedFilters.filter((f) => f != filter);
+                                    }
+                                    onChange(filterGroup, newFilter);
+                                }}
+                                type="checkbox"
                             >
-                                <Checkbox
-                                    checked={selectedFilters.some((f) => f.data.key === filter.data.key)}
-                                    className={styles.fuiMcItemCheckbox}
-                                    id={`input-${filter.data.key}`}
-                                    name={`input-${filter.id}`}
-                                    onChange={(e) => {
-                                        const { checked } = e.target;
-                                        let newFilter: IFilter[];
-                                        if (checked) {
-                                            newFilter = [...selectedFilters, filter];
-                                        } else {
-                                            newFilter = selectedFilters.filter((f) => f != filter);
-                                        }
-                                        onChange(filterGroup, newFilter);
-                                    }}
-                                    type="checkbox"
-                                >
-                                    {filter.name}
-                                </Checkbox>
-                                <Tag className={styles.tag}>{filter.data.count.toLocaleString()}</Tag>
-                            </StackLayout>
-                        ))}
+                                {filter.name}
+                            </Checkbox>
+                            <Tag className={styles.tag}>{filter.data.count.toLocaleString()}</Tag>
+                        </StackLayout>
+                    ))}
                     {filteredFilters.length > maxShowing && (
                         <Button
                             className={styles.filtersTypesFooter}
@@ -121,9 +118,13 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
                             type="text"
                         >
                             {isShowingMore
-                                ? get(dictionary, 'actions.less', 'less')
-                                : filteredFilters.length - 5 &&
-                                  `${filteredFilters.length - 5} ${get(dictionary, 'actions.more', 'more')}`}
+                                ? get(dictionary, 'actions.less', 'Less')
+                                : filteredFilters.length - 5 && (
+                                      <>
+                                          <>{`${filteredFilters.length - 5} `}</>
+                                          <>{get(dictionary, 'actions.more', 'More')}</>
+                                      </>
+                                  )}
                         </Button>
                     )}
                 </StackLayout>

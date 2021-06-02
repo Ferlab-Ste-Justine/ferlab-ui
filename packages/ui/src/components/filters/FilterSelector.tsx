@@ -25,15 +25,16 @@ const FilterSelector: React.FC<FilterSelectorProps> = ({
     selectedFilters,
 }) => {
     const commonProps = {
+        dictionary,
         filterGroup,
         onChange,
         selectedFilters,
     };
     switch (filterGroup.type) {
         case VisualType.Toggle:
-            return <ToggleFilter {...commonProps} dictionary={dictionary} filters={filters} />;
+            return <ToggleFilter {...commonProps} filters={filters} />;
         case VisualType.Range:
-            return <RangeFilter {...commonProps} dictionary={dictionary} filters={filters} />;
+            return <RangeFilter {...commonProps} filters={filters} />;
         case VisualType.Checkbox:
         default:
             return (
