@@ -21,9 +21,22 @@
     }
 
     .close {
+        border: none;
         padding: .3rem .2rem .3rem .4rem;
         height: auto;
         display: flex;
         align-items: center;
+
+        &:hover {
+            border: none;
+            background: transparent;
+            color: $query-pill-button-hover-color;
+        }
+        &:focus {
+            border: none;
+            background: transparent;
+            color: $query-pill-button-focus-color;
+        }
+
     }
 }

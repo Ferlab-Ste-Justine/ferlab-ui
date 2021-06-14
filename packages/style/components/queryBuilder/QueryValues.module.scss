@@ -20,6 +20,7 @@
     }
 
     .button {
+        border: none;
         padding: 0;
         height: auto;
         margin-left: .5rem;
@@ -28,5 +29,17 @@
         &.icon {
             align-items: center;
         }
+
+        &:hover {
+            border: none;
+            background: transparent;
+            color: $query-values-button-hover-color;
+        }
+        &:focus {
+            border: none;
+            background: transparent;
+            color: $query-values-button-focus-color;
+        }
+
     }
 }
