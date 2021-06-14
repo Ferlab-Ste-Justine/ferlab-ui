@@ -1,6 +1,9 @@
 @import 'colors';
 
 // QueryBuilder
+$query-default-action-hover-color: #057DB5;
+$query-default-action-focus-color: #26436E;
+
 $query-builder-bg: $white;
 $query-builder-border-color: #D8E1EB;
 $query-builder-padding: 1.6rem 2.4rem;
@@ -15,13 +18,21 @@ $query-bar-padding: .8rem 1.2rem;
 $query-bar-identifier: #BCC9DC;
 $query-bar-identifier-active: #F5B800; 
 
-$query-bar-button-hover-color: #057DB5;
-$query-bar-button-focus-color: #26436E;
+$query-bar-button-hover-color: $query-default-action-hover-color;
+$query-bar-button-focus-color: $query-default-action-focus-color;
 
 $query-pill-bg: #DDE4EE;
 $query-pill-bg-active: #FFC926;
+$query-pill-button-hover-color: $query-default-action-hover-color;
+$query-pill-button-focus-color: $query-default-action-focus-color;
 
 $query-values-bg: $white;
+$query-values-button-hover-color: $query-default-action-hover-color;
+$query-values-button-focus-color: $query-default-action-focus-color;
+
+$query-combiner-button-hover-color: $query-default-action-hover-color;
+$query-combiner-button-focus-color: $query-default-action-focus-color;
+
 
 $query-icon-operator-color: #5A77A0;
 $query-icon-operator-color-hover: #26436E; 

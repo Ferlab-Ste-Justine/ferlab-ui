@@ -7,6 +7,19 @@
         display: flex;
         align-items: center;
         height: auto;
+        border: none;
+
+        &:hover {
+            border: none;
+            background: transparent;
+            color: $query-combiner-button-hover-color;
+        }
+        &:focus {
+            border: none;
+            background: transparent;
+            color: $query-combiner-button-focus-color;
+        }
+
     }
 }
 
