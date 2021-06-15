@@ -26,17 +26,7 @@
         height: auto;
         display: flex;
         align-items: center;
-
-        &:hover {
-            border: none;
-            background: transparent;
-            color: $query-pill-button-hover-color;
-        }
-        &:focus {
-            border: none;
-            background: transparent;
-            color: $query-pill-button-focus-color;
-        }
-
+        
+        @include hoverFocus($query-pill-button-hover-color, $query-pill-button-focus-color);
     }
 }

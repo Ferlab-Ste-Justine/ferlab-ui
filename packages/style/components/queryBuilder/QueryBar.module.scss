@@ -90,16 +90,6 @@
                 margin-right: 1.6rem;
             }
         }
-
-        > *:hover {
-            border: none;
-            background: transparent;
-            color: $query-bar-button-hover-color;
-        }
-        > *:focus {
-            border: none;
-            background: transparent;
-            color: $query-bar-button-focus-color;
-        }
+        @include hoverFocus($query-bar-button-hover-color, $query-bar-button-focus-color, '> *');
     }
 }
