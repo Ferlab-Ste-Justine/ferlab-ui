@@ -1,0 +1,12 @@
+@mixin hoverFocus($hoverColor, $focusColor, $selector: &) {
+    #{$selector}:hover {
+        border: none;
+        background: transparent;
+        color: $hoverColor;
+    }
+    #{$selector}:focus {
+        border: none;
+        background: transparent;
+        color: $focusColor;
+    }
+}

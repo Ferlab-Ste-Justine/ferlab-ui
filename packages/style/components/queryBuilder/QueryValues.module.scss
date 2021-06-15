@@ -29,17 +29,7 @@
         &.icon {
             align-items: center;
         }
-
-        &:hover {
-            border: none;
-            background: transparent;
-            color: $query-values-button-hover-color;
-        }
-        &:focus {
-            border: none;
-            background: transparent;
-            color: $query-values-button-focus-color;
-        }
-
+        
+        @include hoverFocus($query-values-button-hover-color, $query-values-button-focus-color);
     }
 }
