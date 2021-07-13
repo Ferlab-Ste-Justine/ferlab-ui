@@ -12,4 +12,4 @@ Sets of shareable components
 
 Interactive set of components available in ferlab-ui through storybook
 
-https://ferlab-ste-justine.github.io/ferlab-ui/
+On each update on the main branch, a new release of Storybooks if generated with the [updated components on github Pages](https://ferlab-ste-justine.github.io/ferlab-ui/)
