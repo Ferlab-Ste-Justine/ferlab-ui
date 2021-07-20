@@ -1,5 +1,27 @@
 # Storybook for ferlab/ui
 
+## Getting Started
+
+First install dependencies in ../packages/ui
+
+```bash
+cd ../packages/ui/
+npm i
+npm run build
+```
+
+Second install depenecies in storybook
+
+```bash
+npm i
+```
+
+Run Storybook
+
+```bash
+npm run storybook
+```
+
 ## How to create new stories
 
 Stories are stored in the `./stories` folder
