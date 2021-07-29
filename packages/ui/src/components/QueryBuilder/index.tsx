@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineDown, AiOutlineEye, AiOutlineEyeInvisible, AiOutlinePlus } from 'react-icons/ai';
-import { Button, Dropdown, Menu, Modal } from 'antd';
+import { Button, Dropdown, Menu, Modal, Switch } from 'antd';
 import isEmpty from 'lodash/isEmpty';
 import { v4 } from 'uuid';
 
@@ -227,24 +227,16 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                     </Dropdown>
                 )}
                 {enableShowHideLabels && (
-                    <Button
-                        className={styles.buttons}
-                        disabled={noData}
-                        onClick={() => setShowLabels(!showLabels)}
-                        size="small"
-                    >
-                        {showLabels ? (
-                            <>
-                                <AiOutlineEyeInvisible />
-                                {dictionary.actions?.hideLabels || 'Hide labels'}
-                            </>
-                        ) : (
-                            <>
-                                <AiOutlineEye />
-                                {dictionary.actions?.showLabels || 'Show labels'}
-                            </>
-                        )}
-                    </Button>
+                    <span className={`${styles.switch} ${styles.withLabel}`}>
+                        <Switch
+                            checked={showLabels}
+                            size="small"
+                            onChange={(checked) => {
+                                setShowLabels(checked);
+                            }}
+                        />
+                        <span className={styles.label}>Labels</span>
+                    </span>
                 )}
                 {!noData && (
                     <Button
