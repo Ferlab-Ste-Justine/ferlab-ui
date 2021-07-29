@@ -28,7 +28,7 @@ const Combiner: React.FC<ICombinerProps> = ({ onChange, type, dictionary = {} })
         <StackLayout className={styles.container}>
             <Tooltip title={'Change operator to ' + (isAndOperator() ? 'Or' : 'And')} align={{ offset: [0, 5] }}>
                 <Button className={styles.button} type="text" onClick={() => toggleOperator()}>
-                    {isAndOperator() ? <AndOperator /> : <OrOperator />}
+                    {isAndOperator() ? <AndOperator className={styles.operator} /> : <OrOperator className={styles.operator}/>}
                 </Button>
             </Tooltip>
         </StackLayout>

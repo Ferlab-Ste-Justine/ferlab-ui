@@ -6,6 +6,6 @@ interface IAndOperatorProps {
     className?: string;
 }
 const AndOperator: React.FC<IAndOperatorProps> = ({ className = '' }) => (
-    <span className={styles.text}>and</span>
+    <span className={`${styles.text} ${className}`}>and</span>
 );
 export default AndOperator;

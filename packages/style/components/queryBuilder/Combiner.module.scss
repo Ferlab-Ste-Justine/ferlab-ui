@@ -9,6 +9,12 @@
         height: auto;
         border: none;
 
-        @include hoverFocus($query-combiner-button-hover-color, $query-combiner-button-focus-color);
+        .operator {
+            text-decoration: underline;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
     }
 }

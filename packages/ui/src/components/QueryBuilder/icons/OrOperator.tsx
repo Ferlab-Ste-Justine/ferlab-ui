@@ -6,6 +6,6 @@ interface IOrOperatorProps {
     className?: string;
 }
 const OrOperator: React.FC<IOrOperatorProps> = ({ className = '' }) => (
-    <span className={styles.text}>or</span>
+    <span className={`${styles.text} ${className}`}>or</span>
 );
 export default OrOperator;
