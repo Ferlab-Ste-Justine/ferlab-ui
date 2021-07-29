@@ -77,7 +77,7 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                             onSelectBar(id, checked);
                         }}
                     >
-                        {String(number).padStart(2, '0')}
+                        {String(number).padStart(2, 'Q')}
                     </Checkbox>
                 </StackLayout>
             )}

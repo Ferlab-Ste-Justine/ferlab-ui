@@ -114,6 +114,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     useEffect(() => {
         onUpdate(getUpdatedState(queries, activeQuery));
     }, [queries, activeQuery]);
+
     return (
         <StackLayout className={`${styles.container} ${className}`} vertical>
             <StackLayout className={styles.queryBars} vertical>
