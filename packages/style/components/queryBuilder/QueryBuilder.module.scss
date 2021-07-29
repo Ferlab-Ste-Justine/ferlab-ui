@@ -15,6 +15,18 @@
     }
 
     .actions {
+        align-items: center;
+
+        .switch {
+            &.withLabel {
+                display: flex;
+                align-items: center;
+
+                .label {
+                    margin-left: 0.5em;
+                }
+            }
+        }
 
         .buttons {
             display: flex;
