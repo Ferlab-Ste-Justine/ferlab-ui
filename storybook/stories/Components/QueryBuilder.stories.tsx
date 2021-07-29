@@ -154,3 +154,36 @@ QueryBuilderMultiQuery.args = {
         active: '2'
     }
 };
+
+/* multi query with combine */
+export const QueryBuilderMultiQueryWithCombine = QueryBuilderStory.bind({});
+QueryBuilderMultiQueryWithCombine.args = {
+    title: 'QueryBuilder Multi Query With Combine',
+    enableCombine: true,
+    onRemoveFacet: (f) => f,
+    onChangeQuery: (f) => f,
+    initialState: {
+        state: [{
+            query: {op: 'and', content: [{
+                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test'}, op: 'in'
+            },{
+                content: {value: ['something', 'else', 'more', 'perfect'], field: 'More Data'}, op: 'in'
+            },{
+                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 2'}, op: 'in'
+            },{
+                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 3'}, op: 'in'
+            },{
+                content: {value: [10,15], field: 'age'},  op: 'between'
+            }]},
+            total: 1500,
+            id: '1',  
+        },{
+            query: {op: 'and', content: [{
+                content: {value: ['cram'], field: 'Data Type'}, op: 'in'
+            }]},
+            total: 1500,
+            id: '2',  
+        }],
+        active: '2'
+    }
+};
