@@ -208,8 +208,9 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                     </Button>
                 )}
                 {enableCombine && (
-                    <Dropdown
+                    <Dropdown.Button
                         disabled={!canCombine}
+                        size="small"
                         overlay={
                             <Menu>
                                 <Menu.Item>
@@ -222,10 +223,8 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                         }
                         trigger={['click']}
                     >
-                        <Button className={styles.buttons} size="small">
-                            {dictionary.actions?.combine || 'Combine'} <AiOutlineDown />
-                        </Button>
-                    </Dropdown>
+                        {dictionary.actions?.combine || 'Combine'}
+                    </Dropdown.Button>
                 )}
                 {enableShowHideLabels && (
                     <Button
