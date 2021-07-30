@@ -51,11 +51,13 @@ const QueryPill: React.FC<IQueryBarProps> = ({
     return (
         <StackLayout className={containerClassNames}>
             {showLabels && (
-                <span className={`${styles.field} ${styles.textSpace}`}>
-                    {dictionary.query?.facet(query.content.field) || query.content.field}
-                </span>
+                <>
+                    <span className={`${styles.field}`}>
+                        {dictionary.query?.facet(query.content.field) || query.content.field}
+                    </span>
+                    <Operator className={styles.operator} type={query.op} />
+                </>
             )}
-            <Operator className={styles.textSpace} type={query.op} />
             <QueryValues isElement={query.op === 'between'} query={query} />
             <Button className={styles.close} type="text">
                 <AiOutlineClose onClick={() => onRemove(query)} />

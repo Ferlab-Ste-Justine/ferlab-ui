@@ -1,6 +1,6 @@
 # @ferlab-ui React core components
 
-### Install
+## Install
 
     npm i @ferlab/ui
 
@@ -11,9 +11,18 @@ Styles are installed separetly
 [@ferlab/style](github/)
 
 
+## Development
 ### Storybook
 
-In order to see and test all available components, you can run 
+In order to see and test all available components
+
+First you need to build the components
+
+> npm run build
+
+or run in development mode 
+
+> npm start
 
 ```bash
 cd ferlab-ui/storybook

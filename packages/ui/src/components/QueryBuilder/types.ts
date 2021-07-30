@@ -1,10 +1,12 @@
+import React from "react";
+
 interface IActions {
     addQuery?: string | React.ReactNode;
     combine?: string | React.ReactNode;
-    showLabels?: string | React.ReactNode;
-    hideLabels?: string | React.ReactNode;
+    labels?: string | React.ReactNode;
     delete?: IDeleteTranslation;
     clear?: IClearTranslation;
+    changeOperatorTo: string | React.ReactNode;
 }
 
 interface IClearTranslation {
@@ -30,6 +32,8 @@ interface IQuery {
 interface ICombineTranslation {
     intersection: string | React.ReactNode;
     union: string | React.ReactNode;
+    and: string | React.ReactNode;
+    or: string | React.ReactNode;
 }
 
 export enum CombinerEnum {

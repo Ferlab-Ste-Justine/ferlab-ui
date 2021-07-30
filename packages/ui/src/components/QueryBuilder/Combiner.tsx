@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Dropdown, Menu } from 'antd';
+import { Button, Tooltip } from 'antd';
 
 import StackLayout from '../../layout/StackLayout';
 
@@ -15,27 +15,35 @@ interface ICombinerProps {
     onChange: (type: TSqonGroupOp) => void;
 }
 
-const Combiner: React.FC<ICombinerProps> = ({ onChange, type, dictionary = {} }) => (
-    <StackLayout className={styles.container}>
-        <Dropdown
-            overlay={
-                <Menu>
-                    <Menu.Item className={styles.menuItem} onClick={() => onChange(CombinerEnum.And)}>
-                        <AndOperator className={styles.itemIcon} />{' '}
-                        {dictionary.query?.combine?.intersection || 'Intersection'}
-                    </Menu.Item>
-                    <Menu.Item className={styles.menuItem} onClick={() => onChange(CombinerEnum.Or)}>
-                        <OrOperator className={styles.itemIcon} /> {dictionary.query?.combine?.union || 'Union'}
-                    </Menu.Item>
-                </Menu>
-            }
-            trigger={['click']}
-        >
-            <Button className={styles.button} type="text">
-                {type === 'and' ? <AndOperator /> : <OrOperator />}
-            </Button>
-        </Dropdown>
-    </StackLayout>
-);
+const Combiner: React.FC<ICombinerProps> = ({ onChange, type, dictionary = {} }) => {
+    const isAndOperator = () => {
+        return type === 'and';
+    };
+
+    const toggleOperator = () => {
+        onChange(isAndOperator() ? CombinerEnum.Or : CombinerEnum.And);
+    };
+
+    const getTooltipTitle = () => {
+        return `
+            ${dictionary.actions?.changeOperatorTo || 'Change operator to'}
+            ${isAndOperator() ? dictionary.query?.combine?.or || 'Or' : dictionary.query?.combine?.and || 'And'}
+        `;
+    };
+
+    return (
+        <StackLayout className={styles.container}>
+            <Tooltip title={getTooltipTitle()} align={{ offset: [0, 5] }}>
+                <Button className={styles.button} type="text" onClick={() => toggleOperator()}>
+                    {isAndOperator() ? (
+                        <AndOperator className={styles.operator} />
+                    ) : (
+                        <OrOperator className={styles.operator} />
+                    )}
+                </Button>
+            </Tooltip>
+        </StackLayout>
+    );
+};
 
 export default Combiner;
