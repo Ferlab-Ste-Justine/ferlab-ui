@@ -235,7 +235,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                                 setShowLabels(checked);
                             }}
                         />
-                        <span className={styles.label}>Labels</span>
+                        <span className={styles.label}>{dictionary.actions?.labels || 'Labels'}</span>
                     </span>
                 )}
                 {!noData && (
