@@ -19,8 +19,10 @@ npm i
 Run Storybook
 
 ```bash
-npm run storybook
+npm start
 ```
+
+Then go to http://localhost:6006
 
 ## How to create new stories
 
