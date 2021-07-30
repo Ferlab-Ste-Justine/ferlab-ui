@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AiOutlineDown, AiOutlineEye, AiOutlineEyeInvisible, AiOutlinePlus } from 'react-icons/ai';
+import { AiOutlinePlus } from 'react-icons/ai';
 import { Button, Dropdown, Menu, Modal, Switch } from 'antd';
 import isEmpty from 'lodash/isEmpty';
 import { v4 } from 'uuid';
@@ -9,7 +9,7 @@ import StackLayout from '../../layout/StackLayout';
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
 import QueryBar from './QueryBar';
-import { IDictionary, ISqonGroupFilter, TCallbackRemoveAction, TOnChange } from './types';
+import { IDictionary, ISqonGroupFilter, TCallbackRemoveAction, TOnChange, TSqonGroupOp } from './types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
 
@@ -65,12 +65,13 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     const [activeQuery, setActiveQuery] = useState(initialState?.active || v4());
     const [showLabels, setShowLabels] = useState(initialShowLabelState);
     const [queries, setQueries] = useState<IQueriesState[]>(initialState?.state || []);
-    const [combination, setCombination] = useState<string[]>([]);
+    const [selectedQueryIds, setSelectedQueryIds] = useState<string[]>([]);
+    const [selectedCombineOperator, setSelectedCombineOperator] = useState<TSqonGroupOp>('and');
 
     const emptyQueries = queries.filter((obj) => isEmpty(obj.query));
     const noData = queries.length === emptyQueries.length;
     const hasEmptyQuery = emptyQueries.length >= 1;
-    const canCombine = queries.filter((obj) => !isEmpty(obj.query)).length >= 2 && combination.length >= 2;
+    const canCombine = queries.filter((obj) => !isEmpty(obj.query)).length >= 2 && selectedQueryIds.length >= 2;
 
     useEffect(() => {
         if (queries.length > 0) {
@@ -157,8 +158,8 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                                     : currentQueryIndex + 1;
                             const nextQuery = queries[nextSelectedIndex];
                             const nextID = nextQuery.id;
-                            if (combination.includes(id)) {
-                                setCombination(combination.filter((cId) => cId !== id));
+                            if (selectedQueryIds.includes(id)) {
+                                setSelectedQueryIds(selectedQueryIds.filter((cId) => cId !== id));
                             }
                             setQueries(queries.filter((obj) => obj.id !== id));
                             setActiveQuery(nextID);
@@ -175,14 +176,14 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                         onRemoveFacet={onRemoveFacet}
                         onSelectBar={(id, toRemove) => {
                             if (toRemove) {
-                                setCombination(combination.filter((cId) => cId !== id));
+                                setSelectedQueryIds(selectedQueryIds.filter((cId) => cId !== id));
                                 return;
                             }
 
-                            setCombination([...combination, id]);
+                            setSelectedQueryIds([...selectedQueryIds, id]);
                         }}
                         query={obj.query}
-                        selected={combination.includes(obj.id)}
+                        selected={selectedQueryIds.includes(obj.id)}
                         selectionDisabled={queries.length === 1 || !enableCombine}
                         showLabels={showLabels}
                         total={obj.total}
@@ -199,7 +200,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
 
                             setActiveQuery(id);
                             setQueries([...queries, { id, query: {}, total: 0 }]);
-                            onChangeQuery(id, {});
                         }}
                         size="small"
                     >
@@ -213,15 +213,26 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                         size="small"
                         overlay={
                             <Menu>
-                                <Menu.Item>
+                                <Menu.Item onClick={() => setSelectedCombineOperator('and')}>
                                     <AndOperator />
                                 </Menu.Item>
-                                <Menu.Item>
+                                <Menu.Item onClick={() => setSelectedCombineOperator('or')}>
                                     <OrOperator />
                                 </Menu.Item>
                             </Menu>
                         }
                         trigger={['click']}
+                        onClick={() => {
+                            console.log(selectedQueryIds[0]);
+                            console.log(queries);
+
+                            const id = v4();
+
+                            setActiveQuery(id);
+                            setSelectedQueryIds([]);
+                            setQueries([...queries, { id, query: {}, total: 0 }]);
+                            onChangeQuery(id, {});
+                        }}
                     >
                         {dictionary.actions?.combine || 'Combine'}
                     </Dropdown.Button>
@@ -249,7 +260,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                                     'You are about to delete all your queries. They will be lost forever.',
                                 okText: dictionary.actions?.clear?.confirm || 'Delete',
                                 onOk: () => {
-                                    setCombination([]);
+                                    setSelectedQueryIds([]);
                                     setQueries([{ id: activeQuery, query: {}, total: 0 }]);
                                     onChangeQuery(activeQuery, {});
                                 },
