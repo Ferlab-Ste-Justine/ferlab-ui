@@ -1,8 +1,7 @@
 interface IActions {
     addQuery?: string | React.ReactNode;
     combine?: string | React.ReactNode;
-    showLabels?: string | React.ReactNode;
-    hideLabels?: string | React.ReactNode;
+    labels?: string | React.ReactNode;
     delete?: IDeleteTranslation;
     clear?: IClearTranslation;
 }
