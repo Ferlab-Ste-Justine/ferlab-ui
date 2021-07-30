@@ -24,11 +24,22 @@ const Combiner: React.FC<ICombinerProps> = ({ onChange, type, dictionary = {} })
         onChange(isAndOperator() ? CombinerEnum.Or : CombinerEnum.And);
     };
 
+    const getTooltipTitle = () => {
+        return `
+            ${dictionary.actions?.changeOperatorTo || 'Change operator to'}
+            ${isAndOperator() ? dictionary.query?.combine?.or || 'Or' : dictionary.query?.combine?.and || 'And'}
+        `;
+    };
+
     return (
         <StackLayout className={styles.container}>
-            <Tooltip title={'Change operator to ' + (isAndOperator() ? 'Or' : 'And')} align={{ offset: [0, 5] }}>
+            <Tooltip title={getTooltipTitle()} align={{ offset: [0, 5] }}>
                 <Button className={styles.button} type="text" onClick={() => toggleOperator()}>
-                    {isAndOperator() ? <AndOperator className={styles.operator} /> : <OrOperator className={styles.operator}/>}
+                    {isAndOperator() ? (
+                        <AndOperator className={styles.operator} />
+                    ) : (
+                        <OrOperator className={styles.operator} />
+                    )}
                 </Button>
             </Tooltip>
         </StackLayout>
