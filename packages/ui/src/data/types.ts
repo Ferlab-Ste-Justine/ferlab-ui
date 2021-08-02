@@ -18,13 +18,13 @@ export interface IValueFilter {
     op: TValueOp;
 }
 
-export type TSqonOp = typeof AND_OP | typeof OR_OP;
-export type TSqon = {
-    op: TSqonOp;
-    content: Array<IValueFilter | TSqon>;
+export type TSqonGroupOp = typeof AND_OP | typeof OR_OP;
+export interface ISqonGroupFilter {
+    op: TSqonGroupOp;
+    content: Array<ISqonGroupFilter | IValueFilter>;
 };
 
-export type TSyntheticSqon = {
-    op: TSqonOp;
-    content: Array<TSyntheticSqon | number | IValueFilter>
+export interface ISyntheticSqon {
+    op: TSqonGroupOp;
+    content: Array<ISyntheticSqon | number | IValueFilter>
 };
