@@ -223,9 +223,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                         }
                         trigger={['click']}
                         onClick={() => {
-                            console.log(selectedQueryIds[0]);
-                            console.log(queries);
-
                             const id = v4();
 
                             setActiveQuery(id);
