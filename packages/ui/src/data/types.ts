@@ -1,3 +1,4 @@
+import { TSqonGroupContent } from '../components/QueryBuilder/types';
 import { IN_OP, GTE_OP, LTE_OP, NOT_IN_OP, ALL_OP, BETWEEN_OP, AND_OP, OR_OP } from './operators';
 
 export type TFilterValue = Array<string | number | boolean>;
@@ -18,15 +19,13 @@ export interface IValueFilter {
     op: TValueOp;
 }
 
-export type TSqonFilterContent = IValueFilter[];
-
 export type TSqonOp = typeof AND_OP | typeof OR_OP;
 export type TSqon = {
     op: TSqonOp;
-    content: TSqon[] | TSqonFilterContent[];
+    content: Array<IValueFilter | TSqon>;
 };
 
 export type TSyntheticSqon = {
     op: TSqonOp;
-    content: TSyntheticSqon[] | number[] | TSqonFilterContent[];
+    content: Array<TSyntheticSqon | number | IValueFilter>
 };
