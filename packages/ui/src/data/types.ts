@@ -29,4 +29,4 @@ export type TSqon = {
 export type TSyntheticSqon = {
     op: TSqonOp;
     content: TSyntheticSqon[] | number[] | TSqonFilterContent[];
-}
+};

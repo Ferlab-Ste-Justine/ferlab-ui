@@ -13,15 +13,15 @@ export const isNotReference = (sqon: any) => {
     return isNaN(sqon);
 };
 
-export const isValueObj = (sqon: TSyntheticSqon) => {
+export const isValueObject = (sqon: TSyntheticSqon) => {
     return typeof sqon === 'object' && !isEmptySqon(sqon) && 'value' in sqon && 'field' in sqon;
 };
 
-export const isBooleanOp = (sqon: TSyntheticSqon) => {
+export const isBooleanOperator = (sqon: TSyntheticSqon) => {
     return typeof sqon === 'object' && !isEmptySqon(sqon) && BOOLEAN_OPS.includes(sqon.op);
 };
 
-export const isFieldOp = (sqon: TSyntheticSqon) => {
+export const isFieldOperator = (sqon: TSyntheticSqon) => {
     return typeof sqon === 'object' && !isEmptySqon(sqon) && FIELD_OPS.includes(sqon.op);
 };
 
@@ -34,7 +34,7 @@ export const resolveSyntheticSqon = (sqonsList: TSyntheticSqon[]) => (syntheticS
 
     if (isEmptySqon(syntheticSqon)) {
         return syntheticSqon;
-    } else if (isBooleanOp(syntheticSqon)) {
+    } else if (isBooleanOperator(syntheticSqon)) {
         return {
             ...syntheticSqon,
             content: getNewContent(syntheticSqon),
@@ -73,7 +73,7 @@ export const isIndexReferencedInSqon = (syntheticSqon: TSyntheticSqon) => (index
         );
     };
 
-    if (isBooleanOp(syntheticSqon)) {
+    if (isBooleanOperator(syntheticSqon)) {
         return reduceContent(syntheticSqon.content);
     } else {
         return typeof syntheticSqon === 'number' && syntheticSqon === indexReference;
