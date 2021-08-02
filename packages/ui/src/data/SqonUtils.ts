@@ -36,8 +36,8 @@ export const combineSyntheticSqons = (
     combineOperator: TSqonGroupOp = 'and',
 ) => {
     let total = 0;
-    sqonsList.map((sqon: ISyntheticSqon) => {
-        total += sqon.total!
+    sqonsList.map((sqon: ISyntheticSqon) => {
+        total += sqon.total!;
     });
 
     return {

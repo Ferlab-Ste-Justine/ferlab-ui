@@ -13,7 +13,7 @@ import { IDictionary, TCallbackRemoveAction, TOnChange } from './types';
 import { ISyntheticSqon, IValueFilter, TSqonGroupOp } from '../../data/types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBar.module.scss';
-import { isReference } from '../../data/SqonUtils';
+import { isEmptySqon, isReference } from '../../data/SqonUtils';
 
 interface IQueryBarProps {
     id: string;
@@ -91,7 +91,7 @@ const QueryBar: React.FC<IQueryBarProps> = ({
             )}
             <StackLayout className={styles.queryContent} flexContent>
                 <div className={styles.identifier} style={isReferenced ? { background: referenceColor! } : {}} />
-                {isEmpty(query) ? (
+                {isEmptySqon(query) ? (
                     <StackLayout>{dictionary.query?.noQuery || 'Use the filters to build a query'}</StackLayout>
                 ) : (
                     <StackLayout className={styles.queryValues} fitContent flexContent>

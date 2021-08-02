@@ -202,12 +202,12 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                             const nextQuery = queries[nextSelectedIndex];
                             const nextID = nextQuery.id;
                             if (selectedSqonIndices.includes(currentQueryIndex)) {
-                                removeSqonAtIndex(currentQueryIndex, queries);
                                 setSelectedSqonIndices(
                                     selectedSqonIndices.filter((index: number) => index !== currentQueryIndex),
                                 );
                             }
-                            setQueries(queries.filter((obj) => obj.id !== id));
+
+                            setQueries(removeSqonAtIndex(currentQueryIndex, queries));
                             setActiveQuery(nextID!);
                             onChangeQuery(nextID!, nextQuery);
                         }}
