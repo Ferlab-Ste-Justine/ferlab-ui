@@ -1,4 +1,3 @@
-import { TSqonGroupContent } from '../components/QueryBuilder/types';
 import { IN_OP, GTE_OP, LTE_OP, NOT_IN_OP, ALL_OP, BETWEEN_OP, AND_OP, OR_OP } from './operators';
 
 export type TFilterValue = Array<string | number | boolean>;
