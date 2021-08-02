@@ -10,7 +10,8 @@ import EqualOperator from './icons/EqualOperator';
 import GreaterThanOrEqualOperator from './icons/GreaterThanOrEqualOperator';
 import LessThanOrEqualOperator from './icons/LessThanOrEqualOperator';
 import QueryValues from './QueryValues';
-import { IDictionary, IValueFilter, TCallbackRemoveAction } from './types';
+import { IDictionary, TCallbackRemoveAction } from './types';
+import { IValueFilter } from '../../data/types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
 

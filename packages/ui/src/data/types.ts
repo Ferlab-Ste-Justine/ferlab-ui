@@ -26,5 +26,7 @@ export interface ISqonGroupFilter {
 
 export interface ISyntheticSqon {
     op: TSqonGroupOp;
-    content: Array<ISyntheticSqon | number | IValueFilter>
+    content: Array<ISyntheticSqon | IValueFilter | number>;
+    id?: string;
+    total?: number;
 };

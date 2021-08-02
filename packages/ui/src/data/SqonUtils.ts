@@ -1,8 +1,13 @@
-import { ISyntheticSqon } from './types';
+import { v4 } from 'uuid';
+import { ISyntheticSqon, TSqonGroupOp } from './types';
 import { BOOLEAN_OPS, FIELD_OPS } from './operators';
 
-export const isEmptySqon = (sqon: ISyntheticSqon) => {
+export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
     return sqon ? BOOLEAN_OPS.includes(sqon?.op) && !Boolean(sqon.content.length) : true;
+};
+
+export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
+    return !isEmptySqon(sqon);
 };
 
 export const isReference = (sqon: any) => {
@@ -25,6 +30,24 @@ export const isFieldOperator = (sqon: ISyntheticSqon) => {
     return typeof sqon === 'object' && !isEmptySqon(sqon) && FIELD_OPS.includes(sqon.op);
 };
 
+export const combineSyntheticSqons = (
+    sqonIndexList: number[],
+    sqonsList: ISyntheticSqon[],
+    combineOperator: TSqonGroupOp = 'and',
+) => {
+    let total = 0;
+    sqonsList.map((sqon: ISyntheticSqon) => {
+        total += sqon.total!
+    });
+
+    return {
+        id: v4(),
+        op: combineOperator,
+        content: sqonIndexList.sort(),
+        total: total,
+    };
+};
+
 export const resolveSyntheticSqon = (sqonsList: ISyntheticSqon[]) => (syntheticSqon: ISyntheticSqon) => {
     const getNewContent = (syntheticSqon: any) => {
         return syntheticSqon.content
@@ -36,7 +59,7 @@ export const resolveSyntheticSqon = (sqonsList: ISyntheticSqon[]) => (syntheticS
         return syntheticSqon;
     } else if (isBooleanOperator(syntheticSqon)) {
         return {
-            ...syntheticSqon,
+            op: syntheticSqon.op,
             content: getNewContent(syntheticSqon),
         };
     } else {

@@ -57,9 +57,9 @@ QueryBuilderEmptyWithShowLabelsButton.args = {
     onChangeQuery: (f) => f,
     initialState: {
         state: [{
-            query: {op: 'and', content: [{
+            op: 'and', content: [{
                 content: {value: ['something'], field: 'test', op: 'in'}
-            }]},
+            }],
             total: 1500,
             id: '1',  
         }],
@@ -75,9 +75,9 @@ QueryBuilderOneQuery.args = {
     onChangeQuery: (f) => f,
     initialState: {
         state: [{
-            query: {op: 'and', content: [{
+            op: 'and', content: [{
                 content: {value: ['something'], field: 'test', op: 'in'}
-            }]},
+            }],
             total: 1500,
             id: '1',  
         }],
@@ -94,9 +94,9 @@ QueryBuilderOneQuerySingleQuery.args = {
     onChangeQuery: (f) => f,
     initialState: {
         state: [{
-            query: {op: 'and', content: [{
+            op: 'and', content: [{
                 content: {value: ['something'], field: 'test', op: 'in'}
-            }]},
+            }],
             total: 1500,
             id: '1',  
         }],
@@ -112,9 +112,9 @@ QueryBuilderOneWihtIconQuery.args = {
     onChangeQuery: (f) => f,
     initialState: {
         state: [{
-            query: {op: 'and', content: [{
+            op: 'and', content: [{
                 content: {value: ['something'], field: 'test', op: 'in'}
-            }]},
+            }],
             total: 1500,
             id: '1',  
         }],
@@ -131,7 +131,8 @@ QueryBuilderMultiQuery.args = {
     onChangeQuery: (f) => f,
     initialState: {
         state: [{
-            query: {op: 'and', content: [{
+            op: 'and', 
+            content: [{
                 content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test'}, op: 'in'
             },{
                 content: {value: ['something', 'else', 'more', 'perfect'], field: 'More Data'}, op: 'in'
@@ -141,7 +142,7 @@ QueryBuilderMultiQuery.args = {
                 content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 3'}, op: 'in'
             },{
                 content: {value: [10,15], field: 'age'},  op: 'between'
-            }]},
+            }],
             total: 1500,
             id: '1',  
         },{
@@ -164,7 +165,7 @@ QueryBuilderMultiQueryWithCombine.args = {
     onChangeQuery: (f) => f,
     initialState: {
         state: [{
-            query: {op: 'and', content: [{
+            op: 'and', content: [{
                 content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test'}, op: 'in'
             },{
                 content: {value: ['something', 'else', 'more', 'perfect'], field: 'More Data'}, op: 'in'
@@ -174,13 +175,13 @@ QueryBuilderMultiQueryWithCombine.args = {
                 content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 3'}, op: 'in'
             },{
                 content: {value: [10,15], field: 'age'},  op: 'between'
-            }]},
+            }],
             total: 1500,
             id: '1',  
         },{
-            query: {op: 'and', content: [{
+            op: 'and', content: [{
                 content: {value: ['cram'], field: 'Data Type'}, op: 'in'
-            }]},
+            }],
             total: 1500,
             id: '2',  
         }],
