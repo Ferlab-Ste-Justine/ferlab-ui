@@ -205,6 +205,8 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                         dictionary={dictionary}
                         getColorForReference={getColorForReference}
                         onChangeQuery={(id, query) => {
+                            console.log("allo" + id)
+                            console.log(queries)
                             setSelectedQueryId(id);
                             onChangeQuery(id, query);
                         }}

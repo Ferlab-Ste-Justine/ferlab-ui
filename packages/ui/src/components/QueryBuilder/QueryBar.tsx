@@ -100,6 +100,7 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                                 query={query}
                                 isActive={isActive}
                                 dictionary={dictionary}
+                                showLabels={showLabels}
                                 onRemoveFacet={onRemoveFacet}
                                 onRemoveReference={onRemoveReference}
                                 onCombineChange={onCombineChange}
@@ -129,7 +130,8 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                         cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
                         disabled={!canDelete}
                         okText={dictionary.actions?.delete?.confirm || 'Delete'}
-                        onConfirm={() => {
+                        onConfirm={(e) => {
+                            e!.stopPropagation();
                             onDeleteQuery(id, query);
                         }}
                         placement="topRight"
