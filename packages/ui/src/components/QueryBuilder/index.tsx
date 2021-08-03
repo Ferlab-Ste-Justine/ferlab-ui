@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { v4 } from 'uuid';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { Button, Dropdown, Menu, Modal, Switch } from 'antd';
 import isEmpty from 'lodash/isEmpty';
-import { v4 } from 'uuid';
-
 import StackLayout from '../../layout/StackLayout';
-
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
 import QueryBar from './QueryBar';
-import { IDictionary, TCallbackRemoveAction, TOnChange } from './types';
-
-import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
+import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange, ArrayTenOrMore } from './types';
 import { ISyntheticSqon, TSqonGroupOp } from '../../data/types';
 import {
     combineSyntheticSqons,
     isEmptySqon,
     isIndexReferencedInSqon,
     isNotEmptySqon,
+    removeContentFromSqon,
     removeSqonAtIndex,
 } from '../../data/SqonUtils';
+
+import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
 
 export interface IQueryBuilderProps {
     className?: string;
@@ -28,6 +27,7 @@ export interface IQueryBuilderProps {
     IconTotal?: React.ReactNode;
     currentQuery?: ISyntheticSqon | Record<string, never>;
     onRemoveFacet: TCallbackRemoveAction;
+    onRemoveReference: TCallbackRemoveReferenceAction;
     onChangeQuery: TOnChange;
     onUpdate?: (state: IInitialQueryState) => void;
     loading?: boolean;
@@ -36,7 +36,7 @@ export interface IQueryBuilderProps {
     enableShowHideLabels?: boolean;
     initialShowLabelState?: boolean;
     initialState?: IInitialQueryState;
-    referenceColors?: Array<string>;
+    referenceColors?: ArrayTenOrMore<string>;
 }
 
 interface IInitialQueryState {
@@ -73,7 +73,12 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         '#b92be4',
         '#bf332e',
         '#0cd336',
+        '#971c59',
         '#e34c8b',
+        '#333399',
+        '#660033',
+        '#660066',
+        '#336600',
     ],
 }) => {
     const [activeQuery, setActiveQuery] = useState(initialState?.active || v4());
@@ -89,7 +94,44 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     const currentActiveSqonIndex = queries.findIndex((sqon) => sqon.id === activeQuery);
     const selectedSyntheticSqon = queries[currentActiveSqonIndex];
     const getColorForReference = (refIndex: number) => referenceColors[refIndex % referenceColors.length];
-    const isSqonReferenced = (sqonIndex: number) => isIndexReferencedInSqon(selectedSyntheticSqon)(sqonIndex);
+    const isSqonReferenced = (sqonIndex: number) => isIndexReferencedInSqon(sqonIndex, selectedSyntheticSqon);
+
+    const updateQueryById = (id: string, newQuery: ISyntheticSqon) => {
+        const updatedQueries = [...queries];
+        const currentQueryIndex = queries.findIndex((obj) => obj.id === id);
+        if (isEmpty(newQuery.content)) {
+            setQueries(updatedQueries.filter((q: ISyntheticSqon) => q.id != id));
+            deleteQueryAndSetNext(id);
+        } else {
+            updatedQueries[currentQueryIndex] = {
+                ...newQuery,
+                op: newQuery.op,
+                content: newQuery.content,
+            };
+            setQueries(updatedQueries);
+        }
+    };
+
+    const findNextSelectedQuery = (currentQueryIndex: number) => {
+        return currentQueryIndex + 1 > queries.length - 1
+            ? currentQueryIndex - 1 < queries.length
+                ? currentQueryIndex - 1
+                : queries.length - 1
+            : currentQueryIndex + 1;
+    };
+
+    const deleteQueryAndSetNext = (id: string) => {
+        const currentQueryIndex = queries.findIndex((obj) => obj.id === id);
+        const nextSelectedIndex = findNextSelectedQuery(currentQueryIndex);
+        const nextQuery = queries[nextSelectedIndex];
+        const nextID = nextQuery.id;
+        if (selectedSqonIndices.includes(currentQueryIndex)) {
+            setSelectedSqonIndices(selectedSqonIndices.filter((index: number) => index !== currentQueryIndex));
+        }
+        setQueries(removeSqonAtIndex(currentQueryIndex, queries));
+        setActiveQuery(nextID!);
+        onChangeQuery(nextID!, nextQuery);
+    };
 
     useEffect(() => {
         if (queries.length > 0) {
@@ -112,7 +154,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     }, []);
 
     useEffect(() => {
-        if ((isEmpty(currentQuery) && total === 0) || loading) return;
+        if ((isEmptySqon(currentQuery) && total === 0) || loading) return;
         if (queries.length === 0) {
             setQueries([
                 {
@@ -127,7 +169,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                 if (obj.id === activeQuery) {
                     return { ...obj, total, ...currentQuery };
                 }
-
                 return { ...obj };
             });
 
@@ -186,37 +227,22 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                                 return;
                             }
 
-                            const currentQueryIndex = queries.findIndex((obj) => obj.id === id);
-                            const nextSelectedIndex =
-                                currentQueryIndex + 1 > queries.length - 1
-                                    ? currentQueryIndex - 1 < queries.length
-                                        ? currentQueryIndex - 1
-                                        : queries.length - 1
-                                    : currentQueryIndex + 1;
-                            const nextQuery = queries[nextSelectedIndex];
-                            const nextID = nextQuery.id;
-                            if (selectedSqonIndices.includes(currentQueryIndex)) {
-                                setSelectedSqonIndices(
-                                    selectedSqonIndices.filter((index: number) => index !== currentQueryIndex),
-                                );
-                            }
-
-                            setQueries(removeSqonAtIndex(currentQueryIndex, queries));
-                            setActiveQuery(nextID!);
-                            onChangeQuery(nextID!, nextQuery);
+                            deleteQueryAndSetNext(id);
                         }}
-                        onDuplicate={(id, query) => {
+                        onDuplicate={(_, query) => {
                             const newId = v4();
-                            const oldQuery = queries.filter((obj) => obj.id === id)[0];
 
                             setActiveQuery(newId);
                             setQueries([
                                 ...queries,
-                                { id: newId, total: oldQuery.total, op: query.op, content: query.content },
+                                { id: newId, total: query.total, op: query.op, content: query.content },
                             ]);
                             onChangeQuery(newId, query);
                         }}
                         onRemoveFacet={onRemoveFacet}
+                        onRemoveReference={(refIndex, query) => {
+                            updateQueryById(query.id!, removeContentFromSqon(refIndex, query));
+                        }}
                         onSelectBar={(id, toRemove) => {
                             if (toRemove) {
                                 setSelectedSqonIndices(selectedSqonIndices.filter((index: number) => index !== id));

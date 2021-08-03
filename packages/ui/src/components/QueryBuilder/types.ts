@@ -37,12 +37,27 @@ interface ICombineTranslation {
     or: string | React.ReactNode;
 }
 
+export type ArrayTenOrMore<T> = {
+    0: T
+    1: T
+    2: T
+    3: T
+    4: T
+    5: T
+    6: T
+    7: T
+    8: T
+    9: T
+    10: T
+} & Array<T>
+
 export enum CombinerEnum {
     And = 'and',
     Or = 'or',
 }
 
 export type TCallbackRemoveAction = (f: IValueFilter) => void;
+export type TCallbackRemoveReferenceAction = (refIndex: number, query: ISyntheticSqon | Record<string, never>) => void;
 export type TOnChange = (id: string, query: ISyntheticSqon | Record<string, never>) => void;
 
 export interface IDictionary {

@@ -6,9 +6,9 @@ import take from 'lodash/take';
 import StackLayout from '../../layout/StackLayout';
 
 import UnionOperator from './icons/UnionOperator';
+import { IValueFilter } from '../../data/types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
-import { IValueFilter } from '../../data/types';
 
 interface IQueryValuesProps {
     query: IValueFilter;

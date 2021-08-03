@@ -14,7 +14,7 @@ export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => 
     return !isEmptySqon(sqon);
 };
 
-export const isReference = (sqon: any) => {
+export const isReference = (sqon: ISyntheticSqon | Record<string, never>) => {
     return !isNotReference(sqon);
 };
 
@@ -22,15 +22,15 @@ export const isNotReference = (sqon: any) => {
     return isNaN(sqon);
 };
 
-export const isValueObject = (sqon: ISyntheticSqon) => {
+export const isValueObject = (sqon: ISyntheticSqon | Record<string, never>) => {
     return typeof sqon === 'object' && !isEmptySqon(sqon) && 'value' in sqon && 'field' in sqon;
 };
 
-export const isBooleanOperator = (sqon: ISyntheticSqon) => {
+export const isBooleanOperator = (sqon: ISyntheticSqon | Record<string, never>) => {
     return typeof sqon === 'object' && !isEmptySqon(sqon) && BOOLEAN_OPS.includes(sqon.op);
 };
 
-export const isFieldOperator = (sqon: ISyntheticSqon) => {
+export const isFieldOperator = (sqon: ISyntheticSqon | Record<string, never>) => {
     return typeof sqon === 'object' && !isEmptySqon(sqon) && FIELD_OPS.includes(sqon.op);
 };
 
@@ -52,11 +52,14 @@ export const combineSyntheticSqons = (
     };
 };
 
-export const resolveSyntheticSqon = (sqonsList: ISyntheticSqon[]) => (syntheticSqon: ISyntheticSqon) => {
+export const resolveSyntheticSqon = (
+    sqonsList: ISyntheticSqon[],
+    syntheticSqon: ISyntheticSqon | Record<string, never>,
+) => {
     const getNewContent = (syntheticSqon: any) => {
         return syntheticSqon.content
             .map((c: any) => (isReference(c) ? sqonsList[c] : c))
-            .map(resolveSyntheticSqon(sqonsList));
+            .map((c: any) => resolveSyntheticSqon(sqonsList, c));
     };
 
     if (isEmptySqon(syntheticSqon)) {
@@ -92,10 +95,13 @@ export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSq
         });
 };
 
-export const isIndexReferencedInSqon = (syntheticSqon: ISyntheticSqon) => (indexReference: number) => {
+export const isIndexReferencedInSqon = (
+    indexReference: number,
+    syntheticSqon: ISyntheticSqon | Record<string, never>,
+) => {
     const reduceContent = (content: any) => {
         return content.reduce(
-            (acc: any, contentSqon: ISyntheticSqon) => acc || isIndexReferencedInSqon(contentSqon)(indexReference),
+            (acc: any, contentSqon: ISyntheticSqon) => acc || isIndexReferencedInSqon(indexReference, contentSqon),
             false,
         );
     };
@@ -105,4 +111,12 @@ export const isIndexReferencedInSqon = (syntheticSqon: ISyntheticSqon) => (index
     } else {
         return typeof syntheticSqon === 'number' && syntheticSqon === indexReference;
     }
+};
+
+export const removeContentFromSqon = (contentToRemove: any, syntheticSqon: ISyntheticSqon | Record<string, never>) => {
+    return {
+        ...syntheticSqon,
+        op: syntheticSqon.op,
+        content: syntheticSqon.content.filter((content: any) => content !== contentToRemove),
+    };
 };

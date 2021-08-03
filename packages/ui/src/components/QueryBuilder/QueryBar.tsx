@@ -2,18 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineCopy, AiOutlineDelete } from 'react-icons/ai';
 import { Button, Checkbox, Popconfirm } from 'antd';
 import cx from 'classnames';
-import isEmpty from 'lodash/isEmpty';
 
 import StackLayout from '../../layout/StackLayout';
 
 import Combiner from './Combiner';
 import QueryPill from './QueryPill';
 import QueryReferencePill from './QueryReferencePill';
-import { IDictionary, TCallbackRemoveAction, TOnChange } from './types';
+import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange } from './types';
 import { ISyntheticSqon, IValueFilter, TSqonGroupOp } from '../../data/types';
+import { isEmptySqon, isReference } from '../../data/SqonUtils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBar.module.scss';
-import { isEmptySqon, isReference } from '../../data/SqonUtils';
 
 interface IQueryBarProps {
     id: string;
@@ -27,6 +26,7 @@ interface IQueryBarProps {
     canDelete?: boolean;
     showLabels?: boolean;
     onRemoveFacet: TCallbackRemoveAction;
+    onRemoveReference: TCallbackRemoveReferenceAction;
     isActive?: boolean;
     isSelected?: boolean;
     isReferenced?: boolean;
@@ -45,6 +45,7 @@ const QueryBar: React.FC<IQueryBarProps> = ({
     dictionary = {},
     query,
     onRemoveFacet,
+    onRemoveReference,
     actionDisabled = false,
     selectionDisabled = false,
     canDelete = true,
@@ -65,8 +66,6 @@ const QueryBar: React.FC<IQueryBarProps> = ({
     }, [isSelected]);
     const referenceColor = getColorForReference(index);
     const containerClassNames = cx(styles.container, { [styles.selected]: isActive });
-
-    console.log(isEmptySqon(query))
 
     return (
         <StackLayout
@@ -101,14 +100,14 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                             <StackLayout key={i}>
                                 {isReference(f) ? (
                                     <QueryReferencePill
-                                        currentSelectedQuery={isActive}
+                                        isBarActive={isActive}
                                         refIndex={f as number}
-                                        onRemove={onRemoveFacet}
+                                        onRemove={() => onRemoveReference(f as number, query)}
                                         getColorForReference={getColorForReference}
                                     />
                                 ) : (
                                     <QueryPill
-                                        currentSelectedQuery={isActive}
+                                        isBarActive={isActive}
                                         dictionary={dictionary}
                                         onRemove={onRemoveFacet}
                                         query={f as IValueFilter}

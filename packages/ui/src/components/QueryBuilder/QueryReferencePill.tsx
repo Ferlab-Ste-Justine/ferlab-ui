@@ -6,30 +6,30 @@ import cx from 'classnames';
 import StackLayout from '../../layout/StackLayout';
 
 import QueryReferenceValue from './QueryReferenceValue';
-import { TCallbackRemoveAction } from './types';
+import { TCallbackRemoveReferenceAction } from './types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
 
 interface IQueryBarProps {
-    currentSelectedQuery?: boolean;
+    isBarActive?: boolean;
     refIndex: number;
-    onRemove: TCallbackRemoveAction;
+    onRemove: Function;
     getColorForReference?: (refIndex: number) => string;
 }
 
 const QueryReferencePill: React.FC<IQueryBarProps> = ({
     refIndex,
     onRemove,
-    currentSelectedQuery,
+    isBarActive,
     getColorForReference = () => '',
 }) => {
-    const containerClassNames = cx(styles.container, { [styles.selected]: currentSelectedQuery });
+    const containerClassNames = cx(styles.container, { [styles.selected]: isBarActive });
 
     return (
         <StackLayout className={containerClassNames}>
             <QueryReferenceValue refIndex={refIndex} highlightColor={getColorForReference(refIndex)} />
             <Button className={styles.close} type="text">
-                <AiOutlineClose onClick={() => {}} />
+                <AiOutlineClose onClick={() => onRemove()} />
             </Button>
         </StackLayout>
     );
