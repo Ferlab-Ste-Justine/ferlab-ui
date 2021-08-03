@@ -3,10 +3,9 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { Button } from 'antd';
 import cx from 'classnames';
 
-import StackLayout from '../../layout/StackLayout';
+import StackLayout from '../../../layout/StackLayout';
 
-import QueryReferenceValue from './QueryReferenceValue';
-import { TCallbackRemoveReferenceAction } from './types';
+import QueryReferenceValue from '../QueryReferenceValue';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
 
@@ -17,7 +16,7 @@ interface IQueryBarProps {
     getColorForReference?: (refIndex: number) => string;
 }
 
-const QueryReferencePill: React.FC<IQueryBarProps> = ({
+const ReferenceQueryPill: React.FC<IQueryBarProps> = ({
     refIndex,
     onRemove,
     isBarActive,
@@ -29,10 +28,10 @@ const QueryReferencePill: React.FC<IQueryBarProps> = ({
         <StackLayout className={containerClassNames}>
             <QueryReferenceValue refIndex={refIndex} highlightColor={getColorForReference(refIndex)} />
             <Button className={styles.close} type="text">
-                <AiOutlineClose onClick={() => onRemove()} />
+                <AiOutlineClose onClick={() => onRemove()} />
             </Button>
         </StackLayout>
     );
 };
 
-export default QueryReferencePill;
+export default ReferenceQueryPill;

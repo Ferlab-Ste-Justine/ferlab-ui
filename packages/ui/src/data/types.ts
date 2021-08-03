@@ -1,4 +1,4 @@
-import { IN_OP, GTE_OP, LTE_OP, NOT_IN_OP, ALL_OP, BETWEEN_OP, AND_OP, OR_OP } from './operators';
+import { IN_OP, GTE_OP, LTE_OP, NOT_IN_OP, ALL_OP, BETWEEN_OP, AND_OP, OR_OP, NOT_OP } from './operators';
 
 export type TFilterValue = Array<string | number | boolean>;
 export interface IValueContent {
@@ -18,7 +18,7 @@ export interface IValueFilter {
     op: TValueOp;
 }
 
-export type TSqonGroupOp = typeof AND_OP | typeof OR_OP;
+export type TSqonGroupOp = typeof AND_OP | typeof OR_OP | typeof NOT_OP;
 export interface ISqonGroupFilter {
     op: TSqonGroupOp;
     content: Array<ISqonGroupFilter | IValueFilter>;

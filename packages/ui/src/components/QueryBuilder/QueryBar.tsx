@@ -5,14 +5,12 @@ import cx from 'classnames';
 
 import StackLayout from '../../layout/StackLayout';
 
-import Combiner from './Combiner';
-import QueryPill from './QueryPill';
-import QueryReferencePill from './QueryReferencePill';
 import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange } from './types';
-import { ISyntheticSqon, IValueFilter, TSqonGroupOp } from '../../data/types';
-import { isEmptySqon, isReference } from '../../data/SqonUtils';
+import { ISyntheticSqon, TSqonGroupOp } from '../../data/types';
+import { isBooleanOperator, isEmptySqon } from '../../data/SqonUtils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBar.module.scss';
+import BooleanQueryPill from './QueryPills/BooleanQueryPill';
 
 interface IQueryBarProps {
     id: string;
@@ -95,35 +93,20 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                 {isEmptySqon(query) ? (
                     <StackLayout>{dictionary.query?.noQuery || 'Use the filters to build a query'}</StackLayout>
                 ) : (
-                    <StackLayout className={styles.queryValues} fitContent flexContent>
-                        {query.content.map((f, i) => (
-                            <StackLayout key={i}>
-                                {isReference(f) ? (
-                                    <QueryReferencePill
-                                        isBarActive={isActive}
-                                        refIndex={f as number}
-                                        onRemove={() => onRemoveReference(f as number, query)}
-                                        getColorForReference={getColorForReference}
-                                    />
-                                ) : (
-                                    <QueryPill
-                                        isBarActive={isActive}
-                                        dictionary={dictionary}
-                                        onRemove={onRemoveFacet}
-                                        query={f as IValueFilter}
-                                        showLabels={showLabels}
-                                    />
-                                )}
-                                {query.content.length - 1 > i && (
-                                    <Combiner
-                                        dictionary={dictionary}
-                                        onChange={(type) => onCombineChange(id, type)}
-                                        type={query.op}
-                                    />
-                                )}
-                            </StackLayout>
-                        ))}
-                    </StackLayout>
+                    isBooleanOperator(query) && (
+                        <StackLayout className={styles.queryValues} fitContent flexContent>
+                            <BooleanQueryPill
+                                parentQueryId={id}
+                                query={query}
+                                isActive={isActive}
+                                dictionary={dictionary}
+                                onRemoveFacet={onRemoveFacet}
+                                onRemoveReference={onRemoveReference}
+                                onCombineChange={onCombineChange}
+                                getColorForReference={getColorForReference}
+                            />
+                        </StackLayout>
+                    )
                 )}
                 <span className={styles.total}>
                     {Icon} {total}

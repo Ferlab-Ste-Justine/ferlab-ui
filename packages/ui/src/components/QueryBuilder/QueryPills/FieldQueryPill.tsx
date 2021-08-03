@@ -3,15 +3,15 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { Button } from 'antd';
 import cx from 'classnames';
 
-import StackLayout from '../../layout/StackLayout';
+import StackLayout from '../../../layout/StackLayout';
 
-import ElementOperator from './icons/ElementOperator';
-import EqualOperator from './icons/EqualOperator';
-import GreaterThanOrEqualOperator from './icons/GreaterThanOrEqualOperator';
-import LessThanOrEqualOperator from './icons/LessThanOrEqualOperator';
-import QueryValues from './QueryValues';
-import { IDictionary, TCallbackRemoveAction } from './types';
-import { IValueFilter } from '../../data/types';
+import ElementOperator from '../icons/ElementOperator';
+import EqualOperator from '../icons/EqualOperator';
+import GreaterThanOrEqualOperator from '../icons/GreaterThanOrEqualOperator';
+import LessThanOrEqualOperator from '../icons/LessThanOrEqualOperator';
+import QueryValues from '../QueryValues';
+import { IDictionary, TCallbackRemoveAction } from '../types';
+import { IValueFilter } from '../../../data/types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
 
@@ -41,7 +41,7 @@ const Operator: React.FC<IOperatorProps> = ({ className = '', type }) => {
     }
 };
 
-const QueryPill: React.FC<IQueryBarProps> = ({ query, dictionary = {}, showLabels, onRemove, isBarActive }) => {
+const FieldQueryPill: React.FC<IQueryBarProps> = ({ query, dictionary = {}, showLabels, onRemove, isBarActive }) => {
     const containerClassNames = cx(styles.container, { [styles.selected]: isBarActive });
     return (
         <StackLayout className={containerClassNames}>
@@ -61,4 +61,4 @@ const QueryPill: React.FC<IQueryBarProps> = ({ query, dictionary = {}, showLabel
     );
 };
 
-export default QueryPill;
+export default FieldQueryPill;

@@ -95,6 +95,24 @@ export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSq
         });
 };
 
+export const changeCombineOperator = (operator: TSqonGroupOp, syntheticSqon: ISyntheticSqon): ISyntheticSqon => {
+    const changeSubContentOperator = (content: any) => {
+        return content.map((subContent: any) => {
+            if (isBooleanOperator(subContent)) {
+                return changeCombineOperator(operator, subContent);
+            }
+
+            return subContent;
+        });
+    };
+
+    return {
+        ...syntheticSqon,
+        op: operator,
+        content: changeSubContentOperator(syntheticSqon.content),
+    };
+};
+
 export const isIndexReferencedInSqon = (
     indexReference: number,
     syntheticSqon: ISyntheticSqon | Record<string, never>,
