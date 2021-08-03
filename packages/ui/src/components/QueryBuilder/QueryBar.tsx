@@ -66,6 +66,8 @@ const QueryBar: React.FC<IQueryBarProps> = ({
     const referenceColor = getColorForReference(index);
     const containerClassNames = cx(styles.container, { [styles.selected]: isActive });
 
+    console.log(isEmptySqon(query))
+
     return (
         <StackLayout
             className={containerClassNames}

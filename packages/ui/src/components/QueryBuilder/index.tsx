@@ -44,12 +44,6 @@ interface IInitialQueryState {
     active: string;
 }
 
-interface IQueriesState {
-    query: ISyntheticSqon | Record<string, never>;
-    total: number;
-    id: string;
-}
-
 const getUpdatedState = (state: ISyntheticSqon[], active: string): IInitialQueryState => ({
     active,
     state,

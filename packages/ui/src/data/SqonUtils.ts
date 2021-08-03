@@ -3,7 +3,11 @@ import { ISyntheticSqon, TSqonGroupOp } from './types';
 import { BOOLEAN_OPS, FIELD_OPS } from './operators';
 
 export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
-    return sqon ? BOOLEAN_OPS.includes(sqon?.op) && !Boolean(sqon.content.length) : true;
+    if (!sqon?.op && !sqon?.content) {
+        return true;
+    }
+
+    return sqon ? BOOLEAN_OPS.includes(sqon?.op) && !Boolean(sqon?.content?.length) : true;
 };
 
 export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
