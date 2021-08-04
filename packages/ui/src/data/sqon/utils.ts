@@ -91,7 +91,7 @@ export const combineSyntheticSqons = (
 };
 
 /**
- * Convert a synthetic sqon into a executable sqon. Resolve all reference if needed.
+ * Convert a synthetic sqon into an executable sqon. Resolve all references if needed.
  *
  * @param {Array<ISyntheticSqon>} sqonsList All synthetic sqons in the query builder
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to resolve
