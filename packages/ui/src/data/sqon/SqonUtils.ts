@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { ISyntheticSqon, TSqonGroupOp } from './types';
+import { ISqonGroupFilter, ISyntheticSqon, IValueFilter, TSqonGroupOp } from './types';
 import { BOOLEAN_OPS, FIELD_OPS } from './operators';
 
 export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
@@ -34,14 +34,25 @@ export const isFieldOperator = (sqon: ISyntheticSqon | Record<string, never>) =>
     return typeof sqon === 'object' && !isEmptySqon(sqon) && FIELD_OPS.includes(sqon.op);
 };
 
+/**
+ * Combine 2 or more synthetic sqons with their index.
+ *
+ * @param {Array<number>} sqonIndexList Sqon selected reference index list
+ * @param {Array<ISyntheticSqon>} sqonsList All synthetic sqons in the query builder
+ * @param {TSqonGroupOp} combineOperator The operator for the combine
+ *
+ * @returns {ISyntheticSqon} The new created sqon
+ */
 export const combineSyntheticSqons = (
     sqonIndexList: number[],
     sqonsList: ISyntheticSqon[],
     combineOperator: TSqonGroupOp = 'and',
-) => {
+): ISyntheticSqon => {
     let total = 0;
-    sqonsList.map((sqon: ISyntheticSqon) => {
-        total += sqon.total!;
+    sqonsList.map((sqon: ISyntheticSqon, i) => {
+        if (sqonIndexList.includes(i)) {
+            return (total += sqon.total!);
+        }
     });
 
     return {
@@ -52,29 +63,46 @@ export const combineSyntheticSqons = (
     };
 };
 
+/**
+ * Convert a synthetic sqon into a executable sqon. Resolve all reference if needed.
+ *
+ * @param {Array<ISyntheticSqon>} sqonsList All synthetic sqons in the query builder
+ * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to resolve
+ *
+ * @returns {ISqonGroupFilter} An executable sqon
+ */
 export const resolveSyntheticSqon = (
     sqonsList: ISyntheticSqon[],
     syntheticSqon: ISyntheticSqon | Record<string, never>,
-) => {
-    const getNewContent = (syntheticSqon: any) => {
+): ISqonGroupFilter => {
+    const getNewContent = (syntheticSqon: any): Array<ISqonGroupFilter | IValueFilter> => {
         return syntheticSqon.content
             .map((c: any) => (isReference(c) ? sqonsList[c] : c))
             .map((c: any) => resolveSyntheticSqon(sqonsList, c));
     };
 
-    if (isEmptySqon(syntheticSqon)) {
-        return syntheticSqon;
-    } else if (isBooleanOperator(syntheticSqon)) {
+    if (isBooleanOperator(syntheticSqon)) {
         return {
             op: syntheticSqon.op,
             content: getNewContent(syntheticSqon),
         };
-    } else {
-        return syntheticSqon;
     }
+
+    return {
+        op: syntheticSqon.op,
+        content: syntheticSqon.content as Array<ISqonGroupFilter | IValueFilter>,
+    };
 };
 
-export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSqon[]) => {
+/**
+ * Remove recursively a sqon using its index.
+ *
+ * @param {number} indexToRemove Index of the synthetic sqon to remove
+ * @param {Array<ISyntheticSqon>} sqonsList All synthetic sqons in the query builder
+ *
+ * @returns {Array<ISyntheticSqon>} The new synthetic sqons list
+ */
+export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSqon[]): Array<ISyntheticSqon> => {
     const getNewContent = (indexToRemove: number, content: any) => {
         return content
             .filter((content: any) => content !== indexToRemove)
@@ -95,6 +123,14 @@ export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSq
         });
 };
 
+/**
+ * Recursively change the operator throughout a given synthetic sqon
+ *
+ * @param {TSqonGroupOp} operator The new operator
+ * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to update
+ *
+ * @returns {ISyntheticSqon} The modified synthetic sqon
+ */
 export const changeCombineOperator = (operator: TSqonGroupOp, syntheticSqon: ISyntheticSqon): ISyntheticSqon => {
     const changeSubContentOperator = (content: any) => {
         return content.map((subContent: any) => {
@@ -113,10 +149,18 @@ export const changeCombineOperator = (operator: TSqonGroupOp, syntheticSqon: ISy
     };
 };
 
+/**
+ * Recursively check if a synthetic sqon index is referenced inside a given synthetic sqon
+ *
+ * @param {number} indexReference The index of the synthetic sqon to check
+ * @param {ISyntheticSqon} syntheticSqon The synthetic sqon from which to verified
+ *
+ * @returns {boolean} If the index is referenced or not
+ */
 export const isIndexReferencedInSqon = (
     indexReference: number,
     syntheticSqon: ISyntheticSqon | Record<string, never>,
-) => {
+): boolean => {
     const reduceContent = (content: any) => {
         return content.reduce(
             (acc: any, contentSqon: ISyntheticSqon) => acc || isIndexReferencedInSqon(indexReference, contentSqon),
@@ -131,7 +175,18 @@ export const isIndexReferencedInSqon = (
     }
 };
 
-export const removeContentFromSqon = (contentToRemove: any, syntheticSqon: ISyntheticSqon | Record<string, never>) => {
+/**
+ * Remove a value from a given synthetic sqon
+ *
+ * @param {*} contentToRemove The content/value to remove
+ * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to update
+ *
+ * @returns {ISyntheticSqon} The modified synthetic sqon
+ */
+export const removeContentFromSqon = (
+    contentToRemove: any,
+    syntheticSqon: ISyntheticSqon | Record<string, never>,
+): ISyntheticSqon => {
     return {
         ...syntheticSqon,
         op: syntheticSqon.op,

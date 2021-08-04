@@ -17,6 +17,7 @@ import {
     isNotEmptySqon,
     removeContentFromSqon,
     removeSqonAtIndex,
+    resolveSyntheticSqon,
 } from '../../data/sqon/SqonUtils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
@@ -133,6 +134,8 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         setSelectedQueryId(nextID!);
         onChangeQuery(nextID!, nextQuery);
     };
+
+    console.log(JSON.stringify(resolveSyntheticSqon(queries, queries[2])))
 
     useEffect(() => {
         if (queries.length > 0) {
