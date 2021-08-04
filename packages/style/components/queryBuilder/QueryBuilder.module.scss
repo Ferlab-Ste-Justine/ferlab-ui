@@ -16,33 +16,36 @@
 
     .actions {
         align-items: center;
+        justify-content: space-between;
 
-        >*:not(:first-child) {
-            margin-left: 1.5em;
-        }
-
-        .switch {
-            &.withLabel {
-                display: flex;
-                align-items: center;
-
-                .label {
-                    margin-left: 0.5em;
+        .leftActions, .rightActions {
+            >*:not(:first-child) {
+                margin-left: 1.5em;
+            }
+            
+            .switch {
+                &.withLabel {
+                    display: flex;
+                    align-items: center;
+    
+                    .label {
+                        margin-left: 0.5em;
+                    }
                 }
             }
-        }
-
-        .buttons {
-            display: flex;
-            align-items: center;
-
-            &:first-child {
-                margin-left: 0 !important;
-            }
-
-            &:last-child {
-                margin-left: 1em;
-            }
+    
+            .buttons {
+                display: flex;
+                align-items: center;
+    
+                &:first-child {
+                    margin-left: 0 !important;
+                }
+    
+                &:last-child {
+                    margin-left: 1em;
+                }
+            }   
         }
     }
 }

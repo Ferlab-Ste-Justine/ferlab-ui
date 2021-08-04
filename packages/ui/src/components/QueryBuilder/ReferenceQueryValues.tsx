@@ -3,12 +3,12 @@ import StackLayout from '../../layout/StackLayout';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
 
-interface IQueryReferenceValuesProps {
+interface IReferenceQueryValuesProps {
     refIndex: number;
     highlightColor?: string;
 }
 
-const QueryValues: React.FC<IQueryReferenceValuesProps> = (props) => {
+const ReferenceQueryValues: React.FC<IReferenceQueryValuesProps> = (props) => {
     return (
         <StackLayout className={styles.container}>
             <StackLayout className={styles.valueWrapper}>
@@ -20,4 +20,4 @@ const QueryValues: React.FC<IQueryReferenceValuesProps> = (props) => {
     );
 };
 
-export default QueryValues;
+export default ReferenceQueryValues;
