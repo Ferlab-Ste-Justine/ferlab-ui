@@ -2,6 +2,11 @@ import { v4 } from 'uuid';
 import { ISqonGroupFilter, ISyntheticSqon, IValueFilter, TSqonGroupOp } from './types';
 import { BOOLEAN_OPS, FIELD_OPS } from './operators';
 
+/**
+ * Check if a synthetic sqon is empty.
+ *
+ * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
+ */
 export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
     if (!sqon?.op && !sqon?.content) {
         return true;
@@ -14,6 +19,11 @@ export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => 
     return !isEmptySqon(sqon);
 };
 
+/**
+ * Check if a synthetic sqon is a reference to another sqon.
+ *
+ * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
+ */
 export const isReference = (sqon: ISyntheticSqon | Record<string, never>) => {
     return !isNotReference(sqon);
 };
@@ -22,14 +32,31 @@ export const isNotReference = (sqon: any) => {
     return isNaN(sqon);
 };
 
+/**
+ * Check if a synthetic sqon is a value object (IValueContent)
+ *
+ * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
+ */
 export const isValueObject = (sqon: ISyntheticSqon | Record<string, never>) => {
     return typeof sqon === 'object' && !isEmptySqon(sqon) && 'value' in sqon && 'field' in sqon;
 };
 
+/**
+ * Check if a synthetic sqon is a boolean operator
+ * Operator is either one of the following: 'or', 'and' or 'not'
+ *
+ * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
+ */
 export const isBooleanOperator = (sqon: ISyntheticSqon | Record<string, never>) => {
     return typeof sqon === 'object' && !isEmptySqon(sqon) && BOOLEAN_OPS.includes(sqon.op);
 };
 
+/**
+ * Check if a synthetic sqon is a field operator
+ * Operator is either one of the following: '>', '<', 'between', '>=','<=', 'in', 'not-in' or 'all'
+ *
+ * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
+ */
 export const isFieldOperator = (sqon: ISyntheticSqon | Record<string, never>) => {
     return typeof sqon === 'object' && !isEmptySqon(sqon) && FIELD_OPS.includes(sqon.op);
 };
