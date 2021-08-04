@@ -19,14 +19,17 @@ export interface IValueFilter {
 }
 
 export type TSqonGroupOp = typeof AND_OP | typeof OR_OP | typeof NOT_OP;
+export type TSqonContent = Array<ISqonGroupFilter | IValueFilter>;
 export interface ISqonGroupFilter {
     op: TSqonGroupOp;
-    content: Array<ISqonGroupFilter | IValueFilter>;
+    content: TSqonContent;
 };
 
+export type TSyntheticSqonContentValue = ISyntheticSqon | IValueFilter | number;
+export type TSyntheticSqonContent = Array<TSyntheticSqonContentValue>;
 export interface ISyntheticSqon {
     op: TSqonGroupOp;
-    content: Array<ISyntheticSqon | IValueFilter | number>;
+    content: TSyntheticSqonContent;
     id?: string;
     total?: number;
 };

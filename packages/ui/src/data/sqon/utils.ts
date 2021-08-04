@@ -1,5 +1,12 @@
 import { v4 } from 'uuid';
-import { ISqonGroupFilter, ISyntheticSqon, IValueFilter, TSqonGroupOp } from './types';
+import {
+    ISqonGroupFilter,
+    ISyntheticSqon,
+    TSqonContent,
+    TSqonGroupOp,
+    TSyntheticSqonContent,
+    TSyntheticSqonContentValue,
+} from './types';
 import { BOOLEAN_OPS, FIELD_OPS } from './operators';
 
 /**
@@ -102,7 +109,7 @@ export const resolveSyntheticSqon = (
     sqonsList: ISyntheticSqon[],
     syntheticSqon: ISyntheticSqon | Record<string, never>,
 ): ISqonGroupFilter => {
-    const getNewContent = (syntheticSqon: any): Array<ISqonGroupFilter | IValueFilter> => {
+    const getNewContent = (syntheticSqon: ISyntheticSqon | Record<string, never>): TSqonContent => {
         return syntheticSqon.content
             .map((c: any) => (isReference(c) ? sqonsList[c] : c))
             .map((c: any) => resolveSyntheticSqon(sqonsList, c));
@@ -117,7 +124,7 @@ export const resolveSyntheticSqon = (
 
     return {
         op: syntheticSqon.op,
-        content: syntheticSqon.content as Array<ISqonGroupFilter | IValueFilter>,
+        content: syntheticSqon.content as TSqonContent,
     };
 };
 
@@ -130,7 +137,7 @@ export const resolveSyntheticSqon = (
  * @returns {Array<ISyntheticSqon>} The new synthetic sqons list
  */
 export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSqon[]): Array<ISyntheticSqon> => {
-    const getNewContent = (indexToRemove: number, content: any) => {
+    const getNewContent = (indexToRemove: number, content: TSyntheticSqonContent) => {
         return content
             .filter((content: any) => content !== indexToRemove)
             .map((s: any) => (isReference(s) ? (s > indexToRemove ? s - 1 : s) : s));
@@ -159,7 +166,7 @@ export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSq
  * @returns {ISyntheticSqon} The modified synthetic sqon
  */
 export const changeCombineOperator = (operator: TSqonGroupOp, syntheticSqon: ISyntheticSqon): ISyntheticSqon => {
-    const changeSubContentOperator = (content: any) => {
+    const changeSubContentOperator = (content: TSyntheticSqonContent) => {
         return content.map((subContent: any) => {
             if (isBooleanOperator(subContent)) {
                 return changeCombineOperator(operator, subContent);
@@ -211,7 +218,7 @@ export const isIndexReferencedInSqon = (
  * @returns {ISyntheticSqon} The modified synthetic sqon
  */
 export const removeContentFromSqon = (
-    contentToRemove: any,
+    contentToRemove: TSyntheticSqonContentValue,
     syntheticSqon: ISyntheticSqon | Record<string, never>,
 ): ISyntheticSqon => {
     return {
