@@ -1,8 +1,8 @@
 import React from 'react';
 
 import StackLayout from '../../../layout/StackLayout';
-import { ISyntheticSqon, IValueFilter, TSqonGroupOp } from '../../../data/types';
-import { isBooleanOperator, isReference } from '../../../data/SqonUtils';
+import { ISyntheticSqon, IValueFilter, TSqonGroupOp } from '../../../data/sqon/types';
+import { isBooleanOperator, isReference } from '../../../data/sqon/SqonUtils';
 import ReferenceQueryPill from './ReferenceQueryPill';
 import FieldQueryPill from './FieldQueryPill';
 import Combiner from '../Combiner';

@@ -11,7 +11,7 @@ import GreaterThanOrEqualOperator from '../icons/GreaterThanOrEqualOperator';
 import LessThanOrEqualOperator from '../icons/LessThanOrEqualOperator';
 import QueryValues from '../QueryValues';
 import { IDictionary, TCallbackRemoveAction } from '../types';
-import { IValueFilter } from '../../../data/types';
+import { IValueFilter } from '../../../data/sqon/types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
 

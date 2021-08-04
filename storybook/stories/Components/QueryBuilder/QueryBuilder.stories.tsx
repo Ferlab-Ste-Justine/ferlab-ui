@@ -39,7 +39,7 @@ const QueryBuilderStory = ({title, ...props} : {title: string, props: Story<IQue
 /* Empty */
 export const QueryBuilderEmpty = QueryBuilderStory.bind({});
 QueryBuilderEmpty.args = {
-    title: 'QueryBuilder Empty',
+    title: 'Query Builder Empty',
     total: 1350,
     currentQuery: (f) => f,
     onRemoveFacet: (f) => f,
@@ -50,7 +50,7 @@ QueryBuilderEmpty.args = {
 export const QueryBuilderEmptyWithShowLabelsButton = QueryBuilderStory.bind({});
 QueryBuilderEmptyWithShowLabelsButton.args = {
     enableShowHideLabels: true,
-    title: 'QueryBuilder With Show Hide Labels Enable',
+    title: 'Query Builder With Show Hide Labels Enable',
     currentQuery: (f) => f,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
@@ -69,7 +69,7 @@ QueryBuilderEmptyWithShowLabelsButton.args = {
 /* 1 query */
 export const QueryBuilderOneQuery = QueryBuilderStory.bind({});
 QueryBuilderOneQuery.args = {
-    title: 'QueryBuilder 1 Query',
+    title: 'Query Builder 1 Query',
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
@@ -87,7 +87,7 @@ QueryBuilderOneQuery.args = {
 /* 1 query */
 export const QueryBuilderOneQuerySingleQuery = QueryBuilderStory.bind({});
 QueryBuilderOneQuerySingleQuery.args = {
-    title: 'QueryBuilder Single Query',
+    title: 'Query Builder Single Query',
     enableSingleQuery: true,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
@@ -106,7 +106,7 @@ QueryBuilderOneQuerySingleQuery.args = {
 /* 1 query with icon */
 export const QueryBuilderOneWihtIconQuery = QueryBuilderStory.bind({});
 QueryBuilderOneWihtIconQuery.args = {
-    title: 'QueryBuilder 1 Query With Icon',
+    title: 'Query Builder 1 Query With Icon',
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
@@ -125,7 +125,7 @@ QueryBuilderOneWihtIconQuery.args = {
 /* multi query */
 export const QueryBuilderMultiQuery = QueryBuilderStory.bind({});
 QueryBuilderMultiQuery.args = {
-    title: 'QueryBuilder Multi Query',
+    title: 'Query Builder Multi Query',
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
@@ -158,7 +158,7 @@ QueryBuilderMultiQuery.args = {
 /* multi query with combine */
 export const QueryBuilderMultiQueryWithCombine = QueryBuilderStory.bind({});
 QueryBuilderMultiQueryWithCombine.args = {
-    title: 'QueryBuilder Multi Query With Combine',
+    title: 'Query Builder Multi Query With Combine',
     enableCombine: true,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,

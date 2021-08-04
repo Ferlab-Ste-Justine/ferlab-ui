@@ -6,7 +6,7 @@ import StackLayout from '../../layout/StackLayout';
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
 import { CombinerEnum, IDictionary } from './types';
-import { TSqonGroupOp } from '../../data/types';
+import { TSqonGroupOp } from '../../data/sqon/types';
 
 import styles from '@ferlab/style/components/queryBuilder/Combiner.module.scss';
 
