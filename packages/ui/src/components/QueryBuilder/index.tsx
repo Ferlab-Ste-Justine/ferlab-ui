@@ -263,89 +263,93 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                 ))}
             </StackLayout>
             <StackLayout className={styles.actions}>
-                {!enableSingleQuery && (
-                    <Button
-                        className={styles.buttons}
-                        disabled={noData || hasEmptyQuery}
-                        onClick={() => {
-                            const id = v4();
+                <StackLayout className={styles.leftActions}>
+                    {!enableSingleQuery && !canCombine && (
+                        <Button
+                            className={styles.buttons}
+                            disabled={noData || hasEmptyQuery}
+                            onClick={() => {
+                                const id = v4();
 
-                            setSelectedQueryId(id);
-                            setQueries([...queries, { id, op: 'and', content: [], total: 0 }]);
-                        }}
-                        size="small"
-                    >
-                        <AiOutlinePlus />
-                        {dictionary.actions?.addQuery || 'New query'}
-                    </Button>
-                )}
-                {enableCombine && (
-                    <Dropdown.Button
-                        disabled={!canCombine}
-                        size="small"
-                        overlay={
-                            <Menu selectedKeys={[selectedCombineOperator]}>
-                                <Menu.Item key='and' onClick={() => setSelectedCombineOperator('and')}>
-                                    <AndOperator />
-                                </Menu.Item>
-                                <Menu.Item key='or' onClick={() => setSelectedCombineOperator('or')}>
-                                    <OrOperator />
-                                </Menu.Item>
-                            </Menu>
-                        }
-                        trigger={['click']}
-                        onClick={() => {
-                            const newSyntheticSqon = {
-                                id: v4(),
-                                op: selectedCombineOperator,
-                                content: selectedQueryIndices.sort(),
-                                total: 0,
-                            };
-                            setSelectedQueryId(newSyntheticSqon.id);
-                            setSelectedQueryIndices([]);
-                            setQueries([...queries, newSyntheticSqon]);
-                            onChangeQuery(newSyntheticSqon.id, newSyntheticSqon);
-                        }}
-                    >
-                        {dictionary.actions?.combine || 'Combine'}
-                    </Dropdown.Button>
-                )}
-                {enableShowHideLabels && (
-                    <span className={`${styles.switch} ${styles.withLabel}`}>
-                        <Switch
-                            checked={showLabels}
-                            size="small"
-                            onChange={(checked) => {
-                                setShowLabels(checked);
+                                setSelectedQueryId(id);
+                                setQueries([...queries, { id, op: 'and', content: [], total: 0 }]);
                             }}
-                        />
-                        <span className={styles.label}>{dictionary.actions?.labels || 'Labels'}</span>
-                    </span>
-                )}
-                {!noData && (
-                    <Button
-                        className={styles.buttons}
-                        onClick={() =>
-                            Modal.confirm({
-                                cancelText: dictionary.actions?.clear?.cancel || 'Cancel',
-                                content:
-                                    dictionary.actions?.clear?.description ||
-                                    'You are about to delete all your queries. They will be lost forever.',
-                                okText: dictionary.actions?.clear?.confirm || 'Delete',
-                                onOk: () => {
-                                    setSelectedQueryIndices([]);
-                                    setQueries([{ id: selectedQueryId, op: 'and', content: [], total: 0 }]);
-                                    onChangeQuery(selectedQueryId, {});
-                                },
-                                title: dictionary.actions?.clear?.title || 'Delete all queries?',
-                            })
-                        }
-                        size="small"
-                        type="link"
-                    >
-                        {dictionary.actions?.clear?.buttonTitle || 'Clear all'}
-                    </Button>
-                )}
+                            size="small"
+                        >
+                            <AiOutlinePlus />
+                            {dictionary.actions?.addQuery || 'New query'}
+                        </Button>
+                    )}
+                    {enableCombine && canCombine && (
+                        <Dropdown.Button
+                            disabled={!canCombine}
+                            size="small"
+                            overlay={
+                                <Menu selectedKeys={[selectedCombineOperator]}>
+                                    <Menu.Item key="and" onClick={() => setSelectedCombineOperator('and')}>
+                                        <AndOperator />
+                                    </Menu.Item>
+                                    <Menu.Item key="or" onClick={() => setSelectedCombineOperator('or')}>
+                                        <OrOperator />
+                                    </Menu.Item>
+                                </Menu>
+                            }
+                            trigger={['click']}
+                            onClick={() => {
+                                const newSyntheticSqon = {
+                                    id: v4(),
+                                    op: selectedCombineOperator,
+                                    content: selectedQueryIndices.sort(),
+                                    total: 0,
+                                };
+                                setSelectedQueryId(newSyntheticSqon.id);
+                                setSelectedQueryIndices([]);
+                                setQueries([...queries, newSyntheticSqon]);
+                                onChangeQuery(newSyntheticSqon.id, newSyntheticSqon);
+                            }}
+                        >
+                            {dictionary.actions?.combine || 'Combine'}
+                        </Dropdown.Button>
+                    )}
+                    {enableShowHideLabels && !canCombine && (
+                        <span className={`${styles.switch} ${styles.withLabel}`}>
+                            <Switch
+                                checked={showLabels}
+                                size="small"
+                                onChange={(checked) => {
+                                    setShowLabels(checked);
+                                }}
+                            />
+                            <span className={styles.label}>{dictionary.actions?.labels || 'Labels'}</span>
+                        </span>
+                    )}
+                </StackLayout>
+                <StackLayout className={styles.rightActions}>
+                    {!noData && !canCombine && (
+                        <Button
+                            className={styles.buttons}
+                            onClick={() =>
+                                Modal.confirm({
+                                    cancelText: dictionary.actions?.clear?.cancel || 'Cancel',
+                                    content:
+                                        dictionary.actions?.clear?.description ||
+                                        'You are about to delete all your queries. They will be lost forever.',
+                                    okText: dictionary.actions?.clear?.confirm || 'Delete',
+                                    onOk: () => {
+                                        setSelectedQueryIndices([]);
+                                        setQueries([{ id: selectedQueryId, op: 'and', content: [], total: 0 }]);
+                                        onChangeQuery(selectedQueryId, {});
+                                    },
+                                    title: dictionary.actions?.clear?.title || 'Delete all queries?',
+                                })
+                            }
+                            size="small"
+                            type="link"
+                        >
+                            {dictionary.actions?.clear?.buttonTitle || 'Clear all'}
+                        </Button>
+                    )}
+                </StackLayout>
             </StackLayout>
         </StackLayout>
     );
