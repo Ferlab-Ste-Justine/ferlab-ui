@@ -15,7 +15,7 @@ import { IValueFilter } from '../../../data/sqon/types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
 
-interface IQueryBarProps {
+interface IFieldQueryPillProps {
     isBarActive?: boolean;
     query: IValueFilter;
     dictionary?: IDictionary;
@@ -41,7 +41,7 @@ const Operator: React.FC<IOperatorProps> = ({ className = '', type }) => {
     }
 };
 
-const FieldQueryPill: React.FC<IQueryBarProps> = ({ query, dictionary = {}, showLabels, onRemove, isBarActive }) => {
+const FieldQueryPill: React.FC<IFieldQueryPillProps> = ({ query, dictionary = {}, showLabels, onRemove, isBarActive }) => {
     const containerClassNames = cx(styles.container, { [styles.selected]: isBarActive });
     return (
         <StackLayout className={containerClassNames}>
