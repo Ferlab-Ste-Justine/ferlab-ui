@@ -17,7 +17,6 @@ import {
     isNotEmptySqon,
     removeContentFromSqon,
     removeSqonAtIndex,
-    resolveSyntheticSqon,
 } from '../../data/sqon/SqonUtils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
@@ -206,8 +205,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                         dictionary={dictionary}
                         getColorForReference={getColorForReference}
                         onChangeQuery={(id, query) => {
-                            console.log("allo" + id)
-                            console.log(queries)
                             setSelectedQueryId(id);
                             onChangeQuery(id, query);
                         }}
@@ -222,8 +219,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                                 op: newQuery.op,
                                 content: newQuery.content,
                             };
-
-                            console.log(updatedQueries[currentQueryIndex]);
 
                             setQueries(updatedQueries);
                             onChangeQuery(id, newQuery);
@@ -306,10 +301,10 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                                 queries,
                                 selectedCombineOperator,
                             );
-                            setSelectedQueryId(newSyntheticSqon.id);
+                            setSelectedQueryId(newSyntheticSqon.id!);
                             setSelectedQueryIndices([]);
                             setQueries([...queries, newSyntheticSqon]);
-                            onChangeQuery(newSyntheticSqon.id, newSyntheticSqon);
+                            onChangeQuery(newSyntheticSqon.id!, newSyntheticSqon);
                         }}
                     >
                         {dictionary.actions?.combine || 'Combine'}
