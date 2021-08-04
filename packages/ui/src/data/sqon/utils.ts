@@ -125,7 +125,7 @@ export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSq
                 ...sqon,
                 content: getNewContent(indexToRemove, sqon.content),
             };
-        });
+        }).filter((s) => isNotEmptySqon(s));
 };
 
 /**
