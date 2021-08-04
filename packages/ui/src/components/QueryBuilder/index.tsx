@@ -284,11 +284,11 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                         disabled={!canCombine}
                         size="small"
                         overlay={
-                            <Menu>
-                                <Menu.Item onClick={() => setSelectedCombineOperator('and')}>
+                            <Menu selectedKeys={[selectedCombineOperator]}>
+                                <Menu.Item key='and' onClick={() => setSelectedCombineOperator('and')}>
                                     <AndOperator />
                                 </Menu.Item>
-                                <Menu.Item onClick={() => setSelectedCombineOperator('or')}>
+                                <Menu.Item key='or' onClick={() => setSelectedCombineOperator('or')}>
                                     <OrOperator />
                                 </Menu.Item>
                             </Menu>
