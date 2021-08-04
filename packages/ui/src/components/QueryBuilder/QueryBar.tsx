@@ -6,8 +6,8 @@ import cx from 'classnames';
 import StackLayout from '../../layout/StackLayout';
 
 import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange } from './types';
-import { ISyntheticSqon, TSqonGroupOp } from '../../data/types';
-import { isBooleanOperator, isEmptySqon } from '../../data/SqonUtils';
+import { ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
+import { isBooleanOperator, isEmptySqon } from '../../data/sqon/SqonUtils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBar.module.scss';
 import BooleanQueryPill from './QueryPills/BooleanQueryPill';

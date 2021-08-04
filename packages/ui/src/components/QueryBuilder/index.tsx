@@ -8,7 +8,7 @@ import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
 import QueryBar from './QueryBar';
 import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange, ArrayTenOrMore } from './types';
-import { ISyntheticSqon, TSqonGroupOp } from '../../data/types';
+import { ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
 import {
     changeCombineOperator,
     combineSyntheticSqons,
@@ -17,7 +17,8 @@ import {
     isNotEmptySqon,
     removeContentFromSqon,
     removeSqonAtIndex,
-} from '../../data/SqonUtils';
+    resolveSyntheticSqon,
+} from '../../data/sqon/SqonUtils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
 
@@ -133,6 +134,8 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         setSelectedQueryId(nextID!);
         onChangeQuery(nextID!, nextQuery);
     };
+
+    console.log(JSON.stringify(resolveSyntheticSqon(queries, queries[2])))
 
     useEffect(() => {
         if (queries.length > 0) {

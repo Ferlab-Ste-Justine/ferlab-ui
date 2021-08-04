@@ -1,5 +1,5 @@
 import React from 'react';
-import { ISyntheticSqon, IValueFilter } from '../../data/types';
+import { ISyntheticSqon, IValueFilter } from '../../data/sqon/types';
 
 interface IActions {
     addQuery?: string | React.ReactNode;

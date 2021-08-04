@@ -36,6 +36,10 @@
             display: flex;
             align-items: center;
 
+            &:first-child {
+                margin-left: 0 !important;
+            }
+
             &:last-child {
                 margin-left: 1em;
             }
