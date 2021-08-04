@@ -11,7 +11,6 @@ import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOn
 import { ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
 import {
     changeCombineOperator,
-    combineSyntheticSqons,
     isEmptySqon,
     isIndexReferencedInSqon,
     isNotEmptySqon,
@@ -296,15 +295,16 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                         }
                         trigger={['click']}
                         onClick={() => {
-                            const newSyntheticSqon = combineSyntheticSqons(
-                                selectedQueryIndices,
-                                queries,
-                                selectedCombineOperator,
-                            );
-                            setSelectedQueryId(newSyntheticSqon.id!);
+                            const newSyntheticSqon = {
+                                id: v4(),
+                                op: selectedCombineOperator,
+                                content: selectedQueryIndices.sort(),
+                                total: 0,
+                            };
+                            setSelectedQueryId(newSyntheticSqon.id);
                             setSelectedQueryIndices([]);
                             setQueries([...queries, newSyntheticSqon]);
-                            onChangeQuery(newSyntheticSqon.id!, newSyntheticSqon);
+                            onChangeQuery(newSyntheticSqon.id, newSyntheticSqon);
                         }}
                     >
                         {dictionary.actions?.combine || 'Combine'}

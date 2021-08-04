@@ -69,35 +69,6 @@ export const isFieldOperator = (sqon: ISyntheticSqon | Record<string, never>) =>
 };
 
 /**
- * Combine 2 or more synthetic sqons with their index.
- *
- * @param {Array<number>} sqonIndexList Sqon selected reference index list
- * @param {Array<ISyntheticSqon>} sqonsList All synthetic sqons in the query builder
- * @param {TSqonGroupOp} combineOperator The operator for the combine
- *
- * @returns {ISyntheticSqon} The new created sqon
- */
-export const combineSyntheticSqons = (
-    sqonIndexList: number[],
-    sqonsList: ISyntheticSqon[],
-    combineOperator: TSqonGroupOp = 'and',
-): ISyntheticSqon => {
-    let total = 0;
-    sqonsList.map((sqon: ISyntheticSqon, i) => {
-        if (sqonIndexList.includes(i)) {
-            return (total += sqon.total!);
-        }
-    });
-
-    return {
-        id: v4(),
-        op: combineOperator,
-        content: sqonIndexList.sort(),
-        total: total,
-    };
-};
-
-/**
  * Convert a synthetic sqon into an executable sqon. Resolve all references if needed.
  *
  * @param {Array<ISyntheticSqon>} sqonsList All synthetic sqons in the query builder
