@@ -2,7 +2,7 @@
 
 .container {
     background: $query-pill-bg;
-    padding: .2rem .2rem .2rem .6rem;
+    padding: .2rem .2rem .2rem .2rem;
     border-radius: 2px;
     align-items: center;
     line-height: 20px;
@@ -11,13 +11,16 @@
         background: $query-pill-bg-active;
     }
 
-    .textSpace {
-        margin-right: .6rem;
+    .operator {
+        margin-right: .4rem;
+        margin-left: .2rem;
     }
 
     .field {
         font-weight: 600;
         font-size: 1.2rem;
+        margin-left: .4rem;
+        margin-right: .2rem;
     }
 
     .close {

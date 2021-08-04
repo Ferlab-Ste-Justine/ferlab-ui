@@ -9,15 +9,12 @@
         height: auto;
         border: none;
 
-        @include hoverFocus($query-combiner-button-hover-color, $query-combiner-button-focus-color);
-    }
-}
+        .operator {
+            text-decoration: underline;
 
-.menuItem {
-    display: flex;
-    align-items: center;
-
-    .itemIcon {
-        margin-right: .8rem;
+            &:hover {
+                text-decoration: none;
+            }
+        }
     }
 }

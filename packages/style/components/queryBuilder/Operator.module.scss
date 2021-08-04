@@ -1,6 +1,6 @@
 @import 'theme.template';
 
-.icon {
+.icon, .text {
     color:$query-icon-operator-color;
 
     &:hover, &:active {

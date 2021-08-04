@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { AiFillCaretLeft } from 'react-icons/ai';
+import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import { Button } from 'antd';
 import take from 'lodash/take';
 
 import StackLayout from '../../layout/StackLayout';
 
 import UnionOperator from './icons/UnionOperator';
-import { IValueFilter } from './types';
+import { IValueFilter } from '../../data/types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
 
@@ -50,8 +50,8 @@ const QueryValues: React.FC<IQueryValuesProps> = ({ isElement = false, query }) 
                         <AiFillCaretLeft />
                     </Button>
                 ) : (
-                    <Button className={styles.button} onClick={() => setExpanded(true)} type="text">
-                        ...
+                    <Button className={`${styles.button} ${styles.icon}`} onClick={() => setExpanded(true)} type="text">
+                        <AiFillCaretRight />
                     </Button>
                 ))}
         </StackLayout>

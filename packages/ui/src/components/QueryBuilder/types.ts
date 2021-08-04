@@ -1,10 +1,13 @@
+import React from 'react';
+import { ISyntheticSqon, IValueFilter } from '../../data/types';
+
 interface IActions {
     addQuery?: string | React.ReactNode;
     combine?: string | React.ReactNode;
-    showLabels?: string | React.ReactNode;
-    hideLabels?: string | React.ReactNode;
+    labels?: string | React.ReactNode;
     delete?: IDeleteTranslation;
     clear?: IClearTranslation;
+    changeOperatorTo: string | React.ReactNode;
 }
 
 interface IClearTranslation {
@@ -30,7 +33,23 @@ interface IQuery {
 interface ICombineTranslation {
     intersection: string | React.ReactNode;
     union: string | React.ReactNode;
+    and: string | React.ReactNode;
+    or: string | React.ReactNode;
 }
+
+export type ArrayTenOrMore<T> = {
+    0: T
+    1: T
+    2: T
+    3: T
+    4: T
+    5: T
+    6: T
+    7: T
+    8: T
+    9: T
+    10: T
+} & Array<T>
 
 export enum CombinerEnum {
     And = 'and',
@@ -38,28 +57,10 @@ export enum CombinerEnum {
 }
 
 export type TCallbackRemoveAction = (f: IValueFilter) => void;
-export type TOnChange = (id: string, query: ISqonGroupFilter | Record<string, never>) => void;
+export type TCallbackRemoveReferenceAction = (refIndex: number, query: ISyntheticSqon | Record<string, never>) => void;
+export type TOnChange = (id: string, query: ISyntheticSqon | Record<string, never>) => void;
 
 export interface IDictionary {
     actions?: IActions;
     query?: IQuery;
-}
-
-export type TFilterValue = Array<string | number | boolean>;
-export interface IValueContent {
-    field: string;
-    value: TFilterValue;
-}
-
-export type TValueOp = 'in' | '>=' | '<=' | 'not in' | 'all' | 'between';
-export interface IValueFilter {
-    content: IValueContent;
-    op: TValueOp;
-}
-
-export type TSqonGroupContent = IValueFilter[];
-export type TSqonGroupOp = 'and' | 'or';
-export interface ISqonGroupFilter {
-    content: TSqonGroupContent;
-    op: TSqonGroupOp;
 }
