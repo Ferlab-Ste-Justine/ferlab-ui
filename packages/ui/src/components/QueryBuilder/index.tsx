@@ -17,7 +17,7 @@ import {
     isNotEmptySqon,
     removeContentFromSqon,
     removeSqonAtIndex,
-} from '../../data/sqon/SqonUtils';
+} from '../../data/sqon/utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
 
