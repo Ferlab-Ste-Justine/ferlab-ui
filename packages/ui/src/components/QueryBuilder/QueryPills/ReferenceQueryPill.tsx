@@ -9,14 +9,14 @@ import QueryReferenceValue from '../QueryReferenceValue';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
 
-interface IQueryBarProps {
+interface IReferenceQueryPillProps {
     isBarActive?: boolean;
     refIndex: number;
     onRemove: Function;
     getColorForReference?: (refIndex: number) => string;
 }
 
-const ReferenceQueryPill: React.FC<IQueryBarProps> = ({
+const ReferenceQueryPill: React.FC<IReferenceQueryPillProps> = ({
     refIndex,
     onRemove,
     isBarActive,
