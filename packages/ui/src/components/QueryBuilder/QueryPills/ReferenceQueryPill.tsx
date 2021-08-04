@@ -5,7 +5,7 @@ import cx from 'classnames';
 
 import StackLayout from '../../../layout/StackLayout';
 
-import QueryReferenceValue from '../QueryReferenceValue';
+import ReferenceQueryValues from '../ReferenceQueryValues';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
 
@@ -26,7 +26,7 @@ const ReferenceQueryPill: React.FC<IReferenceQueryPillProps> = ({
 
     return (
         <StackLayout className={containerClassNames}>
-            <QueryReferenceValue refIndex={refIndex} highlightColor={getColorForReference(refIndex)} />
+            <ReferenceQueryValues refIndex={refIndex} highlightColor={getColorForReference(refIndex)} />
             <Button className={styles.close} type="text">
                 <AiOutlineClose onClick={() => onRemove()} />
             </Button>
