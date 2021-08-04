@@ -135,8 +135,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         onChangeQuery(nextID!, nextQuery);
     };
 
-    console.log(JSON.stringify(resolveSyntheticSqon(queries, queries[2])))
-
     useEffect(() => {
         if (queries.length > 0) {
             const queryState = queries.find((sqon) => sqon.id === selectedQueryId);
