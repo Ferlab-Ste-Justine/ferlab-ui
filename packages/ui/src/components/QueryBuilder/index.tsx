@@ -27,7 +27,7 @@ export interface IQueryBuilderProps {
     IconTotal?: React.ReactNode;
     currentQuery?: ISyntheticSqon | Record<string, never>;
     onRemoveFacet: TCallbackRemoveAction;
-    onRemoveReference: TCallbackRemoveReferenceAction;
+    onRemoveReference?: TCallbackRemoveReferenceAction;
     onChangeQuery: TOnChange;
     onUpdate?: (state: IInitialQueryState) => void;
     loading?: boolean;
