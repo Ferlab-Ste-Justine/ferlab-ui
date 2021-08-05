@@ -12,6 +12,7 @@ import LessThanOrEqualOperator from '../icons/LessThanOrEqualOperator';
 import QueryValues from '../QueryValues';
 import { IDictionary, TCallbackRemoveAction } from '../types';
 import { IValueFilter } from '../../../data/sqon/types';
+import { FieldOperators } from '../../../data/sqon/operators';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
 
@@ -30,11 +31,11 @@ interface IOperatorProps {
 
 const Operator: React.FC<IOperatorProps> = ({ className = '', type }) => {
     switch (type) {
-        case '>=':
+        case FieldOperators['>=']:
             return <GreaterThanOrEqualOperator className={className} />;
-        case '<=':
+        case FieldOperators['<=']:
             return <LessThanOrEqualOperator className={className} />;
-        case 'between':
+        case FieldOperators.between:
             return <ElementOperator className={className} />;
         default:
             return <EqualOperator className={className} />;
@@ -57,7 +58,7 @@ const FieldQueryPill: React.FC<IFieldQueryPillProps> = ({
                 <Operator className={styles.operator} type={query.op} />
             </>
         )}
-        <QueryValues isElement={query.op === 'between'} query={query} />
+        <QueryValues isElement={query.op === FieldOperators.between} query={query} />
         <Button className={styles.close} type="text">
             <AiOutlineClose onClick={() => onRemove(query)} />
         </Button>

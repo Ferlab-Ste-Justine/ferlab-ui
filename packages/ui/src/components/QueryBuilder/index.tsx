@@ -19,6 +19,7 @@ import {
 } from '../../data/sqon/utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
+import { BooleanOperators } from '../../data/sqon/operators';
 
 export interface IQueryBuilderProps {
     className?: string;
@@ -85,7 +86,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     const [showLabels, setShowLabels] = useState(initialShowLabelState);
     const [queries, setQueries] = useState<ISyntheticSqon[]>(initialState?.state || []);
     const [selectedQueryIndices, setSelectedQueryIndices] = useState<number[]>([]);
-    const [selectedCombineOperator, setSelectedCombineOperator] = useState<TSqonGroupOp>('and');
+    const [selectedCombineOperator, setSelectedCombineOperator] = useState<BooleanOperators>(BooleanOperators.and);
 
     const emptyQueries = queries.filter((sqon) => isEmptySqon(sqon));
     const noData = queries.length === emptyQueries.length;
@@ -224,7 +225,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                         }}
                         onDeleteQuery={(id) => {
                             if (queries.length === 1) {
-                                setQueries([{ id, total: 0, op: 'and', content: [] }]);
+                                setQueries([{ id, total: 0, op: BooleanOperators.and, content: [] }]);
                                 onChangeQuery('', {});
                                 return;
                             }
@@ -272,7 +273,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                                 const id = v4();
 
                                 setSelectedQueryId(id);
-                                setQueries([...queries, { id, op: 'and', content: [], total: 0 }]);
+                                setQueries([...queries, { id, op: BooleanOperators.and, content: [], total: 0 }]);
                             }}
                             size="small"
                         >
@@ -286,10 +287,16 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                             size="small"
                             overlay={
                                 <Menu selectedKeys={[selectedCombineOperator]}>
-                                    <Menu.Item key="and" onClick={() => setSelectedCombineOperator('and')}>
+                                    <Menu.Item
+                                        key={BooleanOperators.and}
+                                        onClick={() => setSelectedCombineOperator(BooleanOperators.and)}
+                                    >
                                         <AndOperator />
                                     </Menu.Item>
-                                    <Menu.Item key="or" onClick={() => setSelectedCombineOperator('or')}>
+                                    <Menu.Item
+                                        key={BooleanOperators.or}
+                                        onClick={() => setSelectedCombineOperator(BooleanOperators.or)}
+                                    >
                                         <OrOperator />
                                     </Menu.Item>
                                 </Menu>
@@ -337,7 +344,9 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                                     okText: dictionary.actions?.clear?.confirm || 'Delete',
                                     onOk: () => {
                                         setSelectedQueryIndices([]);
-                                        setQueries([{ id: selectedQueryId, op: 'and', content: [], total: 0 }]);
+                                        setQueries([
+                                            { id: selectedQueryId, op: BooleanOperators.and, content: [], total: 0 },
+                                        ]);
                                         onChangeQuery(selectedQueryId, {});
                                     },
                                     title: dictionary.actions?.clear?.title || 'Delete all queries?',
