@@ -41,24 +41,27 @@ const Operator: React.FC<IOperatorProps> = ({ className = '', type }) => {
     }
 };
 
-const FieldQueryPill: React.FC<IFieldQueryPillProps> = ({ query, dictionary = {}, showLabels, onRemove, isBarActive }) => {
-    const containerClassNames = cx(styles.container, { [styles.selected]: isBarActive });
-    return (
-        <StackLayout className={containerClassNames}>
-            {showLabels && (
-                <>
-                    <span className={`${styles.field}`}>
-                        {dictionary.query?.facet(query.content.field) || query.content.field}
-                    </span>
-                    <Operator className={styles.operator} type={query.op} />
-                </>
-            )}
-            <QueryValues isElement={query.op === 'between'} query={query} />
-            <Button className={styles.close} type="text">
-                <AiOutlineClose onClick={() => onRemove(query)} />
-            </Button>
-        </StackLayout>
-    );
-};
+const FieldQueryPill: React.FC<IFieldQueryPillProps> = ({
+    query,
+    dictionary = {},
+    showLabels,
+    onRemove,
+    isBarActive,
+}) => (
+    <StackLayout className={cx(styles.container, { [styles.selected]: isBarActive })}>
+        {showLabels && (
+            <>
+                <span className={`${styles.field}`}>
+                    {dictionary.query?.facet(query.content.field) || query.content.field}
+                </span>
+                <Operator className={styles.operator} type={query.op} />
+            </>
+        )}
+        <QueryValues isElement={query.op === 'between'} query={query} />
+        <Button className={styles.close} type="text">
+            <AiOutlineClose onClick={() => onRemove(query)} />
+        </Button>
+    </StackLayout>
+);
 
 export default FieldQueryPill;

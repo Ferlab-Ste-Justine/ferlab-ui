@@ -8,16 +8,14 @@ interface IReferenceQueryValuesProps {
     highlightColor?: string;
 }
 
-const ReferenceQueryValues: React.FC<IReferenceQueryValuesProps> = (props) => {
-    return (
-        <StackLayout className={styles.container}>
-            <StackLayout className={styles.valueWrapper}>
-                <span className={styles.value} style={props.highlightColor ? { color: props.highlightColor } : {}}>
-                    {String(props.refIndex + 1).padStart(2, 'Q')}
-                </span>
-            </StackLayout>
+const ReferenceQueryValues: React.FC<IReferenceQueryValuesProps> = (props) => (
+    <StackLayout className={styles.container}>
+        <StackLayout className={styles.valueWrapper}>
+            <span className={styles.value} style={props.highlightColor ? { color: props.highlightColor } : {}}>
+                {'Q' + (props.refIndex + 1)}
+            </span>
         </StackLayout>
-    );
-};
+    </StackLayout>
+);
 
 export default ReferenceQueryValues;

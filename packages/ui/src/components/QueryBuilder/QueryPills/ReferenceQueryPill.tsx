@@ -16,22 +16,18 @@ interface IReferenceQueryPillProps {
     getColorForReference?: (refIndex: number) => string;
 }
 
-const ReferenceQueryPill: React.FC<IReferenceQueryPillProps> = ({
+const ReferenceQueryPill = ({
     refIndex,
     onRemove,
     isBarActive,
     getColorForReference = () => '',
-}) => {
-    const containerClassNames = cx(styles.container, { [styles.selected]: isBarActive });
-
-    return (
-        <StackLayout className={containerClassNames}>
-            <ReferenceQueryValues refIndex={refIndex} highlightColor={getColorForReference(refIndex)} />
-            <Button className={styles.close} type="text">
-                <AiOutlineClose onClick={() => onRemove()} />
-            </Button>
-        </StackLayout>
-    );
-};
+}: IReferenceQueryPillProps) => (
+    <StackLayout className={cx(styles.container, { [styles.selected]: isBarActive })}>
+        <ReferenceQueryValues refIndex={refIndex} highlightColor={getColorForReference(refIndex)} />
+        <Button className={styles.close} type="text">
+            <AiOutlineClose onClick={() => onRemove()} />
+        </Button>
+    </StackLayout>
+);
 
 export default ReferenceQueryPill;

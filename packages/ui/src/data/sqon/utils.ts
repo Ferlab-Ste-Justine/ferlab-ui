@@ -1,4 +1,3 @@
-import { v4 } from 'uuid';
 import {
     ISqonGroupFilter,
     ISyntheticSqon,
@@ -125,7 +124,8 @@ export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSq
                 ...sqon,
                 content: getNewContent(indexToRemove, sqon.content),
             };
-        }).filter((s) => isNotEmptySqon(s));
+        })
+        .filter((s) => isNotEmptySqon(s));
 };
 
 /**
@@ -136,23 +136,13 @@ export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSq
  *
  * @returns {ISyntheticSqon} The modified synthetic sqon
  */
-export const changeCombineOperator = (operator: TSqonGroupOp, syntheticSqon: ISyntheticSqon): ISyntheticSqon => {
-    const changeSubContentOperator = (content: TSyntheticSqonContent) => {
-        return content.map((subContent: any) => {
-            if (isBooleanOperator(subContent)) {
-                return changeCombineOperator(operator, subContent);
-            }
-
-            return subContent;
-        });
-    };
-
-    return {
-        ...syntheticSqon,
-        op: operator,
-        content: changeSubContentOperator(syntheticSqon.content),
-    };
-};
+export const changeCombineOperator = (operator: TSqonGroupOp, syntheticSqon: ISyntheticSqon): ISyntheticSqon => ({
+    ...syntheticSqon,
+    op: operator,
+    content: syntheticSqon.content.map((subContent: any) =>
+        isBooleanOperator(subContent) ? changeCombineOperator(operator, subContent) : subContent,
+    ),
+});
 
 /**
  * Recursively check if a synthetic sqon index is referenced inside a given synthetic sqon
@@ -165,20 +155,13 @@ export const changeCombineOperator = (operator: TSqonGroupOp, syntheticSqon: ISy
 export const isIndexReferencedInSqon = (
     indexReference: number,
     syntheticSqon: ISyntheticSqon | Record<string, never>,
-): boolean => {
-    const reduceContent = (content: any) => {
-        return content.reduce(
-            (acc: any, contentSqon: ISyntheticSqon) => acc || isIndexReferencedInSqon(indexReference, contentSqon),
-            false,
-        );
-    };
-
-    if (isBooleanOperator(syntheticSqon)) {
-        return reduceContent(syntheticSqon.content);
-    } else {
-        return typeof syntheticSqon === 'number' && syntheticSqon === indexReference;
-    }
-};
+): boolean =>
+    isBooleanOperator(syntheticSqon)
+        ? syntheticSqon.content.reduce(
+              (acc: any, contentSqon: any) => acc || isIndexReferencedInSqon(indexReference, contentSqon),
+              false,
+          )
+        : typeof syntheticSqon === 'number' && syntheticSqon === indexReference;
 
 /**
  * Remove a value from a given synthetic sqon
@@ -191,7 +174,7 @@ export const isIndexReferencedInSqon = (
 export const removeContentFromSqon = (
     contentToRemove: TSyntheticSqonContentValue,
     syntheticSqon: ISyntheticSqon | Record<string, never>,
-): ISyntheticSqon => {
+) => {
     return {
         ...syntheticSqon,
         op: syntheticSqon.op,
