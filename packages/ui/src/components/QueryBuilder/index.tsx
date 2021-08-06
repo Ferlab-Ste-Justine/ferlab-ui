@@ -8,7 +8,7 @@ import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
 import QueryBar from './QueryBar';
 import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange, ArrayTenOrMore } from './types';
-import { ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
+import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import {
     changeCombineOperator,
     isEmptySqon,
@@ -129,9 +129,38 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         if (selectedQueryIndices.includes(currentQueryIndex)) {
             setSelectedQueryIndices(selectedQueryIndices.filter((index: number) => index !== currentQueryIndex));
         }
-        setQueries(removeSqonAtIndex(currentQueryIndex, queries));
         setSelectedQueryId(nextID!);
         onChangeQuery(nextID!, nextQuery);
+        setQueries(removeSqonAtIndex(currentQueryIndex, queries));
+    };
+
+    const addNewQuery = (
+        id: string = v4(),
+        op: BooleanOperators = BooleanOperators.and,
+        content: TSyntheticSqonContent = [],
+        total: number = 0,
+    ) => {
+        const newQuery = { id: id, op: op, content: content, total: total };
+        setSelectedQueryId(id);
+        onChangeQuery(id, newQuery);
+        setQueries(formatEmptyQueries([...queries, newQuery]));
+    };
+
+    const formatEmptyQueries = (tmpQuery: ISyntheticSqon[]) => {
+        // Manage to remove multiple empty queries and put one at the bottom
+        let newQueries = tmpQuery;
+        const currentEmptyQueries = tmpQuery.filter((obj) => isEmptySqon(obj));
+        if (currentEmptyQueries.length >= 1) {
+            const emptyQuery = currentEmptyQueries[0];
+            const fullQueries = tmpQuery.filter((obj) => isNotEmptySqon(obj));
+            newQueries = [...fullQueries, emptyQuery];
+        }
+        return newQueries;
+    };
+
+    const getQueryById = (id: string) => {
+        const currentQueryIndex = queries.findIndex((obj) => obj.id === id);
+        return queries[currentQueryIndex];
     };
 
     useEffect(() => {
@@ -143,14 +172,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         }
 
         if (isEmpty(queries) && isEmptySqon(currentQuery) && total === 0) {
-            setQueries([
-                {
-                    op: currentQuery.op,
-                    content: currentQuery.content,
-                    id: selectedQueryId,
-                    total: total,
-                },
-            ]);
+            addNewQuery();
         }
     }, []);
 
@@ -168,21 +190,12 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         } else {
             const tmpQuery = queries.map((obj) => {
                 if (obj.id === selectedQueryId) {
-                    return { ...obj, total, ...currentQuery };
+                    return { ...obj, ...currentQuery, total };
                 }
                 return { ...obj };
             });
 
-            // Manage to remove multiple empty queries and put one at the bottom
-            let newQueries = tmpQuery;
-            const currentEmptyQueries = tmpQuery.filter((obj) => isEmptySqon(obj));
-            if (currentEmptyQueries.length >= 1) {
-                const emptyQuery = currentEmptyQueries[0];
-                const fullQueries = tmpQuery.filter((obj) => isNotEmptySqon(obj));
-                newQueries = [...fullQueries, emptyQuery];
-            }
-
-            setQueries(newQueries);
+            setQueries(formatEmptyQueries(tmpQuery));
         }
     }, [currentQuery, total, loading]);
 
@@ -205,6 +218,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                         dictionary={dictionary}
                         getColorForReference={getColorForReference}
                         onChangeQuery={(id, query) => {
+                            console.log('ON CHANGE');
                             setSelectedQueryId(id);
                             onChangeQuery(id, query);
                         }}
@@ -220,27 +234,20 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                                 content: newQuery.content,
                             };
 
+                            console.log('CHANGE COMBINE');
                             setQueries(updatedQueries);
-                            onChangeQuery(id, newQuery);
+                            onChangeQuery(id, updatedQueries[currentQueryIndex]);
                         }}
                         onDeleteQuery={(id) => {
                             if (queries.length === 1) {
-                                setQueries([{ id, total: 0, op: BooleanOperators.and, content: [] }]);
                                 onChangeQuery('', {});
+                                setQueries([{ id, total: 0, op: BooleanOperators.and, content: [] }]);
                                 return;
                             }
-
                             deleteQueryAndSetNext(id);
                         }}
                         onDuplicate={(_, query) => {
-                            const newId = v4();
-
-                            setSelectedQueryId(newId);
-                            setQueries([
-                                ...queries,
-                                { id: newId, total: query.total, op: query.op, content: query.content },
-                            ]);
-                            onChangeQuery(newId, query);
+                            addNewQuery(v4(), query.op as BooleanOperators, query.content, query.total);
                         }}
                         onRemoveFacet={onRemoveFacet}
                         onRemoveReference={(refIndex, query) => {
@@ -270,10 +277,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                             className={styles.buttons}
                             disabled={noData || hasEmptyQuery}
                             onClick={() => {
-                                const id = v4();
-
-                                setSelectedQueryId(id);
-                                setQueries([...queries, { id, op: BooleanOperators.and, content: [], total: 0 }]);
+                                addNewQuery();
                             }}
                             size="small"
                         >
@@ -303,16 +307,12 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                             }
                             trigger={['click']}
                             onClick={() => {
-                                const newSyntheticSqon = {
-                                    id: v4(),
-                                    op: selectedCombineOperator,
-                                    content: selectedQueryIndices.sort(),
-                                    total: 0,
-                                };
-                                setSelectedQueryId(newSyntheticSqon.id);
+                                addNewQuery(
+                                    v4(),
+                                    selectedCombineOperator as BooleanOperators,
+                                    selectedQueryIndices.sort(),
+                                );
                                 setSelectedQueryIndices([]);
-                                setQueries([...queries, newSyntheticSqon]);
-                                onChangeQuery(newSyntheticSqon.id, newSyntheticSqon);
                             }}
                         >
                             {dictionary.actions?.combine || 'Combine'}

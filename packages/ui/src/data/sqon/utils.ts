@@ -14,11 +14,11 @@ import { BooleanOperators, FieldOperators } from './operators';
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
 export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
-    if (!sqon?.op && !sqon?.content) {
+    if (!sqon?.op && !sqon?.content?.length) {
         return true;
     }
 
-    return sqon ? sqon?.op in BooleanOperators && !Boolean(sqon?.content?.length) : true;
+    return !Object.keys(sqon).length ? true : !(sqon?.op && Boolean(sqon?.content?.length));
 };
 
 export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
@@ -124,8 +124,7 @@ export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSq
                 ...sqon,
                 content: getNewContent(indexToRemove, sqon.content),
             };
-        })
-        .filter((s) => isNotEmptySqon(s));
+        });
 };
 
 /**
