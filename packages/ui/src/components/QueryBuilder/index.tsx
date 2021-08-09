@@ -11,6 +11,7 @@ import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOn
 import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import {
     changeCombineOperator,
+    generateEmptyQuery,
     isEmptySqon,
     isIndexReferencedInSqon,
     isNotEmptySqon,
@@ -190,7 +191,9 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         } else {
             const tmpQuery = queries.map((obj) => {
                 if (obj.id === selectedQueryId) {
-                    return { ...obj, ...currentQuery, total };
+                    return !Object.keys(currentQuery).length
+                        ? generateEmptyQuery(obj, total)
+                        : { ...obj, ...currentQuery, total };
                 }
                 return { ...obj };
             });

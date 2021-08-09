@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import {
     ISqonGroupFilter,
     ISyntheticSqon,
@@ -66,6 +67,17 @@ export const isBooleanOperator = (sqon: ISyntheticSqon | Record<string, never>) 
 export const isFieldOperator = (sqon: ISyntheticSqon | Record<string, never>) => {
     return typeof sqon === 'object' && !isEmptySqon(sqon) && sqon.op in FieldOperators;
 };
+
+/**
+ * Generates an empty synthetic sqon
+ *
+ * @param {ISyntheticSqon} syntheticSqon The empty synthetic sqon
+ */
+export const generateEmptyQuery = (sqon: ISyntheticSqon, total: number = 0): ISyntheticSqon => ({
+    ...sqon,
+    total: total,
+    content: [],
+});
 
 /**
  * Convert a synthetic sqon into an executable sqon. Resolve all references if needed.
