@@ -184,9 +184,7 @@ QueryBuilderMultiQueryWithCombine.args = {
             total: 1500,
             id: '2',  
         },{
-            op: 'and', content: [0, 1, {
-                content: {value: ['cram'], field: 'Data Type'}, op: 'in'
-            }],
+            op: 'and', content: [0, 1],
             total: 3000,
             id: '3',  
         }],

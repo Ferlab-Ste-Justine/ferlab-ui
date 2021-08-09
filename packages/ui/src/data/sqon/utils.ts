@@ -8,6 +8,7 @@ import {
     TSyntheticSqonContentValue,
 } from './types';
 import { BooleanOperators, FieldOperators } from './operators';
+import { isEmpty } from 'lodash';
 
 /**
  * Check if a synthetic sqon is empty.
@@ -15,11 +16,11 @@ import { BooleanOperators, FieldOperators } from './operators';
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
 export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
-    if (!sqon?.op && !sqon?.content?.length) {
+    if (!sqon?.op && isEmpty(sqon?.content)) {
         return true;
     }
 
-    return !Object.keys(sqon).length ? true : !(sqon?.op && Boolean(sqon?.content?.length));
+    return !Object.keys(sqon).length ? true : !(sqon?.op && !isEmpty(sqon?.content));
 };
 
 export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
@@ -45,7 +46,7 @@ export const isNotReference = (sqon: any) => {
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
 export const isValueObject = (sqon: ISyntheticSqon | Record<string, never>) => {
-    return typeof sqon === 'object' && !isEmptySqon(sqon) && 'value' in sqon && 'field' in sqon;
+    return typeof sqon === 'object' && isNotEmptySqon(sqon) && 'value' in sqon && 'field' in sqon;
 };
 
 /**
@@ -55,7 +56,7 @@ export const isValueObject = (sqon: ISyntheticSqon | Record<string, never>) => {
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
 export const isBooleanOperator = (sqon: ISyntheticSqon | Record<string, never>) => {
-    return typeof sqon === 'object' && !isEmptySqon(sqon) && sqon.op in BooleanOperators;
+    return typeof sqon === 'object' && isNotEmptySqon(sqon) && sqon.op in BooleanOperators;
 };
 
 /**
@@ -65,7 +66,7 @@ export const isBooleanOperator = (sqon: ISyntheticSqon | Record<string, never>) 
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
 export const isFieldOperator = (sqon: ISyntheticSqon | Record<string, never>) => {
-    return typeof sqon === 'object' && !isEmptySqon(sqon) && sqon.op in FieldOperators;
+    return typeof sqon === 'object' && isNotEmptySqon(sqon) && sqon.op in FieldOperators;
 };
 
 /**
@@ -73,7 +74,10 @@ export const isFieldOperator = (sqon: ISyntheticSqon | Record<string, never>) =>
  *
  * @param {ISyntheticSqon} syntheticSqon The empty synthetic sqon
  */
-export const generateEmptyQuery = (sqon: ISyntheticSqon, total: number = 0): ISyntheticSqon => ({
+export const generateEmptyQuery = (
+    sqon: ISyntheticSqon = { id: v4(), op: BooleanOperators.and, content: [] },
+    total: number = 0,
+): ISyntheticSqon => ({
     ...sqon,
     total: total,
     content: [],

@@ -21,7 +21,7 @@ interface IFieldQueryPillProps {
     query: IValueFilter;
     dictionary?: IDictionary;
     showLabels?: boolean;
-    onRemove: TCallbackRemoveAction;
+    onRemove: Function;
 }
 
 interface IOperatorProps {
@@ -60,7 +60,7 @@ const FieldQueryPill: React.FC<IFieldQueryPillProps> = ({
         )}
         <QueryValues isElement={query.op === FieldOperators.between} query={query} />
         <Button className={styles.close} type="text">
-            <AiOutlineClose onClick={() => onRemove(query)} />
+            <AiOutlineClose onClick={() => onRemove()} />
         </Button>
     </StackLayout>
 );
