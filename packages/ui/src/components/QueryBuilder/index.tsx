@@ -169,7 +169,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         total: number = 0,
     ) => {
         const newQuery = { id: id, op: op, content: content, total: total };
-        //setSelectedQueryId(id);
         onQueryChange!(id, newQuery);
         setQueriesState({
             activeId: id,
@@ -242,7 +241,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     useEffect(() => {
         const newState = getUpdatedState(queriesState.queries, queriesState.activeId);
 
-        console.log(queriesState)
+        console.log(queriesState);
 
         if (onUpdate) {
             onUpdate(newState);
