@@ -241,8 +241,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     useEffect(() => {
         const newState = getUpdatedState(queriesState.queries, queriesState.activeId);
 
-        console.log(queriesState);
-
         if (onUpdate) {
             onUpdate(newState);
         } else {

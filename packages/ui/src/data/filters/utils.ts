@@ -219,8 +219,11 @@ export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGr
     return isFilterFound(filters, filterGroup, key);
 };
 
+const emptySqon = { content: [], op: BooleanOperators.and };
+
 export const useFilters = () => {
     let searchParams = new URLSearchParams(window.location.search);
+
     // @ts-ignore
     const paramsValues = [...searchParams.values()];
     // @ts-ignore
