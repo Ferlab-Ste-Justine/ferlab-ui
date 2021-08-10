@@ -4,7 +4,6 @@ import { Button } from 'antd';
 import cx from 'classnames';
 
 import StackLayout from '../../../layout/StackLayout';
-
 import ReferenceQueryValues from '../ReferenceQueryValues';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
@@ -25,7 +24,9 @@ const ReferenceQueryPill = ({
     <StackLayout className={cx(styles.container, { [styles.selected]: isBarActive })}>
         <ReferenceQueryValues refIndex={refIndex} highlightColor={getColorForReference(refIndex)} />
         <Button className={styles.close} type="text">
-            <AiOutlineClose onClick={() => onRemove()} />
+            <AiOutlineClose
+                onClick={(e) => onRemove()}
+            />
         </Button>
     </StackLayout>
 );

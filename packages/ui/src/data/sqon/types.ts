@@ -19,7 +19,7 @@ export interface ISqonGroupFilter {
     content: TSqonContent;
 }
 
-export type TSyntheticSqonContentValue = ISyntheticSqon | IValueFilter | number;
+export type TSyntheticSqonContentValue = ISqonGroupFilter | IValueFilter | number;
 export type TSyntheticSqonContent = Array<TSyntheticSqonContentValue>;
 export interface ISyntheticSqon {
     op: TSqonGroupOp;

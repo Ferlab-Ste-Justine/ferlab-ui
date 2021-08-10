@@ -10,8 +10,8 @@ import EqualOperator from '../icons/EqualOperator';
 import GreaterThanOrEqualOperator from '../icons/GreaterThanOrEqualOperator';
 import LessThanOrEqualOperator from '../icons/LessThanOrEqualOperator';
 import QueryValues from '../QueryValues';
-import { IDictionary, TCallbackRemoveAction } from '../types';
-import { IValueFilter } from '../../../data/sqon/types';
+import { IDictionary } from '../types';
+import { IValueFilter, TFilterValue } from '../../../data/sqon/types';
 import { FieldOperators } from '../../../data/sqon/operators';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
@@ -42,6 +42,9 @@ const Operator: React.FC<IOperatorProps> = ({ className = '', type }) => {
     }
 };
 
+const isBooleanValue = (value: TFilterValue) =>
+    value.filter((val) => ['false', 'true'].includes(val.toString().toLowerCase())).length > 0;
+
 const FieldQueryPill: React.FC<IFieldQueryPillProps> = ({
     query,
     dictionary = {},
@@ -50,7 +53,7 @@ const FieldQueryPill: React.FC<IFieldQueryPillProps> = ({
     isBarActive,
 }) => (
     <StackLayout className={cx(styles.container, { [styles.selected]: isBarActive })}>
-        {showLabels && (
+        {(showLabels || isBooleanValue(query.content.value)) && (
             <>
                 <span className={`${styles.field}`}>
                     {dictionary.query?.facet(query.content.field) || query.content.field}

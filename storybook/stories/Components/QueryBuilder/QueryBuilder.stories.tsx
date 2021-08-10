@@ -58,6 +58,9 @@ QueryBuilderEmptyWithShowLabelsButton.args = {
         state: [{
             op: 'and', content: [{
                 content: {value: ['something'], field: 'test', op: 'in'}
+            },
+            {
+                content: {value: ['false'], field: 'test1', op: 'in'}
             }],
             total: 1500,
             id: '1',  

@@ -4,7 +4,6 @@ import { Button, Checkbox, Popconfirm } from 'antd';
 import cx from 'classnames';
 
 import StackLayout from '../../layout/StackLayout';
-
 import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange } from './types';
 import { ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
 import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';

@@ -129,9 +129,14 @@ export const updateQueryParam = (history: any, key: string, value: any): void =>
     } else {
         query[key] = typeof value === 'object' ? JSON.stringify(value) : value;
     }
-    history.push({
-        search: `?${qs.stringify(query)}`,
-    });
+
+    if (history) {
+        history.push({
+            search: `?${qs.stringify(query)}`,
+        });
+    } else {
+        window.location.search = `?${qs.stringify(query)}`;
+    }
 };
 
 export const readQueryParam = <T = ''>(key: string, defaultValue: T, search: any = null): any => {
