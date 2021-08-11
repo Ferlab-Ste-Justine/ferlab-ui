@@ -7,7 +7,7 @@ interface IActions {
     labels?: string | React.ReactNode;
     delete?: IDeleteTranslation;
     clear?: IClearTranslation;
-    changeOperatorTo: string | React.ReactNode;
+    changeOperatorTo?: string | React.ReactNode;
 }
 
 interface IClearTranslation {

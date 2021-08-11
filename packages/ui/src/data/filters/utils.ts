@@ -3,7 +3,6 @@ import get from 'lodash/get';
 import { isEmpty } from 'lodash';
 import { IFilter, IFilterCount, IFilterGroup, IFilterRange, VisualType } from '../../components/filters/types';
 import {
-    ISqonGroupFilter,
     ISyntheticSqon,
     IValueContent,
     IValueFilter,
@@ -11,8 +10,19 @@ import {
     TSqonGroupOp,
     TSyntheticSqonContent,
 } from '../sqon/types';
+import xss, { IFilterXSSOptions } from 'xss';
 import { isFieldOperator, isNotReference, isReference } from '../sqon/utils';
 import { BooleanOperators, FieldOperators } from '../sqon/operators';
+
+const xssConfig: IFilterXSSOptions = {
+    escapeHtml: (f) => f,
+
+    stripIgnoreTag: true, // filter out all HTML not in the whitelist
+
+    stripIgnoreTagBody: ['script'], // the script tag is a special case, we need to filter out its content
+
+    whiteList: {}, // empty, means filter out all tags
+};
 
 const getQueryParams = (search: any = null) => (search ? qs.parse(search) : qs.parse(window.location.search));
 
@@ -139,13 +149,24 @@ export const updateQueryParam = (history: any, key: string, value: any): void =>
     }
 };
 
-export const readQueryParam = <T = ''>(key: string, defaultValue: T, search: any = null): any => {
+interface IValues<T> {
+    defaultValue: T;
+    whiteList?: Array<T>;
+}
+
+export const readQueryParam = <T = ''>(key: string, options: IValues<T>, search: any = null): any => {
     const query = getQueryParams(search);
-    return get(query, key, defaultValue);
+    let result = get<any, any, T>(query, key, options.defaultValue)!;
+    result = xss(result, xssConfig);
+    if (!isEmpty(options.whiteList) && !options.whiteList!.includes(result)) {
+        result = options.defaultValue;
+    }
+
+    return result;
 };
 
 export const getFiltersQuery = (search: any = null): ISyntheticSqon => {
-    const filters = readQueryParam('filters', JSON.stringify({}), search);
+    const filters = readQueryParam('filters', { defaultValue: JSON.stringify({}) }, search);
 
     return JSON.parse(filters);
 };

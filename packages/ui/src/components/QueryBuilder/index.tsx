@@ -141,11 +141,11 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
 
     const deleteQueryAndSetNext = (id: string) => {
         if (queriesState.queries.length === 1) {
-            onQueryChange!('', {});
             setQueriesState({
                 ...queriesState,
                 queries: [{ id, total: 0, op: BooleanOperators.and, content: [] }],
             });
+            onQueryChange('', {});
         } else {
             const currentQueryIndex = getQueryIndexById(id);
             const updatedQueries = cleanUpQueries(removeSqonAtIndex(currentQueryIndex, queriesState.queries));
@@ -157,11 +157,11 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                 setSelectedQueryIndices(selectedQueryIndices.filter((index: number) => index !== currentQueryIndex));
             }
 
-            console.log('SET STATE: ' + nextID);
             setQueriesState({
                 activeId: nextID!,
                 queries: updatedQueries,
             });
+            onQueryChange(nextID!, nextQuery);
         }
     };
 
@@ -224,7 +224,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         } else {
             let tmpQuery = queriesState.queries.map((obj) => {
                 if (obj.id === queriesState.activeId) {
-                    return { ...obj, ...currentQuery, total };
+                    return { ...obj, content: currentQuery.content ? currentQuery.content : [], total };
                 }
                 return { ...obj };
             });

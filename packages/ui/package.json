@@ -57,10 +57,11 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "query-string": "^7.0.1",
     "history": "^4.9.0",
+    "query-string": "^7.0.1",
     "react-icons": "^4.2.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "xss": "^1.0.9"
   },
   "bugs": {
     "url": "https://github.com/Ferlab-Ste-Justine/ferlab-ui/issues"
