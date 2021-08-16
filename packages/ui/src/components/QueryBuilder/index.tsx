@@ -99,8 +99,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     });
     const [showLabels, setShowLabels] = useState(initialShowLabelState);
     const [selectedQueryIndices, setSelectedQueryIndices] = useState<number[]>([]);
-    const [selectedCombineOperator, setSelectedCombineOperator] = useState<BooleanOperators>(BooleanOperators.and);
-
     const emptyQueries = queriesState.queries.filter((sqon) => isEmptySqon(sqon));
     const noData = queriesState.queries.length === emptyQueries.length;
     const hasEmptyQuery = emptyQueries.length >= 1;
@@ -203,6 +201,11 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
 
     const onQueryChange = (id: string, query: ISyntheticSqon | Record<string, never>) =>
         onChangeQuery ? onChangeQuery(id, query) : updateQueryParam(history, filtersKey, query);
+
+    const onCombineClick = (operator: BooleanOperators) => {
+        addNewQuery(v4(), operator, selectedQueryIndices.sort());
+        setSelectedQueryIndices([]);
+    };
 
     useEffect(() => {
         if (queriesState.queries.length > 0) {
@@ -351,9 +354,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                             className={styles.buttons}
                             type="primary"
                             disabled={noData || hasEmptyQuery}
-                            onClick={() => {
-                                addNewQuery();
-                            }}
+                            onClick={() => addNewQuery()}
                             size="small"
                         >
                             <AiOutlinePlus />
@@ -366,45 +367,30 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                             type="primary"
                             size="small"
                             overlay={
-                                <Menu selectedKeys={[selectedCombineOperator]}>
+                                <Menu>
                                     <Menu.Item
                                         key={BooleanOperators.and}
-                                        onClick={() => {
-                                            addNewQuery(v4(), BooleanOperators.and, selectedQueryIndices.sort());
-                                            setSelectedQueryIndices([]);
-                                        }}
+                                        onClick={() => onCombineClick(BooleanOperators.and)}
                                     >
                                         <AndOperator />
                                     </Menu.Item>
                                     <Menu.Item
                                         key={BooleanOperators.or}
-                                        onClick={() => {
-                                            addNewQuery(v4(), BooleanOperators.or, selectedQueryIndices.sort());
-                                            setSelectedQueryIndices([]);
-                                        }}
+                                        onClick={() => onCombineClick(BooleanOperators.or)}
                                     >
                                         <OrOperator />
                                     </Menu.Item>
                                 </Menu>
                             }
                             trigger={['click']}
-                            onClick={() => {
-                                addNewQuery(v4(), BooleanOperators.and, selectedQueryIndices.sort());
-                                setSelectedQueryIndices([]);
-                            }}
+                            onClick={() => onCombineClick(BooleanOperators.and)}
                         >
                             {dictionary.actions?.combine || 'Combine'}
                         </Dropdown.Button>
                     )}
                     {enableShowHideLabels && !canCombine && (
                         <span className={`${styles.switch} ${styles.withLabel}`}>
-                            <Switch
-                                checked={showLabels}
-                                size="small"
-                                onChange={(checked) => {
-                                    setShowLabels(checked);
-                                }}
-                            />
+                            <Switch checked={showLabels} size="small" onChange={(checked) => setShowLabels(checked)} />
                             <span className={styles.label}>{dictionary.actions?.labels || 'Labels'}</span>
                         </span>
                     )}
