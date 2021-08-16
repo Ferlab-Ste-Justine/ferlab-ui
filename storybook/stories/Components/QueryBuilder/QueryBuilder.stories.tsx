@@ -168,29 +168,43 @@ QueryBuilderMultiQueryWithCombine.args = {
     initialState: {
         state: [{
             op: 'and', content: [{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test'}, op: 'in'
-            },{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'More Data'}, op: 'in'
-            },{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 2'}, op: 'in'
+                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 1'}, op: 'in'
             },{
                 content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 3'}, op: 'in'
+            },{
+                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 4'}, op: 'in'
+            },{
+                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 5'}, op: 'in'
             },{
                 content: {value: [10,15], field: 'age'},  op: 'between'
             }],
             total: 1500,
             id: '1',  
         },{
-            op: 'and', content: [{
-                content: {value: ['cram'], field: 'Data Type'}, op: 'in'
+            op: 'or', content: [{
+                content: {value: ['something'], field: 'Test 1'}, op: 'in'
+            },
+            {
+                content: {value: ['else'], field: 'Test 2'}, op: 'in'
             }],
             total: 1500,
             id: '2',  
         },{
+            op: 'and', content: [{
+                content: {value: ['something'], field: 'Test 3'}, op: 'in'
+            }],
+            total: 1500,
+            id: '3',  
+        },{
             op: 'and', content: [0, 1],
             total: 3000,
-            id: '3',  
+            id: '4',  
+        },
+        {
+            op: 'and', content: [1, 2, 3],
+            total: 3000,
+            id: '5',  
         }],
-        active: '2'
+        active: '1'
     }
 };
