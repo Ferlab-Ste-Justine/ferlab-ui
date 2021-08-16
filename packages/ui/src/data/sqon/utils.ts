@@ -145,7 +145,7 @@ export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSq
             .map((s: any) => (isReference(s) ? (s > indexToRemove ? s - 1 : s) : s));
     };
 
-    return sqonsList
+    const result = sqonsList
         .filter((s, i) => i !== indexToRemove)
         .map((sqon) => {
             if (isEmptySqon(sqon)) {
@@ -157,6 +157,18 @@ export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSq
                 content: getNewContent(indexToRemove, sqon.content),
             };
         });
+
+    const emptyQueries = result.filter((s) => isEmpty(s.content))
+
+    if (emptyQueries.length) {
+        return removeSqonAtIndex(
+            result.findIndex((s) => s.id = emptyQueries[0].id),
+            result
+        )
+    }
+
+    return result
+
 };
 
 /**
