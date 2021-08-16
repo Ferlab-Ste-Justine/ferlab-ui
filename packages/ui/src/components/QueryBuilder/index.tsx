@@ -8,11 +8,11 @@ import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
 import QueryBar from './QueryBar';
 import { createBrowserHistory, History } from 'history';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEqual } from 'lodash';
 
 import { IDictionary, TOnChange, ArrayTenOrMore } from './types';
 import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
-import { getQueryBuilderCache, setQueryBuilderCache, updateQueryParam } from '../../data/filters/utils';
+import { getQueryBuilderCache, getQueryParams, setQueryBuilderCache, updateQueryParam } from '../../data/filters/utils';
 import {
     changeCombineOperator,
     generateEmptyQuery,
@@ -148,10 +148,16 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
             onQueryChange('', {});
         } else {
             const currentQueryIndex = getQueryIndexById(id);
+
+            console.log(removeSqonAtIndex(currentQueryIndex, queriesState.queries));
+
             const updatedQueries = cleanUpQueries(removeSqonAtIndex(currentQueryIndex, queriesState.queries));
             const nextSelectedIndex = findNextSelectedQuery(updatedQueries, currentQueryIndex);
             const nextQuery = updatedQueries[nextSelectedIndex];
             const nextID = nextQuery.id;
+
+            console.log()
+            console.log(updatedQueries);
 
             if (selectedQueryIndices.includes(currentQueryIndex)) {
                 setSelectedQueryIndices(selectedQueryIndices.filter((index: number) => index !== currentQueryIndex));
@@ -161,7 +167,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                 activeId: nextID!,
                 queries: updatedQueries,
             });
-            onQueryChange(nextID!, nextQuery);
         }
     };
 
@@ -208,7 +213,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     }, []);
 
     useEffect(() => {
-        if ((isEmptySqon(currentQuery) && total === 0) || loading) return;
+        if (isEmptySqon(currentQuery) && total === 0) return;
         if (queriesState.queries.length === 0) {
             setQueriesState({
                 ...queriesState,
@@ -224,7 +229,11 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         } else {
             let tmpQuery = queriesState.queries.map((obj) => {
                 if (obj.id === queriesState.activeId) {
-                    return { ...obj, content: currentQuery.content ? currentQuery.content : [], total };
+                    return {
+                        ...obj,
+                        content: currentQuery.content ? currentQuery.content : [],
+                        total: loading ? currentQuery.total : total,
+                    };
                 }
                 return { ...obj };
             });
@@ -247,6 +256,15 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
             onUpdate(newState);
         } else {
             setQueryBuilderCache(cacheKey, newState);
+
+            const queryParams = getQueryParams();
+            if (queryParams['filters']) {
+                const currentQueryParams = JSON.parse(queryParams['filters'] as string) as ISyntheticSqon;
+                const associatedQuery = queriesState.queries.filter((query) => query.id == currentQueryParams.id);
+                if (associatedQuery.length && !isEqual(currentQueryParams.content, associatedQuery[0].content)) {
+                    onQueryChange(associatedQuery[0].id!, associatedQuery[0]);
+                }
+            }
         }
     }, [queriesState.queries]);
 

@@ -162,26 +162,25 @@ QueryBuilderMultiQuery.args = {
 export const QueryBuilderMultiQueryWithCombine = QueryBuilderStory.bind({});
 QueryBuilderMultiQueryWithCombine.args = {
     title: 'Query Builder Multi Query With Combine',
+    cacheKey: 'test',
     enableCombine: true,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
         state: [{
-            op: 'and', content: [{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 1'}, op: 'in'
-            },{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 3'}, op: 'in'
-            },{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 4'}, op: 'in'
-            },{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 5'}, op: 'in'
-            },{
-                content: {value: [10,15], field: 'age'},  op: 'between'
+            op: 'or', content: [{
+                content: {value: ['something'], field: 'Test 1'}, op: 'in'
+            },
+            {
+                content: {value: ['else'], field: 'Test 2'}, op: 'in'
+            },
+            {
+                content: {value: ['more'], field: 'Test 3'}, op: 'in'
             }],
             total: 1500,
             id: '1',  
         },{
-            op: 'or', content: [{
+            op: 'and', content: [{
                 content: {value: ['something'], field: 'Test 1'}, op: 'in'
             },
             {
@@ -191,19 +190,15 @@ QueryBuilderMultiQueryWithCombine.args = {
             id: '2',  
         },{
             op: 'and', content: [{
-                content: {value: ['something'], field: 'Test 3'}, op: 'in'
+                content: {value: ['something'], field: 'Test 1'}, op: 'in'
             }],
             total: 1500,
             id: '3',  
-        },{
-            op: 'and', content: [0, 1],
-            total: 3000,
-            id: '4',  
         },
         {
-            op: 'and', content: [1, 2, 3],
+            op: 'and', content: [0, 1, 2],
             total: 3000,
-            id: '5',  
+            id: '4',  
         }],
         active: '1'
     }
