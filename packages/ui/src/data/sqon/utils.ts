@@ -2,12 +2,13 @@ import { v4 } from 'uuid';
 import {
     ISqonGroupFilter,
     ISyntheticSqon,
+    IValueFilter,
     TSqonContent,
     TSqonGroupOp,
     TSyntheticSqonContent,
     TSyntheticSqonContentValue,
 } from './types';
-import { BooleanOperators, FieldOperators } from './operators';
+import { BooleanOperators, FieldOperators, RangeOperators } from './operators';
 import { isEmpty } from 'lodash';
 
 /**
@@ -15,7 +16,7 @@ import { isEmpty } from 'lodash';
  *
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
-export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
+export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never> | ISqonGroupFilter) => {
     if (!sqon?.op && isEmpty(sqon?.content)) {
         return true;
     }
@@ -23,7 +24,7 @@ export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
     return !Object.keys(sqon).length ? true : !(sqon?.op && !isEmpty(sqon?.content));
 };
 
-export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
+export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never> | ISqonGroupFilter) => {
     return !isEmptySqon(sqon);
 };
 
@@ -55,7 +56,7 @@ export const isValueObject = (sqon: ISyntheticSqon | Record<string, never>) => {
  *
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
-export const isBooleanOperator = (sqon: ISyntheticSqon | Record<string, never>) => {
+export const isBooleanOperator = (sqon: ISyntheticSqon | Record<string, never> | ISqonGroupFilter) => {
     return typeof sqon === 'object' && isNotEmptySqon(sqon) && sqon.op in BooleanOperators;
 };
 
@@ -65,9 +66,24 @@ export const isBooleanOperator = (sqon: ISyntheticSqon | Record<string, never>) 
  *
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
-export const isFieldOperator = (sqon: ISyntheticSqon | Record<string, never>) => {
+export const isFieldOperator = (sqon: ISyntheticSqon | Record<string, never> | ISqonGroupFilter) => {
     return typeof sqon === 'object' && isNotEmptySqon(sqon) && sqon.op in FieldOperators;
 };
+
+/**
+ * Check if a query filter is a boolean one.
+ *
+ * @param {Boolean}
+ */
+export const isBooleanFilter = (query: IValueFilter) =>
+    query.content.value.filter((val) => ['false', 'true'].includes(val.toString().toLowerCase())).length > 0;
+
+/**
+ * Check if a query filter is a range one.
+ *
+ * @param {Boolean}
+ */
+export const isRangeFilter = (query: IValueFilter) => query.op in RangeOperators;
 
 /**
  * Generates an empty synthetic sqon
