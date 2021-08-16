@@ -24,7 +24,7 @@ const xssConfig: IFilterXSSOptions = {
     whiteList: {}, // empty, means filter out all tags
 };
 
-const getQueryParams = (search: any = null) => (search ? qs.parse(search) : qs.parse(window.location.search));
+export const getQueryParams = (search: any = null) => (search ? qs.parse(search) : qs.parse(window.location.search));
 
 export const updateFilters = (history: any, filterGroup: IFilterGroup, selected: IFilter[]): void => {
     const newSelectedFilters: TSqonContent = createSQONFromFilters(filterGroup, selected);
