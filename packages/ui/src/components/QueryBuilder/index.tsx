@@ -15,7 +15,6 @@ import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import { getQueryBuilderCache, getQueryParams, setQueryBuilderCache, updateQueryParam } from '../../data/filters/utils';
 import {
     changeCombineOperator,
-    generateEmptyQuery,
     isEmptySqon,
     isIndexReferencedInSqon,
     isNotEmptySqon,
@@ -74,20 +73,21 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     initialShowLabelState = true,
     initialState = {},
     referenceColors = [
-        '#d72981',
-        '#ec7f22',
-        '#03e07f',
-        '#1867e2',
-        '#44e5e6',
-        '#b92be4',
-        '#bf332e',
-        '#0cd336',
-        '#971c59',
-        '#e34c8b',
-        '#333399',
-        '#660033',
-        '#660066',
-        '#336600',
+        '#C31D7E',
+        '#328536',
+        '#AA00FF',
+        '#C2410C',
+        '#047ABE',
+        '#E5231F',
+        '#007D85',
+        '#C51162',
+        '#7B5A90',
+        '#B85C00',
+        '#722ED1',
+        '#4D7C0F',
+        '#9F1239',
+        '#2D7D9A',
+        '#847545',
     ],
 }) => {
     const [queriesState, setQueriesState] = useState<{
@@ -139,34 +139,39 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                 : queries.length - 1
             : currentQueryIndex + 1;
 
+    const resetQueries = (id: string) => {
+        setQueriesState({
+            ...queriesState,
+            queries: [{ id, total: 0, op: BooleanOperators.and, content: [] }],
+        });
+        onQueryChange(id, {});
+    };
+
     const deleteQueryAndSetNext = (id: string) => {
         if (queriesState.queries.length === 1) {
-            setQueriesState({
-                ...queriesState,
-                queries: [{ id, total: 0, op: BooleanOperators.and, content: [] }],
-            });
-            onQueryChange('', {});
+            resetQueries(id);
         } else {
             const currentQueryIndex = getQueryIndexById(id);
-
-            console.log(removeSqonAtIndex(currentQueryIndex, queriesState.queries));
-
             const updatedQueries = cleanUpQueries(removeSqonAtIndex(currentQueryIndex, queriesState.queries));
-            const nextSelectedIndex = findNextSelectedQuery(updatedQueries, currentQueryIndex);
-            const nextQuery = updatedQueries[nextSelectedIndex];
-            const nextID = nextQuery.id;
 
-            console.log()
-            console.log(updatedQueries);
+            if (updatedQueries.length) {
+                const nextSelectedIndex = findNextSelectedQuery(updatedQueries, currentQueryIndex);
+                const nextQuery = updatedQueries[nextSelectedIndex];
+                const nextID = nextQuery.id!;
 
-            if (selectedQueryIndices.includes(currentQueryIndex)) {
-                setSelectedQueryIndices(selectedQueryIndices.filter((index: number) => index !== currentQueryIndex));
+                if (selectedQueryIndices.includes(currentQueryIndex)) {
+                    setSelectedQueryIndices(
+                        selectedQueryIndices.filter((index: number) => index !== currentQueryIndex),
+                    );
+                }
+
+                setQueriesState({
+                    activeId: nextID!,
+                    queries: updatedQueries,
+                });
+            } else {
+                resetQueries(id);
             }
-
-            setQueriesState({
-                activeId: nextID!,
-                queries: updatedQueries,
-            });
         }
     };
 
@@ -189,7 +194,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         const currentEmptyQueries = tmpQuery.filter((obj) => isEmptySqon(obj));
         const fullQueries = tmpQuery.filter((obj) => isNotEmptySqon(obj));
         if (currentEmptyQueries.length) {
-            const emptyQuery = currentEmptyQueries.length ? currentEmptyQueries[0] : generateEmptyQuery();
+            const emptyQuery = currentEmptyQueries[0];
             newQueries = cloneDeep([...fullQueries, emptyQuery]);
         }
 
@@ -344,6 +349,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                     {!enableSingleQuery && !canCombine && (
                         <Button
                             className={styles.buttons}
+                            type="primary"
                             disabled={noData || hasEmptyQuery}
                             onClick={() => {
                                 addNewQuery();
@@ -357,18 +363,25 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                     {enableCombine && canCombine && (
                         <Dropdown.Button
                             disabled={!canCombine}
+                            type="primary"
                             size="small"
                             overlay={
                                 <Menu selectedKeys={[selectedCombineOperator]}>
                                     <Menu.Item
                                         key={BooleanOperators.and}
-                                        onClick={() => setSelectedCombineOperator(BooleanOperators.and)}
+                                        onClick={() => {
+                                            addNewQuery(v4(), BooleanOperators.and, selectedQueryIndices.sort());
+                                            setSelectedQueryIndices([]);
+                                        }}
                                     >
                                         <AndOperator />
                                     </Menu.Item>
                                     <Menu.Item
                                         key={BooleanOperators.or}
-                                        onClick={() => setSelectedCombineOperator(BooleanOperators.or)}
+                                        onClick={() => {
+                                            addNewQuery(v4(), BooleanOperators.or, selectedQueryIndices.sort());
+                                            setSelectedQueryIndices([]);
+                                        }}
                                     >
                                         <OrOperator />
                                     </Menu.Item>
@@ -376,11 +389,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                             }
                             trigger={['click']}
                             onClick={() => {
-                                addNewQuery(
-                                    v4(),
-                                    selectedCombineOperator as BooleanOperators,
-                                    selectedQueryIndices.sort(),
-                                );
+                                addNewQuery(v4(), BooleanOperators.and, selectedQueryIndices.sort());
                                 setSelectedQueryIndices([]);
                             }}
                         >
@@ -413,18 +422,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                                     okText: dictionary.actions?.clear?.confirm || 'Delete',
                                     onOk: () => {
                                         setSelectedQueryIndices([]);
-                                        setQueriesState({
-                                            ...queriesState,
-                                            queries: [
-                                                {
-                                                    id: queriesState.activeId,
-                                                    op: BooleanOperators.and,
-                                                    content: [],
-                                                    total: 0,
-                                                },
-                                            ],
-                                        });
-                                        onQueryChange!(queriesState.activeId, {});
+                                        resetQueries(queriesState.activeId);
                                     },
                                     title: dictionary.actions?.clear?.title || 'Delete all queries?',
                                 })
