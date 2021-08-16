@@ -58,6 +58,9 @@ QueryBuilderEmptyWithShowLabelsButton.args = {
         state: [{
             op: 'and', content: [{
                 content: {value: ['something'], field: 'test', op: 'in'}
+            },
+            {
+                content: {value: ['false'], field: 'test1', op: 'in'}
             }],
             total: 1500,
             id: '1',  
@@ -184,9 +187,7 @@ QueryBuilderMultiQueryWithCombine.args = {
             total: 1500,
             id: '2',  
         },{
-            op: 'and', content: [0, 1, {
-                content: {value: ['cram'], field: 'Data Type'}, op: 'in'
-            }],
+            op: 'and', content: [0, 1],
             total: 3000,
             id: '3',  
         }],

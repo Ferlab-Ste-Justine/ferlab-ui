@@ -4,7 +4,6 @@ import { Button } from 'antd';
 import cx from 'classnames';
 
 import StackLayout from '../../../layout/StackLayout';
-
 import ReferenceQueryValues from '../ReferenceQueryValues';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
@@ -16,22 +15,20 @@ interface IReferenceQueryPillProps {
     getColorForReference?: (refIndex: number) => string;
 }
 
-const ReferenceQueryPill: React.FC<IReferenceQueryPillProps> = ({
+const ReferenceQueryPill = ({
     refIndex,
     onRemove,
     isBarActive,
     getColorForReference = () => '',
-}) => {
-    const containerClassNames = cx(styles.container, { [styles.selected]: isBarActive });
-
-    return (
-        <StackLayout className={containerClassNames}>
-            <ReferenceQueryValues refIndex={refIndex} highlightColor={getColorForReference(refIndex)} />
-            <Button className={styles.close} type="text">
-                <AiOutlineClose onClick={() => onRemove()} />
-            </Button>
-        </StackLayout>
-    );
-};
+}: IReferenceQueryPillProps) => (
+    <StackLayout className={cx(styles.container, { [styles.selected]: isBarActive })}>
+        <ReferenceQueryValues refIndex={refIndex} highlightColor={getColorForReference(refIndex)} />
+        <Button className={styles.close} type="text">
+            <AiOutlineClose
+                onClick={(e) => onRemove()}
+            />
+        </Button>
+    </StackLayout>
+);
 
 export default ReferenceQueryPill;

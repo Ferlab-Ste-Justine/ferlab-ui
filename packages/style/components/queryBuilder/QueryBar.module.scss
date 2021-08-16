@@ -39,12 +39,12 @@
 
     .selectionWrapper {
         padding-left: $query-bar-padding-left + $query-bar-identifier-width;
+
         .label {
             font-size: 1.2rem;
             padding-top: 1px;
-            padding-left: 0.4em;
+            padding-left: 0.4rem;
             font-weight: 600;
-            box-shadow: none !important;
         }
     }
 

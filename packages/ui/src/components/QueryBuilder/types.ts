@@ -7,7 +7,7 @@ interface IActions {
     labels?: string | React.ReactNode;
     delete?: IDeleteTranslation;
     clear?: IClearTranslation;
-    changeOperatorTo: string | React.ReactNode;
+    changeOperatorTo?: string | React.ReactNode;
 }
 
 interface IClearTranslation {
@@ -56,7 +56,7 @@ export enum CombinerEnum {
     Or = 'or',
 }
 
-export type TCallbackRemoveAction = (f: IValueFilter) => void;
+export type TCallbackRemoveAction = (f: IValueFilter, query: ISyntheticSqon| Record<string, never>) => void;
 export type TCallbackRemoveReferenceAction = (refIndex: number, query: ISyntheticSqon | Record<string, never>) => void;
 export type TOnChange = (id: string, query: ISyntheticSqon | Record<string, never>) => void;
 

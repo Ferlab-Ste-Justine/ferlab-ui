@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Tooltip } from 'antd';
 
 import StackLayout from '../../layout/StackLayout';
-
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
 import { CombinerEnum, IDictionary } from './types';

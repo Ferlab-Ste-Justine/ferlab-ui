@@ -10,8 +10,10 @@ import EqualOperator from '../icons/EqualOperator';
 import GreaterThanOrEqualOperator from '../icons/GreaterThanOrEqualOperator';
 import LessThanOrEqualOperator from '../icons/LessThanOrEqualOperator';
 import QueryValues from '../QueryValues';
-import { IDictionary, TCallbackRemoveAction } from '../types';
+import { IDictionary } from '../types';
 import { IValueFilter } from '../../../data/sqon/types';
+import { FieldOperators } from '../../../data/sqon/operators';
+import { isBooleanFilter, isRangeFilter } from '../../../data/sqon/utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
 
@@ -20,7 +22,7 @@ interface IFieldQueryPillProps {
     query: IValueFilter;
     dictionary?: IDictionary;
     showLabels?: boolean;
-    onRemove: TCallbackRemoveAction;
+    onRemove: Function;
 }
 
 interface IOperatorProps {
@@ -30,35 +32,38 @@ interface IOperatorProps {
 
 const Operator: React.FC<IOperatorProps> = ({ className = '', type }) => {
     switch (type) {
-        case '>=':
+        case FieldOperators['>=']:
             return <GreaterThanOrEqualOperator className={className} />;
-        case '<=':
+        case FieldOperators['<=']:
             return <LessThanOrEqualOperator className={className} />;
-        case 'between':
+        case FieldOperators.between:
             return <ElementOperator className={className} />;
         default:
             return <EqualOperator className={className} />;
     }
 };
 
-const FieldQueryPill: React.FC<IFieldQueryPillProps> = ({ query, dictionary = {}, showLabels, onRemove, isBarActive }) => {
-    const containerClassNames = cx(styles.container, { [styles.selected]: isBarActive });
-    return (
-        <StackLayout className={containerClassNames}>
-            {showLabels && (
-                <>
-                    <span className={`${styles.field}`}>
-                        {dictionary.query?.facet(query.content.field) || query.content.field}
-                    </span>
-                    <Operator className={styles.operator} type={query.op} />
-                </>
-            )}
-            <QueryValues isElement={query.op === 'between'} query={query} />
-            <Button className={styles.close} type="text">
-                <AiOutlineClose onClick={() => onRemove(query)} />
-            </Button>
-        </StackLayout>
-    );
-};
+const FieldQueryPill: React.FC<IFieldQueryPillProps> = ({
+    query,
+    dictionary = {},
+    showLabels,
+    onRemove,
+    isBarActive,
+}) => (
+    <StackLayout className={cx(styles.container, { [styles.selected]: isBarActive })}>
+        {(showLabels || isBooleanFilter(query) || isRangeFilter(query)) && (
+            <>
+                <span className={`${styles.field}`}>
+                    {dictionary.query?.facet(query.content.field) || query.content.field}
+                </span>
+                <Operator className={styles.operator} type={query.op} />
+            </>
+        )}
+        <QueryValues isElement={query.op === FieldOperators.between} query={query} />
+        <Button className={styles.close} type="text">
+            <AiOutlineClose onClick={() => onRemove()} />
+        </Button>
+    </StackLayout>
+);
 
 export default FieldQueryPill;

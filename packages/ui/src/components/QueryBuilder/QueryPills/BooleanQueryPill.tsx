@@ -20,53 +20,38 @@ interface IBooleanQueryPillProps {
     getColorForReference?: (refIndex: number) => string;
 }
 
-const BooleanQueryPill: React.FC<IBooleanQueryPillProps> = (props) => {
-    const {
-        parentQueryId,
-        query,
-        isActive,
-        showLabels,
-        dictionary,
-        onRemoveFacet,
-        onRemoveReference,
-        onCombineChange = (f) => f,
-        getColorForReference = () => '',
-    } = props;
-    const { op, content } = query;
-
-    return (
-        <>
-            {content.map((f: any, i: number) => (
-                <StackLayout key={i}>
-                    {isBooleanOperator(f) ? (
-                        <BooleanQueryPill {...props} query={f} />
-                    ) : isReference(f) ? (
-                        <ReferenceQueryPill
-                            isBarActive={isActive}
-                            refIndex={f as number}
-                            onRemove={() => onRemoveReference(f as number, query)}
-                            getColorForReference={getColorForReference}
-                        />
-                    ) : (
-                        <FieldQueryPill
-                            isBarActive={isActive}
-                            dictionary={dictionary}
-                            onRemove={onRemoveFacet}
-                            query={f as IValueFilter}
-                            showLabels={showLabels}
-                        />
-                    )}
-                    {query.content.length - 1 > i && (
-                        <Combiner
-                            dictionary={dictionary}
-                            onChange={(type) => onCombineChange(parentQueryId, type)}
-                            type={op}
-                        />
-                    )}
-                </StackLayout>
-            ))}
-        </>
-    );
-};
+const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
+    <>
+        {props.query.content.map((f: any, i: number) => (
+            <StackLayout key={i}>
+                {isBooleanOperator(f) ? (
+                    <BooleanQueryPill {...props} query={f} />
+                ) : isReference(f) ? (
+                    <ReferenceQueryPill
+                        isBarActive={props.isActive}
+                        refIndex={f as number}
+                        onRemove={() => props.onRemoveReference(f as number, props.query)}
+                        getColorForReference={props.getColorForReference}
+                    />
+                ) : (
+                    <FieldQueryPill
+                        isBarActive={props.isActive}
+                        dictionary={props.dictionary}
+                        onRemove={() => props.onRemoveFacet(f, props.query)}
+                        query={f as IValueFilter}
+                        showLabels={props.showLabels}
+                    />
+                )}
+                {props.query.content.length - 1 > i && (
+                    <Combiner
+                        dictionary={props.dictionary}
+                        onChange={(type) => props.onCombineChange!(props.parentQueryId, type)}
+                        type={props.query.op}
+                    />
+                )}
+            </StackLayout>
+        ))}
+    </>
+);
 
 export default BooleanQueryPill;

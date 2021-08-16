@@ -20,7 +20,7 @@
 
         .leftActions, .rightActions {
             >*:not(:first-child) {
-                margin-left: 1.5em;
+                margin-left: 1.5rem;
             }
             
             .switch {
@@ -29,7 +29,7 @@
                     align-items: center;
     
                     .label {
-                        margin-left: 0.5em;
+                        margin-left: 0.5rem;
                     }
                 }
             }
@@ -39,11 +39,11 @@
                 align-items: center;
     
                 &:first-child {
-                    margin-left: 0 !important;
+                    margin-left: 0;
                 }
     
-                &:last-child {
-                    margin-left: 1em;
+                &:last-child:not(:first-child) {
+                    margin-left: 1rem;
                 }
             }   
         }

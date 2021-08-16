@@ -4,7 +4,6 @@ import { Button, Checkbox, Popconfirm } from 'antd';
 import cx from 'classnames';
 
 import StackLayout from '../../layout/StackLayout';
-
 import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange } from './types';
 import { ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
 import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
@@ -84,7 +83,7 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                             onSelectBar(index, checked);
                         }}
                     >
-                        {String(index + 1).padStart(2, 'Q')}
+                        {'Q' + (index + 1)}
                     </Checkbox>
                 </StackLayout>
             )}
