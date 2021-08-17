@@ -30,7 +30,7 @@ interface IOperatorProps {
     className?: string;
 }
 
-const Operator: React.FC<IOperatorProps> = ({ className = '', type }) => {
+const Operator = ({ className = '', type }: IOperatorProps) => {
     switch (type) {
         case FieldOperators['>=']:
             return <GreaterThanOrEqualOperator className={className} />;
@@ -43,13 +43,7 @@ const Operator: React.FC<IOperatorProps> = ({ className = '', type }) => {
     }
 };
 
-const FieldQueryPill: React.FC<IFieldQueryPillProps> = ({
-    query,
-    dictionary = {},
-    showLabels,
-    onRemove,
-    isBarActive,
-}) => (
+const FieldQueryPill = ({ query, dictionary = {}, showLabels, onRemove, isBarActive }: IFieldQueryPillProps) => (
     <StackLayout className={cx(styles.container, { [styles.selected]: isBarActive })}>
         {(showLabels || isBooleanFilter(query) || isRangeFilter(query)) && (
             <>

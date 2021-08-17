@@ -1,7 +1,7 @@
 import React from 'react';
 
 import StackLayout from '../../../layout/StackLayout';
-import { ISyntheticSqon, IValueFilter, TSqonGroupOp } from '../../../data/sqon/types';
+import { ISyntheticSqon, IValueFilter, TSqonGroupOp, TSyntheticSqonContent } from '../../../data/sqon/types';
 import { isBooleanOperator, isReference } from '../../../data/sqon/utils';
 import ReferenceQueryPill from './ReferenceQueryPill';
 import FieldQueryPill from './FieldQueryPill';
@@ -19,6 +19,8 @@ interface IBooleanQueryPillProps {
     onCombineChange?: (id: string, combinator: TSqonGroupOp) => void;
     getColorForReference?: (refIndex: number) => string;
 }
+
+const isNotEnd = (props: IBooleanQueryPillProps, index: number) => props.query.content.length - 1 > index;
 
 const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
     <>
@@ -42,7 +44,7 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
                         showLabels={props.showLabels}
                     />
                 )}
-                {props.query.content.length - 1 > i && (
+                {isNotEnd(props, i) && (
                     <Combiner
                         dictionary={props.dictionary}
                         onChange={(type) => props.onCombineChange!(props.parentQueryId, type)}

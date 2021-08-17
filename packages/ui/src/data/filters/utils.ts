@@ -24,7 +24,8 @@ const xssConfig: IFilterXSSOptions = {
     whiteList: {}, // empty, means filter out all tags
 };
 
-export const getQueryParams = (search: any = null) => (search ? qs.parse(search) : qs.parse(window.location.search));
+export const getQueryParams = (search: string | null = null) =>
+    search ? qs.parse(search) : qs.parse(window.location.search);
 
 export const updateFilters = (history: any, filterGroup: IFilterGroup, selected: IFilter[]): void => {
     const newSelectedFilters: TSqonContent = createSQONFromFilters(filterGroup, selected);
@@ -243,7 +244,7 @@ export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGr
 const emptySqon = { content: [], op: BooleanOperators.and };
 
 export const useFilters = () => {
-    let searchParams = new URLSearchParams(window.location.search);
+    const searchParams = new URLSearchParams(window.location.search);
 
     // @ts-ignore
     const paramsValues = [...searchParams.values()];

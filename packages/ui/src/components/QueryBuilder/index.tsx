@@ -128,14 +128,21 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         }
     };
 
-    const findNextSelectedQuery = (queries: ISyntheticSqon[], currentQueryIndex: number) =>
-        queries.length - 1 >= currentQueryIndex
-            ? currentQueryIndex
-            : currentQueryIndex + 1 > queries.length - 1
-            ? currentQueryIndex - 1 < queries.length && currentQueryIndex - 1 >= 0
-                ? currentQueryIndex - 1
-                : queries.length - 1
-            : currentQueryIndex + 1;
+    const findNextSelectedQuery = (queries: ISyntheticSqon[], currentQueryIndex: number) => {
+        if (queries.length - 1 >= currentQueryIndex) {
+            return currentQueryIndex;
+        }
+
+        if (currentQueryIndex + 1 > queries.length - 1) {
+            if (currentQueryIndex - 1 < queries.length && currentQueryIndex - 1 >= 0) {
+                return currentQueryIndex - 1;
+            } else {
+                return queries.length - 1;
+            }
+        }
+
+        return currentQueryIndex + 1;
+    };
 
     const resetQueries = (id: string) => {
         setQueriesState({
@@ -363,8 +370,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                     )}
                     {enableCombine && canCombine && (
                         <Dropdown.Button
-                            disabled={!canCombine}
-                            type="primary"
+                            disabled={!canCombine}                            
                             size="small"
                             overlay={
                                 <Menu>
