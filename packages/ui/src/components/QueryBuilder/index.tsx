@@ -370,7 +370,8 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
                     )}
                     {enableCombine && canCombine && (
                         <Dropdown.Button
-                            disabled={!canCombine}                            
+                            disabled={!canCombine}
+                            type="primary"
                             size="small"
                             overlay={
                                 <Menu>
