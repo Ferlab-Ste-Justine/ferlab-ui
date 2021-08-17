@@ -5,7 +5,7 @@ import styles from '@ferlab/style/components/queryBuilder/LabelOperator.module.s
 interface IGreaterThanOrEqualOperatorProps {
     className?: string;
 }
-const GreaterThanOrEqualOperator: React.FC<IGreaterThanOrEqualOperatorProps> = ({ className = '' }) => (
+const GreaterThanOrEqualOperator = ({ className = '' }: IGreaterThanOrEqualOperatorProps) => (
     <svg
         className={`${styles.icon} ${className}`}
         fill="currentColor"

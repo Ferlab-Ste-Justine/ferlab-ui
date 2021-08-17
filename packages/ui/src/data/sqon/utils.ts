@@ -17,15 +17,12 @@ import { isEmpty } from 'lodash';
  *
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
-export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue) => {
-    return (
-        !Object.keys(sqon).length ||
-        ((sqon as ISyntheticSqon)?.op.length > 0 && isEmpty((sqon as ISyntheticSqon)?.content))
-    );
+ export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
+    return !Object.keys(sqon).length || isEmpty(sqon?.content);
 };
 
 export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue) => {
-    return !isEmptySqon(sqon);
+    return !isEmptySqon(sqon as ISyntheticSqon);
 };
 
 /**

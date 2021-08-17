@@ -14,7 +14,7 @@ interface IQueryValuesProps {
     isElement?: boolean;
 }
 
-const QueryValues: React.FC<IQueryValuesProps> = ({ isElement = false, query }) => {
+const QueryValues = ({ isElement = false, query }: IQueryValuesProps) => {
     const hasMoreValues = query.content.value.length > 3;
 
     const [expanded, setExpanded] = useState(false);

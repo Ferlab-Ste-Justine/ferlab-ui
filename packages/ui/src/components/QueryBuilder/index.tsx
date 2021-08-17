@@ -41,7 +41,7 @@ export interface IQueryBuilderProps {
     enableSingleQuery?: boolean;
     enableShowHideLabels?: boolean;
     initialShowLabelState?: boolean;
-    initialState?: IInitialQueryState;
+    initialState?: IInitialQueryState | Record<any, any>;
     referenceColors?: ArrayTenOrMore<string>;
 }
 
@@ -55,7 +55,7 @@ const getUpdatedState = (state: ISyntheticSqon[], active: string): IInitialQuery
     state,
 });
 
-const QueryBuilder: React.FC<IQueryBuilderProps> = ({
+const QueryBuilder = ({
     className = '',
     cacheKey = '',
     filtersKey = 'filters',
@@ -64,8 +64,8 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
     total = 0,
     IconTotal = null,
     currentQuery = {},
-    onChangeQuery = null,
-    onUpdate = null,
+    onChangeQuery = undefined,
+    onUpdate = undefined,
     loading = false,
     enableCombine = false,
     enableSingleQuery = false,
@@ -89,7 +89,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = ({
         '#2D7D9A',
         '#847545',
     ],
-}) => {
+}: IQueryBuilderProps) => {
     const [queriesState, setQueriesState] = useState<{
         activeId: string;
         queries: ISyntheticSqon[];

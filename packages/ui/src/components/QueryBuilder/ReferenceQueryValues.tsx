@@ -8,7 +8,7 @@ interface IReferenceQueryValuesProps {
     highlightColor?: string;
 }
 
-const ReferenceQueryValues: React.FC<IReferenceQueryValuesProps> = (props) => (
+const ReferenceQueryValues = (props: IReferenceQueryValuesProps) => (
     <StackLayout className={styles.container}>
         <StackLayout className={styles.valueWrapper}>
             <span className={styles.value} style={props.highlightColor ? { color: props.highlightColor } : undefined}>

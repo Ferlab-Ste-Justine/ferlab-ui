@@ -223,22 +223,18 @@ export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterG
     return rangeSelection;
 };
 
-export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGroup, key: string) => {
-    const isFilterFound = (sqon: ISyntheticSqon, filterGroup: IFilterGroup, key: string): boolean => {
-        if (isReference(sqon)) {
-            return false;
-        } else if (isFieldOperator(sqon)) {
-            const valueContent = (sqon.content as unknown) as IValueContent;
-            return valueContent.value.includes(key) && valueContent.field === filterGroup.field;
-        } else {
-            return sqon.content.reduce(
-                (acc: any, contentSqon: any) => acc || isFilterFound(contentSqon, filterGroup, key),
-                false,
-            );
-        }
-    };
-
-    return isFilterFound(filters, filterGroup, key);
+export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGroup, key: string) : boolean => {
+    if (isReference(filters)) {
+        return false;
+    } else if (isFieldOperator(filters)) {
+        const valueContent = (filters.content as unknown) as IValueContent;
+        return valueContent.value.includes(key) && valueContent.field === filterGroup.field;
+    } else {
+        return filters.content.reduce(
+            (acc: any, contentSqon: any) => acc || isFilterSelected(contentSqon, filterGroup, key),
+            false,
+        );
+    }
 };
 
 const emptySqon = { content: [], op: BooleanOperators.and };
