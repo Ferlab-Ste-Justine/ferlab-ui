@@ -7,7 +7,7 @@ interface IAndOperatorProps {
     dictionary?: IDictionary;
     className?: string;
 }
-const AndOperator: React.FC<IAndOperatorProps> = ({ className = '', dictionary = {} }) => (
-    <span className={`${styles.text} ${className}`}>{dictionary.query?.combine?.and || 'and'}</span>
+const AndOperator = ({ className = '', dictionary = {} }: IAndOperatorProps) => (
+    <span className={`${styles.text} ${className}`}>{dictionary.query?.combine?.and || 'and'}</span>
 );
 export default AndOperator;

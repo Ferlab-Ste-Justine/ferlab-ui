@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineCopy, AiOutlineDelete } from 'react-icons/ai';
 import { Button, Checkbox, Popconfirm } from 'antd';
 import cx from 'classnames';
-import isEmpty from 'lodash/isEmpty';
 
 import StackLayout from '../../layout/StackLayout';
-
-import Combiner from './Combiner';
-import QueryPill from './QueryPill';
-import { IDictionary, ISqonGroupFilter, TCallbackRemoveAction, TOnChange, TSqonGroupOp } from './types';
+import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange } from './types';
+import { ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
+import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
+import BooleanQueryPill from './QueryPills/BooleanQueryPill';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBar.module.scss';
 
@@ -16,47 +15,54 @@ interface IQueryBarProps {
     id: string;
     Icon: React.ReactNode;
     total: number;
-    number?: number;
+    index: number;
     dictionary?: IDictionary;
-    query: ISqonGroupFilter | Record<string, never>;
+    query: ISyntheticSqon | Record<string, never>;
     actionDisabled?: boolean;
     selectionDisabled?: boolean;
     canDelete?: boolean;
     showLabels?: boolean;
     onRemoveFacet: TCallbackRemoveAction;
-    active?: boolean;
-    selected?: boolean;
-    onChangeQuery?: TOnChange;
-    onDeleteQuery?: TOnChange;
-    onDuplicate?: TOnChange;
-    onSelectBar?: (id: string, toRemove: boolean) => void;
-    onCombineChange?: (id: string, combinator: TSqonGroupOp) => void;
+    onRemoveReference: TCallbackRemoveReferenceAction;
+    isActive?: boolean;
+    isSelected?: boolean;
+    isReferenced?: boolean;
+    onChangeQuery: TOnChange;
+    onDeleteQuery: TOnChange;
+    onDuplicate: TOnChange;
+    onSelectBar: (index: number, toRemove: boolean) => void;
+    onCombineChange: (id: string, combinator: TSqonGroupOp) => void;
+    getColorForReference: (refIndex: number) => string;
 }
-const QueryBar: React.FC<IQueryBarProps> = ({
+const QueryBar = ({
     id,
     Icon,
-    number,
+    index,
     total,
     dictionary = {},
     query,
     onRemoveFacet,
+    onRemoveReference,
     actionDisabled = false,
     selectionDisabled = false,
     canDelete = true,
     showLabels = true,
-    active = true,
-    selected = false,
-    onChangeQuery = (f) => f,
-    onDeleteQuery = (f) => f,
-    onDuplicate = (f) => f,
-    onCombineChange = (f) => f,
-    onSelectBar = (f) => f,
-}) => {
-    const [checked, setChecked] = useState(selected);
+    isActive = true,
+    isSelected = false,
+    isReferenced = false,
+    onChangeQuery,
+    onDeleteQuery,
+    onDuplicate,
+    onCombineChange,
+    onSelectBar,
+    getColorForReference,
+}: IQueryBarProps) => {
+    const [checked, setChecked] = useState(isSelected);
     useEffect(() => {
-        setChecked(selected);
-    }, [selected]);
-    const containerClassNames = cx(styles.container, { [styles.selected]: active });
+        setChecked(isSelected);
+    }, [isSelected]);
+    const referenceColor = getColorForReference(index);
+    const containerClassNames = cx(styles.container, { [styles.selected]: isActive });
 
     return (
         <StackLayout
@@ -64,7 +70,9 @@ const QueryBar: React.FC<IQueryBarProps> = ({
             fitContent
             flexContent
             onClick={() => {
-                if (!active) onChangeQuery(id, query);
+                if (!isActive) {
+                    onChangeQuery(id, query);
+                }
             }}
         >
             {!selectionDisabled && (
@@ -74,38 +82,33 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                         className={styles.label}
                         onClick={() => {
                             setChecked(!checked);
-                            onSelectBar(id, checked);
+                            onSelectBar(index, checked);
                         }}
                     >
-                        {String(number).padStart(2, '0')}
+                        {`Q${index + 1}`}
                     </Checkbox>
                 </StackLayout>
             )}
             <StackLayout className={styles.queryContent} flexContent>
-                <div className={styles.identifier} />
-                {isEmpty(query) ? (
+                <div className={styles.identifier} style={isReferenced ? { background: referenceColor! } : {}} />
+                {isEmptySqon(query) ? (
                     <StackLayout>{dictionary.query?.noQuery || 'Use the filters to build a query'}</StackLayout>
                 ) : (
-                    <StackLayout className={styles.queryValues} fitContent flexContent>
-                        {query.content.map((f, i) => (
-                            <StackLayout key={f.content.field}>
-                                <QueryPill
-                                    currentSelectedQuery={active}
-                                    dictionary={dictionary}
-                                    onRemove={onRemoveFacet}
-                                    query={f}
-                                    showLabels={showLabels}
-                                />
-                                {query.content.length - 1 > i && (
-                                    <Combiner
-                                        dictionary={dictionary}
-                                        onChange={(type) => onCombineChange(id, type)}
-                                        type={query.op}
-                                    />
-                                )}
-                            </StackLayout>
-                        ))}
-                    </StackLayout>
+                    isBooleanOperator(query) && (
+                        <StackLayout className={styles.queryValues} fitContent flexContent>
+                            <BooleanQueryPill
+                                parentQueryId={id}
+                                query={query}
+                                isActive={isActive}
+                                dictionary={dictionary}
+                                showLabels={showLabels}
+                                onRemoveFacet={onRemoveFacet}
+                                onRemoveReference={onRemoveReference}
+                                onCombineChange={onCombineChange}
+                                getColorForReference={getColorForReference}
+                            />
+                        </StackLayout>
+                    )
                 )}
                 <span className={styles.total}>
                     {Icon} {total}
@@ -114,7 +117,7 @@ const QueryBar: React.FC<IQueryBarProps> = ({
             {!actionDisabled && (
                 <StackLayout className={styles.actions}>
                     <Button
-                        onClick={(e) => {
+                        onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
                             onDuplicate(id, query);
                         }}
@@ -128,14 +131,15 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                         cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
                         disabled={!canDelete}
                         okText={dictionary.actions?.delete?.confirm || 'Delete'}
-                        onConfirm={() => {
+                        onConfirm={(e) => {
+                            e!.stopPropagation();
                             onDeleteQuery(id, query);
                         }}
                         placement="topRight"
                         title={dictionary.actions?.delete?.title || 'Delete this query?'}
                     >
                         <Button
-                            onClick={(e) => {
+                            onClick={(e: React.MouseEvent) => {
                                 e.stopPropagation();
                             }}
                             type="text"

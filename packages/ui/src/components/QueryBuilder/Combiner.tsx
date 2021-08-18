@@ -2,10 +2,10 @@ import React from 'react';
 import { Button, Tooltip } from 'antd';
 
 import StackLayout from '../../layout/StackLayout';
-
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
-import { CombinerEnum, IDictionary, TSqonGroupOp } from './types';
+import { CombinerEnum, IDictionary } from './types';
+import { TSqonGroupOp } from '../../data/sqon/types';
 
 import styles from '@ferlab/style/components/queryBuilder/Combiner.module.scss';
 
@@ -15,7 +15,7 @@ interface ICombinerProps {
     onChange: (type: TSqonGroupOp) => void;
 }
 
-const Combiner: React.FC<ICombinerProps> = ({ onChange, type, dictionary = {} }) => {
+const Combiner = ({ onChange, type, dictionary = {} }: ICombinerProps) => {
     const isAndOperator = () => {
         return type === 'and';
     };

@@ -9,6 +9,10 @@
         height: auto;
         border: none;
 
+        &:focus, &:active {
+            background: transparent;
+        }
+
         .operator {
             text-decoration: underline;
 

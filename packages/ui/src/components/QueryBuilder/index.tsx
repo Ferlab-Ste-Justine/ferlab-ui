@@ -1,267 +1,432 @@
 import React, { useEffect, useState } from 'react';
-import { AiOutlineDown, AiOutlineEye, AiOutlineEyeInvisible, AiOutlinePlus } from 'react-icons/ai';
+import { v4 } from 'uuid';
+import { AiOutlinePlus } from 'react-icons/ai';
 import { Button, Dropdown, Menu, Modal, Switch } from 'antd';
 import isEmpty from 'lodash/isEmpty';
-import { v4 } from 'uuid';
-
 import StackLayout from '../../layout/StackLayout';
-
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
 import QueryBar from './QueryBar';
-import { IDictionary, ISqonGroupFilter, TCallbackRemoveAction, TOnChange } from './types';
+import { createBrowserHistory, History } from 'history';
+import { cloneDeep, isEqual } from 'lodash';
+
+import { IDictionary, TOnChange, ArrayTenOrMore } from './types';
+import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
+import { getQueryBuilderCache, getQueryParams, setQueryBuilderCache, updateQueryParam } from '../../data/filters/utils';
+import {
+    changeCombineOperator,
+    isEmptySqon,
+    isIndexReferencedInSqon,
+    isNotEmptySqon,
+    removeContentFromSqon,
+    removeSqonAtIndex,
+} from '../../data/sqon/utils';
+import { BooleanOperators } from '../../data/sqon/operators';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
 
 export interface IQueryBuilderProps {
+    cacheKey: string;
+    history?: History;
+    filtersKey?: string;
     className?: string;
     dictionary?: IDictionary;
     total?: number;
     IconTotal?: React.ReactNode;
-    currentQuery?: ISqonGroupFilter | Record<string, never>;
-    onRemoveFacet: TCallbackRemoveAction;
-    onChangeQuery: TOnChange;
+    currentQuery?: ISyntheticSqon | Record<string, never>;
+    onChangeQuery?: TOnChange;
     onUpdate?: (state: IInitialQueryState) => void;
     loading?: boolean;
     enableCombine?: boolean;
     enableSingleQuery?: boolean;
     enableShowHideLabels?: boolean;
     initialShowLabelState?: boolean;
-    initialState?: IInitialQueryState;
+    initialState?: IInitialQueryState | Record<any, any>;
+    referenceColors?: ArrayTenOrMore<string>;
 }
 
 interface IInitialQueryState {
-    state: IQueriesState[];
+    state: ISyntheticSqon[];
     active: string;
 }
 
-interface IQueriesState {
-    query: ISqonGroupFilter | Record<string, never>;
-    total: number;
-    id: string;
-}
-
-const getUpdatedState = (state: IQueriesState[], active: string): IInitialQueryState => ({
+const getUpdatedState = (state: ISyntheticSqon[], active: string): IInitialQueryState => ({
     active,
     state,
 });
 
-const QueryBuilder: React.FC<IQueryBuilderProps> = ({
+const QueryBuilder = ({
     className = '',
+    cacheKey = '',
+    filtersKey = 'filters',
+    history = createBrowserHistory(),
     dictionary = {},
     total = 0,
     IconTotal = null,
     currentQuery = {},
-    onRemoveFacet,
-    onChangeQuery,
-    onUpdate = (f) => f,
+    onChangeQuery = undefined,
+    onUpdate = undefined,
     loading = false,
     enableCombine = false,
     enableSingleQuery = false,
     enableShowHideLabels = false,
     initialShowLabelState = true,
     initialState = {},
-}) => {
-    const [activeQuery, setActiveQuery] = useState(initialState?.active || v4());
+    referenceColors = [
+        '#C31D7E',
+        '#328536',
+        '#AA00FF',
+        '#C2410C',
+        '#047ABE',
+        '#E5231F',
+        '#007D85',
+        '#C51162',
+        '#7B5A90',
+        '#B85C00',
+        '#722ED1',
+        '#4D7C0F',
+        '#9F1239',
+        '#2D7D9A',
+        '#847545',
+    ],
+}: IQueryBuilderProps) => {
+    const [queriesState, setQueriesState] = useState<{
+        activeId: string;
+        queries: ISyntheticSqon[];
+    }>({
+        activeId: initialState?.active || getQueryBuilderCache(cacheKey).active || v4(),
+        queries: initialState?.state || getQueryBuilderCache(cacheKey).state || [],
+    });
     const [showLabels, setShowLabels] = useState(initialShowLabelState);
-    const [queries, setQueries] = useState<IQueriesState[]>(initialState?.state || []);
-    const [combination, setCombination] = useState<string[]>([]);
-
-    const emptyQueries = queries.filter((obj) => isEmpty(obj.query));
-    const noData = queries.length === emptyQueries.length;
+    const [selectedQueryIndices, setSelectedQueryIndices] = useState<number[]>([]);
+    const emptyQueries = queriesState.queries.filter((sqon) => isEmptySqon(sqon));
+    const noData = queriesState.queries.length === emptyQueries.length;
     const hasEmptyQuery = emptyQueries.length >= 1;
-    const canCombine = queries.filter((obj) => !isEmpty(obj.query)).length >= 2 && combination.length >= 2;
+    const getQueryIndexById = (id: string) => queriesState.queries.findIndex((obj) => obj.id === id);
+    const canCombine =
+        queriesState.queries.filter((sqon) => isNotEmptySqon(sqon)).length >= 2 && selectedQueryIndices.length >= 2;
+    const currentActiveSqonIndex = getQueryIndexById(queriesState.activeId);
+    const selectedSyntheticSqon = queriesState.queries[currentActiveSqonIndex];
+    const getColorForReference = (refIndex: number) => referenceColors[refIndex % referenceColors.length];
 
-    useEffect(() => {
-        if (queries.length > 0) {
-            const queryState = queries.find((o) => o.id === activeQuery);
-            if (!isEmpty(queryState) && isEmpty(currentQuery)) {
-                onChangeQuery(activeQuery, queryState!.query);
+    const updateQueryById = (id: string, newQuery: ISyntheticSqon) => {
+        if (isEmpty(newQuery.content)) {
+            deleteQueryAndSetNext(id);
+        } else {
+            const currentQueryIndex = getQueryIndexById(id);
+            const updatedQueries = cloneDeep(queriesState.queries);
+            updatedQueries[currentQueryIndex] = {
+                ...newQuery,
+                op: newQuery.op,
+                content: newQuery.content,
+            };
+            setQueriesState({
+                ...queriesState,
+                queries: cleanUpQueries(updatedQueries),
+            });
+            onQueryChange!(id, newQuery);
+        }
+    };
+
+    const findNextSelectedQuery = (queries: ISyntheticSqon[], currentQueryIndex: number) => {
+        if (queries.length - 1 >= currentQueryIndex) {
+            return currentQueryIndex;
+        }
+
+        if (currentQueryIndex + 1 > queries.length - 1) {
+            if (currentQueryIndex - 1 < queries.length && currentQueryIndex - 1 >= 0) {
+                return currentQueryIndex - 1;
+            } else {
+                return queries.length - 1;
             }
         }
 
-        if (isEmpty(queries) && isEmpty(currentQuery) && total === 0) {
-            setQueries([{ id: activeQuery, query: currentQuery, total }]);
+        return currentQueryIndex + 1;
+    };
+
+    const resetQueries = (id: string) => {
+        setQueriesState({
+            ...queriesState,
+            queries: [{ id, total: 0, op: BooleanOperators.and, content: [] }],
+        });
+        onQueryChange(id, {});
+    };
+
+    const deleteQueryAndSetNext = (id: string) => {
+        if (queriesState.queries.length === 1) {
+            resetQueries(id);
+        } else {
+            const currentQueryIndex = getQueryIndexById(id);
+            const updatedQueries = cleanUpQueries(removeSqonAtIndex(currentQueryIndex, queriesState.queries));
+
+            if (updatedQueries.length) {
+                const nextSelectedIndex = findNextSelectedQuery(updatedQueries, currentQueryIndex);
+                const nextQuery = updatedQueries[nextSelectedIndex];
+                const nextID = nextQuery.id!;
+
+                if (selectedQueryIndices.includes(currentQueryIndex)) {
+                    setSelectedQueryIndices(
+                        selectedQueryIndices.filter((index: number) => index !== currentQueryIndex),
+                    );
+                }
+
+                setQueriesState({
+                    activeId: nextID!,
+                    queries: updatedQueries,
+                });
+            } else {
+                resetQueries(id);
+            }
+        }
+    };
+
+    const addNewQuery = (
+        id: string = v4(),
+        op: BooleanOperators = BooleanOperators.and,
+        content: TSyntheticSqonContent = [],
+        total: number = 0,
+    ) => {
+        const newQuery = { id: id, op: op, content: content, total: total };
+        setQueriesState({
+            activeId: id,
+            queries: cleanUpQueries(cloneDeep([...queriesState.queries, newQuery])),
+        });
+    };
+
+    const cleanUpQueries = (tmpQuery: ISyntheticSqon[]) => {
+        // Manage to remove multiple empty queries and put one at the bottom
+        let newQueries = tmpQuery;
+        const currentEmptyQueries = tmpQuery.filter((obj) => isEmptySqon(obj));
+        const fullQueries = tmpQuery.filter((obj) => isNotEmptySqon(obj));
+        if (currentEmptyQueries.length) {
+            const emptyQuery = currentEmptyQueries[0];
+            newQueries = cloneDeep([...fullQueries, emptyQuery]);
+        }
+
+        return newQueries;
+    };
+
+    const onQueryChange = (id: string, query: ISyntheticSqon | Record<string, never>) =>
+        onChangeQuery ? onChangeQuery(id, query) : updateQueryParam(history, filtersKey, query);
+
+    const onCombineClick = (operator: BooleanOperators) => {
+        addNewQuery(v4(), operator, selectedQueryIndices.sort());
+        setSelectedQueryIndices([]);
+    };
+
+    useEffect(() => {
+        if (queriesState.queries.length > 0) {
+            const queryState = queriesState.queries.find((sqon) => sqon.id === queriesState.activeId);
+            if (isNotEmptySqon(queryState!) && isEmptySqon(currentQuery)) {
+                onQueryChange!(queriesState.activeId, queryState!);
+            }
+        }
+
+        if (isEmpty(queriesState.queries) && isEmptySqon(currentQuery) && total === 0) {
+            addNewQuery();
         }
     }, []);
 
     useEffect(() => {
-        if ((isEmpty(currentQuery) && total === 0) || loading) return;
-        if (queries.length === 0) {
-            setQueries([{ id: activeQuery, query: currentQuery, total }]);
+        if (isEmptySqon(currentQuery) && total === 0) return;
+        if (queriesState.queries.length === 0) {
+            setQueriesState({
+                ...queriesState,
+                queries: [
+                    {
+                        op: currentQuery.op,
+                        content: currentQuery.content,
+                        id: queriesState.activeId,
+                        total: total,
+                    },
+                ],
+            });
         } else {
-            const tmpQuery = queries.map((obj) => {
-                if (obj.id === activeQuery) {
-                    return { ...obj, query: currentQuery, total };
+            let tmpQuery = queriesState.queries.map((obj) => {
+                if (obj.id === queriesState.activeId) {
+                    return {
+                        ...obj,
+                        content: currentQuery.content ? currentQuery.content : [],
+                        total: loading ? currentQuery.total : total,
+                    };
                 }
-
                 return { ...obj };
             });
 
-            // Manage to remove multiple empty queries and put one at the bottom
-            let newQueries = tmpQuery;
-            const currentEmptyQueries = tmpQuery.filter((obj) => isEmpty(obj.query));
-            if (currentEmptyQueries.length >= 1) {
-                const emptyQuery = currentEmptyQueries[0];
-                const fullQueries = tmpQuery.filter((obj) => !isEmpty(obj.query));
-                newQueries = [...fullQueries, emptyQuery];
-            }
-
-            setQueries(newQueries);
+            setQueriesState({
+                ...queriesState,
+                queries: cleanUpQueries(tmpQuery),
+            });
         }
     }, [currentQuery, total, loading]);
 
     useEffect(() => {
-        onUpdate(getUpdatedState(queries, activeQuery));
-    }, [queries, activeQuery]);
+        let index = getQueryIndexById(queriesState.activeId);
+        onQueryChange!(queriesState.activeId, queriesState.queries[index]);
+    }, [queriesState.activeId]);
+
+    useEffect(() => {
+        const newState = getUpdatedState(queriesState.queries, queriesState.activeId);
+        if (onUpdate) {
+            onUpdate(newState);
+        } else {
+            setQueryBuilderCache(cacheKey, newState);
+
+            const queryParams = getQueryParams();
+            if (queryParams['filters']) {
+                const currentQueryParams = JSON.parse(queryParams['filters'] as string) as ISyntheticSqon;
+                const associatedQuery = queriesState.queries.filter((query) => query.id == currentQueryParams.id);
+                if (associatedQuery.length && !isEqual(currentQueryParams.content, associatedQuery[0].content)) {
+                    onQueryChange(associatedQuery[0].id!, associatedQuery[0]);
+                }
+            }
+        }
+    }, [queriesState.queries]);
+
     return (
         <StackLayout className={`${styles.container} ${className}`} vertical>
             <StackLayout className={styles.queryBars} vertical>
-                {queries.map((obj, i) => (
+                {queriesState.queries.map((sqon, i) => (
                     <QueryBar
+                        id={sqon.id!}
+                        key={sqon.id!}
+                        index={i}
                         Icon={IconTotal}
-                        actionDisabled={isEmpty(obj.query)}
-                        active={obj.id === activeQuery}
+                        actionDisabled={isEmptySqon(sqon)}
+                        isActive={sqon.id! === queriesState.activeId}
                         canDelete={!noData}
                         dictionary={dictionary}
-                        id={obj.id}
-                        key={obj.id}
-                        number={i + 1}
-                        onChangeQuery={(id, query) => {
-                            setActiveQuery(id);
-                            onChangeQuery(id, query);
+                        getColorForReference={getColorForReference}
+                        onChangeQuery={(id) => {
+                            setQueriesState((prevState) => {
+                                return {
+                                    ...prevState,
+                                    activeId:
+                                        prevState.queries.findIndex((obj) => obj.id == id) != -1
+                                            ? id
+                                            : queriesState.activeId,
+                                };
+                            });
                         }}
                         onCombineChange={(id, combinator) => {
-                            const updatedQueries = [...queries];
-                            const currentQueryIndex = queries.findIndex((obj) => obj.id === id);
+                            const updatedQueries = cloneDeep(queriesState.queries);
+                            const currentQueryIndex = getQueryIndexById(id);
                             const currentQuery = updatedQueries[currentQueryIndex];
-                            const newQuery = { content: currentQuery.query.content, op: combinator };
-                            updatedQueries[currentQueryIndex] = { ...currentQuery, query: newQuery };
-                            setQueries(updatedQueries);
-                            onChangeQuery(id, newQuery);
-                        }}
-                        onDeleteQuery={(id) => {
-                            if (queries.length === 1) {
-                                setQueries([{ id, query: {}, total: 0 }]);
-                                onChangeQuery('', {});
-                                return;
-                            }
+                            const newQuery = changeCombineOperator(combinator, currentQuery);
 
-                            const currentQueryIndex = queries.findIndex((obj) => obj.id === id);
-                            const nextSelectedIndex =
-                                currentQueryIndex + 1 > queries.length - 1
-                                    ? currentQueryIndex - 1 < queries.length
-                                        ? currentQueryIndex - 1
-                                        : queries.length - 1
-                                    : currentQueryIndex + 1;
-                            const nextQuery = queries[nextSelectedIndex];
-                            const nextID = nextQuery.id;
-                            if (combination.includes(id)) {
-                                setCombination(combination.filter((cId) => cId !== id));
-                            }
-                            setQueries(queries.filter((obj) => obj.id !== id));
-                            setActiveQuery(nextID);
-                            onChangeQuery(nextID, nextQuery.query);
-                        }}
-                        onDuplicate={(id, query) => {
-                            const newId = v4();
-                            const oldQuery = queries.filter((obj) => obj.id === id)[0];
+                            updatedQueries[currentQueryIndex] = {
+                                ...currentQuery,
+                                op: newQuery.op,
+                                content: newQuery.content,
+                            };
 
-                            setActiveQuery(newId);
-                            setQueries([...queries, { id: newId, query, total: oldQuery.total }]);
-                            onChangeQuery(newId, query);
+                            setQueriesState((prevState) => {
+                                return {
+                                    ...prevState,
+                                    queries: cleanUpQueries(updatedQueries),
+                                };
+                            });
+                            onQueryChange!(id, updatedQueries[currentQueryIndex]);
                         }}
-                        onRemoveFacet={onRemoveFacet}
+                        onDeleteQuery={deleteQueryAndSetNext}
+                        onDuplicate={(_, query) =>
+                            addNewQuery(v4(), query.op as BooleanOperators, query.content, query.total)
+                        }
+                        onRemoveFacet={(filter, query) => {
+                            updateQueryById(query.id!, removeContentFromSqon(filter, query));
+                        }}
+                        onRemoveReference={(refIndex, query) => {
+                            updateQueryById(query.id!, removeContentFromSqon(refIndex, query));
+                        }}
                         onSelectBar={(id, toRemove) => {
                             if (toRemove) {
-                                setCombination(combination.filter((cId) => cId !== id));
+                                setSelectedQueryIndices(selectedQueryIndices.filter((index: number) => index !== id));
                                 return;
                             }
-
-                            setCombination([...combination, id]);
+                            setSelectedQueryIndices([...selectedQueryIndices, id]);
                         }}
-                        query={obj.query}
-                        selected={combination.includes(obj.id)}
-                        selectionDisabled={queries.length === 1 || !enableCombine}
+                        query={sqon}
+                        isReferenced={isIndexReferencedInSqon(i, selectedSyntheticSqon)}
+                        isSelected={selectedQueryIndices.includes(i)}
+                        selectionDisabled={queriesState.queries.length === 1 || !enableCombine}
                         showLabels={showLabels}
-                        total={obj.total}
+                        total={sqon.total!}
                     />
                 ))}
             </StackLayout>
             <StackLayout className={styles.actions}>
-                {!enableSingleQuery && (
-                    <Button
-                        className={styles.buttons}
-                        disabled={noData || hasEmptyQuery}
-                        onClick={() => {
-                            const id = v4();
-
-                            setActiveQuery(id);
-                            setQueries([...queries, { id, query: {}, total: 0 }]);
-                            onChangeQuery(id, {});
-                        }}
-                        size="small"
-                    >
-                        <AiOutlinePlus />
-                        {dictionary.actions?.addQuery || 'New query'}
-                    </Button>
-                )}
-                {enableCombine && (
-                    <Dropdown
-                        disabled={!canCombine}
-                        overlay={
-                            <Menu>
-                                <Menu.Item>
-                                    <AndOperator />
-                                </Menu.Item>
-                                <Menu.Item>
-                                    <OrOperator />
-                                </Menu.Item>
-                            </Menu>
-                        }
-                        trigger={['click']}
-                    >
-                        <Button className={styles.buttons} size="small">
-                            {dictionary.actions?.combine || 'Combine'} <AiOutlineDown />
-                        </Button>
-                    </Dropdown>
-                )}
-                {enableShowHideLabels && (
-                    <span className={`${styles.switch} ${styles.withLabel}`}>
-                        <Switch
-                            checked={showLabels}
+                <StackLayout className={styles.leftActions}>
+                    {!enableSingleQuery && !canCombine && (
+                        <Button
+                            className={styles.buttons}
+                            type="primary"
+                            disabled={noData || hasEmptyQuery}
+                            onClick={() => addNewQuery()}
                             size="small"
-                            onChange={(checked) => {
-                                setShowLabels(checked);
-                            }}
-                        />
-                        <span className={styles.label}>{dictionary.actions?.labels || 'Labels'}</span>
-                    </span>
-                )}
-                {!noData && (
-                    <Button
-                        className={styles.buttons}
-                        onClick={() =>
-                            Modal.confirm({
-                                cancelText: dictionary.actions?.clear?.cancel || 'Cancel',
-                                content:
-                                    dictionary.actions?.clear?.description ||
-                                    'You are about to delete all your queries. They will be lost forever.',
-                                okText: dictionary.actions?.clear?.confirm || 'Delete',
-                                onOk: () => {
-                                    setCombination([]);
-                                    setQueries([{ id: activeQuery, query: {}, total: 0 }]);
-                                    onChangeQuery(activeQuery, {});
-                                },
-                                title: dictionary.actions?.clear?.title || 'Delete all queries?',
-                            })
-                        }
-                        size="small"
-                        type="link"
-                    >
-                        {dictionary.actions?.clear?.buttonTitle || 'Clear all'}
-                    </Button>
-                )}
+                        >
+                            <AiOutlinePlus />
+                            {dictionary.actions?.addQuery || 'New query'}
+                        </Button>
+                    )}
+                    {enableCombine && canCombine && (
+                        <Dropdown.Button
+                            disabled={!canCombine}
+                            type="primary"
+                            size="small"
+                            overlay={
+                                <Menu>
+                                    <Menu.Item
+                                        key={BooleanOperators.and}
+                                        onClick={() => onCombineClick(BooleanOperators.and)}
+                                    >
+                                        <AndOperator />
+                                    </Menu.Item>
+                                    <Menu.Item
+                                        key={BooleanOperators.or}
+                                        onClick={() => onCombineClick(BooleanOperators.or)}
+                                    >
+                                        <OrOperator />
+                                    </Menu.Item>
+                                </Menu>
+                            }
+                            trigger={['click']}
+                            onClick={() => onCombineClick(BooleanOperators.and)}
+                        >
+                            {dictionary.actions?.combine || 'Combine'}
+                        </Dropdown.Button>
+                    )}
+                    {enableShowHideLabels && !canCombine && (
+                        <span className={`${styles.switch} ${styles.withLabel}`}>
+                            <Switch checked={showLabels} size="small" onChange={(checked) => setShowLabels(checked)} />
+                            <span className={styles.label}>{dictionary.actions?.labels || 'Labels'}</span>
+                        </span>
+                    )}
+                </StackLayout>
+                <StackLayout className={styles.rightActions}>
+                    {!noData && !canCombine && (
+                        <Button
+                            className={styles.buttons}
+                            onClick={() =>
+                                Modal.confirm({
+                                    cancelText: dictionary.actions?.clear?.cancel || 'Cancel',
+                                    content:
+                                        dictionary.actions?.clear?.description ||
+                                        'You are about to delete all your queries. They will be lost forever.',
+                                    okText: dictionary.actions?.clear?.confirm || 'Delete',
+                                    onOk: () => {
+                                        setSelectedQueryIndices([]);
+                                        resetQueries(queriesState.activeId);
+                                    },
+                                    title: dictionary.actions?.clear?.title || 'Delete all queries?',
+                                })
+                            }
+                            size="small"
+                            type="link"
+                        >
+                            {dictionary.actions?.clear?.buttonTitle || 'Clear all'}
+                        </Button>
+                    )}
+                </StackLayout>
             </StackLayout>
         </StackLayout>
     );

@@ -4,9 +4,8 @@ import { Button } from 'antd';
 import take from 'lodash/take';
 
 import StackLayout from '../../layout/StackLayout';
-
 import UnionOperator from './icons/UnionOperator';
-import { IValueFilter } from './types';
+import { IValueFilter } from '../../data/sqon/types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
 
@@ -15,7 +14,7 @@ interface IQueryValuesProps {
     isElement?: boolean;
 }
 
-const QueryValues: React.FC<IQueryValuesProps> = ({ isElement = false, query }) => {
+const QueryValues = ({ isElement = false, query }: IQueryValuesProps) => {
     const hasMoreValues = query.content.value.length > 3;
 
     const [expanded, setExpanded] = useState(false);
