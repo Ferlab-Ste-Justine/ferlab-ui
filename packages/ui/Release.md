@@ -1,3 +1,8 @@
+
+### 1.7.2 | 2021-08-18
+
+- feat: Add new QueryBuilder combine queries
+
 ### 1.5.0 | 2021-05-11
 
 - fix: Add classname to checkbox filter Tags to constraint height
