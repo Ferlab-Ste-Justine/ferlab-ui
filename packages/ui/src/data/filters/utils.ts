@@ -54,7 +54,7 @@ export const createSQONFromFilters = (filterGroup: IFilterGroup, selectedFilters
 export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[]) => {
     const selectedFilters: TSqonContent = [];
     if (filters.length === 0) {
-        return selectedFilters;
+        return [];
     }
 
     const selectedRange = filters[0];
