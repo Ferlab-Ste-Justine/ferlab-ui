@@ -223,7 +223,7 @@ export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterG
     return rangeSelection;
 };
 
-export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGroup, key: string) : boolean => {
+export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGroup, key: string): boolean => {
     if (isReference(filters)) {
         return false;
     } else if (isFieldOperator(filters)) {
@@ -258,7 +258,21 @@ export const getQueryBuilderCache = (type: string): any => {
     }
 
     try {
-        return JSON.parse(items!);
+        // To support old query builder cache format
+        const qbCache = JSON.parse(items!);
+        const state = qbCache.state || [];
+        return state.map((queryState: any) => {
+            if (queryState.query) {
+                return {
+                    id: queryState.id,
+                    op: queryState.op,
+                    total: queryState.total,
+                    ...queryState.query,
+                };
+            } else {
+                return queryState;
+            }
+        });
     } catch (e) {
         return {};
     }
