@@ -13,7 +13,8 @@ export interface IValueFilter {
 }
 
 export type TSqonGroupOp = BooleanOperators | string;
-export type TSqonContent = Array<ISqonGroupFilter | IValueFilter>;
+export type TSqonContentValue = ISqonGroupFilter | IValueFilter;
+export type TSqonContent = Array<TSqonContentValue>;
 export interface ISqonGroupFilter {
     op: TSqonGroupOp;
     content: TSqonContent;

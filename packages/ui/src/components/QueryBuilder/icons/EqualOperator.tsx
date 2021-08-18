@@ -5,7 +5,7 @@ import styles from '@ferlab/style/components/queryBuilder/LabelOperator.module.s
 interface IEqualOperatorProps {
     className?: string;
 }
-const EqualOperator: React.FC<IEqualOperatorProps> = ({ className = '' }) => (
+const EqualOperator = ({ className = '' }: IEqualOperatorProps) => (
     <svg
         className={`${styles.icon} ${className}`}
         fill="currentColor"

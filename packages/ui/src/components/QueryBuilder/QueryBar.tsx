@@ -27,14 +27,14 @@ interface IQueryBarProps {
     isActive?: boolean;
     isSelected?: boolean;
     isReferenced?: boolean;
-    onChangeQuery?: TOnChange;
-    onDeleteQuery?: TOnChange;
-    onDuplicate?: TOnChange;
-    onSelectBar?: (index: number, toRemove: boolean) => void;
-    onCombineChange?: (id: string, combinator: TSqonGroupOp) => void;
-    getColorForReference?: (refIndex: number) => string;
+    onChangeQuery: TOnChange;
+    onDeleteQuery: TOnChange;
+    onDuplicate: TOnChange;
+    onSelectBar: (index: number, toRemove: boolean) => void;
+    onCombineChange: (id: string, combinator: TSqonGroupOp) => void;
+    getColorForReference: (refIndex: number) => string;
 }
-const QueryBar: React.FC<IQueryBarProps> = ({
+const QueryBar = ({
     id,
     Icon,
     index,
@@ -50,13 +50,13 @@ const QueryBar: React.FC<IQueryBarProps> = ({
     isActive = true,
     isSelected = false,
     isReferenced = false,
-    onChangeQuery = (f) => f,
-    onDeleteQuery = (f) => f,
-    onDuplicate = (f) => f,
-    onCombineChange = (f) => f,
-    onSelectBar = (f) => f,
-    getColorForReference = (f) => '',
-}) => {
+    onChangeQuery,
+    onDeleteQuery,
+    onDuplicate,
+    onCombineChange,
+    onSelectBar,
+    getColorForReference,
+}: IQueryBarProps) => {
     const [checked, setChecked] = useState(isSelected);
     useEffect(() => {
         setChecked(isSelected);
@@ -70,7 +70,9 @@ const QueryBar: React.FC<IQueryBarProps> = ({
             fitContent
             flexContent
             onClick={() => {
-                if (!isActive) onChangeQuery(id, query);
+                if (!isActive) {
+                    onChangeQuery(id, query);
+                }
             }}
         >
             {!selectionDisabled && (
@@ -83,7 +85,7 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                             onSelectBar(index, checked);
                         }}
                     >
-                        {'Q' + (index + 1)}
+                        {`Q${index + 1}`}
                     </Checkbox>
                 </StackLayout>
             )}
@@ -115,7 +117,7 @@ const QueryBar: React.FC<IQueryBarProps> = ({
             {!actionDisabled && (
                 <StackLayout className={styles.actions}>
                     <Button
-                        onClick={(e) => {
+                        onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
                             onDuplicate(id, query);
                         }}
@@ -137,7 +139,7 @@ const QueryBar: React.FC<IQueryBarProps> = ({
                         title={dictionary.actions?.delete?.title || 'Delete this query?'}
                     >
                         <Button
-                            onClick={(e) => {
+                            onClick={(e: React.MouseEvent) => {
                                 e.stopPropagation();
                             }}
                             type="text"

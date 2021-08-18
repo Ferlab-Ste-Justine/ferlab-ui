@@ -15,7 +15,7 @@ interface ICombinerProps {
     onChange: (type: TSqonGroupOp) => void;
 }
 
-const Combiner: React.FC<ICombinerProps> = ({ onChange, type, dictionary = {} }) => {
+const Combiner = ({ onChange, type, dictionary = {} }: ICombinerProps) => {
     const isAndOperator = () => {
         return type === 'and';
     };

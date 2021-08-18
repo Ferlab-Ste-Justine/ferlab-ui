@@ -24,7 +24,8 @@ const xssConfig: IFilterXSSOptions = {
     whiteList: {}, // empty, means filter out all tags
 };
 
-export const getQueryParams = (search: any = null) => (search ? qs.parse(search) : qs.parse(window.location.search));
+export const getQueryParams = (search: string | null = null) =>
+    search ? qs.parse(search) : qs.parse(window.location.search);
 
 export const updateFilters = (history: any, filterGroup: IFilterGroup, selected: IFilter[]): void => {
     const newSelectedFilters: TSqonContent = createSQONFromFilters(filterGroup, selected);
@@ -53,7 +54,7 @@ export const createSQONFromFilters = (filterGroup: IFilterGroup, selectedFilters
 export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[]) => {
     const selectedFilters: TSqonContent = [];
     if (filters.length === 0) {
-        return selectedFilters;
+        return [];
     }
 
     const selectedRange = filters[0];
@@ -222,28 +223,24 @@ export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterG
     return rangeSelection;
 };
 
-export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGroup, key: string) => {
-    const isFilterFound = (sqon: ISyntheticSqon, filterGroup: IFilterGroup, key: string): boolean => {
-        if (isReference(sqon)) {
-            return false;
-        } else if (isFieldOperator(sqon)) {
-            const valueContent = (sqon.content as unknown) as IValueContent;
-            return valueContent.value.includes(key) && valueContent.field === filterGroup.field;
-        } else {
-            return sqon.content.reduce(
-                (acc: any, contentSqon: any) => acc || isFilterFound(contentSqon, filterGroup, key),
-                false,
-            );
-        }
-    };
-
-    return isFilterFound(filters, filterGroup, key);
+export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGroup, key: string) : boolean => {
+    if (isReference(filters)) {
+        return false;
+    } else if (isFieldOperator(filters)) {
+        const valueContent = (filters.content as unknown) as IValueContent;
+        return valueContent.value.includes(key) && valueContent.field === filterGroup.field;
+    } else {
+        return filters.content.reduce(
+            (acc: any, contentSqon: any) => acc || isFilterSelected(contentSqon, filterGroup, key),
+            false,
+        );
+    }
 };
 
 const emptySqon = { content: [], op: BooleanOperators.and };
 
 export const useFilters = () => {
-    let searchParams = new URLSearchParams(window.location.search);
+    const searchParams = new URLSearchParams(window.location.search);
 
     // @ts-ignore
     const paramsValues = [...searchParams.values()];
