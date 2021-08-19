@@ -261,17 +261,20 @@ export const getQueryBuilderCache = (type: string): any => {
         // To support old query builder cache format
         const qbCache = JSON.parse(items!);
         const state = qbCache.state || [];
-        return state.map((queryState: any) => {
-            if (queryState.query) {
-                return {
-                    id: queryState.id,
-                    total: queryState.total,
-                    ...queryState.query,
-                };
-            } else {
-                return queryState;
-            }
-        });
+        return {
+            ...qbCache,
+            state: state.map((queryState: any) => {
+                if (queryState.query) {
+                    return {
+                        id: queryState.id,
+                        total: queryState.total,
+                        ...queryState.query,
+                    };
+                } else {
+                    return queryState;
+                }
+            }),
+        };
     } catch (e) {
         return {};
     }
