@@ -265,7 +265,6 @@ export const getQueryBuilderCache = (type: string): any => {
             if (queryState.query) {
                 return {
                     id: queryState.id,
-                    op: queryState.op,
                     total: queryState.total,
                     ...queryState.query,
                 };
