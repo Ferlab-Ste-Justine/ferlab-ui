@@ -268,6 +268,8 @@ export const getQueryBuilderCache = (type: string): any => {
                     return {
                         id: queryState.id,
                         total: queryState.total,
+                        content: [],
+                        op: BooleanOperators.and,
                         ...queryState.query,
                     };
                 } else {
