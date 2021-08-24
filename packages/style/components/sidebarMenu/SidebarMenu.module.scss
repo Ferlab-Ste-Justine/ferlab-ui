@@ -43,8 +43,8 @@ $menu-item-prefix: $menu-prefix + '-item';
 
       .sidebarToggleIconContainer {
         &, > div {
+          text-align: center;
           align-items: center;
-          justify-content: center;
         }
       }
 
