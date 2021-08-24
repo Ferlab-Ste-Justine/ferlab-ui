@@ -82,3 +82,27 @@ $checkbox-filter-actions-separator-background: #90A9C1;
 $checkbox-filter-actions-separator-links: #008FC7;
 $checkbox-filter-no-results-text-background-color: #F0F3F8;
 $checkbox-filter-no-results-text-color: #18486B;
+
+// SidebarMenu
+$sidebar-menu-width: 220px;
+$sidebar-menu-collapsed-width: 50px;
+$sidebar-menu-background-color: #007694;
+$sidebar-menu-toggle-icon-size: 21px;
+
+$sidebar-menu-item-icon-size: 24px;
+$sidebar-menu-item-height: 50px;
+$sidebar-menu-item-text-color: #fff;
+$sidebar-menu-item-active-background-color: #00546e;
+$sidebar-menu-item-active-color: #fff;
+$sidebar-menu-item-hover-color: #fff;
+$sidebar-menu-item-hover-opacity: 0.8;
+
+$sidebar-quick-filter-input-box-shadow-hover: 0 0 0 2px #00546e;
+$sidebar-quick-filter-input-box-shadow-focus: 0 0 0 2px #007694, 0 0 0 3px white;
+$sidebar-quick-filter-input-placeholder-color: #8a8da8;
+$sidebar-quick-filter-input-text-color: #383f72;
+
+$sidebar-right-panel-width: 320px;
+$sidebar-right-panel-close-icon-color: #007694;
+$sidebar-right-panel-right-border: 1px solid #d7d8db;
+$sidebar-right-panel-background-color: #f4f5f8;

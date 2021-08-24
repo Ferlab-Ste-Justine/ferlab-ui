@@ -1,0 +1,26 @@
+@import 'theme.template';
+
+.rightPanel {
+    background-color: $sidebar-right-panel-background-color;
+    border-right: $sidebar-right-panel-right-border;
+    width: $sidebar-right-panel-width;
+    margin-left: calc(-1 * #{$sidebar-right-panel-width});
+    padding: 2rem;
+    display: flex;
+    flex-flow: column;
+    transition: margin-left 0.3s;
+  
+    &.opened {
+      margin-left: 0;
+    }
+  
+    .rightPanelHeader {
+      display: flex;
+      justify-content: flex-end;
+
+      .closeIcon {
+          color: $sidebar-right-panel-close-icon-color;
+      }
+    }
+  }
+  
