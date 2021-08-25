@@ -5,6 +5,7 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
 $menu-prefix: 'ant-menu';
 $menu-inline-prefix: 'ant-menu-inline';
 $menu-item-prefix: $menu-prefix + '-item';
+$select-prefix: 'ant-select';
 
 .siderContainer {
   display: flex;
@@ -116,17 +117,30 @@ $menu-item-prefix: $menu-prefix + '-item';
             color: $sidebar-quick-filter-input-text-color;
           }
 
+          :global(.#{$select-prefix}-clear) {
+            font-size: 14px;
+            width: 14px;
+            height: 14px;
+            margin-top: -7px;
+            right: 12px;
+          }
+
           :global(.#{$input-prefix}-prefix) {
             max-width: 16px;
             font-size: 16px;
           }
 
-          &:hover {
-            box-shadow: $sidebar-quick-filter-input-box-shadow-hover;
+          :global(.#{$input-wrapper-prefix}):hover, :global(.#{$input-wrapper-prefix}):focus {
             border-color: transparent;
           }
 
-          &:global(.#{$input-wrapper-prefix}-focused) {
+          &:hover {
+            box-shadow: $sidebar-quick-filter-input-box-shadow-hover;
+            border-color: transparent;
+            border-radius: 2px;
+          }
+
+          :global(.#{$input-wrapper-prefix}-focused) {
               box-shadow: $sidebar-quick-filter-input-box-shadow-focus;
               border-color: transparent;
           }

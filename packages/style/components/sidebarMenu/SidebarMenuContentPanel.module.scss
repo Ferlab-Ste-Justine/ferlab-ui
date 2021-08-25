@@ -1,6 +1,6 @@
 @import 'theme.template';
 
-.rightPanel {
+.contentPanel {
     background-color: $sidebar-right-panel-background-color;
     border-right: $sidebar-right-panel-right-border;
     width: $sidebar-right-panel-width;
@@ -14,7 +14,7 @@
       margin-left: 0;
     }
   
-    .rightPanelHeader {
+    .contentPanelHeader {
       display: flex;
       justify-content: flex-end;
 

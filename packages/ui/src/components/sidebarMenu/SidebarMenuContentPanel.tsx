@@ -3,17 +3,23 @@ import ScrollView from '../../layout/ScrollView';
 
 import CloseIcon from './icons/CloseIcon';
 
-import styles from '@ferlab/style/components/sidebarMenu/SidebarMenuRightPanel.module.scss';
+import styles from '@ferlab/style/components/sidebarMenu/SidebarMenuContentPanel.module.scss';
 
-type ISidebarMenuRightPanelProps = {
+type ISidebarMenuContentPanelProps = {
+    className?: string;
     onClose?: Function;
     isOpen: boolean;
     children: React.ReactNode | string;
 };
 
-const SidebarMenuRightPanel = ({ onClose = () => {}, isOpen = false, children }: ISidebarMenuRightPanelProps) => (
-    <div className={`${styles.rightPanel} ${isOpen && styles.opened}`}>
-        <div className={styles.rightPanelHeader}>
+const SidebarMenuContentPanel = ({
+    className = '',
+    onClose = () => {},
+    isOpen = false,
+    children,
+}: ISidebarMenuContentPanelProps) => (
+    <div className={`${styles.contentPanel} ${isOpen && styles.opened} ${className}`}>
+        <div className={styles.contentPanelHeader}>
             <a
                 onClick={() => {
                     onClose();
@@ -26,4 +32,4 @@ const SidebarMenuRightPanel = ({ onClose = () => {}, isOpen = false, children }:
     </div>
 );
 
-export default SidebarMenuRightPanel;
+export default SidebarMenuContentPanel;

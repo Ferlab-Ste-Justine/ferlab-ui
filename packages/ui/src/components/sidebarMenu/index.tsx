@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Input, Menu } from 'antd';
+import { Input, Menu, AutoComplete } from 'antd';
 import StackLayout from '../../layout/StackLayout';
 import ScrollView from '../../layout/ScrollView';
 import { InfoCircleOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SearchOutlined } from '@ant-design/icons';
 import SearchIcon from './icons/SearchIcon';
-import SidebarMenuRightPanel from './SidebarMenuRightPanel';
+import SidebarMenuContentPanel from './SidebarMenuContentPanel';
 
 import styles from '@ferlab/style/components/sidebarMenu/SidebarMenu.module.scss';
 
@@ -17,6 +17,7 @@ export interface ISidebarMenuItems {
 
 export interface ISidebarMenuProps {
     className?: string;
+    contentPanelClassName?: string;
     style?: React.CSSProperties;
     menuItems: Array<ISidebarMenuItems>;
     toggleIcon: {
@@ -25,23 +26,35 @@ export interface ISidebarMenuProps {
     };
     enableQuickFilter?: boolean;
     quickFilterIcon?: React.ReactNode;
-    quickFilterPlaceholderText?: string;
+    locale?: {
+        quickFilter?: {
+            placeholder?: string;
+            menuTitle?: string;
+        };
+    };
 }
 
 const SEARCH_KEY = 'search';
 
 const Sidebar = ({
     className = '',
+    contentPanelClassName = '',
     style = {},
-    enableQuickFilter = true,
+    enableQuickFilter = false,
     toggleIcon = {
         open: <MenuUnfoldOutlined />,
         close: <MenuFoldOutlined />,
     },
     quickFilterIcon = undefined,
-    quickFilterPlaceholderText = 'Quick filter...',
+    locale = {
+        quickFilter: {
+            placeholder: 'Quick filter...',
+            menuTitle: 'Quick Filter',
+        },
+    },
     menuItems,
 }: ISidebarMenuProps) => {
+    const [quickFilter, setQuickFilter] = useState('');
     const [collapsed, setCollapsed] = useState<boolean>(false);
     const [selectedKey, setSelectedKey] = useState<string>('');
     const searchInputRef = useRef<Input>(null);
@@ -82,18 +95,32 @@ const Sidebar = ({
                                         key={SEARCH_KEY}
                                         icon={quickFilterIcon ? quickFilterIcon : <SearchIcon />}
                                     >
-                                        Quick Filter
+                                        {locale.quickFilter?.menuTitle}
                                     </Menu.Item>
                                 ) : (
                                     <div className={`${styles.searchMenuItem}`}>
-                                        <Input
-                                            height={32}
+                                        <AutoComplete
+                                            allowClear
+                                            autoFocus
                                             className={styles.searchInput}
-                                            ref={searchInputRef}
-                                            placeholder={quickFilterPlaceholderText}
-                                            prefix={quickFilterIcon ? quickFilterIcon : <SearchIcon />}
-                                            suffix={<InfoCircleOutlined></InfoCircleOutlined>}
-                                        />
+                                            onChange={(value: any) => {
+                                                if (value) {
+                                                    setQuickFilter(value);
+                                                } else {
+                                                    setQuickFilter('');
+                                                }
+                                            }}
+                                            options={[]}
+                                            value={quickFilter}
+                                        >
+                                            <Input
+                                                height={32}
+                                                ref={searchInputRef}
+                                                placeholder={locale.quickFilter?.placeholder}
+                                                prefix={quickFilterIcon ? quickFilterIcon : <SearchIcon />}
+                                                suffix={<InfoCircleOutlined></InfoCircleOutlined>}
+                                            />
+                                        </AutoComplete>
                                     </div>
                                 ))}
                             {menuItems.map((menuItem) => (
@@ -105,14 +132,13 @@ const Sidebar = ({
                     </ScrollView>
                 </StackLayout>
             </div>
-            <SidebarMenuRightPanel
+            <SidebarMenuContentPanel
                 isOpen={selectedKey.length > 0 && selectedKey != SEARCH_KEY}
-                onClose={() => {
-                    setSelectedKey('');
-                }}
+                className={contentPanelClassName}
+                onClose={() => setSelectedKey('')}
             >
                 {selectedFilterComponent && selectedFilterComponent.rightPanelContent}
-            </SidebarMenuRightPanel>
+            </SidebarMenuContentPanel>
         </div>
     );
 };
