@@ -40,6 +40,7 @@ export default {
 export const SidebarMenuBasic = SidebarMenuStory.bind({});
 SidebarMenuBasic.args = {
     title: 'Sidebar Menu Basic',
+    enableQuickFilter: true,
     menuItems: [
         {
             key: 1,
@@ -82,6 +83,7 @@ SidebarMenuCustomToggle.args = {
         open: <AppleOutlined />,
         close: <AlertOutlined />
     },
+    enableQuickFilter: true,
     menuItems: [
         {
             key: 1,
