@@ -15,7 +15,7 @@ $menu-item-prefix: $menu-prefix + '-item';
     width: $sidebar-menu-width;
     min-width: $sidebar-menu-width;
     background-color: $sidebar-menu-background-color;
-    transition: width 0.1s;
+    @include transition(width 0.2s, min-width 0.2s);
 
     :global(.#{$menu-inline-prefix}-collapsed) {
         width: $sidebar-menu-collapsed-width;
@@ -92,7 +92,7 @@ $menu-item-prefix: $menu-prefix + '-item';
     }
 
     .sidebarMenu {
-      transition: background 0s;
+      @include transition(background 0s);
       background-color: transparent;
       border: none;
       color: $sidebar-menu-item-text-color;
