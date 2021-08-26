@@ -8,18 +8,18 @@ import SidebarMenuContentPanel from './SidebarMenuContentPanel';
 
 import styles from '@ferlab/style/components/sidebarMenu/SidebarMenu.module.scss';
 
-export interface ISidebarMenuItems {
+export interface ISidebarMenuItem {
     key: string | number;
     title: string | React.ReactNode;
     icon: React.ReactNode;
-    panelContent: React.ReactNode;
+    panelContent: (...param: any) => React.ReactNode | React.ReactNode;
 }
 
 export interface ISidebarMenuProps {
     className?: string;
     contentPanelClassName?: string;
     style?: React.CSSProperties;
-    menuItems: Array<ISidebarMenuItems>;
+    menuItems: Array<ISidebarMenuItem>;
     toggleIcon?: {
         open?: React.ReactNode;
         close?: React.ReactNode;
