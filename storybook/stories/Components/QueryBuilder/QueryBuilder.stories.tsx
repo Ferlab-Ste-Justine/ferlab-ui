@@ -167,39 +167,39 @@ QueryBuilderMultiQueryWithCombine.args = {
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
-        state: [
-            {
-              op: "or",
-              content: [
-                {
-                  content: { value: ["something"], field: "Test 1" },
-                  op: "in",
-                },
-              ],
-              total: 1500,
-              id: "1",
+        state: [{
+            op: 'or', content: [{
+                content: {value: ['something'], field: 'Test 1'}, op: 'in'
             },
             {
-              op: "and",
-              content: [
-                {
-                  content: { value: ["something"], field: "Test 2" },
-                  op: "in",
-                },
-              ],
-              total: 1500,
-              id: "2",
+                content: {value: ['else'], field: 'Test 2'}, op: 'in'
             },
             {
-              op: "and",
-              content: [0, 1, {
-                content: { value: ["something"], field: "Test 3" },
-                op: "in",
-              }],
-              total: 1500,
-              id: "3",
+                content: {value: ['more'], field: 'Test 3'}, op: 'in'
+            }],
+            total: 1500,
+            id: '1',  
+        },{
+            op: 'and', content: [{
+                content: {value: ['something'], field: 'Test 1'}, op: 'in'
             },
-          ],
+            {
+                content: {value: ['else'], field: 'Test 2'}, op: 'in'
+            }],
+            total: 1500,
+            id: '2',  
+        },{
+            op: 'and', content: [{
+                content: {value: ['something'], field: 'Test 1'}, op: 'in'
+            }],
+            total: 1500,
+            id: '3',  
+        },
+        {
+            op: 'and', content: [0, 1, 2],
+            total: 3000,
+            id: '4',  
+        }],
         active: '1'
     }
 };
