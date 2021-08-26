@@ -20,9 +20,9 @@ export interface ISidebarMenuProps {
     contentPanelClassName?: string;
     style?: React.CSSProperties;
     menuItems: Array<ISidebarMenuItems>;
-    toggleIcon: {
-        open: React.ReactNode;
-        close: React.ReactNode;
+    toggleIcon?: {
+        open?: React.ReactNode;
+        close?: React.ReactNode;
     };
     enableQuickFilter?: boolean;
     quickFilterIcon?: React.ReactNode;
