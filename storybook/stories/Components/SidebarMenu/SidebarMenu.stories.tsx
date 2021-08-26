@@ -46,31 +46,31 @@ SidebarMenuBasic.args = {
             key: 1,
             title: "Menu item 1",
             icon: <DashboardOutlined />,
-            rightPanelContent: <>Menu 1</>
+            panelContent: <>Menu 1</>
         },
         {
             key: 2,
             title: "Menu item 2",
             icon: <ThunderboltOutlined />,
-            rightPanelContent: <>Menu 2</>
+            panelContent: <>Menu 2</>
         },
         {
             key: 3,
             title: "Menu item 3",
             icon: <ApiOutlined />,
-            rightPanelContent: <>Menu 3</>
+            panelContent: <>Menu 3</>
         },
         {
             key: 4,
             title: "Menu item 4",
             icon: <AlertOutlined />,
-            rightPanelContent: <>Menu 4</>
+            panelContent: <>Menu 4</>
         },
         {
             key: 5,
             title: "Menu item 5",
             icon: <AppleOutlined />,
-            rightPanelContent: <>Menu 5</>
+            panelContent: <>Menu 5</>
         }
     ]
 };
@@ -89,31 +89,31 @@ SidebarMenuCustomToggle.args = {
             key: 1,
             title: "Menu item 1",
             icon: <DashboardOutlined />,
-            rightPanelContent: <>Menu 1</>
+            panelContent: <>Menu 1</>
         },
         {
             key: 2,
             title: "Menu item 2",
             icon: <ThunderboltOutlined />,
-            rightPanelContent: <>Menu 2</>
+            panelContent: <>Menu 2</>
         },
         {
             key: 3,
             title: "Menu item 3",
             icon: <ApiOutlined />,
-            rightPanelContent: <>Menu 3</>
+            panelContent: <>Menu 3</>
         },
         {
             key: 4,
             title: "Menu item 4",
             icon: <AlertOutlined />,
-            rightPanelContent: <>Menu 4</>
+            panelContent: <>Menu 4</>
         },
         {
             key: 5,
             title: "Menu item 5",
             icon: <AppleOutlined />,
-            rightPanelContent: <>Menu 5</>
+            panelContent: <>Menu 5</>
         }
     ]
 };
@@ -129,31 +129,31 @@ SidebarMenuNoQuickFilter.args = {
             key: 1,
             title: "Menu item 1",
             icon: <DashboardOutlined />,
-            rightPanelContent: <>Menu 1</>
+            panelContent: <>Menu 1</>
         },
         {
             key: 2,
             title: "Menu item 2",
             icon: <ThunderboltOutlined />,
-            rightPanelContent: <>Menu 2</>
+            panelContent: <>Menu 2</>
         },
         {
             key: 3,
             title: "Menu item 3",
             icon: <ApiOutlined />,
-            rightPanelContent: <>Menu 3</>
+            panelContent: <>Menu 3</>
         },
         {
             key: 4,
             title: "Menu item 4",
             icon: <AlertOutlined />,
-            rightPanelContent: <>Menu 4</>
+            panelContent: <>Menu 4</>
         },
         {
             key: 5,
             title: "Menu item 5",
             icon: <AppleOutlined />,
-            rightPanelContent: <>Menu 5</>
+            panelContent: <>Menu 5</>
         }
     ]
 };

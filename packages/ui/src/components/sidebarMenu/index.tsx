@@ -12,7 +12,7 @@ export interface ISidebarMenuItems {
     key: string | number;
     title: string | React.ReactNode;
     icon: React.ReactNode;
-    rightPanelContent: React.ReactNode;
+    panelContent: React.ReactNode;
 }
 
 export interface ISidebarMenuProps {
@@ -20,9 +20,9 @@ export interface ISidebarMenuProps {
     contentPanelClassName?: string;
     style?: React.CSSProperties;
     menuItems: Array<ISidebarMenuItems>;
-    toggleIcon: {
-        open: React.ReactNode;
-        close: React.ReactNode;
+    toggleIcon?: {
+        open?: React.ReactNode;
+        close?: React.ReactNode;
     };
     enableQuickFilter?: boolean;
     quickFilterIcon?: React.ReactNode;
@@ -71,7 +71,13 @@ const Sidebar = ({
             <div className={styles.sider} data-collapsed={collapsed}>
                 <StackLayout className={styles.siderStackLayout} vertical center={false} flexContent>
                     <div className={styles.sidebarToggleIconContainer}>
-                        <div className={styles.sidebarToggleIcon} onClick={() => setCollapsed(!collapsed)}>
+                        <div
+                            className={styles.sidebarToggleIcon}
+                            onClick={() => {
+                                setCollapsed(!collapsed);
+                                setSelectedKey(selectedKey == SEARCH_KEY ? '' : selectedKey);
+                            }}
+                        >
                             {collapsed ? toggleIcon.open : toggleIcon.close}
                         </div>
                     </div>
@@ -81,10 +87,11 @@ const Sidebar = ({
                             inlineCollapsed={collapsed}
                             className={styles.sidebarMenu}
                             onClick={(item) => {
-                                if (item.key.toString() == SEARCH_KEY) {
+                                const cKey = item.key.toString();
+                                if (cKey == SEARCH_KEY) {
                                     setCollapsed(false);
                                 }
-                                setSelectedKey(selectedKey !== item.key.toString() ? item.key.toString() : '');
+                                setSelectedKey(selectedKey !== cKey ? cKey : '');
                             }}
                             selectedKeys={[selectedKey]}
                         >
@@ -101,20 +108,14 @@ const Sidebar = ({
                                     <div className={`${styles.searchMenuItem}`}>
                                         <AutoComplete
                                             allowClear
-                                            autoFocus
                                             className={styles.searchInput}
-                                            onChange={(value: any) => {
-                                                if (value) {
-                                                    setQuickFilter(value);
-                                                } else {
-                                                    setQuickFilter('');
-                                                }
+                                            onChange={(value: string) => {
+                                                setQuickFilter(value ? value : '');
                                             }}
                                             options={[]}
                                             value={quickFilter}
                                         >
                                             <Input
-                                                height={32}
                                                 ref={searchInputRef}
                                                 placeholder={locale.quickFilter?.placeholder}
                                                 prefix={quickFilterIcon ? quickFilterIcon : <SearchIcon />}
@@ -137,7 +138,7 @@ const Sidebar = ({
                 className={contentPanelClassName}
                 onClose={() => setSelectedKey('')}
             >
-                {selectedFilterComponent && selectedFilterComponent.rightPanelContent}
+                {selectedFilterComponent && selectedFilterComponent.panelContent}
             </SidebarMenuContentPanel>
         </div>
     );
