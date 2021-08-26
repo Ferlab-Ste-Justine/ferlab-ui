@@ -8,7 +8,7 @@
 
             .fuiRfRangeTargetSelect {
                 width: 100%;
-                .ant-select-selector {
+                :global(.ant-select-selector) {
                     border-radius: 2px 0 0 2px;
                 }
             }

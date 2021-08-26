@@ -1,0 +1,28 @@
+@import 'theme.template';
+
+.contentPanel {
+    background-color: $sidebar-content-panel-background-color;
+    border-right: $sidebar-content-panel-right-border;
+    width: $sidebar-content-panel-width;
+    margin-left: calc(-1 * #{$sidebar-content-panel-width});
+    padding: 2rem;
+    display: flex;
+    flex-flow: column;
+    @include transition(margin-left 0.3s);
+  
+    &.opened {
+      margin-left: 0;
+    }
+  
+    .contentPanelHeader {
+      display: flex;
+      justify-content: flex-end;
+
+      .closeIcon {
+          height: $sidebar-content-panel-close-icon-width;
+          width: $sidebar-content-panel-close-icon-width;
+          color: $sidebar-content-panel-close-icon-color;
+      }
+    }
+  }
+  
