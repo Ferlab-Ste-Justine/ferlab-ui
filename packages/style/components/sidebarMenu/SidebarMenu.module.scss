@@ -23,7 +23,6 @@ $select-prefix: 'ant-select';
         min-width: $sidebar-menu-collapsed-width;
 
         .sidebarMenuItem {
-          padding: 0 !important;
           width: 100%;
         }
     }
@@ -170,7 +169,7 @@ $select-prefix: 'ant-select';
         }
 
         &:active {
-          opacity: 1 !important;
+          opacity: 1;
           color: $sidebar-menu-item-active-color;
           background-color: $sidebar-menu-item-active-background-color;
         }

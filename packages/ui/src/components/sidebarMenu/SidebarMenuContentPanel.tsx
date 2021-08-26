@@ -18,7 +18,7 @@ const SidebarMenuContentPanel = ({
     isOpen = false,
     children,
 }: ISidebarMenuContentPanelProps) => (
-    <div className={`${styles.contentPanel} ${isOpen && styles.opened} ${className}`}>
+    <div className={`${styles.contentPanel} ${isOpen ? styles.opened : ''} ${className}`}>
         <div className={styles.contentPanelHeader}>
             <a
                 onClick={() => {
