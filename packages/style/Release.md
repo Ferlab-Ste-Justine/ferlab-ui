@@ -1,6 +1,6 @@
 
 
-### 1.7.2 | 2021-08-18
+### 1.7.2 | 2021-08-26
 
 - feat: Add style for new SidebarMenu component
 
