@@ -109,7 +109,7 @@ const Sidebar = ({
                                         <AutoComplete
                                             allowClear
                                             className={styles.searchInput}
-                                            onChange={(value: any) => {
+                                            onChange={(value: string) => {
                                                 setQuickFilter(value ? value : '');
                                             }}
                                             options={[]}
