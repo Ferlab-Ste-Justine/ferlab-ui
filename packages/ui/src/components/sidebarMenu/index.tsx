@@ -58,7 +58,7 @@ const Sidebar = ({
     const [collapsed, setCollapsed] = useState<boolean>(false);
     const [selectedKey, setSelectedKey] = useState<string>('');
     const searchInputRef = useRef<Input>(null);
-    const selectedFilterComponent = menuItems.filter((menuItem) => menuItem.key == selectedKey)[0];
+    const selectedFilterComponent = menuItems.find((menuItem) => menuItem.key == selectedKey);
 
     useEffect(() => {
         if (!collapsed && selectedKey == SEARCH_KEY) {
