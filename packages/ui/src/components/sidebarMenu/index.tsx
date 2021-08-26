@@ -139,7 +139,7 @@ const Sidebar = ({
                 className={contentPanelClassName}
                 onClose={() => setSelectedKey('')}
             >
-                {selectedFilterComponent && selectedFilterComponent.rightPanelContent}
+                {selectedFilterComponent && selectedFilterComponent.panelContent}
             </SidebarMenuContentPanel>
         </div>
     );
