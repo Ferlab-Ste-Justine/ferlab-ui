@@ -21,11 +21,9 @@ const SidebarMenuContentPanel = ({
     <div className={`${styles.contentPanel} ${isOpen ? styles.opened : ''} ${className}`}>
         <div className={styles.contentPanelHeader}>
             <a
-                onClick={() => {
-                    onClose();
-                }}
+                onClick={() =>  onClose()}
             >
-                <CloseIcon className={styles.closeIcon} width={'16px'} height={'16px'} />
+                <CloseIcon className={styles.closeIcon} />
             </a>
         </div>
         <ScrollView>{children}</ScrollView>

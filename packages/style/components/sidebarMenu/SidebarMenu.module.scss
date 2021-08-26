@@ -57,7 +57,7 @@ $select-prefix: 'ant-select';
         .sidebarMenuItem {
             justify-content: center;
 
-            > :not(img, span[role='img'], svg) {
+            .sidebarMenuItemTitle {
                 display: none;
             }
 

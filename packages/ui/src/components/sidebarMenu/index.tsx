@@ -116,7 +116,6 @@ const Sidebar = ({
                                             value={quickFilter}
                                         >
                                             <Input
-                                                height={32}
                                                 ref={searchInputRef}
                                                 placeholder={locale.quickFilter?.placeholder}
                                                 prefix={quickFilterIcon ? quickFilterIcon : <SearchIcon />}
