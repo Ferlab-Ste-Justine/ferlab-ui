@@ -14,7 +14,6 @@ export interface ISidebarMenuItem {
     icon: React.ReactNode;
     panelContent: (...param: any) => React.ReactNode | React.ReactNode;
 }
-
 export interface ISidebarMenuProps {
     className?: string;
     contentPanelClassName?: string;
