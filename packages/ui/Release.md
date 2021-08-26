@@ -1,5 +1,5 @@
 
-### 1.7.6 | 2021-08-18
+### 1.7.6 | 2021-08-26
 
 - feat: Add new SidebarMenu component
 
