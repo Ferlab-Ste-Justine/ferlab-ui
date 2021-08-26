@@ -1,4 +1,8 @@
 
+### 1.7.6 | 2021-08-18
+
+- feat: Add new SidebarMenu component
+
 ### 1.7.2 | 2021-08-18
 
 - feat: Add new QueryBuilder combine queries
