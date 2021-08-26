@@ -12,7 +12,7 @@ export interface ISidebarMenuItems {
     key: string | number;
     title: string | React.ReactNode;
     icon: React.ReactNode;
-    rightPanelContent: React.ReactNode;
+    panelContent: React.ReactNode;
 }
 
 export interface ISidebarMenuProps {
