@@ -177,8 +177,8 @@ const checkBox: ICheckBox = {
 }
 
 const range: IRange = {
-    max: 'FMin',
-    min: 'FMax',
+    max: 'FMax',
+    min: 'FMin',
 }
 
 export const dictionaryFrench: IDictionary = {
@@ -187,4 +187,11 @@ export const dictionaryFrench: IDictionary = {
     messages: message,
     checkBox: checkBox,
     range: range,
+    operators: {
+        between: "Entre (inclusif)",
+        lessThan: "Moins que",
+        lessThanOfEqual: "Moins que ou égal",
+        greaterThan: "Plus que",
+        greaterThanOrEqual: "Plus que ou égal"
+    }
 }
