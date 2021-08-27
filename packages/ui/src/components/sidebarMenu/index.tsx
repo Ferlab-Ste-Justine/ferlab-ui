@@ -12,7 +12,7 @@ export interface ISidebarMenuItem {
     key: string | number;
     title: string | React.ReactNode;
     icon: React.ReactNode;
-    panelContent: (...param: any) => React.ReactNode | React.ReactNode;
+    panelContent: (() => React.ReactNode) | React.ReactNode;
 }
 
 export interface ISidebarMenuProps {
@@ -59,6 +59,16 @@ const Sidebar = ({
     const [selectedKey, setSelectedKey] = useState<string>('');
     const searchInputRef = useRef<Input>(null);
     const selectedFilterComponent = menuItems.find((menuItem) => menuItem.key == selectedKey);
+    const getSelectedFilterComponentByType = () => {
+        switch (typeof selectedFilterComponent?.panelContent) {
+            case 'function':
+                return selectedFilterComponent.panelContent();
+            case 'object':
+                return selectedFilterComponent.panelContent;
+            default:
+                <></>;
+        }
+    };
 
     useEffect(() => {
         if (!collapsed && selectedKey == SEARCH_KEY) {
@@ -138,7 +148,7 @@ const Sidebar = ({
                 className={contentPanelClassName}
                 onClose={() => setSelectedKey('')}
             >
-                {selectedFilterComponent && selectedFilterComponent.panelContent}
+                {getSelectedFilterComponentByType()}
             </SidebarMenuContentPanel>
         </div>
     );
