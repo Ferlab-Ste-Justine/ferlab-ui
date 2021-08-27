@@ -159,6 +159,10 @@ $select-prefix: 'ant-select';
             margin-left: 15px;
         }
 
+        &:focus {
+          border: $sidebar-menu-item-border-focus;
+        }
+
         &:hover {
           color: $sidebar-menu-item-hover-color;
           opacity: $sidebar-menu-item-hover-opacity;
