@@ -46,7 +46,7 @@ SidebarMenuBasic.args = {
             key: 1,
             title: "Menu item 1",
             icon: <DashboardOutlined />,
-            panelContent: <>Menu 1</>
+            panelContent: () => <>Menu 1</>
         },
         {
             key: 2,
