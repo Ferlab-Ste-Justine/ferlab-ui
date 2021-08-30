@@ -53,7 +53,7 @@ const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({
     </StackLayout>
 );
 
-const FilterContainer: React.FC<FilterContainerProps> = ({
+const FilterContainer = ({
     filterGroup,
     filters = [],
     maxShowing = 5,
@@ -61,7 +61,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
     selectedFilters,
     isOpen = true,
     dictionary,
-}) => {
+}: FilterContainerProps) => {
     const [hasSearchInput, setSearchInputVisible] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(!isOpen);
 

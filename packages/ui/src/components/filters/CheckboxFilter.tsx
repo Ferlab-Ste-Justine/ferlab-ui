@@ -19,7 +19,7 @@ export type TermFilterProps = {
     filters: IFilter<IFilterCount>[];
 };
 
-const CheckboxFilter: React.FC<TermFilterProps> = ({
+const CheckboxFilter = ({
     dictionary,
     filterGroup,
     filters,
@@ -27,7 +27,7 @@ const CheckboxFilter: React.FC<TermFilterProps> = ({
     maxShowing,
     onChange,
     selectedFilters = [],
-}) => {
+}: TermFilterProps) => {
     const [isShowingMore, setShowingMore] = useState(false);
     const [search, setSearch] = useState('');
     const [filteredFilters, setFilteredFilters] = useState(filters.filter((f) => !isEmpty(f.data)));

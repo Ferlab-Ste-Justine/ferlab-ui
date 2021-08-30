@@ -18,13 +18,13 @@ export type BooleanFilterProps = {
     dictionary?: IDictionary | Record<string, never>;
 };
 
-const ToggleFilter: React.FC<BooleanFilterProps> = ({
+const ToggleFilter = ({
     filterGroup,
     filters,
     onChange,
     selectedFilters = [],
     dictionary,
-}) => {
+}: BooleanFilterProps) => {
     const selectedFilter = selectedFilters.length > 0 ? selectedFilters[0].data.key : '';
     const [selected, setSelected] = useState(selectedFilter);
 

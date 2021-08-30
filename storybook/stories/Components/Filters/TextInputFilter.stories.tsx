@@ -14,7 +14,7 @@ export default {
   title: "@ferlab/Components/Filters/TextInputFilter",
   component: TextInputFilter,
     decorators: [(Story) =>
-        <><div className={'story_container'} style={{display:'inline-grid'}}><Story/></div></>],
+        <><div className={'story_container'} style={{display:'inline-grid', minWidth: '225px'}}><Story/></div></>],
   argTypes: {
     className: {
       control: 'string',
@@ -52,7 +52,6 @@ TextInputFilterStoryBasic.args = {
       },
     },
     filters: [],
-    onChange: () => null,
 };
 
 export const TextInputFilterStoryNoLabel = TextInputFilterStory.bind({});
@@ -66,5 +65,4 @@ TextInputFilterStoryNoLabel.args = {
       },
     },
     filters: [],
-    onChange: () => null,
 };

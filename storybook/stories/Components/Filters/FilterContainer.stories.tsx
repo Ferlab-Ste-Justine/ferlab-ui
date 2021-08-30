@@ -1,7 +1,7 @@
 import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
 import {TermFilterProps} from "@ferlab/ui/components/filters/CheckboxFilter";
-import {IFilter, IFilterCount, IFilterGroup, IFilterTextInputConfig, onChangeType, VisualType} from "@ferlab/ui/components/filters/types";
+import {IFilter, IFilterCount, IFilterGroup, onChangeType, VisualType} from "@ferlab/ui/components/filters/types";
 import {filters} from "./data";
 import FilterContainer from "@ferlab/ui/components/filters/FilterContainer";
 
@@ -49,18 +49,7 @@ const filterGroupTerm: IFilterGroup = {
     type: VisualType.Checkbox,
 }
 
-const filterGroupTextInput: IFilterGroup<IFilterTextInputConfig> = {
-    field: 'this.field',
-    title: 'title_filter_group',
-    config: {
-        label: "Filter Label",
-        placeholder: "Filter placeholder"
-    },
-    type: VisualType.Text,
-}
-
 const onChangeTypeStory: onChangeType = () => null
-
 
 export const TermFilterSelectorStory = FilterContainerStory.bind({});
 TermFilterSelectorStory.args = {
@@ -70,12 +59,4 @@ TermFilterSelectorStory.args = {
     onChangeType: onChangeTypeStory(filterGroupTerm, filters),
     hasSearchInput: true,
     filters: filters,
-};
-
-export const TextInputFilterSelectorStory = FilterContainerStory.bind({});
-TextInputFilterSelectorStory.args = {
-    title: 'FilterSelector Text Input',
-    filterGroup: filterGroupTextInput,
-    onChangeType: onChangeTypeStory(filterGroupTextInput, []),
-    filters: [],
 };
