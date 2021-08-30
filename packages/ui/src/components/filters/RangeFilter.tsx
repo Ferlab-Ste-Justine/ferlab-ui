@@ -53,7 +53,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <LessThanOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {dictionary?.operators?.lessThan || 'Less than'}
+                        {get(dictionary, 'operators?.lessThan', 'Less than')}
                     </span>
                 </span>
             ),
@@ -65,7 +65,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <LessThanOrEqualOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {dictionary?.operators?.lessThanOfEqual || 'Less than or equal'}
+                        {get(dictionary, 'operators?.lessThanOfEqual', 'Less than or equal')}
                     </span>
                 </span>
             ),
@@ -77,7 +77,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <GreaterThanOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {dictionary?.operators?.greaterThan || 'Greater than'}
+                        {get(dictionary, 'operators?.greaterThan', 'Greater than')}
                     </span>
                 </span>
             ),
@@ -89,7 +89,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <GreaterThanOrEqualOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {dictionary?.operators?.greaterThanOrEqual || 'Greater than or equal'}
+                        {get(dictionary, 'operators?.greaterThanOrEqual', 'Greater than or equal')}
                     </span>
                 </span>
             ),
@@ -98,11 +98,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
     ];
 };
 
-const getOperatorsList = (defaultOperators: IOperatorConfig[], customOperators: IOperatorConfig[]) => {
-    return customOperators?.length ? customOperators[0].operator : defaultOperators[0].operator;
-};
-
-const RangeFilter: React.FC<RangeFilterProps> = ({ dictionary, filterGroup, filters, onChange, selectedFilters }) => {
+const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilters }: RangeFilterProps) => {
     const { config: range } = filterGroup;
     const currentFilter: IFilter<IFilterRange> = filters[0];
     const maxPossibleValue = filterGroup.config?.max || 0;
@@ -199,6 +195,7 @@ const RangeFilter: React.FC<RangeFilterProps> = ({ dictionary, filterGroup, filt
                     <span className={styles.fuiRfSectionTitle}>Max.</span>
                     <InputNumber
                         disabled={isMaxDisabled}
+                        step={range.step || DEFAULT_STEP}
                         className={styles.rangeInput}
                         id={`to-${dotField}`}
                         key={`to-${dotField}`}
