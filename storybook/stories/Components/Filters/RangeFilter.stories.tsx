@@ -58,7 +58,7 @@ TermFilterStoryMore.args = {
       title: 'title_filter_group'
   },
     filters: rangeFilters,
-    onChange: () => null,
+    onChange: () => undefined,
 };
 
 export const TermFilterStoryDictionary = RangeFilterStory.bind({});
@@ -78,7 +78,7 @@ TermFilterStoryDictionary.args = {
       title: 'title_filter_group'
   },
     filters: rangeFilters,
-    onChange: () => null,
+    onChange: () => undefined,
     dictionary: dictionaryFrench,
 };
 
@@ -110,7 +110,7 @@ TermFilterStoryCustomOperator.args = {
       title: 'title_filter_group'
   },
     filters: rangeFilters,
-    onChange: () => null,
+    onChange: () => undefined,
 };
 
 export const TermFilterStoryWithoutUnit = RangeFilterStory.bind({});
@@ -126,5 +126,5 @@ TermFilterStoryWithoutUnit.args = {
       title: 'title_filter_group'
   },
     filters: rangeFilters,
-    onChange: () => null,
+    onChange: () => undefined,
 };
