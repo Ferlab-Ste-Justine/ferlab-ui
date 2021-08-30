@@ -195,6 +195,7 @@ const RangeFilter: React.FC<RangeFilterProps> = ({ dictionary, filterGroup, filt
                     <span className={styles.fuiRfSectionTitle}>Max.</span>
                     <InputNumber
                         disabled={isMaxDisabled}
+                        step={range.step || DEFAULT_STEP}
                         className={styles.rangeInput}
                         id={`to-${dotField}`}
                         key={`to-${dotField}`}
