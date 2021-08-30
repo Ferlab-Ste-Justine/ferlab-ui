@@ -45,7 +45,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <LessThanOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {dictionary?.operators?.lessThan || 'Less than'}
+                        {get(dictionary, 'operators?.lessThan', 'Less than')}
                     </span>
                 </span>
             ),
@@ -57,7 +57,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <LessThanOrEqualOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {dictionary?.operators?.lessThanOfEqual || 'Less than or equal'}
+                        {get(dictionary, 'operators?.lessThanOfEqual', 'Less than or equal')}
                     </span>
                 </span>
             ),
@@ -69,7 +69,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <GreaterThanOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {dictionary?.operators?.greaterThan || 'Greater than'}
+                        {get(dictionary, 'operators?.greaterThan', 'Greater than')}
                     </span>
                 </span>
             ),
@@ -81,7 +81,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <GreaterThanOrEqualOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {dictionary?.operators?.greaterThanOrEqual || 'Greater than or equal'}
+                        {get(dictionary, 'operators?.greaterThanOrEqual', 'Greater than or equal')}
                     </span>
                 </span>
             ),
