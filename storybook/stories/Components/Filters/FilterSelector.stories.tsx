@@ -1,7 +1,7 @@
 import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
 import {TermFilterProps} from "@ferlab/ui/components/filters/CheckboxFilter";
-import {IFilter, IFilterCount, IFilterGroup, onChangeType, VisualType} from "@ferlab/ui/components/filters/types";
+import {IFilter, IFilterCount, IFilterGroup, IFilterRangeConfig, IFilterTextInputConfig, onChangeType, VisualType} from "@ferlab/ui/components/filters/types";
 import {booleanFilters, filters, rangeFilters} from "./data";
 import FilterSelector from "@ferlab/ui/components/filters/FilterSelector";
 
@@ -55,7 +55,7 @@ const filerGroupBoolean: IFilterGroup = {
     type: VisualType.Toggle,
 }
 
-const filerGroupRange: IFilterGroup = {
+const filterGroupRange: IFilterGroup<IFilterRangeConfig> = {
     field: 'this.field',
     title: 'title_filter_group',
     config: {
@@ -67,6 +67,16 @@ const filerGroupRange: IFilterGroup = {
         max: 2,
     },
     type: VisualType.Range,
+}
+
+const filterGroupTextInput: IFilterGroup<IFilterTextInputConfig> = {
+    field: 'this.field',
+    title: 'title_filter_group',
+    config: {
+        label: "Filter Label",
+        placeholder: "Filter placeholder"
+    },
+    type: VisualType.Text,
 }
 
 const onChangeTypeStory: onChangeType = () => null
@@ -94,9 +104,19 @@ BooleanFilterSelectorStory.args = {
 export const RangeFilterSelectorStory = FilterSelectorStory.bind({});
 RangeFilterSelectorStory.args = {
     title: 'FilterSelector Range',
-    filterGroup: filerGroupRange,
-    onChangeType: onChangeTypeStory(filerGroupBoolean, rangeFilters),
+    filterGroup: filterGroupRange,
+    onChangeType: onChangeTypeStory(filterGroupRange, rangeFilters),
     hasSearchInput: true,
     filters: rangeFilters,
 };
+
+export const TextInputFilterSelectorStory = FilterSelectorStory.bind({});
+TextInputFilterSelectorStory.args = {
+    title: 'FilterSelector Text Input',
+    filterGroup: filterGroupTextInput,
+    onChangeType: onChangeTypeStory(filterGroupTextInput, []),
+    hasSearchInput: true,
+    filters: [],
+};
+
 
