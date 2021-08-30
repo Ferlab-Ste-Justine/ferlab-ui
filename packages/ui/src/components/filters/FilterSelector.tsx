@@ -16,7 +16,7 @@ type FilterSelectorProps = {
     dictionary?: IDictionary;
 };
 
-const FilterSelector: React.FC<FilterSelectorProps> = ({
+const FilterSelector = ({
     dictionary,
     filterGroup,
     filters,
@@ -24,7 +24,7 @@ const FilterSelector: React.FC<FilterSelectorProps> = ({
     onChange,
     searchInputVisible,
     selectedFilters,
-}) => {
+}: FilterSelectorProps) => {
     const commonProps = {
         dictionary,
         filterGroup,

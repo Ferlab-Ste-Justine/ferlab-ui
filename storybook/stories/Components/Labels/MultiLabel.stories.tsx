@@ -64,6 +64,7 @@ MultiLabelPropsStack.args = {
   iconPosition: MultiLabelIconPositionEnum.Middle,
   label: <div>total</div>,
 };
+
 /* Stack with top Icon */
 export const MultiLabelPropsStackTopIcon = MultiLabelPropsStory.bind({});
 MultiLabelPropsStackTopIcon.args = {

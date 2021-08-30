@@ -8,7 +8,7 @@ export default {
   title: "@ferlab/Components/Filters/ToggleFilter",
   component: ToggleFilter,
     decorators: [(Story) =>
-        <><div className={'story_container'} style={{display:'inline-grid'}}><Story/></div></>],
+        <><div className={'story_container'} style={{display:'inline-grid', minWidth: '225px'}}><Story/></div></>],
   argTypes: {
     className: {
       control: 'string',

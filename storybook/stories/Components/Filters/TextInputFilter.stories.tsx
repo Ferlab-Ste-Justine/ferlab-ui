@@ -14,7 +14,7 @@ export default {
   title: "@ferlab/Components/Filters/TextInputFilter",
   component: TextInputFilter,
     decorators: [(Story) =>
-        <><div className={'story_container'} style={{display:'inline-grid'}}><Story/></div></>],
+        <><div className={'story_container'} style={{display:'inline-grid', minWidth: '225px'}}><Story/></div></>],
   argTypes: {
     className: {
       control: 'string',
@@ -48,11 +48,27 @@ TextInputFilterStoryBasic.args = {
       field: 'this.field',
       config: {
         label: "Test Filter",
-        placeholder: "My placeholder test"
+        placeholder: "My placeholder test",
+        tooltip: {
+          text: "Hello from tooltip"
+        }
       },
     },
     filters: [],
-    onChange: () => null,
+};
+
+export const TextInputFilterStoryNoTooltip = TextInputFilterStory.bind({});
+TextInputFilterStoryNoTooltip.args = {
+    title: 'Text Input Filter no ToolTip',
+    filterGroup: {
+      type: VisualType.Text,
+      field: 'this.field',
+      config: {
+        label: "Test Filter",
+        placeholder: "My placeholder test"
+      }
+    },
+    filters: [],
 };
 
 export const TextInputFilterStoryNoLabel = TextInputFilterStory.bind({});
@@ -60,11 +76,7 @@ TextInputFilterStoryNoLabel.args = {
     title: 'Text Input Filter No Label',
     filterGroup: {
       type: VisualType.Text,
-      field: 'this.field',
-      config: {
-        placeholder: "My placeholder test"
-      },
+      field: 'this.field'
     },
     filters: [],
-    onChange: () => null,
 };

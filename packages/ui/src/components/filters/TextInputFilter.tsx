@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Input } from 'antd';
+import React, { useState } from 'react';
+import { Button, Input, Tooltip } from 'antd';
 import { get, isEmpty } from 'lodash';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 import StackLayout from '../../layout/StackLayout';
 
@@ -37,7 +38,16 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
     return (
         <StackLayout className={styles.fuiTIfContainer} vertical>
             <StackLayout vertical>
-                {config?.label && <span className={styles.fuiTIfSectionTitle}>{config.label}</span>}
+                {config?.label && (
+                    <StackLayout horizontal className={styles.fuiTIfLabelContainer}>
+                        <span className={styles.fuiTIfSectionTitle}>{config.label}</span>
+                        {config.tooltip && (
+                            <Tooltip title={config.tooltip.text} align={{ offset: [0, 5] }}>
+                                <InfoCircleOutlined className={styles.fuiTIfLabelTooltipIcon} />
+                            </Tooltip>
+                        )}
+                    </StackLayout>
+                )}
                 <Input placeholder={config?.placeholder} onChange={onTextInputChanged} value={text}></Input>
             </StackLayout>
             <StackLayout className={styles.fuiTIfActions} horizontal>

@@ -24,7 +24,7 @@ export type MultiLabelProps = {
     style?: React.CSSProperties;
 };
 
-const MultiLabel: React.FC<MultiLabelProps> = ({
+const MultiLabel = ({
     className = '',
     labelClassName = '',
     subLabelClassName = '',
@@ -35,7 +35,7 @@ const MultiLabel: React.FC<MultiLabelProps> = ({
     type = MultiLabelTypeEnum.Stack,
     iconPosition = MultiLabelIconPositionEnum.Middle,
     style = {},
-}) => (
+}: MultiLabelProps) => (
     <div
         className={`multilabel__container multilabel__container--${type} multilabel__container--${iconPosition} ${className}`}
         style={style}

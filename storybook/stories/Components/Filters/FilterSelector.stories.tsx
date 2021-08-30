@@ -81,7 +81,6 @@ const filterGroupTextInput: IFilterGroup<IFilterTextInputConfig> = {
 
 const onChangeTypeStory: onChangeType = () => null
 
-
 export const TermFilterSelectorStory = FilterSelectorStory.bind({});
 TermFilterSelectorStory.args = {
     title: 'FilterSelector Term',
