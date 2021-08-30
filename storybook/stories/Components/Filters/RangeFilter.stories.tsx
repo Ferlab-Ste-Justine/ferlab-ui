@@ -41,45 +41,90 @@ const RangeFilterStory = ({title, filterGroup, onChange, ...props} : {
   </>
 );
 
-const filterGroupConfig: TFilterGroupConfig = {
-    rangeTypes: [{
-        key: 'this.field',
-        name: 'Years',
-    }],
-    min: 1,
-    max: 2,
-}
-
-const filerGroup: IFilterGroup = {
-    type: VisualType.Range,
-    field: 'this.field',
-    config: filterGroupConfig,
-    title: 'title_filter_group'
-}
-
-const onChangeTypeStory: onChangeType = () => null
-
-
 export const TermFilterStoryMore = RangeFilterStory.bind({});
 TermFilterStoryMore.args = {
     title: 'RangeFilter',
-    filterGroup: filerGroup,
+    filterGroup: {
+      type: VisualType.Range,
+      field: 'this.field',
+      config: {
+        rangeTypes: [{
+            key: 'this.field',
+            name: 'Years',
+        }],
+        min: 1,
+        max: 2,
+    },
+      title: 'title_filter_group'
+  },
     filters: rangeFilters,
-    onChange: onChangeTypeStory,
-    maxShowing: 6,
-
-    onChangeType: onChangeTypeStory(filerGroup, filters),
-    hasSearchInput: true,
+    onChange: () => undefined,
 };
 
 export const TermFilterStoryDictionary = RangeFilterStory.bind({});
 TermFilterStoryDictionary.args = {
-    title: 'RangeFilter in French',
-    filterGroup: filerGroup,
+    title: 'RangeFilter French',
+    filterGroup: {
+      type: VisualType.Range,
+      field: 'this.field',
+      config: {
+        rangeTypes: [{
+            key: 'this.field',
+            name: 'Years',
+        }],
+        min: 1,
+        max: 2,
+    },
+      title: 'title_filter_group'
+  },
     filters: rangeFilters,
-    onChange: onChangeTypeStory,
-    maxShowing: 6,
+    onChange: () => undefined,
     dictionary: dictionaryFrench,
-    onChangeType: onChangeTypeStory(filerGroup, filters),
-    hasSearchInput: true,
+};
+
+export const TermFilterStoryCustomOperator = RangeFilterStory.bind({});
+TermFilterStoryCustomOperator.args = {
+    title: 'RangeFilter Custom Operators',
+    filterGroup: {
+      type: VisualType.Range,
+      field: 'this.field',
+      config: {
+        rangeTypes: [{
+            key: 'this.field',
+            name: 'Years',
+        }],
+        operators: [
+          {
+            operator: "==",
+            name: "Custom Operator 1",
+            disableMax: true
+          },
+          {
+            operator: "!=",
+            name: "Custom Operator 2"
+          }
+        ],
+        min: 1,
+        max: 2,
+    },
+      title: 'title_filter_group'
+  },
+    filters: rangeFilters,
+    onChange: () => undefined,
+};
+
+export const TermFilterStoryWithoutUnit = RangeFilterStory.bind({});
+TermFilterStoryWithoutUnit.args = {
+    title: 'RangeFilter No Units',
+    filterGroup: {
+      type: VisualType.Range,
+      field: 'this.field',
+      config: {
+        min: 1,
+        max: 2,
+    },
+      title: 'title_filter_group'
+  },
+    filters: rangeFilters,
+    onChange: () => undefined,
 };

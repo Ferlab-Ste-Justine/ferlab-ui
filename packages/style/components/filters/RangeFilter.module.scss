@@ -1,44 +1,74 @@
 @import 'theme.template';
-.fuiRfContainer {
-    .fuiRfGrouped {
-        .fuiRfRangeTarget {
-            display: flex;
-            height: 100%;
-            width: 40%;
 
-            .fuiRfRangeTargetSelect {
-                width: 100%;
-                :global(.ant-select-selector) {
-                    border-radius: 2px 0 0 2px;
-                }
+.fuiRfSelectOptionContent {
+    display: flex;
+    align-items: center;
+
+    .operatorIcon {
+        min-height: 16px;
+        min-width: 16px;
+    }
+
+    .fuiRfSelectOptionContentTitle {
+        margin-left: 8px;
+    }
+}
+
+.fuiRfContainer {
+    .fuiRfSectionTitle {
+        margin-bottom: 0.4rem;
+        line-height: 20px;
+        font-weight: 600;
+        font-size: 12px;
+    }
+    
+    .fuiRfRangeOperator {
+        margin-bottom: 0.8rem;
+        .fuiRfRangeOperatorSelect {
+            width: 100%;
+
+            .operatorIcon {
+                display: none;
+            }
+
+            .fuiRfSelectOptionContentTitle {
+                margin-left: 0px;
             }
         }
+    }    
 
-        .fuiRfGroupedInputsSpacer {
-            background-color: $range-filter-grouped-inputs-spacer-color;
-            margin: 0 4px;
+    .fuiRfGroupedValues {
+        justify-content: space-between;
+        .fuiRfRangeInputContainer {
+            flex-shrink: unset;
+            width: 100%;
+
+            &:first-child {
+                margin-right: 0.4rem;
+            }
+
+            &:last-child {
+                margin-left: 0.4rem;
+            }
+
+            .rangeInput {
+                width: 100%;
+            }
         }
     }
 
-    .fuiRfGroupedInputs {
-        align-items: center;
-        height: 32px;
-        margin-bottom: 1.6rem;
-        width: 60%;
-        border-top: 1px solid $range-filter-grouped-inputs-color-color;
-        border-bottom: 1px solid $range-filter-grouped-inputs-color-color;
-        border-right: 1px solid $range-filter-grouped-inputs-color-color;
-        border-radius: 0 2px 2px 0;
-
-        .rangeInput {
-            border: none;
-        }
+    .fuiRfRangeTarget {
+        margin-top: 0.8rem;
+       .fuiRfRangeTargetSelect {
+           width: 100%;
+       }
     }
 
     .fuiRfActions {
         border-top: 1px solid $range-filter-actions-border-color;
         justify-content: flex-end;
         padding-top: 1.3rem;
+        margin-top: 1.3rem;
 
         .fuiRfActionsApply {
             background: $range-filter-actions-border-apply-background-color;
