@@ -5,3 +5,4 @@ lib/
 .vscode
 build/
 storybook-static/
+docs/
