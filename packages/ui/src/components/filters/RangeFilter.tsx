@@ -10,7 +10,7 @@ import LessThanOrEqualOperatorIcon from './icons/LessThanOrEqualOperatorIcon';
 import GreaterThanOperatorIcon from './icons/GreaterThanOperatorIcon';
 import GreaterThanOrEqualOperatorIcon from './icons/GreaterThanOrEqualOperatorIcon';
 
-import { IDictionary, IFilter, IFilterGroup, IFilterRange, IOperatorConfig, onChangeType } from './types';
+import { IDictionary, IFilter, IFilterGroup, IFilterRange, IFilterRangeConfig, IOperatorConfig, onChangeType } from './types';
 
 import styles from '@ferlab/style/components/filters/RangeFilter.module.scss';
 
@@ -18,7 +18,7 @@ const { Option } = Select;
 
 export type RangeFilterProps = {
     filters: IFilter<IFilterRange>[];
-    filterGroup: IFilterGroup;
+    filterGroup: IFilterGroup<IFilterRangeConfig>;
     onChange: onChangeType;
     selectedFilters?: IFilter[];
     dictionary?: IDictionary | Record<string, never>;
