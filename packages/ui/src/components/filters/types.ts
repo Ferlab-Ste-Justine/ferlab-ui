@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { RangeOperators } from '../../data/sqon/operators';
 
 export type onChangeType = (fg: IFilterGroup, f: IFilter[]) => void;
 
@@ -10,13 +11,23 @@ export interface IFilterRangeTypes {
 export interface IFilterRange {
     max: number | undefined;
     min: number | undefined;
-    rangeType: string | undefined;
+    operator?: string;
+    rangeType?: string | undefined;
+}
+
+export interface IOperatorConfig {
+    operator: RangeOperators;
+    name: string | ReactNode;
+    disableMin?: boolean;
+    disableMax?: boolean
 }
 
 export interface IFilterRangeConfig {
     max: number | undefined;
     min: number | undefined;
-    rangeTypes: IFilterRangeTypes[];
+    step?: number | string;
+    operators?: IOperatorConfig[];
+    rangeTypes?: IFilterRangeTypes[];
 }
 
 export type TFilterGroupConfig = IFilterRangeConfig;
@@ -52,6 +63,7 @@ export interface IDictionary {
     messages?: IMessages;
     checkBox?: ICheckBox;
     range?: IRange;
+    operators?: IOperators;
 }
 
 export interface IActions {
@@ -74,4 +86,12 @@ export interface IMessages {
 export interface IRange {
     max: string | ReactNode;
     min: string | ReactNode;
+}
+
+export interface IOperators {
+    between: string | ReactNode;
+    lessThan: string | ReactNode;
+    lessThanOfEqual: string | ReactNode;
+    greaterThan: string | ReactNode;
+    greaterThanOrEqual: string | ReactNode;
 }
