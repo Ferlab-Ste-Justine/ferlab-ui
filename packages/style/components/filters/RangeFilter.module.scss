@@ -62,20 +62,20 @@
     }
 
     .fuiRfActions {
-        border-top: 1px solid $range-filter-actions-border-color;
+        border-top: 1px solid $filter-actions-border-color;
         justify-content: flex-end;
         padding-top: 1.3rem;
         margin-top: 1.3rem;
 
         .fuiRfActionsApply {
-            background: $range-filter-actions-border-apply-background-color;
-            border-color: $range-filter-actions-border-apply-border-color;
+            background: $filter-actions-border-apply-background-color;
+            border-color: $filter-actions-border-apply-border-color;
             color: $white;
 
             &:disabled {
-                color: $range-filter-actions-border-disabled-color;
-                background: $range-filter-actions-border-disabled-background-color;
-                border-color: $range-filter-actions-border-disabled-border-color;
+                color: $filter-actions-border-disabled-color;
+                background: $filter-actions-border-disabled-background-color;
+                border-color: $filter-actions-border-disabled-border-color;
             }
         }
 

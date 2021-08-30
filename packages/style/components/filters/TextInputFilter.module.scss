@@ -1,0 +1,34 @@
+@import 'theme.template';
+
+.fuiTIfContainer {
+    .fuiTIfSectionTitle {
+        margin-bottom: 0.4rem;
+        line-height: 20px;
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+    .fuiTIfActions {
+        border-top: 1px solid $filter-actions-border-color;
+        justify-content: flex-end;
+        padding-top: 1.3rem;
+        margin-top: 1.3rem;
+
+        .fuiTIfActionsApply {
+            background: $filter-actions-border-apply-background-color;
+            border-color: $filter-actions-border-apply-border-color;
+            color: $white;
+
+            &:disabled {
+                color: $filter-actions-border-disabled-color;
+                background: $filter-actions-border-disabled-background-color;
+                border-color: $filter-actions-border-disabled-border-color;
+            }
+        }
+
+        > * {
+            text-transform: capitalize;
+            margin-left: 8px;
+        }
+    }
+}

@@ -15,6 +15,10 @@ export interface IFilterRange {
     rangeType?: string | undefined;
 }
 
+export interface IFilterText {
+    text: string;
+}
+
 export interface IOperatorConfig {
     operator: RangeOperators;
     name: string | ReactNode;
@@ -30,11 +34,19 @@ export interface IFilterRangeConfig {
     rangeTypes?: IFilterRangeTypes[];
 }
 
-export type TFilterGroupConfig = IFilterRangeConfig;
+export interface IFilterTextInputConfig {
+    label: string | ReactNode;
+    placeholder: string;
+    tooltip?: {
+        text: string | ReactNode;
+    }
+}
 
-export interface IFilterGroup {
+export type TFilterGroupConfig = IFilterRangeConfig | IFilterTextInputConfig;
+
+export interface IFilterGroup<T extends TFilterGroupConfig = any> {
     field: string;
-    config?: TFilterGroupConfig;
+    config?: T;
     title: string | ReactNode;
     type: VisualType;
 }
@@ -44,7 +56,7 @@ export interface IFilterCount {
     key: string;
 }
 
-export type TFilterData = IFilterCount | IFilterRange;
+export type TFilterData = IFilterCount | IFilterRange | IFilterText;
 
 export interface IFilter<T extends TFilterData = any> {
     data: T;
@@ -56,6 +68,7 @@ export enum VisualType {
     Checkbox = 'checkbox',
     Toggle = 'toggle',
     Range = 'range',
+    Text = 'text'
 }
 
 export interface IDictionary {

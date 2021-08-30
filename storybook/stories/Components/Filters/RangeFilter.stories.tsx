@@ -59,8 +59,6 @@ TermFilterStoryMore.args = {
   },
     filters: rangeFilters,
     onChange: () => null,
-    maxShowing: 6,
-    hasSearchInput: true,
 };
 
 export const TermFilterStoryDictionary = RangeFilterStory.bind({});
@@ -81,9 +79,7 @@ TermFilterStoryDictionary.args = {
   },
     filters: rangeFilters,
     onChange: () => null,
-    maxShowing: 6,
     dictionary: dictionaryFrench,
-    hasSearchInput: true,
 };
 
 export const TermFilterStoryCustomOperator = RangeFilterStory.bind({});
@@ -115,8 +111,6 @@ TermFilterStoryCustomOperator.args = {
   },
     filters: rangeFilters,
     onChange: () => null,
-    maxShowing: 6,
-    hasSearchInput: true,
 };
 
 export const TermFilterStoryWithoutUnit = RangeFilterStory.bind({});
@@ -133,6 +127,4 @@ TermFilterStoryWithoutUnit.args = {
   },
     filters: rangeFilters,
     onChange: () => null,
-    maxShowing: 6,
-    hasSearchInput: true,
 };
