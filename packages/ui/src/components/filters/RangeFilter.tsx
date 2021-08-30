@@ -90,10 +90,6 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
     ];
 };
 
-const getOperatorsList = (defaultOperators: IOperatorConfig[], customOperators: IOperatorConfig[]) => {
-    return customOperators?.length ? customOperators[0].operator : defaultOperators[0].operator;
-};
-
 const RangeFilter: React.FC<RangeFilterProps> = ({ dictionary, filterGroup, filters, onChange, selectedFilters }) => {
     const { config: range } = filterGroup;
     const currentFilter: IFilter<IFilterRange> = filters[0];
