@@ -1,4 +1,9 @@
 
+### 1.7.9 | 2021-08-30
+
+- feat: (Breaking changes) Update Range Filter
+- feat: Add new Text Input Filter
+
 ### 1.7.6 | 2021-08-26
 
 - feat: Add new SidebarMenu component
