@@ -5,10 +5,9 @@ import {
     IFilterGroup,
     IFilterRange,
     onChangeType,
-    TFilterGroupConfig,
     VisualType
 } from "@ferlab/ui/components/filters/types";
-import {dictionaryFrench, filters, rangeFilters} from "./data";
+import {dictionaryFrench, rangeFilters} from "./data";
 import RangeFilter, {RangeFilterProps} from "@ferlab/ui/components/filters/RangeFilter";
 
 export default {
@@ -58,7 +57,7 @@ TermFilterStoryMore.args = {
       title: 'title_filter_group'
   },
     filters: rangeFilters,
-    onChange: () => undefined,
+    onChange: () => undefined,
 };
 
 export const TermFilterStoryDictionary = RangeFilterStory.bind({});
@@ -78,7 +77,7 @@ TermFilterStoryDictionary.args = {
       title: 'title_filter_group'
   },
     filters: rangeFilters,
-    onChange: () => undefined,
+    onChange: () => undefined,
     dictionary: dictionaryFrench,
 };
 
@@ -110,7 +109,7 @@ TermFilterStoryCustomOperator.args = {
       title: 'title_filter_group'
   },
     filters: rangeFilters,
-    onChange: () => undefined,
+    onChange: () => undefined,
 };
 
 export const TermFilterStoryWithoutUnit = RangeFilterStory.bind({});
@@ -126,5 +125,5 @@ TermFilterStoryWithoutUnit.args = {
       title: 'title_filter_group'
   },
     filters: rangeFilters,
-    onChange: () => undefined,
+    onChange: () => undefined,
 };
