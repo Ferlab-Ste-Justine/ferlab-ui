@@ -49,7 +49,21 @@ TextInputFilterStoryBasic.args = {
       config: {
         label: "Test Filter",
         placeholder: "My placeholder test"
-        },
+      },
+    },
+    filters: [],
+    onChange: () => null,
+};
+
+export const TextInputFilterStoryNoLabel = TextInputFilterStory.bind({});
+TextInputFilterStoryNoLabel.args = {
+    title: 'Text Input Filter No Label',
+    filterGroup: {
+      type: VisualType.Text,
+      field: 'this.field',
+      config: {
+        placeholder: "My placeholder test"
+      },
     },
     filters: [],
     onChange: () => null,

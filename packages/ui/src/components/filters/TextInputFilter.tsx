@@ -37,8 +37,8 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
     return (
         <StackLayout className={styles.fuiTIfContainer} vertical>
             <StackLayout vertical>
-                <span className={styles.fuiTIfSectionTitle}>{config?.label}</span>
-                <Input placeholder={config?.placeholder} onChange={onTextInputChanged}></Input>
+                {config?.label && <span className={styles.fuiTIfSectionTitle}>{config.label}</span>}
+                <Input placeholder={config?.placeholder} onChange={onTextInputChanged} value={text}></Input>
             </StackLayout>
             <StackLayout className={styles.fuiTIfActions} horizontal>
                 <Button disabled={buttonActionDisabled} onClick={() => onChange(filterGroup, [])} type="text">
