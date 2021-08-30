@@ -10,7 +10,15 @@ import LessThanOrEqualOperatorIcon from './icons/LessThanOrEqualOperatorIcon';
 import GreaterThanOperatorIcon from './icons/GreaterThanOperatorIcon';
 import GreaterThanOrEqualOperatorIcon from './icons/GreaterThanOrEqualOperatorIcon';
 
-import { IDictionary, IFilter, IFilterGroup, IFilterRange, IFilterRangeConfig, IOperatorConfig, onChangeType } from './types';
+import {
+    IDictionary,
+    IFilter,
+    IFilterGroup,
+    IFilterRange,
+    IFilterRangeConfig,
+    IOperatorConfig,
+    onChangeType,
+} from './types';
 
 import styles from '@ferlab/style/components/filters/RangeFilter.module.scss';
 
@@ -90,7 +98,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
     ];
 };
 
-const RangeFilter: React.FC<RangeFilterProps> = ({ dictionary, filterGroup, filters, onChange, selectedFilters }) => {
+const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilters }: RangeFilterProps) => {
     const { config: range } = filterGroup;
     const currentFilter: IFilter<IFilterRange> = filters[0];
     const maxPossibleValue = filterGroup.config?.max || 0;
