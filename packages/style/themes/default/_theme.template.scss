@@ -66,12 +66,6 @@ $multi-label-stack-top-icon-space: 1rem;
 $toggle-filter-sc-button-color: #008FC7;
 $range-filter-grouped-inputs-spacer-color: #B5C6D8;
 $range-filter-grouped-inputs-color-color: #d9d9d9;
-$range-filter-actions-border-color: #d9d9d9;
-$range-filter-actions-border-apply-background-color: #008FC7;
-$range-filter-actions-border-apply-border-color: #008FC7;
-$range-filter-actions-border-disabled-border-color: #B5C6D8;
-$range-filter-actions-border-disabled-background-color: #F0F3F8;
-$range-filter-actions-border-disabled-color: #90A9C1;
 $checkbox-filter-item-font-size: inherit;
 $checkbox-filter-item-line-height: inherit;
 $checkbox-filter-types-mc-footer: #008FC7;
@@ -82,6 +76,13 @@ $checkbox-filter-actions-separator-background: #90A9C1;
 $checkbox-filter-actions-separator-links: #008FC7;
 $checkbox-filter-no-results-text-background-color: #F0F3F8;
 $checkbox-filter-no-results-text-color: #18486B;
+
+$filter-actions-border-color: #d9d9d9;
+$filter-actions-border-apply-background-color: #008FC7;
+$filter-actions-border-apply-border-color: #008FC7;
+$filter-actions-border-disabled-border-color: #B5C6D8;
+$filter-actions-border-disabled-background-color: #F0F3F8;
+$filter-actions-border-disabled-color: #90A9C1;
 
 // SidebarMenu
 $sidebar-menu-width: 220px;

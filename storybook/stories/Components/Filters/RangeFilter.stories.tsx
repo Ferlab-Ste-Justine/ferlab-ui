@@ -5,17 +5,16 @@ import {
     IFilterGroup,
     IFilterRange,
     onChangeType,
-    TFilterGroupConfig,
     VisualType
 } from "@ferlab/ui/components/filters/types";
-import {dictionaryFrench, filters, rangeFilters} from "./data";
+import {dictionaryFrench, rangeFilters} from "./data";
 import RangeFilter, {RangeFilterProps} from "@ferlab/ui/components/filters/RangeFilter";
 
 export default {
   title: "@ferlab/Components/Filters/RangeFilter",
   component: RangeFilter,
     decorators: [(Story) =>
-        <><div className={'story_container'} style={{display:'inline-grid'}}><Story/></div></>],
+        <><div className={'story_container'} style={{display:'inline-grid', minWidth: '225px'}}><Story/></div></>],
   argTypes: {
     className: {
       control: 'string',

@@ -43,7 +43,7 @@ const FilterContainerStory = ({title, maxShowing, filterGroup, onChange, ...prop
     </>
 );
 
-const filerGroupTerm: IFilterGroup = {
+const filterGroupTerm: IFilterGroup = {
     field: 'this.field',
     title: 'title_filter_group',
     type: VisualType.Checkbox,
@@ -51,14 +51,12 @@ const filerGroupTerm: IFilterGroup = {
 
 const onChangeTypeStory: onChangeType = () => null
 
-
 export const TermFilterSelectorStory = FilterContainerStory.bind({});
 TermFilterSelectorStory.args = {
     title: 'FilterSelector Term',
     maxShowing: 6,
-    filterGroup: filerGroupTerm,
-    onChangeType: onChangeTypeStory(filerGroupTerm, filters),
+    filterGroup: filterGroupTerm,
+    onChangeType: onChangeTypeStory(filterGroupTerm, filters),
     hasSearchInput: true,
     filters: filters,
 };
-

@@ -2,6 +2,7 @@ import React from 'react';
 
 import CheckboxFilter from './CheckboxFilter';
 import RangeFilter from './RangeFilter';
+import TextInputFilter from './TextInputFilter';
 import ToggleFilter from './ToggleFilter';
 import { IDictionary, IFilter, IFilterGroup, onChangeType, VisualType } from './types';
 
@@ -15,7 +16,7 @@ type FilterSelectorProps = {
     dictionary?: IDictionary;
 };
 
-const FilterSelector: React.FC<FilterSelectorProps> = ({
+const FilterSelector = ({
     dictionary,
     filterGroup,
     filters,
@@ -23,7 +24,7 @@ const FilterSelector: React.FC<FilterSelectorProps> = ({
     onChange,
     searchInputVisible,
     selectedFilters,
-}) => {
+}: FilterSelectorProps) => {
     const commonProps = {
         dictionary,
         filterGroup,
@@ -35,6 +36,8 @@ const FilterSelector: React.FC<FilterSelectorProps> = ({
             return <ToggleFilter {...commonProps} filters={filters} />;
         case VisualType.Range:
             return <RangeFilter {...commonProps} filters={filters} />;
+        case VisualType.Text:
+            return <TextInputFilter {...commonProps} filters={filters} />;
         case VisualType.Checkbox:
         default:
             return (

@@ -49,7 +49,6 @@ const filerGroup: IFilterGroup = {
 
 const onChangeTypeStory: onChangeType = () => null
 
-
 export const TermFilterStoryMore = TermFilterStory.bind({});
 TermFilterStoryMore.args = {
     title: 'CheckboxFilter More',
