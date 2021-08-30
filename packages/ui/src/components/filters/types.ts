@@ -32,9 +32,9 @@ export interface IFilterRangeConfig {
 
 export type TFilterGroupConfig = IFilterRangeConfig;
 
-export interface IFilterGroup {
+export interface IFilterGroup<T extends TFilterGroupConfig = any> {
     field: string;
-    config?: TFilterGroupConfig;
+    config?: T;
     title: string | ReactNode;
     type: VisualType;
 }
