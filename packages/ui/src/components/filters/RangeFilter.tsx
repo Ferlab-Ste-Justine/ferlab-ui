@@ -226,10 +226,18 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
             )}
 
             <StackLayout className={styles.fuiRfActions} horizontal>
-                <Button disabled={buttonActionDisabled} onClick={() => onChange(filterGroup, [])} type="text">
+                <Button
+                    className={styles.fuiRfActionsClear}
+                    size="small"
+                    ghost
+                    disabled={buttonActionDisabled}
+                    onClick={() => onChange(filterGroup, [])}
+                    type="text"
+                >
                     {get(dictionary, 'actions.none', 'clear')}
                 </Button>
                 <Button
+                    size="small"
                     className={styles.fuiRfActionsApply}
                     disabled={buttonActionDisabled}
                     onClick={() => {
