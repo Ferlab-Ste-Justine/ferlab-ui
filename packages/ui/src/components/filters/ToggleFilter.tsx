@@ -7,6 +7,7 @@ import StackLayout from '../../layout/StackLayout';
 
 import { IDictionary, IFilter, IFilterCount } from './types';
 import { IFilterGroup, onChangeType } from './types';
+import { numberFormat } from '../../utils/numberUtils';
 
 import styles from '@ferlab/style/components/filters/ToggleFilter.module.scss';
 
@@ -18,13 +19,7 @@ export type BooleanFilterProps = {
     dictionary?: IDictionary | Record<string, never>;
 };
 
-const ToggleFilter = ({
-    filterGroup,
-    filters,
-    onChange,
-    selectedFilters = [],
-    dictionary,
-}: BooleanFilterProps) => {
+const ToggleFilter = ({ filterGroup, filters, onChange, selectedFilters = [], dictionary }: BooleanFilterProps) => {
     const selectedFilter = selectedFilters.length > 0 ? selectedFilters[0].data.key : '';
     const [selected, setSelected] = useState(selectedFilter);
 
@@ -37,7 +32,7 @@ const ToggleFilter = ({
             label: (
                 <>
                     {filter.name}
-                    <Tag className={styles.tag}>{count.toLocaleString()}</Tag>
+                    <Tag className={styles.tag}>{numberFormat(count)}</Tag>
                 </>
             ),
             value: filter.data.key,

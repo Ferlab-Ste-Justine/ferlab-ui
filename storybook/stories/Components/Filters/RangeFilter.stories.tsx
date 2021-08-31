@@ -51,8 +51,9 @@ TermFilterStoryMore.args = {
             key: 'this.field',
             name: 'Years',
         }],
-        min: 1,
-        max: 2,
+        step: 0.00001,
+        min: 0.000029999999242136255,
+        max: 0.9999300241470337,
     },
       title: 'title_filter_group'
   },

@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 
 import StackLayout from '../../layout/StackLayout';
+import { numberFormat } from '../../utils/numberUtils';
 
 import { IDictionary, IFilter, IFilterCount, IFilterGroup, onChangeType } from './types';
 
@@ -106,7 +107,7 @@ const CheckboxFilter = ({
                             >
                                 {filter.name}
                             </Checkbox>
-                            <Tag className={styles.tag}>{filter.data.count.toLocaleString()}</Tag>
+                            <Tag className={styles.tag}>{numberFormat(filter.data.count)}</Tag>
                         </StackLayout>
                     ))}
                     {filteredFilters.length > maxShowing && (
