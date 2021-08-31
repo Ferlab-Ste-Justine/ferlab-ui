@@ -137,7 +137,8 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
 
     const onMinChanged = (value: string | number | null | undefined) => {
         if (!value) return;
-        const min = typeof value === 'string' ? parseInt(value, 10) : value;
+        let min = typeof value === 'string' ? parseFloat(value) : value;
+        min = min > max! ? max! : min;
 
         if (!(min < minPossibleValue)) {
             setRangeFilter((prevState) => ({ ...prevState, min }));
@@ -146,9 +147,10 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
 
     const onMaxChanged = (value: string | number | null | undefined) => {
         if (!value) return;
-        const max = typeof value === 'string' ? parseInt(value, 10) : value;
+        let max = typeof value === 'string' ? parseFloat(value) : value;
+        max = max < min! ? min! : max;
 
-        if (!(max < maxPossibleValue)) {
+        if (max < maxPossibleValue) {
             setRangeFilter((prevState) => ({ ...prevState, max }));
         }
     };

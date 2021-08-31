@@ -9,7 +9,7 @@ import {
     onChangeType,
     VisualType
 } from "@ferlab/ui/components/filters/types";
-import {dictionaryFrench, filters} from "./data";
+import {dictionaryFrench, filters, filtersWithBigCounts} from "./data";
 
 export default {
   title: "@ferlab/Components/Filters/CheckboxFilter",
@@ -79,6 +79,17 @@ TermFilterStoryNoData.args = {
     filters: [],
 };
 
+export const TermFilterStoryBigCount = TermFilterStory.bind({});
+TermFilterStoryBigCount.args = {
+    dictionary: dictionaryFrench,
+    title: 'CheckboxFilter Big Count',
+    maxShowing: 6,
+    filterGroup: filerGroup,
+    onChangeType: onChangeTypeStory(filerGroup, filtersWithBigCounts),
+    hasSearchInput: true,
+    filters: filtersWithBigCounts,
+};
+
 export const TermFilterStoryInFrench = TermFilterStory.bind({});
 TermFilterStoryInFrench.args = {
     dictionary: dictionaryFrench,
@@ -89,3 +100,4 @@ TermFilterStoryInFrench.args = {
     hasSearchInput: true,
     filters: filters,
 };
+

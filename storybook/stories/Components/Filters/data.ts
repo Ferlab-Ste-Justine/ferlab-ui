@@ -84,6 +84,56 @@ export const filters: IFilter<IFilterCount>[] = [
 
 ]
 
+export const filtersWithBigCounts: IFilter<IFilterCount>[] = [
+    {
+        data: {
+            count: 345,
+            key: 'Two',
+        },
+        name: 'two',
+        id: 'id_two'
+    },
+    {
+        data: {
+            count: 3450,
+            key: 'three',
+        },
+        name: 'three',
+        id: 'id_three'
+    },
+    {
+        data: {
+            count: 34589,
+            key: 'three',
+        },
+        name: 'three',
+        id: 'id_three'
+    },
+    {
+        data: {
+            count: 345892,
+            key: 'Four',
+        },
+        name: 'four super long data with very long name',
+        id: 'id_four'
+    },
+    {
+        data: {
+            count: 3458923,
+            key: 'Five',
+        },
+        name: 'five',
+        id: 'id_five'
+    },
+    {
+        data: {
+            count: 34589236,
+            key: 'Six',
+        },
+        name: 'Six',
+        id: 'id_six'
+    }
+]
 
 export const rangeFilters: IFilter<IFilterRange>[] = [
     {
@@ -149,6 +199,25 @@ export const booleanFilters: IFilter<IFilterCount>[] = [
         },
         name: 'false',
         id: 'id_two'
+    },
+]
+
+export const booleanFiltersBigCount: IFilter<IFilterCount>[] = [
+    {
+        data: {
+            count: 345687,
+            key: 'true'
+        },
+        name: 'true',
+        id: 'id_one'
+    },
+    {
+        data: {
+            count: 450600700,
+            key: 'false'
+        },
+        name: 'false',
+        id: 'id_three'
     },
 ]
 
