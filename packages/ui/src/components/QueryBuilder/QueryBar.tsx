@@ -8,6 +8,7 @@ import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOn
 import { ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
 import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
 import BooleanQueryPill from './QueryPills/BooleanQueryPill';
+import { numberFormat } from '../../utils/numberUtils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBar.module.scss';
 
@@ -111,7 +112,7 @@ const QueryBar = ({
                     )
                 )}
                 <span className={styles.total}>
-                    {Icon} {total}
+                    {Icon} {numberFormat(total)}
                 </span>
             </StackLayout>
             {!actionDisabled && (
