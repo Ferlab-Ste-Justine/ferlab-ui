@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Input, Menu, AutoComplete } from 'antd';
 import StackLayout from '../../layout/StackLayout';
 import ScrollView from '../../layout/ScrollView';
-import { InfoCircleOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SearchOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import SearchIcon from './icons/SearchIcon';
 import SidebarMenuContentPanel from './SidebarMenuContentPanel';
 
