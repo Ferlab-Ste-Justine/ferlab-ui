@@ -1,4 +1,9 @@
 
+### 1.8.0 | 2021-08-31
+
+- feat: Add big number formatting for checkbox and toggle filter
+- fix: Small fix on Range Filter
+
 ### 1.7.9 | 2021-08-30
 
 - feat: (Breaking changes) Update Range Filter
