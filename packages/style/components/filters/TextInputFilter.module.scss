@@ -1,11 +1,26 @@
 @import 'theme.template';
 
 .fuiTIfContainer {
-    .fuiTIfSectionTitle {
+
+    .fuiTIfLabelContainer {
         margin-bottom: 0.4rem;
-        line-height: 20px;
-        font-weight: 600;
-        font-size: 12px;
+
+        .fuiTIfSectionTitle {
+            line-height: 20px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+    
+        .fuiTIfLabelTooltipIcon {
+            margin-left: 5px;
+            display: flex;
+            align-items: center;
+
+            svg {
+                width: 12.25px;
+                height: 12.25px;
+            }
+        }
     }
 
     .fuiTIfActions {
