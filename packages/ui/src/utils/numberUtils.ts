@@ -21,6 +21,8 @@ const getDefaultDigits = (num: number) => {
 };
 
 export const numberFormat = (num: number, digits: number = 0) => {
+    if (!num) return 0;
+
     var index: number;
     digits = digits ? digits : getDefaultDigits(num);
 
