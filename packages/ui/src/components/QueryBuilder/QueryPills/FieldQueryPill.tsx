@@ -9,6 +9,8 @@ import ElementOperator from '../icons/ElementOperator';
 import EqualOperator from '../icons/EqualOperator';
 import GreaterThanOrEqualOperator from '../icons/GreaterThanOrEqualOperator';
 import LessThanOrEqualOperator from '../icons/LessThanOrEqualOperator';
+import GreaterThanOperator from '../icons/GreaterThanOperator';
+import LessThanOperator from '../icons/LessThanOperator';
 import QueryValues from '../QueryValues';
 import { IDictionary } from '../types';
 import { IValueFilter } from '../../../data/sqon/types';
@@ -32,8 +34,12 @@ interface IOperatorProps {
 
 const Operator = ({ className = '', type }: IOperatorProps) => {
     switch (type) {
+        case FieldOperators['>']:
+            return <GreaterThanOperator className={className} />;
         case FieldOperators['>=']:
             return <GreaterThanOrEqualOperator className={className} />;
+        case FieldOperators['<']:
+            return <LessThanOperator className={className} />;
         case FieldOperators['<=']:
             return <LessThanOrEqualOperator className={className} />;
         case FieldOperators.between:

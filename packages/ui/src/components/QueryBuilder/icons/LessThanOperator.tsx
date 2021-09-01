@@ -2,10 +2,10 @@ import React from 'react';
 
 import styles from '@ferlab/style/components/queryBuilder/LabelOperator.module.scss';
 
-interface ILessThanOrEqualOperatorProps {
+interface ILessThanOperatorProps {
     className?: string;
 }
-const LessThanOrEqualEqualOperator = ({ className = '' }: ILessThanOrEqualOperatorProps) => (
+const LessThanOperator = ({ className = '' }: ILessThanOperatorProps) => (
     <svg
         className={`${styles.icon} ${className}`}
         fill="currentColor"
@@ -14,8 +14,7 @@ const LessThanOrEqualEqualOperator = ({ className = '' }: ILessThanOrEqualOperat
         width="14"
         xmlns="http://www.w3.org/2000/svg"
     >
-        <path d="M19 6.07112L8.588 9.46312L19 12.9291V16.5001L5 10.9421V8.05812L19 2.50012V6.07112Z" />
-        <path d="M5 13.4401V15.9442L19 21.5022V19.0402L5 13.4401Z" />
+        <path d="M8.588 11.9631L19 8.57112V5.00012L5 10.5581V13.4421L19 19.0001V15.4291L8.588 11.9631Z" />
     </svg>
 );
-export default LessThanOrEqualEqualOperator;
+export default LessThanOperator;

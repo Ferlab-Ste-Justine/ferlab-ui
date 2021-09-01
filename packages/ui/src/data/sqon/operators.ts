@@ -12,7 +12,7 @@ export enum FieldOperators {
 export enum RangeOperators {
     '>' = '>',
     '<' = '<',
-    'between' = 'between',
+    between = 'between',
     '>=' = '>=',
     '<=' = '<=',
 }
