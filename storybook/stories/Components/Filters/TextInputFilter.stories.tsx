@@ -48,8 +48,25 @@ TextInputFilterStoryBasic.args = {
       field: 'this.field',
       config: {
         label: "Test Filter",
-        placeholder: "My placeholder test"
+        placeholder: "My placeholder test",
+        tooltip: {
+          text: "Hello from tooltip"
+        }
       },
+    },
+    filters: [],
+};
+
+export const TextInputFilterStoryNoTooltip = TextInputFilterStory.bind({});
+TextInputFilterStoryNoTooltip.args = {
+    title: 'Text Input Filter no ToolTip',
+    filterGroup: {
+      type: VisualType.Text,
+      field: 'this.field',
+      config: {
+        label: "Test Filter",
+        placeholder: "My placeholder test"
+      }
     },
     filters: [],
 };
@@ -59,10 +76,7 @@ TextInputFilterStoryNoLabel.args = {
     title: 'Text Input Filter No Label',
     filterGroup: {
       type: VisualType.Text,
-      field: 'this.field',
-      config: {
-        placeholder: "My placeholder test"
-      },
+      field: 'this.field'
     },
     filters: [],
 };

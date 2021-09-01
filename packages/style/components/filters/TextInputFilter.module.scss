@@ -1,11 +1,26 @@
 @import 'theme.template';
 
 .fuiTIfContainer {
-    .fuiTIfSectionTitle {
+
+    .fuiTIfLabelContainer {
         margin-bottom: 0.4rem;
-        line-height: 20px;
-        font-weight: 600;
-        font-size: 12px;
+
+        .fuiTIfSectionTitle {
+            line-height: 20px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+    
+        .fuiTIfLabelTooltipIcon {
+            margin-left: 5px;
+            display: flex;
+            align-items: center;
+
+            svg {
+                width: 12.25px;
+                height: 12.25px;
+            }
+        }
     }
 
     .fuiTIfActions {
@@ -20,9 +35,9 @@
             color: $white;
 
             &:disabled {
-                color: $filter-actions-border-disabled-color;
-                background: $filter-actions-border-disabled-background-color;
-                border-color: $filter-actions-border-disabled-border-color;
+                color: $filter-actions-disabled-color;
+                background: $filter-actions-disabled-background-color;
+                border-color: $filter-actions-disabled-border-color;
             }
         }
 

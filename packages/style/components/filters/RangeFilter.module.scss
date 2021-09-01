@@ -16,6 +16,7 @@
 
 .fuiRfContainer {
     .fuiRfSectionTitle {
+        color: $filter-input-label-color;
         margin-bottom: 0.4rem;
         line-height: 20px;
         font-weight: 600;
@@ -70,15 +71,21 @@
         padding-top: 1.3rem;
         margin-top: 1.3rem;
 
+        .fuiRfActionsClear {
+            &:disabled {
+                color: $filter-actions-disabled-color;
+            }
+        }
+
         .fuiRfActionsApply {
             background: $filter-actions-border-apply-background-color;
             border-color: $filter-actions-border-apply-border-color;
             color: $white;
 
             &:disabled {
-                color: $filter-actions-border-disabled-color;
-                background: $filter-actions-border-disabled-background-color;
-                border-color: $filter-actions-border-disabled-border-color;
+                color: $filter-actions-disabled-color;
+                background: $filter-actions-disabled-background-color;
+                border-color: $filter-actions-disabled-border-color;
             }
         }
 
