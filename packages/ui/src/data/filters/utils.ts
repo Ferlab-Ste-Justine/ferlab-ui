@@ -12,7 +12,7 @@ import {
 } from '../sqon/types';
 import xss, { IFilterXSSOptions } from 'xss';
 import { isFieldOperator, isNotReference, isReference } from '../sqon/utils';
-import { BooleanOperators, FieldOperators } from '../sqon/operators';
+import { BooleanOperators, FieldOperators, RangeOperators } from '../sqon/operators';
 
 const xssConfig: IFilterXSSOptions = {
     escapeHtml: (f) => f,
@@ -58,24 +58,34 @@ export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[
     }
 
     const selectedRange = filters[0];
-    if (selectedRange.data.min && selectedRange.data.max) {
-        selectedFilters.push({
-            content: { field, value: [selectedRange.data.min, selectedRange.data.max] },
-            op: FieldOperators.between,
-        });
-    } else {
-        if (selectedRange.data.max) {
-            selectedFilters.push({
-                content: { field, value: [selectedRange.data.max] },
-                op: FieldOperators['<='],
-            });
-        }
-        if (selectedRange.data.min) {
-            selectedFilters.push({
-                content: { field, value: [selectedRange.data.min] },
-                op: FieldOperators['>='],
-            });
-        }
+
+    switch (selectedRange.data.operator) {
+        case RangeOperators.between:
+            if (selectedRange.data.min && selectedRange.data.max) {
+                selectedFilters.push({
+                    content: { field, value: [selectedRange.data.min, selectedRange.data.max] },
+                    op: FieldOperators.between,
+                });
+            }
+            break;
+        case RangeOperators['<']:
+        case RangeOperators['<=']:
+            if (selectedRange.data.max) {
+                selectedFilters.push({
+                    content: { field, value: [selectedRange.data.max] },
+                    op: FieldOperators[selectedRange.data.operator],
+                });
+            }
+            break;
+        case RangeOperators['>']:
+        case RangeOperators['>=']:
+            if (selectedRange.data.min) {
+                selectedFilters.push({
+                    content: { field, value: [selectedRange.data.min] },
+                    op: FieldOperators[selectedRange.data.operator],
+                });
+            }
+            break;
     }
 
     return selectedFilters;
@@ -205,17 +215,34 @@ export const getSelectedFilters = (filters: IFilter[], filterGroup: IFilterGroup
 export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterGroup) => {
     let rangeSelection: IFilterRange = { max: undefined, min: undefined, rangeType: undefined };
     for (const filter of filters.content) {
+        if (isReference(filter)) continue;
         const filt = filter as IValueFilter;
         if (filt.content.field === filterGroup.field) {
-            if (filt.op === FieldOperators.between) {
-                rangeSelection = {
-                    ...rangeSelection,
-                    max: filt.content.value[1] as number,
-                    min: filt.content.value[0] as number,
-                };
-            } else {
-                const op = filt.op === FieldOperators['>='] ? 'min' : 'max';
-                rangeSelection = { ...rangeSelection, [op]: filt.content.value[0] };
+            switch (filt.op) {
+                case RangeOperators.between:
+                    rangeSelection = {
+                        ...rangeSelection,
+                        operator: RangeOperators.between,
+                        max: filt.content.value[1] as number,
+                        min: filt.content.value[0] as number,
+                    };
+                    break;
+                case RangeOperators['<']:
+                case RangeOperators['<=']:
+                    rangeSelection = {
+                        ...rangeSelection,
+                        operator: RangeOperators[filt.op],
+                        max: filt.content.value[0] as number,
+                    };
+                    break;
+                case RangeOperators['>']:
+                case RangeOperators['>=']:
+                    rangeSelection = {
+                        ...rangeSelection,
+                        operator: RangeOperators[filt.op],
+                        min: filt.content.value[0] as number,
+                    };
+                    break;
             }
         }
     }

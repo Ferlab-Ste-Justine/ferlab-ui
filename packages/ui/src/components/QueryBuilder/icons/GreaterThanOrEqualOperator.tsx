@@ -9,12 +9,13 @@ const GreaterThanOrEqualOperator = ({ className = '' }: IGreaterThanOrEqualOpera
     <svg
         className={`${styles.icon} ${className}`}
         fill="currentColor"
-        height="14"
-        viewBox="0 0 14 14"
         width="14"
+        height="14"
+        viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
     >
-        <path d="M1.16669 4.08333L6.41669 6.39923V7.60076L1.16669 9.91666V8.42876L4.9219 6.98443L1.16669 5.57123V4.08333ZM12.8334 7.58333V8.74999H7.58335V7.58333H12.8334ZM12.8334 5.24999V6.41666H7.58335V5.24999H12.8334Z" />
+        <path d="M5 6.07112L15.412 9.46312L5 12.9291V16.5001L19 10.9421V8.05812L5 2.50012V6.07112Z" />
+        <path d="M19 13.4401V15.9442L5 21.5022V19.0402L19 13.4401Z" />
     </svg>
 );
 export default GreaterThanOrEqualOperator;

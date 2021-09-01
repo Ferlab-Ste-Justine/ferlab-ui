@@ -190,7 +190,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                         placeholder={get(dictionary, 'range.min', 'min')}
                         title={get(dictionary, 'range.min', 'min')}
                         type="number"
-                        value={min}
+                        value={isMinDisabled ? range.min : min}
                     />
                 </StackLayout>
                 <StackLayout vertical className={styles.fuiRfRangeInputContainer}>
@@ -207,7 +207,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                         placeholder={get(dictionary, 'range.max', 'max')}
                         title={get(dictionary, 'range.max', 'max')}
                         type="number"
-                        value={max}
+                        value={isMaxDisabled ? range.max : max}
                     />
                 </StackLayout>
             </StackLayout>
