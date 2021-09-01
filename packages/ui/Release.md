@@ -1,4 +1,8 @@
 
+### 1.8.1 | 2021-09-01
+
+- fix: Add formatting for big numbers
+
 ### 1.8.0 | 2021-08-31
 
 - feat: Add big number formatting for checkbox and toggle filter
