@@ -229,7 +229,6 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                 <Button
                     className={styles.fuiRfActionsClear}
                     size="small"
-                    ghost
                     disabled={buttonActionDisabled}
                     onClick={() => onChange(filterGroup, [])}
                     type="text"

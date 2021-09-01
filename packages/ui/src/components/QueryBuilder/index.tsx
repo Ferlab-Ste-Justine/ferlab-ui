@@ -146,7 +146,7 @@ const QueryBuilder = ({
 
     const resetQueries = (id: string) => {
         setQueriesState({
-            ...queriesState,
+            activeId: id,
             queries: [{ id, total: 0, op: BooleanOperators.and, content: [] }],
         });
         onQueryChange(id, {});
