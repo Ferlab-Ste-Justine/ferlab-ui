@@ -74,6 +74,11 @@
         .fuiRfActionsClear {
             &:disabled {
                 color: $filter-actions-disabled-color;
+
+                span {
+                    text-decoration: none;
+                    color: $filter-actions-disabled-color;
+                }
             }
         }
 
