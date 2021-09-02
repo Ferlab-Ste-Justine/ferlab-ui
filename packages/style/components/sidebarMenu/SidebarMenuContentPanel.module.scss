@@ -6,6 +6,7 @@
     width: $sidebar-content-panel-width;
     margin-left: calc(-1 * #{$sidebar-content-panel-width});
     padding: $sidebar-content-panel-padding;
+    padding-bottom: 0;
     display: flex;
     flex-flow: column;
     @include transition(margin-left 0.3s);
