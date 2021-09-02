@@ -5,7 +5,7 @@
     border-right: $sidebar-content-panel-right-border;
     width: $sidebar-content-panel-width;
     margin-left: calc(-1 * #{$sidebar-content-panel-width});
-    padding: 2rem;
+    padding: $sidebar-content-panel-padding;
     display: flex;
     flex-flow: column;
     @include transition(margin-left 0.3s);
