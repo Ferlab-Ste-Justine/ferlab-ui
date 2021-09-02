@@ -12,7 +12,7 @@ $select-prefix: 'ant-select';
   flex-direction: row;
 
   .sider {
-    z-index: 1;
+    z-index: 5;
     width: $sidebar-menu-width;
     min-width: $sidebar-menu-width;
     background-color: $sidebar-menu-background-color;
