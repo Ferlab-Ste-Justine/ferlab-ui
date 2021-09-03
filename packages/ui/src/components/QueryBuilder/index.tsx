@@ -303,6 +303,7 @@ const QueryBuilder = ({
                     noQueries={noQueries}
                     showTools={showHeaderTools}
                     hasEmptyQuery={hasEmptyQuery}
+                    enableSingleQuery={enableSingleQuery}
                     dictionary={dictionary}
                     toggleQb={toggleQueryBuilder}
                     onAddQuery={() => addNewQuery()}
