@@ -1,0 +1,65 @@
+@import 'theme.template';
+
+.queryBuilderTogglerContainer {
+    background-color: white;
+    border-radius: 2px;
+
+    .queryBuilderToggler {
+      padding: 1.6rem 2.4rem;
+      border: 1px solid $query-builder-border-color;
+      border-bottom: none;
+      border-top-left-radius: 2px;
+      border-top-right-radius: 2px;
+      justify-content: space-between;
+
+      .leftTools, .rightTools {
+        display: flex;
+        align-items: center;
+      }
+
+      .rightTools {
+        display: flex;
+        align-items: center;
+        
+        >*:not(:first-child) {
+            margin-left: 1.5rem;
+        }
+
+        .button, button {
+            display: flex;
+            align-items: center;
+
+            >*:not(:only-child) {
+              &:first-child {
+                margin-right: 2.5px;
+              }
+            }
+
+            &:first-child {
+                margin-left: 0;
+            }
+
+            &:last-child:not(:first-child) {
+                margin-left: 1rem;
+            }
+        }   
+    }
+  
+      &.togglerClosed {
+        border-bottom: 1px solid $query-builder-border-color;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+      }
+  
+      .togglerIcon {
+        display: flex;
+        margin-right: 1rem;
+      }
+  
+      .togglerTitle {
+        margin: 0;
+        font-size: 20px;
+        margin-right: 1rem;
+      }
+    }
+  }

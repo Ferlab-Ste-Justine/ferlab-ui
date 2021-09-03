@@ -1,0 +1,43 @@
+@import 'theme.template';
+
+.queryTools {
+    margin-top: 1.6rem;
+    align-items: center;
+    justify-content: space-between;
+
+    .leftTools, .rightTools {
+        >*:not(:first-child) {
+            margin-left: 1.5rem;
+        }
+        
+        .switch {
+            &.withLabel {
+                display: flex;
+                align-items: center;
+
+                .label {
+                    margin-left: 0.5rem;
+                }
+            }
+        }
+
+        .button {
+            display: flex;
+            align-items: center;
+
+            >*:not(:only-child) {
+                &:first-child {
+                  margin-right: 2.5px;
+                }
+              }
+
+            &:first-child {
+                margin-left: 0;
+            }
+
+            &:last-child:not(:first-child) {
+                margin-left: 1rem;
+            }
+        }   
+    }
+}
