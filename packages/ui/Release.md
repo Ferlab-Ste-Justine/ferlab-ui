@@ -1,4 +1,8 @@
 
+### 1.8.5 | 2021-09-03
+
+- feat: Add Query Builder Header Collapsable option
+
 ### 1.8.1 | 2021-09-01
 
 - fix: Add formatting for big numbers
