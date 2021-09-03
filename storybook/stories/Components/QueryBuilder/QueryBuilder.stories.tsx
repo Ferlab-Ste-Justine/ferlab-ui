@@ -41,6 +41,7 @@ export const QueryBuilderEmpty = QueryBuilderStory.bind({});
 QueryBuilderEmpty.args = {
     title: 'Query Builder Empty',
     total: 1350,
+    enableSingleQuery: true,
     currentQuery: (f) => f,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
@@ -202,4 +203,52 @@ QueryBuilderMultiQueryWithCombine.args = {
         }],
         active: '1'
     }
+};
+
+/* with header */
+export const QueryBuilderWithHeader = QueryBuilderStory.bind({});
+QueryBuilderWithHeader.args = {
+    title: 'Query Builder With Header',
+    showHeader: true,
+    onRemoveFacet: (f) => f,
+    onChangeQuery: (f) => f,
+    initialState: {
+        state: [{
+            op: 'and', content: [{
+                content: {value: ['something'], field: 'test', op: 'in'}
+            }],
+            total: 1500,
+            id: '1',  
+        }],
+        active: '1'
+    },
+    IconTotal:<MdPeople />
+};
+
+/* with header */
+export const QueryBuilderWithHeaderAndTools = QueryBuilderStory.bind({});
+QueryBuilderWithHeaderAndTools.args = {
+    title: 'Query Builder with header and header tools',
+    showHeader: true,
+    showHeaderTools: true,
+    onRemoveFacet: (f) => f,
+    onChangeQuery: (f) => f,
+    initialState: {
+        state: [{
+            op: 'and', content: [{
+                content: {value: ['something'], field: 'test', op: 'in'}
+            }],
+            total: 1500,
+            id: '1',  
+        },
+        {
+            op: 'and', content: [{
+                content: {value: ['else'], field: 'test', op: 'in'}
+            }],
+            total: 1500,
+            id: '2',  
+        }],
+        active: '1'
+    },
+    IconTotal:<MdPeople />
 };

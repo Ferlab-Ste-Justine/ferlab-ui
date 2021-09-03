@@ -7,6 +7,7 @@ interface IActions {
     labels?: string | React.ReactNode;
     delete?: IDeleteTranslation;
     clear?: IClearTranslation;
+    new?: string | React.ReactNode;
     changeOperatorTo?: string | React.ReactNode;
 }
 
@@ -19,6 +20,7 @@ interface IClearTranslation {
 }
 interface IDeleteTranslation {
     title: string | React.ReactNode;
+    titleSelected: string | React.ReactNode;
     cancel: string | React.ReactNode;
     confirm: string | React.ReactNode;
 }
