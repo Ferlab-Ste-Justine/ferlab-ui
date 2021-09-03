@@ -14,6 +14,7 @@ interface IQueryBuilderHeaderProps {
     showTools: boolean;
     noQueries: boolean;
     hasEmptyQuery: boolean;
+    enableSingleQuery: boolean;
     dictionary: IDictionary;
     toggleQb: (toggle: boolean) => void;
     onAddQuery: () => void;
@@ -29,6 +30,7 @@ const QueryBuilderHeader = ({
     showTools,
     noQueries,
     hasEmptyQuery,
+    enableSingleQuery,
     dictionary = {},
     toggleQb,
     onAddQuery,
@@ -47,15 +49,20 @@ const QueryBuilderHeader = ({
             </StackLayout>
             {showTools && (
                 <StackLayout className={styles.rightTools}>
-                    <Button
-                        className={styles.button}
-                        disabled={noQueries || hasEmptyQuery}
-                        onClick={onAddQuery}
-                        size="small"
-                        icon={<AiOutlinePlus />}
-                    >
-                        {dictionary.actions?.new || 'New'}
-                    </Button>
+                    {!enableSingleQuery && (
+                        <Button
+                            className={styles.button}
+                            disabled={noQueries || hasEmptyQuery}
+                            onClick={() => {
+                                onAddQuery();
+                                toggleQb(false);
+                            }}
+                            size="small"
+                            icon={<AiOutlinePlus />}
+                        >
+                            {dictionary.actions?.new || 'New'}
+                        </Button>
+                    )}
                     <Popconfirm
                         arrowPointAtCenter
                         disabled={noQueries && hasEmptyQuery}
@@ -65,7 +72,13 @@ const QueryBuilderHeader = ({
                         placement="topRight"
                         title={dictionary.actions?.delete?.titleSelected || 'Delete the selected query?'}
                     >
-                        <Button disabled={noQueries && hasEmptyQuery} className={styles.button} size="small" icon={<AiOutlineDelete />}>
+                        <Button
+                            disabled={noQueries && hasEmptyQuery}
+                            className={styles.button}
+                            onClick={() => toggleQb(false)}
+                            size="small"
+                            icon={<AiOutlineDelete />}
+                        >
                             {dictionary.actions?.delete || 'Delete'}
                         </Button>
                     </Popconfirm>
