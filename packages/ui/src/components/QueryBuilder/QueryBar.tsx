@@ -4,7 +4,7 @@ import { Button, Checkbox, Popconfirm } from 'antd';
 import cx from 'classnames';
 
 import StackLayout from '../../layout/StackLayout';
-import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange } from './types';
+import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange, TOnFacetClick } from './types';
 import { ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
 import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
 import BooleanQueryPill from './QueryPills/BooleanQueryPill';
@@ -23,6 +23,8 @@ interface IQueryBarProps {
     selectionDisabled?: boolean;
     canDelete?: boolean;
     showLabels?: boolean;
+    selectedFilterContent?: React.ReactElement;
+    onFacetClick?: TOnFacetClick;
     onRemoveFacet: TCallbackRemoveAction;
     onRemoveReference: TCallbackRemoveReferenceAction;
     isActive?: boolean;
@@ -42,12 +44,14 @@ const QueryBar = ({
     total,
     dictionary = {},
     query,
+    onFacetClick,
     onRemoveFacet,
     onRemoveReference,
     actionDisabled = false,
     selectionDisabled = false,
     canDelete = true,
     showLabels = true,
+    selectedFilterContent,
     isActive = true,
     isSelected = false,
     isReferenced = false,
@@ -103,10 +107,12 @@ const QueryBar = ({
                                 isActive={isActive}
                                 dictionary={dictionary}
                                 showLabels={showLabels}
+                                onFacetClick={onFacetClick}
                                 onRemoveFacet={onRemoveFacet}
                                 onRemoveReference={onRemoveReference}
                                 onCombineChange={onCombineChange}
                                 getColorForReference={getColorForReference}
+                                selectedFilterContent={selectedFilterContent}
                             />
                         </StackLayout>
                     )

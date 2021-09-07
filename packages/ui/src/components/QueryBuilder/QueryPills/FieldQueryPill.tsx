@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import { Button } from 'antd';
+import { Button, Dropdown, Spin } from 'antd';
 import cx from 'classnames';
 
 import StackLayout from '../../../layout/StackLayout';
@@ -12,7 +12,7 @@ import LessThanOrEqualOperator from '../icons/LessThanOrEqualOperator';
 import GreaterThanOperator from '../icons/GreaterThanOperator';
 import LessThanOperator from '../icons/LessThanOperator';
 import QueryValues from '../QueryValues';
-import { IDictionary } from '../types';
+import { IDictionary, TOnFacetClick } from '../types';
 import { IValueFilter } from '../../../data/sqon/types';
 import { FieldOperators } from '../../../data/sqon/operators';
 import { isBooleanFilter, isRangeFilter } from '../../../data/sqon/utils';
@@ -24,7 +24,9 @@ interface IFieldQueryPillProps {
     query: IValueFilter;
     dictionary?: IDictionary;
     showLabels?: boolean;
-    onRemove: Function;
+    onRemove: () => void;
+    onFacetClick?: TOnFacetClick;
+    filtersDropdownContent?: React.ReactElement;
 }
 
 interface IOperatorProps {
@@ -49,21 +51,80 @@ const Operator = ({ className = '', type }: IOperatorProps) => {
     }
 };
 
-const FieldQueryPill = ({ query, dictionary = {}, showLabels, onRemove, isBarActive }: IFieldQueryPillProps) => (
-    <StackLayout className={cx(styles.container, { [styles.selected]: isBarActive })}>
-        {(showLabels || isBooleanFilter(query) || isRangeFilter(query)) && (
-            <>
-                <span className={`${styles.field}`}>
-                    {dictionary.query?.facet(query.content.field) || query.content.field}
-                </span>
-                <Operator className={styles.operator} type={query.op} />
-            </>
-        )}
-        <QueryValues isElement={query.op === FieldOperators.between} query={query} />
-        <Button className={styles.close} type="text">
-            <AiOutlineClose onClick={() => onRemove()} />
-        </Button>
-    </StackLayout>
-);
+const FieldQueryPill = ({
+    query,
+    dictionary = {},
+    showLabels,
+    onRemove,
+    isBarActive,
+    onFacetClick,
+    filtersDropdownContent = undefined,
+}: IFieldQueryPillProps) => {
+    const [tryOpenQueryPillFilter, setTryOpenQueryPillFilter] = useState(false);
+    const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
+    const [dropdownContent, setDropdownContent] = useState(filtersDropdownContent);
+    const handleQueryPillClick = (isBarActive: boolean) => {
+        if (isBarActive && onFacetClick) {
+            onFacetClick(query.content.field);
+            setTryOpenQueryPillFilter(false);
+        } else {
+            setTryOpenQueryPillFilter(true);
+        }
+    };
+
+    useEffect(() => {
+        if (filtersDropdownContent) {
+            setDropdownContent(filtersDropdownContent);
+        }
+    }, [filtersDropdownContent]);
+
+    useEffect(() => {
+        if (tryOpenQueryPillFilter) {
+            handleQueryPillClick(isBarActive!);
+        }
+    }, [isBarActive]);
+
+    return (
+        <StackLayout className={cx(styles.container, { [styles.selected]: isBarActive })}>
+            {(showLabels || isBooleanFilter(query) || isRangeFilter(query)) && (
+                <>
+                    <span className={`${styles.field}`}>
+                        {dictionary.query?.facet(query.content.field) || query.content.field}
+                    </span>
+                    <Operator className={styles.operator} type={query.op} />
+                </>
+            )}
+            <Dropdown
+                overlayStyle={{ position: 'fixed' }}
+                visible={filterDropdownVisible}
+                onVisibleChange={(visible) => {
+                    if (visible) {
+                        setDropdownContent(undefined);
+                    }
+                    setFilterDropdownVisible(visible);
+                }}
+                overlayClassName={styles.filtersDropdown}
+                overlay={
+                    dropdownContent || (
+                        <div className={styles.filterLoader}>
+                            <Spin />
+                        </div>
+                    )
+                }
+                placement="bottomLeft"
+                trigger={['click']}
+            >
+                <QueryValues
+                    onClick={() => handleQueryPillClick(isBarActive!)}
+                    isElement={query.op === FieldOperators.between}
+                    query={query}
+                />
+            </Dropdown>
+            <Button className={styles.close} type="text">
+                <AiOutlineClose onClick={() => onRemove()} />
+            </Button>
+        </StackLayout>
+    );
+};
 
 export default FieldQueryPill;

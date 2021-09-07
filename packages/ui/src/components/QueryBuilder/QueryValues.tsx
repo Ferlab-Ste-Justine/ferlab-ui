@@ -12,11 +12,11 @@ import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scs
 interface IQueryValuesProps {
     query: IValueFilter;
     isElement?: boolean;
+    onClick?: (e: any) => void;
 }
 
-const QueryValues = ({ isElement = false, query }: IQueryValuesProps) => {
+const QueryValues = ({ isElement = false, query, onClick = () => {} }: IQueryValuesProps) => {
     const hasMoreValues = query.content.value.length > 3;
-
     const [expanded, setExpanded] = useState(false);
     const [values, setValues] = useState(hasMoreValues ? take(query.content.value, 3) : query.content.value);
 
@@ -26,7 +26,7 @@ const QueryValues = ({ isElement = false, query }: IQueryValuesProps) => {
     }, [expanded, query]);
     const totalValues = values.length;
     return (
-        <StackLayout className={styles.container}>
+        <StackLayout onClick={(e) => onClick(e)} className={styles.container}>
             {!isElement ? (
                 values.map((v, i) => (
                     <StackLayout className={styles.valueWrapper} key={`${v}-${i}`}>
@@ -43,7 +43,10 @@ const QueryValues = ({ isElement = false, query }: IQueryValuesProps) => {
                 (expanded ? (
                     <Button
                         className={`${styles.button} ${styles.icon}`}
-                        onClick={() => setExpanded(false)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setExpanded(false);
+                        }}
                         type="text"
                     >
                         <AiFillCaretLeft />

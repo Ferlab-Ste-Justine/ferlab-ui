@@ -9,7 +9,7 @@ import StackLayout from '../../layout/StackLayout';
 import QueryBuilderHeader from './QueryBuilderHeader';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
 import { BooleanOperators } from '../../data/sqon/operators';
-import { IDictionary, TOnChange, ArrayTenOrMore } from './types';
+import { IDictionary, TOnChange, ArrayTenOrMore, TOnFacetClick } from './types';
 import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import { getQueryBuilderCache, getQueryParams, setQueryBuilderCache, updateQueryParam } from '../../data/filters/utils';
 import {
@@ -32,6 +32,7 @@ export interface IQueryBuilderProps {
     total?: number;
     IconTotal?: React.ReactNode;
     currentQuery?: ISyntheticSqon | Record<string, never>;
+    onFacetClick?: TOnFacetClick;
     onChangeQuery?: TOnChange;
     onUpdate?: (state: IInitialQueryState) => void;
     loading?: boolean;
@@ -44,6 +45,7 @@ export interface IQueryBuilderProps {
     initialShowLabelState?: boolean;
     initialState?: IInitialQueryState | Record<any, any>;
     referenceColors?: ArrayTenOrMore<string>;
+    selectedFilterContent?: React.ReactElement;
 }
 
 interface IInitialQueryState {
@@ -93,6 +95,8 @@ const QueryBuilder = ({
         '#2D7D9A',
         '#847545',
     ],
+    onFacetClick,
+    selectedFilterContent,
 }: IQueryBuilderProps) => {
     const [queriesState, setQueriesState] = useState<{
         activeId: string;
@@ -380,6 +384,8 @@ const QueryBuilder = ({
                                 setSelectedQueryIndices([...selectedQueryIndices, id]);
                             }}
                             query={sqon}
+                            onFacetClick={onFacetClick}
+                            selectedFilterContent={selectedFilterContent}
                             isReferenced={isIndexReferencedInSqon(i, selectedSyntheticSqon)}
                             isSelected={selectedQueryIndices.includes(i)}
                             selectionDisabled={queriesState.queries.length === 1 || !enableCombine}
