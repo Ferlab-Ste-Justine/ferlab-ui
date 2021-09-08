@@ -386,6 +386,7 @@ const QueryBuilder = ({
                                 setSelectedQueryIndices([...selectedQueryIndices, id]);
                             }}
                             query={sqon}
+                            enableFacetFilter={enableFacetFilter}
                             onFacetClick={onFacetClick}
                             selectedFilterContent={selectedFilterContent}
                             isReferenced={isIndexReferencedInSqon(i, selectedSyntheticSqon)}
