@@ -118,6 +118,7 @@ const FieldQueryPill = ({
                             )
                         }
                         trigger={['click']}
+                        getPopupContainer={(trigger) => trigger.parentElement!}
                     >
                         {children}
                     </Dropdown>

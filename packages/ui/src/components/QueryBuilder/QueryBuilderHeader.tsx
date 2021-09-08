@@ -37,56 +37,59 @@ const QueryBuilderHeader = ({
     onDeleteQuery,
     children,
 }: IQueryBuilderHeaderProps) => (
-    <StackLayout vertical className={styles.queryBuilderTogglerContainer}>
-        <StackLayout className={`${styles.queryBuilderToggler} ${collapsed && styles.togglerClosed}`}>
-            <StackLayout className={styles.leftTools}>
-                <a className={styles.togglerIcon} onClick={() => toggleQb(!collapsed)}>
-                    {collapsed ? <CaretRightIcon /> : <CaretDownIcon />}
-                </a>
-                <Title level={1} className={styles.togglerTitle}>
-                    {title}
-                </Title>
-            </StackLayout>
-            {showTools && (
-                <StackLayout className={styles.rightTools}>
-                    {!enableSingleQuery && (
-                        <Button
-                            className={styles.button}
-                            disabled={noQueries || hasEmptyQuery}
-                            onClick={() => {
-                                onAddQuery();
-                                toggleQb(false);
-                            }}
-                            size="small"
-                            icon={<AiOutlinePlus />}
-                        >
-                            {dictionary.actions?.new || 'New'}
-                        </Button>
-                    )}
-                    <Popconfirm
-                        arrowPointAtCenter
-                        disabled={noQueries && hasEmptyQuery}
-                        cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
-                        okText={dictionary.actions?.delete?.confirm || 'Delete'}
-                        onConfirm={onDeleteQuery}
-                        placement="topRight"
-                        title={dictionary.actions?.delete?.titleSelected || 'Delete the selected query?'}
-                    >
-                        <Button
-                            disabled={noQueries && hasEmptyQuery}
-                            className={styles.button}
-                            onClick={() => toggleQb(false)}
-                            size="small"
-                            icon={<AiOutlineDelete />}
-                        >
-                            {dictionary.actions?.delete || 'Delete'}
-                        </Button>
-                    </Popconfirm>
+    <div id="query-builder-header-tools">
+        <StackLayout vertical className={styles.queryBuilderTogglerContainer}>
+            <StackLayout className={`${styles.queryBuilderToggler} ${collapsed && styles.togglerClosed}`}>
+                <StackLayout className={styles.leftTools}>
+                    <a className={styles.togglerIcon} onClick={() => toggleQb(!collapsed)}>
+                        {collapsed ? <CaretRightIcon /> : <CaretDownIcon />}
+                    </a>
+                    <Title level={1} className={styles.togglerTitle}>
+                        {title}
+                    </Title>
                 </StackLayout>
-            )}
+                {showTools && (
+                    <StackLayout className={styles.rightTools}>
+                        {!enableSingleQuery && (
+                            <Button
+                                className={styles.button}
+                                disabled={noQueries || hasEmptyQuery}
+                                onClick={() => {
+                                    onAddQuery();
+                                    toggleQb(false);
+                                }}
+                                size="small"
+                                icon={<AiOutlinePlus />}
+                            >
+                                {dictionary.actions?.new || 'New'}
+                            </Button>
+                        )}
+                        <Popconfirm
+                            arrowPointAtCenter
+                            disabled={noQueries && hasEmptyQuery}
+                            cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
+                            okText={dictionary.actions?.delete?.confirm || 'Delete'}
+                            onConfirm={onDeleteQuery}
+                            placement="topRight"
+                            title={dictionary.actions?.delete?.titleSelected || 'Delete the selected query?'}
+                            getPopupContainer={() => document.getElementById('query-builder-header-tools')!}
+                        >
+                            <Button
+                                disabled={noQueries && hasEmptyQuery}
+                                className={styles.button}
+                                onClick={() => toggleQb(false)}
+                                size="small"
+                                icon={<AiOutlineDelete />}
+                            >
+                                {dictionary.actions?.delete || 'Delete'}
+                            </Button>
+                        </Popconfirm>
+                    </StackLayout>
+                )}
+            </StackLayout>
+            {!collapsed && children}
         </StackLayout>
-        {!collapsed && children}
-    </StackLayout>
+    </div>
 );
 
 export default QueryBuilderHeader;

@@ -82,6 +82,7 @@ const QueryBar = ({
                 }
             }}
         >
+            <div className={styles.identifier} style={isReferenced ? { background: referenceColor! } : {}} />
             {!selectionDisabled && (
                 <StackLayout className={styles.selectionWrapper}>
                     <Checkbox
@@ -97,7 +98,6 @@ const QueryBar = ({
                 </StackLayout>
             )}
             <StackLayout className={styles.queryContent} flexContent>
-                <div className={styles.identifier} style={isReferenced ? { background: referenceColor! } : {}} />
                 {isEmptySqon(query) ? (
                     <StackLayout>{dictionary.query?.noQuery || 'Use the filters to build a query'}</StackLayout>
                 ) : (
@@ -147,6 +147,7 @@ const QueryBar = ({
                         }}
                         placement="topRight"
                         title={dictionary.actions?.delete?.title || 'Delete this query?'}
+                        getPopupContainer={(trigger) => trigger.parentElement!}
                     >
                         <Button
                             onClick={(e: React.MouseEvent) => {
