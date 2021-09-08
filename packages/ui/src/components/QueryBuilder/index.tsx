@@ -39,6 +39,7 @@ export interface IQueryBuilderProps {
     showHeader?: boolean;
     showHeaderTools?: boolean;
     headerTitle?: string;
+    enableFacetFilter?: boolean;
     enableCombine?: boolean;
     enableSingleQuery?: boolean;
     enableShowHideLabels?: boolean;
@@ -73,6 +74,7 @@ const QueryBuilder = ({
     showHeader = false,
     showHeaderTools = false,
     headerTitle = 'Query Builder',
+    enableFacetFilter = false,
     enableCombine = false,
     enableSingleQuery = false,
     enableShowHideLabels = false,
@@ -384,6 +386,7 @@ const QueryBuilder = ({
                                 setSelectedQueryIndices([...selectedQueryIndices, id]);
                             }}
                             query={sqon}
+                            enableFacetFilter={enableFacetFilter}
                             onFacetClick={onFacetClick}
                             selectedFilterContent={selectedFilterContent}
                             isReferenced={isIndexReferencedInSqon(i, selectedSyntheticSqon)}

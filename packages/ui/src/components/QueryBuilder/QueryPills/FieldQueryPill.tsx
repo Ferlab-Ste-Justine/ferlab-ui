@@ -16,6 +16,7 @@ import { IDictionary, TOnFacetClick } from '../types';
 import { IValueFilter } from '../../../data/sqon/types';
 import { FieldOperators } from '../../../data/sqon/operators';
 import { isBooleanFilter, isRangeFilter } from '../../../data/sqon/utils';
+import ConditionalWrapper from '../../utils/ConditionalWrapper';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
 
@@ -26,6 +27,7 @@ interface IFieldQueryPillProps {
     showLabels?: boolean;
     onRemove: () => void;
     onFacetClick?: TOnFacetClick;
+    enableFacetFilter?: boolean;
     filtersDropdownContent?: React.ReactElement;
 }
 
@@ -58,11 +60,13 @@ const FieldQueryPill = ({
     onRemove,
     isBarActive,
     onFacetClick,
+    enableFacetFilter,
     filtersDropdownContent = undefined,
 }: IFieldQueryPillProps) => {
     const [tryOpenQueryPillFilter, setTryOpenQueryPillFilter] = useState(false);
     const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
     const [dropdownContent, setDropdownContent] = useState(filtersDropdownContent);
+
     const handleQueryPillClick = (isBarActive: boolean) => {
         if (isBarActive && onFacetClick) {
             onFacetClick(query.content.field);
@@ -94,30 +98,38 @@ const FieldQueryPill = ({
                     <Operator className={styles.operator} type={query.op} />
                 </>
             )}
-            <Dropdown
-                visible={filterDropdownVisible}
-                onVisibleChange={(visible) => {
-                    if (visible) {
-                        setDropdownContent(undefined);
-                    }
-                    setFilterDropdownVisible(visible);
-                }}
-                overlayClassName={styles.filtersDropdown}
-                overlay={
-                    dropdownContent || (
-                        <div className={styles.filterLoader}>
-                            <Spin />
-                        </div>
-                    )
-                }
-                trigger={['click']}
+
+            <ConditionalWrapper
+                condition={enableFacetFilter!}
+                wrapper={(children) => (
+                    <Dropdown
+                        visible={filterDropdownVisible}
+                        onVisibleChange={(visible) => {
+                            if (visible) {
+                                setDropdownContent(undefined);
+                            }
+                            setFilterDropdownVisible(visible);
+                        }}
+                        overlayClassName={styles.filtersDropdown}
+                        overlay={
+                            (enableFacetFilter && dropdownContent) || (
+                                <div className={styles.filterLoader}>
+                                    <Spin />
+                                </div>
+                            )
+                        }
+                        trigger={['click']}
+                    >
+                        {children}
+                    </Dropdown>
+                )}
             >
                 <QueryValues
-                    onClick={() => handleQueryPillClick(isBarActive!)}
+                    onClick={enableFacetFilter ? () => handleQueryPillClick(isBarActive!) : undefined}
                     isElement={query.op === FieldOperators.between}
                     query={query}
                 />
-            </Dropdown>
+            </ConditionalWrapper>
             <Button className={styles.close} type="text">
                 <AiOutlineClose onClick={() => onRemove()} />
             </Button>

@@ -24,6 +24,7 @@ interface IQueryBarProps {
     canDelete?: boolean;
     showLabels?: boolean;
     selectedFilterContent?: React.ReactElement;
+    enableFacetFilter?: boolean;
     onFacetClick?: TOnFacetClick;
     onRemoveFacet: TCallbackRemoveAction;
     onRemoveReference: TCallbackRemoveReferenceAction;
@@ -44,6 +45,7 @@ const QueryBar = ({
     total,
     dictionary = {},
     query,
+    enableFacetFilter,
     onFacetClick,
     onRemoveFacet,
     onRemoveReference,
@@ -107,6 +109,7 @@ const QueryBar = ({
                                 isActive={isActive}
                                 dictionary={dictionary}
                                 showLabels={showLabels}
+                                enableFacetFilter={enableFacetFilter}
                                 onFacetClick={onFacetClick}
                                 onRemoveFacet={onRemoveFacet}
                                 onRemoveReference={onRemoveReference}

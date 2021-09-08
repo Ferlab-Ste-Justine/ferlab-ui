@@ -15,7 +15,7 @@ interface IQueryValuesProps {
     onClick?: (e: any) => void;
 }
 
-const QueryValues = ({ isElement = false, query, onClick = () => {} }: IQueryValuesProps) => {
+const QueryValues = ({ isElement = false, query, onClick }: IQueryValuesProps) => {
     const hasMoreValues = query.content.value.length > 3;
     const [expanded, setExpanded] = useState(false);
     const [values, setValues] = useState(hasMoreValues ? take(query.content.value, 3) : query.content.value);
@@ -26,7 +26,10 @@ const QueryValues = ({ isElement = false, query, onClick = () => {} }: IQueryVal
     }, [expanded, query]);
     const totalValues = values.length;
     return (
-        <StackLayout onClick={(e) => onClick(e)} className={styles.container}>
+        <StackLayout
+            onClick={(e) => (onClick ? onClick(e) : undefined)}
+            className={`${styles.container} ${onClick && styles.clickable}`}
+        >
             {!isElement ? (
                 values.map((v, i) => (
                     <StackLayout className={styles.valueWrapper} key={`${v}-${i}`}>
