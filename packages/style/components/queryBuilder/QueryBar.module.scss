@@ -3,7 +3,6 @@
 .container {
     background: $query-bar-bg;
     height: $query-bar-height;
-    position: relative;
 
     > * {
         padding: $query-bar-padding;
@@ -28,12 +27,12 @@
     }
 
     .identifier {
-        position: absolute;
-        height: 100%;
-        left: 0;
-        top: 0;
+        border: none;
+        padding: 0;
         width: $query-bar-identifier-width;
         background: $query-bar-identifier;
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
     }
 
 
