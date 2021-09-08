@@ -1,4 +1,8 @@
 
+### 1.8.7 | 2021-09-08
+
+- feat: Add Query Pill Facet feature
+
 ### 1.8.5 | 2021-09-03
 
 - feat: Add Query Builder Header Collapsable option
