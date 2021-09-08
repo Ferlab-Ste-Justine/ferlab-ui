@@ -95,7 +95,6 @@ const FieldQueryPill = ({
                 </>
             )}
             <Dropdown
-                overlayStyle={{ position: 'fixed' }}
                 visible={filterDropdownVisible}
                 onVisibleChange={(visible) => {
                     if (visible) {
@@ -111,7 +110,6 @@ const FieldQueryPill = ({
                         </div>
                     )
                 }
-                placement="bottomLeft"
                 trigger={['click']}
             >
                 <QueryValues
