@@ -66,7 +66,6 @@ const FieldQueryPill = ({
     const [tryOpenQueryPillFilter, setTryOpenQueryPillFilter] = useState(false);
     const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
     const [dropdownContent, setDropdownContent] = useState(filtersDropdownContent);
-
     const handleQueryPillClick = (isBarActive: boolean) => {
         if (isBarActive && onFacetClick) {
             onFacetClick(query.content.field);

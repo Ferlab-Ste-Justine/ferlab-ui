@@ -6,10 +6,15 @@
     padding: 0 .8rem;
     height: 100%;
     
+<<<<<<< HEAD
     &.clickable {
         &:hover {
             cursor: pointer;
         }
+=======
+    &:hover {
+        cursor: pointer;
+>>>>>>> master
     }
 
     .valueWrapper {
