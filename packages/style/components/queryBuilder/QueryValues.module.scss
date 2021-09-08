@@ -5,6 +5,10 @@
     background: $query-values-bg;
     padding: 0 .8rem;
     height: 100%;
+    
+    &:hover {
+        cursor: pointer;
+    }
 
     .valueWrapper {
         align-items: center;
