@@ -15,6 +15,7 @@ interface IBooleanQueryPillProps {
     showLabels?: boolean;
     dictionary: IDictionary;
     selectedFilterContent?: React.ReactElement;
+    enableFacetFilter?: boolean
     onFacetClick?: TOnFacetClick;
     onRemoveFacet: TCallbackRemoveAction;
     onRemoveReference: TCallbackRemoveReferenceAction;
@@ -44,6 +45,7 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
                         onRemove={() => props.onRemoveFacet(f, props.query)}
                         query={f as IValueFilter}
                         showLabels={props.showLabels}
+                        enableFacetFilter={props.enableFacetFilter}
                         onFacetClick={props.onFacetClick}
                         filtersDropdownContent={props.selectedFilterContent}
                     />

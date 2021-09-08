@@ -37,9 +37,9 @@ const QueryBuilderStory = ({title, ...props} : {title: string, props: Story<IQue
 
 
 /* Empty */
-export const QueryBuilderEmpty = QueryBuilderStory.bind({});
-QueryBuilderEmpty.args = {
-    title: 'Query Builder Empty',
+export const Empty = QueryBuilderStory.bind({});
+Empty.args = {
+    title: 'Empty',
     total: 1350,
     enableSingleQuery: true,
     currentQuery: (f) => f,
@@ -48,10 +48,10 @@ QueryBuilderEmpty.args = {
 };
 
 /* Empty */
-export const QueryBuilderEmptyWithShowLabelsButton = QueryBuilderStory.bind({});
-QueryBuilderEmptyWithShowLabelsButton.args = {
+export const WithShowLabelsButton = QueryBuilderStory.bind({});
+WithShowLabelsButton.args = {
     enableShowHideLabels: true,
-    title: 'Query Builder With Show Hide Labels Enable',
+    title: 'With Show Hide Labels Enable',
     currentQuery: (f) => f,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
@@ -71,9 +71,9 @@ QueryBuilderEmptyWithShowLabelsButton.args = {
 };
 
 /* 1 query */
-export const QueryBuilderOneQuery = QueryBuilderStory.bind({});
-QueryBuilderOneQuery.args = {
-    title: 'Query Builder 1 Query',
+export const OneQuery = QueryBuilderStory.bind({});
+OneQuery.args = {
+    title: '1 Query',
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
@@ -89,9 +89,9 @@ QueryBuilderOneQuery.args = {
 };
 
 /* 1 query */
-export const QueryBuilderOneQuerySingleQuery = QueryBuilderStory.bind({});
-QueryBuilderOneQuerySingleQuery.args = {
-    title: 'Query Builder Single Query',
+export const SingleQuery = QueryBuilderStory.bind({});
+SingleQuery.args = {
+    title: 'Single Query',
     enableSingleQuery: true,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
@@ -108,9 +108,9 @@ QueryBuilderOneQuerySingleQuery.args = {
 };
 
 /* 1 query with icon */
-export const QueryBuilderOneWihtIconQuery = QueryBuilderStory.bind({});
-QueryBuilderOneWihtIconQuery.args = {
-    title: 'Query Builder 1 Query With Icon',
+export const WithIconQuery = QueryBuilderStory.bind({});
+WithIconQuery.args = {
+    title: '1 Query With Icon',
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
@@ -127,9 +127,9 @@ QueryBuilderOneWihtIconQuery.args = {
 };
 
 /* multi query */
-export const QueryBuilderMultiQuery = QueryBuilderStory.bind({});
-QueryBuilderMultiQuery.args = {
-    title: 'Query Builder Multi Query',
+export const MultiQuery = QueryBuilderStory.bind({});
+MultiQuery.args = {
+    title: 'Multi Query',
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
@@ -160,9 +160,9 @@ QueryBuilderMultiQuery.args = {
 };
 
 /* multi query with combine */
-export const QueryBuilderMultiQueryWithCombine = QueryBuilderStory.bind({});
-QueryBuilderMultiQueryWithCombine.args = {
-    title: 'Query Builder Multi Query With Combine',
+export const MultiQueryWithCombine = QueryBuilderStory.bind({});
+MultiQueryWithCombine.args = {
+    title: 'Multi Query With Combine',
     cacheKey: 'test',
     enableCombine: true,
     onRemoveFacet: (f) => f,
@@ -206,9 +206,38 @@ QueryBuilderMultiQueryWithCombine.args = {
 };
 
 /* with header */
-export const QueryBuilderWithHeader = QueryBuilderStory.bind({});
-QueryBuilderWithHeader.args = {
-    title: 'Query Builder With Header',
+export const WithQueryPillFilters = QueryBuilderStory.bind({});
+WithQueryPillFilters.args = {
+    title: 'With Query Pill Filters',
+    showHeader: true,
+    showHeaderTools: true,
+    onRemoveFacet: (f) => f,
+    onChangeQuery: (f) => f,
+    enableFacetFilter: true,
+    initialState: {
+        state: [{
+            op: 'and', content: [{
+                content: {value: ['something'], field: 'test', op: 'in'}
+            }],
+            total: 1500,
+            id: '1',  
+        },
+        {
+            op: 'and', content: [{
+                content: {value: ['else'], field: 'test', op: 'in'}
+            }],
+            total: 1500,
+            id: '2',  
+        }],
+        active: '1'
+    },
+    IconTotal:<MdPeople />
+};
+
+/* with header */
+export const WithHeader = QueryBuilderStory.bind({});
+WithHeader.args = {
+    title: 'With Header',
     showHeader: true,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
@@ -226,9 +255,9 @@ QueryBuilderWithHeader.args = {
 };
 
 /* with header */
-export const QueryBuilderWithHeaderAndTools = QueryBuilderStory.bind({});
-QueryBuilderWithHeaderAndTools.args = {
-    title: 'Query Builder with header and header tools',
+export const WithHeaderAndTools = QueryBuilderStory.bind({});
+WithHeaderAndTools.args = {
+    title: 'With header and header tools',
     showHeader: true,
     showHeaderTools: true,
     onRemoveFacet: (f) => f,
