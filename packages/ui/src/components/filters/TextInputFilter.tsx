@@ -8,6 +8,7 @@ import StackLayout from '../../layout/StackLayout';
 import { IDictionary, IFilter, IFilterGroup, IFilterText, IFilterTextInputConfig, onChangeType } from './types';
 
 import styles from '@ferlab/style/components/filters/TextInputFilter.module.scss';
+import { useEffect } from 'react';
 
 export type TextInputFilterProps = {
     filters: IFilter<IFilterText>[];
@@ -28,19 +29,22 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
     const { text } = textInputFilter;
     const buttonActionDisabled = isEmpty(text);
 
-    const onTextInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target) {
-            validateInputIfNeeded(e.target.value);
-            setTextInputFilter({
-                text: e.target.value,
-            });
-        }
-    };
+    useEffect(() => {
+        validateInputIfNeeded(textInputFilter.text);
+    }, [textInputFilter]);
 
     const validateInputIfNeeded = (text: string) => {
         const isInputValid = !(config?.validateInput && !config.validateInput(text));
         setInputValid(isInputValid);
         return isInputValid;
+    };
+
+    const onTextInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target) {
+            setTextInputFilter({
+                text: e.target.value,
+            });
+        }
     };
 
     return (
@@ -64,7 +68,14 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
                 ></Input>
             </StackLayout>
             <StackLayout className={styles.fuiTIfActions} horizontal>
-                <Button disabled={buttonActionDisabled} onClick={() => onChange(filterGroup, [])} type="text">
+                <Button
+                    disabled={buttonActionDisabled}
+                    onClick={() => {
+                        onChange(filterGroup, []);
+                        setTextInputFilter({ text: '' });
+                    }}
+                    type="text"
+                >
                     {get(dictionary, 'actions.none', 'clear')}
                 </Button>
                 <Button
