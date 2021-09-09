@@ -23,12 +23,14 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
     const defaultStateValue = {
         text: get(selectedFilters, '[0].data.text', ''),
     };
+    const [inputValid, setInputValid] = useState<boolean>(true);
     const [textInputFilter, setTextInputFilter] = useState<IFilterText>(defaultStateValue);
     const { text } = textInputFilter;
     const buttonActionDisabled = isEmpty(text);
 
     const onTextInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target) {
+            setInputValid(true);
             setTextInputFilter({
                 text: e.target.value,
             });
@@ -48,7 +50,12 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
                         )}
                     </StackLayout>
                 )}
-                <Input placeholder={config?.placeholder} onChange={onTextInputChanged} value={text}></Input>
+                <Input
+                    placeholder={config?.placeholder}
+                    className={`${!inputValid && styles.inputError}`}
+                    onChange={onTextInputChanged}
+                    value={text}
+                ></Input>
             </StackLayout>
             <StackLayout className={styles.fuiTIfActions} horizontal>
                 <Button disabled={buttonActionDisabled} onClick={() => onChange(filterGroup, [])} type="text">
@@ -58,7 +65,12 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
                     className={styles.fuiTIfActionsApply}
                     disabled={buttonActionDisabled}
                     onClick={() => {
-                        onChange(filterGroup, [{ ...currentFilter, data: textInputFilter }]);
+                        if (config?.validateInput && !config.validateInput(textInputFilter.text)) {
+                            setInputValid(false);
+                        } else {
+                            setInputValid(true);
+                            onChange(filterGroup, [{ ...currentFilter, data: textInputFilter }]);
+                        }
                     }}
                 >
                     {get(dictionary, 'actions.apply', 'apply')}

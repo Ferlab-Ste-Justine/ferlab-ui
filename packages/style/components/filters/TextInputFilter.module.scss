@@ -23,6 +23,10 @@
         }
     }
 
+    .inputError {
+        border-color: $filter-input-error-border-color;
+    }
+
     .fuiTIfActions {
         border-top: 1px solid $filter-actions-border-color;
         justify-content: flex-end;

@@ -40,6 +40,7 @@ export interface IFilterTextInputConfig {
     tooltip?: {
         text: string | ReactNode;
     }
+    validateInput?: (text: string) => boolean
 }
 
 export type TFilterGroupConfig = IFilterRangeConfig | IFilterTextInputConfig;

@@ -40,8 +40,8 @@ const TextInputFilterStory = ({title, filterGroup, onChange, ...props} : {
   </>
 );
 
-export const TextInputFilterStoryBasic = TextInputFilterStory.bind({});
-TextInputFilterStoryBasic.args = {
+export const Basic = TextInputFilterStory.bind({});
+Basic.args = {
     title: 'Text Input Filter',
     filterGroup: {
       type: VisualType.Text,
@@ -57,8 +57,8 @@ TextInputFilterStoryBasic.args = {
     filters: [],
 };
 
-export const TextInputFilterStoryNoTooltip = TextInputFilterStory.bind({});
-TextInputFilterStoryNoTooltip.args = {
+export const NoTooltip = TextInputFilterStory.bind({});
+NoTooltip.args = {
     title: 'Text Input Filter no ToolTip',
     filterGroup: {
       type: VisualType.Text,
@@ -71,12 +71,32 @@ TextInputFilterStoryNoTooltip.args = {
     filters: [],
 };
 
-export const TextInputFilterStoryNoLabel = TextInputFilterStory.bind({});
-TextInputFilterStoryNoLabel.args = {
+export const NoLabel = TextInputFilterStory.bind({});
+NoLabel.args = {
     title: 'Text Input Filter No Label',
     filterGroup: {
       type: VisualType.Text,
       field: 'this.field'
+    },
+    filters: [],
+};
+
+export const WithInputValidation = TextInputFilterStory.bind({});
+WithInputValidation.args = {
+    title: 'Text Input Filter With Validation',
+    filterGroup: {
+      type: VisualType.Text,
+      field: 'this.field',
+      config: {
+        label: "Test Filter No Digits",
+        placeholder: "Input doesn't accept digits",
+        tooltip: {
+          text: "Hello from tooltip"
+        },
+        validateInput: (text: string) => {
+          return !/\d/.test(text);
+        },
+      },
     },
     filters: [],
 };
