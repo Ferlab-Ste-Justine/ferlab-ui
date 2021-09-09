@@ -30,11 +30,17 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
 
     const onTextInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target) {
-            setInputValid(true);
+            validateInputIfNeeded(e.target.value);
             setTextInputFilter({
                 text: e.target.value,
             });
         }
+    };
+
+    const validateInputIfNeeded = (text: string) => {
+        const isInputValid = !(config?.validateInput && !config.validateInput(text));
+        setInputValid(isInputValid);
+        return isInputValid;
     };
 
     return (
@@ -63,14 +69,9 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
                 </Button>
                 <Button
                     className={styles.fuiTIfActionsApply}
-                    disabled={buttonActionDisabled}
+                    disabled={buttonActionDisabled || !inputValid}
                     onClick={() => {
-                        if (config?.validateInput && !config.validateInput(textInputFilter.text)) {
-                            setInputValid(false);
-                        } else {
-                            setInputValid(true);
-                            onChange(filterGroup, [{ ...currentFilter, data: textInputFilter }]);
-                        }
+                        onChange(filterGroup, [{ ...currentFilter, data: textInputFilter }]);
                     }}
                 >
                     {get(dictionary, 'actions.apply', 'apply')}

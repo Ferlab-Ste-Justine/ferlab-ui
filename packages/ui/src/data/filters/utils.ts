@@ -1,7 +1,7 @@
 import qs from 'query-string';
 import get from 'lodash/get';
 import { isEmpty } from 'lodash';
-import { IFilter, IFilterCount, IFilterGroup, IFilterRange, VisualType } from '../../components/filters/types';
+import { IFilter, IFilterCount, IFilterGroup, IFilterRange, IFilterText, VisualType } from '../../components/filters/types';
 import {
     ISyntheticSqon,
     IValueContent,
@@ -46,10 +46,25 @@ export const createSQONFromFilters = (filterGroup: IFilterGroup, selectedFilters
     switch (filterGroup.type) {
         case VisualType.Range:
             return createRangeFilter(filterGroup.field, selectedFilters);
+        case VisualType.Text:
+            return createTextFilter(filterGroup.field, selectedFilters);
         default:
             return createInlineFilters(filterGroup.field, selectedFilters);
     }
 };
+
+export const createTextFilter = (field: string, filters: IFilter<IFilterText>[]) => {
+    if (filters.length === 0) {
+        return [];
+    }
+    
+    const selectedTextFilter = filters[0];
+
+    return [{
+        content: { field, value: [selectedTextFilter.data.text]},
+        op: FieldOperators.in
+    }]
+}
 
 export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[]) => {
     const selectedFilters: TSqonContent = [];
