@@ -69,7 +69,7 @@ const QueryBar = ({
         setChecked(isSelected);
     }, [isSelected]);
     const referenceColor = getColorForReference(index);
-    const containerClassNames = cx(styles.container, { [styles.selected]: isActive });
+    const containerClassNames = cx(styles.queryBarContainer, { [styles.selected]: isActive });
 
     return (
         <StackLayout

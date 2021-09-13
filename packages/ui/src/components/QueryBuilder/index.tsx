@@ -320,7 +320,7 @@ const QueryBuilder = ({
             )}
         >
             <StackLayout
-                className={`${styles.container} ${!queryBuilderCollapsed && styles.hasHeader} ${className}`}
+                className={`${styles.queryBuilderContainer} ${!queryBuilderCollapsed && styles.hasHeader} ${className}`}
                 vertical
             >
                 <StackLayout className={styles.queryBars} vertical>

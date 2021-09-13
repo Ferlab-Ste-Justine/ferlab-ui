@@ -28,7 +28,7 @@ const QueryValues = ({ isElement = false, query, onClick }: IQueryValuesProps) =
     return (
         <StackLayout
             onClick={(e) => (onClick ? onClick(e) : undefined)}
-            className={`${styles.container} ${onClick && styles.clickable}`}
+            className={`${styles.queryValuesContainer} ${onClick && styles.clickable}`}
         >
             {!isElement ? (
                 values.map((v, i) => (
