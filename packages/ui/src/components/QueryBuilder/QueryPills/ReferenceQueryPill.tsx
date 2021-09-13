@@ -21,7 +21,7 @@ const ReferenceQueryPill = ({
     isBarActive,
     getColorForReference = () => '',
 }: IReferenceQueryPillProps) => (
-    <StackLayout className={cx(styles.container, { [styles.selected]: isBarActive })}>
+    <StackLayout className={cx(styles.queryPillContainer, { [styles.selected]: isBarActive })}>
         <ReferenceQueryValues refIndex={refIndex} highlightColor={getColorForReference(refIndex)} />
         <Button className={styles.close} type="text">
             <AiOutlineClose

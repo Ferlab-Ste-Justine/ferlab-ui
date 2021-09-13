@@ -32,7 +32,7 @@ const Combiner = ({ onChange, type, dictionary = {} }: ICombinerProps) => {
     };
 
     return (
-        <StackLayout className={styles.container}>
+        <StackLayout className={styles.combinerContainer}>
             <Tooltip title={getTooltipTitle()} align={{ offset: [0, 5] }}>
                 <Button className={styles.button} type="text" onClick={() => toggleOperator()}>
                     {isAndOperator() ? (
