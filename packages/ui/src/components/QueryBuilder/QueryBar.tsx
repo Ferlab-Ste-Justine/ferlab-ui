@@ -4,10 +4,10 @@ import { Button, Checkbox, Popconfirm } from 'antd';
 import cx from 'classnames';
 
 import StackLayout from '../../layout/StackLayout';
+import BooleanQueryPill from './QueryPills/BooleanQueryPill';
 import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange, TOnFacetClick } from './types';
 import { ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
 import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
-import BooleanQueryPill from './QueryPills/BooleanQueryPill';
 import { numberFormat } from '../../utils/numberUtils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBar.module.scss';

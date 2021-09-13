@@ -4,11 +4,11 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
 import { IDictionary } from './types';
+import { BooleanOperators } from '../../data/sqon/operators';
 
 import StackLayout from '../../layout/StackLayout';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryTools.module.scss';
-import { BooleanOperators } from '../../data/sqon/operators';
 
 export interface IQueryToolsProps {
     dictionary?: IDictionary;

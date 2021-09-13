@@ -3,11 +3,12 @@ import { v4 } from 'uuid';
 import { cloneDeep, isEqual } from 'lodash';
 import { createBrowserHistory, History } from 'history';
 import isEmpty from 'lodash/isEmpty';
+
+import ConditionalWrapper from '../utils/ConditionalWrapper';
+import QueryBuilderHeader from './QueryBuilderHeader';
+import StackLayout from '../../layout/StackLayout';
 import QueryBar from './QueryBar';
 import QueryTools from './QueryTools';
-import StackLayout from '../../layout/StackLayout';
-import QueryBuilderHeader from './QueryBuilderHeader';
-import ConditionalWrapper from '../utils/ConditionalWrapper';
 import { BooleanOperators } from '../../data/sqon/operators';
 import { IDictionary, TOnChange, ArrayTenOrMore, TOnFacetClick } from './types';
 import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
