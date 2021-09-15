@@ -7,21 +7,21 @@ $query-default-action-focus-color: #26436E;
 
 $query-builder-bg: $white;
 $query-builder-border-color: #D8E1EB;
-$query-builder-padding: 2.4rem 2.4rem;
+$query-builder-padding: 24px 24px;
 
 $query-bar-bg: #F1F4F8;
 $query-bar-bg-active: #FFEFC1;
 $query-bar-border-color: #BCC9DC;
 $query-bar-border-color-active: #FFDC73;
 $query-bar-height: 100%;
-$query-bar-padding-top: 0.8rem;
-$query-bar-padding-bottom: 0.8rem;
-$query-bar-padding-right: 1.2rem;
-$query-bar-padding-left: 1.2rem;
+$query-bar-padding-top: 8px;
+$query-bar-padding-bottom: 8px;
+$query-bar-padding-right: 12px;
+$query-bar-padding-left: 12px;
 $query-bar-padding: $query-bar-padding-top $query-bar-padding-right $query-bar-padding-bottom $query-bar-padding-left;
 
 $query-bar-identifier: #BCC9DC;
-$query-bar-identifier-width: 0.4rem;
+$query-bar-identifier-width: 4px;
 $query-bar-identifier-active: #F5B800; 
 
 $query-bar-button-hover-color: $query-default-action-hover-color;
