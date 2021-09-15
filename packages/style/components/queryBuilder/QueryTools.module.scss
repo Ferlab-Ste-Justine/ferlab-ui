@@ -1,13 +1,13 @@
 @import 'theme.template';
 
 .queryTools {
-    margin-top: 1.6rem;
+    margin-top: 16px;
     align-items: center;
     justify-content: space-between;
 
     .leftTools, .rightTools {
         >*:not(:first-child) {
-            margin-left: 1.5rem;
+            margin-left: 15px;
         }
         
         .switch {
@@ -16,7 +16,7 @@
                 align-items: center;
 
                 .label {
-                    margin-left: 0.5rem;
+                    margin-left: 5px;
                 }
             }
         }
@@ -36,7 +36,7 @@
             }
 
             &:last-child:not(:first-child) {
-                margin-left: 1rem;
+                margin-left: 10px;
             }
         }   
     }

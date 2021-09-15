@@ -2,7 +2,7 @@
 
 .queryPillContainer {
     background: $query-pill-bg;
-    padding: .2rem .2rem .2rem .2rem;
+    padding: 2px 2px 2px 2px;
     border-radius: 2px;
     align-items: center;
     line-height: 20px;
@@ -12,20 +12,20 @@
     }
 
     .operator {
-        margin-right: .4rem;
-        margin-left: .2rem;
+        margin-right: 4px;
+        margin-left: 2px;
     }
 
     .field {
         font-weight: 600;
-        font-size: 1.2rem;
-        margin-left: .4rem;
-        margin-right: .2rem;
+        font-size: 12px;
+        margin-left: 4px;
+        margin-right: 2px;
     }
 
     .close {
         border: none;
-        padding: .3rem .2rem .3rem .4rem;
+        padding: 3px 2px 3px 4px;
         height: auto;
         display: flex;
         align-items: center;
@@ -42,7 +42,7 @@
     min-width: 200px !important;
     background: white;
     border-radius: 2px;
-    padding: 0.8rem 1.6rem;
+    padding: 8px 16px;
     border: 1px solid #eaeaec;
     max-height: 300px;
     max-width: 650px;

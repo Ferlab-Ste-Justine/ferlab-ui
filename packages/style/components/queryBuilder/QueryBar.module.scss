@@ -40,9 +40,9 @@
         padding-left: $query-bar-padding-left + $query-bar-identifier-width;
 
         .label {
-            font-size: 1.2rem;
+            font-size: 12px;
             padding-top: 1px;
-            padding-left: 0.4rem;
+            padding-left: 4px;
             font-weight: 600;
         }
     }
@@ -53,10 +53,10 @@
 
         .queryValues {
             flex-wrap: wrap;
-            margin: -.6rem -.6rem -.6rem 0;
+            margin: -6px -6px -6px 0;
 
             > * {
-                margin: .4rem 0;
+                margin: 4px 0;
             }
         }
 
@@ -64,11 +64,11 @@
             font-weight: 600;
             display: flex;
             align-items: center;
-            margin-left: .6rem;
-            height: 2.4rem;
+            margin-left: 6px;
+            height: 24px;
 
             >  :first-child {
-                margin-right: .5rem;
+                margin-right: 5px;
             }
 
             img,svg {
@@ -85,10 +85,10 @@
             padding: 0;
             display: flex;
             align-items: center;
-            padding: .3rem;
+            padding: 3px;
 
             &:first-child {
-                margin-right: 1.6rem;
+                margin-right: 16px;
             }
         }
         @include hoverFocus($query-bar-button-hover-color, $query-bar-button-focus-color, '> *');

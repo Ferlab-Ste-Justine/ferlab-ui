@@ -3,7 +3,7 @@
 .queryValuesContainer {
     border-radius: 2px;
     background: $query-values-bg;
-    padding: 0 .8rem;
+    padding: 0 8px;
     height: 100%;
     
     &.clickable {
@@ -17,11 +17,11 @@
 
         .value {
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 12px;
         }
     
         .operator {
-            margin: 0 .4rem;
+            margin: 0 4px;
         }
     }
 
@@ -29,7 +29,7 @@
         border: none;
         padding: 0;
         height: auto;
-        margin-left: .5rem;
+        margin-left: 5px;
         display: flex;
 
         &.icon {

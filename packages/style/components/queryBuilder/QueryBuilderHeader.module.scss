@@ -5,7 +5,7 @@
     border-radius: 2px;
 
     .queryBuilderToggler {
-      padding: 1.6rem 2.4rem;
+      padding: 16px 24px;
       border: 1px solid $query-builder-border-color;
       border-bottom: none;
       border-top-left-radius: 2px;
@@ -22,7 +22,7 @@
         align-items: center;
         
         >*:not(:first-child) {
-            margin-left: 1.5rem;
+            margin-left: 15px;
         }
 
         .button, button {
@@ -40,7 +40,7 @@
             }
 
             &:last-child:not(:first-child) {
-                margin-left: 1rem;
+                margin-left: 10px;
             }
         }   
     }
@@ -53,13 +53,13 @@
   
       .togglerIcon {
         display: flex;
-        margin-right: 1rem;
+        margin-right: 10px;
       }
   
       .togglerTitle {
         margin: 0;
         font-size: 20px;
-        margin-right: 1rem;
+        margin-right: 10px;
       }
     }
   }
