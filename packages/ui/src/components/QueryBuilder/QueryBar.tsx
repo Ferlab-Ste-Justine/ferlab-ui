@@ -138,15 +138,15 @@ const QueryBar = ({
 
                     <Popconfirm
                         arrowPointAtCenter
-                        cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
+                        cancelText={dictionary.actions?.actionDelete?.cancel || 'Cancel'}
                         disabled={!canDelete}
-                        okText={dictionary.actions?.delete?.confirm || 'Delete'}
+                        okText={dictionary.actions?.actionDelete?.actionConfirm || 'Delete'}
                         onConfirm={(e) => {
                             e!.stopPropagation();
                             onDeleteQuery(id, query);
                         }}
                         placement="topRight"
-                        title={dictionary.actions?.delete?.title || 'Delete this query?'}
+                        title={dictionary.actions?.actionDelete?.title || 'Delete this query?'}
                         getPopupContainer={(trigger) => trigger.parentElement!}
                     >
                         <Button

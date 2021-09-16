@@ -5,36 +5,34 @@ interface IActions {
     addQuery?: string | React.ReactNode;
     combine?: string | React.ReactNode;
     labels?: string | React.ReactNode;
-    delete?: IDeleteTranslation;
     clear?: IClearTranslation;
-    new?: string | React.ReactNode;
+    actionDelete?: IDeleteTranslation;
+    actionNew?: string | React.ReactNode;
     changeOperatorTo?: string | React.ReactNode;
 }
 
 interface IClearTranslation {
     title: string | React.ReactNode;
     cancel: string | React.ReactNode;
-    confirm: string | React.ReactNode;
+    actionConfirm: string | React.ReactNode;
     buttonTitle: string | React.ReactNode;
     description: string | React.ReactNode;
 }
 interface IDeleteTranslation {
     title: string | React.ReactNode;
-    titleSelected: string | React.ReactNode;
+    titleSelected?: string | React.ReactNode;
     cancel: string | React.ReactNode;
-    confirm: string | React.ReactNode;
+    actionConfirm: string | React.ReactNode;
 }
 
 type TTranslation = (key: string) => string | React.ReactNode;
 interface IQuery {
     combine?: ICombineTranslation;
     noQuery?: string | React.ReactNode;
-    facet: TTranslation;
+    facet?: TTranslation;
 }
 
 interface ICombineTranslation {
-    intersection: string | React.ReactNode;
-    union: string | React.ReactNode;
     and: string | React.ReactNode;
     or: string | React.ReactNode;
 }
