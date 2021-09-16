@@ -29,7 +29,7 @@ type TTranslation = (key: string) => string | React.ReactNode;
 interface IQuery {
     combine?: ICombineTranslation;
     noQuery?: string | React.ReactNode;
-    facet?: TTranslation;
+    facet: TTranslation;
 }
 
 interface ICombineTranslation {

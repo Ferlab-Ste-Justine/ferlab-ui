@@ -92,7 +92,7 @@ const FieldQueryPill = ({
             {(showLabels || isBooleanFilter(query) || isRangeFilter(query)) && (
                 <>
                     <span className={`${styles.field}`}>
-                        {dictionary.query?.facet(query.content.field) || query.content.field}
+                        {dictionary.query?.facet|| query.content.field}
                     </span>
                     <Operator className={styles.operator} type={query.op} />
                 </>

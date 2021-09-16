@@ -68,7 +68,7 @@ const QueryBuilderHeader = ({
                             arrowPointAtCenter
                             disabled={noQueries && hasEmptyQuery}
                             cancelText={dictionary.actions?.actionDelete?.cancel || 'Cancel'}
-                            okText={dictionary.actions?.actionDelete?.confirm || 'Delete'}
+                            okText={dictionary.actions?.actionDelete?.actionConfirm || 'Delete'}
                             onConfirm={onDeleteQuery}
                             placement="topRight"
                             title={dictionary.actions?.actionDelete?.titleSelected || 'Delete the selected query?'}
