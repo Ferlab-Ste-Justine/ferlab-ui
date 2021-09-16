@@ -3,15 +3,13 @@
 .queryBarContainer {
     background: $query-bar-bg;
     height: $query-bar-height;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
 
     > * {
         padding: $query-bar-padding;
         border: 1px solid $query-bar-border-color;
         align-items: center;
-
-        &:not(:first-child) {
-            border-left: none;
-        }
     }
 
     &.selected {
