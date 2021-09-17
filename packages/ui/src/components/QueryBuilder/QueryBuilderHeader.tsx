@@ -61,17 +61,17 @@ const QueryBuilderHeader = ({
                                 size="small"
                                 icon={<AiOutlinePlus />}
                             >
-                                {dictionary.actions?.actionNew || 'New'}
+                                {dictionary.actions?.new || 'New'}
                             </Button>
                         )}
                         <Popconfirm
                             arrowPointAtCenter
                             disabled={noQueries && hasEmptyQuery}
-                            cancelText={dictionary.actions?.actionDelete?.cancel || 'Cancel'}
-                            okText={dictionary.actions?.actionDelete?.actionConfirm || 'Delete'}
+                            cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
+                            okText={dictionary.actions?.delete?.confirm || 'Delete'}
                             onConfirm={onDeleteQuery}
                             placement="topRight"
-                            title={dictionary.actions?.actionDelete?.titleSelected || 'Delete the selected query?'}
+                            title={dictionary.actions?.delete?.titleSelected || 'Delete the selected query?'}
                             getPopupContainer={() => document.getElementById('query-builder-header-tools')!}
                         >
                             <Button
@@ -81,7 +81,7 @@ const QueryBuilderHeader = ({
                                 size="small"
                                 icon={<AiOutlineDelete />}
                             >
-                                {dictionary.actions?.actionDelete || 'Delete'}
+                                {dictionary.actions?.delete?.confirm || 'Delete'}
                             </Button>
                         </Popconfirm>
                     </StackLayout>
