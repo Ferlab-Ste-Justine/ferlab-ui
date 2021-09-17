@@ -101,7 +101,7 @@ const QueryTools = ({
                                 content:
                                     dictionary.actions?.clear?.description ||
                                     'You are about to delete all your queries. They will be lost forever.',
-                                okText: dictionary.actions?.clear?.actionConfirm || 'Delete',
+                                okText: dictionary.actions?.clear?.confirm || 'Delete',
                                 onOk: () => onDeleteAll(),
                                 title: dictionary.actions?.clear?.title || 'Delete all queries?',
                             })

@@ -6,15 +6,15 @@ interface IActions {
     combine?: string | React.ReactNode;
     labels?: string | React.ReactNode;
     clear?: IClearTranslation;
-    actionDelete?: IDeleteTranslation;
-    actionNew?: string | React.ReactNode;
+    delete?: IDeleteTranslation;
+    new?: string | React.ReactNode;
     changeOperatorTo?: string | React.ReactNode;
 }
 
 interface IClearTranslation {
     title: string | React.ReactNode;
     cancel: string | React.ReactNode;
-    actionConfirm: string | React.ReactNode;
+    confirm: string | React.ReactNode;
     buttonTitle: string | React.ReactNode;
     description: string | React.ReactNode;
 }
@@ -22,7 +22,7 @@ interface IDeleteTranslation {
     title: string | React.ReactNode;
     titleSelected?: string | React.ReactNode;
     cancel: string | React.ReactNode;
-    actionConfirm: string | React.ReactNode;
+    confirm: string | React.ReactNode;
 }
 
 type TTranslation = (key: string) => string | React.ReactNode;
