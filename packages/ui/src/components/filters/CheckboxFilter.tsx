@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { AutoComplete, Button, Checkbox, Divider, Tag } from 'antd';
+import { AutoComplete, Button, Checkbox, Divider, Tag, Dropdown, Menu, Typography } from 'antd';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 
@@ -20,6 +20,8 @@ export type TermFilterProps = {
     filters: IFilter<IFilterCount>[];
 };
 
+const { Text } = Typography;
+
 const CheckboxFilter = ({
     dictionary,
     filterGroup,
@@ -31,6 +33,7 @@ const CheckboxFilter = ({
 }: TermFilterProps) => {
     const [isShowingMore, setShowingMore] = useState(false);
     const [search, setSearch] = useState('');
+    const [localselectedFilters, setLocalSelectedFilters] = useState<IFilter[]>([]);
     const [filteredFilters, setFilteredFilters] = useState(filters.filter((f) => !isEmpty(f.data)));
 
     useEffect(() => {
@@ -82,34 +85,40 @@ const CheckboxFilter = ({
                             {get(dictionary, 'actions.none', 'None')}
                         </Button>
                     </StackLayout>
-                    {filteredFilters.slice(0, isShowingMore ? Infinity : maxShowing).map((filter, i) => (
-                        <StackLayout
-                            className={styles.checkboxFilterItem}
-                            horizontal
-                            key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${selectedFilters.length}-${i}`}
-                        >
-                            <Checkbox
-                                checked={selectedFilters.some((f) => f.data.key === filter.data.key)}
-                                className={styles.fuiMcItemCheckbox}
-                                id={`input-${filter.data.key}`}
-                                name={`input-${filter.id}`}
-                                onChange={(e) => {
-                                    const { checked } = e.target;
-                                    let newFilter: IFilter[];
-                                    if (checked) {
-                                        newFilter = [...selectedFilters, filter];
-                                    } else {
-                                        newFilter = selectedFilters.filter((f) => f != filter);
-                                    }
-                                    onChange(filterGroup, newFilter);
-                                }}
-                                type="checkbox"
+                    <div
+                        className={`${styles.checkboxFiltersContent} ${
+                            filteredFilters.length > maxShowing && styles.withMargin
+                        }`}
+                    >
+                        {filteredFilters.slice(0, isShowingMore ? Infinity : maxShowing).map((filter, i) => (
+                            <StackLayout
+                                className={styles.checkboxFilterItem}
+                                horizontal
+                                key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${selectedFilters.length}-${i}`}
                             >
-                                {filter.name}
-                            </Checkbox>
-                            <Tag className={styles.tag}>{numberFormat(filter.data.count)}</Tag>
-                        </StackLayout>
-                    ))}
+                                <Checkbox
+                                    checked={selectedFilters.some((f) => f.data.key === filter.data.key)}
+                                    className={styles.fuiMcItemCheckbox}
+                                    id={`input-${filter.data.key}`}
+                                    name={`input-${filter.id}`}
+                                    onChange={(e) => {
+                                        const { checked } = e.target;
+                                        let newFilter: IFilter[];
+                                        if (checked) {
+                                            newFilter = [...selectedFilters, filter];
+                                        } else {
+                                            newFilter = selectedFilters.filter((f) => f != filter);
+                                        }
+                                        setLocalSelectedFilters(newFilter);
+                                    }}
+                                    type="checkbox"
+                                >
+                                    <Text>{filter.name}</Text>
+                                </Checkbox>
+                                <Tag className={styles.tag}>{numberFormat(filter.data.count)}</Tag>
+                            </StackLayout>
+                        ))}
+                    </div>
                     {filteredFilters.length > maxShowing && (
                         <Button
                             className={styles.filtersTypesFooter}
@@ -137,6 +146,43 @@ const CheckboxFilter = ({
                     </span>
                 </StackLayout>
             )}
+            <StackLayout className={styles.fuiCbfActions} horizontal>
+                <Button
+                    disabled={selectedFilters.length == 0 && localselectedFilters.length == 0}
+                    className={styles.fuiCbfActionsClear}
+                    size="small"
+                    onClick={() => {
+                        setLocalSelectedFilters([]);
+                        onChange(filterGroup, []);
+                    }}
+                    type="text"
+                >
+                    {get(dictionary, 'actions.none', 'Clear')}
+                </Button>
+                <Dropdown.Button
+                    className={styles.fuiCbfActionsApply}
+                    disabled={localselectedFilters.length == 0}
+                    type="primary"
+                    size="small"
+                    overlay={
+                        <Menu>
+                            <Menu.Item key={'anyof'} onClick={() => {}}>
+                                {get(dictionary, 'actions.anyOf', 'Any of')}
+                            </Menu.Item>
+                            <Menu.Item key={'allof'} onClick={() => {}}>
+                                {get(dictionary, 'actions.allOf', 'All of')}
+                            </Menu.Item>
+                            <Menu.Item key={'noneof'} onClick={() => {}}>
+                                {get(dictionary, 'actions.noneOf', 'None of')}
+                            </Menu.Item>
+                        </Menu>
+                    }
+                    trigger={['click']}
+                    onClick={() => {}}
+                >
+                    {get(dictionary, 'actions.apply', 'Apply')}
+                </Dropdown.Button>
+            </StackLayout>
         </Fragment>
     );
 };

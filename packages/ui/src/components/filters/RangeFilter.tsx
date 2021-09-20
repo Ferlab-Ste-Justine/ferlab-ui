@@ -233,7 +233,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                     onClick={() => onChange(filterGroup, [])}
                     type="text"
                 >
-                    {get(dictionary, 'actions.none', 'clear')}
+                    {get(dictionary, 'actions.none', 'Clear')}
                 </Button>
                 <Button
                     size="small"
@@ -243,7 +243,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                         onChange(filterGroup, [{ ...currentFilter, data: rangeFilter }]);
                     }}
                 >
-                    {get(dictionary, 'actions.apply', 'apply')}
+                    {get(dictionary, 'actions.apply', 'Apply')}
                 </Button>
             </StackLayout>
         </StackLayout>

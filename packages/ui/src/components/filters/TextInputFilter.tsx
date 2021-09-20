@@ -69,6 +69,7 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
             </StackLayout>
             <StackLayout className={styles.fuiTIfActions} horizontal>
                 <Button
+                  className={styles.fuiTIfActionsClear}
                     disabled={buttonActionDisabled}
                     onClick={() => {
                         onChange(filterGroup, []);
@@ -76,7 +77,7 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
                     }}
                     type="text"
                 >
-                    {get(dictionary, 'actions.none', 'clear')}
+                    {get(dictionary, 'actions.none', 'Clear')}
                 </Button>
                 <Button
                     className={styles.fuiTIfActionsApply}
@@ -85,7 +86,7 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
                         onChange(filterGroup, [{ ...currentFilter, data: textInputFilter }]);
                     }}
                 >
-                    {get(dictionary, 'actions.apply', 'apply')}
+                    {get(dictionary, 'actions.apply', 'Apply')}
                 </Button>
             </StackLayout>
         </StackLayout>
