@@ -23,7 +23,13 @@ export interface IOperatorConfig {
     operator: RangeOperators;
     name: string | ReactNode;
     disableMin?: boolean;
-    disableMax?: boolean
+    disableMax?: boolean;
+}
+
+export interface IFilterCheckboxConfig {
+    nameMapping: {
+        [field: string]: string;
+    };
 }
 
 export interface IFilterRangeConfig {
@@ -38,12 +44,12 @@ export interface IFilterTextInputConfig {
     label: string | ReactNode;
     placeholder: string;
     tooltip?: {
-        text: string | ReactNode;
-    }
-    validateInput?: (text: string) => boolean
+        text: string | ReactNode;
+    };
+    validateInput?: (text: string) => boolean;
 }
 
-export type TFilterGroupConfig = IFilterRangeConfig | IFilterTextInputConfig;
+export type TFilterGroupConfig = IFilterRangeConfig | IFilterTextInputConfig | IFilterCheckboxConfig;
 
 export interface IFilterGroup<T extends TFilterGroupConfig = any> {
     field: string;
@@ -57,11 +63,11 @@ export interface IFilterCount {
     key: string;
 }
 
-export type TFilterData = IFilterCount | IFilterRange | IFilterText;
+export type TFilterData = IFilterCount | IFilterRange | IFilterText;
 
 export interface IFilter<T extends TFilterData = any> {
     data: T;
-    name: string | ReactNode;
+    name: string;
     id: string; //  dash (-) separated key
 }
 
@@ -69,7 +75,7 @@ export enum VisualType {
     Checkbox = 'checkbox',
     Toggle = 'toggle',
     Range = 'range',
-    Text = 'text'
+    Text = 'text',
 }
 
 export interface IDictionary {

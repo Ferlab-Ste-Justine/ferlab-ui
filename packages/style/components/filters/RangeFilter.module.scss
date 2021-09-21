@@ -54,6 +54,10 @@
 
             .rangeInput {
                 width: 100%;
+
+                &:focus, &[class$="-focused"] {
+                    box-shadow: none;
+                }
             }
         }
     }
@@ -68,8 +72,8 @@
     .fuiRfActions {
         border-top: 1px solid $filter-actions-border-color;
         justify-content: flex-end;
-        padding-top: 1.3rem;
-        margin-top: 1.3rem;
+        padding-top: 16px;
+        margin-top: 13px;
 
         .fuiRfActionsClear {
             &:disabled {

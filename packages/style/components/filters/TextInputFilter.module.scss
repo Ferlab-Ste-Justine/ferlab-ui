@@ -30,8 +30,19 @@
     .fuiTIfActions {
         border-top: 1px solid $filter-actions-border-color;
         justify-content: flex-end;
-        padding-top: 1.3rem;
-        margin-top: 1.3rem;
+        padding-top: 16px;
+        margin-top: 13px;
+
+        .fuiTIfActionsClear {
+            &:disabled {
+                color: $filter-actions-disabled-color;
+    
+                span {
+                    text-decoration: none;
+                    color: $filter-actions-disabled-color;
+                }
+            }
+        }
 
         .fuiTIfActionsApply {
             background: $filter-actions-border-apply-background-color;
@@ -43,11 +54,6 @@
                 background: $filter-actions-disabled-background-color;
                 border-color: $filter-actions-disabled-border-color;
             }
-        }
-
-        > * {
-            text-transform: capitalize;
-            margin-left: 8px;
         }
     }
 }

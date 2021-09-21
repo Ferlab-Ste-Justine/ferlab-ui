@@ -18,6 +18,7 @@ interface IClearTranslation {
     buttonTitle: string | React.ReactNode;
     description: string | React.ReactNode;
 }
+
 interface IDeleteTranslation {
     title: string | React.ReactNode;
     titleSelected?: string | React.ReactNode;

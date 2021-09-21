@@ -1,5 +1,14 @@
 @import 'theme.template';
 .checkboxFilter {
+    .checkboxFiltersContent {
+        max-height: 250px;
+        overflow: scroll;
+
+         &.withMargin {
+            margin-bottom: 12px; 
+         }
+    }
+
     .filtersTypesFooter {
         border: none;
         color: $checkbox-filter-types-mc-footer;
@@ -27,8 +36,12 @@
         & > span {
             align-items: center;
             display: flex;
-            min-height: if($checkbox-filter-item-line-height == 'inherit', 2.4rem, inherit);
+            min-height: if($checkbox-filter-item-line-height == 'inherit', 16px, inherit);
             line-height: $checkbox-filter-item-line-height;
+
+            &:first-child {
+                margin-top: 4px;
+            }
         }
 
         & > span + span {
@@ -39,6 +52,43 @@
         }
     }
 }
+
+.fuiCbfActions {
+    border-top: 1px solid $filter-actions-border-color;
+    justify-content: flex-end;
+    padding-top: 16px;
+    margin-top: 13px;
+
+    .fuiCbfActionsClear {
+        &:disabled {
+            color: $filter-actions-disabled-color;
+
+            span {
+                text-decoration: none;
+                color: $filter-actions-disabled-color;
+            }
+        }
+    }
+
+    .fuiCbfActionsApply {
+        button {
+            &:disabled {
+                color: $filter-actions-disabled-color;
+    
+                span {
+                    text-decoration: none;
+                    color: $filter-actions-disabled-color;
+                }
+            }
+        }
+    }
+
+    > * {
+        text-transform: capitalize;
+        margin-left: 8px !important;
+    }
+}
+
 .filterSearchWrapper {
     margin-bottom: .8rem;
 
@@ -67,6 +117,7 @@
 
     .tag {
         height: fit-content;
+        margin-right: 0px;
     }
 }
 

@@ -69,6 +69,7 @@ const FilterContainer = ({
     return (
         <div className={styles.filterContainer}>
             <Collapse
+                className={styles.filterContainerCollapse}
                 {...defaultActiveKey}
                 onChange={(panels) => {
                     setIsCollapsed(panels.length === 0);

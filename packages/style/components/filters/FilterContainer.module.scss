@@ -1,3 +1,5 @@
+$prefix-ant-collapse: "ant-collapse";
+
 .filtersContainerHeader {
     align-items: center;
     box-sizing: border-box;
@@ -12,17 +14,21 @@
 
     .searchIconWrapper {
         display: flex;
-        .fuiSearchIcon {
-            width: 16px;
-            height: 16px;
-        }
     }
 }
 
 .filterContainer {
     width: 100%;
+    
+    .filterContainerCollapse {
+        :global(.#{$prefix-ant-collapse}-header) {
+            padding-top: 5.5px;
+            padding-bottom: 5.5px;
+            padding-right: 16px;
 
-    .filterContainerContent {
-
+            :global(.#{$prefix-ant-collapse}-arrow) {
+                padding-top: 5.5px;
+            } 
+        }
     }
 }
