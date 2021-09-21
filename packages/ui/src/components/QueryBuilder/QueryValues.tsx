@@ -55,7 +55,14 @@ const QueryValues = ({ isElement = false, query, onClick }: IQueryValuesProps) =
                         <AiFillCaretLeft />
                     </Button>
                 ) : (
-                    <Button className={`${styles.button} ${styles.icon}`} onClick={() => setExpanded(true)} type="text">
+                    <Button
+                        className={`${styles.button} ${styles.icon}`}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setExpanded(true);
+                        }}
+                        type="text"
+                    >
                         <AiFillCaretRight />
                     </Button>
                 ))}

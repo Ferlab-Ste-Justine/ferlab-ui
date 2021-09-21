@@ -36,8 +36,12 @@
         & > span {
             align-items: center;
             display: flex;
-            min-height: if($checkbox-filter-item-line-height == 'inherit', 2.4rem, inherit);
+            min-height: if($checkbox-filter-item-line-height == 'inherit', 16px, inherit);
             line-height: $checkbox-filter-item-line-height;
+
+            &:first-child {
+                margin-top: 4px;
+            }
         }
 
         & > span + span {
