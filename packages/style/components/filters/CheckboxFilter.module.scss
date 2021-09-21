@@ -2,7 +2,7 @@
 .checkboxFilter {
     .checkboxFiltersContent {
         max-height: 250px;
-        overflow: scroll;
+        overflow-y: auto;
 
          &.withMargin {
             margin-bottom: 12px; 
