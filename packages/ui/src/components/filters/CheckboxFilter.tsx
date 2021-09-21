@@ -6,13 +6,13 @@ import isEmpty from 'lodash/isEmpty';
 import StackLayout from '../../layout/StackLayout';
 import { numberFormat } from '../../utils/numberUtils';
 
-import { IDictionary, IFilter, IFilterCount, IFilterGroup, onChangeType } from './types';
+import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from './types';
 
 import styles from '@ferlab/style/components/filters/CheckboxFilter.module.scss';
 
 export type TermFilterProps = {
     dictionary?: IDictionary | Record<string, never>;
-    filterGroup: IFilterGroup;
+    filterGroup: IFilterGroup<IFilterCheckboxConfig>;
     onChange: onChangeType;
     selectedFilters?: IFilter[];
     maxShowing: number;
@@ -35,6 +35,10 @@ const CheckboxFilter = ({
     const [search, setSearch] = useState('');
     const [localselectedFilters, setLocalSelectedFilters] = useState<IFilter[]>([]);
     const [filteredFilters, setFilteredFilters] = useState(filters.filter((f) => !isEmpty(f.data)));
+
+    const getMappedName = (name: string) => {
+        return filterGroup.config?.nameMapping[name] || name;
+    };
 
     useEffect(() => {
         const filtersWithData = filters.filter((f) => !isEmpty(f.data));
@@ -109,11 +113,11 @@ const CheckboxFilter = ({
                                         } else {
                                             newFilter = selectedFilters.filter((f) => f != filter);
                                         }
-                                        setLocalSelectedFilters(newFilter);
+                                        onChange(filterGroup, newFilter);
                                     }}
                                     type="checkbox"
                                 >
-                                    <Text>{filter.name}</Text>
+                                    <Text>{getMappedName(filter.name)}</Text>
                                 </Checkbox>
                                 <Tag className={styles.tag}>{numberFormat(filter.data.count)}</Tag>
                             </StackLayout>
@@ -146,43 +150,45 @@ const CheckboxFilter = ({
                     </span>
                 </StackLayout>
             )}
-            <StackLayout className={styles.fuiCbfActions} horizontal>
-                <Button
-                    disabled={selectedFilters.length == 0 && localselectedFilters.length == 0}
-                    className={styles.fuiCbfActionsClear}
-                    size="small"
-                    onClick={() => {
-                        setLocalSelectedFilters([]);
-                        onChange(filterGroup, []);
-                    }}
-                    type="text"
-                >
-                    {get(dictionary, 'actions.none', 'Clear')}
-                </Button>
-                <Dropdown.Button
-                    className={styles.fuiCbfActionsApply}
-                    disabled={localselectedFilters.length == 0}
-                    type="primary"
-                    size="small"
-                    overlay={
-                        <Menu>
-                            <Menu.Item key={'anyof'} onClick={() => {}}>
-                                {get(dictionary, 'actions.anyOf', 'Any of')}
-                            </Menu.Item>
-                            <Menu.Item key={'allof'} onClick={() => {}}>
-                                {get(dictionary, 'actions.allOf', 'All of')}
-                            </Menu.Item>
-                            <Menu.Item key={'noneof'} onClick={() => {}}>
-                                {get(dictionary, 'actions.noneOf', 'None of')}
-                            </Menu.Item>
-                        </Menu>
-                    }
-                    trigger={['click']}
-                    onClick={() => {}}
-                >
-                    {get(dictionary, 'actions.apply', 'Apply')}
-                </Dropdown.Button>
-            </StackLayout>
+            {false && (
+                <StackLayout className={styles.fuiCbfActions} horizontal>
+                    <Button
+                        disabled={selectedFilters.length == 0 && localselectedFilters.length == 0}
+                        className={styles.fuiCbfActionsClear}
+                        size="small"
+                        onClick={() => {
+                            setLocalSelectedFilters([]);
+                            onChange(filterGroup, []);
+                        }}
+                        type="text"
+                    >
+                        {get(dictionary, 'actions.none', 'Clear')}
+                    </Button>
+                    <Dropdown.Button
+                        className={styles.fuiCbfActionsApply}
+                        disabled={localselectedFilters.length == 0}
+                        type="primary"
+                        size="small"
+                        overlay={
+                            <Menu>
+                                <Menu.Item key={'anyof'} onClick={() => {}}>
+                                    {get(dictionary, 'actions.anyOf', 'Any of')}
+                                </Menu.Item>
+                                <Menu.Item key={'allof'} onClick={() => {}}>
+                                    {get(dictionary, 'actions.allOf', 'All of')}
+                                </Menu.Item>
+                                <Menu.Item key={'noneof'} onClick={() => {}}>
+                                    {get(dictionary, 'actions.noneOf', 'None of')}
+                                </Menu.Item>
+                            </Menu>
+                        }
+                        trigger={['click']}
+                        onClick={() => {}}
+                    >
+                        {get(dictionary, 'actions.apply', 'Apply')}
+                    </Dropdown.Button>
+                </StackLayout>
+            )}
         </Fragment>
     );
 };
