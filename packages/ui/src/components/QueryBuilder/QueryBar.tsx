@@ -127,6 +127,7 @@ const QueryBar = ({
             {!actionDisabled && (
                 <StackLayout className={styles.actions}>
                     <Button
+                        className={styles.actionButton}
                         onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
                             onDuplicate(id, query);
@@ -150,6 +151,7 @@ const QueryBar = ({
                         getPopupContainer={(trigger) => trigger.parentElement!}
                     >
                         <Button
+                            className={styles.actionButton}
                             onClick={(e: React.MouseEvent) => {
                                 e.stopPropagation();
                             }}

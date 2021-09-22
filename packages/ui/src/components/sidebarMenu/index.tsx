@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Input, Menu, AutoComplete } from 'antd';
 import StackLayout from '../../layout/StackLayout';
 import ScrollView from '../../layout/ScrollView';
@@ -59,6 +59,11 @@ const Sidebar = ({
     const [selectedKey, setSelectedKey] = useState<string>('');
     const searchInputRef = useRef<Input>(null);
     const selectedFilterComponent = menuItems.find((menuItem) => menuItem.key == selectedKey);
+    const handleUserKeyUp = useCallback((e) => {
+        if ([32, 13].includes(e.keyCode)) {
+            setSelectedKey(document.activeElement?.getAttribute('data-key')!);
+        }
+    }, []);
     const getSelectedFilterComponentByType = () => {
         switch (typeof selectedFilterComponent?.panelContent) {
             case 'function':
@@ -69,6 +74,13 @@ const Sidebar = ({
                 <></>;
         }
     };
+
+    useEffect(() => {
+        document.addEventListener('keyup', handleUserKeyUp);
+        return () => {
+            document.removeEventListener('keyup', handleUserKeyUp);
+        };
+    }, [handleUserKeyUp]);
 
     useEffect(() => {
         if (!collapsed && selectedKey == SEARCH_KEY) {
@@ -108,6 +120,7 @@ const Sidebar = ({
                             {enableQuickFilter &&
                                 (collapsed ? (
                                     <Menu.Item
+                                        tabIndex={0}
                                         className={styles.sidebarMenuItem}
                                         key={SEARCH_KEY}
                                         icon={quickFilterIcon ? quickFilterIcon : <SearchIcon />}
@@ -117,6 +130,7 @@ const Sidebar = ({
                                 ) : (
                                     <div className={`${styles.searchMenuItem}`}>
                                         <AutoComplete
+                                            tabIndex={0}
                                             allowClear
                                             className={styles.searchInput}
                                             onChange={(value: string) => {
@@ -135,7 +149,13 @@ const Sidebar = ({
                                     </div>
                                 ))}
                             {menuItems.map((menuItem) => (
-                                <Menu.Item className={styles.sidebarMenuItem} key={menuItem.key} icon={menuItem.icon}>
+                                <Menu.Item
+                                    data-key={menuItem.key}
+                                    tabIndex={0}
+                                    className={styles.sidebarMenuItem}
+                                    key={menuItem.key}
+                                    icon={menuItem.icon}
+                                >
                                     <span className={styles.sidebarMenuItemTitle}>{menuItem.title}</span>
                                 </Menu.Item>
                             ))}

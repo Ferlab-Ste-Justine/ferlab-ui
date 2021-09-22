@@ -29,8 +29,13 @@
         height: auto;
         display: flex;
         align-items: center;
+        color: $query-pill-button-default-color;
+
+        &:hover {
+            opacity: 0.7;
+        }
         
-        @include hoverFocus($query-pill-button-hover-color, $query-pill-button-focus-color);
+        @include hoverFocus($query-pill-button-hover-color, $query-pill-button-focus-color, '&', none, none);
     }
 
     .queryValuesTrigger {
@@ -44,9 +49,7 @@
     border-radius: 2px;
     padding: 8px 16px;
     border: 1px solid #eaeaec;
-    max-height: 300px;
     max-width: 650px;
-    overflow: scroll;
 
     section, > div {
         background-color: white;

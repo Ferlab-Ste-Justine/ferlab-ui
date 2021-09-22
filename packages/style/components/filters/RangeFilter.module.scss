@@ -54,10 +54,6 @@
 
             .rangeInput {
                 width: 100%;
-
-                &:focus, &[class$="-focused"] {
-                    box-shadow: none;
-                }
             }
         }
     }
