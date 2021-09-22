@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineCopy, AiOutlineDelete } from 'react-icons/ai';
-import { Button, Checkbox, Popconfirm } from 'antd';
+import { Button, Checkbox, Popconfirm, Tooltip } from 'antd';
 import cx from 'classnames';
 
 import StackLayout from '../../layout/StackLayout';
@@ -126,40 +126,44 @@ const QueryBar = ({
             </StackLayout>
             {!actionDisabled && (
                 <StackLayout className={styles.actions}>
-                    <Button
-                        className={styles.actionButton}
-                        onClick={(e: React.MouseEvent) => {
-                            e.stopPropagation();
-                            onDuplicate(id, query);
-                        }}
-                        type="text"
-                    >
-                        <AiOutlineCopy size={18} />
-                    </Button>
-
-                    <Popconfirm
-                        arrowPointAtCenter
-                        cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
-                        disabled={!canDelete}
-                        okText={dictionary.actions?.delete?.confirm || 'Delete'}
-                        onConfirm={(e) => {
-                            e!.stopPropagation();
-                            onDeleteQuery(id, query);
-                        }}
-                        placement="topRight"
-                        title={dictionary.actions?.delete?.title || 'Delete this query?'}
-                        getPopupContainer={(trigger) => trigger.parentElement!}
-                    >
+                    <Tooltip title={dictionary.actions?.duplicate || 'Duplicate'}>
                         <Button
                             className={styles.actionButton}
                             onClick={(e: React.MouseEvent) => {
                                 e.stopPropagation();
+                                onDuplicate(id, query);
                             }}
                             type="text"
                         >
-                            <AiOutlineDelete size={18} />
+                            <AiOutlineCopy size={18} />
                         </Button>
-                    </Popconfirm>
+                    </Tooltip>
+
+                    <Tooltip title={dictionary.actions?.delete?.confirm || 'Delete'}>
+                        <Popconfirm
+                            arrowPointAtCenter
+                            cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
+                            disabled={!canDelete}
+                            okText={dictionary.actions?.delete?.confirm || 'Delete'}
+                            onConfirm={(e) => {
+                                e!.stopPropagation();
+                                onDeleteQuery(id, query);
+                            }}
+                            placement="topRight"
+                            title={dictionary.actions?.delete?.title || 'Delete this query?'}
+                            getPopupContainer={(trigger) => trigger.parentElement!}
+                        >
+                            <Button
+                                className={styles.actionButton}
+                                onClick={(e: React.MouseEvent) => {
+                                    e.stopPropagation();
+                                }}
+                                type="text"
+                            >
+                                <AiOutlineDelete size={18} />
+                            </Button>
+                        </Popconfirm>
+                    </Tooltip>
                 </StackLayout>
             )}
         </StackLayout>

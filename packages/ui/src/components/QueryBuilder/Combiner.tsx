@@ -27,7 +27,11 @@ const Combiner = ({ onChange, type, dictionary = {} }: ICombinerProps) => {
     const getTooltipTitle = () => {
         return `
             ${dictionary.actions?.changeOperatorTo || 'Change operator to'}
-            ${isAndOperator() ? dictionary.query?.combine?.or || 'Or' : dictionary.query?.combine?.and || 'And'}
+            ${
+                isAndOperator()
+                    ? `"${dictionary.query?.combine?.or || 'or'}"`
+                    : `"${dictionary.query?.combine?.and || 'and'}"`
+            }
         `;
     };
 
