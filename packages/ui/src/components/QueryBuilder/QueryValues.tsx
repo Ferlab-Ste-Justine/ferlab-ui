@@ -8,6 +8,7 @@ import UnionOperator from './icons/UnionOperator';
 import { IValueFilter } from '../../data/sqon/types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
+import ConditionalWrapper from '../utils/ConditionalWrapper';
 
 interface IQueryValuesProps {
     query: IValueFilter;
@@ -31,12 +32,19 @@ const QueryValues = ({ isElement = false, query, onClick }: IQueryValuesProps) =
             className={`${styles.queryValuesContainer} ${onClick && styles.clickable}`}
         >
             {!isElement ? (
-                values.map((v, i) => (
-                    <StackLayout className={styles.valueWrapper} key={`${v}-${i}`}>
-                        <span className={styles.value}>{v}</span>
-                        {totalValues - 1 > i && <UnionOperator className={styles.operator} />}
-                    </StackLayout>
-                ))
+                <ConditionalWrapper
+                    condition={onClick !== undefined}
+                    wrapper={(children) => <a className={styles.queryValueSelector}>{children}</a>}
+                >
+                    <>
+                        {values.map((v, i) => (
+                            <StackLayout className={styles.valueWrapper} key={`${v}-${i}`}>
+                                <span className={styles.value}>{v}</span>
+                                {totalValues - 1 > i && <UnionOperator className={styles.operator} />}
+                            </StackLayout>
+                        ))}
+                    </>
+                </ConditionalWrapper>
             ) : (
                 <StackLayout className={styles.valueWrapper}>
                     <span className={styles.value}>[{values.join(',')}]</span>

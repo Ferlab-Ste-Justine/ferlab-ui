@@ -76,19 +76,41 @@
     }
 
     .actions {
-        >  * {
-            border: none;
+        .actionButton {
             height: auto;
             line-height: normal;
             padding: 0;
             display: flex;
             align-items: center;
-            padding: 3px;
+            padding: 2px;
+            margin: 1px;
+            color: $query-default-action-hover-color;
+
+            &:active {
+                border: 1px solid transparent;
+            }
+
+            &:hover {
+                opacity: 0.7;
+            }
+
+            &:focus {
+                background-color: transparent;
+            }
+
+            &:focus-visible {
+                box-shadow: 0 0 0pt 1px $query-default-action-hover-color
+            }
 
             &:first-child {
                 margin-right: 16px;
             }
+
+            @include hoverFocus(
+                $query-default-action-hover-color, 
+                $query-default-action-focus-color, 
+
+            );
         }
-        @include hoverFocus($query-bar-button-hover-color, $query-bar-button-focus-color, '> *');
     }
 }

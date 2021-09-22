@@ -157,8 +157,9 @@ $select-prefix: 'ant-select';
             margin-left: 15px;
         }
 
-        &:focus {
-          border: $sidebar-menu-item-border-focus;
+        &:focus-visible {
+          outline: none;
+          box-shadow: inset 0 0 0pt 2px $sidebar-menu-item-border-focus-color;
         }
 
         &:hover {

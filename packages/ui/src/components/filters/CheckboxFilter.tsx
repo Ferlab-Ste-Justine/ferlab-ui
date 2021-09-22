@@ -31,14 +31,29 @@ const CheckboxFilter = ({
     onChange,
     selectedFilters = [],
 }: TermFilterProps) => {
-    const [isShowingMore, setShowingMore] = useState(false);
     const [search, setSearch] = useState('');
-    const [localselectedFilters, setLocalSelectedFilters] = useState<IFilter[]>([]);
+    const [isShowingMore, setShowingMore] = useState(false);
+    const [localselectedFilters, setLocalSelectedFilters] = useState<IFilter[]>(selectedFilters);
     const [filteredFilters, setFilteredFilters] = useState(filters.filter((f) => !isEmpty(f.data)));
 
     const getMappedName = (name: string) => {
         return filterGroup.config?.nameMapping[name] || name;
     };
+
+    const hasChanged = () => {
+        if (localselectedFilters.length != selectedFilters.length) return true;
+        if (localselectedFilters.length + selectedFilters.length == 0) return false;
+
+        let changed: boolean = true;
+        localselectedFilters.map((value: IFilter) => {
+            changed &&= selectedFilters.find((sValue: IFilter) => sValue.id == value.id) == undefined;
+        });
+        return changed;
+    };
+
+    useEffect(() => {
+        setLocalSelectedFilters(selectedFilters);
+    }, [selectedFilters]);
 
     useEffect(() => {
         const filtersWithData = filters.filter((f) => !isEmpty(f.data));
@@ -74,7 +89,7 @@ const CheckboxFilter = ({
                     <StackLayout className={styles.checkboxFilterActions}>
                         <Button
                             className={styles.checkboxFilterLinks}
-                            onClick={() => onChange(filterGroup, filters)}
+                            onClick={() => setLocalSelectedFilters(filters)}
                             type="text"
                         >
                             {get(dictionary, 'actions.all', 'Select All')}
@@ -83,7 +98,7 @@ const CheckboxFilter = ({
                         <Divider className={styles.separator} type="vertical" />
                         <Button
                             className={styles.checkboxFilterLinks}
-                            onClick={() => onChange(filterGroup, [])}
+                            onClick={() => setLocalSelectedFilters([])}
                             type="text"
                         >
                             {get(dictionary, 'actions.none', 'None')}
@@ -98,10 +113,10 @@ const CheckboxFilter = ({
                             <StackLayout
                                 className={styles.checkboxFilterItem}
                                 horizontal
-                                key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${selectedFilters.length}-${i}`}
+                                key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${localselectedFilters.length}-${i}`}
                             >
                                 <Checkbox
-                                    checked={selectedFilters.some((f) => f.data.key === filter.data.key)}
+                                    checked={localselectedFilters.some((f) => f.data.key === filter.data.key)}
                                     className={styles.fuiMcItemCheckbox}
                                     id={`input-${filter.data.key}`}
                                     name={`input-${filter.id}`}
@@ -109,11 +124,11 @@ const CheckboxFilter = ({
                                         const { checked } = e.target;
                                         let newFilter: IFilter[];
                                         if (checked) {
-                                            newFilter = [...selectedFilters, filter];
+                                            newFilter = [...localselectedFilters, filter];
                                         } else {
-                                            newFilter = selectedFilters.filter((f) => f != filter);
+                                            newFilter = localselectedFilters.filter((f) => f != filter);
                                         }
-                                        onChange(filterGroup, newFilter);
+                                        setLocalSelectedFilters(newFilter);
                                     }}
                                     type="checkbox"
                                 >
@@ -150,45 +165,27 @@ const CheckboxFilter = ({
                     </span>
                 </StackLayout>
             )}
-            {false && (
-                <StackLayout className={styles.fuiCbfActions} horizontal>
-                    <Button
-                        disabled={selectedFilters.length == 0 && localselectedFilters.length == 0}
-                        className={styles.fuiCbfActionsClear}
-                        size="small"
-                        onClick={() => {
-                            setLocalSelectedFilters([]);
-                            onChange(filterGroup, []);
-                        }}
-                        type="text"
-                    >
-                        {get(dictionary, 'actions.none', 'Clear')}
-                    </Button>
-                    <Dropdown.Button
-                        className={styles.fuiCbfActionsApply}
-                        disabled={localselectedFilters.length == 0}
-                        type="primary"
-                        size="small"
-                        overlay={
-                            <Menu>
-                                <Menu.Item key={'anyof'} onClick={() => {}}>
-                                    {get(dictionary, 'actions.anyOf', 'Any of')}
-                                </Menu.Item>
-                                <Menu.Item key={'allof'} onClick={() => {}}>
-                                    {get(dictionary, 'actions.allOf', 'All of')}
-                                </Menu.Item>
-                                <Menu.Item key={'noneof'} onClick={() => {}}>
-                                    {get(dictionary, 'actions.noneOf', 'None of')}
-                                </Menu.Item>
-                            </Menu>
-                        }
-                        trigger={['click']}
-                        onClick={() => {}}
-                    >
-                        {get(dictionary, 'actions.apply', 'Apply')}
-                    </Dropdown.Button>
-                </StackLayout>
-            )}
+
+            <StackLayout className={styles.fuiCbfActions} horizontal>
+                <Button
+                    disabled={selectedFilters.length == 0 && localselectedFilters.length == 0}
+                    className={styles.fuiCbfActionsClear}
+                    size="small"
+                    onClick={() => setLocalSelectedFilters([])}
+                    type="text"
+                >
+                    {get(dictionary, 'actions.none', 'Clear')}
+                </Button>
+                <Button
+                    className={styles.fuiCbfActionsApply}
+                    disabled={!hasChanged()}
+                    type="primary"
+                    size="small"
+                    onClick={() => onChange(filterGroup, localselectedFilters)}
+                >
+                    {get(dictionary, 'actions.apply', 'Apply')}
+                </Button>
+            </StackLayout>
         </Fragment>
     );
 };

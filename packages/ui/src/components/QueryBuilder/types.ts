@@ -8,6 +8,7 @@ interface IActions {
     clear?: IClearTranslation;
     delete?: IDeleteTranslation;
     new?: string | React.ReactNode;
+    duplicate?: string | React.ReactNode;
     changeOperatorTo?: string | React.ReactNode;
 }
 

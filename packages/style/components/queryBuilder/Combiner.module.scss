@@ -16,6 +16,7 @@
 
         .operator {
             text-decoration: underline;
+            color: $query-combiner-button-default-color;
 
             &:hover {
                 text-decoration: none;
