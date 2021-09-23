@@ -40,8 +40,8 @@ const RangeFilterStory = ({title, filterGroup, onChange, ...props} : {
   </>
 );
 
-export const TermFilterStoryMore = RangeFilterStory.bind({});
-TermFilterStoryMore.args = {
+export const Basic = RangeFilterStory.bind({});
+Basic.args = {
     title: 'RangeFilter',
     filterGroup: {
       type: VisualType.Range,
@@ -61,8 +61,8 @@ TermFilterStoryMore.args = {
     onChange: () => undefined,
 };
 
-export const TermFilterStoryDictionary = RangeFilterStory.bind({});
-TermFilterStoryDictionary.args = {
+export const WithFrenchTranslation = RangeFilterStory.bind({});
+WithFrenchTranslation.args = {
     title: 'RangeFilter French',
     filterGroup: {
       type: VisualType.Range,
@@ -82,8 +82,8 @@ TermFilterStoryDictionary.args = {
     dictionary: dictionaryFrench,
 };
 
-export const TermFilterStoryCustomOperator = RangeFilterStory.bind({});
-TermFilterStoryCustomOperator.args = {
+export const WithCustomOperator = RangeFilterStory.bind({});
+WithCustomOperator.args = {
     title: 'RangeFilter Custom Operators',
     filterGroup: {
       type: VisualType.Range,
@@ -113,8 +113,8 @@ TermFilterStoryCustomOperator.args = {
     onChange: () => undefined,
 };
 
-export const TermFilterStoryWithoutUnit = RangeFilterStory.bind({});
-TermFilterStoryWithoutUnit.args = {
+export const WithoutUnit = RangeFilterStory.bind({});
+WithoutUnit.args = {
     title: 'RangeFilter No Units',
     filterGroup: {
       type: VisualType.Range,

@@ -42,7 +42,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <LessThanOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {get(dictionary, 'operators?.lessThan', 'Less than')}
+                        {get(dictionary, 'operators.lessThan', 'Less than')}
                     </span>
                 </span>
             ),
@@ -54,7 +54,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <LessThanOrEqualOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {get(dictionary, 'operators?.lessThanOfEqual', 'Less than or equal')}
+                        {get(dictionary, 'operators.lessThanOfEqual', 'Less than or equal')}
                     </span>
                 </span>
             ),
@@ -66,7 +66,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <GreaterThanOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {get(dictionary, 'operators?.greaterThan', 'Greater than')}
+                        {get(dictionary, 'operators.greaterThan', 'Greater than')}
                     </span>
                 </span>
             ),
@@ -78,7 +78,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <GreaterThanOrEqualOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {get(dictionary, 'operators?.greaterThanOrEqual', 'Greater than or equal')}
+                        {get(dictionary, 'operators.greaterThanOrEqual', 'Greater than or equal')}
                     </span>
                 </span>
             ),
@@ -90,7 +90,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <BetweenOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {get(dictionary, 'operators?.between', 'Between (inclusive)')}
+                        {get(dictionary, 'operators.between', 'Between (inclusive)')}
                     </span>
                 </span>
             ),
@@ -165,7 +165,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
     return (
         <StackLayout className={styles.fuiRfContainer} vertical>
             <StackLayout vertical className={styles.fuiRfRangeOperator}>
-                <span className={styles.fuiRfSectionTitle}>Is</span>
+                <span className={styles.fuiRfSectionTitle}>{get(dictionary, 'range.is', 'Is')}</span>
                 <Select className={styles.fuiRfRangeOperatorSelect} onChange={onOperatorChanged} value={operator}>
                     {(range.operators || getDefaultOperatorList(dictionary!)).map((opConfig) => (
                         <Option key={opConfig.operator} value={opConfig.operator}>
@@ -214,7 +214,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
 
             {range?.rangeTypes?.length! > 0 && (
                 <StackLayout vertical className={styles.fuiRfRangeTarget}>
-                    <span className={styles.fuiRfSectionTitle}>Unit</span>
+                    <span className={styles.fuiRfSectionTitle}>{get(dictionary, 'range.unit', 'Unit')}</span>
                     <Select className={styles.fuiRfRangeTargetSelect} onChange={onRangeTypeChanged} value={rangeType}>
                         {range?.rangeTypes!.map((u) => (
                             <Option key={u.key} value={u.key}>
