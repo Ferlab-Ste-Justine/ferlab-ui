@@ -9,6 +9,7 @@ import { numberFormat } from '../../utils/numberUtils';
 import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from './types';
 
 import styles from '@ferlab/style/components/filters/CheckboxFilter.module.scss';
+import _ from 'lodash';
 
 export type TermFilterProps = {
     dictionary?: IDictionary | Record<string, never>;
@@ -35,6 +36,7 @@ const CheckboxFilter = ({
     const [isShowingMore, setShowingMore] = useState(false);
     const [localselectedFilters, setLocalSelectedFilters] = useState<IFilter[]>(selectedFilters);
     const [filteredFilters, setFilteredFilters] = useState(filters.filter((f) => !isEmpty(f.data)));
+    const withFooter = get(filterGroup.config, 'withFooter', false);
 
     const getMappedName = (name: string) => {
         return filterGroup.config?.nameMapping[name] || name;
@@ -51,9 +53,21 @@ const CheckboxFilter = ({
         return changed;
     };
 
-    useEffect(() => {
-        setLocalSelectedFilters(selectedFilters);
-    }, [selectedFilters]);
+    const getSelectedFilterList = () => (withFooter ? localselectedFilters : selectedFilters);
+
+    const hangleOnChange = (newFilter: IFilter[]) => {
+        if (withFooter) {
+            setLocalSelectedFilters(newFilter);
+        } else {
+            onChange(filterGroup, newFilter);
+        }
+    };
+
+    const bumpCheckedFilterFirst = () => {
+        const filterIdsBump = getSelectedFilterList().map((value: IFilter) => value.id);
+        const cleanedFilteredFilters = filteredFilters.filter((value: IFilter) => !filterIdsBump.includes(value.id));
+        return [...getSelectedFilterList(), ...cleanedFilteredFilters];
+    };
 
     useEffect(() => {
         const filtersWithData = filters.filter((f) => !isEmpty(f.data));
@@ -89,18 +103,14 @@ const CheckboxFilter = ({
                     <StackLayout className={styles.checkboxFilterActions}>
                         <Button
                             className={styles.checkboxFilterLinks}
-                            onClick={() => setLocalSelectedFilters(filters)}
+                            onClick={() => hangleOnChange(filters)}
                             type="text"
                         >
                             {get(dictionary, 'actions.all', 'Select All')}
                         </Button>
 
                         <Divider className={styles.separator} type="vertical" />
-                        <Button
-                            className={styles.checkboxFilterLinks}
-                            onClick={() => setLocalSelectedFilters([])}
-                            type="text"
-                        >
+                        <Button className={styles.checkboxFilterLinks} onClick={() => hangleOnChange([])} type="text">
                             {get(dictionary, 'actions.none', 'None')}
                         </Button>
                     </StackLayout>
@@ -109,34 +119,38 @@ const CheckboxFilter = ({
                             filteredFilters.length > maxShowing && styles.withMargin
                         }`}
                     >
-                        {filteredFilters.slice(0, isShowingMore ? Infinity : maxShowing).map((filter, i) => (
-                            <StackLayout
-                                className={styles.checkboxFilterItem}
-                                horizontal
-                                key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${localselectedFilters.length}-${i}`}
-                            >
-                                <Checkbox
-                                    checked={localselectedFilters.some((f) => f.data.key === filter.data.key)}
-                                    className={styles.fuiMcItemCheckbox}
-                                    id={`input-${filter.data.key}`}
-                                    name={`input-${filter.id}`}
-                                    onChange={(e) => {
-                                        const { checked } = e.target;
-                                        let newFilter: IFilter[];
-                                        if (checked) {
-                                            newFilter = [...localselectedFilters, filter];
-                                        } else {
-                                            newFilter = localselectedFilters.filter((f) => f != filter);
-                                        }
-                                        setLocalSelectedFilters(newFilter);
-                                    }}
-                                    type="checkbox"
+                        {bumpCheckedFilterFirst()
+                            .slice(0, isShowingMore ? Infinity : maxShowing)
+                            .map((filter, i) => (
+                                <StackLayout
+                                    className={styles.checkboxFilterItem}
+                                    horizontal
+                                    key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${
+                                        getSelectedFilterList().length
+                                    }-${i}`}
                                 >
-                                    <Text>{getMappedName(filter.name)}</Text>
-                                </Checkbox>
-                                <Tag className={styles.tag}>{numberFormat(filter.data.count)}</Tag>
-                            </StackLayout>
-                        ))}
+                                    <Checkbox
+                                        checked={getSelectedFilterList().some((f) => f.data.key === filter.data.key)}
+                                        className={styles.fuiMcItemCheckbox}
+                                        id={`input-${filter.data.key}`}
+                                        name={`input-${filter.id}`}
+                                        onChange={(e) => {
+                                            const { checked } = e.target;
+                                            let newFilter: IFilter[];
+                                            if (checked) {
+                                                newFilter = [...getSelectedFilterList(), filter];
+                                            } else {
+                                                newFilter = getSelectedFilterList().filter((f) => f != filter);
+                                            }
+                                            hangleOnChange(newFilter);
+                                        }}
+                                        type="checkbox"
+                                    >
+                                        <Text>{getMappedName(filter.name)}</Text>
+                                    </Checkbox>
+                                    <Tag className={styles.tag}>{numberFormat(filter.data.count)}</Tag>
+                                </StackLayout>
+                            ))}
                     </div>
                     {filteredFilters.length > maxShowing && (
                         <Button
@@ -166,26 +180,28 @@ const CheckboxFilter = ({
                 </StackLayout>
             )}
 
-            <StackLayout className={styles.fuiCbfActions} horizontal>
-                <Button
-                    disabled={selectedFilters.length == 0 && localselectedFilters.length == 0}
-                    className={styles.fuiCbfActionsClear}
-                    size="small"
-                    onClick={() => setLocalSelectedFilters([])}
-                    type="text"
-                >
-                    {get(dictionary, 'actions.none', 'Clear')}
-                </Button>
-                <Button
-                    className={styles.fuiCbfActionsApply}
-                    disabled={!hasChanged()}
-                    type="primary"
-                    size="small"
-                    onClick={() => onChange(filterGroup, localselectedFilters)}
-                >
-                    {get(dictionary, 'actions.apply', 'Apply')}
-                </Button>
-            </StackLayout>
+            {withFooter && (
+                <StackLayout className={styles.fuiCbfActions} horizontal>
+                    <Button
+                        disabled={selectedFilters.length == 0 && localselectedFilters.length == 0}
+                        className={styles.fuiCbfActionsClear}
+                        size="small"
+                        onClick={() => setLocalSelectedFilters([])}
+                        type="text"
+                    >
+                        {get(dictionary, 'actions.none', 'Clear')}
+                    </Button>
+                    <Button
+                        className={styles.fuiCbfActionsApply}
+                        disabled={!hasChanged()}
+                        type="primary"
+                        size="small"
+                        onClick={() => onChange(filterGroup, localselectedFilters)}
+                    >
+                        {get(dictionary, 'actions.apply', 'Apply')}
+                    </Button>
+                </StackLayout>
+            )}
         </Fragment>
     );
 };

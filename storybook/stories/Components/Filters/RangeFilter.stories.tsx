@@ -52,8 +52,8 @@ TermFilterStoryMore.args = {
             name: 'Years',
         }],
         step: 0.00001,
-        min: 0.000029999999242136255,
-        max: 0.9999300241470337,
+        min: 0.000029,
+        max: 0.99999,
     },
       title: 'title_filter_group'
   },

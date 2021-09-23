@@ -10,6 +10,7 @@ import { IDictionary } from '../QueryBuilder/types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
+import { get } from 'lodash';
 
 interface IQueryValuesProps {
     query: IValueFilter;
@@ -24,7 +25,7 @@ const QueryValues = ({ isElement = false, query, onClick, dictionary = {} }: IQu
     const [values, setValues] = useState(hasMoreValues ? take(query.content.value, 3) : query.content.value);
 
     const getMappedValueName = (value: string) => {
-        const facetMapping = dictionary.query?.facetValueMapping![query.content.field]! || {};
+        const facetMapping = get(get(dictionary.query, 'facetValueMapping', {}), query.content.field, {});
         return value in facetMapping ? facetMapping[value] : value;
     };
 
