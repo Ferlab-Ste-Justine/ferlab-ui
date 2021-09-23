@@ -1,4 +1,6 @@
+### 1.8.9 | 2021-09-22
 
+- fix: Many bug and styling fixes
 
 ### 1.7.4 | 2021-08-30
 

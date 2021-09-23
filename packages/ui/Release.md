@@ -1,4 +1,8 @@
 
+### 1.9.6 | 2021-09-22
+
+- fix: Many bug and styling fixes
+
 ### 1.8.7 | 2021-09-08
 
 - feat: Add Query Pill Facet feature
