@@ -248,6 +248,8 @@ const checkBox: ICheckBox = {
 const range: IRange = {
     max: 'FMax',
     min: 'FMin',
+    is: 'Est',
+    unit: 'Unité'
 }
 
 export const dictionaryFrench: IDictionary = {

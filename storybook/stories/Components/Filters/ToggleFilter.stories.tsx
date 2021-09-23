@@ -43,8 +43,8 @@ const filerGroup: IFilterGroup = {
 const onChangeTypeStory: onChangeType = () => null
 
 
-export const ToggleFilterStoryMore = ToggleFilterStory.bind({});
-ToggleFilterStoryMore.args = {
+export const Basic = ToggleFilterStory.bind({});
+Basic.args = {
     title: 'ToggleFilter',
     filterGroup: filerGroup,
     filters: booleanFilters,
@@ -54,8 +54,8 @@ ToggleFilterStoryMore.args = {
 };
 
 
-export const ToggleFilterStoryBigCount = ToggleFilterStory.bind({});
-ToggleFilterStoryBigCount.args = {
+export const WithBigCount = ToggleFilterStory.bind({});
+WithBigCount.args = {
     title: 'ToggleFilter Big Count',
     filterGroup: filerGroup,
     filters: booleanFiltersBigCount,
@@ -65,8 +65,8 @@ ToggleFilterStoryBigCount.args = {
 };
 
 
-export const ToggleFilterStoryDictionary = ToggleFilterStory.bind({});
-ToggleFilterStoryDictionary.args = {
+export const WithFrenchTranslation = ToggleFilterStory.bind({});
+WithFrenchTranslation.args = {
     title: 'ToggleFilter in French',
     filterGroup: filerGroup,
     filters: booleanFilters,

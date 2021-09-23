@@ -49,21 +49,11 @@ const filterGroupTerm: IFilterGroup = {
     type: VisualType.Checkbox,
 }
 
-const filterGroupTextInput: IFilterGroup<IFilterTextInputConfig> = {
-    field: 'this.field',
-    title: 'title_filter_group',
-    config: {
-        label: "Filter Label",
-        placeholder: "Filter placeholder"
-    },
-    type: VisualType.Text,
-}
-
 const onChangeTypeStory: onChangeType = () => null
 
-export const TermFilterSelectorStory = FilterContainerStory.bind({});
-TermFilterSelectorStory.args = {
-    title: 'FilterSelector Term',
+export const TermFilterContainer = FilterContainerStory.bind({});
+TermFilterContainer.args = {
+    title: 'Filter Container Checkbox',
     maxShowing: 6,
     filterGroup: filterGroupTerm,
     onChangeType: onChangeTypeStory(filterGroupTerm, filters),

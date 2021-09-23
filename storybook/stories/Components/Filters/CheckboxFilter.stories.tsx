@@ -49,8 +49,8 @@ const filerGroup: IFilterGroup = {
 
 const onChangeTypeStory: onChangeType = () => null
 
-export const TermFilterStoryMore = TermFilterStory.bind({});
-TermFilterStoryMore.args = {
+export const WithMore = TermFilterStory.bind({});
+WithMore.args = {
     title: 'CheckboxFilter More',
     maxShowing: 6,
     filterGroup: filerGroup,
@@ -59,8 +59,8 @@ TermFilterStoryMore.args = {
     filters: filters,
 };
 
-export const TermFilterStoryFew = TermFilterStory.bind({});
-TermFilterStoryFew.args = {
+export const WithFew = TermFilterStory.bind({});
+WithFew.args = {
     title: 'CheckboxFilter Few',
     maxShowing: 6,
     filterGroup: filerGroup,
@@ -69,8 +69,8 @@ TermFilterStoryFew.args = {
     filters: filters.slice(0, 4),
 };
 
-export const TermFilterStoryNoData = TermFilterStory.bind({});
-TermFilterStoryNoData.args = {
+export const WithNoData = TermFilterStory.bind({});
+WithNoData.args = {
     title: 'CheckboxFilter No Data',
     maxShowing: 6,
     filterGroup: filerGroup,
@@ -79,8 +79,8 @@ TermFilterStoryNoData.args = {
     filters: [],
 };
 
-export const TermFilterStoryBigCount = TermFilterStory.bind({});
-TermFilterStoryBigCount.args = {
+export const WithBigCount = TermFilterStory.bind({});
+WithBigCount.args = {
     dictionary: dictionaryFrench,
     title: 'CheckboxFilter Big Count',
     maxShowing: 6,
@@ -90,8 +90,8 @@ TermFilterStoryBigCount.args = {
     filters: filtersWithBigCounts,
 };
 
-export const TermFilterStoryInFrench = TermFilterStory.bind({});
-TermFilterStoryInFrench.args = {
+export const WithFrenchTranslation = TermFilterStory.bind({});
+WithFrenchTranslation.args = {
     dictionary: dictionaryFrench,
     title: 'CheckboxFilter in French',
     maxShowing: 6,
@@ -101,3 +101,19 @@ TermFilterStoryInFrench.args = {
     filters: filters,
 };
 
+export const WithFooter = TermFilterStory.bind({});
+WithFooter.args = {
+    dictionary: dictionaryFrench,
+    title: 'CheckboxFilter in French',
+    maxShowing: 6,
+    filterGroup: {
+      ...filerGroup,
+      config: {
+        nameMapping: {},
+        withFooter: true
+      }
+    },
+    onChangeType: onChangeTypeStory(filerGroup, filters),
+    hasSearchInput: true,
+    filters: filters,
+};
