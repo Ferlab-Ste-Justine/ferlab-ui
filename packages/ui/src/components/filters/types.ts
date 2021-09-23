@@ -30,6 +30,7 @@ export interface IFilterCheckboxConfig {
     nameMapping: {
         [field: string]: string;
     };
+    withFooter?: boolean
 }
 
 export interface IFilterRangeConfig {

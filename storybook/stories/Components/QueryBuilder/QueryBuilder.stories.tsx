@@ -281,3 +281,47 @@ WithHeaderAndTools.args = {
     },
     IconTotal:<MdPeople />
 };
+
+
+/* with name mapping */
+export const WithNameMapping = QueryBuilderStory.bind({});
+WithNameMapping.args = {
+    title: 'With facet and value mapping',
+    showHeader: true,
+    showHeaderTools: true,
+    onRemoveFacet: (f) => f,
+    onChangeQuery: (f) => f,
+    enableFacetFilter: true,
+    dictionary: {   
+        query: {
+            facet: (facet: string) => {
+                if (facet == "test") {
+                    return "Mapped facet name"
+                }
+            },
+            facetValueMapping: {
+                "test": {
+                    "something": "mapped value name"
+                }
+            }
+        }
+    },
+    initialState: {
+        state: [{
+            op: 'and', content: [{
+                content: {value: ['something', 'else', 'more', 'perfect'], field: 'test', op: 'in'}
+            }],
+            total: 1500,
+            id: '1',  
+        },
+        {
+            op: 'and', content: [{
+                content: {value: ['else'], field: 'test', op: 'in'}
+            }],
+            total: 1500,
+            id: '2',  
+        }],
+        active: '1'
+    },
+    IconTotal:<MdPeople />
+};

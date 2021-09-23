@@ -37,17 +37,6 @@ const DEFAULT_STEP = 1;
 const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorConfig[] => {
     return [
         {
-            operator: RangeOperators.between,
-            name: (
-                <span className={styles.fuiRfSelectOptionContent}>
-                    <BetweenOperatorIcon className={styles.operatorIcon} />
-                    <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {get(dictionary, 'operators?.between', 'Between (inclusive)')}
-                    </span>
-                </span>
-            ),
-        },
-        {
             operator: RangeOperators['<'],
             name: (
                 <span className={styles.fuiRfSelectOptionContent}>
@@ -94,6 +83,17 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 </span>
             ),
             disableMax: true,
+        },
+        {
+            operator: RangeOperators.between,
+            name: (
+                <span className={styles.fuiRfSelectOptionContent}>
+                    <BetweenOperatorIcon className={styles.operatorIcon} />
+                    <span className={styles.fuiRfSelectOptionContentTitle}>
+                        {get(dictionary, 'operators?.between', 'Between (inclusive)')}
+                    </span>
+                </span>
+            ),
         },
     ];
 };
@@ -187,7 +187,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                         max={range.max}
                         min={range.min}
                         onChange={onMinChanged}
-                        placeholder={get(dictionary, 'range.min', 'min')}
+                        placeholder={range.min?.toString()}
                         title={get(dictionary, 'range.min', 'min')}
                         type="number"
                         value={isMinDisabled ? range.min : min}
@@ -204,7 +204,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                         max={range.max}
                         min={range.min}
                         onChange={onMaxChanged}
-                        placeholder={get(dictionary, 'range.max', 'max')}
+                        placeholder={range.max?.toString()}
                         title={get(dictionary, 'range.max', 'max')}
                         type="number"
                         value={isMaxDisabled ? range.max : max}

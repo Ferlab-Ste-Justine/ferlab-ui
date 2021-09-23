@@ -6,20 +6,28 @@ import take from 'lodash/take';
 import StackLayout from '../../layout/StackLayout';
 import UnionOperator from './icons/UnionOperator';
 import { IValueFilter } from '../../data/sqon/types';
+import { IDictionary } from '../QueryBuilder/types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
+import { get } from 'lodash';
 
 interface IQueryValuesProps {
     query: IValueFilter;
     isElement?: boolean;
     onClick?: (e: any) => void;
+    dictionary: IDictionary;
 }
 
-const QueryValues = ({ isElement = false, query, onClick }: IQueryValuesProps) => {
+const QueryValues = ({ isElement = false, query, onClick, dictionary = {} }: IQueryValuesProps) => {
     const hasMoreValues = query.content.value.length > 3;
     const [expanded, setExpanded] = useState(false);
     const [values, setValues] = useState(hasMoreValues ? take(query.content.value, 3) : query.content.value);
+
+    const getMappedValueName = (value: string) => {
+        const facetMapping = get(get(dictionary.query, 'facetValueMapping', {}), query.content.field, {});
+        return value in facetMapping ? facetMapping[value] : value;
+    };
 
     useEffect(() => {
         const newValues = !hasMoreValues || expanded ? query.content.value : take(query.content.value, 3);
@@ -39,7 +47,7 @@ const QueryValues = ({ isElement = false, query, onClick }: IQueryValuesProps) =
                     <>
                         {values.map((v, i) => (
                             <StackLayout className={styles.valueWrapper} key={`${v}-${i}`}>
-                                <span className={styles.value}>{v}</span>
+                                <span className={styles.value}>{typeof v == 'string' ? getMappedValueName(v) : v}</span>
                                 {totalValues - 1 > i && <UnionOperator className={styles.operator} />}
                             </StackLayout>
                         ))}

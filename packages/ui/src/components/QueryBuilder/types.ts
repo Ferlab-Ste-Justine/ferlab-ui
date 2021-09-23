@@ -22,16 +22,23 @@ interface IClearTranslation {
 
 interface IDeleteTranslation {
     title: string | React.ReactNode;
-    titleSelected?: string | React.ReactNode;
+    titleSelected?: string | React.ReactNode;
     cancel: string | React.ReactNode;
     confirm: string | React.ReactNode;
+}
+
+interface IFacetValueMapping {
+    [facet: string]: {
+        [value: string]: string;
+    };
 }
 
 type TTranslation = (key: string) => string | React.ReactNode;
 interface IQuery {
     combine?: ICombineTranslation;
     noQuery?: string | React.ReactNode;
-    facet: TTranslation;
+    facet?: TTranslation;
+    facetValueMapping?: IFacetValueMapping;
 }
 
 interface ICombineTranslation {
@@ -40,28 +47,28 @@ interface ICombineTranslation {
 }
 
 export type ArrayTenOrMore<T> = {
-    0: T
-    1: T
-    2: T
-    3: T
-    4: T
-    5: T
-    6: T
-    7: T
-    8: T
-    9: T
-    10: T
-} & Array<T>
+    0: T;
+    1: T;
+    2: T;
+    3: T;
+    4: T;
+    5: T;
+    6: T;
+    7: T;
+    8: T;
+    9: T;
+    10: T;
+} & Array<T>;
 
 export enum CombinerEnum {
     And = 'and',
     Or = 'or',
 }
 
-export type TCallbackRemoveAction = (f: IValueFilter, query: ISyntheticSqon| Record<string, never>) => void;
+export type TCallbackRemoveAction = (f: IValueFilter, query: ISyntheticSqon | Record<string, never>) => void;
 export type TCallbackRemoveReferenceAction = (refIndex: number, query: ISyntheticSqon | Record<string, never>) => void;
 export type TOnChange = (id: string, query: ISyntheticSqon | Record<string, never>) => void;
-export type TOnFacetClick = (field: string) => void;
+export type TOnFacetClick = (field: string) => void;
 
 export interface IDictionary {
     actions?: IActions;
