@@ -92,7 +92,7 @@ const FieldQueryPill = ({
             {(showLabels || isBooleanFilter(query) || isRangeFilter(query)) && (
                 <>
                     <span className={`${styles.field}`}>
-                        {dictionary.query?.facet(query.content.field) || query.content.field}
+                        {dictionary.query?.facet ? dictionary.query?.facet(query.content.field) : query.content.field}
                     </span>
                     <Operator className={styles.operator} type={query.op} />
                 </>
@@ -127,6 +127,7 @@ const FieldQueryPill = ({
                 <QueryValues
                     onClick={enableFacetFilter ? () => handleQueryPillClick(isBarActive!) : undefined}
                     isElement={query.op === FieldOperators.between}
+                    dictionary={dictionary}
                     query={query}
                 />
             </ConditionalWrapper>
