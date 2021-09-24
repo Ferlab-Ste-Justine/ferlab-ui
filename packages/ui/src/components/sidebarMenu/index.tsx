@@ -60,8 +60,9 @@ const Sidebar = ({
     const searchInputRef = useRef<Input>(null);
     const selectedFilterComponent = menuItems.find((menuItem) => menuItem.key == selectedKey);
     const handleUserKeyUp = useCallback((e) => {
-        if ([32, 13].includes(e.keyCode)) {
-            setSelectedKey(document.activeElement?.getAttribute('data-key')!);
+        const activeElement = document.activeElement?.getAttribute('data-key');
+        if ([32, 13].includes(e.keyCode) && activeElement) {
+            setSelectedKey(activeElement);
         }
     }, []);
     const getSelectedFilterComponentByType = () => {

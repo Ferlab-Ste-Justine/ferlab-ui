@@ -42,7 +42,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <LessThanOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {get(dictionary, 'operators?.lessThan', 'Less than')}
+                        {get(dictionary, 'operators.lessThan', 'Less than')}
                     </span>
                 </span>
             ),
@@ -54,7 +54,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <LessThanOrEqualOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {get(dictionary, 'operators?.lessThanOfEqual', 'Less than or equal')}
+                        {get(dictionary, 'operators.lessThanOfEqual', 'Less than or equal')}
                     </span>
                 </span>
             ),
@@ -66,7 +66,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <GreaterThanOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {get(dictionary, 'operators?.greaterThan', 'Greater than')}
+                        {get(dictionary, 'operators.greaterThan', 'Greater than')}
                     </span>
                 </span>
             ),
@@ -78,7 +78,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <GreaterThanOrEqualOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {get(dictionary, 'operators?.greaterThanOrEqual', 'Greater than or equal')}
+                        {get(dictionary, 'operators.greaterThanOrEqual', 'Greater than or equal')}
                     </span>
                 </span>
             ),
@@ -90,7 +90,7 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
                 <span className={styles.fuiRfSelectOptionContent}>
                     <BetweenOperatorIcon className={styles.operatorIcon} />
                     <span className={styles.fuiRfSelectOptionContentTitle}>
-                        {get(dictionary, 'operators?.between', 'Between (inclusive)')}
+                        {get(dictionary, 'operators.between', 'Between (inclusive)')}
                     </span>
                 </span>
             ),
@@ -106,20 +106,43 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
     const rangeTypes = filterGroup.config?.rangeTypes;
     const defaultOperators = getDefaultOperatorList(dictionary);
     const operatorsList = range?.operators?.length ? range?.operators : defaultOperators;
+    const selectedMax = get(selectedFilters, '[0].data.max', undefined);
+    const selectedMin = get(selectedFilters, '[0].data.min', undefined);
+    const selectedOperator = get(selectedFilters, '[0].data.operator', operatorsList[0].operator);
+    const selectedRangeType = get(
+        selectedFilters,
+        '[0].data.rangeType',
+        rangeTypes?.length ? rangeTypes[0].key : undefined,
+    );
     const defaultStateValue = {
-        max: get(selectedFilters, '[0].data.max', undefined),
-        min: get(selectedFilters, '[0].data.min', undefined),
-        operator: get(selectedFilters, '[0].data.operator', operatorsList[0].operator),
-        rangeType: get(selectedFilters, '[0].data.rangeType', rangeTypes?.length ? rangeTypes[0].key : undefined),
+        max: selectedMax,
+        min: selectedMin,
+        operator: selectedOperator,
+        rangeType: selectedRangeType,
     };
     const [rangeFilter, setRangeFilter] = useState<IFilterRange>(defaultStateValue);
     const { max, min, operator, rangeType } = rangeFilter;
-    const isMaxDisabled = operatorsList.find((value) => value.operator == operator)?.disableMax;
-    const isMinDisabled = operatorsList.find((value) => value.operator == operator)?.disableMin;
+    const currentOperator = operatorsList.find((value) => value.operator == operator);
+    const isMaxDisabled = currentOperator?.disableMax;
+    const isMinDisabled = currentOperator?.disableMin;
 
     useEffect(() => {
         setRangeFilter(defaultStateValue);
     }, [selectedFilters]);
+
+    const hasChanged = () =>
+        validateSelectedValues() &&
+        (selectedMax != rangeFilter.max ||
+            selectedMin != rangeFilter.min ||
+            selectedOperator != rangeFilter.operator ||
+            selectedRangeType != rangeFilter.rangeType);
+
+    const validateSelectedValues = () => {
+        if (!currentOperator?.disableMax && !currentOperator?.disableMin) {
+            return rangeFilter.max != undefined && rangeFilter.min != undefined;
+        }
+        return rangeFilter.max != undefined || rangeFilter.min != undefined;
+    };
 
     const onRangeTypeChanged = (value: string) => {
         setRangeFilter((prevState) => ({
@@ -150,7 +173,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
         let max = typeof value === 'string' ? parseFloat(value) : value;
         max = max < min! ? min! : max;
 
-        if (max < maxPossibleValue) {
+        if (max <= maxPossibleValue) {
             setRangeFilter((prevState) => ({ ...prevState, max }));
         }
     };
@@ -165,7 +188,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
     return (
         <StackLayout className={styles.fuiRfContainer} vertical>
             <StackLayout vertical className={styles.fuiRfRangeOperator}>
-                <span className={styles.fuiRfSectionTitle}>Is</span>
+                <span className={styles.fuiRfSectionTitle}>{get(dictionary, 'range.is', 'Is')}</span>
                 <Select className={styles.fuiRfRangeOperatorSelect} onChange={onOperatorChanged} value={operator}>
                     {(range.operators || getDefaultOperatorList(dictionary!)).map((opConfig) => (
                         <Option key={opConfig.operator} value={opConfig.operator}>
@@ -214,7 +237,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
 
             {range?.rangeTypes?.length! > 0 && (
                 <StackLayout vertical className={styles.fuiRfRangeTarget}>
-                    <span className={styles.fuiRfSectionTitle}>Unit</span>
+                    <span className={styles.fuiRfSectionTitle}>{get(dictionary, 'range.unit', 'Unit')}</span>
                     <Select className={styles.fuiRfRangeTargetSelect} onChange={onRangeTypeChanged} value={rangeType}>
                         {range?.rangeTypes!.map((u) => (
                             <Option key={u.key} value={u.key}>
@@ -230,7 +253,14 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                     className={styles.fuiRfActionsClear}
                     size="small"
                     disabled={buttonActionDisabled}
-                    onClick={() => onChange(filterGroup, [])}
+                    onClick={() => {
+                        setRangeFilter((prevState) => ({
+                            ...prevState,
+                            operator: operatorsList[0].operator,
+                            min: undefined,
+                            max: undefined,
+                        }));
+                    }}
                     type="text"
                 >
                     {get(dictionary, 'actions.none', 'Clear')}
@@ -238,7 +268,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                 <Button
                     size="small"
                     className={styles.fuiRfActionsApply}
-                    disabled={buttonActionDisabled}
+                    disabled={!hasChanged()}
                     onClick={() => {
                         onChange(filterGroup, [{ ...currentFilter, data: rangeFilter }]);
                     }}

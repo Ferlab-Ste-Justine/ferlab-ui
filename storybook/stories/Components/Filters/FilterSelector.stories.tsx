@@ -81,8 +81,8 @@ const filterGroupTextInput: IFilterGroup<IFilterTextInputConfig> = {
 
 const onChangeTypeStory: onChangeType = () => null
 
-export const TermFilterSelectorStory = FilterSelectorStory.bind({});
-TermFilterSelectorStory.args = {
+export const TermFilterSelector = FilterSelectorStory.bind({});
+TermFilterSelector.args = {
     title: 'FilterSelector Term',
     maxShowing: 6,
     filterGroup: filerGroupTerm,
@@ -91,8 +91,8 @@ TermFilterSelectorStory.args = {
     filters: filters,
 };
 
-export const BooleanFilterSelectorStory = FilterSelectorStory.bind({});
-BooleanFilterSelectorStory.args = {
+export const BooleanFilterSelector = FilterSelectorStory.bind({});
+BooleanFilterSelector.args = {
     title: 'FilterSelector Boolean',
     filterGroup: filerGroupBoolean,
     onChangeType: onChangeTypeStory(filerGroupBoolean, booleanFilters),
@@ -100,8 +100,8 @@ BooleanFilterSelectorStory.args = {
     filters: booleanFilters,
 };
 
-export const RangeFilterSelectorStory = FilterSelectorStory.bind({});
-RangeFilterSelectorStory.args = {
+export const RangeFilterSelector = FilterSelectorStory.bind({});
+RangeFilterSelector.args = {
     title: 'FilterSelector Range',
     filterGroup: filterGroupRange,
     onChangeType: onChangeTypeStory(filterGroupRange, rangeFilters),
@@ -109,8 +109,8 @@ RangeFilterSelectorStory.args = {
     filters: rangeFilters,
 };
 
-export const TextInputFilterSelectorStory = FilterSelectorStory.bind({});
-TextInputFilterSelectorStory.args = {
+export const TextInputFilterSelector = FilterSelectorStory.bind({});
+TextInputFilterSelector.args = {
     title: 'FilterSelector Text Input',
     filterGroup: filterGroupTextInput,
     onChangeType: onChangeTypeStory(filterGroupTextInput, []),
