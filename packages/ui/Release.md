@@ -1,4 +1,8 @@
 
+### 1.9.8 | 2021-09-24
+
+- fix: Ajust range filter clear button to clear local data only
+
 ### 1.9.6 | 2021-09-22
 
 - fix: Many bug and styling fixes
