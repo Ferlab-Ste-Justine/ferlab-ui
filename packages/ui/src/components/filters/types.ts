@@ -30,7 +30,7 @@ export interface IFilterCheckboxConfig {
     nameMapping: {
         [field: string]: string;
     };
-    withFooter?: boolean
+    withFooter?: boolean;
 }
 
 export interface IFilterRangeConfig {
@@ -107,8 +107,8 @@ export interface IMessages {
 export interface IRange {
     max: string | ReactNode;
     min: string | ReactNode;
-    unit?: string | ReactNode;
-    is?: string | ReactNode;
+    unit?: string | ReactNode;
+    is?: string | ReactNode;
 }
 
 export interface IOperators {
