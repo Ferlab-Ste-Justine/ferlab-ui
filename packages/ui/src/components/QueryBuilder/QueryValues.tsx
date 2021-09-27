@@ -7,10 +7,11 @@ import StackLayout from '../../layout/StackLayout';
 import UnionOperator from './icons/UnionOperator';
 import { IValueFilter } from '../../data/sqon/types';
 import { IDictionary } from '../QueryBuilder/types';
-
-import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
+import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
 import { get } from 'lodash';
+
+import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
 
 interface IQueryValuesProps {
     query: IValueFilter;
@@ -26,7 +27,7 @@ const QueryValues = ({ isElement = false, query, onClick, dictionary = {} }: IQu
 
     const getMappedValueName = (value: string) => {
         const facetMapping = get(get(dictionary.query, 'facetValueMapping', {}), query.content.field, {});
-        return value in facetMapping ? facetMapping[value] : value;
+        return removeUnderscoreAndCapitalize(value in facetMapping ? facetMapping[value] : value);
     };
 
     useEffect(() => {

@@ -8,6 +8,7 @@ import StackLayout from '../../layout/StackLayout';
 import { IDictionary, IFilter, IFilterCount } from './types';
 import { IFilterGroup, onChangeType } from './types';
 import { numberFormat } from '../../utils/numberUtils';
+import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 
 import styles from '@ferlab/style/components/filters/ToggleFilter.module.scss';
 
@@ -31,7 +32,7 @@ const ToggleFilter = ({ filterGroup, filters, onChange, selectedFilters = [], di
         return {
             label: (
                 <>
-                    {filter.name}
+                    {removeUnderscoreAndCapitalize(filter.name)}
                     <Tag className={styles.tag}>{numberFormat(count)}</Tag>
                 </>
             ),

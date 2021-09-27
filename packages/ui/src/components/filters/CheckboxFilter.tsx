@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 
 import StackLayout from '../../layout/StackLayout';
 import { numberFormat } from '../../utils/numberUtils';
+import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 
 import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from './types';
 
@@ -40,7 +41,7 @@ const CheckboxFilter = ({
     const withFooter = get(filterGroup.config, 'withFooter', false);
 
     const getMappedName = (name: string) => {
-        return filterGroup.config?.nameMapping[name] || name;
+        return removeUnderscoreAndCapitalize(filterGroup.config?.nameMapping[name] || name);
     };
 
     const hasChanged = () => {
