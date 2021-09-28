@@ -1,15 +1,16 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { AutoComplete, Button, Checkbox, Divider, Tag, Dropdown, Menu, Typography } from 'antd';
+import { Button, Checkbox, Divider, Tag, Typography, Input } from 'antd';
 import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 
 import StackLayout from '../../layout/StackLayout';
 import { numberFormat } from '../../utils/numberUtils';
+import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 
 import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from './types';
 
 import styles from '@ferlab/style/components/filters/CheckboxFilter.module.scss';
-import _ from 'lodash';
 
 export type TermFilterProps = {
     dictionary?: IDictionary | Record<string, never>;
@@ -34,12 +35,13 @@ const CheckboxFilter = ({
 }: TermFilterProps) => {
     const [search, setSearch] = useState('');
     const [isShowingMore, setShowingMore] = useState(false);
+    const [newlySelectedFilterIds, setNewlySelectedFilterIds] = useState<string[]>([]);
     const [localselectedFilters, setLocalSelectedFilters] = useState<IFilter[]>(selectedFilters);
     const [filteredFilters, setFilteredFilters] = useState(filters.filter((f) => !isEmpty(f.data)));
     const withFooter = get(filterGroup.config, 'withFooter', false);
 
     const getMappedName = (name: string) => {
-        return filterGroup.config?.nameMapping[name] || name;
+        return removeUnderscoreAndCapitalize(filterGroup.config?.nameMapping[name] || name);
     };
 
     const hasChanged = () => {
@@ -53,8 +55,6 @@ const CheckboxFilter = ({
         return changed;
     };
 
-    const getSelectedFilterList = () => (withFooter ? localselectedFilters : selectedFilters);
-
     const hangleOnChange = (newFilter: IFilter[]) => {
         if (withFooter) {
             setLocalSelectedFilters(newFilter);
@@ -64,35 +64,48 @@ const CheckboxFilter = ({
     };
 
     const bumpCheckedFilterFirst = () => {
-        const filterIdsBump = getSelectedFilterList().map((value: IFilter) => value.id);
-        const cleanedFilteredFilters = filteredFilters.filter((value: IFilter) => !filterIdsBump.includes(value.id));
-        return [...getSelectedFilterList(), ...cleanedFilteredFilters];
+        if (search) {
+            return filteredFilters;
+        }
+
+        const filterIdsToBump = localselectedFilters
+            .map((value: IFilter) => value.id)
+            .filter((id: string) => !newlySelectedFilterIds.includes(id));
+        const filteredLocalSelectedFilters = localselectedFilters.filter((value: IFilter) =>
+            filterIdsToBump.includes(value.id),
+        );
+        const cleanedFilteredFilters = filteredFilters.filter((value: IFilter) => !filterIdsToBump.includes(value.id));
+
+        return [...filteredLocalSelectedFilters, ...cleanedFilteredFilters];
     };
 
     useEffect(() => {
-        const filtersWithData = filters.filter((f) => !isEmpty(f.data));
-        const newFilters = filtersWithData.filter(({ data }) => data.key.toLowerCase().includes(search.toLowerCase()));
-
+        const newFilters = filters
+            .filter((f) => !isEmpty(f.data))
+            .filter(({ data }) => data.key.toLowerCase().includes(search.toLowerCase()));
         setFilteredFilters(newFilters);
     }, [filters, search]);
+
+    useEffect(() => {
+        if (!isEqual(localselectedFilters, selectedFilters)) {
+            setLocalSelectedFilters(selectedFilters);
+        }
+
+        if (newlySelectedFilterIds.length !== 0) {
+            setNewlySelectedFilterIds([]);
+        }
+    }, [selectedFilters]);
 
     return (
         <Fragment>
             {hasSearchInput && (
                 <div className={styles.filterSearchWrapper}>
-                    <AutoComplete
+                    <Input
                         allowClear
                         aria-label={get(dictionary, 'checkBox.searchPlaceholder', 'Search...')}
                         autoFocus
                         className={styles.filterSearchInput}
-                        onChange={(value) => {
-                            if (value) {
-                                setSearch(value);
-                            } else {
-                                setSearch('');
-                            }
-                        }}
-                        options={filteredFilters.map((filter) => ({ label: filter.name, value: filter.data.key }))}
+                        onChange={(value) => setSearch(value.target.value || '')}
                         placeholder={get(dictionary, 'checkBox.searchPlaceholder', 'Search...')}
                         value={search}
                     />
@@ -125,12 +138,10 @@ const CheckboxFilter = ({
                                 <StackLayout
                                     className={styles.checkboxFilterItem}
                                     horizontal
-                                    key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${
-                                        getSelectedFilterList().length
-                                    }-${i}`}
+                                    key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${localselectedFilters.length}-${i}`}
                                 >
                                     <Checkbox
-                                        checked={getSelectedFilterList().some((f) => f.data.key === filter.data.key)}
+                                        checked={localselectedFilters.some((f) => f.data.key === filter.data.key)}
                                         className={styles.fuiMcItemCheckbox}
                                         id={`input-${filter.data.key}`}
                                         name={`input-${filter.id}`}
@@ -138,10 +149,19 @@ const CheckboxFilter = ({
                                             const { checked } = e.target;
                                             let newFilter: IFilter[];
                                             if (checked) {
-                                                newFilter = [...getSelectedFilterList(), filter];
+                                                newFilter = [...localselectedFilters, filter];
+                                                if (
+                                                    selectedFilters.filter((value) => value.id == filter.id).length == 0
+                                                ) {
+                                                    setNewlySelectedFilterIds([...newlySelectedFilterIds, filter.id]);
+                                                }
                                             } else {
-                                                newFilter = getSelectedFilterList().filter((f) => f != filter);
+                                                newFilter = localselectedFilters.filter((f) => f != filter);
+                                                setNewlySelectedFilterIds(
+                                                    newlySelectedFilterIds.filter((id) => id != filter.id),
+                                                );
                                             }
+
                                             hangleOnChange(newFilter);
                                         }}
                                         type="checkbox"
