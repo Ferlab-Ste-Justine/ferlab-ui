@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, MouseEvent } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { Button, Dropdown, Spin } from 'antd';
 import cx from 'classnames';
@@ -35,6 +35,8 @@ interface IOperatorProps {
     type: string;
     className?: string;
 }
+
+const APPLY_KEY = 'apply';
 
 const Operator = ({ className = '', type }: IOperatorProps) => {
     switch (type) {
@@ -111,11 +113,19 @@ const FieldQueryPill = ({
                         }}
                         overlayClassName={styles.filtersDropdown}
                         overlay={
-                            (enableFacetFilter && dropdownContent) || (
-                                <div className={styles.filterLoader}>
-                                    <Spin />
-                                </div>
-                            )
+                            <div
+                                onClick={(e: any) => {
+                                    if (e.target.getAttribute('data-key') == APPLY_KEY && filterDropdownVisible) {
+                                        setFilterDropdownVisible(false);
+                                    }
+                                }}
+                            >
+                                {(enableFacetFilter && dropdownContent) || (
+                                    <div className={styles.filterLoader}>
+                                        <Spin />
+                                    </div>
+                                )}
+                            </div>
                         }
                         trigger={['click']}
                         getPopupContainer={(trigger) => trigger.parentElement!}
