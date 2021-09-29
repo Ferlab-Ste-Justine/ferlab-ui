@@ -1,7 +1,14 @@
 import qs from 'query-string';
 import get from 'lodash/get';
 import { isEmpty } from 'lodash';
-import { IFilter, IFilterCount, IFilterGroup, IFilterRange, IFilterText, VisualType } from '../../components/filters/types';
+import {
+    IFilter,
+    IFilterCount,
+    IFilterGroup,
+    IFilterRange,
+    IFilterText,
+    VisualType,
+} from '../../components/filters/types';
 import {
     ISyntheticSqon,
     IValueContent,
@@ -53,18 +60,20 @@ export const createSQONFromFilters = (filterGroup: IFilterGroup, selectedFilters
     }
 };
 
-export const createTextFilter = (field: string, filters: IFilter<IFilterText>[]) => {
+export const createTextFilter = (field: string, filters: IFilter<IFilterText>[]) => {
     if (filters.length === 0) {
         return [];
     }
-    
+
     const selectedTextFilter = filters[0];
 
-    return [{
-        content: { field, value: [selectedTextFilter.data.text]},
-        op: FieldOperators.in
-    }]
-}
+    return [
+        {
+            content: { field, value: [selectedTextFilter.data.text] },
+            op: FieldOperators.in,
+        },
+    ];
+};
 
 export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[]) => {
     const selectedFilters: TSqonContent = [];
@@ -129,13 +138,23 @@ export const updateQueryFilters = (
     let newFilters: ISyntheticSqon | object = { content: filters, op: operator };
 
     if (!isEmpty(currentFilter)) {
-        const filterWithoutSelection = getFilterWithNoSelection(currentFilter, field);
+        const results = getFilterWithNoSelection(currentFilter, field);
+        
+        const fieldIndex = results[0];
+        const filterWithoutSelection = results[1] as ISyntheticSqon;
+
         if (isEmpty(filterWithoutSelection.content) && isEmpty(filters)) {
             newFilters = {};
         } else {
+            if (fieldIndex >= 0) {
+                filterWithoutSelection.content.splice(fieldIndex as number, 0, ...filters);
+            } else {
+                filterWithoutSelection.content = [...filterWithoutSelection.content, ...filters];
+            }
+
             newFilters = {
                 ...filterWithoutSelection,
-                content: [...filterWithoutSelection.content, ...filters],
+                content: [...filterWithoutSelection.content],
             };
         }
     }
@@ -143,15 +162,22 @@ export const updateQueryFilters = (
     updateQueryParam(history, 'filters', newFilters);
 };
 
-const getFilterWithNoSelection = (filters: ISyntheticSqon, field: string): ISyntheticSqon => {
-    const filtered = filters.content.filter((filter: any) =>
-        isNotReference(filter) ? filter.content.field !== field : true,
-    );
+const getFilterWithNoSelection = (filters: ISyntheticSqon, field: string) => {
+    let fieldIndex = -1;
+    const filtered = filters.content.filter((filter: any, index: number) => {
+        if (filter.content.field == field) {
+            fieldIndex = index;
+        }
+        return isNotReference(filter) ? filter.content.field !== field : true;
+    });
 
-    return {
-        ...filters,
-        content: filtered,
-    };
+    return [
+        fieldIndex,
+        {
+            ...filters,
+            content: filtered,
+        },
+    ];
 };
 
 export const updateQueryParam = (history: any, key: string, value: any): void => {

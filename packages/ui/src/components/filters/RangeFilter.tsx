@@ -273,7 +273,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                         onChange(filterGroup, [{ ...currentFilter, data: rangeFilter }]);
                     }}
                 >
-                    {get(dictionary, 'actions.apply', 'Apply')}
+                    <span data-key="apply">{get(dictionary, 'actions.apply', 'Apply')}</span>
                 </Button>
             </StackLayout>
         </StackLayout>

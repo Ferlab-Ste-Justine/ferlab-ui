@@ -218,7 +218,7 @@ const CheckboxFilter = ({
                         size="small"
                         onClick={() => onChange(filterGroup, localselectedFilters)}
                     >
-                        {get(dictionary, 'actions.apply', 'Apply')}
+                        <span data-key="apply">{get(dictionary, 'actions.apply', 'Apply')}</span>
                     </Button>
                 </StackLayout>
             )}

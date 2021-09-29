@@ -86,7 +86,7 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
                         onChange(filterGroup, [{ ...currentFilter, data: textInputFilter }]);
                     }}
                 >
-                    {get(dictionary, 'actions.apply', 'Apply')}
+                    <span data-key="apply">{get(dictionary, 'actions.apply', 'Apply')}</span>
                 </Button>
             </StackLayout>
         </StackLayout>
