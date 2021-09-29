@@ -5,6 +5,7 @@ import { Collapse } from 'antd';
 import StackLayout from '../../layout/StackLayout';
 
 import FilterSelector from './FilterSelector';
+import CheckedIcon from './icons/CheckedIcon';
 import { IDictionary, IFilter, IFilterGroup, onChangeType, VisualType } from './types';
 
 import styles from '@ferlab/style/components/filters/FilterContainer.module.scss';
@@ -27,6 +28,7 @@ type FilterContainerHeaderProps = {
     searchInputVisibled: boolean;
     title: string | React.ReactNode;
     isCollapsed: boolean;
+    hasFilters: boolean;
 };
 
 const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({
@@ -35,9 +37,13 @@ const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({
     searchInputVisibled,
     title,
     isCollapsed,
+    hasFilters
 }) => (
     <StackLayout className={styles.filtersContainerHeader}>
-        <span className={styles.title}>{title}</span>
+        <div className={styles.titleContainer}>
+            <span className={styles.title}>{title}</span>
+            {hasFilters && <CheckedIcon className={styles.hasFilterIcon}></CheckedIcon>}
+        </div>
         {searchEnabled && !isCollapsed && (
             <div className={styles.searchIconWrapper}>
                 <SearchOutlined
@@ -65,6 +71,8 @@ const FilterContainer = ({
     const [hasSearchInput, setSearchInputVisible] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(!isOpen);
 
+    console.log(selectedFilters);
+
     const defaultActiveKey = isCollapsed ? {} : { defaultActiveKey: '1' };
     return (
         <div className={styles.filterContainer}>
@@ -84,6 +92,7 @@ const FilterContainer = ({
                             searchEnabled={filterGroup.type === VisualType.Checkbox && filters.length > maxShowing}
                             searchInputVisibled={hasSearchInput}
                             title={filterGroup.title}
+                            hasFilters={selectedFilters?.length! > 0}
                         />
                     }
                     key={`1`}
