@@ -60,3 +60,14 @@ TermFilterContainer.args = {
     hasSearchInput: true,
     filters: filters,
 };
+
+export const TermFilterContainerWithFilter = FilterContainerStory.bind({});
+TermFilterContainerWithFilter.args = {
+    title: 'Filter Container Checkbox With Filter',
+    maxShowing: 6,
+    filterGroup: filterGroupTerm,
+    onChangeType: onChangeTypeStory(filterGroupTerm, filters),
+    hasSearchInput: true,
+    filters: filters,
+    selectedFilters: [{"data":{"count":9,"key":"Nine"},"name":"nine","id":"id_nine"}]
+};
