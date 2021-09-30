@@ -1,6 +1,16 @@
 @import 'theme.template';
 
-.queryBuilderTogglerContainer {
+.editModal {
+  .editModalContent, .labelInput {
+    width: 100%;
+
+    .title {
+      font-weight: 500;
+    }
+  }
+}
+
+.queryBuilderHeaderContainer {
     background-color: white;
     border-radius: 2px;
 
@@ -12,54 +22,55 @@
       border-top-right-radius: 2px;
       justify-content: space-between;
 
-      .leftTools, .rightTools {
+      .queryBuilderTitleContainer {
         display: flex;
         align-items: center;
-      }
 
-      .rightTools {
-        display: flex;
-        align-items: center;
-        
-        >*:not(:first-child) {
-            margin-left: 15px;
-        }
+        .queryBuilderHeaderAction {
+          display: flex;
+          align-items: center;
+           
+          &:hover {
+             cursor: pointer;
+           }
 
-        .button, button {
+          .togglerTitle {
+            margin: 0;
+            font-size: 16px;
+            margin-right: 10px;
+          }
+
+          .togglerIcon {
             display: flex;
-            align-items: center;
+            margin-right: 10px;
+          }
 
-            >*:not(:only-child) {
-              &:first-child {
-                margin-right: 2.5px;
-              }
-            }
+          &.editTitleAction {
+            border: 1px solid transparent;
+            color: $query-builder-header-tools-icon-color;
 
-            &:first-child {
-                margin-left: 0;
+            &:focus {
+              background-color: transparent;
+            } 
+        
+            &:disabled {
+              color: $query-builder-header-tools-icon-disabled;
+            } 
+        
+            &:not(:disabled) {
+              @include hoverFocus(
+                $query-builder-header-tools-icon-hover, 
+                $query-builder-header-tools-icon-focus, 
+              );
             }
-
-            &:last-child:not(:first-child) {
-                margin-left: 10px;
-            }
-        }   
-    }
+          }
+        }        
+      }
   
       &.togglerClosed {
         border-bottom: 1px solid $query-builder-border-color;
         border-bottom-left-radius: 2px;
         border-bottom-right-radius: 2px;
-      }
-  
-      .togglerIcon {
-        display: flex;
-        margin-right: 10px;
-      }
-  
-      .togglerTitle {
-        margin: 0;
-        font-size: 16px;
-        margin-right: 10px;
       }
     }
   }

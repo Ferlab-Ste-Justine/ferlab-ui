@@ -1,0 +1,70 @@
+@import 'theme.template';
+
+.queryBuilderHeaderTools {
+  align-items: center;
+    
+  .toolsContainer {
+    >*:not(:first-child) {
+      margin-left: 15px;
+    }
+
+    .queryBuilderHeaderActionIconBtn {
+      height: auto;
+      line-height: normal;
+      padding: 0;
+      display: flex;
+      margin-right: 1px;
+      margin-top: 1px;
+      margin-bottom: 1px;
+      align-items: center;
+      color: $query-builder-header-tools-icon-color;
+    
+      &:active {
+        border: 1px solid transparent;
+      }
+    
+      &:focus {
+        background-color: transparent;
+      } 
+    
+      &:disabled {
+        color: $query-builder-header-tools-icon-disabled;
+      } 
+    
+      &:not(:disabled) {
+        @include hoverFocus(
+          $query-builder-header-tools-icon-hover, 
+          $query-builder-header-tools-icon-focus, 
+      );
+      }
+    }
+  }
+
+    .extra {
+      display: flex;
+      text-decoration: none;
+      margin-left: 28px;
+    
+      .queryBuilderHeaderDdb {
+        @extend .display-flex;
+
+        .prefixIcon {
+          margin-right: 5px;
+        }
+
+        .bContent {
+          @extend .display-flex;
+
+          .arrow {
+            font-size: 12px;
+            margin-left: 5px;
+          }
+        }
+      }
+    } 
+}
+
+.display-flex {
+  display: flex;
+  align-items: center;
+}

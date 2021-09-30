@@ -1,6 +1,54 @@
 import React from 'react';
 import { ISyntheticSqon, IValueFilter } from '../../data/sqon/types';
 
+export type ArrayTenOrMore<T> = {
+    0: T;
+    1: T;
+    2: T;
+    3: T;
+    4: T;
+    5: T;
+    6: T;
+    7: T;
+    8: T;
+    9: T;
+    10: T;
+} & Array<T>;
+
+export enum CombinerEnum {
+    And = 'and',
+    Or = 'or',
+}
+
+export interface IQueryBuilderState {
+    id?: string;
+    title?: string;
+    active: string;
+    state: ISyntheticSqon[];
+}
+
+export interface IQueryBuilderHeaderConfig {
+    showHeader: boolean;
+    showTools?: boolean;
+    defaultTitle?: string | React.ReactNode;
+    titleMaxLength?: number;
+    options?: {
+        enableEditTitle: boolean;
+        enableShare: boolean;
+        enableDuplicate: boolean;
+    };
+    onSaveQuery: (state: IQueryBuilderState) => void;
+    onDuplicateQuery: (state: IQueryBuilderState) => void;
+    onDeleteQuery: (state: IQueryBuilderState) => void;
+}
+
+export type TCallbackRemoveAction = (f: IValueFilter, query: ISyntheticSqon | Record<string, never>) => void;
+export type TCallbackRemoveReferenceAction = (refIndex: number, query: ISyntheticSqon | Record<string, never>) => void;
+export type TOnChange = (id: string, query: ISyntheticSqon | Record<string, never>) => void;
+export type TOnFacetClick = (field: string) => void;
+
+// Dictionnary Types 
+
 interface IActions {
     addQuery?: string | React.ReactNode;
     combine?: string | React.ReactNode;
@@ -46,31 +94,42 @@ interface ICombineTranslation {
     or: string | React.ReactNode;
 }
 
-export type ArrayTenOrMore<T> = {
-    0: T;
-    1: T;
-    2: T;
-    3: T;
-    4: T;
-    5: T;
-    6: T;
-    7: T;
-    8: T;
-    9: T;
-    10: T;
-} & Array<T>;
-
-export enum CombinerEnum {
-    And = 'and',
-    Or = 'or',
+interface IPopupConfirmDictionary {
+    title: string | React.ReactNode;
+    okText: string | React.ReactNode;
+    cancelText: string | React.ReactNode;
 }
 
-export type TCallbackRemoveAction = (f: IValueFilter, query: ISyntheticSqon | Record<string, never>) => void;
-export type TCallbackRemoveReferenceAction = (refIndex: number, query: ISyntheticSqon | Record<string, never>) => void;
-export type TOnChange = (id: string, query: ISyntheticSqon | Record<string, never>) => void;
-export type TOnFacetClick = (field: string) => void;
+interface IInputDictionary {
+    label: string | React.ReactNode;
+    placeholder: string;
+}
+
+interface IQueryBuilderHeaderDictionnary {
+    modal?: {
+        edit?: IPopupConfirmDictionary & {
+            input: IInputDictionary & {
+                maximumLength: string | React.ReactNode;
+            };
+        };
+        notSaved?: IPopupConfirmDictionary & {
+            content: string | React.ReactNode;
+        };
+    };
+    notification?: {
+        savedTitle: string | React.ReactNode;
+    };
+    popupConfirm?: {
+        delete: IPopupConfirmDictionary;
+    };
+    myFiltersDropdown?: {
+        title: string | React.ReactNode;
+        manageMyFilter: string | React.ReactNode;
+    };
+}
 
 export interface IDictionary {
+    queryBuilderHeader?: IQueryBuilderHeaderDictionnary;
     actions?: IActions;
     query?: IQuery;
 }

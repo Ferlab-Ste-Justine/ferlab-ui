@@ -5,12 +5,12 @@ import { createBrowserHistory, History } from 'history';
 import isEmpty from 'lodash/isEmpty';
 
 import ConditionalWrapper from '../utils/ConditionalWrapper';
-import QueryBuilderHeader from './QueryBuilderHeader';
+import QueryBuilderHeader from './Header';
 import StackLayout from '../../layout/StackLayout';
 import QueryBar from './QueryBar';
 import QueryTools from './QueryTools';
 import { BooleanOperators } from '../../data/sqon/operators';
-import { IDictionary, TOnChange, ArrayTenOrMore, TOnFacetClick } from './types';
+import { IDictionary, TOnChange, ArrayTenOrMore, TOnFacetClick, IQueryBuilderHeaderConfig } from './types';
 import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import { getQueryBuilderCache, getQueryParams, setQueryBuilderCache, updateQueryParam } from '../../data/filters/utils';
 import {
@@ -37,9 +37,6 @@ export interface IQueryBuilderProps {
     onChangeQuery?: TOnChange;
     onUpdate?: (state: IInitialQueryState) => void;
     loading?: boolean;
-    showHeader?: boolean;
-    showHeaderTools?: boolean;
-    headerTitle?: string;
     enableFacetFilter?: boolean;
     enableCombine?: boolean;
     enableSingleQuery?: boolean;
@@ -48,6 +45,7 @@ export interface IQueryBuilderProps {
     initialState?: IInitialQueryState | Record<any, any>;
     referenceColors?: ArrayTenOrMore<string>;
     selectedFilterContent?: React.ReactElement;
+    headerConfig?: IQueryBuilderHeaderConfig;
 }
 
 interface IInitialQueryState {
@@ -72,9 +70,6 @@ const QueryBuilder = ({
     onChangeQuery = undefined,
     onUpdate = undefined,
     loading = false,
-    showHeader = false,
-    showHeaderTools = false,
-    headerTitle = 'Query Builder',
     enableFacetFilter = false,
     enableCombine = false,
     enableSingleQuery = false,
@@ -100,6 +95,19 @@ const QueryBuilder = ({
     ],
     onFacetClick,
     selectedFilterContent,
+    headerConfig = {
+        showHeader: false,
+        showTools: false,
+        defaultTitle: 'Untitled Query',
+        options: {
+            enableDuplicate: true,
+            enableEditTitle: true,
+            enableShare: false,
+        },
+        onSaveQuery: () => {},
+        onDuplicateQuery: () => {},
+        onDeleteQuery: () => {},
+    },
 }: IQueryBuilderProps) => {
     const [queriesState, setQueriesState] = useState<{
         activeId: string;
@@ -302,19 +310,14 @@ const QueryBuilder = ({
 
     return (
         <ConditionalWrapper
-            condition={showHeader}
+            condition={headerConfig?.showHeader}
             wrapper={(children: JSX.Element) => (
                 <QueryBuilderHeader
-                    title={headerTitle}
+                    config={headerConfig}
                     collapsed={queryBuilderCollapsed}
-                    noQueries={noQueries}
-                    showTools={showHeaderTools}
-                    hasEmptyQuery={hasEmptyQuery}
-                    enableSingleQuery={enableSingleQuery}
                     dictionary={dictionary}
                     toggleQb={toggleQueryBuilder}
-                    onAddQuery={() => addNewQuery()}
-                    onDeleteQuery={() => deleteQueryAndSetNext(queriesState.activeId)}
+                    onSaveQuery={() => {}}
                 >
                     {children}
                 </QueryBuilderHeader>

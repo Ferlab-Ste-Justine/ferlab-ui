@@ -258,8 +258,16 @@ WithHeader.args = {
 export const WithHeaderAndTools = QueryBuilderStory.bind({});
 WithHeaderAndTools.args = {
     title: 'With header and header tools',
-    showHeader: true,
-    showHeaderTools: true,
+    headerConfig: {
+        showHeader: true,
+        showTools: true,
+        defaultTitle: "Untitled Query",
+        options: {
+            enableDuplicate: true,
+            enableEditTitle: true,
+            enableShare: true,
+        }
+    },
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
@@ -281,7 +289,6 @@ WithHeaderAndTools.args = {
     },
     IconTotal:<MdPeople />
 };
-
 
 /* with name mapping */
 export const WithNameMapping = QueryBuilderStory.bind({});
