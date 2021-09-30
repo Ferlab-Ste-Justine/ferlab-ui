@@ -20,11 +20,10 @@ export enum CombinerEnum {
     Or = 'or',
 }
 
-export interface IQueryBuilderState {
-    id?: string;
-    title?: string;
-    active: string;
-    state: ISyntheticSqon[];
+export interface ISavedFilter {
+    id: string;
+    title: string;
+    filters: ISyntheticSqon[];
 }
 
 export interface IQueryBuilderHeaderConfig {
@@ -37,9 +36,9 @@ export interface IQueryBuilderHeaderConfig {
         enableShare: boolean;
         enableDuplicate: boolean;
     };
-    onSaveQuery: (state: IQueryBuilderState) => void;
-    onDuplicateQuery: (state: IQueryBuilderState) => void;
-    onDeleteQuery: (state: IQueryBuilderState) => void;
+    onSaveQuery: (filter: ISavedFilter) => void;
+    onDuplicateQuery: (filter: ISavedFilter) => void;
+    onDeleteQuery: (filter: ISavedFilter) => void;
 }
 
 export type TCallbackRemoveAction = (f: IValueFilter, query: ISyntheticSqon | Record<string, never>) => void;

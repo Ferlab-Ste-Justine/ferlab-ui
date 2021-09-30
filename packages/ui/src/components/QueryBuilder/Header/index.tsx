@@ -5,7 +5,7 @@ import CaretDownIcon from '../icons/CaretDownIcon';
 import EditIcon from '../icons/EditIcon';
 import StackLayout from '../../../layout/StackLayout';
 import QueryBuilderHeaderTools from './Tools';
-import { IDictionary, IQueryBuilderHeaderConfig } from '../types';
+import { IDictionary, IQueryBuilderHeaderConfig, ISavedFilter } from '../types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
 
@@ -14,8 +14,8 @@ interface IQueryBuilderHeaderProps {
     collapsed: boolean;
     dictionary: IDictionary;
     toggleQb: (toggle: boolean) => void;
-    onSaveQuery: (title: string) => void;
     children: JSX.Element;
+    savedFilters: ISavedFilter[];
 }
 
 const { Title } = Typography;
@@ -26,10 +26,11 @@ const QueryBuilderHeader = ({
     collapsed,
     dictionary = {},
     toggleQb,
-    onSaveQuery,
     children,
+    savedFilters,
 }: IQueryBuilderHeaderProps) => {
     const [isEditModalVisible, setEditModalVisible] = useState(false);
+    const [savedFiltersLocal, setSavedFiltersLocal] = useState(savedFilters);
 
     return (
         <div id="query-builder-header-tools">
@@ -64,7 +65,7 @@ const QueryBuilderHeader = ({
                 title={dictionary.queryBuilderHeader?.modal?.edit?.title || 'Save this query'}
                 okText={dictionary.queryBuilderHeader?.modal?.edit?.okText || 'Save'}
                 cancelText={dictionary.queryBuilderHeader?.modal?.edit?.cancelText || 'Cancel'}
-                onOk={() => onSaveQuery('')}
+                onOk={() => {}}
                 onCancel={() => setEditModalVisible(false)}
             >
                 <Space className={styles.editModalContent} direction="vertical" size={2}>

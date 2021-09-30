@@ -268,25 +268,9 @@ WithHeaderAndTools.args = {
             enableShare: true,
         }
     },
+    savedFilters: [{"id":"1","title":"Olivier Filter","filters":[{"op":"and","content":[{"content":{"value":["something"],"field":"test","op":"in"}}],"total":1500,"id":"1"},{"op":"and","content":[{"content":{"value":["else"],"field":"test","op":"in"}}],"total":1500,"id":"2"}]}],
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
-    initialState: {
-        state: [{
-            op: 'and', content: [{
-                content: {value: ['something'], field: 'test', op: 'in'}
-            }],
-            total: 1500,
-            id: '1',  
-        },
-        {
-            op: 'and', content: [{
-                content: {value: ['else'], field: 'test', op: 'in'}
-            }],
-            total: 1500,
-            id: '2',  
-        }],
-        active: '1'
-    },
     IconTotal:<MdPeople />
 };
 

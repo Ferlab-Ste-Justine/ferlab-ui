@@ -155,10 +155,6 @@ $select-prefix: 'ant-select';
 
         .sidebarMenuItemTitle {
             margin-left: 15px;
-            display: inline-block;
-            word-break: break-word;
-            white-space: normal;
-            line-height: initial;
         }
 
         &:focus-visible {

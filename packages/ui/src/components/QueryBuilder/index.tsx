@@ -10,7 +10,14 @@ import StackLayout from '../../layout/StackLayout';
 import QueryBar from './QueryBar';
 import QueryTools from './QueryTools';
 import { BooleanOperators } from '../../data/sqon/operators';
-import { IDictionary, TOnChange, ArrayTenOrMore, TOnFacetClick, IQueryBuilderHeaderConfig } from './types';
+import {
+    IDictionary,
+    TOnChange,
+    ArrayTenOrMore,
+    TOnFacetClick,
+    IQueryBuilderHeaderConfig,
+    ISavedFilter,
+} from './types';
 import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import { getQueryBuilderCache, getQueryParams, setQueryBuilderCache, updateQueryParam } from '../../data/filters/utils';
 import {
@@ -46,6 +53,7 @@ export interface IQueryBuilderProps {
     referenceColors?: ArrayTenOrMore<string>;
     selectedFilterContent?: React.ReactElement;
     headerConfig?: IQueryBuilderHeaderConfig;
+    savedFilters?: ISavedFilter[];
 }
 
 interface IInitialQueryState {
@@ -75,6 +83,7 @@ const QueryBuilder = ({
     enableSingleQuery = false,
     enableShowHideLabels = false,
     initialShowLabelState = true,
+    savedFilters = [],
     initialState = {},
     referenceColors = [
         '#C31D7E',
@@ -109,6 +118,7 @@ const QueryBuilder = ({
         onDeleteQuery: () => {},
     },
 }: IQueryBuilderProps) => {
+    const [selectedSavedFilter, setSelectedSavedFilter] = useState(savedFilters[0]);
     const [queriesState, setQueriesState] = useState<{
         activeId: string;
         queries: ISyntheticSqon[];
@@ -190,7 +200,6 @@ const QueryBuilder = ({
                         selectedQueryIndices.filter((index: number) => index !== currentQueryIndex),
                     );
                 }
-
                 setQueriesState({
                     activeId: nextID!,
                     queries: updatedQueries,
@@ -240,6 +249,15 @@ const QueryBuilder = ({
         (!noQueries && !canCombine && queryCount > 1);
 
     useEffect(() => {
+        if (selectedSavedFilter?.filters?.length!) {
+            setQueriesState({
+                activeId: selectedSavedFilter.filters[0].id!,
+                queries: selectedSavedFilter.filters,
+            });
+        }
+    }, [selectedSavedFilter]);
+
+    useEffect(() => {
         if (queriesState.queries.length > 0) {
             const queryState = queriesState.queries.find((sqon) => sqon.id === queriesState.activeId);
             if (isNotEmptySqon(queryState!) && isEmptySqon(currentQuery)) {
@@ -247,7 +265,7 @@ const QueryBuilder = ({
             }
         }
 
-        if (isEmpty(queriesState.queries) && isEmptySqon(currentQuery) && total === 0) {
+        if (isEmpty(queriesState.queries) && isEmptySqon(currentQuery) && total === 0 && !savedFilters.length) {
             addNewQuery();
         }
     }, []);
@@ -314,10 +332,10 @@ const QueryBuilder = ({
             wrapper={(children: JSX.Element) => (
                 <QueryBuilderHeader
                     config={headerConfig}
+                    savedFilters={savedFilters}
                     collapsed={queryBuilderCollapsed}
                     dictionary={dictionary}
                     toggleQb={toggleQueryBuilder}
-                    onSaveQuery={() => {}}
                 >
                     {children}
                 </QueryBuilderHeader>
