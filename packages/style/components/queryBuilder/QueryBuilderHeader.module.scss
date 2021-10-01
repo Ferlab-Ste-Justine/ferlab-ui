@@ -10,11 +10,11 @@
   }
 }
 
-.queryBuilderHeaderContainer {
+.QBHContainer {
     background-color: white;
     border-radius: 2px;
 
-    .queryBuilderToggler {
+    .QBToggler {
       padding: 16px 24px;
       border: 1px solid $query-builder-border-color;
       border-bottom: none;
@@ -22,17 +22,19 @@
       border-top-right-radius: 2px;
       justify-content: space-between;
 
-      .queryBuilderTitleContainer {
+      .QBTitleContainer {
         display: flex;
         align-items: center;
 
-        .queryBuilderHeaderAction {
+        .QBHActionContainer {
           display: flex;
+          height: auto;
+          line-height: normal;
           align-items: center;
-           
+
           &:hover {
-             cursor: pointer;
-           }
+            cursor: pointer;
+          }
 
           .togglerTitle {
             margin: 0;
@@ -45,26 +47,37 @@
             margin-right: 10px;
           }
 
-          &.editTitleAction {
-            border: 1px solid transparent;
-            color: $query-builder-header-tools-icon-color;
+          &.QBHOptionsActionsContainer {
+            .iconAction {
+              display: flex;
+              align-items: center;
+              border: 1px solid transparent;
+              padding: 0;
 
-            &:focus {
-              background-color: transparent;
-            } 
-        
-            &:disabled {
-              color: $query-builder-header-tools-icon-disabled;
-            } 
-        
-            &:not(:disabled) {
-              @include hoverFocus(
-                $query-builder-header-tools-icon-hover, 
-                $query-builder-header-tools-icon-focus, 
-              );
+              &:first-child {
+                margin-left: 8px;
+              }
+  
+              &:not(:first-child) {
+                margin-left: 12px;
+              }
+              
+              &:focus, &:hover {
+                background-color: transparent;
+              } 
+            
+              &:not(:disabled) {
+                color: $query-builder-header-tools-icon-color;
+                
+                @include hoverFocus(
+                  $query-builder-header-tools-icon-hover, 
+                  $query-builder-header-tools-icon-focus, 
+                );
+              }
+            
             }
           }
-        }        
+        }  
       }
   
       &.togglerClosed {

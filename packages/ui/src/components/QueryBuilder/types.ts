@@ -23,30 +23,34 @@ export enum CombinerEnum {
 export interface ISavedFilter {
     id: string;
     title: string;
+    favorite: boolean;
     filters: ISyntheticSqon[];
 }
 
 export interface IQueryBuilderHeaderConfig {
+    showTools: boolean;
     showHeader: boolean;
-    showTools?: boolean;
-    defaultTitle?: string | React.ReactNode;
+    defaultTitle?: string | React.ReactNode;
     titleMaxLength?: number;
     options?: {
         enableEditTitle: boolean;
         enableShare: boolean;
         enableDuplicate: boolean;
     };
-    onSaveQuery: (filter: ISavedFilter) => void;
+    savedFilters?: ISavedFilter[];
+    selectedSavedFilter?: ISavedFilter | null;
+    onSaveQuery: (filter: ISavedFilter) => void;
     onDuplicateQuery: (filter: ISavedFilter) => void;
     onDeleteQuery: (filter: ISavedFilter) => void;
 }
 
+export type TOnSavedFilterChange = (savedFilter: ISavedFilter) => void;
 export type TCallbackRemoveAction = (f: IValueFilter, query: ISyntheticSqon | Record<string, never>) => void;
 export type TCallbackRemoveReferenceAction = (refIndex: number, query: ISyntheticSqon | Record<string, never>) => void;
 export type TOnChange = (id: string, query: ISyntheticSqon | Record<string, never>) => void;
 export type TOnFacetClick = (field: string) => void;
 
-// Dictionnary Types 
+// Dictionnary Types
 
 interface IActions {
     addQuery?: string | React.ReactNode;
@@ -55,7 +59,7 @@ interface IActions {
     clear?: IClearTranslation;
     delete?: IDeleteTranslation;
     new?: string | React.ReactNode;
-    duplicate?: string | React.ReactNode;
+    duplicate?: string | React.ReactNode;
     changeOperatorTo?: string | React.ReactNode;
 }
 
@@ -120,6 +124,15 @@ interface IQueryBuilderHeaderDictionnary {
     };
     popupConfirm?: {
         delete: IPopupConfirmDictionary;
+    };
+    tooltips?: {
+        newQueryBuilder: string | React.ReactNode;
+        save: string | React.ReactNode;
+        saveChanges: string | React.ReactNode;
+        duplicateQueryBuilder: string | React.ReactNode;
+        delete: string | React.ReactNode;
+        share: string | React.ReactNode;
+        noSavedFilters: string | React.ReactNode;
     };
     myFiltersDropdown?: {
         title: string | React.ReactNode;

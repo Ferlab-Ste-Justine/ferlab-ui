@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Typography, Modal, Input, Space } from 'antd';
+import { Typography, Modal, Input, Space, Button } from 'antd';
+import cx from 'classnames';
 import CaretRightIcon from '../icons/CaretRightIcon';
 import CaretDownIcon from '../icons/CaretDownIcon';
 import EditIcon from '../icons/EditIcon';
+import StarIcon from '../icons/StarIcon';
 import StackLayout from '../../../layout/StackLayout';
 import QueryBuilderHeaderTools from './Tools';
-import { IDictionary, IQueryBuilderHeaderConfig, ISavedFilter } from '../types';
+import { IDictionary, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
 
@@ -15,10 +17,11 @@ interface IQueryBuilderHeaderProps {
     dictionary: IDictionary;
     toggleQb: (toggle: boolean) => void;
     children: JSX.Element;
-    savedFilters: ISavedFilter[];
+    selectedSavedFilter?: ISavedFilter;
+    onSavedFilterChange: TOnSavedFilterChange;
 }
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 const DEFAULT_TITLE_MAX_LENGTH = 50;
 
 const QueryBuilderHeader = ({
@@ -27,35 +30,48 @@ const QueryBuilderHeader = ({
     dictionary = {},
     toggleQb,
     children,
-    savedFilters,
+    selectedSavedFilter,
+    onSavedFilterChange,
 }: IQueryBuilderHeaderProps) => {
     const [isEditModalVisible, setEditModalVisible] = useState(false);
-    const [savedFiltersLocal, setSavedFiltersLocal] = useState(savedFilters);
 
     return (
         <div id="query-builder-header-tools">
-            <StackLayout vertical className={styles.queryBuilderHeaderContainer}>
-                <StackLayout className={`${styles.queryBuilderToggler} ${collapsed && styles.togglerClosed}`}>
-                    <StackLayout className={styles.queryBuilderTitleContainer}>
-                        <div className={styles.queryBuilderHeaderAction} onClick={() => toggleQb(!collapsed)}>
+            <StackLayout vertical className={styles.QBHContainer}>
+                <StackLayout className={`${styles.QBToggler} ${collapsed && styles.togglerClosed}`}>
+                    <StackLayout className={styles.QBTitleContainer}>
+                        <div className={styles.QBHActionContainer} onClick={() => toggleQb(!collapsed)}>
                             <span className={styles.togglerIcon}>
                                 {collapsed ? <CaretRightIcon /> : <CaretDownIcon />}
                             </span>
                             <Title level={1} className={styles.togglerTitle}>
-                                {config.defaultTitle || 'Untitled Query'}
+                                {selectedSavedFilter?.title || config.defaultTitle || 'Untitled Query'}
                             </Title>
                         </div>
-
-                        {config.options?.enableEditTitle && (
-                            <div
-                                className={`${styles.queryBuilderHeaderAction} ${styles.editTitleAction}`}
-                                onClick={() => setEditModalVisible(true)}
-                            >
-                                <EditIcon />
-                            </div>
-                        )}
+                        <div className={cx(styles.QBHActionContainer, styles.QBHOptionsActionsContainer)}>
+                            {config.options?.enableEditTitle && (
+                                <Button
+                                    className={styles.iconAction}
+                                    onClick={() => setEditModalVisible(true)}
+                                    type="text"
+                                >
+                                    <EditIcon />
+                                </Button>
+                            )}
+                            <Button className={styles.iconAction} onClick={() => console.log('star')} type="text">
+                                <StarIcon />
+                            </Button>
+                        </div>
                     </StackLayout>
-                    {config.showTools && <QueryBuilderHeaderTools config={config} dictionary={dictionary} />}
+                    {config.showTools && (
+                        <QueryBuilderHeaderTools
+                            config={config}
+                            savedFilters={config.savedFilters!}
+                            selectedSavedFilter={selectedSavedFilter!}
+                            onSavedFilterChange={onSavedFilterChange}
+                            dictionary={dictionary}
+                        />
+                    )}
                 </StackLayout>
                 {!collapsed && children}
             </StackLayout>
@@ -70,19 +86,20 @@ const QueryBuilderHeader = ({
             >
                 <Space className={styles.editModalContent} direction="vertical" size={2}>
                     <Space className={styles.labelInput} direction="vertical" size={8}>
-                        <span className={styles.title}>
+                        <Text className={styles.title}>
                             {dictionary.queryBuilderHeader?.modal?.edit?.input.label || 'Query name'}
-                        </span>
+                        </Text>
                         <Input
+                            value={selectedSavedFilter?.title}
                             placeholder={
                                 dictionary.queryBuilderHeader?.modal?.edit?.input.placeholder || 'Untitled query'
                             }
                             maxLength={config.titleMaxLength || DEFAULT_TITLE_MAX_LENGTH}
                         ></Input>
                     </Space>
-                    <span className={styles.subtitle}>{`${config.titleMaxLength || DEFAULT_TITLE_MAX_LENGTH} ${
+                    <Text>{`${config.titleMaxLength || DEFAULT_TITLE_MAX_LENGTH} ${
                         dictionary.queryBuilderHeader?.modal?.edit?.input.maximumLength || 'characters maximum'
-                    }`}</span>
+                    }`}</Text>
                 </Space>
             </Modal>
         </div>

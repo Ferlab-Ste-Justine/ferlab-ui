@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
-import { cloneDeep, isEqual } from 'lodash';
+import { cloneDeep, head, isEqual } from 'lodash';
 import { createBrowserHistory, History } from 'history';
 import isEmpty from 'lodash/isEmpty';
 
@@ -83,7 +83,6 @@ const QueryBuilder = ({
     enableSingleQuery = false,
     enableShowHideLabels = false,
     initialShowLabelState = true,
-    savedFilters = [],
     initialState = {},
     referenceColors = [
         '#C31D7E',
@@ -113,12 +112,17 @@ const QueryBuilder = ({
             enableEditTitle: true,
             enableShare: false,
         },
+        savedFilters: [],
+        selectedSavedFilter: null,
         onSaveQuery: () => {},
         onDuplicateQuery: () => {},
         onDeleteQuery: () => {},
     },
 }: IQueryBuilderProps) => {
-    const [selectedSavedFilter, setSelectedSavedFilter] = useState(savedFilters[0]);
+    const [selectedSavedFilter, setSelectedSavedFilter] = useState(
+        headerConfig?.selectedSavedFilter ||
+            (headerConfig?.savedFilters?.length ? headerConfig?.savedFilters[0] : null),
+    );
     const [queriesState, setQueriesState] = useState<{
         activeId: string;
         queries: ISyntheticSqon[];
@@ -265,7 +269,12 @@ const QueryBuilder = ({
             }
         }
 
-        if (isEmpty(queriesState.queries) && isEmptySqon(currentQuery) && total === 0 && !savedFilters.length) {
+        if (
+            isEmpty(queriesState.queries) &&
+            isEmptySqon(currentQuery) &&
+            total === 0 &&
+            !headerConfig.savedFilters?.length
+        ) {
             addNewQuery();
         }
     }, []);
@@ -332,7 +341,8 @@ const QueryBuilder = ({
             wrapper={(children: JSX.Element) => (
                 <QueryBuilderHeader
                     config={headerConfig}
-                    savedFilters={savedFilters}
+                    selectedSavedFilter={selectedSavedFilter!}
+                    onSavedFilterChange={setSelectedSavedFilter}
                     collapsed={queryBuilderCollapsed}
                     dictionary={dictionary}
                     toggleQb={toggleQueryBuilder}

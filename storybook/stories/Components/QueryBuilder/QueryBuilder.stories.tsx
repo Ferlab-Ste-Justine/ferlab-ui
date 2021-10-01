@@ -266,9 +266,12 @@ WithHeaderAndTools.args = {
             enableDuplicate: true,
             enableEditTitle: true,
             enableShare: true,
-        }
-    },
-    savedFilters: [{"id":"1","title":"Olivier Filter","filters":[{"op":"and","content":[{"content":{"value":["something"],"field":"test","op":"in"}}],"total":1500,"id":"1"},{"op":"and","content":[{"content":{"value":["else"],"field":"test","op":"in"}}],"total":1500,"id":"2"}]}],
+        },
+        savedFilters: [],
+          onSaveQuery: (filter: any) => {},
+          onDuplicateQuery: (filter: any) => {},
+          onDeleteQuery: (filter: any) => {},
+    },      
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     IconTotal:<MdPeople />
