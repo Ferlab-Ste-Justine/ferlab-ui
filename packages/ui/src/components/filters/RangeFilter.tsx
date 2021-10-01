@@ -131,7 +131,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
     }, [selectedFilters]);
 
     const hasChanged = () =>
-        validateSelectedValues() &&
+    validateSelectedValues() &&
         (selectedMax != rangeFilter.max ||
             selectedMin != rangeFilter.min ||
             selectedOperator != rangeFilter.operator ||
@@ -141,7 +141,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
         if (!currentOperator?.disableMax && !currentOperator?.disableMin) {
             return rangeFilter.max != undefined && rangeFilter.min != undefined;
         }
-        return rangeFilter.max != undefined || rangeFilter.min != undefined;
+        return true
     };
 
     const onRangeTypeChanged = (value: string) => {
@@ -181,6 +181,8 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
     if (!range) {
         return null;
     }
+
+    console.log(hasChanged())
 
     const dotField = filterGroup.field;
     const buttonActionDisabled = typeof min !== 'number' && typeof max !== 'number';
