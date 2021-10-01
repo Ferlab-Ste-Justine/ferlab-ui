@@ -182,8 +182,6 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
         return null;
     }
 
-    console.log(hasChanged());
-
     const dotField = filterGroup.field;
     const buttonActionDisabled = typeof min !== 'number' && typeof max !== 'number';
 
