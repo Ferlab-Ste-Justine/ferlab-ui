@@ -1,24 +1,15 @@
 import React, { useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import { Collapse } from 'antd';
+import { isEmpty } from 'lodash';
 
 import StackLayout from '../../layout/StackLayout';
 
 import FilterSelector from './FilterSelector';
 import CheckedIcon from './icons/CheckedIcon';
-import {
-    IDictionary,
-    IFilter,
-    IFilterGroup,
-    IFilterRange,
-    IFilterText,
-    IRange,
-    onChangeType,
-    VisualType,
-} from './types';
+import { IDictionary, IFilter, IFilterGroup, IFilterRange, IFilterText, onChangeType, VisualType } from './types';
 
 import styles from '@ferlab/style/components/filters/FilterContainer.module.scss';
-import { isEmpty } from 'lodash';
 
 const { Panel } = Collapse;
 
