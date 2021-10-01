@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import { Collapse } from 'antd';
+import { isEmpty } from 'lodash';
 
 import StackLayout from '../../layout/StackLayout';
 
 import FilterSelector from './FilterSelector';
 import CheckedIcon from './icons/CheckedIcon';
-import { IDictionary, IFilter, IFilterGroup, onChangeType, VisualType } from './types';
+import { IDictionary, IFilter, IFilterGroup, IFilterRange, IFilterText, onChangeType, VisualType } from './types';
 
 import styles from '@ferlab/style/components/filters/FilterContainer.module.scss';
 
@@ -37,7 +38,7 @@ const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({
     searchInputVisibled,
     title,
     isCollapsed,
-    hasFilters
+    hasFilters,
 }) => (
     <StackLayout className={styles.filtersContainerHeader}>
         <div className={styles.titleContainer}>
@@ -59,6 +60,22 @@ const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({
     </StackLayout>
 );
 
+const hasFilters = (filterGroup: IFilterGroup, selectedFilters: IFilter[]) => {
+    switch (filterGroup.type) {
+        case VisualType.Checkbox:
+        case VisualType.Toggle:
+            return selectedFilters.length > 0;
+        case VisualType.Range:
+            const rangeFilters = selectedFilters as IFilter<IFilterRange>[];
+            return rangeFilters.length ? rangeFilters[0].data.max! > 0 || rangeFilters[0].data.min! > 0 : false;
+        case VisualType.Text:
+            const textFilters = selectedFilters as IFilter<IFilterText>[];
+            return textFilters.length ? !isEmpty(textFilters[0].data.text) : false;
+        default:
+            return false;
+    }
+};
+
 const FilterContainer = ({
     filterGroup,
     filters = [],
@@ -70,10 +87,8 @@ const FilterContainer = ({
 }: FilterContainerProps) => {
     const [hasSearchInput, setSearchInputVisible] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(!isOpen);
-
-    console.log(selectedFilters);
-
     const defaultActiveKey = isCollapsed ? {} : { defaultActiveKey: '1' };
+
     return (
         <div className={styles.filterContainer}>
             <Collapse
@@ -92,7 +107,7 @@ const FilterContainer = ({
                             searchEnabled={filterGroup.type === VisualType.Checkbox && filters.length > maxShowing}
                             searchInputVisibled={hasSearchInput}
                             title={filterGroup.title}
-                            hasFilters={selectedFilters?.length! > 0}
+                            hasFilters={hasFilters(filterGroup, selectedFilters!)}
                         />
                     }
                     key={`1`}

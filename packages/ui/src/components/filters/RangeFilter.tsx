@@ -141,7 +141,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
         if (!currentOperator?.disableMax && !currentOperator?.disableMin) {
             return rangeFilter.max != undefined && rangeFilter.min != undefined;
         }
-        return rangeFilter.max != undefined || rangeFilter.min != undefined;
+        return true;
     };
 
     const onRangeTypeChanged = (value: string) => {
