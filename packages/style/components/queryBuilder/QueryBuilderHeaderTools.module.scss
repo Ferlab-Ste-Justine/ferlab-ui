@@ -4,6 +4,8 @@
   align-items: center;
     
   .toolsContainer {
+    align-items: center;
+
     >*:not(:first-child) {
       margin-left: 15px;
     }
@@ -15,18 +17,19 @@
       margin: 1px 15px 1px 1px;
       @extend .display-flex;
 
-      &:active {
-        border: 1px solid transparent;
+      [type="button"] {
+        margin: 0;
+        padding: 0;
+        max-height: 18px;
+        @extend .display-flex;
       }
     
       &:focus, &:hover {
         background-color: transparent;
-      }
+      } 
 
-      [type="button"] {
-        margin: 0;
-        padding: 0;
-        @extend .display-flex;
+      &:focus-visible {
+        border: 1px solid !important;
       }
       
       &:not(:disabled) {
@@ -38,7 +41,7 @@
           &:not(span) {
             @include hoverFocus(
               $query-builder-header-tools-icon-color-dirty, 
-              $query-builder-header-tools-icon-color-dirty, 
+              $query-builder-header-tools-icon-color-dirty
             );
           }
         }
@@ -46,7 +49,7 @@
         &:not(span) {
           @include hoverFocus(
             $query-builder-header-tools-icon-hover, 
-            $query-builder-header-tools-icon-focus, 
+            $query-builder-header-tools-icon-focus
           );
         }
       }
@@ -57,6 +60,10 @@
       display: flex;
       text-decoration: none;
       margin-left: 20px;
+
+      [type="button"] {
+        @extend .display-flex;
+      }
     
       .queryBuilderHeaderDdb {
         @extend .display-flex;

@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import { Dropdown, Button, Menu, Tooltip } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import StackLayout from '../../../../layout/StackLayout';
@@ -19,6 +20,8 @@ interface IQueryBuilderHeaderProps {
     savedFilters: ISavedFilter[];
     selectedSavedFilter?: ISavedFilter;
     onSavedFilterChange: TOnSavedFilterChange;
+    isNewUnsavedFilter: () => boolean;
+    hasUnsavedChanges: () => boolean;
 }
 
 const QueryBuilderHeaderTools = ({
@@ -27,6 +30,8 @@ const QueryBuilderHeaderTools = ({
     savedFilters = [],
     selectedSavedFilter,
     onSavedFilterChange,
+    isNewUnsavedFilter,
+    hasUnsavedChanges,
 }: IQueryBuilderHeaderProps) => {
     const getSavedFiltersListing = (selectedKey: string) => {
         return (
@@ -54,17 +59,19 @@ const QueryBuilderHeaderTools = ({
                             e.stopPropagation();
                         }}
                         type="text"
+                        disabled={!selectedSavedFilter}
                     >
                         <PlusIcon />
                     </Button>
                 </Tooltip>
                 <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.save || 'Save'}>
                     <Button
-                        className={styles.queryBuilderHeaderActionIconBtn}
+                        className={cx(styles.queryBuilderHeaderActionIconBtn, hasUnsavedChanges() ? styles.dirty : '')}
                         onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
                         }}
                         type="text"
+                        disabled={!selectedSavedFilter && !isNewUnsavedFilter()}
                     >
                         <SaveIcon />
                     </Button>
@@ -81,6 +88,7 @@ const QueryBuilderHeaderTools = ({
                                 e.stopPropagation();
                             }}
                             type="text"
+                            disabled={!selectedSavedFilter}
                         >
                             <CopyIcon />
                         </Button>
@@ -93,6 +101,7 @@ const QueryBuilderHeaderTools = ({
                             e.stopPropagation();
                         }}
                         type="text"
+                        disabled={!selectedSavedFilter}
                     >
                         <DeleteIcon />
                     </Button>
@@ -100,12 +109,12 @@ const QueryBuilderHeaderTools = ({
                 {config.options?.enableShare && (
                     <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.share || 'Share (Copy url)'}>
                         <Button
-                            disabled
                             className={styles.queryBuilderHeaderActionIconBtn}
                             onClick={(e: React.MouseEvent) => {
                                 e.stopPropagation();
                             }}
                             type="text"
+                            disabled={!selectedSavedFilter}
                         >
                             <ShareIcon />
                         </Button>
@@ -114,33 +123,43 @@ const QueryBuilderHeaderTools = ({
             </StackLayout>
             <StackLayout className={styles.extra}>
                 <ConditionalWrapper
-                    condition={savedFilters.length == 0}
-                    wrapper={(children: JSX.Element) => (
-                        <Tooltip
-                            title={
-                                dictionary.queryBuilderHeader?.tooltips?.noSavedFilters || 'You have no saved filters'
-                            }
-                        >
-                            {children}
-                        </Tooltip>
-                    )}
+                    condition={true}
+                    wrapper={(children: JSX.Element) => {
+                        if (savedFilters.length > 0) {
+                            return (
+                                <Dropdown
+                                    overlay={getSavedFiltersListing(selectedSavedFilter ? selectedSavedFilter.id : '')}
+                                    disabled={savedFilters.length == 0}
+                                    trigger={['click']}
+                                >
+                                    {children}
+                                </Dropdown>
+                            );
+                        } else {
+                            return (
+                                <Tooltip
+                                    title={
+                                        dictionary.queryBuilderHeader?.tooltips?.noSavedFilters ||
+                                        'You have no saved filters'
+                                    }
+                                >
+                                    {children}
+                                </Tooltip>
+                            );
+                        }
+                    }}
                 >
-                    <Dropdown
-                        overlay={getSavedFiltersListing(selectedSavedFilter ? selectedSavedFilter.id : '')}
+                    <Button
+                        className={styles.queryBuilderHeaderDdb}
+                        size={'small'}
+                        icon={<FolderIcon className={styles.prefixIcon} />}
                         disabled={savedFilters.length == 0}
-                        trigger={['click']}
                     >
-                        <Button
-                            className={styles.queryBuilderHeaderDdb}
-                            size={'small'}
-                            icon={<FolderIcon className={styles.prefixIcon} />}
-                        >
-                            <span className={styles.bContent}>
-                                {dictionary.queryBuilderHeader?.myFiltersDropdown?.title || 'My Filters'}
-                                <DownOutlined className={styles.arrow} />
-                            </span>
-                        </Button>
-                    </Dropdown>
+                        <span className={styles.bContent}>
+                            {dictionary.queryBuilderHeader?.myFiltersDropdown?.title || 'My Filters'}
+                            <DownOutlined className={styles.arrow} />
+                        </span>
+                    </Button>
                 </ConditionalWrapper>
             </StackLayout>
         </StackLayout>

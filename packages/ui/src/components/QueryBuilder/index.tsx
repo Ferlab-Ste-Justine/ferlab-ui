@@ -114,9 +114,9 @@ const QueryBuilder = ({
         },
         savedFilters: [],
         selectedSavedFilter: null,
-        onSaveQuery: () => {},
-        onDuplicateQuery: () => {},
-        onDeleteQuery: () => {},
+        onSaveFilter: () => {},
+        onDuplicateFilter: () => {},
+        onDeleteFilter: () => {},
     },
 }: IQueryBuilderProps) => {
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(
@@ -341,6 +341,7 @@ const QueryBuilder = ({
             wrapper={(children: JSX.Element) => (
                 <QueryBuilderHeader
                     config={headerConfig}
+                    currentQuery={currentQuery}
                     selectedSavedFilter={selectedSavedFilter!}
                     onSavedFilterChange={setSelectedSavedFilter}
                     collapsed={queryBuilderCollapsed}

@@ -23,7 +23,7 @@ export enum CombinerEnum {
 export interface ISavedFilter {
     id: string;
     title: string;
-    favorite: boolean;
+    default: boolean;
     filters: ISyntheticSqon[];
 }
 
@@ -39,9 +39,9 @@ export interface IQueryBuilderHeaderConfig {
     };
     savedFilters?: ISavedFilter[];
     selectedSavedFilter?: ISavedFilter | null;
-    onSaveQuery: (filter: ISavedFilter) => void;
-    onDuplicateQuery: (filter: ISavedFilter) => void;
-    onDeleteQuery: (filter: ISavedFilter) => void;
+    onSaveFilter: (filter: ISavedFilter) => void;
+    onDuplicateFilter: (filter: ISavedFilter) => void;
+    onDeleteFilter: (filter: ISavedFilter) => void;
 }
 
 export type TOnSavedFilterChange = (savedFilter: ISavedFilter) => void;
@@ -132,6 +132,8 @@ interface IQueryBuilderHeaderDictionnary {
         duplicateQueryBuilder: string | React.ReactNode;
         delete: string | React.ReactNode;
         share: string | React.ReactNode;
+        setAsDefaultFilter: string | React.ReactNode;
+        usetDefaultFilter: string | React.ReactNode;
         noSavedFilters: string | React.ReactNode;
     };
     myFiltersDropdown?: {

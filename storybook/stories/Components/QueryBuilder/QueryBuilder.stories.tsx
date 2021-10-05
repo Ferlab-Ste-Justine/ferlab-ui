@@ -267,8 +267,45 @@ WithHeaderAndTools.args = {
             enableEditTitle: true,
             enableShare: true,
         },
-        savedFilters: [],
-          onSaveQuery: (filter: any) => {},
+        selectedSavedFilter: {
+                "id": "1",
+                "title": "Mon filtre 1",
+                "default": true,
+                "filters": [{
+                    op: 'and', content: [{
+                        content: {value: ['something', 'else', 'more', 'perfect'], field: 'test', op: 'in'}
+                    }],
+                    total: 1500,
+                    id: '1',  
+                }]
+            },
+        savedFilters: [
+            {
+                "id": "1",
+                "title": "Mon filtre 1",
+                "default": true,
+                "filters": [{
+                    op: 'and', content: [{
+                        content: {value: ['something', 'else', 'more', 'perfect'], field: 'test', op: 'in'}
+                    }],
+                    total: 1500,
+                    id: '1',  
+                }]
+            },
+            {
+                "id": "2",
+                "title": "Mon filtre 2",
+                "default": false,
+                "filters": [{
+                    op: 'and', content: [{
+                        content: {value: ['something 2', 'else 2', 'more 2', 'perfect 2'], field: 'test', op: 'in'}
+                    }],
+                    total: 1500,
+                    id: '1',  
+                }]
+            }
+        ],
+          onSaveQuery: (filter: any) => {console.log(filter)},
           onDuplicateQuery: (filter: any) => {},
           onDeleteQuery: (filter: any) => {},
     },      
