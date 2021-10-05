@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
-import { Dropdown, Button, Menu, Tooltip } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Dropdown, Button, Menu, Tooltip, Modal, Popconfirm } from 'antd';
+import { DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import StackLayout from '../../../../layout/StackLayout';
 import { IDictionary, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../../types';
 import PlusIcon from '../../icons/PlusIcon';
@@ -10,9 +10,9 @@ import CopyIcon from '../../icons/CopyIcon';
 import DeleteIcon from '../../icons/DeleteIcon';
 import ShareIcon from '../../icons/ShareIcon';
 import FolderIcon from '../../icons/FolderIcon';
+import ConditionalWrapper from '../../../utils/ConditionalWrapper';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeaderTools.module.scss';
-import ConditionalWrapper from '../../../utils/ConditionalWrapper';
 
 interface IQueryBuilderHeaderProps {
     config: IQueryBuilderHeaderConfig;
@@ -22,6 +22,8 @@ interface IQueryBuilderHeaderProps {
     onSavedFilterChange: TOnSavedFilterChange;
     isNewUnsavedFilter: () => boolean;
     hasUnsavedChanges: () => boolean;
+    onNewSavedFilter: () => void;
+    onDuplicateSavedFilter: () => void;
 }
 
 const QueryBuilderHeaderTools = ({
@@ -32,6 +34,8 @@ const QueryBuilderHeaderTools = ({
     onSavedFilterChange,
     isNewUnsavedFilter,
     hasUnsavedChanges,
+    onNewSavedFilter,
+    onDuplicateSavedFilter,
 }: IQueryBuilderHeaderProps) => {
     const getSavedFiltersListing = (selectedKey: string) => {
         return (
@@ -49,6 +53,19 @@ const QueryBuilderHeaderTools = ({
         );
     };
 
+    const confirmUnsavedChange = (onOkCallback: Function) => {
+        Modal.confirm({
+            title: dictionary.queryBuilderHeader?.modal?.notSaved?.title || 'Unsaved changes',
+            icon: <ExclamationCircleOutlined />,
+            content:
+                dictionary.queryBuilderHeader?.modal?.notSaved?.content ||
+                'You are about to create a new filter; all modifications will be lost.',
+            okText: dictionary.queryBuilderHeader?.modal?.notSaved?.okText || 'Create',
+            cancelText: dictionary.queryBuilderHeader?.modal?.notSaved?.cancelText || 'Cancel',
+            onOk: () => onOkCallback(),
+        });
+    };
+
     return (
         <StackLayout className={styles.queryBuilderHeaderTools}>
             <StackLayout className={styles.toolsContainer}>
@@ -57,6 +74,11 @@ const QueryBuilderHeaderTools = ({
                         className={styles.queryBuilderHeaderActionIconBtn}
                         onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
+                            if (hasUnsavedChanges()) {
+                                confirmUnsavedChange(onNewSavedFilter);
+                            } else {
+                                onNewSavedFilter();
+                            }
                         }}
                         type="text"
                         disabled={!selectedSavedFilter}
@@ -69,6 +91,7 @@ const QueryBuilderHeaderTools = ({
                         className={cx(styles.queryBuilderHeaderActionIconBtn, hasUnsavedChanges() ? styles.dirty : '')}
                         onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
+                            config.onSaveFilter(selectedSavedFilter!);
                         }}
                         type="text"
                         disabled={!selectedSavedFilter && !isNewUnsavedFilter()}
@@ -86,6 +109,11 @@ const QueryBuilderHeaderTools = ({
                             className={styles.queryBuilderHeaderActionIconBtn}
                             onClick={(e: React.MouseEvent) => {
                                 e.stopPropagation();
+                                if (hasUnsavedChanges()) {
+                                    confirmUnsavedChange(onDuplicateSavedFilter);
+                                } else {
+                                    onDuplicateSavedFilter();
+                                }
                             }}
                             type="text"
                             disabled={!selectedSavedFilter}
@@ -95,16 +123,30 @@ const QueryBuilderHeaderTools = ({
                     </Tooltip>
                 )}
                 <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.delete || 'Delete'}>
-                    <Button
-                        className={styles.queryBuilderHeaderActionIconBtn}
-                        onClick={(e: React.MouseEvent) => {
-                            e.stopPropagation();
-                        }}
-                        type="text"
+                    <Popconfirm
+                        arrowPointAtCenter
+                        cancelText={dictionary.queryBuilderHeader?.popupConfirm?.delete.cancelText || 'Cancel'}
                         disabled={!selectedSavedFilter}
+                        okText={dictionary.queryBuilderHeader?.popupConfirm?.delete.okText || 'Delete'}
+                        onConfirm={(e) => {
+                            e!.stopPropagation();
+                            config.onDeleteFilter(selectedSavedFilter!.id);
+                        }}
+                        placement="topRight"
+                        title={
+                            dictionary.queryBuilderHeader?.popupConfirm?.delete.title ||
+                            'Permanently delete this request?'
+                        }
+                        getPopupContainer={(trigger) => trigger.parentElement!}
                     >
-                        <DeleteIcon />
-                    </Button>
+                        <Button
+                            className={styles.queryBuilderHeaderActionIconBtn}
+                            type="text"
+                            disabled={!selectedSavedFilter}
+                        >
+                            <DeleteIcon />
+                        </Button>
+                    </Popconfirm>
                 </Tooltip>
                 {config.options?.enableShare && (
                     <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.share || 'Share (Copy url)'}>

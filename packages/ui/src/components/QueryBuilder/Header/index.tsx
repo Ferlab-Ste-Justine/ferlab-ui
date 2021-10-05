@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Modal, Input, Space, Button, Tooltip } from 'antd';
 import cx from 'classnames';
+import { v4 } from 'uuid';
 import isEqual from 'lodash/isEqual';
 import CaretRightIcon from '../icons/CaretRightIcon';
 import CaretDownIcon from '../icons/CaretDownIcon';
@@ -9,12 +10,10 @@ import StarIcon from '../icons/StarIcon';
 import StarFilledIcon from '../icons/StarFilledIcon';
 import StackLayout from '../../../layout/StackLayout';
 import QueryBuilderHeaderTools from './Tools';
-import { IDictionary, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../types';
+import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../types';
+import { isNotEmptySqon } from '../../../data/sqon/utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
-import { ISyntheticSqon } from '../../../data/sqon/types';
-import { isEmpty } from 'lodash';
-import { isNotEmptySqon } from '../../../data/sqon/utils';
 
 interface IQueryBuilderHeaderProps {
     config: IQueryBuilderHeaderConfig;
@@ -22,9 +21,9 @@ interface IQueryBuilderHeaderProps {
     dictionary: IDictionary;
     toggleQb: (toggle: boolean) => void;
     children: JSX.Element;
-    currentQuery: ISyntheticSqon | Record<string, never>;
     selectedSavedFilter?: ISavedFilter;
     onSavedFilterChange: TOnSavedFilterChange;
+    queriesState: IQueriesState;
 }
 
 const { Title, Text } = Typography;
@@ -36,9 +35,9 @@ const QueryBuilderHeader = ({
     dictionary = {},
     toggleQb,
     children,
-    currentQuery,
     selectedSavedFilter,
     onSavedFilterChange,
+    queriesState,
 }: IQueryBuilderHeaderProps) => {
     const [isEditModalVisible, setEditModalVisible] = useState(false);
     const [localSelectedSavedFilter, setLocalSelectedSavedFilter] = useState<ISavedFilter | null>(null);
@@ -46,43 +45,58 @@ const QueryBuilderHeader = ({
 
     const isNewUnsavedFilter = () => {
         // Newly created filter that was not saved yet (doesn't exist in the list of savedFilters)
-        return !selectedSavedFilter && isNotEmptySqon(currentQuery);
+        return !selectedSavedFilter && queriesState.queries.filter((sqon) => isNotEmptySqon(sqon)).length > 0;
     };
 
     const hasUnsavedChanges = () => {
         // Existing filter that has unsaved changes
-        if (selectedSavedFilter && !isEmpty(currentQuery)) {
-            const savedFilterSelectedQueries = selectedSavedFilter.filters.filter(
-                (filter) => filter.id == currentQuery.id,
-            );
+        if (selectedSavedFilter) {
+            if (selectedSavedFilter.filters.length != queriesState.queries.length) return true;
 
-            if (savedFilterSelectedQueries.length) {
-                const savedFilterSelectedQuery = savedFilterSelectedQueries[0];
-                return !isEqual(
+            let areEqual = true;
+            for (let savedFilterQuery of selectedSavedFilter.filters) {
+                const foundQuery = queriesState.queries.find(
+                    (queryStateQuery) => queryStateQuery.id == savedFilterQuery.id,
+                );
+
+                if (!foundQuery) {
+                    areEqual = false;
+                    break;
+                }
+
+                areEqual &&= isEqual(
                     {
-                        op: savedFilterSelectedQuery.op,
-                        content: savedFilterSelectedQuery.content,
-                        id: savedFilterSelectedQuery.id,
+                        id: foundQuery?.id,
+                        op: foundQuery?.op,
+                        content: foundQuery?.content,
                     },
                     {
-                        op: currentQuery.op,
-                        content: currentQuery.content,
-                        id: currentQuery.id,
+                        id: savedFilterQuery?.id,
+                        op: savedFilterQuery?.op,
+                        content: savedFilterQuery?.content,
                     },
                 );
-            } else {
-                return true;
             }
+
+            return !areEqual;
         }
+
         return false;
     };
 
-    console.log("Is new : " + isNewUnsavedFilter()) 
-    console.log("Has unsaved changes: " + hasUnsavedChanges())
+    const onSaveFilter = () => {
+        const newSavedFilter = {
+            id: selectedSavedFilter?.id || v4(),
+            title: savedFilterTitle || selectedSavedFilter?.title!,
+            default: selectedSavedFilter?.default || false,
+            filters: queriesState.queries,
+        };
+        setLocalSelectedSavedFilter(newSavedFilter);
+        config.onSaveFilter(newSavedFilter);
+    };
 
     useEffect(() => {
         setLocalSelectedSavedFilter(selectedSavedFilter!);
-        setSavedFilterTitle(selectedSavedFilter?.title!);
     }, [selectedSavedFilter]);
 
     return (
@@ -129,13 +143,22 @@ const QueryBuilderHeader = ({
                     </StackLayout>
                     {config.showTools && (
                         <QueryBuilderHeaderTools
-                            config={config}
+                            config={{
+                                ...config,
+                                onSaveFilter: onSaveFilter,
+                            }}
                             dictionary={dictionary}
                             savedFilters={config.savedFilters!}
                             selectedSavedFilter={selectedSavedFilter!}
                             onSavedFilterChange={onSavedFilterChange}
                             isNewUnsavedFilter={isNewUnsavedFilter}
                             hasUnsavedChanges={hasUnsavedChanges}
+                            onNewSavedFilter={() => {
+                                console.log('TODO: Create new saved filter');
+                            }}
+                            onDuplicateSavedFilter={() => {
+                                console.log('TODO: Duplicate saved filter');
+                            }}
                         />
                     )}
                 </StackLayout>
@@ -148,13 +171,8 @@ const QueryBuilderHeader = ({
                 okText={dictionary.queryBuilderHeader?.modal?.edit?.okText || 'Save'}
                 cancelText={dictionary.queryBuilderHeader?.modal?.edit?.cancelText || 'Cancel'}
                 onOk={(e) => {
-                    const newSavedFilter = {
-                        ...localSelectedSavedFilter!,
-                        title: savedFilterTitle!,
-                    };
-                    setLocalSelectedSavedFilter(newSavedFilter);
                     setEditModalVisible(false);
-                    config.onSaveFilter(newSavedFilter);
+                    onSaveFilter();
                 }}
                 onCancel={() => setEditModalVisible(false)}
             >
@@ -164,7 +182,7 @@ const QueryBuilderHeader = ({
                             {dictionary.queryBuilderHeader?.modal?.edit?.input.label || 'Query name'}
                         </Text>
                         <Input
-                            value={savedFilterTitle}
+                            value={savedFilterTitle || selectedSavedFilter?.title!}
                             onChange={(e) => {
                                 setSavedFilterTitle(e.target.value);
                             }}

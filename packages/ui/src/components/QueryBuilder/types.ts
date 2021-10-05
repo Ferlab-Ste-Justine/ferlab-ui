@@ -20,6 +20,11 @@ export enum CombinerEnum {
     Or = 'or',
 }
 
+export interface IQueriesState {
+    activeId: string;
+    queries: ISyntheticSqon[];
+}
+
 export interface ISavedFilter {
     id: string;
     title: string;
@@ -27,21 +32,22 @@ export interface ISavedFilter {
     filters: ISyntheticSqon[];
 }
 
+export interface IQueryBuilderHeaderConfigOptions {
+    enableEditTitle: boolean;
+    enableShare: boolean;
+    enableDuplicate: boolean;
+}
+
 export interface IQueryBuilderHeaderConfig {
     showTools: boolean;
     showHeader: boolean;
     defaultTitle?: string | React.ReactNode;
     titleMaxLength?: number;
-    options?: {
-        enableEditTitle: boolean;
-        enableShare: boolean;
-        enableDuplicate: boolean;
-    };
+    options?: IQueryBuilderHeaderConfigOptions;
     savedFilters?: ISavedFilter[];
     selectedSavedFilter?: ISavedFilter | null;
     onSaveFilter: (filter: ISavedFilter) => void;
-    onDuplicateFilter: (filter: ISavedFilter) => void;
-    onDeleteFilter: (filter: ISavedFilter) => void;
+    onDeleteFilter: (filterId: string) => void;
 }
 
 export type TOnSavedFilterChange = (savedFilter: ISavedFilter) => void;

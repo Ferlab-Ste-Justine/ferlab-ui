@@ -17,6 +17,7 @@ import {
     TOnFacetClick,
     IQueryBuilderHeaderConfig,
     ISavedFilter,
+    IQueriesState,
 } from './types';
 import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import { getQueryBuilderCache, getQueryParams, setQueryBuilderCache, updateQueryParam } from '../../data/filters/utils';
@@ -115,18 +116,11 @@ const QueryBuilder = ({
         savedFilters: [],
         selectedSavedFilter: null,
         onSaveFilter: () => {},
-        onDuplicateFilter: () => {},
         onDeleteFilter: () => {},
     },
 }: IQueryBuilderProps) => {
-    const [selectedSavedFilter, setSelectedSavedFilter] = useState(
-        headerConfig?.selectedSavedFilter ||
-            (headerConfig?.savedFilters?.length ? headerConfig?.savedFilters[0] : null),
-    );
-    const [queriesState, setQueriesState] = useState<{
-        activeId: string;
-        queries: ISyntheticSqon[];
-    }>({
+    const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
+    const [queriesState, setQueriesState] = useState<IQueriesState>({
         activeId: initialState?.active || getQueryBuilderCache(cacheKey).active || v4(),
         queries: initialState?.state || getQueryBuilderCache(cacheKey).state || [],
     });
@@ -341,7 +335,7 @@ const QueryBuilder = ({
             wrapper={(children: JSX.Element) => (
                 <QueryBuilderHeader
                     config={headerConfig}
-                    currentQuery={currentQuery}
+                    queriesState={queriesState}
                     selectedSavedFilter={selectedSavedFilter!}
                     onSavedFilterChange={setSelectedSavedFilter}
                     collapsed={queryBuilderCollapsed}
