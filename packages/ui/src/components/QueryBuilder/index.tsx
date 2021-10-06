@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
-import { cloneDeep, head, isEqual } from 'lodash';
+import { cloneDeep, isEqual } from 'lodash';
 import { createBrowserHistory, History } from 'history';
 import isEmpty from 'lodash/isEmpty';
 
@@ -55,7 +55,6 @@ export interface IQueryBuilderProps {
     referenceColors?: ArrayTenOrMore<string>;
     selectedFilterContent?: React.ReactElement;
     headerConfig?: IQueryBuilderHeaderConfig;
-    savedFilters?: ISavedFilter[];
 }
 
 interface IInitialQueryState {
@@ -113,6 +112,7 @@ const QueryBuilder = ({
             enableDuplicate: true,
             enableEditTitle: true,
             enableShare: false,
+            enableDefaultFilter: false,
         },
         savedFilters: [],
         selectedSavedFilter: null,

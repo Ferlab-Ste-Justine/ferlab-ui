@@ -27,6 +27,13 @@ interface IQueryBuilderHeaderProps {
     onDuplicateSavedFilter: () => void;
 }
 
+interface IConfirmModalDict {
+    title: string | React.ReactNode;
+    content: string | React.ReactNode;
+    okText: string | React.ReactNode;
+    cancelText: string | React.ReactNode;
+}
+
 const QueryBuilderHeaderTools = ({
     config,
     dictionary = {},
@@ -41,11 +48,24 @@ const QueryBuilderHeaderTools = ({
     const [isNewFilter, setIsNewFilter] = useState(false);
     const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
 
-    const getSavedFiltersListing = (selectedKey: string) => {
+    const getSavedFiltersMenu = (selectedKey: string) => {
         return (
             <Menu selectedKeys={selectedKey ? [selectedKey] : []}>
                 {savedFilters.map((savedFilter: ISavedFilter) => (
-                    <Menu.Item key={savedFilter.id} onClick={() => onSavedFilterChange(savedFilter)}>
+                    <Menu.Item
+                        key={savedFilter.id}
+                        onClick={() => {
+                            if (savedFilter.id == selectedKey) return;
+
+                            const callback = () => onSavedFilterChange(savedFilter);
+
+                            if (isDirty) {
+                                confirmUnsavedChangeForExistingFilter(callback);
+                            } else {
+                                callback();
+                            }
+                        }}
+                    >
                         {savedFilter.title}
                     </Menu.Item>
                 ))}
@@ -57,25 +77,48 @@ const QueryBuilderHeaderTools = ({
         );
     };
 
-    const confirmUnsavedChange = (onOkCallback: Function) => {
+    const confirmUnsavedChange = (dict: IConfirmModalDict, onOkCallback: Function) => {
         Modal.confirm({
-            title: dictionary.queryBuilderHeader?.modal?.notSaved?.title || 'Unsaved changes',
+            title: dict.title,
             icon: <ExclamationCircleOutlined />,
-            content:
-                dictionary.queryBuilderHeader?.modal?.notSaved?.content ||
-                'You are about to create a new filter; all modifications will be lost.',
-            okText: dictionary.queryBuilderHeader?.modal?.notSaved?.okText || 'Create',
-            cancelText: dictionary.queryBuilderHeader?.modal?.notSaved?.cancelText || 'Cancel',
+            content: dict.content,
+            okText: dict.okText,
+            cancelText: dict.cancelText,
             onOk: () => onOkCallback(),
         });
     };
 
+    const confirmUnsavedChangeForNewFilter = (onOkCallback: Function) => {
+        const dict: IConfirmModalDict = {
+            title: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.title || 'Unsaved changes',
+            content:
+                dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.createNewFilter?.content ||
+                'You are about to create a new filter; all modifications will be lost.',
+            okText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.createNewFilter?.okText || 'Create',
+            cancelText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.createNewFilter?.cancelText || 'Cancel',
+        };
+        confirmUnsavedChange(dict, onOkCallback);
+    };
+
+    const confirmUnsavedChangeForExistingFilter = (onOkCallback: Function) => {
+        const dict: IConfirmModalDict = {
+            title: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.title || 'Unsaved changes',
+            content:
+                dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.openSavedFilter?.content ||
+                'You are about to open a saved filter; all modifications will be lost.',
+            okText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.openSavedFilter?.okText || 'Continue',
+            cancelText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.openSavedFilter?.cancelText || 'Cancel',
+        };
+        confirmUnsavedChange(dict, onOkCallback);
+    };
+
     useEffect(() => {
-        setIsDirty(hasUnsavedChanges(selectedSavedFilter!, config.savedFilters!, queriesState));
-        setIsNewFilter(isNewUnsavedFilter(selectedSavedFilter!, config.savedFilters!));
-        setIsSaveButtonDisabled(
-            hasQueries(queriesState) ? false : isNewUnsavedFilter(selectedSavedFilter!, config.savedFilters!),
-        );
+        const isDirty = hasUnsavedChanges(selectedSavedFilter!, config.savedFilters!, queriesState);
+        const isNew = isNewUnsavedFilter(selectedSavedFilter!, config.savedFilters!);
+        
+        setIsDirty(isDirty);
+        setIsNewFilter(isNew);
+        setIsSaveButtonDisabled(hasQueries(queriesState) ? !isDirty : isNew);
     }, [queriesState, selectedSavedFilter]);
 
     return (
@@ -87,7 +130,7 @@ const QueryBuilderHeaderTools = ({
                         onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
                             if (isDirty) {
-                                confirmUnsavedChange(onNewSavedFilter);
+                                confirmUnsavedChangeForNewFilter(onNewSavedFilter);
                             } else {
                                 onNewSavedFilter();
                             }
@@ -122,7 +165,7 @@ const QueryBuilderHeaderTools = ({
                             onClick={(e: React.MouseEvent) => {
                                 e.stopPropagation();
                                 if (isDirty) {
-                                    confirmUnsavedChange(onDuplicateSavedFilter);
+                                    confirmUnsavedChangeForNewFilter(onDuplicateSavedFilter);
                                 } else {
                                     onDuplicateSavedFilter();
                                 }
@@ -178,7 +221,7 @@ const QueryBuilderHeaderTools = ({
                         if (savedFilters.length > 0) {
                             return (
                                 <Dropdown
-                                    overlay={getSavedFiltersListing(selectedSavedFilter ? selectedSavedFilter.id : '')}
+                                    overlay={getSavedFiltersMenu(selectedSavedFilter ? selectedSavedFilter.id : '')}
                                     disabled={savedFilters.length == 0}
                                     trigger={['click']}
                                 >
@@ -217,7 +260,6 @@ const QueryBuilderHeaderTools = ({
 };
 
 const isNewUnsavedFilter = (selectedSavedFilter: ISavedFilter, savedFilters: ISavedFilter[]) => {
-    // Newly created filter that was not saved yet (doesn't exist in the list of savedFilters)
     return (
         !selectedSavedFilter ||
         !(savedFilters!.filter((savedFilter: ISavedFilter) => savedFilter.id == selectedSavedFilter?.id).length > 0)
@@ -232,7 +274,6 @@ const hasUnsavedChanges = (
     savedFilters: ISavedFilter[],
     queriesState: IQueriesState,
 ) => {
-    // Existing filter that has unsaved changes
     if (selectedSavedFilter && !isNewUnsavedFilter(selectedSavedFilter, savedFilters)) {
         if (selectedSavedFilter.filters.length != queriesState.queries.length) return true;
 

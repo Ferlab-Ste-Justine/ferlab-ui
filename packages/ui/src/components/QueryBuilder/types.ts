@@ -36,6 +36,7 @@ export interface IQueryBuilderHeaderConfigOptions {
     enableEditTitle: boolean;
     enableShare: boolean;
     enableDuplicate: boolean;
+    enableDefaultFilter: boolean;
 }
 
 export interface IQueryBuilderHeaderConfig {
@@ -121,8 +122,18 @@ interface IQueryBuilderHeaderDictionnary {
                 maximumLength: string | React.ReactNode;
             };
         };
-        notSaved?: IPopupConfirmDictionary & {
-            content: string | React.ReactNode;
+        confirmUnsaved?: {
+            title: string | React.ReactNode;
+            openSavedFilter: {
+                okText: string | React.ReactNode;
+                cancelText: string | React.ReactNode;
+                content: string | React.ReactNode;
+            };
+            createNewFilter: {
+                okText: string | React.ReactNode;
+                cancelText: string | React.ReactNode;
+                content: string | React.ReactNode;
+            };
         };
     };
     notification?: {
@@ -138,8 +149,8 @@ interface IQueryBuilderHeaderDictionnary {
         duplicateQueryBuilder: string | React.ReactNode;
         delete: string | React.ReactNode;
         share: string | React.ReactNode;
-        setAsDefaultFilter: string | React.ReactNode;
-        usetDefaultFilter: string | React.ReactNode;
+        setAsDefaultFilter: string | React.ReactNode;
+        usetDefaultFilter: string | React.ReactNode;
         noSavedFilters: string | React.ReactNode;
     };
     myFiltersDropdown?: {

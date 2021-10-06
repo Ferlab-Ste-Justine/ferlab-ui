@@ -82,23 +82,25 @@ const QueryBuilderHeader = ({
                                     <EditIcon />
                                 </Button>
                             )}
-                            <Tooltip
-                                title={
-                                    localSelectedSavedFilter?.default
-                                        ? dictionary.queryBuilderHeader?.tooltips?.setAsDefaultFilter ||
-                                          'Set as default filter'
-                                        : dictionary.queryBuilderHeader?.tooltips?.usetDefaultFilter ||
-                                          'Unset default filter'
-                                }
-                            >
-                                <Button
-                                    className={styles.iconBtnAction}
-                                    onClick={() => console.log('star')}
-                                    type="text"
+                            {config.options?.enableDefaultFilter && (
+                                <Tooltip
+                                    title={
+                                        localSelectedSavedFilter?.default
+                                            ? dictionary.queryBuilderHeader?.tooltips?.setAsDefaultFilter ||
+                                              'Set as default filter'
+                                            : dictionary.queryBuilderHeader?.tooltips?.usetDefaultFilter ||
+                                              'Unset default filter'
+                                    }
                                 >
-                                    {localSelectedSavedFilter?.default ? <StarFilledIcon /> : <StarIcon />}
-                                </Button>
-                            </Tooltip>
+                                    <Button
+                                        className={styles.iconBtnAction}
+                                        onClick={() => console.log('star')}
+                                        type="text"
+                                    >
+                                        {localSelectedSavedFilter?.default ? <StarFilledIcon /> : <StarIcon />}
+                                    </Button>
+                                </Tooltip>
+                            )}
                         </div>
                     </StackLayout>
                     {config.showTools && (
