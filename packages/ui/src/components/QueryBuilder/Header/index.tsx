@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Typography, Modal, Input, Space, Button, Tooltip } from 'antd';
 import cx from 'classnames';
 import { v4 } from 'uuid';
-import isEqual from 'lodash/isEqual';
 import CaretRightIcon from '../icons/CaretRightIcon';
 import CaretDownIcon from '../icons/CaretDownIcon';
 import EditIcon from '../icons/EditIcon';
@@ -11,7 +10,7 @@ import StarFilledIcon from '../icons/StarFilledIcon';
 import StackLayout from '../../../layout/StackLayout';
 import QueryBuilderHeaderTools from './Tools';
 import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../types';
-import { isNotEmptySqon } from '../../../data/sqon/utils';
+import { getDefaultSyntheticSqon } from '../../../data/sqon/utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
 
@@ -24,6 +23,7 @@ interface IQueryBuilderHeaderProps {
     selectedSavedFilter?: ISavedFilter;
     onSavedFilterChange: TOnSavedFilterChange;
     queriesState: IQueriesState;
+    resetQueriesState: (id: string) => void;
 }
 
 const { Title, Text } = Typography;
@@ -38,51 +38,11 @@ const QueryBuilderHeader = ({
     selectedSavedFilter,
     onSavedFilterChange,
     queriesState,
+    resetQueriesState,
 }: IQueryBuilderHeaderProps) => {
     const [isEditModalVisible, setEditModalVisible] = useState(false);
     const [localSelectedSavedFilter, setLocalSelectedSavedFilter] = useState<ISavedFilter | null>(null);
     const [savedFilterTitle, setSavedFilterTitle] = useState('');
-
-    const isNewUnsavedFilter = () => {
-        // Newly created filter that was not saved yet (doesn't exist in the list of savedFilters)
-        return !selectedSavedFilter && queriesState.queries.filter((sqon) => isNotEmptySqon(sqon)).length > 0;
-    };
-
-    const hasUnsavedChanges = () => {
-        // Existing filter that has unsaved changes
-        if (selectedSavedFilter) {
-            if (selectedSavedFilter.filters.length != queriesState.queries.length) return true;
-
-            let areEqual = true;
-            for (let savedFilterQuery of selectedSavedFilter.filters) {
-                const foundQuery = queriesState.queries.find(
-                    (queryStateQuery) => queryStateQuery.id == savedFilterQuery.id,
-                );
-
-                if (!foundQuery) {
-                    areEqual = false;
-                    break;
-                }
-
-                areEqual &&= isEqual(
-                    {
-                        id: foundQuery?.id,
-                        op: foundQuery?.op,
-                        content: foundQuery?.content,
-                    },
-                    {
-                        id: savedFilterQuery?.id,
-                        op: savedFilterQuery?.op,
-                        content: savedFilterQuery?.content,
-                    },
-                );
-            }
-
-            return !areEqual;
-        }
-
-        return false;
-    };
 
     const onSaveFilter = () => {
         const newSavedFilter = {
@@ -150,14 +110,25 @@ const QueryBuilderHeader = ({
                             dictionary={dictionary}
                             savedFilters={config.savedFilters!}
                             selectedSavedFilter={selectedSavedFilter!}
+                            queriesState={queriesState}
                             onSavedFilterChange={onSavedFilterChange}
-                            isNewUnsavedFilter={isNewUnsavedFilter}
-                            hasUnsavedChanges={hasUnsavedChanges}
                             onNewSavedFilter={() => {
-                                console.log('TODO: Create new saved filter');
+                                const defaultQueryId = v4();
+                                resetQueriesState(defaultQueryId);
+                                onSavedFilterChange({
+                                    id: v4(),
+                                    title: '',
+                                    default: false,
+                                    filters: [getDefaultSyntheticSqon(defaultQueryId)],
+                                });
                             }}
                             onDuplicateSavedFilter={() => {
-                                console.log('TODO: Duplicate saved filter');
+                                onSavedFilterChange({
+                                    id: v4(),
+                                    title: `${selectedSavedFilter?.title!} COPY`,
+                                    default: false,
+                                    filters: [...queriesState.queries],
+                                });
                             }}
                         />
                     )}

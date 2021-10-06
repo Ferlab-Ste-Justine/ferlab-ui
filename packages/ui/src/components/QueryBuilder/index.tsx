@@ -23,6 +23,7 @@ import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import { getQueryBuilderCache, getQueryParams, setQueryBuilderCache, updateQueryParam } from '../../data/filters/utils';
 import {
     changeCombineOperator,
+    getDefaultSyntheticSqon,
     isEmptySqon,
     isIndexReferencedInSqon,
     isNotEmptySqon,
@@ -176,7 +177,7 @@ const QueryBuilder = ({
     const resetQueries = (id: string) => {
         setQueriesState({
             activeId: id,
-            queries: [{ id, total: 0, op: BooleanOperators.and, content: [] }],
+            queries: [getDefaultSyntheticSqon(id)],
         });
         onQueryChange(id, {});
     };
@@ -341,6 +342,7 @@ const QueryBuilder = ({
                     collapsed={queryBuilderCollapsed}
                     dictionary={dictionary}
                     toggleQb={toggleQueryBuilder}
+                    resetQueriesState={resetQueries}
                 >
                     {children}
                 </QueryBuilderHeader>

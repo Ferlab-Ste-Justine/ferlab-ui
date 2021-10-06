@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
+import isEqual from 'lodash/isEqual';
 import { Dropdown, Button, Menu, Tooltip, Modal, Popconfirm } from 'antd';
 import { DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import StackLayout from '../../../../layout/StackLayout';
-import { IDictionary, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../../types';
+import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../../types';
 import PlusIcon from '../../icons/PlusIcon';
 import SaveIcon from '../../icons/SaveIcon';
 import CopyIcon from '../../icons/CopyIcon';
@@ -11,6 +12,7 @@ import DeleteIcon from '../../icons/DeleteIcon';
 import ShareIcon from '../../icons/ShareIcon';
 import FolderIcon from '../../icons/FolderIcon';
 import ConditionalWrapper from '../../../utils/ConditionalWrapper';
+import { isNotEmptySqon } from '../../../../data/sqon/utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeaderTools.module.scss';
 
@@ -19,9 +21,8 @@ interface IQueryBuilderHeaderProps {
     dictionary?: IDictionary;
     savedFilters: ISavedFilter[];
     selectedSavedFilter?: ISavedFilter;
+    queriesState: IQueriesState;
     onSavedFilterChange: TOnSavedFilterChange;
-    isNewUnsavedFilter: () => boolean;
-    hasUnsavedChanges: () => boolean;
     onNewSavedFilter: () => void;
     onDuplicateSavedFilter: () => void;
 }
@@ -31,12 +32,15 @@ const QueryBuilderHeaderTools = ({
     dictionary = {},
     savedFilters = [],
     selectedSavedFilter,
+    queriesState,
     onSavedFilterChange,
-    isNewUnsavedFilter,
-    hasUnsavedChanges,
     onNewSavedFilter,
     onDuplicateSavedFilter,
 }: IQueryBuilderHeaderProps) => {
+    const [isDirty, setIsDirty] = useState(false);
+    const [isNewFilter, setIsNewFilter] = useState(false);
+    const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
+
     const getSavedFiltersListing = (selectedKey: string) => {
         return (
             <Menu selectedKeys={selectedKey ? [selectedKey] : []}>
@@ -66,6 +70,14 @@ const QueryBuilderHeaderTools = ({
         });
     };
 
+    useEffect(() => {
+        setIsDirty(hasUnsavedChanges(selectedSavedFilter!, config.savedFilters!, queriesState));
+        setIsNewFilter(isNewUnsavedFilter(selectedSavedFilter!, config.savedFilters!));
+        setIsSaveButtonDisabled(
+            hasQueries(queriesState) ? false : isNewUnsavedFilter(selectedSavedFilter!, config.savedFilters!),
+        );
+    }, [queriesState, selectedSavedFilter]);
+
     return (
         <StackLayout className={styles.queryBuilderHeaderTools}>
             <StackLayout className={styles.toolsContainer}>
@@ -74,27 +86,27 @@ const QueryBuilderHeaderTools = ({
                         className={styles.queryBuilderHeaderActionIconBtn}
                         onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
-                            if (hasUnsavedChanges()) {
+                            if (isDirty) {
                                 confirmUnsavedChange(onNewSavedFilter);
                             } else {
                                 onNewSavedFilter();
                             }
                         }}
                         type="text"
-                        disabled={!selectedSavedFilter}
+                        disabled={isNewFilter}
                     >
                         <PlusIcon />
                     </Button>
                 </Tooltip>
                 <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.save || 'Save'}>
                     <Button
-                        className={cx(styles.queryBuilderHeaderActionIconBtn, hasUnsavedChanges() ? styles.dirty : '')}
+                        className={cx(styles.queryBuilderHeaderActionIconBtn, isDirty ? styles.dirty : '')}
                         onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
                             config.onSaveFilter(selectedSavedFilter!);
                         }}
                         type="text"
-                        disabled={!selectedSavedFilter && !isNewUnsavedFilter()}
+                        disabled={isSaveButtonDisabled}
                     >
                         <SaveIcon />
                     </Button>
@@ -109,14 +121,14 @@ const QueryBuilderHeaderTools = ({
                             className={styles.queryBuilderHeaderActionIconBtn}
                             onClick={(e: React.MouseEvent) => {
                                 e.stopPropagation();
-                                if (hasUnsavedChanges()) {
+                                if (isDirty) {
                                     confirmUnsavedChange(onDuplicateSavedFilter);
                                 } else {
                                     onDuplicateSavedFilter();
                                 }
                             }}
                             type="text"
-                            disabled={!selectedSavedFilter}
+                            disabled={isNewFilter}
                         >
                             <CopyIcon />
                         </Button>
@@ -139,11 +151,7 @@ const QueryBuilderHeaderTools = ({
                         }
                         getPopupContainer={(trigger) => trigger.parentElement!}
                     >
-                        <Button
-                            className={styles.queryBuilderHeaderActionIconBtn}
-                            type="text"
-                            disabled={!selectedSavedFilter}
-                        >
+                        <Button className={styles.queryBuilderHeaderActionIconBtn} type="text" disabled={isNewFilter}>
                             <DeleteIcon />
                         </Button>
                     </Popconfirm>
@@ -156,7 +164,7 @@ const QueryBuilderHeaderTools = ({
                                 e.stopPropagation();
                             }}
                             type="text"
-                            disabled={!selectedSavedFilter}
+                            disabled={isNewFilter}
                         >
                             <ShareIcon />
                         </Button>
@@ -206,6 +214,57 @@ const QueryBuilderHeaderTools = ({
             </StackLayout>
         </StackLayout>
     );
+};
+
+const isNewUnsavedFilter = (selectedSavedFilter: ISavedFilter, savedFilters: ISavedFilter[]) => {
+    // Newly created filter that was not saved yet (doesn't exist in the list of savedFilters)
+    return (
+        !selectedSavedFilter ||
+        !(savedFilters!.filter((savedFilter: ISavedFilter) => savedFilter.id == selectedSavedFilter?.id).length > 0)
+    );
+};
+
+const hasQueries = (queriesState: IQueriesState) =>
+    queriesState.queries.filter((sqon) => isNotEmptySqon(sqon)).length > 0;
+
+const hasUnsavedChanges = (
+    selectedSavedFilter: ISavedFilter,
+    savedFilters: ISavedFilter[],
+    queriesState: IQueriesState,
+) => {
+    // Existing filter that has unsaved changes
+    if (selectedSavedFilter && !isNewUnsavedFilter(selectedSavedFilter, savedFilters)) {
+        if (selectedSavedFilter.filters.length != queriesState.queries.length) return true;
+
+        let areEqual = true;
+        for (let savedFilterQuery of selectedSavedFilter.filters) {
+            const foundQuery = queriesState.queries.find(
+                (queryStateQuery) => queryStateQuery.id == savedFilterQuery.id,
+            );
+
+            if (!foundQuery) {
+                areEqual = false;
+                break;
+            }
+
+            areEqual &&= isEqual(
+                {
+                    id: foundQuery?.id,
+                    op: foundQuery?.op,
+                    content: foundQuery?.content,
+                },
+                {
+                    id: savedFilterQuery?.id,
+                    op: savedFilterQuery?.op,
+                    content: savedFilterQuery?.content,
+                },
+            );
+        }
+
+        return !areEqual;
+    }
+
+    return false;
 };
 
 export default QueryBuilderHeaderTools;

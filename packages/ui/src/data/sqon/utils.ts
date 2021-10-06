@@ -17,7 +17,7 @@ import { isEmpty } from 'lodash';
  *
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
- export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
+export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
     return !Object.keys(sqon).length || isEmpty(sqon?.content);
 };
 
@@ -84,6 +84,18 @@ export const generateEmptyQuery = (
 ): ISyntheticSqon => ({
     ...sqon,
     total: total,
+    content: [],
+});
+
+/**
+ * Get default sqon
+ *
+ * @param {ISyntheticSqon} syntheticSqon The default synthetic sqon
+ */
+export const getDefaultSyntheticSqon = (id: string = v4()): ISyntheticSqon => ({
+    id,
+    op: BooleanOperators.and,
+    total: 0,
     content: [],
 });
 
