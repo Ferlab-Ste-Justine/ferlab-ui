@@ -127,7 +127,9 @@ const QueryBuilderHeader = ({
                             onDuplicateSavedFilter={() => {
                                 onSavedFilterChange({
                                     id: v4(),
-                                    title: `${selectedSavedFilter?.title!} COPY`,
+                                    title: `${selectedSavedFilter?.title!} ${
+                                        dictionary.queryBuilderHeader?.duplicateFilterTitleSuffix || 'COPY'
+                                    }`,
                                     default: false,
                                     filters: [...queriesState.queries],
                                 });

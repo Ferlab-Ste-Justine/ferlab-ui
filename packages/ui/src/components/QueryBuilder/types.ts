@@ -33,10 +33,10 @@ export interface ISavedFilter {
 }
 
 export interface IQueryBuilderHeaderConfigOptions {
-    enableEditTitle: boolean;
-    enableShare: boolean;
-    enableDuplicate: boolean;
-    enableDefaultFilter: boolean;
+    enableEditTitle?: boolean;
+    enableShare?: boolean;
+    enableDuplicate?: boolean;
+    enableDefaultFilter?: boolean;
 }
 
 export interface IQueryBuilderHeaderConfig {
@@ -157,6 +157,7 @@ interface IQueryBuilderHeaderDictionnary {
         title: string | React.ReactNode;
         manageMyFilter: string | React.ReactNode;
     };
+    duplicateFilterTitleSuffix?: string
 }
 
 export interface IDictionary {
