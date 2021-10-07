@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Typography, Modal, Input, Space, Button, Tooltip } from 'antd';
 import cx from 'classnames';
 import { v4 } from 'uuid';
@@ -40,6 +40,7 @@ const QueryBuilderHeader = ({
     queriesState,
     resetQueriesState,
 }: IQueryBuilderHeaderProps) => {
+    const titleInputRef = useRef<Input>(null);
     const [isEditModalVisible, setEditModalVisible] = useState(false);
     const [localSelectedSavedFilter, setLocalSelectedSavedFilter] = useState<ISavedFilter | null>(null);
     const [savedFilterTitle, setSavedFilterTitle] = useState('');
@@ -59,6 +60,17 @@ const QueryBuilderHeader = ({
         setLocalSelectedSavedFilter(selectedSavedFilter!);
     }, [selectedSavedFilter]);
 
+    const callbackRef = useCallback(
+        (inputElement) => {
+            if (inputElement) {
+                setTimeout(() => {
+                    inputElement.focus();
+                }, 10);
+            }
+        },
+        [isEditModalVisible],
+    );
+
     return (
         <div id="query-builder-header-tools">
             <StackLayout vertical className={styles.QBHContainer}>
@@ -76,7 +88,9 @@ const QueryBuilderHeader = ({
                             {config.options?.enableEditTitle && (
                                 <Button
                                     className={styles.iconBtnAction}
-                                    onClick={() => setEditModalVisible(true)}
+                                    onClick={() => {
+                                        setEditModalVisible(true);
+                                    }}
                                     type="text"
                                 >
                                     <EditIcon />
@@ -157,6 +171,7 @@ const QueryBuilderHeader = ({
                             {dictionary.queryBuilderHeader?.modal?.edit?.input.label || 'Query name'}
                         </Text>
                         <Input
+                            ref={callbackRef}
                             value={savedFilterTitle || selectedSavedFilter?.title!}
                             onChange={(e) => {
                                 setSavedFilterTitle(e.target.value);

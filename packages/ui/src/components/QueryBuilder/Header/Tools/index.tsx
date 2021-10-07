@@ -115,7 +115,7 @@ const QueryBuilderHeaderTools = ({
     useEffect(() => {
         const isDirty = hasUnsavedChanges(selectedSavedFilter!, config.savedFilters!, queriesState);
         const isNew = isNewUnsavedFilter(selectedSavedFilter!, config.savedFilters!);
-        
+
         setIsDirty(isDirty);
         setIsNewFilter(isNew);
         setIsSaveButtonDisabled(hasQueries(queriesState) ? !isDirty : isNew);
