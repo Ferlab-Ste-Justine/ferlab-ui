@@ -1,3 +1,5 @@
+### 2.1.0 | 2021-10-08
+- feat: Add arranger helper functions
 
 ### 1.9.8 | 2021-09-24
 
