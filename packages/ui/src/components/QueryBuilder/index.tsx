@@ -10,7 +10,7 @@ import StackLayout from '../../layout/StackLayout';
 import QueryBar from './QueryBar';
 import QueryTools from './QueryTools';
 import { BooleanOperators } from '../../data/sqon/operators';
-import { IDictionary, TOnChange, ArrayTenOrMore, TOnFacetClick } from './types';
+import { IDictionary, TOnChange, ArrayTenOrMore, IFacetFilterConfig } from './types';
 import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import { getQueryBuilderCache, getQueryParams, setQueryBuilderCache, updateQueryParam } from '../../data/filters/utils';
 import {
@@ -33,21 +33,19 @@ export interface IQueryBuilderProps {
     total?: number;
     IconTotal?: React.ReactNode;
     currentQuery?: ISyntheticSqon | Record<string, never>;
-    onFacetClick?: TOnFacetClick;
     onChangeQuery?: TOnChange;
     onUpdate?: (state: IInitialQueryState) => void;
     loading?: boolean;
     showHeader?: boolean;
     showHeaderTools?: boolean;
     headerTitle?: string;
-    enableFacetFilter?: boolean;
     enableCombine?: boolean;
     enableSingleQuery?: boolean;
     enableShowHideLabels?: boolean;
     initialShowLabelState?: boolean;
     initialState?: IInitialQueryState | Record<any, any>;
     referenceColors?: ArrayTenOrMore<string>;
-    selectedFilterContent?: React.ReactElement;
+    facetFilterConfig?: IFacetFilterConfig;
 }
 
 interface IInitialQueryState {
@@ -75,7 +73,6 @@ const QueryBuilder = ({
     showHeader = false,
     showHeaderTools = false,
     headerTitle = 'Query Builder',
-    enableFacetFilter = false,
     enableCombine = false,
     enableSingleQuery = false,
     enableShowHideLabels = false,
@@ -98,8 +95,11 @@ const QueryBuilder = ({
         '#2D7D9A',
         '#847545',
     ],
-    onFacetClick,
-    selectedFilterContent,
+    facetFilterConfig = {
+        enable: false,
+        onFacetClick: () => {},
+        blacklistedFacets: []
+    },
 }: IQueryBuilderProps) => {
     const [queriesState, setQueriesState] = useState<{
         activeId: string;
@@ -387,9 +387,7 @@ const QueryBuilder = ({
                                 setSelectedQueryIndices([...selectedQueryIndices, id]);
                             }}
                             query={sqon}
-                            enableFacetFilter={enableFacetFilter}
-                            onFacetClick={onFacetClick}
-                            selectedFilterContent={selectedFilterContent}
+                            facetFilterConfig={facetFilterConfig}
                             isReferenced={isIndexReferencedInSqon(i, selectedSyntheticSqon)}
                             isSelected={selectedQueryIndices.includes(i)}
                             selectionDisabled={queriesState.queries.length === 1 || !enableCombine}
