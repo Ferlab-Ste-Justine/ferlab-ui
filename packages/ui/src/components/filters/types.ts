@@ -2,6 +2,8 @@ import { ReactNode } from 'react';
 import { RangeOperators } from '../../data/sqon/operators';
 
 export type onChangeType = (fg: IFilterGroup, f: IFilter[]) => void;
+export type onIsOpenChange = (isOpen: boolean) => void;
+export type onSearchVisibleChange = (isVisible: boolean) => void;
 
 export interface IFilterRangeTypes {
     key: string;
