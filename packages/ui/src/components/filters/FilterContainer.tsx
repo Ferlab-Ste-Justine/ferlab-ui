@@ -64,7 +64,7 @@ const hasFilters = (filterGroup: IFilterGroup, selectedFilters: IFilter[]) => {
     switch (filterGroup.type) {
         case VisualType.Checkbox:
         case VisualType.Toggle:
-            return selectedFilters.length > 0;
+            return selectedFilters?.length > 0;
         case VisualType.Range:
             const rangeFilters = selectedFilters as IFilter<IFilterRange>[];
             return rangeFilters.length ? rangeFilters[0].data.max! > 0 || rangeFilters[0].data.min! > 0 : false;
