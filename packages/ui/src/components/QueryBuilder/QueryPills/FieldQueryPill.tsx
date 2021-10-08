@@ -12,7 +12,7 @@ import LessThanOrEqualOperator from '../icons/LessThanOrEqualOperator';
 import GreaterThanOperator from '../icons/GreaterThanOperator';
 import LessThanOperator from '../icons/LessThanOperator';
 import QueryValues from '../QueryValues';
-import { IDictionary, TOnFacetClick } from '../types';
+import { IDictionary, IFacetFilterConfig } from '../types';
 import { IValueFilter } from '../../../data/sqon/types';
 import { FieldOperators } from '../../../data/sqon/operators';
 import { isBooleanFilter, isRangeFilter } from '../../../data/sqon/utils';
@@ -26,9 +26,7 @@ interface IFieldQueryPillProps {
     dictionary?: IDictionary;
     showLabels?: boolean;
     onRemove: () => void;
-    onFacetClick?: TOnFacetClick;
-    enableFacetFilter?: boolean;
-    filtersDropdownContent?: React.ReactElement;
+    facetFilterConfig: IFacetFilterConfig;
 }
 
 interface IOperatorProps {
@@ -61,27 +59,28 @@ const FieldQueryPill = ({
     showLabels,
     onRemove,
     isBarActive,
-    onFacetClick,
-    enableFacetFilter,
-    filtersDropdownContent = undefined,
+    facetFilterConfig,
 }: IFieldQueryPillProps) => {
     const [tryOpenQueryPillFilter, setTryOpenQueryPillFilter] = useState(false);
     const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
-    const [dropdownContent, setDropdownContent] = useState(filtersDropdownContent);
+    const [dropdownContent, setDropdownContent] = useState(facetFilterConfig.selectedFilterContent);
     const handleQueryPillClick = (isBarActive: boolean) => {
-        if (isBarActive && onFacetClick) {
-            onFacetClick(query.content.field);
+        if (isBarActive && facetFilterConfig.onFacetClick) {
+            facetFilterConfig.onFacetClick(query.content.field);
             setTryOpenQueryPillFilter(false);
         } else {
             setTryOpenQueryPillFilter(true);
         }
     };
+    const isFacetFilterEnableForField = () => {
+        return facetFilterConfig.enable && !facetFilterConfig.blacklistedFacets?.includes(query.content.field);
+    };
 
     useEffect(() => {
-        if (filtersDropdownContent) {
-            setDropdownContent(filtersDropdownContent);
+        if (facetFilterConfig.selectedFilterContent) {
+            setDropdownContent(facetFilterConfig.selectedFilterContent);
         }
-    }, [filtersDropdownContent]);
+    }, [facetFilterConfig.selectedFilterContent]);
 
     useEffect(() => {
         if (tryOpenQueryPillFilter) {
@@ -101,7 +100,7 @@ const FieldQueryPill = ({
             )}
 
             <ConditionalWrapper
-                condition={enableFacetFilter!}
+                condition={isFacetFilterEnableForField()}
                 wrapper={(children) => (
                     <Dropdown
                         visible={filterDropdownVisible}
@@ -120,7 +119,7 @@ const FieldQueryPill = ({
                                     }
                                 }}
                             >
-                                {(enableFacetFilter && dropdownContent) || (
+                                {(facetFilterConfig.enable && dropdownContent) || (
                                     <div className={styles.filterLoader}>
                                         <Spin />
                                     </div>
@@ -135,7 +134,7 @@ const FieldQueryPill = ({
                 )}
             >
                 <QueryValues
-                    onClick={enableFacetFilter ? () => handleQueryPillClick(isBarActive!) : undefined}
+                    onClick={isFacetFilterEnableForField() ? () => handleQueryPillClick(isBarActive!) : undefined}
                     isElement={query.op === FieldOperators.between}
                     dictionary={dictionary}
                     query={query}

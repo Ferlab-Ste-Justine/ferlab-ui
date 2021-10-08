@@ -60,6 +60,13 @@ export type ArrayTenOrMore<T> = {
     10: T;
 } & Array<T>;
 
+export interface IFacetFilterConfig {
+    enable: boolean;
+    selectedFilterContent?: React.ReactElement;
+    onFacetClick: TOnFacetClick; 
+    blacklistedFacets?: Array<string>
+}
+
 export enum CombinerEnum {
     And = 'and',
     Or = 'or',

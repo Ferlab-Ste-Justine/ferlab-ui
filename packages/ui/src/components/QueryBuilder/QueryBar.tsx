@@ -5,7 +5,7 @@ import cx from 'classnames';
 
 import StackLayout from '../../layout/StackLayout';
 import BooleanQueryPill from './QueryPills/BooleanQueryPill';
-import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange, TOnFacetClick } from './types';
+import { IDictionary, IFacetFilterConfig, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnChange } from './types';
 import { ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
 import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
 import { numberFormat } from '../../utils/numberUtils';
@@ -23,9 +23,6 @@ interface IQueryBarProps {
     selectionDisabled?: boolean;
     canDelete?: boolean;
     showLabels?: boolean;
-    selectedFilterContent?: React.ReactElement;
-    enableFacetFilter?: boolean;
-    onFacetClick?: TOnFacetClick;
     onRemoveFacet: TCallbackRemoveAction;
     onRemoveReference: TCallbackRemoveReferenceAction;
     isActive?: boolean;
@@ -37,6 +34,7 @@ interface IQueryBarProps {
     onSelectBar: (index: number, toRemove: boolean) => void;
     onCombineChange: (id: string, combinator: TSqonGroupOp) => void;
     getColorForReference: (refIndex: number) => string;
+    facetFilterConfig: IFacetFilterConfig;
 }
 const QueryBar = ({
     id,
@@ -45,15 +43,12 @@ const QueryBar = ({
     total,
     dictionary = {},
     query,
-    enableFacetFilter,
-    onFacetClick,
     onRemoveFacet,
     onRemoveReference,
     actionDisabled = false,
     selectionDisabled = false,
     canDelete = true,
     showLabels = true,
-    selectedFilterContent,
     isActive = true,
     isSelected = false,
     isReferenced = false,
@@ -63,6 +58,7 @@ const QueryBar = ({
     onCombineChange,
     onSelectBar,
     getColorForReference,
+    facetFilterConfig
 }: IQueryBarProps) => {
     const [checked, setChecked] = useState(isSelected);
     useEffect(() => {
@@ -109,13 +105,11 @@ const QueryBar = ({
                                 isActive={isActive}
                                 dictionary={dictionary}
                                 showLabels={showLabels}
-                                enableFacetFilter={enableFacetFilter}
-                                onFacetClick={onFacetClick}
                                 onRemoveFacet={onRemoveFacet}
                                 onRemoveReference={onRemoveReference}
                                 onCombineChange={onCombineChange}
                                 getColorForReference={getColorForReference}
-                                selectedFilterContent={selectedFilterContent}
+                                facetFilterConfig={facetFilterConfig}
                             />
                         </StackLayout>
                     )

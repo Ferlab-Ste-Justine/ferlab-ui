@@ -6,7 +6,12 @@ import { isBooleanOperator, isReference } from '../../../data/sqon/utils';
 import ReferenceQueryPill from './ReferenceQueryPill';
 import FieldQueryPill from './FieldQueryPill';
 import Combiner from '../Combiner';
-import { IDictionary, TCallbackRemoveAction, TCallbackRemoveReferenceAction, TOnFacetClick } from '../types';
+import {
+    IDictionary,
+    IFacetFilterConfig,
+    TCallbackRemoveAction,
+    TCallbackRemoveReferenceAction,
+} from '../types';
 
 interface IBooleanQueryPillProps {
     parentQueryId: string;
@@ -14,9 +19,7 @@ interface IBooleanQueryPillProps {
     isActive: boolean;
     showLabels?: boolean;
     dictionary: IDictionary;
-    selectedFilterContent?: React.ReactElement;
-    enableFacetFilter?: boolean
-    onFacetClick?: TOnFacetClick;
+    facetFilterConfig: IFacetFilterConfig;
     onRemoveFacet: TCallbackRemoveAction;
     onRemoveReference: TCallbackRemoveReferenceAction;
     onCombineChange?: (id: string, combinator: TSqonGroupOp) => void;
@@ -45,9 +48,7 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
                         onRemove={() => props.onRemoveFacet(f, props.query)}
                         query={f as IValueFilter}
                         showLabels={props.showLabels}
-                        enableFacetFilter={props.enableFacetFilter}
-                        onFacetClick={props.onFacetClick}
-                        filtersDropdownContent={props.selectedFilterContent}
+                        facetFilterConfig={props.facetFilterConfig}
                     />
                 )}
                 {isNotEnd(props, i) && (

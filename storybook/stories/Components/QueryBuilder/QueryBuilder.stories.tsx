@@ -213,7 +213,9 @@ WithQueryPillFilters.args = {
     showHeaderTools: true,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
-    enableFacetFilter: true,
+    facetFilterConfig: {
+        enable: true
+    },
     initialState: {
         state: [{
             op: 'and', content: [{
@@ -291,7 +293,6 @@ WithNameMapping.args = {
     showHeaderTools: true,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
-    enableFacetFilter: true,
     dictionary: {   
         query: {
             facet: (facet: string) => {
