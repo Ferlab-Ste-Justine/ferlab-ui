@@ -213,7 +213,9 @@ WithQueryPillFilters.args = {
     showHeaderTools: true,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
-    enableFacetFilter: true,
+    facetFilterConfig: {
+        enable: true
+    },
     initialState: {
         state: [{
             op: 'and', content: [{
@@ -238,7 +240,10 @@ WithQueryPillFilters.args = {
 export const WithHeader = QueryBuilderStory.bind({});
 WithHeader.args = {
     title: 'With Header',
-    showHeader: true,
+    headerConfig: {
+        showHeader: true,
+        defaultTitle: "Queries",
+    },
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
@@ -336,11 +341,8 @@ WithHeaderAndTools.args = {
 export const WithNameMapping = QueryBuilderStory.bind({});
 WithNameMapping.args = {
     title: 'With facet and value mapping',
-    showHeader: true,
-    showHeaderTools: true,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
-    enableFacetFilter: true,
     dictionary: {   
         query: {
             facet: (facet: string) => {

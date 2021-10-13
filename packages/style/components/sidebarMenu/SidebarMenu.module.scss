@@ -155,6 +155,8 @@ $select-prefix: 'ant-select';
 
         .sidebarMenuItemTitle {
             margin-left: 15px;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
 
         &:focus-visible {

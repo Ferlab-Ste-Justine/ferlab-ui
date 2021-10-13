@@ -14,9 +14,8 @@ import {
     IDictionary,
     TOnChange,
     ArrayTenOrMore,
-    TOnFacetClick,
+    IFacetFilterConfig,
     IQueryBuilderHeaderConfig,
-    ISavedFilter,
     IQueriesState,
 } from './types';
 import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
@@ -42,7 +41,6 @@ export interface IQueryBuilderProps {
     total?: number;
     IconTotal?: React.ReactNode;
     currentQuery?: ISyntheticSqon | Record<string, never>;
-    onFacetClick?: TOnFacetClick;
     onChangeQuery?: TOnChange;
     onUpdate?: (state: IInitialQueryState) => void;
     loading?: boolean;
@@ -53,8 +51,8 @@ export interface IQueryBuilderProps {
     initialShowLabelState?: boolean;
     initialState?: IInitialQueryState | Record<any, any>;
     referenceColors?: ArrayTenOrMore<string>;
-    selectedFilterContent?: React.ReactElement;
     headerConfig?: IQueryBuilderHeaderConfig;
+    facetFilterConfig?: IFacetFilterConfig;
 }
 
 interface IInitialQueryState {
@@ -79,7 +77,6 @@ const QueryBuilder = ({
     onChangeQuery = undefined,
     onUpdate = undefined,
     loading = false,
-    enableFacetFilter = false,
     enableCombine = false,
     enableSingleQuery = false,
     enableShowHideLabels = false,
@@ -102,8 +99,6 @@ const QueryBuilder = ({
         '#2D7D9A',
         '#847545',
     ],
-    onFacetClick,
-    selectedFilterContent,
     headerConfig = {
         showHeader: false,
         showTools: false,
@@ -118,6 +113,11 @@ const QueryBuilder = ({
         selectedSavedFilter: null,
         onSaveFilter: () => {},
         onDeleteFilter: () => {},
+    },
+    facetFilterConfig = {
+        enable: false,
+        onFacetClick: () => {},
+        blacklistedFacets: [],
     },
 }: IQueryBuilderProps) => {
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
@@ -415,9 +415,7 @@ const QueryBuilder = ({
                                 setSelectedQueryIndices([...selectedQueryIndices, id]);
                             }}
                             query={sqon}
-                            enableFacetFilter={enableFacetFilter}
-                            onFacetClick={onFacetClick}
-                            selectedFilterContent={selectedFilterContent}
+                            facetFilterConfig={facetFilterConfig}
                             isReferenced={isIndexReferencedInSqon(i, selectedSyntheticSqon)}
                             isSelected={selectedQueryIndices.includes(i)}
                             selectionDisabled={queriesState.queries.length === 1 || !enableCombine}

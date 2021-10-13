@@ -6,7 +6,7 @@ import TextInputFilter from './TextInputFilter';
 import ToggleFilter from './ToggleFilter';
 import { IDictionary, IFilter, IFilterGroup, onChangeType, VisualType } from './types';
 
-type FilterSelectorProps = {
+export type FilterSelectorProps = {
     onChange: onChangeType;
     filterGroup: IFilterGroup;
     selectedFilters?: IFilter[];

@@ -115,6 +115,13 @@ interface IInputDictionary {
     placeholder: string;
 }
 
+export interface IFacetFilterConfig {
+    enable: boolean;
+    selectedFilterContent?: React.ReactElement;
+    onFacetClick: TOnFacetClick; 
+    blacklistedFacets?: Array<string>
+}
+
 interface IQueryBuilderHeaderDictionnary {
     modal?: {
         edit?: IPopupConfirmDictionary & {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import { Collapse } from 'antd';
 import { isEmpty } from 'lodash';
@@ -7,7 +7,17 @@ import StackLayout from '../../layout/StackLayout';
 
 import FilterSelector from './FilterSelector';
 import CheckedIcon from './icons/CheckedIcon';
-import { IDictionary, IFilter, IFilterGroup, IFilterRange, IFilterText, onChangeType, VisualType } from './types';
+import {
+    IDictionary,
+    IFilter,
+    IFilterGroup,
+    IFilterRange,
+    IFilterText,
+    onChangeType,
+    onIsOpenChange,
+    onSearchVisibleChange,
+    VisualType,
+} from './types';
 
 import styles from '@ferlab/style/components/filters/FilterContainer.module.scss';
 
@@ -17,10 +27,13 @@ type FilterContainerProps = {
     filterGroup: IFilterGroup;
     filters: IFilter[];
     selectedFilters?: IFilter[];
-    onChange: onChangeType;
     maxShowing?: number;
     isOpen?: boolean;
     dictionary?: IDictionary;
+    customContent?: React.ReactNode;
+    onChange: onChangeType;
+    onIsOpenChange?: onIsOpenChange;
+    onSearchVisibleChange?: onSearchVisibleChange;
 };
 
 type FilterContainerHeaderProps = {
@@ -64,7 +77,7 @@ const hasFilters = (filterGroup: IFilterGroup, selectedFilters: IFilter[]) => {
     switch (filterGroup.type) {
         case VisualType.Checkbox:
         case VisualType.Toggle:
-            return selectedFilters.length > 0;
+            return selectedFilters?.length > 0;
         case VisualType.Range:
             const rangeFilters = selectedFilters as IFilter<IFilterRange>[];
             return rangeFilters.length ? rangeFilters[0].data.max! > 0 || rangeFilters[0].data.min! > 0 : false;
@@ -80,12 +93,15 @@ const FilterContainer = ({
     filterGroup,
     filters = [],
     maxShowing = 5,
-    onChange,
     selectedFilters,
     isOpen = true,
     dictionary,
+    customContent,
+    onChange,
+    onIsOpenChange,
+    onSearchVisibleChange,
 }: FilterContainerProps) => {
-    const [hasSearchInput, setSearchInputVisible] = useState(false);
+    const [isSearchVisible, setIsSearchVisible] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(!isOpen);
     const defaultActiveKey = isCollapsed ? {} : { defaultActiveKey: '1' };
 
@@ -95,6 +111,7 @@ const FilterContainer = ({
                 className={styles.filterContainerCollapse}
                 {...defaultActiveKey}
                 onChange={(panels) => {
+                    if (onIsOpenChange) onIsOpenChange(panels.length !== 0);
                     setIsCollapsed(panels.length === 0);
                 }}
             >
@@ -103,24 +120,31 @@ const FilterContainer = ({
                     header={
                         <FilterContainerHeader
                             isCollapsed={isCollapsed}
-                            onSearchClick={setSearchInputVisible}
+                            onSearchClick={(visible) => {
+                                if (onSearchVisibleChange) onSearchVisibleChange(visible);
+                                setIsSearchVisible(visible);
+                            }}
                             searchEnabled={filterGroup.type === VisualType.Checkbox && filters.length > maxShowing}
-                            searchInputVisibled={hasSearchInput}
+                            searchInputVisibled={isSearchVisible}
                             title={filterGroup.title}
                             hasFilters={hasFilters(filterGroup, selectedFilters!)}
                         />
                     }
                     key={`1`}
                 >
-                    <FilterSelector
-                        dictionary={dictionary}
-                        filterGroup={filterGroup}
-                        filters={filters}
-                        maxShowing={maxShowing}
-                        onChange={onChange}
-                        searchInputVisible={hasSearchInput}
-                        selectedFilters={selectedFilters}
-                    />
+                    {customContent ? (
+                        customContent
+                    ) : (
+                        <FilterSelector
+                            dictionary={dictionary}
+                            filterGroup={filterGroup}
+                            filters={filters}
+                            maxShowing={maxShowing}
+                            onChange={onChange}
+                            searchInputVisible={isSearchVisible}
+                            selectedFilters={selectedFilters}
+                        />
+                    )}
                 </Panel>
             </Collapse>
         </div>
