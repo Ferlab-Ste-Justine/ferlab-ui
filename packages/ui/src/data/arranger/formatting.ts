@@ -1,13 +1,22 @@
-export const MISSING_DATA = '__missing__';
+export const ArrangerValues = {
+    missing: '__missing__',
+    noData: ' No Data',
+    true: '1',
+    false: '0',
+}
 
-export const keyEnhance = (key: string, s: string = ' No Data') => {
+export const AggregateValues= {
+    true: 'true',
+    false: 'false'
+}
+export const keyEnhance = (key: string, s: string = ArrangerValues.noData): string | boolean => {
   switch (key) {
-    case MISSING_DATA:
+    case ArrangerValues.missing:
       return s;
-    case '1':
-      return 'True';
-    case '0':
-      return 'False';
+    case ArrangerValues.true:
+      return AggregateValues.true;
+    case ArrangerValues.false:
+      return AggregateValues.false;
     default:
       return key;
   }
@@ -15,10 +24,10 @@ export const keyEnhance = (key: string, s: string = ' No Data') => {
 
 export const keyEnhanceBooleanOnly = (key: string) => {
   switch (key) {
-    case '1':
-      return 'true';
-    case '0':
-      return 'false';
+    case ArrangerValues.true:
+      return AggregateValues.true;
+    case ArrangerValues.true:
+      return AggregateValues.false;
     default:
       return key;
   }
