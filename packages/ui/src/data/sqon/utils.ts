@@ -1,7 +1,11 @@
+import { isEmpty } from 'lodash';
 import { v4 } from 'uuid';
+
+import { BooleanOperators, FieldOperators, RangeOperators } from './operators';
 import {
     ISqonGroupFilter,
     ISyntheticSqon,
+    IValueContent,
     IValueFilter,
     TSqonContent,
     TSqonContentValue,
@@ -9,34 +13,27 @@ import {
     TSyntheticSqonContent,
     TSyntheticSqonContentValue,
 } from './types';
-import { BooleanOperators, FieldOperators, RangeOperators } from './operators';
-import { isEmpty } from 'lodash';
 
 /**
  * Check if a synthetic sqon is empty.
  *
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
-export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) => {
-    return !Object.keys(sqon).length || isEmpty(sqon?.content);
-};
+export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) =>
+    !Object.keys(sqon).length || isEmpty(sqon?.content);
 
-export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue) => {
-    return !isEmptySqon(sqon as ISyntheticSqon);
-};
+export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue) =>
+    !isEmptySqon(sqon as ISyntheticSqon);
 
 /**
  * Check if a synthetic sqon is a reference to another sqon.
  *
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
-export const isReference = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue) => {
-    return !isNotReference(sqon);
-};
+export const isReference = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue) =>
+    !isNotReference(sqon);
 
-export const isNotReference = (sqon: any) => {
-    return isNaN(sqon);
-};
+export const isNotReference = (sqon: any) => isNaN(sqon);
 
 /**
  * Check if a synthetic sqon is a boolean operator
@@ -44,9 +41,8 @@ export const isNotReference = (sqon: any) => {
  *
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
-export const isBooleanOperator = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue) => {
-    return typeof sqon === 'object' && isNotEmptySqon(sqon) && sqon.op in BooleanOperators;
-};
+export const isBooleanOperator = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue) =>
+    typeof sqon === 'object' && isNotEmptySqon(sqon) && sqon.op in BooleanOperators;
 
 /**
  * Check if a synthetic sqon is a field operator
@@ -54,9 +50,8 @@ export const isBooleanOperator = (sqon: ISyntheticSqon | Record<string, never> |
  *
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
-export const isFieldOperator = (sqon: ISyntheticSqon | Record<string, never> | ISqonGroupFilter) => {
-    return typeof sqon === 'object' && isNotEmptySqon(sqon) && sqon.op in FieldOperators;
-};
+export const isFieldOperator = (sqon: ISyntheticSqon | Record<string, never> | ISqonGroupFilter) =>
+    typeof sqon === 'object' && isNotEmptySqon(sqon) && sqon.op in FieldOperators;
 
 /**
  * Check if a query filter is a boolean one.
@@ -79,12 +74,12 @@ export const isRangeFilter = (query: IValueFilter) => query.op in RangeOperators
  * @param {ISyntheticSqon} syntheticSqon The empty synthetic sqon
  */
 export const generateEmptyQuery = (
-    sqon: ISyntheticSqon = { id: v4(), op: BooleanOperators.and, content: [] },
-    total: number = 0,
+    sqon: ISyntheticSqon = { content: [], id: v4(), op: BooleanOperators.and },
+    total = 0,
 ): ISyntheticSqon => ({
     ...sqon,
-    total: total,
     content: [],
+    total: total,
 });
 
 /**
@@ -113,22 +108,21 @@ export const resolveSyntheticSqon = (
 ): ISqonGroupFilter => {
     const getNewContent = (
         syntheticSqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue,
-    ): TSqonContent => {
-        return (syntheticSqon as ISyntheticSqon).content
+    ): TSqonContent =>
+        (syntheticSqon as ISyntheticSqon).content
             .map((c: TSyntheticSqonContentValue) => (isReference(c) ? sqonsList[c as number] : c))
             .map((c: ISyntheticSqon | TSyntheticSqonContentValue) => resolveSyntheticSqon(sqonsList, c));
-    };
 
     if (isBooleanOperator(syntheticSqon)) {
         return {
-            op: (syntheticSqon as ISqonGroupFilter).op,
             content: getNewContent(syntheticSqon),
+            op: (syntheticSqon as ISqonGroupFilter).op,
         };
     }
 
     return {
-        op: (syntheticSqon as ISqonGroupFilter).op,
         content: (syntheticSqon as ISqonGroupFilter).content as TSqonContent,
+        op: (syntheticSqon as ISqonGroupFilter).op,
     };
 };
 
@@ -141,13 +135,12 @@ export const resolveSyntheticSqon = (
  * @returns {Array<ISyntheticSqon>} The new synthetic sqons list
  */
 export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSqon[]): Array<ISyntheticSqon> => {
-    const getNewContent = (indexToRemove: number, content: TSyntheticSqonContent) => {
-        return content
+    const getNewContent = (indexToRemove: number, content: TSyntheticSqonContent) =>
+        content
             .filter((content: TSyntheticSqonContentValue | TSqonContentValue) => content !== indexToRemove)
             .map((s: TSyntheticSqonContentValue | TSqonContentValue) =>
                 isReference(s) ? (s > indexToRemove ? (s as number) - 1 : s) : s,
             );
-    };
 
     const result = sqonsList
         .filter((s, i) => i !== indexToRemove)
@@ -184,10 +177,10 @@ export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSq
  */
 export const changeCombineOperator = (operator: TSqonGroupOp, syntheticSqon: ISyntheticSqon): ISyntheticSqon => ({
     ...syntheticSqon,
-    op: operator,
     content: syntheticSqon.content.map((subContent: TSyntheticSqonContentValue) =>
         isBooleanOperator(subContent) ? changeCombineOperator(operator, subContent as ISyntheticSqon) : subContent,
     ) as TSyntheticSqonContent,
+    op: operator,
 });
 
 /**
@@ -221,10 +214,33 @@ export const isIndexReferencedInSqon = (
 export const removeContentFromSqon = (
     contentToRemove: TSyntheticSqonContentValue,
     syntheticSqon: ISyntheticSqon | Record<string, never>,
-) => {
-    return {
-        ...syntheticSqon,
-        op: syntheticSqon.op,
-        content: syntheticSqon.content.filter((content: TSyntheticSqonContentValue) => content !== contentToRemove),
+) => ({
+    ...syntheticSqon,
+    content: syntheticSqon.content.filter((content: TSyntheticSqonContentValue) => content !== contentToRemove),
+    op: syntheticSqon.op,
+});
+
+export const termToSqon = ({ field, value }: IValueContent) => ({
+    content: {
+        field: field,
+        value: [value].flat(),
+    },
+    op: 'in',
+});
+
+export const addToSqons = ({ fieldsWValues, sqons }: { fieldsWValues: IValueContent[], sqons: ISyntheticSqon[] }) => {
+    const currentSqon = {
+        content: fieldsWValues.map(({ field, value }) => ({ ...termToSqon({ field, value }) })),
+        op: 'and',
     };
+
+    if (!sqons || sqons.length === 0) {
+        return [currentSqon];
+    }
+
+    if (isEmptySqon(sqons[sqons.length - 1])) {
+        return [...sqons.slice(0, sqons.length - 1), currentSqon];
+    }
+
+    return [...sqons, currentSqon];
 };
