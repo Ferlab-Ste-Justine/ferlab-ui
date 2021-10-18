@@ -89,7 +89,7 @@ const FieldQueryPill = ({
     }, [isBarActive]);
 
     return (
-        <StackLayout className={cx(styles.queryPillContainer, { [styles.selected]: isBarActive })}>
+        <StackLayout className={cx(styles.queryPillContainer, { [styles.selected]: isBarActive })} flexOwn>
             {(showLabels || isBooleanFilter(query) || isRangeFilter(query)) && (
                 <>
                     <span className={`${styles.field}`}>

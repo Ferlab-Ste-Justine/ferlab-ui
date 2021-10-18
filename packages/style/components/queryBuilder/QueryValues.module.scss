@@ -5,17 +5,22 @@
     background: $query-values-bg;
     padding: 0 8px;
     height: 100%;
+    flex-wrap: wrap;
+    position: relative;
+
+    &.hasMore {
+        padding-right: 22px;
+    }
 
     .queryValueSelector {
         display: flex;
         color: unset;
         text-decoration: none;
+        flex-wrap: wrap;
+        border-bottom: 1px solid transparent;
 
         &:hover {
-            margin-top: 2px;
-            margin-bottom: 1px;
             border-bottom: 1px solid $query-default-action-default-color;
-            line-height: 12px;
         }
     }
     
@@ -27,6 +32,7 @@
 
     .valueWrapper {
         align-items: center;
+        flex-shrink: unset;
 
         .value {
             font-weight: 600;
@@ -45,6 +51,9 @@
         margin-left: 5px;
         display: flex;
         color: $query-values-button-default-color;
+        position: absolute;
+        right: 5px;
+        top: calc(50% - 7px);
 
         &:hover {
             opacity: 0.7;

@@ -4,7 +4,7 @@
     margin: 0;
     padding: 0;
 
-    &:not(.flexContent) {
+    &:not(.flexContent), &:not(.flexOwn) {
         flex-grow: 0;
         flex-shrink: 0;
     }
@@ -15,6 +15,10 @@
 
     &.flexContent {
         flex-grow: 1;
+        flex-shrink: 1;
+    }
+
+    &.flexOwn {
         flex-shrink: 1;
     }
 

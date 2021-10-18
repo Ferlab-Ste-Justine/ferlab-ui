@@ -19,6 +19,7 @@ export type StackLayoutOwnProps = {
     className?: string;
     fitContent?: boolean;
     flexContent?: boolean;
+    flexOwn?: boolean;
     orientation?: StackOrientation;
     vertical?: boolean;
     horizontal?: boolean;
@@ -33,6 +34,7 @@ const StackLayout: React.FC<StackLayoutProps> = ({
     className,
     fitContent = false, // stretch layout to fit content
     flexContent = false,
+    flexOwn = false,
     horizontal,
     onClick,
     orientation,
@@ -51,7 +53,7 @@ const StackLayout: React.FC<StackLayoutProps> = ({
         extraProps.onKeyDown = onClick;
     }
 
-    const compoundCN = cx('ferlabui-stack-layout', definedOrientation, { center, fitContent, flexContent }, className);
+    const compoundCN = cx('ferlabui-stack-layout', definedOrientation, { center, fitContent, flexContent, flexOwn }, className);
     return (
         <div className={compoundCN} {...extraProps} style={style || {}}>
             {children}

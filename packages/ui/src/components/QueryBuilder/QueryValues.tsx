@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import { Button } from 'antd';
 import take from 'lodash/take';
+import cx from 'classnames';
 
 import StackLayout from '../../layout/StackLayout';
 import UnionOperator from './icons/UnionOperator';
@@ -38,12 +39,15 @@ const QueryValues = ({ isElement = false, query, onClick, dictionary = {} }: IQu
     return (
         <StackLayout
             onClick={(e) => (onClick ? onClick(e) : undefined)}
-            className={`${styles.queryValuesContainer} ${onClick && styles.clickable}`}
+            className={cx(styles.queryValuesContainer, onClick && styles.clickable, hasMoreValues && styles.hasMore)}
+            flexOwn
         >
             {!isElement ? (
                 <ConditionalWrapper
                     condition={onClick !== undefined}
-                    wrapper={(children) => <a className={styles.queryValueSelector}>{children}</a>}
+                    wrapper={(children) => (
+                        <a className={styles.queryValueSelector}>{children}</a>
+                    )}
                 >
                     <>
                         {values.map((v, i) => (
