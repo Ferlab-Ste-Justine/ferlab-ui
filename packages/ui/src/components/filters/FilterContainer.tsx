@@ -42,7 +42,7 @@ type FilterContainerHeaderProps = {
     searchInputVisibled: boolean;
     title: string | React.ReactNode;
     isCollapsed: boolean;
-    hasFilters: boolean;
+    hasFilters?: boolean;
 };
 
 const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({
@@ -51,7 +51,7 @@ const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({
     searchInputVisibled,
     title,
     isCollapsed,
-    hasFilters,
+    hasFilters = false,
 }) => (
     <StackLayout className={styles.filtersContainerHeader}>
         <div className={styles.titleContainer}>
@@ -127,7 +127,6 @@ const FilterContainer = ({
                             searchEnabled={filterGroup.type === VisualType.Checkbox && filters.length > maxShowing}
                             searchInputVisibled={isSearchVisible}
                             title={filterGroup.title}
-                            hasFilters={hasFilters(filterGroup, selectedFilters!)}
                         />
                     }
                     key={`1`}

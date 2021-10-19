@@ -35,7 +35,6 @@ const CheckboxFilter = ({
 }: TermFilterProps) => {
     const [search, setSearch] = useState('');
     const [isShowingMore, setShowingMore] = useState(false);
-    const [newlySelectedFilterIds, setNewlySelectedFilterIds] = useState<string[]>([]);
     const [localselectedFilters, setLocalSelectedFilters] = useState<IFilter[]>(selectedFilters);
     const [filteredFilters, setFilteredFilters] = useState(filters.filter((f) => !isEmpty(f.data)));
     const withFooter = get(filterGroup.config, 'withFooter', false);
@@ -68,15 +67,10 @@ const CheckboxFilter = ({
             return filteredFilters;
         }
 
-        const filterIdsToBump = localselectedFilters
-            .map((value: IFilter) => value.id)
-            .filter((id: string) => !newlySelectedFilterIds.includes(id));
-        const filteredLocalSelectedFilters = localselectedFilters.filter((value: IFilter) =>
-            filterIdsToBump.includes(value.id),
-        );
+        const filterIdsToBump = selectedFilters.map((value: IFilter) => value.id);
         const cleanedFilteredFilters = filteredFilters.filter((value: IFilter) => !filterIdsToBump.includes(value.id));
 
-        return [...filteredLocalSelectedFilters, ...cleanedFilteredFilters];
+        return [...selectedFilters, ...cleanedFilteredFilters];
     };
 
     useEffect(() => {
@@ -89,10 +83,6 @@ const CheckboxFilter = ({
     useEffect(() => {
         if (!isEqual(localselectedFilters, selectedFilters)) {
             setLocalSelectedFilters(selectedFilters);
-        }
-
-        if (newlySelectedFilterIds.length !== 0) {
-            setNewlySelectedFilterIds([]);
         }
     }, [selectedFilters]);
 
@@ -150,16 +140,9 @@ const CheckboxFilter = ({
                                             let newFilter: IFilter[];
                                             if (checked) {
                                                 newFilter = [...localselectedFilters, filter];
-                                                if (
-                                                    selectedFilters.filter((value) => value.id == filter.id).length == 0
-                                                ) {
-                                                    setNewlySelectedFilterIds([...newlySelectedFilterIds, filter.id]);
-                                                }
                                             } else {
-                                                newFilter = localselectedFilters.filter((f) => f != filter);
-                                                setNewlySelectedFilterIds(
-                                                    newlySelectedFilterIds.filter((id) => id != filter.id),
-                                                );
+                                                newFilter = localselectedFilters.filter((f) => f.id != filter.id);
+                                                setLocalSelectedFilters(newFilter);
                                             }
 
                                             hangleOnChange(newFilter);
@@ -178,7 +161,7 @@ const CheckboxFilter = ({
                             onClick={() => setShowingMore(!isShowingMore)}
                             onKeyPress={() => setShowingMore(!isShowingMore)}
                             tabIndex={0}
-                            type="text"
+                            type="link"
                         >
                             {isShowingMore
                                 ? get(dictionary, 'actions.less', 'Less')
