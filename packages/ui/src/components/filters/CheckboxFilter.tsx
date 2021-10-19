@@ -178,7 +178,7 @@ const CheckboxFilter = ({
                             onClick={() => setShowingMore(!isShowingMore)}
                             onKeyPress={() => setShowingMore(!isShowingMore)}
                             tabIndex={0}
-                            type="text"
+                            type="link"
                         >
                             {isShowingMore
                                 ? get(dictionary, 'actions.less', 'Less')

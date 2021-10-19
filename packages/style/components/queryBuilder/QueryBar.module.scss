@@ -27,7 +27,7 @@
     .identifier {
         border: none;
         padding: 0;
-        width: $query-bar-identifier-width;
+        min-width: $query-bar-identifier-width;
         background: $query-bar-identifier;
         border-top-left-radius: 2px;
         border-bottom-left-radius: 2px;
