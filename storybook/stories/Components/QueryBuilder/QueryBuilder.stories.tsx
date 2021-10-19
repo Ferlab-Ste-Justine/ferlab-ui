@@ -310,7 +310,10 @@ WithNameMapping.args = {
     initialState: {
         state: [{
             op: 'and', content: [{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'test', op: 'in'}
+                content: {value: ['somethingsomethingsomethingsomethingsomething', 'elsesomethingsomethingsomethingsomethingsomethingsomething', 'more', 'perfect'], field: 'test', op: 'in'}
+            },
+            {
+                content: {value: ['somethingsomethingsomethingsomethingsomething', 'elsesomethingsomethingsomethingsomethingsomethingsomething', 'more', 'perfect'], field: 'test', op: 'in'}
             }],
             total: 1500,
             id: '1',  
