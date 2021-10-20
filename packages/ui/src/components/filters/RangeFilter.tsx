@@ -34,8 +34,11 @@ export type RangeFilterProps = {
 
 const DEFAULT_STEP = 1;
 
-const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorConfig[] => {
-    return [
+const getDefaultOperatorList = (
+    dictionary: IDictionary | undefined,
+    defaultOperator: RangeOperators,
+): IOperatorConfig[] => {
+    const defaultOperatorList = [
         {
             operator: RangeOperators['<'],
             name: (
@@ -96,6 +99,12 @@ const getDefaultOperatorList = (dictionary: IDictionary | undefined): IOperatorC
             ),
         },
     ];
+
+    return defaultOperator
+        ? defaultOperatorList.sort((a, b) =>
+              a.operator == defaultOperator ? -1 : b.operator == defaultOperator ? 1 : 0,
+          )
+        : defaultOperatorList;
 };
 
 const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilters }: RangeFilterProps) => {
@@ -104,7 +113,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
     const maxPossibleValue = filterGroup.config?.max || 0;
     const minPossibleValue = filterGroup.config?.min || 0;
     const rangeTypes = filterGroup.config?.rangeTypes;
-    const defaultOperators = getDefaultOperatorList(dictionary);
+    const defaultOperators = getDefaultOperatorList(dictionary, filterGroup.config?.defaultOperator!);
     const operatorsList = range?.operators?.length ? range?.operators : defaultOperators;
     const selectedMax = get(selectedFilters, '[0].data.max', undefined);
     const selectedMin = get(selectedFilters, '[0].data.min', undefined);
@@ -121,6 +130,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
         rangeType: selectedRangeType,
     };
     const [rangeFilter, setRangeFilter] = useState<IFilterRange>(defaultStateValue);
+    const [userCleared, setUserCleared] = useState(false);
     const { max, min, operator, rangeType } = rangeFilter;
     const currentOperator = operatorsList.find((value) => value.operator == operator);
     const isMaxDisabled = currentOperator?.disableMax;
@@ -141,6 +151,15 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
         if (!currentOperator?.disableMax && !currentOperator?.disableMin) {
             return rangeFilter.max != undefined && rangeFilter.min != undefined;
         }
+
+        if (currentOperator.disableMax) {
+            return rangeFilter.min != undefined;
+        }
+
+        if (currentOperator.disableMin) {
+            return rangeFilter.max != undefined;
+        }
+
         return true;
     };
 
@@ -190,7 +209,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
             <StackLayout vertical className={styles.fuiRfRangeOperator}>
                 <span className={styles.fuiRfSectionTitle}>{get(dictionary, 'range.is', 'Is')}</span>
                 <Select className={styles.fuiRfRangeOperatorSelect} onChange={onOperatorChanged} value={operator}>
-                    {(range.operators || getDefaultOperatorList(dictionary!)).map((opConfig) => (
+                    {(range.operators || defaultOperators).map((opConfig) => (
                         <Option key={opConfig.operator} value={opConfig.operator}>
                             {opConfig.name}
                         </Option>
@@ -260,6 +279,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                             min: undefined,
                             max: undefined,
                         }));
+                        setUserCleared(true)
                     }}
                     type="text"
                 >
@@ -268,9 +288,10 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                 <Button
                     size="small"
                     className={styles.fuiRfActionsApply}
-                    disabled={!hasChanged()}
+                    disabled={userCleared ? !userCleared : !hasChanged()}
                     onClick={() => {
                         onChange(filterGroup, [{ ...currentFilter, data: rangeFilter }]);
+                        setUserCleared(false);
                     }}
                 >
                     <span data-key="apply">{get(dictionary, 'actions.apply', 'Apply')}</span>
