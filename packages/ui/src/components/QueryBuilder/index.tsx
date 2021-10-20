@@ -44,7 +44,6 @@ export interface IQueryBuilderProps {
     onChangeQuery?: TOnChange;
     onUpdate?: (state: IInitialQueryState) => void;
     loading?: boolean;
-    enableFacetFilter?: boolean;
     enableCombine?: boolean;
     enableSingleQuery?: boolean;
     enableShowHideLabels?: boolean;
