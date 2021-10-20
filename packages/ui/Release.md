@@ -1,3 +1,6 @@
+### 2.1.2 | 2021-10-20
+- feat: Add new config to set custom default operator for range filter
+
 ### 2.1.0 | 2021-10-08
 - feat: Add arranger helper functions
 
