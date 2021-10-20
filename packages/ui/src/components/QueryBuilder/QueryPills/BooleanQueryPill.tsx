@@ -31,7 +31,7 @@ const isNotEnd = (props: IBooleanQueryPillProps, index: number) => props.query.c
 const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
     <>
         {props.query.content.map((f: any, i: number) => (
-            <StackLayout key={i}>
+            <StackLayout key={i} flexOwn>
                 {isBooleanOperator(f) ? (
                     <BooleanQueryPill {...props} query={f} />
                 ) : isReference(f) ? (
