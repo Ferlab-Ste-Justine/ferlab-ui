@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
 import isEqual from 'lodash/isEqual';
-import { Dropdown, Button, Tooltip, Modal, Popconfirm } from 'antd';
+import { Button, Tooltip, Modal, Popconfirm } from 'antd';
 import { DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import StackLayout from '../../../../layout/StackLayout';
 import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../../types';
@@ -203,12 +203,9 @@ const QueryBuilderHeaderTools = ({
     );
 };
 
-const isNewUnsavedFilter = (selectedSavedFilter: ISavedFilter, savedFilters: ISavedFilter[]) => {
-    return (
-        !selectedSavedFilter ||
-        !(savedFilters!.filter((savedFilter: ISavedFilter) => savedFilter.id == selectedSavedFilter?.id).length > 0)
-    );
-};
+const isNewUnsavedFilter = (selectedSavedFilter: ISavedFilter, savedFilters: ISavedFilter[]) =>
+    !selectedSavedFilter ||
+    !savedFilters!.find((savedFilter: ISavedFilter) => savedFilter.id == selectedSavedFilter?.id);
 
 const hasQueries = (queriesState: IQueriesState) =>
     queriesState.queries.filter((sqon) => isNotEmptySqon(sqon)).length > 0;
@@ -218,38 +215,32 @@ const hasUnsavedChanges = (
     savedFilters: ISavedFilter[],
     queriesState: IQueriesState,
 ) => {
-    if (selectedSavedFilter && !isNewUnsavedFilter(selectedSavedFilter, savedFilters)) {
-        if (selectedSavedFilter.filters.length != queriesState.queries.length) return true;
-
-        let areEqual = true;
-        for (let savedFilterQuery of selectedSavedFilter.filters) {
-            const foundQuery = queriesState.queries.find(
-                (queryStateQuery) => queryStateQuery.id == savedFilterQuery.id,
-            );
-
-            if (!foundQuery) {
-                areEqual = false;
-                break;
-            }
-
-            areEqual &&= isEqual(
-                {
-                    id: foundQuery?.id,
-                    op: foundQuery?.op,
-                    content: foundQuery?.content,
-                },
-                {
-                    id: savedFilterQuery?.id,
-                    op: savedFilterQuery?.op,
-                    content: savedFilterQuery?.content,
-                },
-            );
-        }
-
-        return !areEqual;
+    if (!(selectedSavedFilter && !isNewUnsavedFilter(selectedSavedFilter, savedFilters))) {
+        return false;
     }
 
-    return false;
+    if (selectedSavedFilter.filters.length != queriesState.queries.length) {
+        return true;
+    }
+
+    return !selectedSavedFilter.filters.every((savedFilterQuery) => {
+        const foundQuery = queriesState.queries.find((query) => query.id == savedFilterQuery.id);
+
+        return !foundQuery
+            ? false
+            : isEqual(
+                  {
+                      id: foundQuery?.id,
+                      op: foundQuery?.op,
+                      content: foundQuery?.content,
+                  },
+                  {
+                      id: savedFilterQuery?.id,
+                      op: savedFilterQuery?.op,
+                      content: savedFilterQuery?.content,
+                  },
+              );
+    });
 };
 
 export default QueryBuilderHeaderTools;

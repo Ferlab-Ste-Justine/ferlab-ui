@@ -51,13 +51,6 @@ export interface IQueryBuilderHeaderConfig {
     onDeleteFilter: (filterId: string) => void;
 }
 
-export interface IConfirmModalDict {
-    title: React.ReactNode;
-    content: React.ReactNode;
-    okText: React.ReactNode;
-    cancelText: React.ReactNode;
-}
-
 export type TOnSavedFilterChange = (savedFilter: ISavedFilter) => void;
 export type TCallbackRemoveAction = (f: IValueFilter, query: ISyntheticSqon | Record<string, never>) => void;
 export type TCallbackRemoveReferenceAction = (refIndex: number, query: ISyntheticSqon | Record<string, never>) => void;
