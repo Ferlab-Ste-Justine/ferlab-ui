@@ -82,11 +82,6 @@ export const generateEmptyQuery = (
     total: total,
 });
 
-/**
- * Get default sqon
- *
- * @param {ISyntheticSqon} syntheticSqon The default synthetic sqon
- */
 export const getDefaultSyntheticSqon = (id: string = v4()): ISyntheticSqon => ({
     id,
     op: BooleanOperators.and,

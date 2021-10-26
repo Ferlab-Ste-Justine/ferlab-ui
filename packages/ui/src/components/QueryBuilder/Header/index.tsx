@@ -40,7 +40,6 @@ const QueryBuilderHeader = ({
     queriesState,
     resetQueriesState,
 }: IQueryBuilderHeaderProps) => {
-    const titleInputRef = useRef<Input>(null);
     const [isEditModalVisible, setEditModalVisible] = useState(false);
     const [localSelectedSavedFilter, setLocalSelectedSavedFilter] = useState<ISavedFilter | null>(null);
     const [savedFilterTitle, setSavedFilterTitle] = useState('');
@@ -56,9 +55,6 @@ const QueryBuilderHeader = ({
         config.onSaveFilter(newSavedFilter);
     };
 
-    useEffect(() => {
-        setLocalSelectedSavedFilter(selectedSavedFilter!);
-    }, [selectedSavedFilter]);
 
     const callbackRef = useCallback(
         (inputElement) => {
@@ -70,6 +66,10 @@ const QueryBuilderHeader = ({
         },
         [isEditModalVisible],
     );
+
+    useEffect(() => {
+        setLocalSelectedSavedFilter(selectedSavedFilter!);
+    }, [selectedSavedFilter]);
 
     return (
         <div id="query-builder-header-tools">

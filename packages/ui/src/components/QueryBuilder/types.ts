@@ -42,13 +42,20 @@ export interface IQueryBuilderHeaderConfigOptions {
 export interface IQueryBuilderHeaderConfig {
     showTools: boolean;
     showHeader: boolean;
-    defaultTitle?: string | React.ReactNode;
+    defaultTitle?: React.ReactNode;
     titleMaxLength?: number;
     options?: IQueryBuilderHeaderConfigOptions;
     savedFilters?: ISavedFilter[];
     selectedSavedFilter?: ISavedFilter | null;
     onSaveFilter: (filter: ISavedFilter) => void;
     onDeleteFilter: (filterId: string) => void;
+}
+
+export interface IConfirmModalDict {
+    title: React.ReactNode;
+    content: React.ReactNode;
+    okText: React.ReactNode;
+    cancelText: React.ReactNode;
 }
 
 export type TOnSavedFilterChange = (savedFilter: ISavedFilter) => void;
@@ -60,29 +67,29 @@ export type TOnFacetClick = (field: string) => void;
 // Dictionnary Types
 
 interface IActions {
-    addQuery?: string | React.ReactNode;
-    combine?: string | React.ReactNode;
-    labels?: string | React.ReactNode;
+    addQuery?: React.ReactNode;
+    combine?: React.ReactNode;
+    labels?: React.ReactNode;
     clear?: IClearTranslation;
     delete?: IDeleteTranslation;
-    new?: string | React.ReactNode;
-    duplicate?: string | React.ReactNode;
-    changeOperatorTo?: string | React.ReactNode;
+    new?: React.ReactNode;
+    duplicate?: React.ReactNode;
+    changeOperatorTo?: React.ReactNode;
 }
 
 interface IClearTranslation {
-    title: string | React.ReactNode;
-    cancel: string | React.ReactNode;
-    confirm: string | React.ReactNode;
-    buttonTitle: string | React.ReactNode;
-    description: string | React.ReactNode;
+    title: React.ReactNode;
+    cancel: React.ReactNode;
+    confirm: React.ReactNode;
+    buttonTitle: React.ReactNode;
+    description: React.ReactNode;
 }
 
 interface IDeleteTranslation {
-    title: string | React.ReactNode;
-    titleSelected?: string | React.ReactNode;
-    cancel: string | React.ReactNode;
-    confirm: string | React.ReactNode;
+    title: React.ReactNode;
+    titleSelected?: React.ReactNode;
+    cancel: React.ReactNode;
+    confirm: React.ReactNode;
 }
 
 interface IFacetValueMapping {
@@ -91,27 +98,27 @@ interface IFacetValueMapping {
     };
 }
 
-type TTranslation = (key: string) => string | React.ReactNode;
+type TTranslation = (key: string) => React.ReactNode;
 interface IQuery {
     combine?: ICombineTranslation;
-    noQuery?: string | React.ReactNode;
+    noQuery?: React.ReactNode;
     facet?: TTranslation;
     facetValueMapping?: IFacetValueMapping;
 }
 
 interface ICombineTranslation {
-    and: string | React.ReactNode;
-    or: string | React.ReactNode;
+    and: React.ReactNode;
+    or: React.ReactNode;
 }
 
 interface IPopupConfirmDictionary {
-    title: string | React.ReactNode;
-    okText: string | React.ReactNode;
-    cancelText: string | React.ReactNode;
+    title: React.ReactNode;
+    okText: React.ReactNode;
+    cancelText: React.ReactNode;
 }
 
 interface IInputDictionary {
-    label: string | React.ReactNode;
+    label: React.ReactNode;
     placeholder: string;
 }
 
@@ -126,43 +133,43 @@ interface IQueryBuilderHeaderDictionnary {
     modal?: {
         edit?: IPopupConfirmDictionary & {
             input: IInputDictionary & {
-                maximumLength: string | React.ReactNode;
+                maximumLength: React.ReactNode;
             };
         };
         confirmUnsaved?: {
-            title: string | React.ReactNode;
+            title: React.ReactNode;
             openSavedFilter: {
-                okText: string | React.ReactNode;
-                cancelText: string | React.ReactNode;
-                content: string | React.ReactNode;
+                okText: React.ReactNode;
+                cancelText: React.ReactNode;
+                content: React.ReactNode;
             };
             createNewFilter: {
-                okText: string | React.ReactNode;
-                cancelText: string | React.ReactNode;
-                content: string | React.ReactNode;
+                okText: React.ReactNode;
+                cancelText: React.ReactNode;
+                content: React.ReactNode;
             };
         };
     };
     notification?: {
-        savedTitle: string | React.ReactNode;
+        savedTitle: React.ReactNode;
     };
     popupConfirm?: {
         delete: IPopupConfirmDictionary;
     };
     tooltips?: {
-        newQueryBuilder: string | React.ReactNode;
-        save: string | React.ReactNode;
-        saveChanges: string | React.ReactNode;
-        duplicateQueryBuilder: string | React.ReactNode;
-        delete: string | React.ReactNode;
-        share: string | React.ReactNode;
-        setAsDefaultFilter: string | React.ReactNode;
-        usetDefaultFilter: string | React.ReactNode;
-        noSavedFilters: string | React.ReactNode;
+        newQueryBuilder: React.ReactNode;
+        save: React.ReactNode;
+        saveChanges: React.ReactNode;
+        duplicateQueryBuilder: React.ReactNode;
+        delete: React.ReactNode;
+        share: React.ReactNode;
+        setAsDefaultFilter: React.ReactNode;
+        usetDefaultFilter: React.ReactNode;
+        noSavedFilters: React.ReactNode;
     };
     myFiltersDropdown?: {
-        title: string | React.ReactNode;
-        manageMyFilter: string | React.ReactNode;
+        title: React.ReactNode;
+        manageMyFilter: React.ReactNode;
     };
     duplicateFilterTitleSuffix?: string
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
 import isEqual from 'lodash/isEqual';
-import { Dropdown, Button, Menu, Tooltip, Modal, Popconfirm } from 'antd';
+import { Dropdown, Button, Tooltip, Modal, Popconfirm } from 'antd';
 import { DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import StackLayout from '../../../../layout/StackLayout';
 import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../../types';
@@ -13,6 +13,7 @@ import ShareIcon from '../../icons/ShareIcon';
 import FolderIcon from '../../icons/FolderIcon';
 import ConditionalWrapper from '../../../utils/ConditionalWrapper';
 import { isNotEmptySqon } from '../../../../data/sqon/utils';
+import SavedFilters from './SavedFilters';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeaderTools.module.scss';
 
@@ -25,13 +26,6 @@ interface IQueryBuilderHeaderProps {
     onSavedFilterChange: TOnSavedFilterChange;
     onNewSavedFilter: () => void;
     onDuplicateSavedFilter: () => void;
-}
-
-interface IConfirmModalDict {
-    title: string | React.ReactNode;
-    content: string | React.ReactNode;
-    okText: string | React.ReactNode;
-    cancelText: string | React.ReactNode;
 }
 
 const QueryBuilderHeaderTools = ({
@@ -48,69 +42,17 @@ const QueryBuilderHeaderTools = ({
     const [isNewFilter, setIsNewFilter] = useState(false);
     const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
 
-    const getSavedFiltersMenu = (selectedKey: string) => {
-        return (
-            <Menu selectedKeys={selectedKey ? [selectedKey] : []}>
-                {savedFilters.map((savedFilter: ISavedFilter) => (
-                    <Menu.Item
-                        key={savedFilter.id}
-                        onClick={() => {
-                            if (savedFilter.id == selectedKey) return;
-
-                            const callback = () => onSavedFilterChange(savedFilter);
-
-                            if (isDirty) {
-                                confirmUnsavedChangeForExistingFilter(callback);
-                            } else {
-                                callback();
-                            }
-                        }}
-                    >
-                        {savedFilter.title}
-                    </Menu.Item>
-                ))}
-                <Menu.Divider />
-                <Menu.Item key="manage-my-filters" onClick={() => console.log('manage filters')}>
-                    {dictionary.queryBuilderHeader?.myFiltersDropdown?.manageMyFilter || 'Manage my filters'}
-                </Menu.Item>
-            </Menu>
-        );
-    };
-
-    const confirmUnsavedChange = (dict: IConfirmModalDict, onOkCallback: Function) => {
+    const confirmUnsavedChangeForNewFilter = (onOkCallback: Function) =>
         Modal.confirm({
-            title: dict.title,
-            icon: <ExclamationCircleOutlined />,
-            content: dict.content,
-            okText: dict.okText,
-            cancelText: dict.cancelText,
-            onOk: () => onOkCallback(),
-        });
-    };
-
-    const confirmUnsavedChangeForNewFilter = (onOkCallback: Function) => {
-        const dict: IConfirmModalDict = {
             title: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.title || 'Unsaved changes',
+            icon: <ExclamationCircleOutlined />,
             content:
                 dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.createNewFilter?.content ||
                 'You are about to create a new filter; all modifications will be lost.',
             okText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.createNewFilter?.okText || 'Create',
             cancelText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.createNewFilter?.cancelText || 'Cancel',
-        };
-        confirmUnsavedChange(dict, onOkCallback);
-    };
-
-    const confirmUnsavedChangeForExistingFilter = (onOkCallback: Function) => {
-        const dict: IConfirmModalDict = {
-            title: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.title || 'Unsaved changes',
-            content:
-                dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.openSavedFilter?.content ||
-                'You are about to open a saved filter; all modifications will be lost.',
-            okText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.openSavedFilter?.okText || 'Continue',
-            cancelText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.openSavedFilter?.cancelText || 'Cancel',
-        };
-        confirmUnsavedChange(dict, onOkCallback);
-    };
+            onOk: () => onOkCallback(),
+        });
 
     useEffect(() => {
         const isDirty = hasUnsavedChanges(selectedSavedFilter!, config.savedFilters!, queriesState);
@@ -220,26 +162,28 @@ const QueryBuilderHeaderTools = ({
                     wrapper={(children: JSX.Element) => {
                         if (savedFilters.length > 0) {
                             return (
-                                <Dropdown
-                                    overlay={getSavedFiltersMenu(selectedSavedFilter ? selectedSavedFilter.id : '')}
-                                    disabled={savedFilters.length == 0}
-                                    trigger={['click']}
+                                <SavedFilters
+                                    selectedKey={selectedSavedFilter ? selectedSavedFilter.id : ''}
+                                    dictionary={dictionary}
+                                    isDirty={isDirty}
+                                    savedFilters={savedFilters}
+                                    onSavedFilterChange={onSavedFilterChange}
                                 >
                                     {children}
-                                </Dropdown>
-                            );
-                        } else {
-                            return (
-                                <Tooltip
-                                    title={
-                                        dictionary.queryBuilderHeader?.tooltips?.noSavedFilters ||
-                                        'You have no saved filters'
-                                    }
-                                >
-                                    {children}
-                                </Tooltip>
+                                </SavedFilters>
                             );
                         }
+
+                        return (
+                            <Tooltip
+                                title={
+                                    dictionary.queryBuilderHeader?.tooltips?.noSavedFilters ||
+                                    'You have no saved filters'
+                                }
+                            >
+                                {children}
+                            </Tooltip>
+                        );
                     }}
                 >
                     <Button
