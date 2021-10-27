@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 
+import ScrollContent from '../../layout/ScrollContent';
 import StackLayout from '../../layout/StackLayout';
 import { numberFormat } from '../../utils/numberUtils';
 import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
@@ -117,7 +118,7 @@ const CheckboxFilter = ({
                             {get(dictionary, 'actions.none', 'None')}
                         </Button>
                     </StackLayout>
-                    <div
+                    <ScrollContent
                         className={`${styles.checkboxFiltersContent} ${
                             filteredFilters.length > maxShowing && styles.withMargin
                         }`}
@@ -154,7 +155,7 @@ const CheckboxFilter = ({
                                     <Tag className={styles.tag}>{numberFormat(filter.data.count)}</Tag>
                                 </StackLayout>
                             ))}
-                    </div>
+                    </ScrollContent>
                     {filteredFilters.length > maxShowing && (
                         <Button
                             className={styles.filtersTypesFooter}
