@@ -1,3 +1,6 @@
+### 2.1.4 | 2021-10-20
+- feat: New ScrollContent using custom overlay scroll component
+
 ### 2.1.2 | 2021-10-20
 - feat: Add new config to set custom default operator for range filter
 
