@@ -52,7 +52,9 @@ const QueryBuilderHeader = ({
             filters: queriesState.queries,
         };
         setLocalSelectedSavedFilter(newSavedFilter);
-        config.onSaveFilter(newSavedFilter);
+        if (config?.onSaveFilter) {
+            config.onSaveFilter(newSavedFilter);
+        }
     };
 
     const callbackRef = useCallback(

@@ -88,7 +88,9 @@ const QueryBuilderHeaderTools = ({
                         className={cx(styles.queryBuilderHeaderActionIconBtn, isDirty ? styles.dirty : '')}
                         onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
-                            config.onSaveFilter(selectedSavedFilter!);
+                            if (config?.onSaveFilter) {
+                                config.onSaveFilter(selectedSavedFilter!);
+                            }
                         }}
                         type="text"
                         disabled={isSaveButtonDisabled}
@@ -127,7 +129,9 @@ const QueryBuilderHeaderTools = ({
                         okText={dictionary.queryBuilderHeader?.popupConfirm?.delete.okText || 'Delete'}
                         onConfirm={(e) => {
                             e!.stopPropagation();
-                            config.onDeleteFilter(selectedSavedFilter!.id);
+                            if (config?.onDeleteFilter) {
+                                config.onDeleteFilter(selectedSavedFilter!.id);
+                            }
                         }}
                         placement="topRight"
                         title={
