@@ -55,7 +55,6 @@ const QueryBuilderHeader = ({
         config.onSaveFilter(newSavedFilter);
     };
 
-
     const callbackRef = useCallback(
         (inputElement) => {
             if (inputElement) {
@@ -108,7 +107,7 @@ const QueryBuilderHeader = ({
                                 >
                                     <Button
                                         className={styles.iconBtnAction}
-                                        onClick={() => console.log('star')}
+                                        onClick={() => console.log('Favorite option currently disabled.')}
                                         type="text"
                                     >
                                         {localSelectedSavedFilter?.default ? <StarFilledIcon /> : <StarIcon />}
