@@ -41,6 +41,7 @@ export interface IFilterRangeConfig {
     step?: number | string;
     operators?: IOperatorConfig[];
     rangeTypes?: IFilterRangeTypes[];
+    defaultOperator?: RangeOperators;
 }
 
 export interface IFilterTextInputConfig {

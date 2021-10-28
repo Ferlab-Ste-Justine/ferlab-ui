@@ -139,7 +139,7 @@ export const updateQueryFilters = (
 
     if (!isEmpty(currentFilter)) {
         const results = getFilterWithNoSelection(currentFilter, field);
-        
+
         const fieldIndex = results[0];
         const filterWithoutSelection = results[1] as ISyntheticSqon;
 
@@ -165,10 +165,14 @@ export const updateQueryFilters = (
 const getFilterWithNoSelection = (filters: ISyntheticSqon, field: string) => {
     let fieldIndex = -1;
     const filtered = filters.content.filter((filter: any, index: number) => {
+        if (isReference(filter)) {
+            return true;
+        }
+
         if (filter.content.field == field) {
             fieldIndex = index;
         }
-        return isNotReference(filter) ? filter.content.field !== field : true;
+        return filter.content.field !== field;
     });
 
     return [

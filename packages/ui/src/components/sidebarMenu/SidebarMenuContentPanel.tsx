@@ -1,5 +1,5 @@
 import React from 'react';
-import ScrollView from '../../layout/ScrollView';
+import ScrollContent from '../../layout/ScrollContent';
 
 import CloseIcon from './icons/CloseIcon';
 
@@ -26,7 +26,7 @@ const SidebarMenuContentPanel = ({
                 <CloseIcon className={styles.closeIcon} />
             </a>
         </div>
-        <ScrollView>{children}</ScrollView>
+        <ScrollContent>{children}</ScrollContent>
     </div>
 );
 
