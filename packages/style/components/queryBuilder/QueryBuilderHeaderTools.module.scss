@@ -1,0 +1,90 @@
+@import 'theme.template';
+
+.queryBuilderHeaderTools {
+  align-items: center;
+    
+  .toolsContainer {
+    align-items: center;
+
+    >*:not(:first-child) {
+      margin-left: 15px;
+    }
+
+    .queryBuilderHeaderActionIconBtn {
+      height: auto;
+      line-height: normal;
+      padding: 0;
+      margin: 1px 15px 1px 1px;
+      @extend .display-flex;
+
+      [type="button"] {
+        margin: 0;
+        padding: 0;
+        max-height: 18px;
+        @extend .display-flex;
+      }
+    
+      &:focus, &:hover {
+        background-color: transparent;
+      } 
+
+      &:focus-visible {
+        border: 1px solid !important;
+      }
+      
+      &:not(:disabled) {
+        color: $query-builder-header-tools-icon-color;
+
+        &.dirty {
+          color: $query-builder-header-tools-icon-color-dirty;
+          
+          &:not(span) {
+            @include hoverFocus(
+              $query-builder-header-tools-icon-color-dirty, 
+              $query-builder-header-tools-icon-color-dirty
+            );
+          }
+        }
+
+        &:not(span) {
+          @include hoverFocus(
+            $query-builder-header-tools-icon-hover, 
+            $query-builder-header-tools-icon-focus
+          );
+        }
+      }
+    }
+  }
+
+    .extra {
+      display: flex;
+      text-decoration: none;
+      margin-left: 20px;
+
+      [type="button"] {
+        @extend .display-flex;
+      }
+    
+      .queryBuilderHeaderDdb {
+        @extend .display-flex;
+
+        .prefixIcon {
+          margin-right: 5px;
+        }
+
+        .bContent {
+          @extend .display-flex;
+
+          .arrow {
+            font-size: 12px;
+            margin-left: 5px;
+          }
+        }
+      }
+    } 
+}
+
+.display-flex {
+  display: flex;
+  align-items: center;
+}

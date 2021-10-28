@@ -82,6 +82,13 @@ export const generateEmptyQuery = (
     total: total,
 });
 
+export const getDefaultSyntheticSqon = (id: string = v4()): ISyntheticSqon => ({
+    id,
+    op: BooleanOperators.and,
+    total: 0,
+    content: [],
+});
+
 /**
  * Convert a synthetic sqon into an executable sqon. Resolve all references if needed.
  *

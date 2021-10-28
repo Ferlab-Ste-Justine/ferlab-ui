@@ -240,7 +240,10 @@ WithQueryPillFilters.args = {
 export const WithHeader = QueryBuilderStory.bind({});
 WithHeader.args = {
     title: 'With Header',
-    showHeader: true,
+    headerConfig: {
+        showHeader: true,
+        defaultTitle: "Queries",
+    },
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
@@ -260,37 +263,84 @@ WithHeader.args = {
 export const WithHeaderAndTools = QueryBuilderStory.bind({});
 WithHeaderAndTools.args = {
     title: 'With header and header tools',
-    showHeader: true,
-    showHeaderTools: true,
+    headerConfig: {
+        showHeader: true,
+        showTools: true,
+        defaultTitle: "Untitled Query",
+        options: {
+            enableDuplicate: true,
+            enableEditTitle: true,
+            enableShare: true,
+        },
+        selectedSavedFilter: {
+                "id": "1",
+                "title": "Mon filtre 1",
+                "default": true,
+                "filters": [{
+                    op: 'and', content: [{
+                        content: {value: ['something 1', 'else 2', 'more 2', 'perfect 2'], field: 'test', op: 'in'}
+                    }],
+                    total: 1500,
+                    id: '1',  
+                }]
+            },
+            savedFilters: [
+                {
+                  id: '1',
+                  title: 'Mon filtre 1',
+                  default: true,
+                  filters: [
+                    {
+                      op: 'and',
+                      content: [
+                        {
+                          content: {
+                            value: ['something 1', 'else 2', 'more 2', 'perfect 2'],
+                            field: 'test',
+                          },
+                          op: 'in',
+                        },
+                      ],
+                      total: 1500,
+                      id: '1',
+                    },
+                  ],
+                },
+                {
+                  id: '2',
+                  title: 'Mon filtre 2',
+                  default: false,
+                  filters: [
+                    {
+                      op: 'and',
+                      content: [
+                        {
+                          content: {
+                            value: ['something 2', 'else 2', 'more 2', 'perfect 2'],
+                            field: 'test',
+                          },
+                          op: 'in',
+                        },
+                      ],
+                      total: 1500,
+                      id: '1',
+                    },
+                  ],
+                },
+              ],
+          onSaveQuery: (filter: any) => {console.log(filter)},
+          onDuplicateQuery: (filter: any) => {},
+          onDeleteQuery: (filter: any) => {},
+    },      
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
-    initialState: {
-        state: [{
-            op: 'and', content: [{
-                content: {value: ['something'], field: 'test', op: 'in'}
-            }],
-            total: 1500,
-            id: '1',  
-        },
-        {
-            op: 'and', content: [{
-                content: {value: ['else'], field: 'test', op: 'in'}
-            }],
-            total: 1500,
-            id: '2',  
-        }],
-        active: '1'
-    },
     IconTotal:<MdPeople />
 };
-
 
 /* with name mapping */
 export const WithNameMapping = QueryBuilderStory.bind({});
 WithNameMapping.args = {
     title: 'With facet and value mapping',
-    showHeader: true,
-    showHeaderTools: true,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     dictionary: {   

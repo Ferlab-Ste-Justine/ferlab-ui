@@ -1,51 +1,6 @@
 import React from 'react';
 import { ISyntheticSqon, IValueFilter } from '../../data/sqon/types';
 
-interface IActions {
-    addQuery?: string | React.ReactNode;
-    combine?: string | React.ReactNode;
-    labels?: string | React.ReactNode;
-    clear?: IClearTranslation;
-    delete?: IDeleteTranslation;
-    new?: string | React.ReactNode;
-    duplicate?: string | React.ReactNode;
-    changeOperatorTo?: string | React.ReactNode;
-}
-
-interface IClearTranslation {
-    title: string | React.ReactNode;
-    cancel: string | React.ReactNode;
-    confirm: string | React.ReactNode;
-    buttonTitle: string | React.ReactNode;
-    description: string | React.ReactNode;
-}
-
-interface IDeleteTranslation {
-    title: string | React.ReactNode;
-    titleSelected?: string | React.ReactNode;
-    cancel: string | React.ReactNode;
-    confirm: string | React.ReactNode;
-}
-
-interface IFacetValueMapping {
-    [facet: string]: {
-        [value: string]: string;
-    };
-}
-
-type TTranslation = (key: string) => string | React.ReactNode;
-interface IQuery {
-    combine?: ICombineTranslation;
-    noQuery?: string | React.ReactNode;
-    facet?: TTranslation;
-    facetValueMapping?: IFacetValueMapping;
-}
-
-interface ICombineTranslation {
-    and: string | React.ReactNode;
-    or: string | React.ReactNode;
-}
-
 export type ArrayTenOrMore<T> = {
     0: T;
     1: T;
@@ -60,6 +15,106 @@ export type ArrayTenOrMore<T> = {
     10: T;
 } & Array<T>;
 
+export enum CombinerEnum {
+    And = 'and',
+    Or = 'or',
+}
+
+export interface IQueriesState {
+    activeId: string;
+    queries: ISyntheticSqon[];
+}
+
+export interface ISavedFilter {
+    id: string;
+    title: string;
+    default: boolean;
+    filters: ISyntheticSqon[];
+}
+
+export interface IQueryBuilderHeaderConfigOptions {
+    enableEditTitle?: boolean;
+    enableShare?: boolean;
+    enableDuplicate?: boolean;
+    enableDefaultFilter?: boolean;
+}
+
+export interface IQueryBuilderHeaderConfig {
+    showTools: boolean;
+    showHeader: boolean;
+    defaultTitle?: React.ReactNode;
+    titleMaxLength?: number;
+    options?: IQueryBuilderHeaderConfigOptions;
+    savedFilters?: ISavedFilter[];
+    selectedSavedFilter?: ISavedFilter | null;
+    onSaveFilter: (filter: ISavedFilter) => void;
+    onDeleteFilter: (filterId: string) => void;
+}
+
+export type TOnSavedFilterChange = (savedFilter: ISavedFilter) => void;
+export type TCallbackRemoveAction = (f: IValueFilter, query: ISyntheticSqon | Record<string, never>) => void;
+export type TCallbackRemoveReferenceAction = (refIndex: number, query: ISyntheticSqon | Record<string, never>) => void;
+export type TOnChange = (id: string, query: ISyntheticSqon | Record<string, never>) => void;
+export type TOnFacetClick = (field: string) => void;
+
+// Dictionnary Types
+
+interface IActions {
+    addQuery?: React.ReactNode;
+    combine?: React.ReactNode;
+    labels?: React.ReactNode;
+    clear?: IClearTranslation;
+    delete?: IDeleteTranslation;
+    new?: React.ReactNode;
+    duplicate?: React.ReactNode;
+    changeOperatorTo?: React.ReactNode;
+}
+
+interface IClearTranslation {
+    title: React.ReactNode;
+    cancel: React.ReactNode;
+    confirm: React.ReactNode;
+    buttonTitle: React.ReactNode;
+    description: React.ReactNode;
+}
+
+interface IDeleteTranslation {
+    title: React.ReactNode;
+    titleSelected?: React.ReactNode;
+    cancel: React.ReactNode;
+    confirm: React.ReactNode;
+}
+
+interface IFacetValueMapping {
+    [facet: string]: {
+        [value: string]: string;
+    };
+}
+
+type TTranslation = (key: string) => React.ReactNode;
+interface IQuery {
+    combine?: ICombineTranslation;
+    noQuery?: React.ReactNode;
+    facet?: TTranslation;
+    facetValueMapping?: IFacetValueMapping;
+}
+
+interface ICombineTranslation {
+    and: React.ReactNode;
+    or: React.ReactNode;
+}
+
+interface IPopupConfirmDictionary {
+    title: React.ReactNode;
+    okText: React.ReactNode;
+    cancelText: React.ReactNode;
+}
+
+interface IInputDictionary {
+    label: React.ReactNode;
+    placeholder: string;
+}
+
 export interface IFacetFilterConfig {
     enable: boolean;
     selectedFilterContent?: React.ReactElement;
@@ -67,17 +122,53 @@ export interface IFacetFilterConfig {
     blacklistedFacets?: Array<string>
 }
 
-export enum CombinerEnum {
-    And = 'and',
-    Or = 'or',
+interface IQueryBuilderHeaderDictionnary {
+    modal?: {
+        edit?: IPopupConfirmDictionary & {
+            input: IInputDictionary & {
+                maximumLength: React.ReactNode;
+            };
+        };
+        confirmUnsaved?: {
+            title: React.ReactNode;
+            openSavedFilter: {
+                okText: React.ReactNode;
+                cancelText: React.ReactNode;
+                content: React.ReactNode;
+            };
+            createNewFilter: {
+                okText: React.ReactNode;
+                cancelText: React.ReactNode;
+                content: React.ReactNode;
+            };
+        };
+    };
+    notification?: {
+        savedTitle: React.ReactNode;
+    };
+    popupConfirm?: {
+        delete: IPopupConfirmDictionary;
+    };
+    tooltips?: {
+        newQueryBuilder: React.ReactNode;
+        save: React.ReactNode;
+        saveChanges: React.ReactNode;
+        duplicateQueryBuilder: React.ReactNode;
+        delete: React.ReactNode;
+        share: React.ReactNode;
+        setAsDefaultFilter: React.ReactNode;
+        usetDefaultFilter: React.ReactNode;
+        noSavedFilters: React.ReactNode;
+    };
+    myFiltersDropdown?: {
+        title: React.ReactNode;
+        manageMyFilter: React.ReactNode;
+    };
+    duplicateFilterTitleSuffix?: string
 }
 
-export type TCallbackRemoveAction = (f: IValueFilter, query: ISyntheticSqon | Record<string, never>) => void;
-export type TCallbackRemoveReferenceAction = (refIndex: number, query: ISyntheticSqon | Record<string, never>) => void;
-export type TOnChange = (id: string, query: ISyntheticSqon | Record<string, never>) => void;
-export type TOnFacetClick = (field: string) => void;
-
 export interface IDictionary {
+    queryBuilderHeader?: IQueryBuilderHeaderDictionnary;
     actions?: IActions;
     query?: IQuery;
 }

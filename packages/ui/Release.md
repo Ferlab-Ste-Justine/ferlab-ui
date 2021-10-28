@@ -1,3 +1,6 @@
+### 2.1.5 | 2021-10-28
+- feat: New QueryBuilder Header tools
+
 ### 2.1.4 | 2021-10-20
 - feat: New ScrollContent using custom overlay scroll component
 

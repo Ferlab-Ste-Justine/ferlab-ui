@@ -1,10 +1,20 @@
 @import 'theme.template';
 
-.queryBuilderTogglerContainer {
+.editModal {
+  .editModalContent, .labelInput {
+    width: 100%;
+
+    .title {
+      font-weight: 500;
+    }
+  }
+}
+
+.QBHContainer {
     background-color: white;
     border-radius: 2px;
 
-    .queryBuilderToggler {
+    .QBToggler {
       padding: 16px 24px;
       border: 1px solid $query-builder-border-color;
       border-bottom: none;
@@ -12,54 +22,73 @@
       border-top-right-radius: 2px;
       justify-content: space-between;
 
-      .leftTools, .rightTools {
+      .QBTitleContainer {
         display: flex;
         align-items: center;
-      }
 
-      .rightTools {
-        display: flex;
-        align-items: center;
-        
-        >*:not(:first-child) {
-            margin-left: 15px;
-        }
+        .QBHActionContainer {
+          display: flex;
+          height: auto;
+          line-height: normal;
+          align-items: center;
 
-        .button, button {
+          &:hover {
+            cursor: pointer;
+          }
+
+          .togglerTitle {
+            margin: 0;
+            font-size: 16px;
+            margin-right: 10px;
+          }
+
+          .togglerIcon {
             display: flex;
-            align-items: center;
+            margin-right: 10px;
+          }
 
-            >*:not(:only-child) {
+          &.QBHOptionsActionsContainer {
+            .iconBtnAction {
+              display: flex;
+              align-items: center;
+              border: 1px solid transparent;
+              padding: 0;
+              max-height: 18px;
+
               &:first-child {
-                margin-right: 2.5px;
+                margin-left: 8px;
               }
-            }
+  
+              &:not(:first-child) {
+                margin-left: 12px;
+              }
+              
+              &:focus, &:hover {
+                background-color: transparent;
+              } 
 
-            &:first-child {
-                margin-left: 0;
+              &:focus-visible {
+                border: 1px solid !important;
+              }
+            
+              &:not(:disabled) {
+                color: $query-builder-header-tools-icon-color;
+                
+                @include hoverFocus(
+                  $query-builder-header-tools-icon-hover, 
+                  $query-builder-header-tools-icon-focus, 
+                );
+              }
+            
             }
-
-            &:last-child:not(:first-child) {
-                margin-left: 10px;
-            }
-        }   
-    }
+          }
+        }  
+      }
   
       &.togglerClosed {
         border-bottom: 1px solid $query-builder-border-color;
         border-bottom-left-radius: 2px;
         border-bottom-right-radius: 2px;
-      }
-  
-      .togglerIcon {
-        display: flex;
-        margin-right: 10px;
-      }
-  
-      .togglerTitle {
-        margin: 0;
-        font-size: 16px;
-        margin-right: 10px;
       }
     }
   }
