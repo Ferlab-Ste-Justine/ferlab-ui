@@ -94,7 +94,7 @@ $select-prefix: 'ant-select';
       background-color: transparent;
       border: none;
       color: $sidebar-menu-item-text-color;
-      font-weight: 500;
+      font-weight: $font-weight-semibold;
       font-size: 14px;
 
       .searchMenuItem {

@@ -1,3 +1,7 @@
+### 1.9.6 | 2021-09-22
+
+- feat: add font-weight custom variables to template scss
+
 ### 1.8.9 | 2021-09-22
 
 - fix: Many bug and styling fixes
