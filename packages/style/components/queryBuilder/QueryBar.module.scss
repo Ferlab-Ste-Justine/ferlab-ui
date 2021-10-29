@@ -41,7 +41,7 @@
             font-size: 12px;
             padding-top: 1px;
             padding-left: 4px;
-            font-weight: 600;
+            font-weight: $font-weight-bold;
         }
     }
 
@@ -59,7 +59,7 @@
         }
 
         .total {
-            font-weight: 600;
+            font-weight: $font-weight-bold;
             display: flex;
             align-items: center;
             margin-left: 6px;
