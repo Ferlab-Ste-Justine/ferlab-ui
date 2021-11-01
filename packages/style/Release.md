@@ -1,3 +1,7 @@
+### 1.9.7 | 2021-11-01
+
+- fix: Hide input number controls for RangeFilter.
+
 ### 1.9.6 | 2021-09-22
 
 - feat: add font-weight custom variables to template scss

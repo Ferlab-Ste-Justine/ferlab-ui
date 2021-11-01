@@ -40,6 +40,7 @@
 
     .fuiRfGroupedValues {
         justify-content: space-between;
+
         .fuiRfRangeInputContainer {
             flex-shrink: unset;
             width: 100%;
@@ -54,6 +55,10 @@
 
             .rangeInput {
                 width: 100%;
+
+                :global(div[class$="handler-wrap"]) {
+                    display: none;
+                }
             }
         }
     }
