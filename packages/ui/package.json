@@ -1,6 +1,6 @@
 {
   "name": "@ferlab/ui",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Core components for scientific research data portals",
   "publishConfig": {
     "access": "public"
@@ -51,7 +51,7 @@
     "webpack-cli": "^3.3.12"
   },
   "peerDependencies": {
-    "@ferlab/style": "^1.9.5",
+    "@ferlab/style": "^1.9.8",
     "antd": "^4.2.0",
     "react": ">=16.0.0"
   },

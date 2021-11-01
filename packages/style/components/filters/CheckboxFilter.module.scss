@@ -16,12 +16,15 @@
         text-align: left;
         height: auto;
         font-size: 1.2rem;
-        > * {
-            text-decoration: underline;
-        }
 
-        &:hover > * {
-            text-decoration: none;
+        &:not(.readOnly) {
+            > * {
+                text-decoration: underline;
+            }
+    
+            &:hover > * {
+                text-decoration: none;
+            }
         }
     }
 

@@ -32,6 +32,8 @@ export interface IFilterCheckboxConfig {
     nameMapping: {
         [field: string]: string;
     };
+    showMoreReadOnly?: boolean;
+    showSelectAll?: boolean;
     withFooter?: boolean;
 }
 

@@ -3,6 +3,7 @@ import { Button, Checkbox, Divider, Tag, Typography, Input } from 'antd';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
+import cx from 'classnames';
 
 import ScrollContent from '../../layout/ScrollContent';
 import StackLayout from '../../layout/StackLayout';
@@ -39,6 +40,8 @@ const CheckboxFilter = ({
     const [localselectedFilters, setLocalSelectedFilters] = useState<IFilter[]>(selectedFilters);
     const [filteredFilters, setFilteredFilters] = useState(filters.filter((f) => !isEmpty(f.data)));
     const withFooter = get(filterGroup.config, 'withFooter', false);
+    const showMoreReadOnly = get(filterGroup.config, 'showMoreReadOnly', false);
+    const showSelectAll = get(filterGroup.config, 'showSelectAll', true);
 
     const getMappedName = (name: string) => {
         return removeUnderscoreAndCapitalize(filterGroup.config?.nameMapping[name] || name);
@@ -48,11 +51,9 @@ const CheckboxFilter = ({
         if (localselectedFilters.length != selectedFilters.length) return true;
         if (localselectedFilters.length + selectedFilters.length == 0) return false;
 
-        let changed: boolean = true;
-        localselectedFilters.map((value: IFilter) => {
-            changed &&= selectedFilters.find((sValue: IFilter) => sValue.id == value.id) == undefined;
-        });
-        return changed;
+        return !localselectedFilters.every(
+            (value: IFilter) => selectedFilters.find((sValue: IFilter) => sValue.id == value.id) != undefined,
+        );
     };
 
     const hangleOnChange = (newFilter: IFilter[]) => {
@@ -104,20 +105,26 @@ const CheckboxFilter = ({
             )}
             {filteredFilters.length > 0 && (
                 <StackLayout className={styles.checkboxFilter} vertical>
-                    <StackLayout className={styles.checkboxFilterActions}>
-                        <Button
-                            className={styles.checkboxFilterLinks}
-                            onClick={() => hangleOnChange(filters)}
-                            type="text"
-                        >
-                            {get(dictionary, 'actions.all', 'Select All')}
-                        </Button>
+                    {showSelectAll && (
+                        <StackLayout className={styles.checkboxFilterActions}>
+                            <Button
+                                className={styles.checkboxFilterLinks}
+                                onClick={() => hangleOnChange(filters)}
+                                type="text"
+                            >
+                                {get(dictionary, 'actions.all', 'Select All')}
+                            </Button>
 
-                        <Divider className={styles.separator} type="vertical" />
-                        <Button className={styles.checkboxFilterLinks} onClick={() => hangleOnChange([])} type="text">
-                            {get(dictionary, 'actions.none', 'None')}
-                        </Button>
-                    </StackLayout>
+                            <Divider className={styles.separator} type="vertical" />
+                            <Button
+                                className={styles.checkboxFilterLinks}
+                                onClick={() => hangleOnChange([])}
+                                type="text"
+                            >
+                                {get(dictionary, 'actions.none', 'None')}
+                            </Button>
+                        </StackLayout>
+                    )}
                     <ScrollContent
                         className={`${styles.checkboxFiltersContent} ${
                             filteredFilters.length > maxShowing && styles.withMargin
@@ -156,23 +163,30 @@ const CheckboxFilter = ({
                                 </StackLayout>
                             ))}
                     </ScrollContent>
-                    {filteredFilters.length > maxShowing && (
-                        <Button
-                            className={styles.filtersTypesFooter}
-                            onClick={() => setShowingMore(!isShowingMore)}
-                            onKeyPress={() => setShowingMore(!isShowingMore)}
-                            tabIndex={0}
-                            type="link"
-                        >
-                            {isShowingMore
-                                ? get(dictionary, 'actions.less', 'Less')
-                                : filteredFilters.length - 5 && (
-                                      <>
-                                          <>{`${filteredFilters.length - 5} `}</>
-                                          <>{get(dictionary, 'actions.more', 'More')}</>
-                                      </>
-                                  )}
-                        </Button>
+                    {showMoreReadOnly ? (
+                        <span className={cx(styles.filtersTypesFooter, styles.readOnly)}>
+                            <>{`${filteredFilters.length} `}</>
+                            <>{get(dictionary, 'actions.terms', 'terms')}</>
+                        </span>
+                    ) : (
+                        filteredFilters.length > maxShowing && (
+                            <Button
+                                className={styles.filtersTypesFooter}
+                                onClick={() => setShowingMore(!isShowingMore)}
+                                onKeyPress={() => setShowingMore(!isShowingMore)}
+                                tabIndex={0}
+                                type="link"
+                            >
+                                {isShowingMore
+                                    ? get(dictionary, 'actions.less', 'Less')
+                                    : filteredFilters.length - maxShowing && (
+                                          <>
+                                              <>{`${filteredFilters.length - maxShowing} `}</>
+                                              <>{get(dictionary, 'actions.more', 'More')}</>
+                                          </>
+                                      )}
+                            </Button>
+                        )
                     )}
                 </StackLayout>
             )}
