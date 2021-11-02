@@ -1,3 +1,6 @@
+### 2.2.2 | 2021-11-02
+- fix: Combine queries not updating when using clear button in facets filters
+
 ### 2.2.0 | 2021-10-28
 - feat: New QueryBuilder Header tools
 

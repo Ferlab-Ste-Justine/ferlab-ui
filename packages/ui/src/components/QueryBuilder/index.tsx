@@ -275,6 +275,7 @@ const QueryBuilder = ({
 
     useEffect(() => {
         if (isEmptySqon(currentQuery) && total === 0) return;
+
         if (queriesState.queries.length === 0) {
             setQueriesState({
                 ...queriesState,
@@ -288,21 +289,28 @@ const QueryBuilder = ({
                 ],
             });
         } else {
-            let tmpQuery = queriesState.queries.map((obj) => {
-                if (obj.id === queriesState.activeId) {
-                    return {
-                        ...obj,
-                        content: currentQuery.content ? currentQuery.content : [],
-                        total: loading ? currentQuery.total : total,
-                    };
-                }
-                return { ...obj };
-            });
+            const index = queriesState.queries.findIndex((obj) => obj.id == queriesState.activeId);
+            const current = queriesState.queries[index];
 
-            setQueriesState({
-                ...queriesState,
-                queries: cleanUpQueries(tmpQuery),
-            });
+            if (current.content.length > 0 && isEmpty(currentQuery)) {
+                deleteQueryAndSetNext(queriesState.activeId);
+            } else {
+                let tmpQuery = queriesState.queries.map((obj) => {
+                    if (obj.id === queriesState.activeId) {
+                        return {
+                            ...obj,
+                            content: currentQuery.content ? currentQuery.content : [],
+                            total: loading ? currentQuery.total : total,
+                        };
+                    }
+                    return { ...obj };
+                });
+
+                setQueriesState({
+                    ...queriesState,
+                    queries: cleanUpQueries(tmpQuery),
+                });
+            }
         }
     }, [currentQuery, total, loading]);
 
