@@ -17,19 +17,8 @@ import {
     TSqonGroupOp,
     TSyntheticSqonContent,
 } from '../sqon/types';
-import xss, { IFilterXSSOptions } from 'xss';
-import { isFieldOperator, isNotReference, isReference } from '../sqon/utils';
+import { isFieldOperator, isReference } from '../sqon/utils';
 import { BooleanOperators, FieldOperators, RangeOperators } from '../sqon/operators';
-
-const xssConfig: IFilterXSSOptions = {
-    escapeHtml: (f) => f,
-
-    stripIgnoreTag: true, // filter out all HTML not in the whitelist
-
-    stripIgnoreTagBody: ['script'], // the script tag is a special case, we need to filter out its content
-
-    whiteList: {}, // empty, means filter out all tags
-};
 
 export const getQueryParams = (search: string | null = null) =>
     search ? qs.parse(search) : qs.parse(window.location.search);
@@ -212,13 +201,7 @@ interface IValues<T> {
 
 export const readQueryParam = <T = ''>(key: string, options: IValues<T>, search: any = null): any => {
     const query = getQueryParams(search);
-    let result = get<any, any, T>(query, key, options.defaultValue)!;
-    result = xss(result, xssConfig);
-    if (!isEmpty(options.whiteList) && !options.whiteList!.includes(result)) {
-        result = options.defaultValue;
-    }
-
-    return result;
+    return get<any, any, T>(query, key, options.defaultValue)!;
 };
 
 export const getFiltersQuery = (search: any = null): ISyntheticSqon => {
