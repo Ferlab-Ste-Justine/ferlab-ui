@@ -88,14 +88,13 @@
         }
 
         .fuiRfActionsApply {
-            background: $filter-actions-border-apply-background-color;
-            border-color: $filter-actions-border-apply-border-color;
-            color: $white;
-
             &:disabled {
                 color: $filter-actions-disabled-color;
-                background: $filter-actions-disabled-background-color;
-                border-color: $filter-actions-disabled-border-color;
+
+                span {
+                    text-decoration: none;
+                    color: $filter-actions-disabled-color;
+                }
             }
         }
 
