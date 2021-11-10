@@ -292,7 +292,7 @@ export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGr
     }
 };
 
-const emptySqon = { content: [], op: "and" };
+const emptySqon = { content: [], op: BooleanOperators.and };
 
 export const useFilters = (filterKey: string = "filters") => {
   var filters = { filters: emptySqon };
