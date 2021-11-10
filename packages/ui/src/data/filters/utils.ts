@@ -292,18 +292,24 @@ export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGr
     }
 };
 
-const emptySqon = { content: [], op: BooleanOperators.and };
+const emptySqon = { content: [], op: "and" };
 
-export const useFilters = () => {
-    const searchParams = new URLSearchParams(window.location.search);
+export const useFilters = (filterKey: string = "filters") => {
+  var filters = { filters: emptySqon };
+  const searchParams = new URLSearchParams(window.location.search);
 
-    // @ts-ignore
-    const paramsValues = [...searchParams.values()];
-    // @ts-ignore
-    const filters = paramsValues.length > 0 ? JSON.parse(paramsValues) : emptySqon;
+  if (searchParams.has(filterKey) && searchParams.get(filterKey)) {
+    try {
+      const filterData = JSON.parse(searchParams.get(filterKey)!);
+      if (typeof filterData == "object") {
+        filters = { filters: filterData };
+      }
+    } catch {}
+  }
 
-    return { filters };
+  return filters;
 };
+
 
 export const getQueryBuilderCache = (type: string): any => {
     const items = localStorage.getItem(`query-builder-cache-${type}`);
