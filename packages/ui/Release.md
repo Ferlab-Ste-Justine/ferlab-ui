@@ -1,3 +1,6 @@
+### 2.2.5 | 2021-11-11
+- fix: fix translation for filters
+
 ### 2.2.2 | 2021-11-02
 - fix: Combine queries not updating when using clear button in facets filters
 

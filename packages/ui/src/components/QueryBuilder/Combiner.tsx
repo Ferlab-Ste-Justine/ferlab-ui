@@ -40,9 +40,9 @@ const Combiner = ({ onChange, type, dictionary = {} }: ICombinerProps) => {
             <Tooltip title={getTooltipTitle()} align={{ offset: [0, 5] }}>
                 <Button className={styles.button} type="text" onClick={() => toggleOperator()}>
                     {isAndOperator() ? (
-                        <AndOperator className={styles.operator} />
+                        <AndOperator dictionary={dictionary} className={styles.operator} />
                     ) : (
-                        <OrOperator className={styles.operator} />
+                        <OrOperator dictionary={dictionary} className={styles.operator} />
                     )}
                 </Button>
             </Tooltip>
