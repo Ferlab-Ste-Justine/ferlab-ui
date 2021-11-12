@@ -207,7 +207,7 @@ const CheckboxFilter = ({
                         onClick={() => setLocalSelectedFilters([])}
                         type="text"
                     >
-                        {get(dictionary, 'actions.none', 'Clear')}
+                        {get(dictionary, 'actions.clear', 'Clear')}
                     </Button>
                     <Button
                         className={styles.fuiCbfActionsApply}
