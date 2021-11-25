@@ -1,3 +1,7 @@
+### 1.9.91 | 2021-11-25
+
+- fix: Small fix pill
+
 ### 1.9.7 | 2021-11-01
 
 - fix: Hide input number controls for RangeFilter.
