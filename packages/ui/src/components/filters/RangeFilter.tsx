@@ -287,6 +287,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                 </Button>
                 <Button
                     size="small"
+                    type="primary"
                     className={styles.fuiRfActionsApply}
                     disabled={userCleared ? !userCleared : !hasChanged()}
                     onClick={() => {

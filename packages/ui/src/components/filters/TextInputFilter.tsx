@@ -80,6 +80,7 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
                     {get(dictionary, 'actions.none', 'Clear')}
                 </Button>
                 <Button
+                    type="primary"
                     className={styles.fuiTIfActionsApply}
                     disabled={buttonActionDisabled || !inputValid}
                     onClick={() => {
