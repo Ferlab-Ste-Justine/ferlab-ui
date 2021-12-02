@@ -17,11 +17,10 @@
         color: unset;
         text-decoration: none;
         flex-wrap: wrap;
-        border-bottom: 1px solid transparent;
         line-height: 10px;
 
         &:hover {
-            border-bottom: 1px solid $query-default-action-default-color;
+            box-shadow: inset 0 -4px 0px -2.5px $query-default-action-default-color;
         }
     }
     
