@@ -1,3 +1,7 @@
+### 1.9.93 | 2021-12-06
+
+- Feat: add custom color variable for query builder header border divider
+
 ### 1.9.91 | 2021-11-25
 
 - fix: Small fix pill
