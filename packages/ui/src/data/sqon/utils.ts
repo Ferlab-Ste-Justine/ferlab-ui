@@ -110,10 +110,13 @@ export const resolveSyntheticSqon = (
             .map((c: ISyntheticSqon | TSyntheticSqonContentValue) => resolveSyntheticSqon(sqonsList, c));
 
     if (isBooleanOperator(syntheticSqon)) {
-        return {
-            content: getNewContent(syntheticSqon),
-            op: (syntheticSqon as ISqonGroupFilter).op,
-        };
+        return Object.assign(
+            {
+                content: getNewContent(syntheticSqon),
+                op: (syntheticSqon as ISqonGroupFilter).op,
+            },
+            pivot ? { pivot: pivot } : null,
+        );
     }
 
     return Object.assign(
