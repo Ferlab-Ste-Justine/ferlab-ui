@@ -100,6 +100,7 @@ export const getDefaultSyntheticSqon = (id: string = v4()): ISyntheticSqon => ({
 export const resolveSyntheticSqon = (
     sqonsList: ISyntheticSqon[],
     syntheticSqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue,
+    pivot?: string,
 ): ISqonGroupFilter => {
     const getNewContent = (
         syntheticSqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue,
@@ -115,10 +116,13 @@ export const resolveSyntheticSqon = (
         };
     }
 
-    return {
-        content: (syntheticSqon as ISqonGroupFilter).content as TSqonContent,
-        op: (syntheticSqon as ISqonGroupFilter).op,
-    };
+    return Object.assign(
+        {
+            content: (syntheticSqon as ISqonGroupFilter).content as TSqonContent,
+            op: (syntheticSqon as ISqonGroupFilter).op,
+        },
+        pivot ? { pivot: pivot } : null,
+    );
 };
 
 /**
@@ -223,7 +227,7 @@ export const termToSqon = ({ field, value }: IValueContent) => ({
     op: 'in',
 });
 
-export const addToSqons = ({ fieldsWValues, sqons }: { fieldsWValues: IValueContent[], sqons: ISyntheticSqon[] }) => {
+export const addToSqons = ({ fieldsWValues, sqons }: { fieldsWValues: IValueContent[]; sqons: ISyntheticSqon[] }) => {
     const currentSqon = {
         content: fieldsWValues.map(({ field, value }) => ({ ...termToSqon({ field, value }) })),
         op: 'and',
