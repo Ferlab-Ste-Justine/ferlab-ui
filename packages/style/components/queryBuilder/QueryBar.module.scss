@@ -1,119 +1,123 @@
-@import 'theme.template';
+@import "theme.template";
 
 .queryBarContainer {
-    background: $query-bar-bg;
-    height: $query-bar-height;
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
+  background: $query-bar-bg;
+  height: $query-bar-height;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
 
+  > * {
+    padding: $query-bar-padding;
+    border: 1px solid $query-bar-border-color;
+    align-items: center;
+  }
+
+  &.selected {
+    background: $query-bar-bg-active;
     > * {
-        padding: $query-bar-padding;
-        border: 1px solid $query-bar-border-color;
-        align-items: center;
-    }
-
-    &.selected {
-        background: $query-bar-bg-active;
-        > * {
-            border-color: $query-bar-border-color-active;
-        }
-
-        .identifier {
-            background: $query-bar-identifier-active;
-        }
-    
+      border-color: $query-bar-border-color-active;
     }
 
     .identifier {
-        border: none;
-        padding: 0;
-        min-width: $query-bar-identifier-width;
-        background: $query-bar-identifier;
-        border-top-left-radius: 2px;
-        border-bottom-left-radius: 2px;
+      background: $query-bar-identifier-active;
+    }
+  }
+
+  .identifier {
+    border: none;
+    padding: 0;
+    min-width: $query-bar-identifier-width;
+    background: $query-bar-identifier;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+  }
+
+  .selectionWrapper {
+    padding-left: $query-bar-padding-left + $query-bar-identifier-width;
+
+    .label {
+      font-size: 12px;
+      padding-left: 4px;
+      font-weight: $font-weight-bold;
+      display: flex;
+      align-items: center;
+      padding-top: 0;
+
+      & > span {
+        &:first-child {
+          top: 0;
+        }
+      }
+    }
+  }
+
+  .queryContent {
+    justify-content: space-between;
+    color: $query-total-color;
+
+    .queryValues {
+      flex-wrap: wrap;
+      margin: -6px -6px -6px 0;
+
+      > * {
+        margin: 4px 0;
+      }
     }
 
+    .total {
+      font-weight: $font-weight-bold;
+      display: flex;
+      align-items: center;
+      margin-left: 6px;
+      height: 24px;
+      margin-left: 24px;
 
-    .selectionWrapper {
-        padding-left: $query-bar-padding-left + $query-bar-identifier-width;
+      > :first-child {
+        margin-right: 5px;
+      }
 
-        .label {
-            font-size: 12px;
-            padding-top: 1px;
-            padding-left: 4px;
-            font-weight: $font-weight-bold;
-            display: flex;
-            align-items: center;
-            padding-top: 0;
-        }
+      img,
+      svg {
+        vertical-align: middle;
+      }
     }
+  }
 
-    .queryContent {
-        justify-content: space-between;
-        color: $query-total-color;
+  .actions {
+    .actionButton {
+      height: auto;
+      line-height: normal;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+      margin: 1px;
+      color: $query-default-action-hover-color;
 
-        .queryValues {
-            flex-wrap: wrap;
-            margin: -6px -6px -6px 0;
+      &:active {
+        border: 1px solid transparent;
+      }
 
-            > * {
-                margin: 4px 0;
-            }
-        }
+      &:hover {
+        opacity: 0.7;
+      }
 
-        .total {
-            font-weight: $font-weight-bold;
-            display: flex;
-            align-items: center;
-            margin-left: 6px;
-            height: 24px;
-            margin-left: 24px;
+      &:focus {
+        background-color: transparent;
+      }
 
-            >  :first-child {
-                margin-right: 5px;
-            }
+      &:focus-visible {
+        box-shadow: 0 0 0pt 1px $query-default-action-hover-color;
+      }
 
-            img,svg {
-                vertical-align: middle;
-            }
-        }
+      &:first-child {
+        margin-right: 16px;
+      }
+
+      @include hoverFocus(
+        $query-default-action-hover-color,
+        $query-default-action-focus-color
+      );
     }
-
-    .actions {
-        .actionButton {
-            height: auto;
-            line-height: normal;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            padding: 2px;
-            margin: 1px;
-            color: $query-default-action-hover-color;
-
-            &:active {
-                border: 1px solid transparent;
-            }
-
-            &:hover {
-                opacity: 0.7;
-            }
-
-            &:focus {
-                background-color: transparent;
-            }
-
-            &:focus-visible {
-                box-shadow: 0 0 0pt 1px $query-default-action-hover-color
-            }
-
-            &:first-child {
-                margin-right: 16px;
-            }
-
-            @include hoverFocus(
-                $query-default-action-hover-color, 
-                $query-default-action-focus-color, 
-            );
-        }
-    }
+  }
 }
