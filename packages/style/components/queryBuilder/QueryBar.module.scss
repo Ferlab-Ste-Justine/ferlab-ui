@@ -3,8 +3,7 @@
 .queryBarContainer {
   background: $query-bar-bg;
   height: $query-bar-height;
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
+  border-radius: 2px;
 
   > * {
     padding: $query-bar-padding;
@@ -87,7 +86,9 @@
 
   .actions {
     border-left: none;
-    
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+
     .actionButton {
       height: auto;
       line-height: normal;
