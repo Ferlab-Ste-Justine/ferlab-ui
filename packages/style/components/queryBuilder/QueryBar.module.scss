@@ -1,39 +1,43 @@
 @import "theme.template";
 
+.identifier {
+  border: none;
+  padding: 0;
+  min-width: $query-bar-identifier-width;
+  background: $query-bar-identifier;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+
+  &.active {
+    background: $query-bar-identifier-active;
+  }
+}
+
 .queryBarContainer {
   background: $query-bar-bg;
   height: $query-bar-height;
   border-radius: 2px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border: 1px solid $query-bar-border-color;
+  overflow: hidden;
 
   > * {
     padding: $query-bar-padding;
-    border: 1px solid $query-bar-border-color;
     align-items: center;
   }
 
   &.selected {
     background: $query-bar-bg-active;
-    > * {
+    border-color: $query-bar-border-color-active;
+    > *, .selectionWrapper, .actions {
       border-color: $query-bar-border-color-active;
     }
-
-    .identifier {
-      background: $query-bar-identifier-active;
-    }
-  }
-
-  .identifier {
-    border: none;
-    padding: 0;
-    min-width: $query-bar-identifier-width;
-    background: $query-bar-identifier;
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
   }
 
   .selectionWrapper {
     padding-left: $query-bar-padding-left + $query-bar-identifier-width;
-    border-right: none;
+    border-right: 1px solid $query-bar-border-color;
 
     .label {
       font-size: 12px;
@@ -85,9 +89,7 @@
   }
 
   .actions {
-    border-left: none;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
+    border-left: 1px solid $query-bar-border-color;
 
     .actionButton {
       height: auto;
