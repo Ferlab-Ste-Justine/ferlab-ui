@@ -51,7 +51,7 @@
         "webpack-cli": "^3.3.12"
     },
     "peerDependencies": {
-        "@ferlab/style": "^1.11.0",
+        "@ferlab/style": "^1.10.0",
         "antd": "^4.2.0",
         "react": ">=16.0.0"
     },
