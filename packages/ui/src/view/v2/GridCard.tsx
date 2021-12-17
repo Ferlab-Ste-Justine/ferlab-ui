@@ -11,6 +11,7 @@ type OwnProps = CardProps & {
     content: React.ReactNode;
     theme?: 'shade' | 'light';
     loadingType?: 'skeleton' | 'spinner';
+    contentClassName?: string;
 };
 
 const getWrapperClass = (footer: React.ReactNode, title: React.ReactNode) =>
@@ -21,6 +22,8 @@ const GridCard = ({
     content,
     theme = 'light',
     loadingType = 'skeleton',
+    className = '',
+    contentClassName = '',
     ...rest
 }: Omit<OwnProps, 'actions'>) => {
     return (
@@ -30,6 +33,7 @@ const GridCard = ({
             actions={footer ? [footer] : undefined}
             className={cx(
                 styles.fbUIGridCard,
+                className,
                 theme == 'light' ? styles.light : styles.shade,
                 getWrapperClass(footer, rest.title),
             )}
@@ -37,7 +41,7 @@ const GridCard = ({
             <ConditionalWrapper
                 condition={loadingType === 'spinner'}
                 wrapper={(children) => <Spin spinning={rest.loading}>{children}</Spin>}
-                children={<>{content}</>}
+                children={<div className={contentClassName}>{content}</div>}
             />
         </Card>
     );
