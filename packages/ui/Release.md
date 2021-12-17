@@ -1,3 +1,6 @@
+### 2.4.0 | 2021-12-17
+- feat: Add new Grid Card V2
+
 ### 2.2.5 | 2021-11-11
 - fix: fix translation for filters
 
