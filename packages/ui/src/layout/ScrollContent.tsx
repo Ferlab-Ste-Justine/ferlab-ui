@@ -13,25 +13,11 @@ export type ScrollContentProps = {
     children: React.ReactNode;
     className?: string;
     style?: React.CSSProperties;
-    vertical?: boolean;
-    horizontal?: boolean;
 };
 
-const ScrollContent: React.FC<ScrollContentProps> = ({
-    children,
-    className = '',
-    style = {},
-    horizontal,
-    vertical,
-}) => {
-    const definedOrientation = vertical
-        ? StackOrientation.Vertical
-        : horizontal
-        ? StackOrientation.Horizontal
-        : StackOrientation.Vertical;
-
+const ScrollContent: React.FC<ScrollContentProps> = ({ children, className = '', style = {} }) => {
     return (
-        <SimpleBar className={`ferlabui-scroll-content ${definedOrientation} ${className || ''}`} style={style}>
+        <SimpleBar className={`ferlabui-scroll-content ${StackOrientation.Vertical} ${className || ''}`} style={style}>
             {children}
         </SimpleBar>
     );
