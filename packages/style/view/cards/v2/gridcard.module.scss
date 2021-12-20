@@ -15,7 +15,8 @@
     min-height: unset;
     padding: 0;
 
-    div[class$="-head-title"] {
+    div[class$="-head-title"],
+    div[class$="-extra"] {
       padding: 0;
       padding-bottom: 12px;
     }
