@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "2.4.1",
+    "version": "2.5.0",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -56,6 +56,8 @@
         "react": ">=16.0.0"
     },
     "dependencies": {
+        "@dnd-kit/core": "^4.0.3",
+        "@dnd-kit/sortable": "^5.1.0",
         "classnames": "^2.2.6",
         "history": "^4.9.0",
         "query-string": "^7.0.1",

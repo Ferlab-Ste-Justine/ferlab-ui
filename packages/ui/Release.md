@@ -1,3 +1,6 @@
+### 2.5.0 | 2021-12-20
+- feat: Add new Sortable Grid
+
 ### 2.4.0 | 2021-12-17
 - feat: Add new Grid Card V2
 
