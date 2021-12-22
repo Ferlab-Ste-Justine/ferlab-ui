@@ -6,7 +6,7 @@
     padding: 0;
   }
 
-  &.approved {
+  &.active {
     color: $blue-8;
   }
 
@@ -22,7 +22,7 @@
     color: $magenta-7;
   }
 
-  &.refused {
+  &.revoked {
     color: $red-8;
   }
 
