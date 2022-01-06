@@ -31,6 +31,8 @@
   }
 
   &.mini {
+    padding: $empty-content-mini-padding;
+
     .content {
       gap: 12px;
     }
@@ -51,6 +53,8 @@
   }
 
   &.default {
+    padding: $empty-content-default-padding;
+
     .content {
       gap: 16px;
     }
@@ -71,6 +75,7 @@
   }
 
   &.large {
+    padding: $empty-content-large-padding;
     .content {
       gap: 24px;
     }
