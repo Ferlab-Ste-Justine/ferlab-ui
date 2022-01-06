@@ -10,6 +10,9 @@
 
 - fix: Hide input number controls for RangeFilter.
 
+### 1.13.0 | 2022-01-06
+- feat: Add new Custom Empty Component for list, table, etc.
+
 ### 1.9.6 | 2021-09-22
 
 - feat: add font-weight custom variables to template scss

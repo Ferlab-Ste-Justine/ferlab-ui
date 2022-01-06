@@ -1,0 +1,92 @@
+@import "theme.template";
+
+.fuiEmpty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .title {
+    margin-bottom: 0;
+  }
+
+  .contentWrapper {
+    * {
+      color: $empty-content-color;
+    }
+  }
+
+  .image {
+    display: flex;
+    margin: auto;
+    fill: $empty-image-color;
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  &.mini {
+    .content {
+      gap: 12px;
+    }
+    .title {
+      font-size: 16px;
+    }
+    .image {
+      &.imageRow {
+        max-height: 28px;
+      }
+      &.imageGrid {
+        max-height: 45px;
+      }
+    }
+    .contentWrapper {
+      gap: 4px;
+    }
+  }
+
+  &.default {
+    .content {
+      gap: 16px;
+    }
+    .title {
+      font-size: 20px;
+    }
+    .image {
+      &.imageRow {
+        max-height: 45px;
+      }
+      &.imageGrid {
+        max-height: 75px;
+      }
+    }
+    .contentWrapper {
+      gap: 8px;
+    }
+  }
+
+  &.large {
+    .content {
+      gap: 24px;
+    }
+    .title {
+      font-size: 24px;
+    }
+    .image {
+      &.imageRow {
+        max-height: 72px;
+      }
+      &.imageGrid {
+        max-height: 100px;
+      }
+    }
+    .contentWrapper {
+      gap: 16px;
+    }
+  }
+}
