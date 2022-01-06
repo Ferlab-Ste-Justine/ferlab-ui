@@ -1,3 +1,6 @@
+### 2.6.0 | 2022-01-06
+- feat: Add new Custom Empty Component for list, table, etc.
+
 ### 2.5.0 | 2021-12-20
 - feat: Add new Sortable Grid
 
