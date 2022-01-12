@@ -11,6 +11,7 @@ type OwnProps = CardProps & {
     content: React.ReactNode;
     theme?: 'shade' | 'light';
     loadingType?: 'skeleton' | 'spinner';
+    wrapperClassName?: string;
     contentClassName?: string;
 };
 
@@ -23,11 +24,12 @@ const GridCard = ({
     theme = 'light',
     loadingType = 'skeleton',
     className = '',
+    wrapperClassName = '',
     contentClassName = '',
     ...rest
 }: Omit<OwnProps, 'actions'>) => {
     return (
-        <div className={styles.fuiCardWrapper}>
+        <div className={cx(wrapperClassName, styles.fuiCardWrapper)}>
             <Card
                 {...rest}
                 loading={loadingType === 'skeleton' ? rest.loading : false}
