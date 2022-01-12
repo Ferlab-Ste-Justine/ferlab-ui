@@ -1,64 +1,64 @@
 @import "theme.template";
 
-.fbUIGridCard {
-  padding: 16px 24px !important;
+.fuiCardWrapper {
+  .fbUIGridCard {
+    padding: 16px 24px;
 
-  &.light {
-    background-color: $grid-card-light-background-color;
-  }
+    &.light {
+      background-color: $grid-card-light-background-color;
+    }
 
-  &.shade {
-    background-color: $grid-card-shade-background-color;
-  }
+    &.shade {
+      background-color: $grid-card-shade-background-color;
+    }
 
-  div[class$="-head"] {
-    min-height: unset;
-    padding: 0;
-
-    div[class$="-head-title"],
-    div[class$="-extra"] {
+    div[class$="-head"] {
+      min-height: unset;
       padding: 0;
-      padding-bottom: 12px;
-    }
-  }
 
-  &.withHeaderOnly {
-    padding-bottom: 24px;
+      div[class$="-head-title"],
+      div[class$="-extra"] {
+        padding: 0;
+        padding-bottom: 12px;
+      }
+    }
+
+    &.withHeaderOnly {
+      div[class$="-body"] {
+        padding-bottom: 0;
+      }
+    }
+
+    &.withFooterOnly {
+      div[class$="-body"] {
+        padding-top: 0;
+      }
+    }
+
+    &.contentOnly {
+      div[class$="-body"] {
+        padding: 0;
+      }
+    }
+
     div[class$="-body"] {
-      padding-bottom: 0;
+      padding-left: 0;
+      padding-right: 0;
     }
-  }
 
-  &.withFooterOnly {
-    padding-top: 24px;
-    div[class$="-body"] {
-      padding-top: 0;
-    }
-  }
-
-  &.contentOnly {
-    div[class$="-body"] {
-      padding: 0;
-    }
-  }
-
-  div[class$="-body"] {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  ul[class$="-actions"] {
-    background-color: transparent;
-    > li {
-      color: unset;
-      float: unset;
-      text-align: unset;
-      margin: 0;
-      padding-top: 16px;
-
-      *:hover {
+    ul[class$="-actions"] {
+      background-color: transparent;
+      > li {
         color: unset;
-        cursor: unset;
+        float: unset;
+        text-align: unset;
+        margin: 0;
+        padding-top: 16px;
+
+        *:hover {
+          color: unset;
+          cursor: unset;
+        }
       }
     }
   }

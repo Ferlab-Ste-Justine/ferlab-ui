@@ -27,23 +27,25 @@ const GridCard = ({
     ...rest
 }: Omit<OwnProps, 'actions'>) => {
     return (
-        <Card
-            {...rest}
-            loading={loadingType === 'skeleton' ? rest.loading : false}
-            actions={footer ? [footer] : undefined}
-            className={cx(
-                styles.fbUIGridCard,
-                className,
-                theme == 'light' ? styles.light : styles.shade,
-                getWrapperClass(footer, rest.title),
-            )}
-        >
-            <ConditionalWrapper
-                condition={loadingType === 'spinner'}
-                wrapper={(children) => <Spin spinning={rest.loading}>{children}</Spin>}
-                children={<div className={contentClassName}>{content}</div>}
-            />
-        </Card>
+        <div className={styles.fuiCardWrapper}>
+            <Card
+                {...rest}
+                loading={loadingType === 'skeleton' ? rest.loading : false}
+                actions={footer ? [footer] : undefined}
+                className={cx(
+                    styles.fbUIGridCard,
+                    className,
+                    theme == 'light' ? styles.light : styles.shade,
+                    getWrapperClass(footer, rest.title),
+                )}
+            >
+                <ConditionalWrapper
+                    condition={loadingType === 'spinner'}
+                    wrapper={(children) => <Spin spinning={rest.loading}>{children}</Spin>}
+                    children={<div className={contentClassName}>{content}</div>}
+                />
+            </Card>
+        </div>
     );
 };
 
