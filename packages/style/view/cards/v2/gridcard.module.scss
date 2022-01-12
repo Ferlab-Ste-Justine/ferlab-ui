@@ -1,7 +1,7 @@
 @import "theme.template";
 
 .fbUIGridCard {
-  padding: 16px 24px;
+  padding: 16px 24px !important;
 
   &.light {
     background-color: $grid-card-light-background-color;
