@@ -3,6 +3,7 @@
 .fuiCardWrapper {
   .fbUIGridCard {
     padding: 16px 24px;
+    height: 100%;
 
     &.light {
       background-color: $grid-card-light-background-color;
