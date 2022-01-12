@@ -24,12 +24,14 @@
     }
 
     &.withHeaderOnly {
+      padding-bottom: 24px;
       div[class$="-body"] {
         padding-bottom: 0;
       }
     }
 
     &.withFooterOnly {
+      padding-top: 24px;
       div[class$="-body"] {
         padding-top: 0;
       }
