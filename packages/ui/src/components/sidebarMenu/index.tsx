@@ -93,7 +93,7 @@ const Sidebar = ({
 
     useEffect(() => {
         if (defaultSelectedKey && menuItems.some((item) => item.key.toString() == defaultSelectedKey.toString())) {
-            setSelectedKey(defaultSelectedKey);
+            setSelectedKey(defaultSelectedKey.toString());
         }
     }, [defaultSelectedKey]);
 
