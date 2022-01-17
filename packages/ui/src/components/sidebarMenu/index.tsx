@@ -25,6 +25,7 @@ export interface ISidebarMenuProps {
         close?: React.ReactNode;
     };
     enableQuickFilter?: boolean;
+    defaultSelectedKey?: string | number;
     quickFilterIcon?: React.ReactNode;
     locale?: {
         quickFilter?: {
@@ -41,6 +42,7 @@ const Sidebar = ({
     contentPanelClassName = '',
     style = {},
     enableQuickFilter = false,
+    defaultSelectedKey = undefined,
     toggleIcon = {
         open: <MenuUnfoldOutlined />,
         close: <MenuFoldOutlined />,
@@ -88,6 +90,12 @@ const Sidebar = ({
             searchInputRef.current?.focus();
         }
     }, [collapsed, selectedKey]);
+
+    useEffect(() => {
+        if (defaultSelectedKey && menuItems.some((item) => item.key.toString() == defaultSelectedKey.toString())) {
+            setSelectedKey(defaultSelectedKey);
+        }
+    }, [defaultSelectedKey]);
 
     return (
         <div className={`${styles.siderContainer} ${className}`} style={style}>

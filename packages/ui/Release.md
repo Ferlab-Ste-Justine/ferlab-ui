@@ -1,3 +1,6 @@
+### 2.6.3 | 2022-01-17
+- feat: Add new defaultSelectedKey on sideBarMenu
+
 ### 2.6.0 | 2022-01-06
 - feat: Add new Custom Empty Component for list, table, etc.
 

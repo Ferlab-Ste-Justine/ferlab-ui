@@ -26,6 +26,9 @@ export default {
         enableQuickFilter: {
             control: 'boolean'
         },
+        defaultSelectedKey: {
+            control: "text"
+        }
     },
   } as Meta;
 
