@@ -4,6 +4,7 @@ export type TFilterValue = Array<string | number | boolean>;
 export interface IValueContent {
     field: string;
     value: TFilterValue;
+    index?: string;
 }
 
 export type TValueOp = FieldOperators | string;

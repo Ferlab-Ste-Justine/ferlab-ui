@@ -23,8 +23,8 @@ import { BooleanOperators, FieldOperators, RangeOperators } from '../sqon/operat
 export const getQueryParams = (search: string | null = null) =>
     search ? qs.parse(search) : qs.parse(window.location.search);
 
-export const updateFilters = (history: any, filterGroup: IFilterGroup, selected: IFilter[]): void => {
-    const newSelectedFilters: TSqonContent = createSQONFromFilters(filterGroup, selected);
+export const updateFilters = (history: any, filterGroup: IFilterGroup, selected: IFilter[], index?: string): void => {
+    const newSelectedFilters: TSqonContent = createSQONFromFilters(filterGroup, selected, index);
 
     updateQueryFilters(history, filterGroup.field, newSelectedFilters);
 };
@@ -38,18 +38,22 @@ export const getFilterType = (fieldType: string): VisualType => {
     return VisualType.Checkbox;
 };
 
-export const createSQONFromFilters = (filterGroup: IFilterGroup, selectedFilters: IFilter[]): TSqonContent => {
+export const createSQONFromFilters = (
+    filterGroup: IFilterGroup,
+    selectedFilters: IFilter[],
+    index?: string,
+): TSqonContent => {
     switch (filterGroup.type) {
         case VisualType.Range:
-            return createRangeFilter(filterGroup.field, selectedFilters);
+            return createRangeFilter(filterGroup.field, selectedFilters, index);
         case VisualType.Text:
-            return createTextFilter(filterGroup.field, selectedFilters);
+            return createTextFilter(filterGroup.field, selectedFilters, index);
         default:
-            return createInlineFilters(filterGroup.field, selectedFilters);
+            return createInlineFilters(filterGroup.field, selectedFilters, index);
     }
 };
 
-export const createTextFilter = (field: string, filters: IFilter<IFilterText>[]) => {
+export const createTextFilter = (field: string, filters: IFilter<IFilterText>[], index?: string) => {
     if (filters.length === 0) {
         return [];
     }
@@ -58,13 +62,13 @@ export const createTextFilter = (field: string, filters: IFilter<IFilterText>[])
 
     return [
         {
-            content: { field, value: [selectedTextFilter.data.text] },
+            content: { field, value: [selectedTextFilter.data.text], index },
             op: FieldOperators.in,
         },
     ];
 };
 
-export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[]) => {
+export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[], index?: string) => {
     const selectedFilters: TSqonContent = [];
     if (filters.length === 0) {
         return [];
@@ -76,7 +80,7 @@ export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[
         case RangeOperators.between:
             if (selectedRange.data.min && selectedRange.data.max) {
                 selectedFilters.push({
-                    content: { field, value: [selectedRange.data.min, selectedRange.data.max] },
+                    content: { field, value: [selectedRange.data.min, selectedRange.data.max], index },
                     op: FieldOperators.between,
                 });
             }
@@ -85,7 +89,7 @@ export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[
         case RangeOperators['<=']:
             if (selectedRange.data.max) {
                 selectedFilters.push({
-                    content: { field, value: [selectedRange.data.max] },
+                    content: { field, value: [selectedRange.data.max], index },
                     op: FieldOperators[selectedRange.data.operator],
                 });
             }
@@ -94,7 +98,7 @@ export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[
         case RangeOperators['>=']:
             if (selectedRange.data.min) {
                 selectedFilters.push({
-                    content: { field, value: [selectedRange.data.min] },
+                    content: { field, value: [selectedRange.data.min], index },
                     op: FieldOperators[selectedRange.data.operator],
                 });
             }
@@ -104,12 +108,12 @@ export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[
     return selectedFilters;
 };
 
-export const createInlineFilters = (field: string, filters: IFilter<IFilterCount>[]): TSqonContent => {
+export const createInlineFilters = (field: string, filters: IFilter<IFilterCount>[], index?: string): TSqonContent => {
     const arrayFilters = filters.map((v) => v.data.key);
     return arrayFilters.length > 0
         ? [
               {
-                  content: { field, value: arrayFilters },
+                  content: { field, value: arrayFilters, index },
                   op: FieldOperators.in,
               },
           ]
@@ -294,22 +298,21 @@ export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGr
 
 const emptySqon = { content: [], op: BooleanOperators.and };
 
-export const useFilters = (filterKey: string = "filters") => {
-  var filters = { filters: emptySqon };
-  const searchParams = new URLSearchParams(window.location.search);
+export const useFilters = (filterKey: string = 'filters') => {
+    var filters = { filters: emptySqon };
+    const searchParams = new URLSearchParams(window.location.search);
 
-  if (searchParams.has(filterKey) && searchParams.get(filterKey)) {
-    try {
-      const filterData = JSON.parse(searchParams.get(filterKey)!);
-      if (typeof filterData == "object") {
-        filters = { filters: filterData };
-      }
-    } catch {}
-  }
+    if (searchParams.has(filterKey) && searchParams.get(filterKey)) {
+        try {
+            const filterData = JSON.parse(searchParams.get(filterKey)!);
+            if (typeof filterData == 'object') {
+                filters = { filters: filterData };
+            }
+        } catch {}
+    }
 
-  return filters;
+    return filters;
 };
-
 
 export const getQueryBuilderCache = (type: string): any => {
     const items = localStorage.getItem(`query-builder-cache-${type}`);
