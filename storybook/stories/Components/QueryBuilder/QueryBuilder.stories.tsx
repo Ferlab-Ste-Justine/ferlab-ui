@@ -1,45 +1,57 @@
 import React from "react";
-import {Meta, Story} from '@storybook/react/types-6-0';
-import { MdPeople } from 'react-icons/md';
-import QueryBuilder, {IQueryBuilderProps} from '@ferlab/ui/components/QueryBuilder';
-
+import { Meta, Story } from "@storybook/react/types-6-0";
+import { MdPeople } from "react-icons/md";
+import QueryBuilder, {
+    IQueryBuilderProps,
+} from "@ferlab/ui/components/QueryBuilder";
 
 export default {
     title: "@ferlab/Components/QueryBuilder/QueryBuilder",
     component: QueryBuilder,
-    decorators: [(Story) => <><h2>{Story}</h2><Story/></>],
+    decorators: [
+        (Story) => (
+            <>
+                <h2>{Story}</h2>
+                <Story />
+            </>
+        ),
+    ],
     argTypes: {
         className: {
-            control: 'text'
+            control: "text",
         },
         dictionary: {
-            control: 'object'
+            control: "object",
         },
         total: {
-            control: 'number'
+            control: "number",
         },
         loading: {
-            control: 'boolean'
+            control: "boolean",
         },
         enableCombine: {
-            control: 'boolean'
-        }
+            control: "boolean",
+        },
     },
-  } as Meta;
+} as Meta;
 
-
-const QueryBuilderStory = ({title, ...props} : {title: string, props: Story<IQueryBuilderProps>}) => (
+const QueryBuilderStory = ({
+    title,
+    ...props
+}: {
+    title: string;
+    props: Story<IQueryBuilderProps>;
+}) => (
     <>
         <h3>{title}</h3>
-        <QueryBuilder {...props}  />
+        <QueryBuilder {...props} />
     </>
 );
-
 
 /* Empty */
 export const Empty = QueryBuilderStory.bind({});
 Empty.args = {
-    title: 'Empty',
+    title: "Empty",
     total: 1350,
     enableSingleQuery: true,
     currentQuery: (f) => f,
@@ -51,195 +63,293 @@ Empty.args = {
 export const WithShowLabelsButton = QueryBuilderStory.bind({});
 WithShowLabelsButton.args = {
     enableShowHideLabels: true,
-    title: 'With Show Hide Labels Enable',
+    title: "With Show Hide Labels Enable",
     currentQuery: (f) => f,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
-        state: [{
-            op: 'and', content: [{
-                content: {value: ['something'], field: 'test', op: 'in'}
-            },
+        state: [
             {
-                content: {value: ['false'], field: 'test1', op: 'in'}
-            }],
-            total: 1500,
-            id: '1',  
-        }],
-        active: '1'
-    }
+                op: "and",
+                content: [
+                    {
+                        content: {
+                            value: ["something"],
+                            field: "test",
+                            op: "in",
+                        },
+                    },
+                    {
+                        content: { value: ["false"], field: "test1", op: "in" },
+                    },
+                ],
+                total: 1500,
+                id: "1",
+            },
+        ],
+        active: "1",
+    },
 };
 
 /* 1 query */
 export const OneQuery = QueryBuilderStory.bind({});
 OneQuery.args = {
-    title: '1 Query',
+    title: "1 Query",
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
-        state: [{
-            op: 'and', content: [{
-                content: {value: ['something'], field: 'test', op: 'in'}
-            }],
-            total: 1500,
-            id: '1',  
-        }],
-        active: '1'
-    }
+        state: [
+            {
+                op: "and",
+                content: [
+                    {
+                        content: {
+                            value: ["something"],
+                            field: "test",
+                            op: "in",
+                        },
+                    },
+                ],
+                total: 1500,
+                id: "1",
+            },
+        ],
+        active: "1",
+    },
 };
 
 /* 1 query */
 export const SingleQuery = QueryBuilderStory.bind({});
 SingleQuery.args = {
-    title: 'Single Query',
+    title: "Single Query",
     enableSingleQuery: true,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
-        state: [{
-            op: 'and', content: [{
-                content: {value: ['something'], field: 'test', op: 'in'}
-            }],
-            total: 1500,
-            id: '1',  
-        }],
-        active: '1'
-    }
+        state: [
+            {
+                op: "and",
+                content: [
+                    {
+                        content: {
+                            value: ["something"],
+                            field: "test",
+                            op: "in",
+                        },
+                    },
+                ],
+                total: 1500,
+                id: "1",
+            },
+        ],
+        active: "1",
+    },
 };
 
 /* 1 query with icon */
 export const WithIconQuery = QueryBuilderStory.bind({});
 WithIconQuery.args = {
-    title: '1 Query With Icon',
+    title: "1 Query With Icon",
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
-        state: [{
-            op: 'and', content: [{
-                content: {value: ['something'], field: 'test', op: 'in'}
-            }],
-            total: 1500,
-            id: '1',  
-        }],
-        active: '1'
+        state: [
+            {
+                op: "and",
+                content: [
+                    {
+                        content: {
+                            value: ["something"],
+                            field: "test",
+                            op: "in",
+                        },
+                    },
+                ],
+                total: 1500,
+                id: "1",
+            },
+        ],
+        active: "1",
     },
-    IconTotal:<MdPeople />
+    IconTotal: <MdPeople />,
 };
 
 /* multi query */
 export const MultiQuery = QueryBuilderStory.bind({});
 MultiQuery.args = {
-    title: 'Multi Query',
+    title: "Multi Query",
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
-        state: [{
-            op: 'and', 
-            content: [{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test'}, op: 'in'
-            },{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'More Data'}, op: 'in'
-            },{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 2'}, op: 'in'
-            },{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'Test 3'}, op: 'in'
-            },{
-                content: {value: [10,15], field: 'age'},  op: 'between'
-            }],
-            total: 1500,
-            id: '1',  
-        },{
-            op: 'and', content: [{
-                content: {value: ['cram'], field: 'Data Type'}, op: 'in'
-            }],
-            total: 1500,
-            id: '2',  
-        }],
-        active: '2'
-    }
+        state: [
+            {
+                op: "and",
+                content: [
+                    {
+                        content: {
+                            value: ["something", "else", "more", "perfect"],
+                            field: "Test",
+                        },
+                        op: "in",
+                    },
+                    {
+                        content: {
+                            value: ["something", "else", "more", "perfect"],
+                            field: "More Data",
+                        },
+                        op: "in",
+                    },
+                    {
+                        content: {
+                            value: ["something", "else", "more", "perfect"],
+                            field: "Test 2",
+                        },
+                        op: "in",
+                    },
+                    {
+                        content: {
+                            value: ["something", "else", "more", "perfect"],
+                            field: "Test 3",
+                        },
+                        op: "in",
+                    },
+                    {
+                        content: { value: [10, 15], field: "age" },
+                        op: "between",
+                    },
+                ],
+                total: 1500,
+                id: "1",
+            },
+            {
+                op: "and",
+                content: [
+                    {
+                        content: { value: ["cram"], field: "Data Type" },
+                        op: "in",
+                    },
+                ],
+                total: 1500,
+                id: "2",
+            },
+        ],
+        active: "2",
+    },
 };
 
 /* multi query with combine */
 export const MultiQueryWithCombine = QueryBuilderStory.bind({});
 MultiQueryWithCombine.args = {
-    title: 'Multi Query With Combine',
-    cacheKey: 'test',
+    title: "Multi Query With Combine",
+    cacheKey: "test",
     enableCombine: true,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
-        state: [{
-            op: 'or', content: [{
-                content: {value: ['something'], field: 'Test 1'}, op: 'in'
+        state: [
+            {
+                op: "or",
+                content: [
+                    {
+                        content: { value: ["something"], field: "Test 1" },
+                        op: "in",
+                    },
+                    {
+                        content: { value: ["else"], field: "Test 2" },
+                        op: "in",
+                    },
+                    {
+                        content: { value: ["more"], field: "Test 3" },
+                        op: "in",
+                    },
+                ],
+                total: 1500,
+                id: "1",
             },
             {
-                content: {value: ['else'], field: 'Test 2'}, op: 'in'
+                op: "and",
+                content: [
+                    {
+                        content: { value: ["something"], field: "Test 1" },
+                        op: "in",
+                    },
+                    {
+                        content: { value: ["else"], field: "Test 2" },
+                        op: "in",
+                    },
+                ],
+                total: 1500,
+                id: "2",
             },
             {
-                content: {value: ['more'], field: 'Test 3'}, op: 'in'
-            }],
-            total: 1500,
-            id: '1',  
-        },{
-            op: 'and', content: [{
-                content: {value: ['something'], field: 'Test 1'}, op: 'in'
+                op: "and",
+                content: [
+                    {
+                        content: { value: ["something"], field: "Test 1" },
+                        op: "in",
+                    },
+                ],
+                total: 1500,
+                id: "3",
             },
             {
-                content: {value: ['else'], field: 'Test 2'}, op: 'in'
-            }],
-            total: 1500,
-            id: '2',  
-        },{
-            op: 'and', content: [{
-                content: {value: ['something'], field: 'Test 1'}, op: 'in'
-            }],
-            total: 1500,
-            id: '3',  
-        },
-        {
-            op: 'and', content: [0, 1, 2],
-            total: 3000,
-            id: '4',  
-        }],
-        active: '1'
-    }
+                op: "and",
+                content: [0, 1, 2],
+                total: 3000,
+                id: "4",
+            },
+        ],
+        active: "1",
+    },
 };
 
 /* with header */
 export const WithQueryPillFilters = QueryBuilderStory.bind({});
 WithQueryPillFilters.args = {
-    title: 'With Query Pill Filters',
+    title: "With Query Pill Filters",
     showHeader: true,
     showHeaderTools: true,
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     facetFilterConfig: {
-        enable: true
+        enable: true,
     },
     initialState: {
-        state: [{
-            op: 'and', content: [{
-                content: {value: ['something', 'else', 'more', 'perfect'], field: 'test', op: 'in'}
-            }],
-            total: 1500,
-            id: '1',  
-        },
-        {
-            op: 'and', content: [{
-                content: {value: ['else'], field: 'test', op: 'in'}
-            }],
-            total: 1500,
-            id: '2',  
-        }],
-        active: '1'
+        state: [
+            {
+                op: "and",
+                content: [
+                    {
+                        content: {
+                            value: ["something", "else", "more", "perfect"],
+                            field: "test",
+                            op: "in",
+                        },
+                    },
+                ],
+                total: 1500,
+                id: "1",
+            },
+            {
+                op: "and",
+                content: [
+                    {
+                        content: { value: ["else"], field: "test", op: "in" },
+                    },
+                ],
+                total: 1500,
+                id: "2",
+            },
+        ],
+        active: "1",
     },
-    IconTotal:<MdPeople />
+    IconTotal: <MdPeople />,
 };
 
 /* with header */
 export const WithHeader = QueryBuilderStory.bind({});
 WithHeader.args = {
-    title: 'With Header',
+    title: "With Header",
     headerConfig: {
         showHeader: true,
         defaultTitle: "Queries",
@@ -247,22 +357,31 @@ WithHeader.args = {
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
     initialState: {
-        state: [{
-            op: 'and', content: [{
-                content: {value: ['something'], field: 'test', op: 'in'}
-            }],
-            total: 1500,
-            id: '1',  
-        }],
-        active: '1'
+        state: [
+            {
+                op: "and",
+                content: [
+                    {
+                        content: {
+                            value: ["something"],
+                            field: "test",
+                            op: "in",
+                        },
+                    },
+                ],
+                total: 1500,
+                id: "1",
+            },
+        ],
+        active: "1",
     },
-    IconTotal:<MdPeople />
+    IconTotal: <MdPeople />,
 };
 
 /* with header */
 export const WithHeaderAndTools = QueryBuilderStory.bind({});
 WithHeaderAndTools.args = {
-    title: 'With header and header tools',
+    title: "With header and header tools",
     headerConfig: {
         showHeader: true,
         showTools: true,
@@ -273,109 +392,153 @@ WithHeaderAndTools.args = {
             enableShare: true,
         },
         selectedSavedFilter: {
-                "id": "1",
-                "title": "Mon filtre 1",
-                "default": true,
-                "filters": [{
-                    op: 'and', content: [{
-                        content: {value: ['something 1', 'else 2', 'more 2', 'perfect 2'], field: 'test', op: 'in'}
-                    }],
+            id: "1",
+            title: "Mon filtre 1",
+            default: true,
+            filters: [
+                {
+                    op: "and",
+                    content: [
+                        {
+                            content: {
+                                value: [
+                                    "something 1",
+                                    "else 2",
+                                    "more 2",
+                                    "perfect 2",
+                                ],
+                                field: "test",
+                                op: "in",
+                            },
+                        },
+                    ],
                     total: 1500,
-                    id: '1',  
-                }]
+                    id: "1",
+                },
+            ],
+        },
+        savedFilters: [
+            {
+                title: "My query",
+                op: "and",
+                content: [
+                    {
+                        content: {
+                            value: [
+                                "something 1",
+                                "else 2",
+                                "more 2",
+                                "perfect 2",
+                            ],
+                            field: "test",
+                            op: "in",
+                        },
+                    },
+                ],
+                total: 1500,
+                id: "1",
             },
-            savedFilters: [
-                {
-                  id: '1',
-                  title: 'Mon filtre 1',
-                  default: true,
-                  filters: [
+        ],
+        onSaveQuery: (filter: any) => {
+            console.log(filter);
+        },
+        onDuplicateQuery: (filter: any) => {},
+        onDeleteQuery: (filter: any) => {},
+    },
+    initialState: {
+        state: [
+            {
+                op: "and",
+                content: [
                     {
-                      op: 'and',
-                      content: [
-                        {
-                          content: {
-                            value: ['something 1', 'else 2', 'more 2', 'perfect 2'],
-                            field: 'test',
-                          },
-                          op: 'in',
+                        content: {
+                            value: [
+                                "something 1",
+                                "else 2",
+                                "more 2",
+                                "perfect 2",
+                            ],
+                            field: "test",
+                            op: "in",
                         },
-                      ],
-                      total: 1500,
-                      id: '1',
                     },
-                  ],
-                },
-                {
-                  id: '2',
-                  title: 'Mon filtre 2',
-                  default: false,
-                  filters: [
-                    {
-                      op: 'and',
-                      content: [
-                        {
-                          content: {
-                            value: ['something 2', 'else 2', 'more 2', 'perfect 2'],
-                            field: 'test',
-                          },
-                          op: 'in',
-                        },
-                      ],
-                      total: 1500,
-                      id: '1',
-                    },
-                  ],
-                },
-              ],
-          onSaveQuery: (filter: any) => {console.log(filter)},
-          onDuplicateQuery: (filter: any) => {},
-          onDeleteQuery: (filter: any) => {},
-    },      
+                ],
+                total: 1500,
+                id: "1",
+            },
+        ],
+        active: "1",
+    },
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
-    IconTotal:<MdPeople />
+    IconTotal: <MdPeople />,
 };
 
 /* with name mapping */
 export const WithNameMapping = QueryBuilderStory.bind({});
 WithNameMapping.args = {
-    title: 'With facet and value mapping',
+    title: "With facet and value mapping",
     onRemoveFacet: (f) => f,
     onChangeQuery: (f) => f,
-    dictionary: {   
+    dictionary: {
         query: {
-            facet: (facet: string) => {
+            facet: (facet: string) => {
                 if (facet == "test") {
-                    return "Mapped facet name"
+                    return "Mapped facet name";
                 }
             },
             facetValueMapping: {
-                "test": {
-                    "something": "mapped value name"
-                }
-            }
-        }
+                test: {
+                    something: "mapped value name",
+                },
+            },
+        },
     },
     initialState: {
-        state: [{
-            op: 'and', content: [{
-                content: {value: ['somethingsomethingsomethingsomethingsomething', 'elsesomethingsomethingsomethingsomethingsomethingsomething', 'more', 'perfect'], field: 'test', op: 'in'}
+        state: [
+            {
+                op: "and",
+                content: [
+                    {
+                        content: {
+                            value: [
+                                "somethingsomethingsomethingsomethingsomething",
+                                "elsesomethingsomethingsomethingsomethingsomethingsomething",
+                                "more",
+                                "perfect",
+                            ],
+                            field: "test",
+                            op: "in",
+                        },
+                    },
+                    {
+                        content: {
+                            value: [
+                                "somethingsomethingsomethingsomethingsomething",
+                                "elsesomethingsomethingsomethingsomethingsomethingsomething",
+                                "more",
+                                "perfect",
+                            ],
+                            field: "test",
+                            op: "in",
+                        },
+                    },
+                ],
+                total: 1500,
+                id: "1",
             },
             {
-                content: {value: ['somethingsomethingsomethingsomethingsomething', 'elsesomethingsomethingsomethingsomethingsomethingsomething', 'more', 'perfect'], field: 'test', op: 'in'}
-            }],
-            total: 1500,
-            id: '1',  
-        },
-        {
-            op: 'and', content: [{
-                content: {value: ['else'], field: 'test', op: 'in'}
-            }],
-            total: 1500,
-            id: '2',  
-        }],
-        active: '1'
+                op: "and",
+                content: [
+                    {
+                        content: { value: ["else"], field: "test", op: "in" },
+                    },
+                ],
+                total: 1500,
+                id: "2",
+            },
+        ],
+        active: "1",
     },
-    IconTotal:<MdPeople />
+    IconTotal: <MdPeople />,
 };
