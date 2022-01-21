@@ -219,6 +219,10 @@ const hasUnsavedChanges = (
     savedFilters: ISavedFilter[],
     queriesState: IQueriesState,
 ) => {
+    if (savedFilters.length === 0) {
+        return true;
+    }
+
     if (!(selectedSavedFilter && !isNewUnsavedFilter(selectedSavedFilter, savedFilters))) {
         return false;
     }

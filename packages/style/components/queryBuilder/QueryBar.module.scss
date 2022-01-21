@@ -1,5 +1,9 @@
 @import "theme.template";
 
+.queryBarWrapper {
+  display: flex;
+}
+
 .identifier {
   border: none;
   padding: 0;
@@ -14,6 +18,8 @@
 }
 
 .queryBarContainer {
+  display: flex;
+  width: 100%;
   background: $query-bar-bg;
   height: $query-bar-height;
   border-radius: 2px;
@@ -59,6 +65,8 @@
   .queryContent {
     justify-content: space-between;
     color: $query-total-color;
+    display: flex;
+    width: 100%;
 
     .queryValues {
       flex-wrap: wrap;
@@ -116,11 +124,7 @@
       &:focus-visible {
         box-shadow: 0 0 0pt 1px $query-default-action-hover-color;
       }
-
-      &:first-child {
-        margin-right: 16px;
-      }
-
+      
       @include hoverFocus(
         $query-default-action-hover-color,
         $query-default-action-focus-color

@@ -2,10 +2,13 @@
 
 .queryTools {
     margin-top: 16px;
+    display: flex;
     align-items: center;
     justify-content: space-between;
 
     .leftTools, .rightTools {
+        display: flex;
+
         >*:not(:first-child) {
             margin-left: 15px;
         }

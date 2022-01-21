@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Typography, Modal, Input, Space, Button, Tooltip } from 'antd';
 import cx from 'classnames';
 import { v4 } from 'uuid';
@@ -7,7 +7,6 @@ import CaretDownIcon from '../icons/CaretDownIcon';
 import EditIcon from '../icons/EditIcon';
 import StarIcon from '../icons/StarIcon';
 import StarFilledIcon from '../icons/StarFilledIcon';
-import StackLayout from '../../../layout/StackLayout';
 import QueryBuilderHeaderTools from './Tools';
 import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../types';
 import { getDefaultSyntheticSqon } from '../../../data/sqon/utils';
@@ -74,9 +73,9 @@ const QueryBuilderHeader = ({
 
     return (
         <div id="query-builder-header-tools">
-            <StackLayout vertical className={styles.QBHContainer}>
-                <StackLayout className={`${styles.QBToggler} ${collapsed && styles.togglerClosed}`}>
-                    <StackLayout className={styles.QBTitleContainer}>
+            <Space direction="vertical" className={styles.QBHContainer} size={0}>
+                <Space className={`${styles.QBToggler} ${collapsed && styles.togglerClosed}`}>
+                    <Space className={styles.QBTitleContainer} size={16}>
                         <div className={styles.QBHActionContainer} onClick={() => toggleQb(!collapsed)}>
                             <span className={styles.togglerIcon}>
                                 {collapsed ? <CaretRightIcon /> : <CaretDownIcon />}
@@ -117,7 +116,7 @@ const QueryBuilderHeader = ({
                                 </Tooltip>
                             )}
                         </div>
-                    </StackLayout>
+                    </Space>
                     {config.showTools && (
                         <QueryBuilderHeaderTools
                             config={{
@@ -151,9 +150,9 @@ const QueryBuilderHeader = ({
                             }}
                         />
                     )}
-                </StackLayout>
+                </Space>
                 {!collapsed && children}
-            </StackLayout>
+            </Space>
             <Modal
                 className={styles.editModal}
                 visible={isEditModalVisible}

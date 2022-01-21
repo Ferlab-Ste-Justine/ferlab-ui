@@ -1,17 +1,12 @@
 import React from 'react';
 
-import StackLayout from '../../../layout/StackLayout';
 import { ISyntheticSqon, IValueFilter, TSqonGroupOp } from '../../../data/sqon/types';
 import { isBooleanOperator, isReference } from '../../../data/sqon/utils';
 import ReferenceQueryPill from './ReferenceQueryPill';
 import FieldQueryPill from './FieldQueryPill';
 import Combiner from '../Combiner';
-import {
-    IDictionary,
-    IFacetFilterConfig,
-    TCallbackRemoveAction,
-    TCallbackRemoveReferenceAction,
-} from '../types';
+import { IDictionary, IFacetFilterConfig, TCallbackRemoveAction, TCallbackRemoveReferenceAction } from '../types';
+import { Space } from 'antd';
 
 interface IBooleanQueryPillProps {
     parentQueryId: string;
@@ -31,7 +26,7 @@ const isNotEnd = (props: IBooleanQueryPillProps, index: number) => props.query.c
 const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
     <>
         {props.query.content.map((f: any, i: number) => (
-            <StackLayout key={i} flexOwn>
+            <Space key={i} size={0} style={{ padding: '2px 0px' }}>
                 {isBooleanOperator(f) ? (
                     <BooleanQueryPill {...props} query={f} />
                 ) : isReference(f) ? (
@@ -58,7 +53,7 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
                         type={props.query.op}
                     />
                 )}
-            </StackLayout>
+            </Space>
         ))}
     </>
 );

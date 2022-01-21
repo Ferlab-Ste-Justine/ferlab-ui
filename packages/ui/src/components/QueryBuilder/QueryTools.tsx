@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Dropdown, Menu, Modal, Switch } from 'antd';
+import { Button, Dropdown, Menu, Modal, Space, Switch } from 'antd';
 import { AiOutlinePlus } from 'react-icons/ai';
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
@@ -42,8 +42,8 @@ const QueryTools = ({
     enableShowHideLabels,
 }: IQueryToolsProps) => {
     return (
-        <StackLayout className={styles.queryTools}>
-            <StackLayout className={styles.leftTools}>
+        <Space direction="horizontal" className={styles.queryTools}>
+            <Space className={styles.leftTools}>
                 {!enableSingleQuery && !canCombine && (
                     <Button
                         className={styles.button}
@@ -90,9 +90,9 @@ const QueryTools = ({
                         <span className={styles.label}>{dictionary.actions?.labels || 'Labels'}</span>
                     </span>
                 )}
-            </StackLayout>
-            <StackLayout className={styles.rightTools}>
-                {!noQueries && !canCombine && queryCount > 1 &&  (
+            </Space>
+            <Space className={styles.rightTools}>
+                {!noQueries && !canCombine && queryCount > 1 && (
                     <Button
                         className={styles.button}
                         onClick={() =>
@@ -112,8 +112,8 @@ const QueryTools = ({
                         {dictionary.actions?.clear?.buttonTitle || 'Clear all'}
                     </Button>
                 )}
-            </StackLayout>
-        </StackLayout>
+            </Space>
+        </Space>
     );
 };
 

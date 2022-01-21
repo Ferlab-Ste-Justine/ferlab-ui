@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineCopy, AiOutlineDelete } from 'react-icons/ai';
-import { Button, Checkbox, Popconfirm, Tooltip } from 'antd';
+import { Button, Checkbox, Popconfirm, Space, Tooltip } from 'antd';
 import cx from 'classnames';
 
-import StackLayout from '../../layout/StackLayout';
 import BooleanQueryPill from './QueryPills/BooleanQueryPill';
 import {
     IDictionary,
@@ -74,15 +73,13 @@ const QueryBar = ({
     const containerClassNames = cx(styles.queryBarContainer, { [styles.selected]: isActive });
 
     return (
-        <StackLayout fitContent flexContent>
+        <div className={styles.queryBarWrapper}>
             <div
                 className={cx(styles.identifier, isActive ? styles.active : '')}
                 style={isReferenced ? { background: referenceColor! } : {}}
             />
-            <StackLayout
+            <div
                 className={containerClassNames}
-                fitContent
-                flexContent
                 onClick={() => {
                     if (!isActive) {
                         onChangeQuery(id, query);
@@ -90,7 +87,7 @@ const QueryBar = ({
                 }}
             >
                 {!selectionDisabled && (
-                    <StackLayout className={styles.selectionWrapper}>
+                    <Space direction="horizontal" className={styles.selectionWrapper}>
                         <Checkbox
                             checked={checked}
                             className={styles.label}
@@ -101,14 +98,14 @@ const QueryBar = ({
                         >
                             {`Q${index + 1}`}
                         </Checkbox>
-                    </StackLayout>
+                    </Space>
                 )}
-                <StackLayout className={styles.queryContent} flexContent>
+                <Space className={styles.queryContent}>
                     {isEmptySqon(query) ? (
-                        <StackLayout>{dictionary.query?.noQuery || 'Use the filters to build a query'}</StackLayout>
+                        <div>{dictionary.query?.noQuery || 'Use the filters to build a query'}</div>
                     ) : (
                         isBooleanOperator(query) && (
-                            <StackLayout className={styles.queryValues} fitContent flexContent>
+                            <Space className={styles.queryValues}>
                                 <BooleanQueryPill
                                     parentQueryId={id}
                                     query={query}
@@ -121,15 +118,15 @@ const QueryBar = ({
                                     getColorForReference={getColorForReference}
                                     facetFilterConfig={facetFilterConfig}
                                 />
-                            </StackLayout>
+                            </Space>
                         )
                     )}
                     <span className={styles.total}>
                         {Icon} {numberFormat(total)}
                     </span>
-                </StackLayout>
+                </Space>
                 {!actionDisabled && (
-                    <StackLayout className={styles.actions}>
+                    <Space className={styles.actions} size={16}>
                         <Tooltip title={dictionary.actions?.duplicate || 'Duplicate'}>
                             <Button
                                 className={styles.actionButton}
@@ -168,10 +165,10 @@ const QueryBar = ({
                                 </Button>
                             </Popconfirm>
                         </Tooltip>
-                    </StackLayout>
+                    </Space>
                 )}
-            </StackLayout>
-        </StackLayout>
+            </div>
+        </div>
     );
 };
 

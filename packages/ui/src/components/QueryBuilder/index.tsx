@@ -6,7 +6,6 @@ import isEmpty from 'lodash/isEmpty';
 
 import ConditionalWrapper from '../utils/ConditionalWrapper';
 import QueryBuilderHeader from './Header';
-import StackLayout from '../../layout/StackLayout';
 import QueryBar from './QueryBar';
 import QueryTools from './QueryTools';
 import { BooleanOperators } from '../../data/sqon/operators';
@@ -355,11 +354,10 @@ const QueryBuilder = ({
                 </QueryBuilderHeader>
             )}
         >
-            <StackLayout
+            <div
                 className={`${styles.queryBuilderContainer} ${!queryBuilderCollapsed && styles.hasHeader} ${className}`}
-                vertical
             >
-                <StackLayout className={styles.queryBars} vertical>
+                <div className={styles.queryBars}>
                     {queriesState.queries.map((sqon, i) => (
                         <QueryBar
                             id={sqon.id!}
@@ -430,7 +428,7 @@ const QueryBuilder = ({
                             total={sqon.total!}
                         />
                     ))}
-                </StackLayout>
+                </div>
                 {showQueryTools() && (
                     <QueryTools
                         dictionary={dictionary}
@@ -451,7 +449,7 @@ const QueryBuilder = ({
                         setShowLabels={setShowLabels}
                     />
                 )}
-            </StackLayout>
+            </div>
         </ConditionalWrapper>
     );
 };
