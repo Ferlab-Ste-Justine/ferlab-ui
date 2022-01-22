@@ -411,6 +411,18 @@ WithHeaderAndTools.args = {
                                 op: "in",
                             },
                         },
+                        {
+                            content: {
+                                value: [
+                                    "something 2",
+                                    "else 3",
+                                    "more 3",
+                                    "perfect 3",
+                                ],
+                                field: "test2",
+                                op: "in",
+                            },
+                        }
                     ],
                     total: 1500,
                     id: "1",
@@ -462,6 +474,18 @@ WithHeaderAndTools.args = {
                             op: "in",
                         },
                     },
+                    {
+                        content: {
+                            value: [
+                                "something 2",
+                                "else 3",
+                                "more 3",
+                                "perfect 3",
+                            ],
+                            field: "test2",
+                            op: "in",
+                        },
+                    }
                 ],
                 total: 1500,
                 id: "1",

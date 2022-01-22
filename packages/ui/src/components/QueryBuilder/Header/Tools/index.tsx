@@ -57,10 +57,17 @@ const QueryBuilderHeaderTools = ({
     useEffect(() => {
         const isDirty = hasUnsavedChanges(selectedSavedFilter!, config.savedFilters!, queriesState);
         const isNew = isNewUnsavedFilter(selectedSavedFilter!, config.savedFilters!);
+        const hasQueriesBool = hasQueries(queriesState);
 
-        setIsDirty(isDirty);
-        setIsNewFilter(isNew);
-        setIsSaveButtonDisabled(hasQueries(queriesState) ? !isDirty : isNew);
+        if (isNew) {
+            setIsDirty(false);
+            setIsNewFilter(true);
+            setIsSaveButtonDisabled(!hasQueriesBool);
+        } else {
+            setIsDirty(isDirty);
+            setIsNewFilter(false);
+            setIsSaveButtonDisabled(!isDirty);
+        }
     }, [queriesState, selectedSavedFilter]);
 
     return (
@@ -219,10 +226,6 @@ const hasUnsavedChanges = (
     savedFilters: ISavedFilter[],
     queriesState: IQueriesState,
 ) => {
-    if (savedFilters.length === 0) {
-        return true;
-    }
-
     if (!(selectedSavedFilter && !isNewUnsavedFilter(selectedSavedFilter, savedFilters))) {
         return false;
     }
