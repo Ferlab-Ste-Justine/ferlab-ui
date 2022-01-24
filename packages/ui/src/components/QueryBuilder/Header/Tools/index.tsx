@@ -90,7 +90,13 @@ const QueryBuilderHeaderTools = ({
                         <PlusIcon />
                     </Button>
                 </Tooltip>
-                <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.save || 'Save'}>
+                <Tooltip
+                    title={
+                        isDirty
+                            ? dictionary.queryBuilderHeader?.tooltips?.saveChanges || 'Save changes'
+                            : dictionary.queryBuilderHeader?.tooltips?.save || 'Save filter'
+                    }
+                >
                     <Button
                         className={cx(styles.queryBuilderHeaderActionIconBtn, isDirty ? styles.dirty : '')}
                         onClick={(e: React.MouseEvent) => {
