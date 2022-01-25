@@ -55,14 +55,17 @@ const SavedFiltersMenu = ({
                             {savedFilter.title}
                         </Menu.Item>
                     ))}
-                    <Menu.Divider />
                     {false && (
-                        <Menu.Item
-                            key="manage-my-filters"
-                            onClick={() => console.log('Manage filters option currently disabled')}
-                        >
-                            {dictionary.queryBuilderHeader?.myFiltersDropdown?.manageMyFilter || 'Manage my filters'}
-                        </Menu.Item>
+                        <>
+                            <Menu.Divider />
+                            <Menu.Item
+                                key="manage-my-filters"
+                                onClick={() => console.log('Manage filters option currently disabled')}
+                            >
+                                {dictionary.queryBuilderHeader?.myFiltersDropdown?.manageMyFilter ||
+                                    'Manage my filters'}
+                            </Menu.Item>
+                        </>
                     )}
                 </Menu>
             }

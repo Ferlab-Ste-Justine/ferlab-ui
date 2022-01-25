@@ -139,13 +139,17 @@ const QueryBuilderHeader = ({
                                 });
                             }}
                             onDuplicateSavedFilter={() => {
+                                const duplicatedQueries = [...queriesState.queries].map((query) => ({
+                                    id: v4(),
+                                    ...query,
+                                }));
                                 onSavedFilterChange({
                                     id: v4(),
                                     title: `${selectedSavedFilter?.title!} ${
                                         dictionary.queryBuilderHeader?.duplicateFilterTitleSuffix || 'COPY'
                                     }`,
                                     default: false,
-                                    filters: [...queriesState.queries],
+                                    filters: duplicatedQueries, // should probably set new id for each filter here
                                 });
                             }}
                         />
