@@ -102,7 +102,7 @@ const QueryBar = ({
                 )}
                 <Space className={styles.queryContent}>
                     {isEmptySqon(query) ? (
-                        <div>{dictionary.query?.noQuery || 'Use the filters to build a query'}</div>
+                        <div>{dictionary.query?.noQuery || 'Use the facets to build a query'}</div>
                     ) : (
                         isBooleanOperator(query) && (
                             <Space className={styles.queryValues}>
@@ -127,44 +127,39 @@ const QueryBar = ({
                 </Space>
                 {!actionDisabled && (
                     <Space className={styles.actions} size={16}>
-                        <Tooltip title={dictionary.actions?.duplicate || 'Duplicate'}>
+                        <Button
+                            className={styles.actionButton}
+                            onClick={(e: React.MouseEvent) => {
+                                e.stopPropagation();
+                                onDuplicate(id, query);
+                            }}
+                            type="text"
+                        >
+                            <AiOutlineCopy size={18} />
+                        </Button>
+                        <Popconfirm
+                            arrowPointAtCenter
+                            cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
+                            disabled={!canDelete}
+                            okText={dictionary.actions?.delete?.confirm || 'Delete'}
+                            onConfirm={(e) => {
+                                e!.stopPropagation();
+                                onDeleteQuery(id, query);
+                            }}
+                            placement="topRight"
+                            title={dictionary.actions?.delete?.title || 'Delete this query?'}
+                            getPopupContainer={(trigger) => trigger.parentElement!}
+                        >
                             <Button
                                 className={styles.actionButton}
                                 onClick={(e: React.MouseEvent) => {
                                     e.stopPropagation();
-                                    onDuplicate(id, query);
                                 }}
                                 type="text"
                             >
-                                <AiOutlineCopy size={18} />
+                                <AiOutlineDelete size={18} />
                             </Button>
-                        </Tooltip>
-
-                        <Tooltip title={dictionary.actions?.delete?.confirm || 'Delete'}>
-                            <Popconfirm
-                                arrowPointAtCenter
-                                cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
-                                disabled={!canDelete}
-                                okText={dictionary.actions?.delete?.confirm || 'Delete'}
-                                onConfirm={(e) => {
-                                    e!.stopPropagation();
-                                    onDeleteQuery(id, query);
-                                }}
-                                placement="topRight"
-                                title={dictionary.actions?.delete?.title || 'Delete this query?'}
-                                getPopupContainer={(trigger) => trigger.parentElement!}
-                            >
-                                <Button
-                                    className={styles.actionButton}
-                                    onClick={(e: React.MouseEvent) => {
-                                        e.stopPropagation();
-                                    }}
-                                    type="text"
-                                >
-                                    <AiOutlineDelete size={18} />
-                                </Button>
-                            </Popconfirm>
-                        </Tooltip>
+                        </Popconfirm>
                     </Space>
                 )}
             </div>
