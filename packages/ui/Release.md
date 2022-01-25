@@ -1,3 +1,6 @@
+### 2.8.1 | 2022-01-26
+- feat: New component ProTable
+
 ### 2.6.3 | 2022-01-17
 - feat: Add new defaultSelectedKey on sideBarMenu
 

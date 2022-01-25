@@ -9,6 +9,8 @@
 ### 1.9.7 | 2021-11-01
 
 - fix: Hide input number controls for RangeFilter.
+### 1.14.0 | 2022-01-26
+- feat: New component ProTable
 
 ### 1.13.0 | 2022-01-06
 - feat: Add new Custom Empty Component for list, table, etc.

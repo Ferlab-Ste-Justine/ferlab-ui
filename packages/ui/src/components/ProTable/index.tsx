@@ -8,14 +8,19 @@ import cx from 'classnames';
 
 import styles from '@ferlab/style/components/protable/ProTable.module.scss';
 
-const generateColumnStateMap = <RecordType,>(columns: ColumnSelectorType<RecordType>[]) => {
-    let map: TColumnStateMap = {};
+const generateColumnStateMap = <RecordType,>(
+    initialState: TColumnStateMap,
+    columns: ColumnSelectorType<RecordType>[],
+) => {
+    let map: TColumnStateMap = initialState || {};
     columns.forEach((column, index) => {
-        map[column.key] = {
-            index,
-            key: column.key,
-            visible: !column.defaultHidden,
-        };
+        if (!(column.key in map)) {
+            map[column.key] = {
+                index,
+                key: column.key,
+                visible: !column.defaultHidden,
+            };
+        }
     });
     return map;
 };
@@ -38,7 +43,7 @@ const ProTable = <RecordType extends object = any>({
     ...tableProps
 }: TProTableProps<RecordType>) => {
     const [columnsState, setColumnsState] = useState<TColumnStateMap>(
-        initialColumnState || generateColumnStateMap(columns),
+        generateColumnStateMap(initialColumnState!, columns),
     );
 
     return (
