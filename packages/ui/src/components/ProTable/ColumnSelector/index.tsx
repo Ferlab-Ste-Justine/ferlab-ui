@@ -30,7 +30,7 @@ const ColumnSelector = <T,>({ className = '', columns, columnStates, onChange }:
         state: TColumnStates;
     }>({
         saveIndex: -1,
-        state: columnStates,
+        state: columnStates.sort((a, b) => a.index - b.index),
     });
 
     const sensors = useSensors(
