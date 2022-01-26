@@ -25,7 +25,7 @@ interface OwnProps<T = any> {
 }
 
 const ColumnSelector = <T,>({ className = '', columns, columnStates, onChange }: OwnProps) => {
-    const [currentColumnStates, setCurrentColumnStates] = useState<TColumnStates>(columnStates);
+    const [localColumnStates, setLocalColumnStates] = useState<TColumnStates>(columnStates);
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -36,15 +36,15 @@ const ColumnSelector = <T,>({ className = '', columns, columnStates, onChange }:
 
     useEffect(() => {
         onChange(
-            currentColumnStates.map((column, index) => {
+            localColumnStates.map((localState, index) => {
                 return {
-                    ...getColumnStateByKey(column.key)!,
+                    ...getColumnStateByKey(localState.key)!,
                     index,
                 };
             }),
         );
         // eslint-disable-next-line
-    }, [currentColumnStates]);
+    }, [localColumnStates]);
 
     const getColumnStateByKey = (stateKey: string) => columnStates.find(({ key }) => stateKey === key);
 
@@ -52,7 +52,7 @@ const ColumnSelector = <T,>({ className = '', columns, columnStates, onChange }:
         const { active, over } = event;
 
         if (active.id !== over?.id) {
-            setCurrentColumnStates((items) => {
+            setLocalColumnStates((items) => {
                 const oldIndex = items.findIndex(({ key }) => key === active.id);
                 const newIndex = items.findIndex(({ key }) => key === over?.id);
 
@@ -80,26 +80,25 @@ const ColumnSelector = <T,>({ className = '', columns, columnStates, onChange }:
             overlayClassName={styles.ProTablePopoverColumn}
             content={
                 <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                    <SortableContext items={currentColumnStates.map(({ key }) => key)} strategy={rectSortingStrategy}>
+                    <SortableContext items={localColumnStates.map(({ key }) => key)} strategy={rectSortingStrategy}>
                         <List>
-                            {currentColumnStates.map((columnState, index) => {
-                                const title = columns.find(({ key }) => columnState.key === key)!.title;
-                                const visible = getColumnStateByKey(columnState.key)?.visible;
+                            {localColumnStates.map((localState, index) => {
+                                const title = columns.find(({ key }) => localState.key === key)!.title;
+                                const savedColumnState = getColumnStateByKey(localState.key);
                                 return (
                                     <SortableColumnItem
-                                        id={columnState.key!}
+                                        id={localState.key!}
                                         label={title?.toString()!}
                                         key={index}
-                                        checked={visible}
+                                        checked={savedColumnState?.visible}
                                         onChange={(e) => {
                                             const filteredStates = columnStates.filter(
-                                                ({ key }) => key !== columnState.key,
+                                                ({ key }) => key !== localState.key,
                                             );
                                             const newStates = [
                                                 ...filteredStates,
                                                 {
-                                                    key: columnState.key,
-                                                    index: columnState.index,
+                                                    ...savedColumnState!,
                                                     visible: e.target.checked,
                                                 },
                                             ];

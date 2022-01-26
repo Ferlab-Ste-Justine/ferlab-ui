@@ -52,6 +52,7 @@ BasicTable.args = {
             key: "column_four",
             title: "Column 4",
             dataIndex: "column_four",
+            defaultHidden: true
         },
     ],
     dataSource: [
