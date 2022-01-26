@@ -1,8 +1,6 @@
 import React from 'react';
 import { SettingOutlined } from '@ant-design/icons';
 import { Button, Popover, Space } from 'antd';
-import { ColumnType } from 'antd/lib/table';
-import cx from 'classnames';
 import {
     DndContext,
     closestCenter,
@@ -15,19 +13,19 @@ import {
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, rectSortingStrategy } from '@dnd-kit/sortable';
 import SortableColumnItem from './SortableColumnItem';
 import { useEffect, useState } from 'react';
+import { ProColumnType, TColumnStates } from '../types';
 
 import styles from '@ferlab/style/components/protable/ColumnSelector.module.scss';
-import { ProColumnType, TColumnStateMap } from '../types';
 
 interface OwnProps<T = any> {
     className?: string;
     columns: ProColumnType<T>[];
-    columnsState: TColumnStateMap;
-    onChange: (newColumnState: TColumnStateMap) => void;
+    columnStates: TColumnStates;
+    onChange: (newColumnState: TColumnStates) => void;
 }
 
-const ColumnSelector = <T,>({ className = '', columns, columnsState, onChange }: OwnProps) => {
-    const [currentColumns, setCurrentColumns] = useState<ProColumnType[]>(columns);
+const ColumnSelector = <T,>({ className = '', columns, columnStates, onChange }: OwnProps) => {
+    const [currentColumnStates, setCurrentColumnStates] = useState<TColumnStates>(columnStates);
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -37,22 +35,24 @@ const ColumnSelector = <T,>({ className = '', columns, columnsState, onChange }:
     );
 
     useEffect(() => {
-        const newColumnStateMap: TColumnStateMap = {};
-        currentColumns.forEach((column, index) => {
-            newColumnStateMap[column.key] = {
-                ...columnsState[column.key],
-                index: index,
-            };
-        });
-        onChange(newColumnStateMap);
+        onChange(
+            currentColumnStates.map((column, index) => {
+                return {
+                    ...getColumnStateByKey(column.key)!,
+                    index,
+                };
+            }),
+        );
         // eslint-disable-next-line
-    }, [currentColumns]);
+    }, [currentColumnStates]);
+
+    const getColumnStateByKey = (stateKey: string) => columnStates.find(({ key }) => stateKey === key);
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
 
         if (active.id !== over?.id) {
-            setCurrentColumns((items) => {
+            setCurrentColumnStates((items) => {
                 const oldIndex = items.findIndex(({ key }) => key === active.id);
                 const newIndex = items.findIndex(({ key }) => key === over?.id);
 
@@ -80,25 +80,35 @@ const ColumnSelector = <T,>({ className = '', columns, columnsState, onChange }:
             overlayClassName={styles.ProTablePopoverColumn}
             content={
                 <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                    <SortableContext items={currentColumns.map(({ key }) => key as any)} strategy={rectSortingStrategy}>
+                    <SortableContext items={currentColumnStates.map(({ key }) => key)} strategy={rectSortingStrategy}>
                         <List>
-                            {currentColumns.map((column, index) => (
-                                <SortableColumnItem
-                                    id={column.key!}
-                                    label={column.title as string}
-                                    key={index}
-                                    checked={columnsState[column.key].visible}
-                                    onChange={(e) => {
-                                        onChange({
-                                            ...columnsState,
-                                            [column.key]: {
-                                                ...columnsState[column.key],
-                                                visible: e.target.checked,
-                                            },
-                                        });
-                                    }}
-                                />
-                            ))}
+                            {currentColumnStates.map((columnState, index) => {
+                                const title = columns.find(({ key }) => columnState.key === key)!.title;
+                                const visible = getColumnStateByKey(columnState.key)?.visible;
+                                return (
+                                    <SortableColumnItem
+                                        id={columnState.key!}
+                                        label={title?.toString()!}
+                                        key={index}
+                                        checked={visible}
+                                        onChange={(e) => {
+                                            const filteredStates = columnStates.filter(
+                                                ({ key }) => key !== columnState.key,
+                                            );
+                                            const newStates = [
+                                                ...filteredStates,
+                                                {
+                                                    key: columnState.key,
+                                                    index: columnState.index,
+                                                    visible: e.target.checked,
+                                                },
+                                            ];
+
+                                            onChange(newStates);
+                                        }}
+                                    />
+                                );
+                            })}
                         </List>
                     </SortableContext>
                 </DndContext>

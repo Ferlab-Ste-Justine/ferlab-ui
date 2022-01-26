@@ -3,23 +3,23 @@ import { Space, Table } from 'antd';
 import ColumnSelector from './ColumnSelector';
 import TableHeader from './Header';
 import { useState } from 'react';
-import { ProColumnType, TColumnStateMap, TProTableProps } from './types';
+import { ProColumnType, TColumnStates, TProTableProps } from './types';
 import cx from 'classnames';
 
 import styles from '@ferlab/style/components/protable/ProTable.module.scss';
 
-const generateColumnStateMap = <RecordType,>(initialState: TColumnStateMap, columns: ProColumnType<RecordType>[]) => {
-    let map: TColumnStateMap = initialState || {};
+const generateColumnState = <RecordType,>(initialState: TColumnStates, columns: ProColumnType<RecordType>[]) => {
+    let state: TColumnStates = initialState || [];
     columns.forEach((column, index) => {
-        if (!(column.key in map)) {
-            map[column.key] = {
+        if (!state.find(({ key }) => key === column.key)) {
+            state.push({
                 index,
                 key: column.key,
                 visible: !column.defaultHidden,
-            };
+            });
         }
     });
-    return map;
+    return state;
 };
 
 const ProTable = <RecordType extends object = any>({
@@ -41,9 +41,7 @@ const ProTable = <RecordType extends object = any>({
     dictionary = {},
     ...tableProps
 }: TProTableProps<RecordType>) => {
-    const [columnsState, setColumnsState] = useState<TColumnStateMap>(
-        generateColumnStateMap(initialColumnState!, columns),
-    );
+    const [columnsState, setColumnsState] = useState<TColumnStates>(generateColumnState(initialColumnState!, columns));
 
     return (
         <Space
@@ -60,7 +58,7 @@ const ProTable = <RecordType extends object = any>({
                         <ColumnSelector
                             key="column-selector"
                             columns={columns}
-                            columnsState={columnsState}
+                            columnStates={columnsState}
                             onChange={(newColumnState) => {
                                 setColumnsState(newColumnState);
                                 if (headerConfig.onColumnStateChange) {
@@ -76,7 +74,7 @@ const ProTable = <RecordType extends object = any>({
             />
             <Table
                 {...tableProps}
-                columns={Object.values(columnsState)
+                columns={columnsState
                     .filter(({ visible }) => visible)
                     .sort((a, b) => a.index - b.index)
                     .map(({ key }) => columns.find((column) => column.key === key)!)}

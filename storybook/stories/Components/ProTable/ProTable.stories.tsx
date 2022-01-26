@@ -90,6 +90,8 @@ BasicTable.args = {
             pageSize: 15,
             total: 20
         },
-        onColumnStateChange: () => {},
+        onColumnStateChange: (state: any) => {
+            console.log(state)
+        },
     },
 };

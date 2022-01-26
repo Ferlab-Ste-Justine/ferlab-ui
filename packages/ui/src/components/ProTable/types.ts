@@ -20,7 +20,7 @@ export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns'>
     headerConfig: THeaderConfig;
     wrapperClassName?: string;
     columns: ProColumnType<RecordType>[];
-    initialColumnState?: TColumnStateMap;
+    initialColumnState?: TColumnStates;
     dictionary?: IProTableDictionary;
 };
 
@@ -28,7 +28,7 @@ export type THeaderConfig = {
     marginBtm?: number;
     extra?: React.ReactNode[];
     columnSetting?: boolean;
-    onColumnStateChange?: (columns: TColumnStateMap) => void;
+    onColumnStateChange?: (columns: TColumnStates) => void;
     itemCount: {
         pageIndex: number;
         pageSize: number;
@@ -36,13 +36,10 @@ export type THeaderConfig = {
     };
 };
 
-export type TColumnStateMap = Record<
-    string,
-    {
-        index: number;
-        key: string;
-        visible: boolean;
-    }
->;
+export type TColumnStates = {
+    index: number;
+    key: string;
+    visible: boolean;
+}[];
 
 export type TColumnSettingChangeCb = <RecordType>(columns: ProColumnType<RecordType>) => void;
