@@ -44,7 +44,7 @@ const GridCard = ({
                 <ConditionalWrapper
                     condition={loadingType === 'spinner'}
                     wrapper={(children) => <Spin spinning={rest.loading}>{children}</Spin>}
-                    children={<div className={contentClassName}>{content}</div>}
+                    children={<div className={cx(styles.contentWrapper, contentClassName)}>{content}</div>}
                 />
             </Card>
         </div>

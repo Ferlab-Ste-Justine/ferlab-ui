@@ -1,8 +1,11 @@
 @import "theme.template";
 
+$padding-top-card: 16px;
+$padding-side-and-bottom: 24px;
+
 .fuiCardWrapper {
   .fbUIGridCard {
-    padding: 16px 24px;
+    padding: $padding-top-card $padding-side-and-bottom;
     height: 100%;
 
     &.light {
@@ -11,6 +14,10 @@
 
     &.shade {
       background-color: $grid-card-shade-background-color;
+    }
+
+    .contentWrapper {
+      height: 100%;
     }
 
     div[class$="-head"] {
@@ -28,6 +35,9 @@
       padding-bottom: 24px;
       div[class$="-body"] {
         padding-bottom: 0;
+        height: calc(
+          100% - (#{$padding-top-card} + #{$padding-side-and-bottom} - 3px)
+        );
       }
     }
 
@@ -35,18 +45,24 @@
       padding-top: 24px;
       div[class$="-body"] {
         padding-top: 0;
+        height: calc(
+          100% - (#{$padding-top-card} + #{$padding-side-and-bottom} - 3px)
+        );
       }
     }
 
     &.contentOnly {
       div[class$="-body"] {
         padding: 0;
+        height: 100%;
       }
     }
 
     div[class$="-body"] {
       padding-left: 0;
       padding-right: 0;
+      padding: 24px 0;
+      height: calc(100% - (#{$padding-top-card} * 2) - 48px);
     }
 
     ul[class$="-actions"] {
