@@ -24,13 +24,13 @@ interface OwnProps<T = any> {
     onChange: (newColumnState: TColumnStates) => void;
 }
 
-const ColumnSelector = <T,>({ className = '', columns, columnStates, onChange }: OwnProps) => {
+const ColumnSelector = ({ className = '', columns, columnStates, onChange }: OwnProps) => {
     const [localColumns, setLocalColumns] = useState<{
         saveIndex: number;
         state: TColumnStates;
     }>({
         saveIndex: -1,
-        state: columnStates.sort((a, b) => a.index - b.index),
+        state: [...columnStates].sort((a, b) => a.index - b.index),
     });
 
     const sensors = useSensors(
