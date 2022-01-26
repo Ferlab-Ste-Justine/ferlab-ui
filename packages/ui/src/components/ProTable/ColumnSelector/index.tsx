@@ -25,7 +25,13 @@ interface OwnProps<T = any> {
 }
 
 const ColumnSelector = <T,>({ className = '', columns, columnStates, onChange }: OwnProps) => {
-    const [localColumnStates, setLocalColumnStates] = useState<TColumnStates>(columnStates);
+    const [localColumns, setLocalColumns] = useState<{
+        saveIndex: number;
+        state: TColumnStates;
+    }>({
+        saveIndex: -1,
+        state: columnStates,
+    });
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -35,16 +41,18 @@ const ColumnSelector = <T,>({ className = '', columns, columnStates, onChange }:
     );
 
     useEffect(() => {
-        onChange(
-            localColumnStates.map((localState, index) => {
-                return {
-                    ...getColumnStateByKey(localState.key)!,
-                    index,
-                };
-            }),
-        );
-        // eslint-disable-next-line
-    }, [localColumnStates]);
+        // Ensure onChange is not call on load
+        if (localColumns.saveIndex > -1) {
+            onChange(
+                localColumns.state.map((localState, index) => {
+                    return {
+                        ...getColumnStateByKey(localState.key)!,
+                        index,
+                    };
+                }),
+            );
+        }
+    }, [localColumns]);
 
     const getColumnStateByKey = (stateKey: string) => columnStates.find(({ key }) => stateKey === key);
 
@@ -52,11 +60,14 @@ const ColumnSelector = <T,>({ className = '', columns, columnStates, onChange }:
         const { active, over } = event;
 
         if (active.id !== over?.id) {
-            setLocalColumnStates((items) => {
-                const oldIndex = items.findIndex(({ key }) => key === active.id);
-                const newIndex = items.findIndex(({ key }) => key === over?.id);
+            setLocalColumns((localColumn) => {
+                const oldIndex = localColumn.state.findIndex(({ key }) => key === active.id);
+                const newIndex = localColumn.state.findIndex(({ key }) => key === over?.id);
 
-                return arrayMove(items, oldIndex, newIndex);
+                return {
+                    saveIndex: localColumn.saveIndex + 1,
+                    state: arrayMove(localColumn.state, oldIndex, newIndex),
+                };
             });
         }
     };
@@ -80,9 +91,9 @@ const ColumnSelector = <T,>({ className = '', columns, columnStates, onChange }:
             overlayClassName={styles.ProTablePopoverColumn}
             content={
                 <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                    <SortableContext items={localColumnStates.map(({ key }) => key)} strategy={rectSortingStrategy}>
+                    <SortableContext items={localColumns.state.map(({ key }) => key)} strategy={rectSortingStrategy}>
                         <List>
-                            {localColumnStates.map((localState, index) => {
+                            {localColumns.state.map((localState, index) => {
                                 const title = columns.find(({ key }) => localState.key === key)!.title;
                                 const savedColumnState = getColumnStateByKey(localState.key);
                                 return (
