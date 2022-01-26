@@ -55,19 +55,23 @@ const ProTable = <RecordType extends object = any>({
                 pageIndex={headerConfig.itemCount?.pageIndex}
                 pageSize={headerConfig.itemCount?.pageSize}
                 total={headerConfig.itemCount?.total}
-                extra={[
-                    ...(headerConfig.extra || []),
-                    <ColumnSelector
-                        columns={columns}
-                        columnsState={columnsState}
-                        onChange={(newColumnState) => {
-                            setColumnsState(newColumnState);
-                            if (headerConfig.onColumnStateChange) {
-                                headerConfig.onColumnStateChange(newColumnState);
-                            }
-                        }}
-                    />,
-                ]}
+                extra={(headerConfig.extra || []).concat(
+                    headerConfig.columnSetting ? (
+                        <ColumnSelector
+                            key="column-selector"
+                            columns={columns}
+                            columnsState={columnsState}
+                            onChange={(newColumnState) => {
+                                setColumnsState(newColumnState);
+                                if (headerConfig.onColumnStateChange) {
+                                    headerConfig.onColumnStateChange(newColumnState);
+                                }
+                            }}
+                        />
+                    ) : (
+                        []
+                    ),
+                )}
                 dictionary={dictionary}
             />
             <Table

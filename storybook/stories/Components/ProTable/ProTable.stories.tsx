@@ -84,10 +84,11 @@ BasicTable.args = {
     headerConfig: {
         marginBtm: 12,
         extra: [<a>Extra Actions</a>],
-        columnSetting: false,
+        columnSetting: true,
         itemCount: {
             pageIndex: 1,
             pageSize: 15,
+            total: 20
         },
         onColumnStateChange: () => {},
     },
