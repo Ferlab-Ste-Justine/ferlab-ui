@@ -3,16 +3,13 @@ import { Space, Table } from 'antd';
 import ColumnSelector from './ColumnSelector';
 import TableHeader from './Header';
 import { useState } from 'react';
-import { ColumnSelectorType, TColumnStateMap, TProTableProps } from './types';
+import { ProColumnType, TColumnStateMap, TProTableProps } from './types';
 import cx from 'classnames';
 
 import styles from '@ferlab/style/components/protable/ProTable.module.scss';
 
-const generateColumnStateMap = <RecordType,>(
-    initialState: TColumnStateMap,
-    columns: ColumnSelectorType<RecordType>[],
-) => {
-    let map: TColumnStateMap = initialState || {};
+const generateColumnStateMap = <RecordType,>(initialState: TColumnStateMap, columns: ProColumnType<RecordType>[]) => {
+    let map: TColumnStateMap = initialState || {};
     columns.forEach((column, index) => {
         if (!(column.key in map)) {
             map[column.key] = {

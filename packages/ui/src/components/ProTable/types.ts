@@ -10,7 +10,7 @@ export interface IProTableDictionnary {
     };
 }
 
-export interface ColumnSelectorType<T = any> extends ColumnType<T> {
+export interface ProColumnType<T = any> extends ColumnType<T> {
     key: string;
     defaultHidden?: boolean;
 }
@@ -19,7 +19,7 @@ export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns'>
     tableId: string;
     headerConfig: THeaderConfig;
     wrapperClassName?: string;
-    columns: ColumnSelectorType<RecordType>[];
+    columns: ProColumnType<RecordType>[];
     initialColumnState?: TColumnStateMap;
 };
 
@@ -27,7 +27,7 @@ export type THeaderConfig = {
     marginBtm?: number;
     extra?: [];
     columnSetting?: boolean;
-    onColumnStateChange: (columns: TColumnStateMap) => void;
+    onColumnStateChange?: (columns: TColumnStateMap) => void;
     itemCount: {
         pageIndex: number;
         pageSize: number;
@@ -43,4 +43,4 @@ export type TColumnStateMap = Record<
     }
 >;
 
-export type TColumnSettingChangeCb = <RecordType>(columns: ColumnSelectorType<RecordType>) => void;
+export type TColumnSettingChangeCb = <RecordType>(columns: ProColumnType<RecordType>) => void;

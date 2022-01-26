@@ -17,17 +17,17 @@ import SortableColumnItem from './SortableColumnItem';
 import { useEffect, useState } from 'react';
 
 import styles from '@ferlab/style/components/protable/ColumnSelector.module.scss';
-import { ColumnSelectorType, TColumnStateMap } from '../types';
+import { ProColumnType, TColumnStateMap } from '../types';
 
 interface OwnProps<T = any> {
     className?: string;
-    columns: ColumnSelectorType<T>[];
+    columns: ProColumnType<T>[];
     columnsState: TColumnStateMap;
     onChange: (newColumnState: TColumnStateMap) => void;
 }
 
 const ColumnSelector = <T,>({ className = '', columns, columnsState, onChange }: OwnProps) => {
-    const [currentColumns, setCurrentColumns] = useState<ColumnSelectorType[]>(columns);
+    const [currentColumns, setCurrentColumns] = useState<ProColumnType[]>(columns);
 
     const sensors = useSensors(
         useSensor(PointerSensor),
