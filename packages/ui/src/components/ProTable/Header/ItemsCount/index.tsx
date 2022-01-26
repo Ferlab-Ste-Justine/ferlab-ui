@@ -1,11 +1,11 @@
 import React from 'react';
 import cx from 'classnames';
 import { Typography } from 'antd';
-import { IProTableDictionnary } from '../../types';
+import { IProTableDictionary } from '../../types';
 
 type Props = {
     className?: string;
-    dictionnary?: IProTableDictionnary;
+    dictionnary?: IProTableDictionary;
     page: number;
     size: number;
     total: number;

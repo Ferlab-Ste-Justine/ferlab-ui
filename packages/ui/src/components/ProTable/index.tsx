@@ -38,6 +38,7 @@ const ProTable = <RecordType extends object = any>({
         onColumnStateChange: () => {},
     },
     initialColumnState,
+    dictionary = {},
     ...tableProps
 }: TProTableProps<RecordType>) => {
     const [columnsState, setColumnsState] = useState<TColumnStateMap>(
@@ -67,6 +68,7 @@ const ProTable = <RecordType extends object = any>({
                         }}
                     />,
                 ]}
+                dictionary={dictionary}
             />
             <Table
                 {...tableProps}

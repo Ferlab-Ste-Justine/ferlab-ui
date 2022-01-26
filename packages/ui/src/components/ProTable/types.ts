@@ -2,7 +2,7 @@ import { TableProps } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import React from 'react';
 
-export interface IProTableDictionnary {
+export interface IProTableDictionary {
     itemCount?: {
         noResults: React.ReactNode;
         results: React.ReactNode;
@@ -21,6 +21,7 @@ export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns'>
     wrapperClassName?: string;
     columns: ProColumnType<RecordType>[];
     initialColumnState?: TColumnStateMap;
+    dictionary?: IProTableDictionary;
 };
 
 export type THeaderConfig = {
