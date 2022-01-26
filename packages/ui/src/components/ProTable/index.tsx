@@ -60,7 +60,9 @@ const ProTable = <RecordType extends object = any>({
                         columnsState={columnsState}
                         onChange={(newColumnState) => {
                             setColumnsState(newColumnState);
-                            headerConfig.onColumnStateChange(newColumnState);
+                            if ( headerConfig.onColumnStateChange) {
+                                headerConfig.onColumnStateChange(newColumnState);
+                            }
                         }}
                     />,
                 ]}
