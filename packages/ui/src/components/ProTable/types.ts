@@ -31,6 +31,7 @@ export type THeaderConfig = {
     itemCount: {
         pageIndex: number;
         pageSize: number;
+        total: number;
     };
 };
 

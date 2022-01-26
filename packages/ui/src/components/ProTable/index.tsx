@@ -33,6 +33,7 @@ const ProTable = <RecordType extends object = any>({
         itemCount: {
             pageIndex: 1,
             pageSize: 15,
+            total: 0,
         },
         onColumnStateChange: () => {},
     },
@@ -52,7 +53,7 @@ const ProTable = <RecordType extends object = any>({
             <TableHeader
                 pageIndex={headerConfig.itemCount?.pageIndex}
                 pageSize={headerConfig.itemCount?.pageSize}
-                total={tableProps.pagination ? tableProps.pagination.total! : tableProps.dataSource?.length!}
+                total={headerConfig.itemCount?.total}
                 extra={[
                     ...(headerConfig.extra || []),
                     <ColumnSelector
@@ -60,7 +61,7 @@ const ProTable = <RecordType extends object = any>({
                         columnsState={columnsState}
                         onChange={(newColumnState) => {
                             setColumnsState(newColumnState);
-                            if ( headerConfig.onColumnStateChange) {
+                            if (headerConfig.onColumnStateChange) {
                                 headerConfig.onColumnStateChange(newColumnState);
                             }
                         }}
