@@ -246,10 +246,10 @@ const QueryBuilder = ({
         (!noQueries && !canCombine && queryCount > 1);
 
     useEffect(() => {
-        if (selectedSavedFilter?.filters?.length!) {
+        if (selectedSavedFilter?.queries?.length!) {
             setQueriesState({
-                activeId: selectedSavedFilter.filters[0].id!,
-                queries: selectedSavedFilter.filters,
+                activeId: selectedSavedFilter.queries[0].id!,
+                queries: selectedSavedFilter.queries,
             });
         }
     }, [selectedSavedFilter]);

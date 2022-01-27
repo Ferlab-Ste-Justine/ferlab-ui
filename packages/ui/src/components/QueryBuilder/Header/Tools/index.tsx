@@ -236,11 +236,11 @@ const hasUnsavedChanges = (
         return false;
     }
 
-    if (selectedSavedFilter.filters.length != queriesState.queries.length) {
+    if (selectedSavedFilter.queries.length != queriesState.queries.length) {
         return true;
     }
 
-    return !selectedSavedFilter.filters.every((savedFilterQuery) => {
+    return !selectedSavedFilter.queries.every((savedFilterQuery) => {
         const foundQuery = queriesState.queries.find((query) => query.id == savedFilterQuery.id);
 
         return !foundQuery

@@ -29,7 +29,7 @@ export interface ISavedFilter {
     id: string;
     title: string;
     default: boolean;
-    filters: ISyntheticSqon[];
+    queries: ISyntheticSqon[];
 }
 
 export interface IQueryBuilderHeaderConfigOptions {

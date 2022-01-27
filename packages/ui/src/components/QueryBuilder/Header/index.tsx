@@ -48,7 +48,7 @@ const QueryBuilderHeader = ({
             id: selectedSavedFilter?.id || v4(),
             title: savedFilterTitle || selectedSavedFilter?.title!,
             default: selectedSavedFilter?.default || false,
-            filters: queriesState.queries,
+            queries: queriesState.queries,
         };
         setLocalSelectedSavedFilter(newSavedFilter);
         if (config?.onSaveFilter) {
@@ -135,7 +135,7 @@ const QueryBuilderHeader = ({
                                     id: v4(),
                                     title: '',
                                     default: false,
-                                    filters: [getDefaultSyntheticSqon(defaultQueryId)],
+                                    queries: [getDefaultSyntheticSqon(defaultQueryId)],
                                 });
                             }}
                             onDuplicateSavedFilter={() => {
@@ -149,7 +149,7 @@ const QueryBuilderHeader = ({
                                         dictionary.queryBuilderHeader?.duplicateFilterTitleSuffix || 'COPY'
                                     }`,
                                     default: false,
-                                    filters: duplicatedQueries, // should probably set new id for each filter here
+                                    queries: duplicatedQueries, // should probably set new id for each filter here
                                 });
                             }}
                         />
