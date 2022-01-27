@@ -60,6 +60,7 @@ $padding-side-and-bottom: 24px;
       padding-left: 0;
       padding-right: 0;
       padding: 24px 0;
+      overflow: hidden;
     }
 
     &:not(.withFooterOnly):not(.withHeaderOnly) {
