@@ -109,6 +109,7 @@ interface IPopupConfirmDictionary {
     title: React.ReactNode;
     okText: React.ReactNode;
     cancelText: React.ReactNode;
+    content: React.ReactNode;
 }
 
 interface IInputDictionary {

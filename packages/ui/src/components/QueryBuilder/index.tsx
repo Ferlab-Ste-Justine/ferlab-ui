@@ -100,7 +100,7 @@ const QueryBuilder = ({
     headerConfig = {
         showHeader: false,
         showTools: false,
-        defaultTitle: 'Untitled Query',
+        defaultTitle: 'Untitled Filter',
         options: {
             enableDuplicate: true,
             enableEditTitle: true,
@@ -109,7 +109,7 @@ const QueryBuilder = ({
         },
         savedFilters: [],
         selectedSavedFilter: null,
-        onUpdateFilter: () => {},
+        onUpdateFilter: () => {},
         onSaveFilter: () => {},
         onDeleteFilter: () => {},
     },

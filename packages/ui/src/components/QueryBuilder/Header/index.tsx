@@ -26,7 +26,7 @@ interface IQueryBuilderHeaderProps {
     resetQueriesState: (id: string) => void;
 }
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 const DEFAULT_TITLE_MAX_LENGTH = 50;
 
 const QueryBuilderHeader = ({
@@ -211,13 +211,14 @@ const QueryBuilderHeader = ({
                     onFinish={(values) => {
                         setEditModalVisible(false);
                         setSavedFilterTitle(values.title);
+                        const filterToSave = {
+                            ...selectedSavedFilter!,
+                            title: values.title,
+                        };
                         if (isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!)) {
-                            onSaveFilter(selectedSavedFilter!);
+                            onSaveFilter(filterToSave);
                         } else {
-                            onUpdateFilter({
-                                ...selectedSavedFilter!,
-                                title: values.title,
-                            });
+                            onUpdateFilter(filterToSave);
                         }
                     }}
                 >

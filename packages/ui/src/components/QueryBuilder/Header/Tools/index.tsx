@@ -139,28 +139,32 @@ const QueryBuilderHeaderTools = ({
                     </Tooltip>
                 )}
                 <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.delete || 'Delete'}>
-                    <Popconfirm
-                        arrowPointAtCenter
-                        cancelText={dictionary.queryBuilderHeader?.popupConfirm?.delete.cancelText || 'Cancel'}
-                        disabled={!selectedSavedFilter}
-                        okText={dictionary.queryBuilderHeader?.popupConfirm?.delete.okText || 'Delete'}
-                        onConfirm={(e) => {
-                            e!.stopPropagation();
-                            if (config?.onDeleteFilter) {
-                                config.onDeleteFilter(selectedSavedFilter!.id);
-                            }
-                        }}
-                        placement="topRight"
-                        title={
-                            dictionary.queryBuilderHeader?.popupConfirm?.delete.title ||
-                            'Permanently delete this request?'
+                    <Button
+                        className={styles.queryBuilderHeaderActionIconBtn}
+                        type="text"
+                        disabled={isNewFilter}
+                        onClick={() =>
+                            Modal.confirm({
+                                title:
+                                    dictionary.queryBuilderHeader?.popupConfirm?.delete.title ||
+                                    'Permanently delete this filter?',
+                                icon: <ExclamationCircleOutlined />,
+                                content:
+                                    dictionary.queryBuilderHeader?.popupConfirm?.delete.content ||
+                                    'You are about to permanently delete this filter and all of its queries.',
+                                okText: dictionary.queryBuilderHeader?.popupConfirm?.delete.okText || 'Delete filter',
+                                cancelText: dictionary.queryBuilderHeader?.popupConfirm?.delete.cancelText || 'Cancel',
+                                okButtonProps: { danger: true },
+                                onOk: () => {
+                                    if (config?.onDeleteFilter) {
+                                        config.onDeleteFilter(selectedSavedFilter!.id);
+                                    }
+                                },
+                            })
                         }
-                        getPopupContainer={(trigger) => trigger.parentElement!}
                     >
-                        <Button className={styles.queryBuilderHeaderActionIconBtn} type="text" disabled={isNewFilter}>
-                            <DeleteIcon />
-                        </Button>
-                    </Popconfirm>
+                        <DeleteIcon />
+                    </Button>
                 </Tooltip>
                 {config.options?.enableShare && (
                     <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.share || 'Share (Copy url)'}>
