@@ -42,11 +42,12 @@ export interface IQueryBuilderHeaderConfigOptions {
 export interface IQueryBuilderHeaderConfig {
     showTools: boolean;
     showHeader: boolean;
-    defaultTitle?: React.ReactNode;
+    defaultTitle?: string;
     titleMaxLength?: number;
     options?: IQueryBuilderHeaderConfigOptions;
     savedFilters?: ISavedFilter[];
     selectedSavedFilter?: ISavedFilter | null;
+    onUpdateFilter?: (filter: ISavedFilter) => void;
     onSaveFilter?: (filter: ISavedFilter) => void;
     onDeleteFilter?: (filterId: string) => void;
 }
@@ -118,8 +119,8 @@ interface IInputDictionary {
 export interface IFacetFilterConfig {
     enable: boolean;
     selectedFilterContent?: React.ReactElement;
-    onFacetClick: TOnFacetClick; 
-    blacklistedFacets?: Array<string>
+    onFacetClick: TOnFacetClick;
+    blacklistedFacets?: Array<string>;
 }
 
 interface IQueryBuilderHeaderDictionnary {
@@ -164,7 +165,7 @@ interface IQueryBuilderHeaderDictionnary {
         title: React.ReactNode;
         manageMyFilter: React.ReactNode;
     };
-    duplicateFilterTitleSuffix?: string
+    duplicateFilterTitleSuffix?: string;
 }
 
 export interface IDictionary {

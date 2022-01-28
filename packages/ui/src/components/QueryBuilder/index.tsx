@@ -109,6 +109,7 @@ const QueryBuilder = ({
         },
         savedFilters: [],
         selectedSavedFilter: null,
+        onUpdateFilter: () => {},
         onSaveFilter: () => {},
         onDeleteFilter: () => {},
     },
