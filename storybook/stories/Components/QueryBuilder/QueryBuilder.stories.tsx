@@ -395,7 +395,7 @@ WithHeaderAndTools.args = {
             id: "1",
             title: "Mon filtre 1",
             default: true,
-            filters: [
+            queries: [
                 {
                     op: "and",
                     content: [

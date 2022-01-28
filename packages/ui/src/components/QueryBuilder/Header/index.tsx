@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Typography, Modal, Input, Space, Button, Tooltip } from 'antd';
+import { Typography, Modal, Input, Space, Button, Tooltip, Form } from 'antd';
 import cx from 'classnames';
 import { v4 } from 'uuid';
 import CaretRightIcon from '../icons/CaretRightIcon';
@@ -10,9 +10,9 @@ import StarFilledIcon from '../icons/StarFilledIcon';
 import QueryBuilderHeaderTools from './Tools';
 import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../types';
 import { getDefaultSyntheticSqon } from '../../../data/sqon/utils';
+import { isNewUnsavedFilter } from './utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
-import { isNewUnsavedFilter } from './utils';
 
 interface IQueryBuilderHeaderProps {
     config: IQueryBuilderHeaderConfig;
@@ -40,16 +40,17 @@ const QueryBuilderHeader = ({
     queriesState,
     resetQueriesState,
 }: IQueryBuilderHeaderProps) => {
+    const [editForm] = Form.useForm();
     const [isEditModalVisible, setEditModalVisible] = useState(false);
     const [localSelectedSavedFilter, setLocalSelectedSavedFilter] = useState<ISavedFilter | null>(null);
     const [savedFilterTitle, setSavedFilterTitle] = useState('');
     const [localSavedFilters, setLocalSavedFilters] = useState(config.savedFilters);
 
-    const onSaveFilter = () => {
+    const onSaveFilter = (savedFilter: ISavedFilter) => {
         const newSavedFilter = {
-            id: selectedSavedFilter?.id || v4(),
-            title: savedFilterTitle || selectedSavedFilter?.title! || config.defaultTitle!,
-            default: selectedSavedFilter?.default || false,
+            id: savedFilter?.id || v4(),
+            title: savedFilter?.title! || config.defaultTitle!,
+            default: savedFilter?.default || false,
             queries: queriesState.queries,
         };
         if (config?.onSaveFilter) {
@@ -58,21 +59,16 @@ const QueryBuilderHeader = ({
         onSavedFilterChange(newSavedFilter);
     };
 
-    const onUpdateFilter = () => {
-        const updatedSavedFilter = {
-            ...selectedSavedFilter!,
-            title: savedFilterTitle || selectedSavedFilter?.title!,
-            queries: queriesState.queries,
-        };
+    const onUpdateFilter = (savedFilter: ISavedFilter) => {
         if (config?.onUpdateFilter) {
-            config.onUpdateFilter(updatedSavedFilter);
+            config.onUpdateFilter(savedFilter);
         }
-        onSavedFilterChange(updatedSavedFilter);
+        onSavedFilterChange(savedFilter);
     };
 
-    const onDeleteFilter = () => {
+    const onDeleteFilter = (id: string) => {
         if (config?.onDeleteFilter) {
-            config.onDeleteFilter(localSelectedSavedFilter?.id!);
+            config.onDeleteFilter(id);
         }
         setSavedFilterTitle(config.defaultTitle!);
         onNewSavedFilter();
@@ -194,43 +190,57 @@ const QueryBuilderHeader = ({
                 {!collapsed && children}
             </Space>
             <Modal
-                className={styles.editModal}
+                className={styles.QBHeditModal}
                 visible={isEditModalVisible}
                 okButtonProps={{ disabled: !localSavedFilters }}
                 title={dictionary.queryBuilderHeader?.modal?.edit?.title || 'Save this query'}
                 okText={dictionary.queryBuilderHeader?.modal?.edit?.okText || 'Save'}
                 cancelText={dictionary.queryBuilderHeader?.modal?.edit?.cancelText || 'Cancel'}
-                onOk={(e) => {
-                    setEditModalVisible(false);
-                    if (isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!)) {
-                        onSaveFilter();
-                    } else {
-                        onUpdateFilter();
-                    }
-                }}
+                onOk={(e) => editForm.submit()}
                 onCancel={() => setEditModalVisible(false)}
             >
-                <Space className={styles.editModalContent} direction="vertical" size={2}>
-                    <Space className={styles.labelInput} direction="vertical" size={8}>
-                        <Text className={styles.title}>
-                            {dictionary.queryBuilderHeader?.modal?.edit?.input.label || 'Query name'}
-                        </Text>
-                        <Input
-                            ref={callbackRef}
-                            value={savedFilterTitle || selectedSavedFilter?.title!}
-                            onChange={(e) => {
-                                setSavedFilterTitle(e.target.value);
-                            }}
-                            placeholder={
-                                dictionary.queryBuilderHeader?.modal?.edit?.input.placeholder || 'Untitled query'
-                            }
-                            maxLength={config.titleMaxLength || DEFAULT_TITLE_MAX_LENGTH}
-                        ></Input>
-                    </Space>
-                    <Text>{`${config.titleMaxLength || DEFAULT_TITLE_MAX_LENGTH} ${
-                        dictionary.queryBuilderHeader?.modal?.edit?.input.maximumLength || 'characters maximum'
-                    }`}</Text>
-                </Space>
+                <Form
+                    form={editForm}
+                    fields={[
+                        {
+                            name: ['title'],
+                            value: savedFilterTitle || selectedSavedFilter?.title!,
+                        },
+                    ]}
+                    layout="vertical"
+                    onFinish={(values) => {
+                        setEditModalVisible(false);
+                        setSavedFilterTitle(values.title);
+                        if (isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!)) {
+                            onSaveFilter(selectedSavedFilter!);
+                        } else {
+                            onUpdateFilter({
+                                ...selectedSavedFilter!,
+                                title: values.title,
+                            });
+                        }
+                    }}
+                >
+                    <Form.Item noStyle>
+                        <Form.Item
+                            name="title"
+                            label={dictionary.queryBuilderHeader?.modal?.edit?.input.label || 'Query name'}
+                            rules={[{ required: true, type: 'string' }]}
+                            required={false}
+                            className={styles.QBHfilterEditFormItem}
+                        >
+                            <Input
+                                ref={callbackRef}
+                                placeholder={
+                                    dictionary.queryBuilderHeader?.modal?.edit?.input.placeholder || 'Untitled query'
+                                }
+                            />
+                        </Form.Item>
+                        <span>{`${config.titleMaxLength || DEFAULT_TITLE_MAX_LENGTH} ${
+                            dictionary.queryBuilderHeader?.modal?.edit?.input.maximumLength || 'characters maximum'
+                        }`}</span>
+                    </Form.Item>
+                </Form>
             </Modal>
         </div>
     );

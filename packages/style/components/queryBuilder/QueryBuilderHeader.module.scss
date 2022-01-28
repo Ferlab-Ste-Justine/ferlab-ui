@@ -1,7 +1,8 @@
-@import 'theme.template';
+@import "theme.template";
 
-.editModal {
-  .editModalContent, .labelInput {
+.QBHeditModal {
+  .editModalContent,
+  .labelInput {
     width: 100%;
 
     .title {
@@ -10,82 +11,90 @@
   }
 }
 
+.QBHfilterEditFormItem {
+  margin: 0;
+
+  div[class$="-explain-connected"] {
+    display: none;
+  }
+}
+
 .QBHContainer {
-    background-color: white;
-    border-radius: 2px;
+  background-color: white;
+  border-radius: 2px;
+  width: 100%;
+
+  .QBToggler {
     width: 100%;
+    padding: 16px 24px;
+    border: 1px solid $query-builder-border-color;
+    border-bottom: none;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    justify-content: space-between;
 
-    .QBToggler {
-      width: 100%;
-      padding: 16px 24px;
-      border: 1px solid $query-builder-border-color;
-      border-bottom: none;
-      border-top-left-radius: 2px;
-      border-top-right-radius: 2px;
-      justify-content: space-between;
+    .QBTitleContainer {
+      display: flex;
+      align-items: center;
 
-      .QBTitleContainer {
+      .QBHActionContainer {
         display: flex;
+        height: auto;
+        line-height: normal;
         align-items: center;
 
-        .QBHActionContainer {
+        &:hover {
+          cursor: pointer;
+        }
+
+        .togglerTitle {
+          margin: 0;
+          font-size: 16px;
+        }
+
+        .togglerIcon {
           display: flex;
-          height: auto;
-          line-height: normal;
-          align-items: center;
+          margin-right: 10px;
+        }
 
-          &:hover {
-            cursor: pointer;
-          }
-
-          .togglerTitle {
-            margin: 0;
-            font-size: 16px;
-          }
-
-          .togglerIcon {
+        &.QBHOptionsActionsContainer {
+          .iconBtnAction {
             display: flex;
-            margin-right: 10px;
-          }
+            align-items: center;
+            border: 1px solid transparent;
+            padding: 0;
+            max-height: 18px;
 
-          &.QBHOptionsActionsContainer {
-            .iconBtnAction {
-              display: flex;
-              align-items: center;
-              border: 1px solid transparent;
-              padding: 0;
-              max-height: 18px;
-  
-              &:not(:first-child) {
-                margin-left: 12px;
-              }
-              
-              &:focus, &:hover {
-                background-color: transparent;
-              } 
+            &:not(:first-child) {
+              margin-left: 12px;
+            }
 
-              &:focus-visible {
-                border: 1px solid !important;
-              }
-            
-              &:not(:disabled) {
-                color: $query-builder-header-tools-icon-color;
-                
-                @include hoverFocus(
-                  $query-builder-header-tools-icon-hover, 
-                  $query-builder-header-tools-icon-focus, 
-                );
-              }
-            
+            &:focus,
+            &:hover {
+              background-color: transparent;
+            }
+
+            &:focus-visible {
+              border: 1px solid !important;
+            }
+
+            &:not(:disabled) {
+              color: $query-builder-header-tools-icon-color;
+
+              @include hoverFocus(
+                $query-builder-header-tools-icon-hover,
+                $query-builder-header-tools-icon-focus
+              );
             }
           }
-        }  
-      }
-  
-      &.togglerClosed {
-        border-bottom: 1px solid $query-builder-border-color;
-        border-bottom-left-radius: 2px;
-        border-bottom-right-radius: 2px;
+        }
       }
     }
+
+    &.togglerClosed {
+      border-bottom: 1px solid $query-builder-border-color;
+      border-bottom-left-radius: 2px;
+      border-bottom-right-radius: 2px;
+    }
   }
+}
