@@ -61,7 +61,10 @@ const QueryBuilderHeader = ({
 
     const onUpdateFilter = (savedFilter: ISavedFilter) => {
         if (config?.onUpdateFilter) {
-            config.onUpdateFilter(savedFilter);
+            config.onUpdateFilter({
+                ...savedFilter,
+                queries: queriesState.queries,
+            });
         }
         onSavedFilterChange(savedFilter);
     };
