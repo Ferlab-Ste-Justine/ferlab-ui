@@ -60,13 +60,14 @@ const QueryBuilderHeader = ({
     };
 
     const onUpdateFilter = (savedFilter: ISavedFilter) => {
+        const updatedSavedFilter = {
+            ...savedFilter,
+            queries: queriesState.queries,
+        };
         if (config?.onUpdateFilter) {
-            config.onUpdateFilter({
-                ...savedFilter,
-                queries: queriesState.queries,
-            });
+            config.onUpdateFilter(updatedSavedFilter);
         }
-        onSavedFilterChange(savedFilter);
+        onSavedFilterChange(updatedSavedFilter);
     };
 
     const onDeleteFilter = (id: string) => {
