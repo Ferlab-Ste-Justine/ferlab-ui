@@ -28,6 +28,7 @@ const ProTable = <RecordType extends object = any>({
     wrapperClassName = '',
     headerConfig = {
         marginBtm: 12,
+        extraSpacing: 8,
         extra: [],
         columnSetting: false,
         itemCount: {
@@ -53,6 +54,7 @@ const ProTable = <RecordType extends object = any>({
                 pageIndex={headerConfig.itemCount?.pageIndex}
                 pageSize={headerConfig.itemCount?.pageSize}
                 total={headerConfig.itemCount?.total}
+                extraSpacing={headerConfig.extraSpacing}
                 extra={(headerConfig.extra || []).concat(
                     headerConfig.columnSetting ? (
                         <ColumnSelector

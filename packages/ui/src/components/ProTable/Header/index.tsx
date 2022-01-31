@@ -7,16 +7,17 @@ import styles from '@ferlab/style/components/protable/ProTableHeader.module.scss
 
 interface OwnProps {
     extra?: React.ReactNode[];
+    extraSpacing?: number;
     pageIndex: number;
     pageSize: number;
     total: number;
-    dictionary?: IProTableDictionary
+    dictionary?: IProTableDictionary;
 }
 
-const TableHeader = ({ extra = [], pageIndex, pageSize, total, dictionary = {} }: OwnProps) => (
+const TableHeader = ({ extra = [], extraSpacing = 8, pageIndex, pageSize, total, dictionary = {} }: OwnProps) => (
     <div className={styles.ProTableHeader}>
         <ItemsCount dictionnary={dictionary} page={pageIndex} size={pageSize} total={total} />
-        <Space size={12}>
+        <Space size={extraSpacing}>
             {extra.map((element, index) => (
                 <div key={index}>{element}</div>
             ))}

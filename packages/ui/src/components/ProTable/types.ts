@@ -26,6 +26,7 @@ export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns'>
 
 export type THeaderConfig = {
     marginBtm?: number;
+    extraSpacing?: number;
     extra?: React.ReactNode[];
     columnSetting?: boolean;
     onColumnStateChange?: (columns: TColumnStates) => void;
