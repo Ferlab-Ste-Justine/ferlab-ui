@@ -42,7 +42,9 @@ const QueryBuilderHeader = ({
 }: IQueryBuilderHeaderProps) => {
     const [editForm] = Form.useForm();
     const [isEditModalVisible, setEditModalVisible] = useState(false);
-    const [localSelectedSavedFilter, setLocalSelectedSavedFilter] = useState<ISavedFilter | null>(null);
+    const [localSelectedSavedFilter, setLocalSelectedSavedFilter] = useState<ISavedFilter | undefined>(
+        selectedSavedFilter,
+    );
     const [savedFilterTitle, setSavedFilterTitle] = useState('');
     const [localSavedFilters, setLocalSavedFilters] = useState(config.savedFilters);
 
@@ -74,7 +76,6 @@ const QueryBuilderHeader = ({
         if (config?.onDeleteFilter) {
             config.onDeleteFilter(id);
         }
-        setSavedFilterTitle(config.defaultTitle!);
         onNewSavedFilter();
     };
 
@@ -134,40 +135,41 @@ const QueryBuilderHeader = ({
                                     <EditIcon />
                                 </Button>
                             )}
-                            {config.options?.enableFavoriteFilter && (
-                                <Tooltip
-                                    title={
-                                        localSelectedSavedFilter?.favorite
-                                            ? dictionary.queryBuilderHeader?.tooltips?.usetDefaultFilter ||
-                                              'Unset default filter'
-                                            : dictionary.queryBuilderHeader?.tooltips?.setAsDefaultFilter ||
-                                              'Set as default filter'
-                                    }
-                                >
-                                    <Button
-                                        className={styles.iconBtnAction}
-                                        onClick={() => {
-                                            const updatedSavedFilter = {
-                                                ...selectedSavedFilter!,
-                                                favorite: !selectedSavedFilter?.favorite,
-                                            };
-                                            if (selectedSavedFilter?.favorite) {
-                                                if (config.onUpdateFilter) {
-                                                    config.onUpdateFilter(updatedSavedFilter);
-                                                }
-                                            } else {
-                                                if (config?.onSetAsFavorite) {
-                                                    config.onSetAsFavorite(selectedSavedFilter?.id!);
-                                                }
-                                            }
-                                            onSavedFilterChange(updatedSavedFilter);
-                                        }}
-                                        type="text"
+                            {config.options?.enableFavoriteFilter &&
+                                !isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!) && (
+                                    <Tooltip
+                                        title={
+                                            localSelectedSavedFilter?.favorite
+                                                ? dictionary.queryBuilderHeader?.tooltips?.usetDefaultFilter ||
+                                                  'Unset default filter'
+                                                : dictionary.queryBuilderHeader?.tooltips?.setAsDefaultFilter ||
+                                                  'Set as default filter'
+                                        }
                                     >
-                                        {localSelectedSavedFilter?.favorite ? <StarFilledIcon /> : <StarIcon />}
-                                    </Button>
-                                </Tooltip>
-                            )}
+                                        <Button
+                                            className={styles.iconBtnAction}
+                                            onClick={() => {
+                                                const updatedSavedFilter = {
+                                                    ...selectedSavedFilter!,
+                                                    favorite: !selectedSavedFilter?.favorite,
+                                                };
+                                                if (selectedSavedFilter?.favorite) {
+                                                    if (config.onUpdateFilter) {
+                                                        config.onUpdateFilter(updatedSavedFilter);
+                                                    }
+                                                } else {
+                                                    if (config?.onSetAsFavorite) {
+                                                        config.onSetAsFavorite(updatedSavedFilter);
+                                                    }
+                                                }
+                                                onSavedFilterChange(updatedSavedFilter);
+                                            }}
+                                            type="text"
+                                        >
+                                            {localSelectedSavedFilter?.favorite ? <StarFilledIcon /> : <StarIcon />}
+                                        </Button>
+                                    </Tooltip>
+                                )}
                         </div>
                     </Space>
                     {config.showTools && (

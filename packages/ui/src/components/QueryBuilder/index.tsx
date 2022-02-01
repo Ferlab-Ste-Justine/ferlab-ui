@@ -257,6 +257,12 @@ const QueryBuilder = ({
     }, [selectedSavedFilter]);
 
     useEffect(() => {
+        if (!isEmpty(headerConfig?.selectedSavedFilter!)) {
+            setSelectedSavedFilter(headerConfig?.selectedSavedFilter!);
+        }
+    }, [headerConfig?.selectedSavedFilter]);
+
+    useEffect(() => {
         if (queriesState.queries.length > 0) {
             const queryState = queriesState.queries.find((sqon) => sqon.id === queriesState.activeId);
             if (isNotEmptySqon(queryState!) && isEmptySqon(currentQuery)) {

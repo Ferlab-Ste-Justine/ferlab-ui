@@ -47,7 +47,7 @@ export interface IQueryBuilderHeaderConfig {
     options?: IQueryBuilderHeaderConfigOptions;
     savedFilters?: ISavedFilter[];
     selectedSavedFilter?: ISavedFilter | null;
-    onSetAsFavorite?: (filterId: string) => void;
+    onSetAsFavorite?: (filter: ISavedFilter) => void;
     onUpdateFilter?: (filter: ISavedFilter) => void;
     onSaveFilter?: (filter: ISavedFilter) => void;
     onDeleteFilter?: (filterId: string) => void;
