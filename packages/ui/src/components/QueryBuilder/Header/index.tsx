@@ -50,7 +50,7 @@ const QueryBuilderHeader = ({
         const newSavedFilter = {
             id: savedFilter?.id || v4(),
             title: savedFilter?.title! || config.defaultTitle!,
-            default: savedFilter?.default || false,
+            favorite: savedFilter?.favorite || false,
             queries: queriesState.queries,
         };
         if (config?.onSaveFilter) {
@@ -85,7 +85,7 @@ const QueryBuilderHeader = ({
         onSavedFilterChange({
             id: v4(),
             title: config.defaultTitle!,
-            default: false,
+            favorite: false,
             queries: [getDefaultSyntheticSqon(defaultQueryId)],
         });
     };
@@ -134,22 +134,37 @@ const QueryBuilderHeader = ({
                                     <EditIcon />
                                 </Button>
                             )}
-                            {config.options?.enableDefaultFilter && (
+                            {config.options?.enableFavoriteFilter && (
                                 <Tooltip
                                     title={
-                                        localSelectedSavedFilter?.default
-                                            ? dictionary.queryBuilderHeader?.tooltips?.setAsDefaultFilter ||
-                                              'Set as default filter'
-                                            : dictionary.queryBuilderHeader?.tooltips?.usetDefaultFilter ||
+                                        localSelectedSavedFilter?.favorite
+                                            ? dictionary.queryBuilderHeader?.tooltips?.usetDefaultFilter ||
                                               'Unset default filter'
+                                            : dictionary.queryBuilderHeader?.tooltips?.setAsDefaultFilter ||
+                                              'Set as default filter'
                                     }
                                 >
                                     <Button
                                         className={styles.iconBtnAction}
-                                        onClick={() => console.log('Favorite option currently disabled.')}
+                                        onClick={() => {
+                                            const updatedSavedFilter = {
+                                                ...selectedSavedFilter!,
+                                                favorite: !selectedSavedFilter?.favorite,
+                                            };
+                                            if (selectedSavedFilter?.favorite) {
+                                                if (config.onUpdateFilter) {
+                                                    config.onUpdateFilter(updatedSavedFilter);
+                                                }
+                                            } else {
+                                                if (config?.onSetAsFavorite) {
+                                                    config.onSetAsFavorite(selectedSavedFilter?.id!);
+                                                }
+                                            }
+                                            onSavedFilterChange(updatedSavedFilter);
+                                        }}
                                         type="text"
                                     >
-                                        {localSelectedSavedFilter?.default ? <StarFilledIcon /> : <StarIcon />}
+                                        {localSelectedSavedFilter?.favorite ? <StarFilledIcon /> : <StarIcon />}
                                     </Button>
                                 </Tooltip>
                             )}
@@ -184,7 +199,7 @@ const QueryBuilderHeader = ({
                                 onSavedFilterChange({
                                     id: v4(),
                                     title: title,
-                                    default: false,
+                                    favorite: false,
                                     queries: duplicatedQueries, // should probably set new id for each filter here
                                 });
                             }}

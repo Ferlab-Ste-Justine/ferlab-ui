@@ -28,7 +28,7 @@ export interface IQueriesState {
 export interface ISavedFilter {
     id: string;
     title: string;
-    default: boolean;
+    favorite: boolean;
     queries: ISyntheticSqon[];
 }
 
@@ -36,7 +36,7 @@ export interface IQueryBuilderHeaderConfigOptions {
     enableEditTitle?: boolean;
     enableShare?: boolean;
     enableDuplicate?: boolean;
-    enableDefaultFilter?: boolean;
+    enableFavoriteFilter?: boolean;
 }
 
 export interface IQueryBuilderHeaderConfig {
@@ -47,6 +47,7 @@ export interface IQueryBuilderHeaderConfig {
     options?: IQueryBuilderHeaderConfigOptions;
     savedFilters?: ISavedFilter[];
     selectedSavedFilter?: ISavedFilter | null;
+    onSetAsFavorite?: (filterId: string) => void;
     onUpdateFilter?: (filter: ISavedFilter) => void;
     onSaveFilter?: (filter: ISavedFilter) => void;
     onDeleteFilter?: (filterId: string) => void;

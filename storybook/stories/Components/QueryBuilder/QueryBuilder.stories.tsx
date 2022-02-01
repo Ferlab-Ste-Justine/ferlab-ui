@@ -387,6 +387,7 @@ WithHeaderAndTools.args = {
         showTools: true,
         defaultTitle: "Untitled Query",
         options: {
+            enableFavoriteFilter: true,
             enableDuplicate: true,
             enableEditTitle: true,
             enableShare: true,
