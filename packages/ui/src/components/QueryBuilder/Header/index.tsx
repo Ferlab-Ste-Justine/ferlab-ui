@@ -230,7 +230,13 @@ const QueryBuilderHeader = ({
                         <Form.Item
                             name="title"
                             label={dictionary.queryBuilderHeader?.modal?.edit?.input.label || 'Query name'}
-                            rules={[{ required: true, type: 'string' }]}
+                            rules={[
+                                {
+                                    required: true,
+                                    type: 'string',
+                                    max: config.titleMaxLength || DEFAULT_TITLE_MAX_LENGTH,
+                                },
+                            ]}
                             required={false}
                             className={styles.QBHfilterEditFormItem}
                         >
