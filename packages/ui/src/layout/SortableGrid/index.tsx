@@ -1,26 +1,26 @@
 import React from 'react';
+import { useState } from 'react';
 import {
-    DndContext,
     closestCenter,
+    DndContext,
+    DragEndEvent,
     KeyboardSensor,
     PointerSensor,
     useSensor,
     useSensors,
-    DragEndEvent,
 } from '@dnd-kit/core';
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, rectSortingStrategy } from '@dnd-kit/sortable';
-import { Gutter } from 'antd/lib/grid/row';
+import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Row } from 'antd';
+import { Gutter } from 'antd/lib/grid/row';
 
 import SortableItem, { TSortableItems } from './SortableItem';
-import { useState } from 'react';
 
 interface OwnProps {
     items: TSortableItems[];
     gutter?: Gutter | [Gutter, Gutter];
 }
 
-const SortableGrid = ({ items, gutter }: OwnProps) => {
+const SortableGrid = ({ gutter, items }: OwnProps) => {
     const [currentItems, setCurrentItems] = useState(items);
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -42,19 +42,14 @@ const SortableGrid = ({ items, gutter }: OwnProps) => {
         }
     };
 
-    const Grid = ({ children }: any) => {
-        // Needs to be defined here else it breaks the grid
-        return <Row gutter={gutter}>{children}</Row>;
-    };
-
     return (
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd} sensors={sensors}>
             <SortableContext items={currentItems.map(({ id }) => id)} strategy={rectSortingStrategy}>
-                <Grid>
-                    {currentItems.map((item, index) => (
-                        <SortableItem key={index} {...item} />
+                <Row gutter={gutter}>
+                    {currentItems.map((item) => (
+                        <SortableItem key={item.id} {...item} />
                     ))}
-                </Grid>
+                </Row>
             </SortableContext>
         </DndContext>
     );
