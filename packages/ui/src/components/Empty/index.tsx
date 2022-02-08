@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Space } from 'antd';
-import Title from 'antd/lib/typography/Title';
+import { Space, Typography } from 'antd';
 import cx from 'classnames';
 
 import DefaultImageGrid from './icons/DefaultImageGrid';
@@ -16,11 +15,13 @@ export interface IEmptyProps {
     image?: ReactNode;
     showImage?: boolean;
     size?: SizeTypes;
-    title?: string | undefined;
+    title?: string;
     imageType?: IImageType;
-    description?: ReactNode;
+    description?: string;
     action?: ReactNode;
 }
+
+const { Text, Title } = Typography;
 
 const Empty = ({
     className = '',
@@ -45,8 +46,8 @@ const Empty = ({
             ) : undefined}
             <Space className={styles.contentWrapper} direction="vertical" size={0}>
                 {title && <Title className={styles.title}>{title}</Title>}
-                {description}
-                {action && <div className={styles.actions}>{action}</div>}
+                {description && <Text className={styles.description}>{description}</Text>}
+                {action && <div className={styles.action}>{action}</div>}
             </Space>
         </div>
     </div>

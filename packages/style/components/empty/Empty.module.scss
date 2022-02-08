@@ -7,16 +7,15 @@
   align-items: center;
   justify-content: center;
 
-  .title {
-    margin-bottom: 0;
-  }
-
   .contentWrapper {
-    *:not(.actions) {
+    .title,
+    .description {
+      margin-bottom: 0;
       color: $empty-content-color;
     }
-
-    .actions {
+    
+    .action {
+      color: unset;
       margin-top: 24px;
     }
   }
