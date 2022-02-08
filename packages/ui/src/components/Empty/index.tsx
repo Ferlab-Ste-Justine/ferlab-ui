@@ -1,9 +1,10 @@
 import React, { ReactNode } from 'react';
 import { Space } from 'antd';
-import DefaultImageRow from './icons/DefaultImageRow';
-import DefaultImageGrid from './icons/DefaultImageGrid';
-import cx from 'classnames';
 import Title from 'antd/lib/typography/Title';
+import cx from 'classnames';
+
+import DefaultImageGrid from './icons/DefaultImageGrid';
+import DefaultImageRow from './icons/DefaultImageRow';
 
 import styles from '@ferlab/style/components/empty/Empty.module.scss';
 
@@ -18,6 +19,7 @@ export interface IEmptyProps {
     title?: string | undefined;
     imageType?: IImageType;
     description?: ReactNode;
+    action?: ReactNode;
 }
 
 const Empty = ({
@@ -28,6 +30,7 @@ const Empty = ({
     image = undefined,
     showImage = true,
     imageType = 'row',
+    action,
 }: IEmptyProps) => (
     <div className={cx(styles.fuiEmpty, className, styles[size])}>
         <div className={styles.content}>
@@ -43,6 +46,7 @@ const Empty = ({
             <Space className={styles.contentWrapper} direction="vertical" size={0}>
                 {title && <Title className={styles.title}>{title}</Title>}
                 {description}
+                {action && <div className={styles.actions}>{action}</div>}
             </Space>
         </div>
     </div>

@@ -12,8 +12,12 @@
   }
 
   .contentWrapper {
-    * {
+    *:not(.actions) {
       color: $empty-content-color;
+    }
+
+    .actions {
+      margin-top: 24px;
     }
   }
 

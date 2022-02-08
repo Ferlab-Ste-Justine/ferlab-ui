@@ -126,3 +126,11 @@ EmptyDefaultCustomImage.args = {
     description: "No data message",
     image: <img src="https://picsum.photos/172/40"></img>,
 };
+
+export const EmptyDefaultWithAction = EmptyPropsStory.bind({});
+EmptyDefaultWithAction.args = {
+    storyTitle: "Empty Default Custom Action",
+    description: "No data message",
+    action: <button>Custom action</button>
+};
+
