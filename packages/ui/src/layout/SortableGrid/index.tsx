@@ -18,9 +18,10 @@ import SortableItem, { TSortableItems } from './SortableItem';
 interface OwnProps {
     items: TSortableItems[];
     gutter?: Gutter | [Gutter, Gutter];
+    onReorder?: (id: string[]) => void;
 }
 
-const SortableGrid = ({ gutter, items }: OwnProps) => {
+const SortableGrid = ({ gutter, items, onReorder }: OwnProps) => {
     const [currentItems, setCurrentItems] = useState(items);
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -36,8 +37,13 @@ const SortableGrid = ({ gutter, items }: OwnProps) => {
             setCurrentItems((items) => {
                 const oldIndex = items.findIndex(({ id }) => id === active.id);
                 const newIndex = items.findIndex(({ id }) => id === over?.id);
+                const newItems = arrayMove(items, oldIndex, newIndex);
 
-                return arrayMove(items, oldIndex, newIndex);
+                if (onReorder) {
+                    onReorder(newItems.map((item) => item.id));
+                }
+
+                return newItems;
             });
         }
     };
