@@ -8,7 +8,7 @@ import cx from 'classnames';
 
 import styles from '@ferlab/style/components/protable/ProTable.module.scss';
 
-const generateColumnState = <RecordType,>(initialState: TColumnStates, columns: ProColumnType<RecordType>[]) => {
+export const generateColumnState = <RecordType,>(initialState: TColumnStates, columns: ProColumnType<RecordType>[]) => {
     let state: TColumnStates = initialState || [];
     columns.forEach((column, index) => {
         if (!state.find(({ key }) => key === column.key)) {
@@ -35,7 +35,9 @@ const ProTable = <RecordType extends object = any>({
             pageIndex: 1,
             pageSize: 15,
             total: 0,
+            selectedRows: 0,
         },
+        onClearSelection: () => {},
         onColumnStateChange: () => {},
     },
     initialColumnState,
@@ -54,6 +56,8 @@ const ProTable = <RecordType extends object = any>({
                 pageIndex={headerConfig.itemCount?.pageIndex}
                 pageSize={headerConfig.itemCount?.pageSize}
                 total={headerConfig.itemCount?.total}
+                selectedRows={headerConfig.itemCount?.selectedRows}
+                onClearSelection={headerConfig.onClearSelection}
                 extraSpacing={headerConfig.extraSpacing}
                 extra={(headerConfig.extra || []).concat(
                     headerConfig.columnSetting ? (
@@ -67,6 +71,7 @@ const ProTable = <RecordType extends object = any>({
                                     headerConfig.onColumnStateChange(newColumnState);
                                 }
                             }}
+                            dictionary={dictionary}
                         />
                     ) : (
                         []

@@ -7,6 +7,10 @@ export interface IProTableDictionary {
         noResults: React.ReactNode;
         results: React.ReactNode;
         of: React.ReactNode;
+        selected: React.ReactNode;
+    };
+    columnSelector?: {
+        reset: React.ReactNode;
     };
 }
 
@@ -29,11 +33,13 @@ export type THeaderConfig = {
     extraSpacing?: number;
     extra?: React.ReactNode[];
     columnSetting?: boolean;
+    onClearSelection?: () => void;
     onColumnStateChange?: (columns: TColumnStates) => void;
     itemCount: {
         pageIndex: number;
         pageSize: number;
         total: number;
+        selectedRows?: number;
     };
 };
 

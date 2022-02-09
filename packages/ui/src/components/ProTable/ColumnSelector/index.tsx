@@ -13,7 +13,9 @@ import {
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, rectSortingStrategy } from '@dnd-kit/sortable';
 import SortableColumnItem from './SortableColumnItem';
 import { useEffect, useState } from 'react';
-import { ProColumnType, TColumnStates } from '../types';
+import { IProTableDictionary, ProColumnType, TColumnStates } from '../types';
+import { generateColumnState } from '..';
+import { isEqual } from 'lodash';
 
 import styles from '@ferlab/style/components/protable/ColumnSelector.module.scss';
 
@@ -22,9 +24,11 @@ interface OwnProps<T = any> {
     columns: ProColumnType<T>[];
     columnStates: TColumnStates;
     onChange: (newColumnState: TColumnStates) => void;
+    dictionary?: IProTableDictionary;
 }
 
-const ColumnSelector = ({ className = '', columns, columnStates, onChange }: OwnProps) => {
+const ColumnSelector = ({ className = '', columns, columnStates, onChange, dictionary = {} }: OwnProps) => {
+    const [localColumnState, setLocalColumnState] = useState(columnStates);
     const [localColumns, setLocalColumns] = useState<{
         saveIndex: number;
         state: TColumnStates;
@@ -41,6 +45,10 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange }: Own
     );
 
     useEffect(() => {
+        setLocalColumnState(columnStates);
+    }, [columnStates]);
+
+    useEffect(() => {
         // Ensure onChange is not call on load
         if (localColumns.saveIndex > -1) {
             onChange(
@@ -54,7 +62,7 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange }: Own
         }
     }, [localColumns]);
 
-    const getColumnStateByKey = (stateKey: string) => columnStates.find(({ key }) => stateKey === key);
+    const getColumnStateByKey = (stateKey: string) => localColumnState.find(({ key }) => stateKey === key);
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
@@ -90,38 +98,66 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange }: Own
             }}
             overlayClassName={styles.ProTablePopoverColumn}
             content={
-                <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                    <SortableContext items={localColumns.state.map(({ key }) => key)} strategy={rectSortingStrategy}>
-                        <List>
-                            {localColumns.state.map((localState, index) => {
-                                const title = columns.find(({ key }) => localState.key === key)!.title;
-                                const savedColumnState = getColumnStateByKey(localState.key);
-                                return (
-                                    <SortableColumnItem
-                                        id={localState.key!}
-                                        label={title?.toString()!}
-                                        key={index}
-                                        checked={savedColumnState?.visible}
-                                        onChange={(e) => {
-                                            const filteredStates = columnStates.filter(
-                                                ({ key }) => key !== localState.key,
-                                            );
-                                            const newStates = [
-                                                ...filteredStates,
-                                                {
-                                                    ...savedColumnState!,
-                                                    visible: e.target.checked,
-                                                },
-                                            ];
+                <Space direction="vertical">
+                    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                        <SortableContext
+                            items={localColumns.state.map(({ key }) => key)}
+                            strategy={rectSortingStrategy}
+                        >
+                            <List>
+                                {localColumns.state.map((localState, index) => {
+                                    const title = columns.find(({ key }) => localState.key === key)!.title;
+                                    const savedColumnState = getColumnStateByKey(localState.key);
+                                    return (
+                                        <SortableColumnItem
+                                            id={localState.key!}
+                                            label={title?.toString()!}
+                                            key={index}
+                                            checked={savedColumnState?.visible}
+                                            onChange={(e) => {
+                                                const filteredStates = localColumnState.filter(
+                                                    ({ key }) => key !== localState.key,
+                                                );
+                                                const newStates = [
+                                                    ...filteredStates,
+                                                    {
+                                                        ...savedColumnState!,
+                                                        visible: e.target.checked,
+                                                    },
+                                                ];
 
-                                            onChange(newStates);
-                                        }}
-                                    />
-                                );
-                            })}
-                        </List>
-                    </SortableContext>
-                </DndContext>
+                                                onChange(newStates);
+                                            }}
+                                        />
+                                    );
+                                })}
+                            </List>
+                        </SortableContext>
+                    </DndContext>
+                    <Button
+                        className={styles.ProTablePopoverColumnResetBtn}
+                        size="small"
+                        type="link"
+                        disabled={isEqual(generateColumnState([], columns), localColumnState)}
+                        onClick={() => {
+                            const newState = generateColumnState([], columns);
+                            setLocalColumns({
+                                saveIndex: -1,
+                                state: newState,
+                            });
+                            onChange(
+                                newState.map((newColumnState, index) => {
+                                    return {
+                                        ...newColumnState,
+                                        index,
+                                    };
+                                }),
+                            );
+                        }}
+                    >
+                        {dictionary.columnSelector?.reset || 'Reset'}
+                    </Button>
+                </Space>
             }
         >
             <Button type="text" icon={<SettingOutlined className={styles.ProTableSettingBtnIcon} />}></Button>

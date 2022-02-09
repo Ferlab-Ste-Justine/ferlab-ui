@@ -6,11 +6,6 @@
     "lint&fix:ui": "cd packages/ui && npm run fix-linter",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "packages/ui/src/**/*.{js,jsx,ts,tsx}": [
       "npm run lint&fix:ui"

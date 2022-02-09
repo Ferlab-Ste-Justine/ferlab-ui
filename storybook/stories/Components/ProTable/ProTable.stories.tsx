@@ -52,7 +52,7 @@ BasicTable.args = {
             key: "column_four",
             title: "Column 4",
             dataIndex: "column_four",
-            defaultHidden: true
+            defaultHidden: true,
         },
     ],
     dataSource: [
@@ -89,10 +89,14 @@ BasicTable.args = {
         itemCount: {
             pageIndex: 1,
             pageSize: 15,
-            total: 20
+            total: 20,
+            selectedRows: 30,
+        },
+        onClearSelection: () => {
+            console.log("Clicked on clear selection");
         },
         onColumnStateChange: (state: any) => {
-            console.log(state)
+            console.log(state);
         },
     },
 };

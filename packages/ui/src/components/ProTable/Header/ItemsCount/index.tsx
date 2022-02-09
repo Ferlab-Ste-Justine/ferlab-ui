@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from 'antd';
+import { Space, Typography } from 'antd';
 import { IProTableDictionary } from '../../types';
 
 type Props = {
@@ -17,7 +17,7 @@ export const ItemsCount = ({ className = '', page, size, total, dictionnary = {}
     const to = from + (isLastPage && hasLessThanPageSize ? total % size : size) - 1;
 
     return (
-        <div className={className}>
+        <Space className={className}>
             {(to < size && page === 1) || total === 0 ? (
                 <Typography.Text>
                     {total === 0 ? (
@@ -36,6 +36,6 @@ export const ItemsCount = ({ className = '', page, size, total, dictionnary = {}
                     </span>
                 </Typography.Text>
             )}
-        </div>
+        </Space>
     );
 };
