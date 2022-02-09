@@ -90,7 +90,6 @@ BasicTable.args = {
             pageIndex: 1,
             pageSize: 15,
             total: 20,
-            selectedRows: 30,
         },
         onClearSelection: () => {
             console.log("Clicked on clear selection");

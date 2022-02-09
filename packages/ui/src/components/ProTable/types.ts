@@ -8,6 +8,7 @@ export interface IProTableDictionary {
         results: React.ReactNode;
         of: React.ReactNode;
         selected: React.ReactNode;
+        selectedPlural: React.ReactNode;
     };
     columnSelector?: {
         reset: React.ReactNode;
@@ -39,7 +40,7 @@ export type THeaderConfig = {
         pageIndex: number;
         pageSize: number;
         total: number;
-        selectedRows?: number;
+        selectedRowCount?: number;
     };
 };
 

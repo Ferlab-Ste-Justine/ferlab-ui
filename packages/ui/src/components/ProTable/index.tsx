@@ -35,7 +35,7 @@ const ProTable = <RecordType extends object = any>({
             pageIndex: 1,
             pageSize: 15,
             total: 0,
-            selectedRows: 0,
+            selectedRowCount: 0,
         },
         onClearSelection: () => {},
         onColumnStateChange: () => {},
@@ -56,7 +56,7 @@ const ProTable = <RecordType extends object = any>({
                 pageIndex={headerConfig.itemCount?.pageIndex}
                 pageSize={headerConfig.itemCount?.pageSize}
                 total={headerConfig.itemCount?.total}
-                selectedRows={headerConfig.itemCount?.selectedRows}
+                selectedRowCount={headerConfig.itemCount?.selectedRowCount}
                 onClearSelection={headerConfig.onClearSelection}
                 extraSpacing={headerConfig.extraSpacing}
                 extra={(headerConfig.extra || []).concat(

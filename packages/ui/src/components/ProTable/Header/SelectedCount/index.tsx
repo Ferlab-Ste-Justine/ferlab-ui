@@ -5,20 +5,23 @@ import { IProTableDictionary } from '../../types';
 type Props = {
     className?: string;
     dictionnary?: IProTableDictionary;
-    selectedRows: number;
+    selectedRowCount: number;
     onClear?: () => void;
 };
 
 export const SelectedCount = ({
     className = '',
-    selectedRows,
+    selectedRowCount,
     dictionnary = {},
     onClear = () => {},
 }: Props): React.ReactElement => (
     <Space className={className} size={0}>
         <Typography.Text>
             <span>
-                <strong>{selectedRows}</strong> {dictionnary.itemCount?.selected || 'Selected'}
+                <strong>{selectedRowCount}</strong>{' '}
+                {selectedRowCount > 1
+                    ? dictionnary.itemCount?.selectedPlural || 'items selected'
+                    : dictionnary.itemCount?.selected || 'item selected'}
             </span>
         </Typography.Text>
         <Button type="link" onClick={onClear}>
