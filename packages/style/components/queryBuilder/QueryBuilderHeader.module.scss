@@ -87,6 +87,10 @@
               );
             }
           }
+
+          .QBHOptionsFavoriteStar {
+            color: $query-builder-header-tools-favorite-icon-color;
+          }
         }
       }
     }

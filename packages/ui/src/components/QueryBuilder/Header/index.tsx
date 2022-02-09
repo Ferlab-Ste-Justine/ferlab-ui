@@ -166,7 +166,7 @@ const QueryBuilderHeader = ({
                                             }}
                                             type="text"
                                         >
-                                            {localSelectedSavedFilter?.favorite ? <StarFilledIcon /> : <StarIcon />}
+                                            {localSelectedSavedFilter?.favorite ? <StarFilledIcon className={styles.QBHOptionsFavoriteStar}/> : <StarIcon />}
                                         </Button>
                                     </Tooltip>
                                 )}
