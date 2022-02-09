@@ -334,8 +334,8 @@ const QueryBuilder = ({
             setQueryBuilderCache(cacheKey, newState);
 
             const queryParams = getQueryParams();
-            if (queryParams['filters']) {
-                const currentQueryParams = JSON.parse(queryParams['filters'] as string) as ISyntheticSqon;
+            if (queryParams[filtersKey]) {
+                const currentQueryParams = JSON.parse(queryParams[filtersKey] as string) as ISyntheticSqon;
                 const associatedQuery = queriesState.queries.filter((query) => query.id == currentQueryParams.id);
                 if (associatedQuery.length && !isEqual(currentQueryParams.content, associatedQuery[0].content)) {
                     onQueryChange(associatedQuery[0].id!, associatedQuery[0]);

@@ -68,7 +68,7 @@ const QueryBuilderHeaderTools = ({
             setIsNewFilter(false);
             setIsSaveButtonDisabled(!isDirty);
         }
-    }, [queriesState, selectedSavedFilter]);
+    }, [JSON.stringify(queriesState), JSON.stringify(selectedSavedFilter)]);
 
     return (
         <StackLayout className={styles.queryBuilderHeaderTools}>
