@@ -303,14 +303,20 @@ const QueryBuilder = ({
                 deleteQueryAndSetNext(queriesState.activeId);
             } else {
                 let tmpQuery = queriesState.queries.map((obj) => {
+                    // Ensure there is always a op and content
                     if (obj.id === queriesState.activeId) {
                         return {
                             ...obj,
+                            op: obj.op || BooleanOperators.and,
                             content: currentQuery.content ? currentQuery.content : [],
                             total: loading ? currentQuery.total : total,
                         };
                     }
-                    return { ...obj };
+                    return {
+                        ...obj,
+                        op: obj.op || BooleanOperators.and,
+                        content: obj.content ? obj.content : [],
+                    };
                 });
 
                 setQueriesState({
