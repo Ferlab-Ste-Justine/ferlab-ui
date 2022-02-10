@@ -299,7 +299,7 @@ const QueryBuilder = ({
             const index = queriesState.queries.findIndex((obj) => obj.id == queriesState.activeId);
             const current = queriesState.queries[index];
 
-            if (current.content.length > 0 && isEmpty(currentQuery)) {
+            if (current.content && current.content.length > 0 && isEmpty(currentQuery)) {
                 deleteQueryAndSetNext(queriesState.activeId);
             } else {
                 let tmpQuery = queriesState.queries.map((obj) => {

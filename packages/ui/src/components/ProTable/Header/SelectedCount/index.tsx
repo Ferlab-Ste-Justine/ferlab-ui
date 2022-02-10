@@ -15,7 +15,7 @@ export const SelectedCount = ({
     dictionnary = {},
     onClear = () => {},
 }: Props): React.ReactElement => (
-    <Space className={className} size={0}>
+    <Space className={className} size={5}>
         <Typography.Text>
             <span>
                 <strong>{selectedRowCount}</strong>{' '}
@@ -24,7 +24,7 @@ export const SelectedCount = ({
                     : dictionnary.itemCount?.selected || 'item selected'}
             </span>
         </Typography.Text>
-        <Button type="link" onClick={onClear}>
+        <Button type="link" onClick={onClear} size="small">
             Clear
         </Button>
     </Space>
