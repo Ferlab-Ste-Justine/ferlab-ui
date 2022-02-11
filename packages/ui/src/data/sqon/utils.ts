@@ -1,12 +1,15 @@
-import { isEmpty } from 'lodash';
+import { cloneDeep, isEmpty, merge, union } from 'lodash';
 import { v4 } from 'uuid';
 
 import { BooleanOperators, FieldOperators, RangeOperators } from './operators';
 import {
+    IMergeOptions,
     ISqonGroupFilter,
     ISyntheticSqon,
     IValueContent,
     IValueFilter,
+    MERGE_OPERATOR_STRATEGIES,
+    MERGE_VALUES_STRATEGIES,
     TSqonContent,
     TSqonContentValue,
     TSqonGroupOp,
@@ -245,4 +248,76 @@ export const addToSqons = ({ fieldsWValues, sqons }: { fieldsWValues: IValueCont
     }
 
     return [...sqons, currentSqon];
+};
+
+export const deepMergeSqonValue = (sourceSqon: ISyntheticSqon, newSqon: IValueFilter, opts: IMergeOptions) => {
+    const clonedSqons = cloneDeep(sourceSqon);
+
+    opts = merge(
+        {},
+        {
+            values: MERGE_VALUES_STRATEGIES.DEFAULT,
+            operator: MERGE_OPERATOR_STRATEGIES.DEFAULT,
+        },
+        opts,
+    );
+
+    const found = deeplySetSqonValue(clonedSqons, newSqon, opts);
+
+    return found
+        ? clonedSqons
+        : {
+              ...clonedSqons,
+              content: [...clonedSqons.content, newSqon],
+          };
+};
+
+/**
+  * Recursively traverse the `sourceSqon` and mutate the matching field's value and, optionaly, it's operator.
+  
+  * @param {Object} sourceSqon - a sqon object to traverse recursively and mutate
+  * @param {Object} newSqon - a sqon, that may omit the operator,
+  * that provide the field name searched and value to be set
+  * @param {Object} opts - options to handle merging the values.
+  * 
+  * @returns `true` if the field was found; `false` otherwise.
+  */
+const deeplySetSqonValue = (sourceSqon: ISyntheticSqon, newSqon: IValueFilter, opts: IMergeOptions) => {
+    let found = false;
+
+    sourceSqon.content.forEach((sqon) => {
+        // dont follow references
+        if (isReference(sqon)) return;
+
+        const castedSqon = sqon as TSqonContentValue;
+
+        // traverse nested sqons recursively
+        if (isBooleanOperator(castedSqon)) {
+            found = deeplySetSqonValue(castedSqon as ISyntheticSqon, newSqon, opts);
+            return;
+        }
+
+        const castedValueSqon = castedSqon as IValueFilter;
+
+        // field found, set the value and operator
+        if (castedValueSqon.content.field === newSqon.content.field) {
+            found = true;
+
+            if (newSqon.op) {
+                if (opts.operator !== MERGE_OPERATOR_STRATEGIES.KEEP_OPERATOR) {
+                    castedValueSqon.op = newSqon.op;
+                }
+            }
+
+            if (opts.values === MERGE_VALUES_STRATEGIES.APPEND_VALUES) {
+                castedValueSqon.content.value = union([], castedValueSqon.content.value, newSqon.content.value);
+            }
+
+            if (opts.values === MERGE_VALUES_STRATEGIES.OVERRIDE_VALUES) {
+                castedValueSqon.content.value = newSqon.content.value;
+            }
+        }
+    });
+
+    return found;
 };

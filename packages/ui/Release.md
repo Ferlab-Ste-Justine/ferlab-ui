@@ -1,3 +1,6 @@
+### 3.0.12 | 2022-02-11
+- Fix: Fix QueryBuilder tool hidden when no queries + add new sqon utils functions
+
 ### 2.8.1 | 2022-01-26
 - feat: New component ProTable
 

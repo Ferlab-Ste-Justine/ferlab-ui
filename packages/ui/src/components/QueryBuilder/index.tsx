@@ -242,10 +242,11 @@ const QueryBuilder = ({
     };
 
     const showQueryTools = () =>
-        (!enableSingleQuery && !canCombine) ||
-        (enableCombine && canCombine) ||
-        (enableShowHideLabels && !canCombine) ||
-        (!noQueries && !canCombine && queryCount > 1);
+        !noQueries &&
+        ((!enableSingleQuery && !canCombine) ||
+            (enableCombine && canCombine) ||
+            (enableShowHideLabels && !canCombine) ||
+            (!canCombine && queryCount > 1));
 
     useEffect(() => {
         if (selectedSavedFilter?.queries?.length!) {

@@ -102,7 +102,9 @@ const QueryBar = ({
                 )}
                 <Space className={styles.queryContent}>
                     {isEmptySqon(query) ? (
-                        <div>{dictionary.query?.noQuery || 'Use the facets to build a query'}</div>
+                        <div>
+                            {dictionary.query?.noQuery || 'Use the search tools & facets on the left to build a query'}
+                        </div>
                     ) : (
                         isBooleanOperator(query) && (
                             <Space className={styles.queryValues}>
