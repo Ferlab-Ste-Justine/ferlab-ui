@@ -203,6 +203,7 @@ const QueryBuilder = ({
                     activeId: nextID!,
                     queries: updatedQueries,
                 });
+                onQueryChange(id, updatedQueries.find(({ id }) => id === nextID!) || {});
             } else {
                 resetQueries(id);
             }
@@ -220,6 +221,7 @@ const QueryBuilder = ({
             activeId: id,
             queries: cleanUpQueries(cloneDeep([...queriesState.queries, newQuery])),
         });
+        onQueryChange(id, newQuery);
     };
 
     const cleanUpQueries = (tmpQuery: ISyntheticSqon[]) => {
@@ -250,10 +252,12 @@ const QueryBuilder = ({
 
     useEffect(() => {
         if (selectedSavedFilter?.queries?.length!) {
+            const activeId = selectedSavedFilter.queries[0].id!;
             setQueriesState({
-                activeId: selectedSavedFilter.queries[0].id!,
+                activeId: activeId,
                 queries: selectedSavedFilter.queries,
             });
+            onQueryChange(activeId, selectedSavedFilter.queries.find(({ id }) => id === activeId) || {});
         }
     }, [selectedSavedFilter]);
 
@@ -303,6 +307,8 @@ const QueryBuilder = ({
             if (current.content && current.content.length > 0 && isEmpty(currentQuery)) {
                 deleteQueryAndSetNext(queriesState.activeId);
             } else {
+                const hasQuery = queriesState.queries.find(({ id }) => id === currentQuery.id);
+
                 let tmpQuery = queriesState.queries.map((obj) => {
                     // Ensure there is always a op and content
                     if (obj.id === queriesState.activeId) {
@@ -310,7 +316,7 @@ const QueryBuilder = ({
                             ...obj,
                             op: obj.op || BooleanOperators.and,
                             content: currentQuery.content ? currentQuery.content : [],
-                            total: loading ? currentQuery.total : total,
+                            total: total || currentQuery.total,
                         };
                     }
                     return {
@@ -326,12 +332,7 @@ const QueryBuilder = ({
                 });
             }
         }
-    }, [currentQuery, total, loading]);
-
-    useEffect(() => {
-        let index = getQueryIndexById(queriesState.activeId);
-        onQueryChange!(queriesState.activeId, queriesState.queries[index]);
-    }, [queriesState.activeId]);
+    }, [JSON.stringify(currentQuery), total]);
 
     useEffect(() => {
         const newState = getUpdatedState(queriesState.queries, queriesState.activeId);
@@ -339,17 +340,8 @@ const QueryBuilder = ({
             onUpdate(newState);
         } else {
             setQueryBuilderCache(cacheKey, newState);
-
-            const queryParams = getQueryParams();
-            if (queryParams[filtersKey]) {
-                const currentQueryParams = JSON.parse(queryParams[filtersKey] as string) as ISyntheticSqon;
-                const associatedQuery = queriesState.queries.filter((query) => query.id == currentQueryParams.id);
-                if (associatedQuery.length && !isEqual(currentQueryParams.content, associatedQuery[0].content)) {
-                    onQueryChange(associatedQuery[0].id!, associatedQuery[0]);
-                }
-            }
         }
-    }, [queriesState.queries]);
+    }, [queriesState]);
 
     return (
         <ConditionalWrapper
@@ -384,7 +376,8 @@ const QueryBuilder = ({
                             canDelete={!noQueries}
                             dictionary={dictionary}
                             getColorForReference={getColorForReference}
-                            onChangeQuery={(id) => {
+                            onChangeQuery={(id, query) => {
+                                onQueryChange(id, query);
                                 setQueriesState((prevState) => {
                                     return {
                                         ...prevState,

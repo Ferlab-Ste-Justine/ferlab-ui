@@ -349,3 +349,20 @@ export const getQueryBuilderCache = (type: string): any => {
 export const setQueryBuilderCache = (type: string, items: any): void => {
     localStorage.setItem(`query-builder-cache-${type}`, JSON.stringify(items));
 };
+
+interface IQueryParams {
+    [key: string]: string | any;
+}
+
+export const createQueryParams = (queryParams: IQueryParams): string => {
+    const query: Record<string, string> = {};
+    for (const queryKey in queryParams) {
+        if (typeof queryParams[queryKey] === 'object') {
+            query[queryKey] = JSON.stringify(queryParams[queryKey]);
+        } else {
+            query[queryKey] = queryParams[queryKey] as string;
+        }
+    }
+
+    return `?${qs.stringify(query)}`;
+};
