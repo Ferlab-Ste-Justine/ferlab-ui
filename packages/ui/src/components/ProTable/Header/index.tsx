@@ -11,25 +11,38 @@ interface OwnProps {
     extraSpacing?: number;
     pageIndex: number;
     pageSize: number;
+    selectedAllResults?: boolean;
+    selectedAllPage?: boolean;
     selectedRowCount?: number;
     total: number;
     dictionary?: IProTableDictionary;
+    onSelectAllResults?: () => void;
     onClearSelection?: () => void;
 }
 
 const TableHeader = ({
     extra = [],
-    extraSpacing = 8,
+    extraSpacing = 12,
     pageIndex,
     pageSize,
+    selectedAllResults = false,
+    selectedAllPage = false,
     selectedRowCount = 0,
     total,
     dictionary = {},
+    onSelectAllResults,
     onClearSelection,
 }: OwnProps) => (
     <div className={styles.ProTableHeader}>
         {selectedRowCount > 0 ? (
-            <SelectedCount dictionnary={dictionary} selectedRowCount={selectedRowCount} onClear={onClearSelection} />
+            <SelectedCount
+                dictionnary={dictionary}
+                selectedRowCount={selectedRowCount}
+                selectedAllResults={selectedAllResults}
+                selectedAllPage={selectedAllPage}
+                onClear={onClearSelection}
+                onSelectAll={onSelectAllResults}
+            />
         ) : (
             <ItemsCount dictionnary={dictionary} page={pageIndex} size={pageSize} total={total} />
         )}

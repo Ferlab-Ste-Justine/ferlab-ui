@@ -1,6 +1,6 @@
 import React from 'react';
 import { SettingOutlined } from '@ant-design/icons';
-import { Button, Popover, Space } from 'antd';
+import { Button, Popover, Space, Tooltip } from 'antd';
 import {
     DndContext,
     closestCenter,
@@ -94,7 +94,7 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
             placement="bottomLeft"
             trigger="click"
             align={{
-                offset: [-5, 0],
+                offset: [-9, 0],
             }}
             overlayClassName={styles.ProTablePopoverColumn}
             content={
@@ -106,7 +106,11 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
                         >
                             <List>
                                 {localColumns.state.map((localState, index) => {
-                                    const title = columns.find(({ key }) => localState.key === key)!.title;
+                                    const foundColumn = columns.find(({ key }) => localState.key === key)!;
+                                    const title =
+                                        typeof foundColumn.title === 'string'
+                                            ? foundColumn.title
+                                            : foundColumn.displayTitle;
                                     const savedColumnState = getColumnStateByKey(localState.key);
                                     return (
                                         <SortableColumnItem
@@ -134,33 +138,41 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
                             </List>
                         </SortableContext>
                     </DndContext>
-                    <Button
-                        className={styles.ProTablePopoverColumnResetBtn}
-                        size="small"
-                        type="link"
-                        disabled={isEqual(generateColumnState([], columns), localColumnState)}
-                        onClick={() => {
-                            const newState = generateColumnState([], columns);
-                            setLocalColumns({
-                                saveIndex: -1,
-                                state: newState,
-                            });
-                            onChange(
-                                newState.map((newColumnState, index) => {
-                                    return {
-                                        ...newColumnState,
-                                        index,
-                                    };
-                                }),
-                            );
-                        }}
-                    >
-                        {dictionary.columnSelector?.reset || 'Reset'}
-                    </Button>
+                    <div className={styles.ProTablePopoverColumnResetBtnWrapper}>
+                        <Button
+                            className={styles.ProTablePopoverColumnResetBtn}
+                            size="small"
+                            type="link"
+                            disabled={isEqual(generateColumnState([], columns), localColumnState)}
+                            onClick={() => {
+                                const newState = generateColumnState([], columns);
+                                setLocalColumns({
+                                    saveIndex: -1,
+                                    state: newState,
+                                });
+                                onChange(
+                                    newState.map((newColumnState, index) => {
+                                        return {
+                                            ...newColumnState,
+                                            index,
+                                        };
+                                    }),
+                                );
+                            }}
+                        >
+                            {dictionary.columnSelector?.reset || 'Reset'}
+                        </Button>
+                    </div>
                 </Space>
             }
         >
-            <Button type="text" icon={<SettingOutlined className={styles.ProTableSettingBtnIcon} />}></Button>
+            <Tooltip title={dictionary.columnSelector?.tooltips?.columns || 'Columns'}>
+                <Button
+                    type="text"
+                    size="small"
+                    icon={<SettingOutlined className={styles.ProTableSettingBtnIcon} />}
+                ></Button>
+            </Tooltip>
         </Popover>
     );
 };

@@ -1,11 +1,11 @@
-.ProTableSettingBtnIcon {
-  font-size: 18px;
-}
-
 .ProTablePopoverColumn {
   div[class$="-inner-content"] {
     padding: 12px;
   }
+}
+
+.ProTablePopoverColumnResetBtnWrapper {
+  text-align: right;
 }
 
 .ProTablePopoverColumnResetBtn {

@@ -9,45 +9,59 @@ export interface IProTableDictionary {
         of: React.ReactNode;
         selected: React.ReactNode;
         selectedPlural: React.ReactNode;
+        selectAllResults: React.ReactNode;
+        clear: React.ReactNode;
+    };
+    tooltips?: {
+        tableExport: React.ReactNode;
     };
     columnSelector?: {
         reset: React.ReactNode;
+        tooltips?: {
+            columns: React.ReactNode;
+        };
     };
 }
 
 export interface ProColumnType<T = any> extends ColumnType<T> {
     key: string;
+    displayTitle?: string;
     defaultHidden?: boolean;
 }
 
 export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns'> & {
     tableId: string;
-    headerConfig: THeaderConfig;
+    headerConfig: THeaderConfig<RecordType>;
     wrapperClassName?: string;
     columns: ProColumnType<RecordType>[];
     initialColumnState?: TColumnStates;
     dictionary?: IProTableDictionary;
+    enableRowSelection?: boolean;
+    onSelectionChange?: (selectedRows: RecordType[], selectedKeys: any[]) => void;
 };
 
-export type THeaderConfig = {
+export type THeaderConfig<RecordType> = {
     marginBtm?: number;
     extraSpacing?: number;
     extra?: React.ReactNode[];
-    columnSetting?: boolean;
+    enableTableExport?: boolean;
+    enableColumnSort?: boolean;
+    onSelectedRowsChange?: (selectedKeys: any[], selectedRows: RecordType[]) => void;
+    onSelectAllResultsChange?: (selected: boolean) => void;
     onClearSelection?: () => void;
-    onColumnStateChange?: (columns: TColumnStates) => void;
+    onColumnSortChange?: (columns: TColumnStates) => void;
+    onTableExportClick?: () => void;
     itemCount: {
         pageIndex: number;
         pageSize: number;
         total: number;
-        selectedRowCount?: number;
     };
 };
 
-export type TColumnStates = {
+export type TColumnStates = Array<{
     index: number;
     key: string;
     visible: boolean;
-}[];
+}>;
 
 export type TColumnSettingChangeCb = <RecordType>(columns: ProColumnType<RecordType>) => void;

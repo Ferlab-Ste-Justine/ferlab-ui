@@ -57,24 +57,28 @@ BasicTable.args = {
     ],
     dataSource: [
         {
+            key: "1",
             column_one: "test",
             column_two: "test",
             column_three: "test",
             column_four: "test",
         },
         {
+            key: "2",
             column_one: "test",
             column_two: "test",
             column_three: "test",
             column_four: "test",
         },
         {
+            key: "3",
             column_one: "test",
             column_two: "test",
             column_three: "test",
             column_four: "test",
         },
         {
+            key: "4",
             column_one: "test",
             column_two: "test",
             column_three: "test",
@@ -82,14 +86,19 @@ BasicTable.args = {
         },
     ],
     tableId: "test-table",
+    pagination: {
+        pageSize: 2,
+        defaultPageSize: 2,
+        total: 4,
+    },
     headerConfig: {
         marginBtm: 12,
         extra: [<a>Extra Actions</a>],
         columnSetting: true,
         itemCount: {
             pageIndex: 1,
-            pageSize: 15,
-            total: 20,
+            pageSize: 2,
+            total: 4,
         },
         onClearSelection: () => {
             console.log("Clicked on clear selection");
