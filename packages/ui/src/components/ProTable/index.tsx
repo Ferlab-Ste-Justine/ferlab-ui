@@ -58,7 +58,6 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     const [selectedAllResults, setSelectedAllResults] = useState(false);
     const [selectedAllPage, setSelectedAllPage] = useState(false);
     const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
-    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const getTotalResults = () =>
         tableProps.pagination
@@ -131,7 +130,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                 pageSize={headerConfig.itemCount?.pageSize}
                 total={headerConfig.itemCount?.total}
                 selectedAllResults={selectedAllResults}
-                selectedAllPage={selectedAllPage}
+                selectedAllPage={selectedAllPage && selectedRowKeys.length < headerConfig.itemCount?.total}
                 selectedRowCount={selectedAllResults ? getTotalResults() : selectedRowKeys.length}
                 onSelectAllResults={() => {
                     handleOnSelectAllResultsChange(true);
@@ -187,8 +186,6 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                                       handleOnSelectRowsChange([], []);
                                       handleOnSelectAllResultsChange(false);
                                   }
-
-                                  setCurrentPage(page);
 
                                   if (tableProps.pagination && tableProps.pagination.onChange) {
                                       tableProps.pagination.onChange(page, size);
