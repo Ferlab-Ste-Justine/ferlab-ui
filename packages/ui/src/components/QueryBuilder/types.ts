@@ -146,6 +146,11 @@ interface IQueryBuilderHeaderDictionnary {
             };
         };
     };
+    form?: {
+        error?: {
+            fieldRequired: React.ReactNode;
+        };
+    };
     notification?: {
         savedTitle: React.ReactNode;
     };

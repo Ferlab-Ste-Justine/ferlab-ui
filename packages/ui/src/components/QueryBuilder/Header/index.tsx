@@ -13,6 +13,7 @@ import { getDefaultSyntheticSqon } from '../../../data/sqon/utils';
 import { isNewUnsavedFilter } from './utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
+import { WarningFilled } from '@ant-design/icons';
 
 interface IQueryBuilderHeaderProps {
     config: IQueryBuilderHeaderConfig;
@@ -166,7 +167,11 @@ const QueryBuilderHeader = ({
                                             }}
                                             type="text"
                                         >
-                                            {localSelectedSavedFilter?.favorite ? <StarFilledIcon className={styles.QBHOptionsFavoriteStar}/> : <StarIcon />}
+                                            {localSelectedSavedFilter?.favorite ? (
+                                                <StarFilledIcon className={styles.QBHOptionsFavoriteStar} />
+                                            ) : (
+                                                <StarIcon />
+                                            )}
                                         </Button>
                                     </Tooltip>
                                 )}
@@ -218,7 +223,10 @@ const QueryBuilderHeader = ({
                 okText={dictionary.queryBuilderHeader?.modal?.edit?.okText || 'Save'}
                 cancelText={dictionary.queryBuilderHeader?.modal?.edit?.cancelText || 'Cancel'}
                 onOk={(e) => editForm.submit()}
-                onCancel={() => setEditModalVisible(false)}
+                onCancel={() => {
+                    setEditModalVisible(false);
+                    editForm.resetFields();
+                }}
             >
                 <Form
                     form={editForm}
@@ -243,30 +251,46 @@ const QueryBuilderHeader = ({
                         }
                     }}
                 >
-                    <Form.Item noStyle>
-                        <Form.Item
-                            name="title"
-                            label={dictionary.queryBuilderHeader?.modal?.edit?.input.label || 'Query name'}
-                            rules={[
-                                {
-                                    required: true,
-                                    type: 'string',
-                                    max: config.titleMaxLength || DEFAULT_TITLE_MAX_LENGTH,
-                                },
-                            ]}
-                            required={false}
-                            className={styles.QBHfilterEditFormItem}
-                        >
-                            <Input
-                                ref={callbackRef}
-                                placeholder={
-                                    dictionary.queryBuilderHeader?.modal?.edit?.input.placeholder || 'Untitled query'
-                                }
-                            />
-                        </Form.Item>
-                        <span>{`${config.titleMaxLength || DEFAULT_TITLE_MAX_LENGTH} ${
-                            dictionary.queryBuilderHeader?.modal?.edit?.input.maximumLength || 'characters maximum'
-                        }`}</span>
+                    <Form.Item noStyle shouldUpdate>
+                        {() => (
+                            <Form.Item
+                                name="title"
+                                label={dictionary.queryBuilderHeader?.modal?.edit?.input.label || 'Query name'}
+                                rules={[
+                                    {
+                                        type: 'string',
+                                        max: DEFAULT_TITLE_MAX_LENGTH,
+                                        message: (
+                                            <span>
+                                                <WarningFilled /> {DEFAULT_TITLE_MAX_LENGTH}{' '}
+                                                {dictionary.queryBuilderHeader?.modal?.edit?.input.maximumLength ||
+                                                    'characters maximum'}
+                                            </span>
+                                        ),
+                                    },
+                                    {
+                                        type: 'string',
+                                        required: true,
+                                        message: (
+                                            <span>
+                                                {dictionary.queryBuilderHeader?.form?.error?.fieldRequired ||
+                                                    'This field is required'}
+                                            </span>
+                                        ),
+                                    },
+                                ]}
+                                required={false}
+                                className={styles.QBHfilterEditFormItem}
+                            >
+                                <Input
+                                    ref={callbackRef}
+                                    placeholder={
+                                        dictionary.queryBuilderHeader?.modal?.edit?.input.placeholder ||
+                                        'Untitled query'
+                                    }
+                                />
+                            </Form.Item>
+                        )}
                     </Form.Item>
                 </Form>
             </Modal>
