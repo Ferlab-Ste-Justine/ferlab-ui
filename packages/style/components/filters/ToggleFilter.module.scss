@@ -1,47 +1,47 @@
-@import 'theme.template';
+@import "theme.template";
 .fui-filter-sc {
-    align-items: flex-start;
-    
-    .radio {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
+  align-items: flex-start;
 
-        > * {
-            margin-bottom: .8rem;
-            width: 100%;
-        }
+  .radio {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 
-        > label {
-            align-items: center;
-            display: flex;
-        }
-        > label > span:last-child {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            padding-right: 0px;
-        }
+    > * {
+      margin-bottom: 0.8rem;
+      width: 100%;
     }
 
-    .tag {
-        margin-right: .8rem;
+    > label {
+      display: flex;
     }
 
-    .fui-filter-sc-button {
-        padding: 0;
-        height: auto;
-        color: $toggle-filter-sc-button-color;
-        > * {
-            text-decoration: underline;
-        }
-
-        &:hover > * {
-            text-decoration: none;
-        }
-
-        &-disabled {
-            display: none;
-        }
+    > label > span:last-child {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding-right: 0px;
     }
+  }
+
+  .tag {
+    margin-right: 0.8rem;
+  }
+
+  .fui-filter-sc-button {
+    padding: 0;
+    height: auto;
+    color: $toggle-filter-sc-button-color;
+    > * {
+      text-decoration: underline;
+    }
+
+    &:hover > * {
+      text-decoration: none;
+    }
+
+    &-disabled {
+      display: none;
+    }
+  }
 }
