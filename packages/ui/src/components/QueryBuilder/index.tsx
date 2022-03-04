@@ -377,6 +377,7 @@ const QueryBuilder = ({
                             dictionary={dictionary}
                             getColorForReference={getColorForReference}
                             onChangeQuery={(id, query) => {
+                                onQueryChange(id, query);
                                 setQueriesState((prevState) => {
                                     return {
                                         ...prevState,

@@ -141,7 +141,12 @@ const FieldQueryPill = ({
                 />
             </ConditionalWrapper>
             <Button className={styles.close} type="text">
-                <AiOutlineClose onClick={() => onRemove()} />
+                <AiOutlineClose
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onRemove();
+                    }}
+                />
             </Button>
         </StackLayout>
     );
