@@ -18,6 +18,10 @@ $padding-side-and-bottom: 24px;
       background-color: $grid-card-shade-background-color;
     }
 
+    div[class^="ant-spin"] {
+      height: 100%;
+    } 
+
     .contentWrapper {
       height: 100%;
     }
