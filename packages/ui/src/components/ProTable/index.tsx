@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Space, Table, Tooltip } from 'antd';
 import ColumnSelector from './ColumnSelector';
 import TableHeader from './Header';
@@ -48,6 +48,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         onSelectAllResultsChange: () => {},
         onClearSelection: () => {},
     },
+    initialSelectedKey = [],
     enableRowSelection = false,
     initialColumnState,
     dictionary = {},
@@ -57,7 +58,11 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     const [columnsState, setColumnsState] = useState<TColumnStates>(generateColumnState(initialColumnState!, columns));
     const [selectedAllResults, setSelectedAllResults] = useState(false);
     const [selectedAllPage, setSelectedAllPage] = useState(false);
-    const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
+    const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>(initialSelectedKey);
+
+    useEffect(() => {
+        setSelectedRowKeys(initialSelectedKey);
+    }, [JSON.stringify(initialSelectedKey)]);
 
     const getTotalResults = () =>
         tableProps.pagination

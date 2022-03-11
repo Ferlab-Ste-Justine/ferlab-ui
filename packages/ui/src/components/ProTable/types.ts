@@ -35,6 +35,7 @@ export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns'>
     wrapperClassName?: string;
     columns: ProColumnType<RecordType>[];
     initialColumnState?: TColumnStates;
+    initialSelectedKey?: any[];
     dictionary?: IProTableDictionary;
     enableRowSelection?: boolean;
     onSelectionChange?: (selectedRows: RecordType[], selectedKeys: any[]) => void;
