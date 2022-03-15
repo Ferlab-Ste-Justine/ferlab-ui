@@ -1,7 +1,8 @@
 import { cloneDeep, isEmpty, merge, union } from 'lodash';
 import { v4 } from 'uuid';
+import { getFiltersQuery, updateQueryParam } from '../filters/utils';
 
-import { BooleanOperators, FieldOperators, RangeOperators } from './operators';
+import { BooleanOperators, FieldOperators, RangeOperators, TermOperators } from './operators';
 import {
     IMergeOptions,
     ISqonGroupFilter,
@@ -320,4 +321,91 @@ const deeplySetSqonValue = (sourceSqon: ISyntheticSqon, newSqon: IValueFilter, o
     });
 
     return found;
+};
+
+export const addFieldToActiveQuery = ({
+    field,
+    value,
+    history,
+    index,
+    merge_stategy = MERGE_VALUES_STRATEGIES.APPEND_VALUES,
+}: {
+    field: string;
+    value: Array<string | number | boolean>;
+    history: any;
+    index?: string;
+    merge_stategy?: MERGE_VALUES_STRATEGIES;
+}) => {
+    let newSqon;
+    const filter = getFiltersQuery();
+    const newSqonContent = {
+        content: {
+            field,
+            index,
+            value,
+        },
+        op: TermOperators.in,
+    };
+
+    if (!isEmpty(filter)) {
+        newSqon = deepMergeSqonValue(filter, newSqonContent, {
+            values: merge_stategy,
+            operator: MERGE_OPERATOR_STRATEGIES.KEEP_OPERATOR,
+        });
+    } else {
+        newSqon = getDefaultSyntheticSqon();
+        newSqon.content = [newSqonContent];
+    }
+
+    updateQueryParam(history, 'filters', newSqon);
+};
+
+export const generateFilters = ({
+    filters,
+    newFilters,
+    operator = BooleanOperators.and,
+}: {
+    newFilters: IValueFilter[];
+    filters?: ISyntheticSqon;
+    operator?: BooleanOperators;
+}): ISyntheticSqon => {
+    if (isEmpty(filters)) {
+        return {
+            id: v4(),
+            content: newFilters,
+            op: operator,
+        };
+    }
+
+    return {
+        id: filters?.id || v4(),
+        op: filters?.op || operator,
+        content: [...filters!.content, ...newFilters],
+    };
+};
+
+export const generateValueFilter = (
+    field: string,
+    value: string[],
+    index: string,
+    operator: TermOperators = TermOperators.in,
+) => ({
+    content: { field, value, index },
+    op: operator,
+});
+
+export const findSqonValueByField = (field: string, sqon: ISqonGroupFilter, prevValue: any = undefined) => {
+    let value: any = prevValue;
+    sqon.content.forEach((content) => {
+        if (isBooleanOperator(content)) {
+            value = value || findSqonValueByField(field, content as ISqonGroupFilter, prevValue);
+        } else {
+            const valueContent = content as IValueFilter;
+
+            if (valueContent.content.field === field) {
+                value = value || valueContent.content.value;
+            }
+        }
+    });
+    return value;
 };
