@@ -11,6 +11,7 @@ import { IDictionary } from '../QueryBuilder/types';
 import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
 import { get } from 'lodash';
+import { keyEnhance } from '../../data/arranger/formatting';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
 
@@ -45,14 +46,14 @@ const QueryValues = ({ isElement = false, query, onClick, dictionary = {} }: IQu
             {!isElement ? (
                 <ConditionalWrapper
                     condition={onClick !== undefined}
-                    wrapper={(children) => (
-                        <a className={styles.queryValueSelector}>{children}</a>
-                    )}
+                    wrapper={(children) => <a className={styles.queryValueSelector}>{children}</a>}
                 >
                     <>
                         {values.map((v, i) => (
                             <StackLayout className={styles.valueWrapper} key={`${v}-${i}`}>
-                                <span className={styles.value}>{typeof v == 'string' ? getMappedValueName(v) : v}</span>
+                                <span className={styles.value}>
+                                    {typeof v == 'string' ? getMappedValueName(keyEnhance(v)) : v}
+                                </span>
                                 {totalValues - 1 > i && <UnionOperator className={styles.operator} />}
                             </StackLayout>
                         ))}

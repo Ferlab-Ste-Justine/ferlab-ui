@@ -1,6 +1,6 @@
 export const ArrangerValues = {
     missing: '__missing__',
-    noData: ' No Data',
+    noData: 'No Data',
     true: '1',
     false: '0',
 }
@@ -9,7 +9,7 @@ export const AggregateValues= {
     true: 'true',
     false: 'false'
 }
-export const keyEnhance = (key: string, s: string = ArrangerValues.noData): string | boolean => {
+export const keyEnhance = (key: string, s: string = ArrangerValues.noData): string => {
   switch (key) {
     case ArrangerValues.missing:
       return s;
