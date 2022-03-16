@@ -384,12 +384,17 @@ export const generateFilters = ({
     };
 };
 
-export const generateValueFilter = (
-    field: string,
-    value: string[],
-    index: string,
-    operator: TermOperators = TermOperators.in,
-) => ({
+export const generateValueFilter = ({
+    field,
+    value,
+    index = '',
+    operator = TermOperators.in,
+}: {
+    field: string;
+    value: string[];
+    index?: string;
+    operator?: TermOperators;
+}) => ({
     content: { field, value, index },
     op: operator,
 });
