@@ -414,3 +414,14 @@ export const findSqonValueByField = (field: string, sqon: ISqonGroupFilter, prev
     });
     return value;
 };
+
+export const removeValueFilterFromSqon = (field: string, sqon: ISqonGroupFilter) => ({
+    ...sqon,
+    content: sqon.content.filter(function f(sqon: any): boolean {
+        if (isBooleanOperator(sqon)) {
+            return (sqon.content as TSqonContent).filter(f).length > 0;
+        }
+
+        return !((sqon as IValueFilter).content.field === field);
+    }),
+});
