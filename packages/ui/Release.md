@@ -1,3 +1,6 @@
+### 3.2.1 | 2022-03-22
+- Breaking Changes: QueryBuilder onFacetClick function now has an IValueFilter parameter instead of a string.
+
 ### 3.0.12 | 2022-02-11
 - Fix: Fix QueryBuilder tool hidden when no queries + add new sqon utils functions
 

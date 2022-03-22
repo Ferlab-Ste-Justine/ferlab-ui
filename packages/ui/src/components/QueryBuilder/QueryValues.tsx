@@ -16,26 +16,28 @@ import { keyEnhance } from '../../data/arranger/formatting';
 import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
 
 interface IQueryValuesProps {
-    query: IValueFilter;
+    valueFilter: IValueFilter;
     isElement?: boolean;
     onClick?: (e: any) => void;
     dictionary: IDictionary;
 }
 
-const QueryValues = ({ isElement = false, query, onClick, dictionary = {} }: IQueryValuesProps) => {
-    const hasMoreValues = query.content.value.length > 3;
+const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} }: IQueryValuesProps) => {
+    const hasMoreValues = valueFilter.content.value.length > 3;
     const [expanded, setExpanded] = useState(false);
-    const [values, setValues] = useState(hasMoreValues ? take(query.content.value, 3) : query.content.value);
+    const [values, setValues] = useState(
+        hasMoreValues ? take(valueFilter.content.value, 3) : valueFilter.content.value,
+    );
 
     const getMappedValueName = (value: string) => {
-        const facetMapping = get(get(dictionary.query, 'facetValueMapping', {}), query.content.field, {});
+        const facetMapping = get(get(dictionary.query, 'facetValueMapping', {}), valueFilter.content.field, {});
         return removeUnderscoreAndCapitalize(value in facetMapping ? facetMapping[value] : value);
     };
 
     useEffect(() => {
-        const newValues = !hasMoreValues || expanded ? query.content.value : take(query.content.value, 3);
+        const newValues = !hasMoreValues || expanded ? valueFilter.content.value : take(valueFilter.content.value, 3);
         setValues(newValues);
-    }, [expanded, query]);
+    }, [expanded, valueFilter]);
     const totalValues = values.length;
     return (
         <StackLayout

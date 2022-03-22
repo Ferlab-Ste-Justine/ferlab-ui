@@ -57,7 +57,7 @@ export type TOnSavedFilterChange = (savedFilter: ISavedFilter) => void;
 export type TCallbackRemoveAction = (f: IValueFilter, query: ISyntheticSqon | Record<string, never>) => void;
 export type TCallbackRemoveReferenceAction = (refIndex: number, query: ISyntheticSqon | Record<string, never>) => void;
 export type TOnChange = (id: string, query: ISyntheticSqon | Record<string, never>) => void;
-export type TOnFacetClick = (field: string) => void;
+export type TOnFacetClick = (filter: IValueFilter) => void;
 
 // Dictionnary Types
 

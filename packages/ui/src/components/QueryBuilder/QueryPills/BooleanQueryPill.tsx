@@ -41,7 +41,7 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
                         isBarActive={props.isActive}
                         dictionary={props.dictionary}
                         onRemove={() => props.onRemoveFacet(f, props.query)}
-                        query={f as IValueFilter}
+                        valueFilter={f as IValueFilter}
                         showLabels={props.showLabels}
                         facetFilterConfig={props.facetFilterConfig}
                     />

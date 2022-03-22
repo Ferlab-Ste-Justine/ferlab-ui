@@ -22,7 +22,7 @@ import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss'
 
 interface IFieldQueryPillProps {
     isBarActive?: boolean;
-    query: IValueFilter;
+    valueFilter: IValueFilter;
     dictionary?: IDictionary;
     showLabels?: boolean;
     onRemove: () => void;
@@ -54,7 +54,7 @@ const Operator = ({ className = '', type }: IOperatorProps) => {
 };
 
 const FieldQueryPill = ({
-    query,
+    valueFilter,
     dictionary = {},
     showLabels,
     onRemove,
@@ -66,14 +66,14 @@ const FieldQueryPill = ({
     const [dropdownContent, setDropdownContent] = useState(facetFilterConfig.selectedFilterContent);
     const handleQueryPillClick = (isBarActive: boolean) => {
         if (isBarActive && facetFilterConfig.onFacetClick) {
-            facetFilterConfig.onFacetClick(query.content.field);
+            facetFilterConfig.onFacetClick(valueFilter);
             setTryOpenQueryPillFilter(false);
         } else {
             setTryOpenQueryPillFilter(true);
         }
     };
     const isFacetFilterEnableForField = () => {
-        return facetFilterConfig.enable && !facetFilterConfig.blacklistedFacets?.includes(query.content.field);
+        return facetFilterConfig.enable && !facetFilterConfig.blacklistedFacets?.includes(valueFilter.content.field);
     };
 
     useEffect(() => {
@@ -90,12 +90,14 @@ const FieldQueryPill = ({
 
     return (
         <StackLayout className={cx(styles.queryPillContainer, { [styles.selected]: isBarActive })} flexOwn>
-            {(showLabels || isBooleanFilter(query) || isRangeFilter(query)) && (
+            {(showLabels || isBooleanFilter(valueFilter) || isRangeFilter(valueFilter)) && (
                 <>
                     <span className={`${styles.field}`}>
-                        {dictionary.query?.facet ? dictionary.query?.facet(query.content.field) : query.content.field}
+                        {dictionary.query?.facet
+                            ? dictionary.query?.facet(valueFilter.content.field)
+                            : valueFilter.content.field}
                     </span>
-                    <Operator className={styles.operator} type={query.op} />
+                    <Operator className={styles.operator} type={valueFilter.op} />
                 </>
             )}
 
@@ -135,9 +137,9 @@ const FieldQueryPill = ({
             >
                 <QueryValues
                     onClick={isFacetFilterEnableForField() ? () => handleQueryPillClick(isBarActive!) : undefined}
-                    isElement={query.op === FieldOperators.between}
+                    isElement={valueFilter.op === FieldOperators.between}
                     dictionary={dictionary}
-                    query={query}
+                    valueFilter={valueFilter}
                 />
             </ConditionalWrapper>
             <Button className={styles.close} type="text">
