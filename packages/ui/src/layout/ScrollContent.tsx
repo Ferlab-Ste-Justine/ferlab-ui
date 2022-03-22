@@ -10,14 +10,19 @@ export enum StackOrientation {
 }
 
 export type ScrollContentProps = {
+    id?: string;
     children: React.ReactNode;
     className?: string;
     style?: React.CSSProperties;
 };
 
-const ScrollContent: React.FC<ScrollContentProps> = ({ children, className = '', style = {} }) => {
+const ScrollContent: React.FC<ScrollContentProps> = ({ id = '', children, className = '', style = {} }) => {
     return (
-        <SimpleBar className={`ferlabui-scroll-content ${StackOrientation.Vertical} ${className || ''}`} style={style}>
+        <SimpleBar
+            id={id}
+            className={`ferlabui-scroll-content ${StackOrientation.Vertical} ${className || ''}`}
+            style={style}
+        >
             {children}
         </SimpleBar>
     );
