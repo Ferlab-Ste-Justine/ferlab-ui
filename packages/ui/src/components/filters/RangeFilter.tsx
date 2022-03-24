@@ -207,7 +207,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
 
     return (
         <StackLayout className={styles.fuiRfContainer} vertical>
-            {isEmpty(selectedMax) && isEmpty(selectedMin) ? (
+            {isEmpty(filterGroup.config?.max) && isEmpty(filterGroup.config?.min) ? (
                 <Space direction="vertical" className={styles.noResultsText}>
                     {get(dictionary, 'messages.errorNoData', 'No values found for this request')}
                 </Space>
