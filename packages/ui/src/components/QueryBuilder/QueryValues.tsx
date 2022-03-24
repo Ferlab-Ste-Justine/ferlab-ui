@@ -12,6 +12,8 @@ import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
 import { get } from 'lodash';
 import { keyEnhance } from '../../data/arranger/formatting';
+import { FieldOperators } from '../../data/sqon/operators';
+import IntersectionOperator from './icons/IntersectionOperator';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
 
@@ -56,7 +58,12 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
                                 <span className={styles.value}>
                                     {typeof v == 'string' ? getMappedValueName(keyEnhance(v)) : v}
                                 </span>
-                                {totalValues - 1 > i && <UnionOperator className={styles.operator} />}
+                                {totalValues - 1 > i &&
+                                    (valueFilter.op === FieldOperators.all ? (
+                                        <IntersectionOperator className={styles.operator} />
+                                    ) : (
+                                        <UnionOperator className={styles.operator} />
+                                    ))}
                             </StackLayout>
                         ))}
                     </>

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Button, Checkbox, Divider, Tag, Typography, Input } from 'antd';
+import { Button, Checkbox, Divider, Tag, Typography, Input, Dropdown, Menu } from 'antd';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
@@ -13,6 +13,7 @@ import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from './types';
 
 import styles from '@ferlab/style/components/filters/CheckboxFilter.module.scss';
+import { TermOperators } from '../../data/sqon/operators';
 
 export type TermFilterProps = {
     dictionary?: IDictionary | Record<string, never>;
@@ -56,7 +57,7 @@ const CheckboxFilter = ({
         );
     };
 
-    const hangleOnChange = (newFilter: IFilter[]) => {
+    const handleOnChange = (newFilter: IFilter[]) => {
         if (withFooter) {
             setLocalSelectedFilters(newFilter);
         } else {
@@ -73,6 +74,19 @@ const CheckboxFilter = ({
         const cleanedFilteredFilters = filteredFilters.filter((value: IFilter) => !filterIdsToBump.includes(value.id));
 
         return [...selectedFilters, ...cleanedFilteredFilters];
+    };
+
+    const handleOnApply = (operator: TermOperators = TermOperators.in) => {
+        onChange(
+            filterGroup,
+            localselectedFilters.map((filter) => ({
+                ...filter,
+                data: {
+                    ...filter.data,
+                    operator,
+                },
+            })),
+        );
     };
 
     useEffect(() => {
@@ -109,7 +123,7 @@ const CheckboxFilter = ({
                         <StackLayout className={styles.checkboxFilterActions}>
                             <Button
                                 className={styles.checkboxFilterLinks}
-                                onClick={() => hangleOnChange(filters)}
+                                onClick={() => handleOnChange(filters)}
                                 type="text"
                             >
                                 {get(dictionary, 'actions.all', 'Select All')}
@@ -118,7 +132,7 @@ const CheckboxFilter = ({
                             <Divider className={styles.separator} type="vertical" />
                             <Button
                                 className={styles.checkboxFilterLinks}
-                                onClick={() => hangleOnChange([])}
+                                onClick={() => handleOnChange([])}
                                 type="text"
                             >
                                 {get(dictionary, 'actions.none', 'None')}
@@ -153,7 +167,7 @@ const CheckboxFilter = ({
                                                 setLocalSelectedFilters(newFilter);
                                             }
 
-                                            hangleOnChange(newFilter);
+                                            handleOnChange(newFilter);
                                         }}
                                         type="checkbox"
                                     >
@@ -209,15 +223,28 @@ const CheckboxFilter = ({
                     >
                         {get(dictionary, 'actions.clear', 'Clear')}
                     </Button>
-                    <Button
+                    <Dropdown.Button
                         className={styles.fuiCbfActionsApply}
                         disabled={!hasChanged()}
                         type="primary"
                         size="small"
-                        onClick={() => onChange(filterGroup, localselectedFilters)}
+                        overlay={
+                            <Menu onClick={(e) => handleOnApply(e.key as TermOperators)}>
+                                <Menu.Item key={TermOperators.in}>
+                                    {get(dictionary, 'operators.anyOf', 'Any of')}
+                                </Menu.Item>
+                                <Menu.Item key={TermOperators.all}>
+                                    {get(dictionary, 'operators.allOf', 'All of')}
+                                </Menu.Item>
+                                <Menu.Item key={TermOperators['not-in']}>
+                                    {get(dictionary, 'operators.noneOf', 'None of')}
+                                </Menu.Item>
+                            </Menu>
+                        }
+                        onClick={() => handleOnApply(TermOperators.in)}
                     >
                         <span data-key="apply">{get(dictionary, 'actions.apply', 'Apply')}</span>
-                    </Button>
+                    </Dropdown.Button>
                 </StackLayout>
             )}
         </Fragment>

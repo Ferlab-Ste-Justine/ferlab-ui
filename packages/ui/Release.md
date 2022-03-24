@@ -1,3 +1,6 @@
+### 3.3.0 | 2022-03-24
+- feat: Add new facet operator for Checkbox Filter
+
 ### 3.2.1 | 2022-03-22
 - Breaking Changes: QueryBuilder onFacetClick function now has an IValueFilter parameter instead of a string.
 

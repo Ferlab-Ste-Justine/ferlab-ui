@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { RangeOperators } from '../../data/sqon/operators';
+import { RangeOperators, TermOperators } from '../../data/sqon/operators';
 
 export type onChangeType = (fg: IFilterGroup, f: IFilter[]) => void;
 export type onIsOpenChange = (isOpen: boolean) => void;
@@ -21,9 +21,9 @@ export interface IFilterText {
     text: string;
 }
 
-export interface IOperatorConfig {
+export interface IRangeOperatorConfig {
     operator: RangeOperators;
-    name: string | ReactNode;
+    name: ReactNode;
     disableMin?: boolean;
     disableMax?: boolean;
 }
@@ -41,16 +41,16 @@ export interface IFilterRangeConfig {
     max: number | undefined;
     min: number | undefined;
     step?: number | string;
-    operators?: IOperatorConfig[];
+    operators?: IRangeOperatorConfig[];
     rangeTypes?: IFilterRangeTypes[];
     defaultOperator?: RangeOperators;
 }
 
 export interface IFilterTextInputConfig {
-    label: string | ReactNode;
+    label: ReactNode;
     placeholder: string;
     tooltip?: {
-        text: string | ReactNode;
+        text: ReactNode;
     };
     validateInput?: (text: string) => boolean;
 }
@@ -60,13 +60,14 @@ export type TFilterGroupConfig = IFilterRangeConfig | IFilterTextInputConfig | I
 export interface IFilterGroup<T extends TFilterGroupConfig = any> {
     field: string;
     config?: T;
-    title: string | ReactNode;
+    title: ReactNode;
     type: VisualType;
 }
 
 export interface IFilterCount {
     count: number;
     key: string;
+    operator?: TermOperators;
 }
 
 export type TFilterData = IFilterCount | IFilterRange | IFilterText;
@@ -93,33 +94,36 @@ export interface IDictionary {
 }
 
 export interface IActions {
-    all: string | ReactNode;
-    apply: string | ReactNode;
-    clear: string | ReactNode;
-    less: string | ReactNode;
-    more: string | ReactNode;
-    none: string | ReactNode;
+    all: ReactNode;
+    apply: ReactNode;
+    clear: ReactNode;
+    less: ReactNode;
+    more: ReactNode;
+    none: ReactNode;
 }
 
 export interface ICheckBox {
-    searchPlaceholder: string | ReactNode;
+    searchPlaceholder: ReactNode;
 }
 
 export interface IMessages {
-    errorNoData: string | ReactNode;
+    errorNoData: ReactNode;
 }
 
 export interface IRange {
-    max: string | ReactNode;
-    min: string | ReactNode;
-    unit?: string | ReactNode;
-    is?: string | ReactNode;
+    max: ReactNode;
+    min: ReactNode;
+    unit?: ReactNode;
+    is?: ReactNode;
 }
 
 export interface IOperators {
-    between: string | ReactNode;
-    lessThan: string | ReactNode;
-    lessThanOfEqual: string | ReactNode;
-    greaterThan: string | ReactNode;
-    greaterThanOrEqual: string | ReactNode;
+    between?: ReactNode;
+    lessThan?: ReactNode;
+    lessThanOfEqual?: ReactNode;
+    greaterThan?: ReactNode;
+    greaterThanOrEqual?: ReactNode;
+    allOf?: ReactNode;
+    anyOf?: ReactNode;
+    noneOf?: ReactNode;
 }

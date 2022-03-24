@@ -1,6 +1,6 @@
 import qs from 'query-string';
 import get from 'lodash/get';
-import { isEmpty } from 'lodash';
+import { filter, isEmpty } from 'lodash';
 import {
     IFilter,
     IFilterCount,
@@ -18,7 +18,7 @@ import {
     TSyntheticSqonContent,
 } from '../sqon/types';
 import { isFieldOperator, isReference } from '../sqon/utils';
-import { BooleanOperators, FieldOperators, RangeOperators } from '../sqon/operators';
+import { BooleanOperators, FieldOperators, RangeOperators, TermOperators } from '../sqon/operators';
 
 export const getQueryParams = (search: string | null = null) =>
     search ? qs.parse(search) : qs.parse(window.location.search);
@@ -81,7 +81,7 @@ export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[
             if (selectedRange.data.min && selectedRange.data.max) {
                 selectedFilters.push({
                     content: { field, value: [selectedRange.data.min, selectedRange.data.max], index },
-                    op: FieldOperators.between,
+                    op: RangeOperators.between,
                 });
             }
             break;
@@ -90,7 +90,7 @@ export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[
             if (selectedRange.data.max) {
                 selectedFilters.push({
                     content: { field, value: [selectedRange.data.max], index },
-                    op: FieldOperators[selectedRange.data.operator],
+                    op: RangeOperators[selectedRange.data.operator],
                 });
             }
             break;
@@ -99,7 +99,7 @@ export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[
             if (selectedRange.data.min) {
                 selectedFilters.push({
                     content: { field, value: [selectedRange.data.min], index },
-                    op: FieldOperators[selectedRange.data.operator],
+                    op: RangeOperators[selectedRange.data.operator],
                 });
             }
             break;
@@ -110,11 +110,12 @@ export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[
 
 export const createInlineFilters = (field: string, filters: IFilter<IFilterCount>[], index?: string): TSqonContent => {
     const arrayFilters = filters.map((v) => v.data.key);
+    const operator = isEmpty(filters) ? TermOperators.in : filters[0].data.operator || TermOperators.in;
     return arrayFilters.length > 0
         ? [
               {
                   content: { field, value: arrayFilters, index },
-                  op: FieldOperators.in,
+                  op: operator,
               },
           ]
         : [];

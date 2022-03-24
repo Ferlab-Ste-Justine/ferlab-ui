@@ -11,6 +11,7 @@ import GreaterThanOrEqualOperator from '../icons/GreaterThanOrEqualOperator';
 import LessThanOrEqualOperator from '../icons/LessThanOrEqualOperator';
 import GreaterThanOperator from '../icons/GreaterThanOperator';
 import LessThanOperator from '../icons/LessThanOperator';
+import NotInOperator from '../icons/NotInOperator';
 import QueryValues from '../QueryValues';
 import { IDictionary, IFacetFilterConfig } from '../types';
 import { IValueFilter } from '../../../data/sqon/types';
@@ -48,6 +49,8 @@ const Operator = ({ className = '', type }: IOperatorProps) => {
             return <LessThanOrEqualOperator className={className} />;
         case FieldOperators.between:
             return <ElementOperator className={className} />;
+        case FieldOperators['not-in']:
+            return <NotInOperator className={className} />;
         default:
             return <EqualOperator className={className} />;
     }

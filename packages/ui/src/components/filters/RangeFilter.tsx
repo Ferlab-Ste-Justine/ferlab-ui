@@ -16,7 +16,7 @@ import {
     IFilterGroup,
     IFilterRange,
     IFilterRangeConfig,
-    IOperatorConfig,
+    IRangeOperatorConfig,
     onChangeType,
 } from './types';
 
@@ -37,7 +37,7 @@ const DEFAULT_STEP = 1;
 const getDefaultOperatorList = (
     dictionary: IDictionary | undefined,
     defaultOperator: RangeOperators,
-): IOperatorConfig[] => {
+): IRangeOperatorConfig[] => {
     const defaultOperatorList = [
         {
             operator: RangeOperators['<'],
