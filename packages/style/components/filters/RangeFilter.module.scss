@@ -1,107 +1,114 @@
-@import 'theme.template';
+@import "theme.template";
 
 .fuiRfSelectOptionContent {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    .operatorIcon {
-        min-height: 16px;
-        min-width: 16px;
-    }
+  .operatorIcon {
+    min-height: 16px;
+    min-width: 16px;
+  }
 
-    .fuiRfSelectOptionContentTitle {
-        margin-left: 8px;
-    }
+  .fuiRfSelectOptionContentTitle {
+    margin-left: 8px;
+  }
 }
 
 .fuiRfContainer {
-    .fuiRfSectionTitle {
-        color: $filter-input-label-color;
-        margin-bottom: 0.4rem;
-        line-height: 20px;
-        font-weight: $font-weight-bold;
-        font-size: 12px;
+  .fuiRfSectionTitle {
+    color: $filter-input-label-color;
+    margin-bottom: 0.4rem;
+    line-height: 20px;
+    font-weight: $font-weight-bold;
+    font-size: 12px;
+  }
+
+  .fuiRfRangeOperator {
+    margin-bottom: 0.8rem;
+    .fuiRfRangeOperatorSelect {
+      width: 100%;
+
+      .operatorIcon {
+        display: none;
+      }
+
+      .fuiRfSelectOptionContentTitle {
+        margin-left: 0px;
+      }
     }
-    
-    .fuiRfRangeOperator {
-        margin-bottom: 0.8rem;
-        .fuiRfRangeOperatorSelect {
-            width: 100%;
+  }
 
-            .operatorIcon {
-                display: none;
-            }
+  .fuiRfGroupedValues {
+    justify-content: space-between;
 
-            .fuiRfSelectOptionContentTitle {
-                margin-left: 0px;
-            }
+    .fuiRfRangeInputContainer {
+      flex-shrink: unset;
+      width: 100%;
+
+      &:first-child {
+        margin-right: 0.4rem;
+      }
+
+      &:last-child {
+        margin-left: 0.4rem;
+      }
+
+      .rangeInput {
+        width: 100%;
+
+        :global(div[class$="handler-wrap"]) {
+          display: none;
         }
-    }    
+      }
+    }
+  }
 
-    .fuiRfGroupedValues {
-        justify-content: space-between;
+  .fuiRfRangeTarget {
+    margin-top: 0.8rem;
+    .fuiRfRangeTargetSelect {
+      width: 100%;
+    }
+  }
 
-        .fuiRfRangeInputContainer {
-            flex-shrink: unset;
-            width: 100%;
+  .fuiRfActions {
+    border-top: 1px solid $filter-actions-border-color;
+    justify-content: flex-end;
+    padding-top: 16px;
+    margin-top: 13px;
 
-            &:first-child {
-                margin-right: 0.4rem;
-            }
+    .fuiRfActionsClear {
+      &:disabled {
+        color: $filter-actions-disabled-color;
 
-            &:last-child {
-                margin-left: 0.4rem;
-            }
-
-            .rangeInput {
-                width: 100%;
-
-                :global(div[class$="handler-wrap"]) {
-                    display: none;
-                }
-            }
+        span {
+          text-decoration: none;
+          color: $filter-actions-disabled-color;
         }
+      }
     }
 
-    .fuiRfRangeTarget {
-        margin-top: 0.8rem;
-       .fuiRfRangeTargetSelect {
-           width: 100%;
-       }
+    .fuiRfActionsApply {
+      &:disabled {
+        color: $filter-actions-disabled-color;
+
+        span {
+          text-decoration: none;
+          color: $filter-actions-disabled-color;
+        }
+      }
     }
 
-    .fuiRfActions {
-        border-top: 1px solid $filter-actions-border-color;
-        justify-content: flex-end;
-        padding-top: 16px;
-        margin-top: 13px;
-
-        .fuiRfActionsClear {
-            &:disabled {
-                color: $filter-actions-disabled-color;
-
-                span {
-                    text-decoration: none;
-                    color: $filter-actions-disabled-color;
-                }
-            }
-        }
-
-        .fuiRfActionsApply {
-            &:disabled {
-                color: $filter-actions-disabled-color;
-
-                span {
-                    text-decoration: none;
-                    color: $filter-actions-disabled-color;
-                }
-            }
-        }
-
-        > * {
-            text-transform: capitalize;
-            margin-left: 8px;
-        }
+    > * {
+      text-transform: capitalize;
+      margin-left: 8px;
     }
+  }
 }
 
+.noResultsText {
+  background: $filter-no-results-text-background-color;
+  color: $filter-no-results-text-color;
+  font-size: 14px;
+  line-height: 22px;
+  padding: 8px 16px;
+}

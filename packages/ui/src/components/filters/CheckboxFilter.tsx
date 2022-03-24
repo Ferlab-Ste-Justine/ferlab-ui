@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Button, Checkbox, Divider, Tag, Typography, Input, Dropdown, Menu } from 'antd';
+import { Button, Checkbox, Divider, Tag, Typography, Input, Dropdown, Menu, Space } from 'antd';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
@@ -117,7 +117,12 @@ const CheckboxFilter = ({
                     />
                 </div>
             )}
-            {filteredFilters.length > 0 && (
+
+            {isEmpty(filteredFilters) ? (
+                <Space direction="vertical" className={styles.noResultsText}>
+                    {get(dictionary, 'messages.errorNoData', 'No values found for this request')}
+                </Space>
+            ) : (
                 <StackLayout className={styles.checkboxFilter} vertical>
                     {showSelectAll && (
                         <StackLayout className={styles.checkboxFilterActions}>
@@ -202,13 +207,6 @@ const CheckboxFilter = ({
                             </Button>
                         )
                     )}
-                </StackLayout>
-            )}
-            {filteredFilters.length === 0 && (
-                <StackLayout className="fui-no-filters" vertical>
-                    <span className={styles.noResultsText}>
-                        {get(dictionary, 'messages.errorNoData', 'No values found for this request')}
-                    </span>
                 </StackLayout>
             )}
 
