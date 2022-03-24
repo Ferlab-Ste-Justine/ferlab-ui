@@ -223,7 +223,6 @@ const CheckboxFilter = ({
                     </Button>
                     <Dropdown.Button
                         className={styles.fuiCbfActionsApply}
-                        disabled={!hasChanged()}
                         type="primary"
                         size="small"
                         overlay={

@@ -21,7 +21,7 @@ import {
 } from './types';
 
 import styles from '@ferlab/style/components/filters/RangeFilter.module.scss';
-import { isEmpty } from 'lodash';
+import { isEmpty, isNull } from 'lodash';
 
 const { Option } = Select;
 
@@ -207,7 +207,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
 
     return (
         <StackLayout className={styles.fuiRfContainer} vertical>
-            {isEmpty(filterGroup.config?.max) && isEmpty(filterGroup.config?.min) ? (
+            {isNull(filterGroup.config?.min) && isNull(filterGroup.config?.min) ? (
                 <Space direction="vertical" className={styles.noResultsText}>
                     {get(dictionary, 'messages.errorNoData', 'No values found for this request')}
                 </Space>
