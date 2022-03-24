@@ -225,6 +225,7 @@ const CheckboxFilter = ({
                         className={styles.fuiCbfActionsApply}
                         type="primary"
                         size="small"
+                        disabled={isEmpty(filteredFilters)}
                         overlay={
                             <Menu onClick={(e) => handleOnApply(e.key as TermOperators)}>
                                 <Menu.Item key={TermOperators.in}>
