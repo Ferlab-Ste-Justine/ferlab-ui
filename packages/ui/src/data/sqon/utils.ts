@@ -329,12 +329,14 @@ export const addFieldToActiveQuery = ({
     history,
     index,
     merge_stategy = MERGE_VALUES_STRATEGIES.APPEND_VALUES,
+    operator = TermOperators.in,
 }: {
     field: string;
     value: Array<string | number | boolean>;
     history: any;
     index?: string;
     merge_stategy?: MERGE_VALUES_STRATEGIES;
+    operator?: TermOperators;
 }) => {
     let newSqon;
     const filter = getFiltersQuery();
@@ -344,7 +346,7 @@ export const addFieldToActiveQuery = ({
             index,
             value,
         },
-        op: TermOperators.in,
+        op: operator,
     };
 
     if (!isEmpty(filter)) {
