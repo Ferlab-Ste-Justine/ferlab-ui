@@ -352,7 +352,7 @@ export const addFieldToActiveQuery = ({
     if (!isEmpty(filter)) {
         newSqon = deepMergeSqonValue(filter, newSqonContent, {
             values: merge_stategy,
-            operator: MERGE_OPERATOR_STRATEGIES.KEEP_OPERATOR,
+            operator: MERGE_OPERATOR_STRATEGIES.OVERRIDE_OPERATOR,
         });
     } else {
         newSqon = getDefaultSyntheticSqon();
