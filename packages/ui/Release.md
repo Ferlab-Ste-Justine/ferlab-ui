@@ -1,3 +1,6 @@
+### 3.3.5 | 2022-03-28
+- feat: Add facet name as ReactNode.
+
 ### 3.3.0 | 2022-03-24
 - feat: Add new facet operator for Checkbox Filter
 

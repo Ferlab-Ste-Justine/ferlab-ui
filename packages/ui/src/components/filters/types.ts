@@ -74,7 +74,7 @@ export type TFilterData = IFilterCount | IFilterRange | IFilterText;
 
 export interface IFilter<T extends TFilterData = any> {
     data: T;
-    name: string;
+    name: ReactNode;
     id: string; //  dash (-) separated key
 }
 

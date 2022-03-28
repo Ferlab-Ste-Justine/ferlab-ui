@@ -32,7 +32,7 @@ const ToggleFilter = ({ filterGroup, filters, onChange, selectedFilters = [], di
         return {
             label: (
                 <>
-                    {removeUnderscoreAndCapitalize(filter.name)}
+                    {typeof filter.name === 'string' ? removeUnderscoreAndCapitalize(filter.name) : filter.name}
                     <Tag className={styles.tag}>{numberFormat(count)}</Tag>
                 </>
             ),

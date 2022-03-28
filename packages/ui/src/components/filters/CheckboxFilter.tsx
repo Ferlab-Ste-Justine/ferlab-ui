@@ -44,9 +44,12 @@ const CheckboxFilter = ({
     const showMoreReadOnly = get(filterGroup.config, 'showMoreReadOnly', false);
     const showSelectAll = get(filterGroup.config, 'showSelectAll', true);
 
-    const getMappedName = (name: string) => {
-        return removeUnderscoreAndCapitalize(filterGroup.config?.nameMapping[name] || name);
-    };
+    const getMappedName = (filter: IFilter) =>
+        typeof filter.name === 'string'
+            ? removeUnderscoreAndCapitalize(
+                  (filterGroup.config?.nameMapping && filterGroup.config?.nameMapping[filter.id]) || filter.name,
+              )
+            : filter.name;
 
     const hasChanged = () => {
         if (localselectedFilters.length != selectedFilters.length) return true;
@@ -176,7 +179,7 @@ const CheckboxFilter = ({
                                         }}
                                         type="checkbox"
                                     >
-                                        <Text>{getMappedName(filter.name)}</Text>
+                                        <Text>{getMappedName(filter)}</Text>
                                     </Checkbox>
                                     <Tag className={styles.tag}>{numberFormat(filter.data.count)}</Tag>
                                 </StackLayout>
