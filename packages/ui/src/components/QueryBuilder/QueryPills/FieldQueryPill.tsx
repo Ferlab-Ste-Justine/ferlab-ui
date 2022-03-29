@@ -50,6 +50,7 @@ const Operator = ({ className = '', type }: IOperatorProps) => {
         case FieldOperators.between:
             return <ElementOperator className={className} />;
         case FieldOperators['not-in']:
+        case FieldOperators['some-not-in']:
             return <NotInOperator className={className} />;
         default:
             return <EqualOperator className={className} />;
