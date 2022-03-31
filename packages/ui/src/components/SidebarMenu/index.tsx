@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Input, Menu, AutoComplete } from 'antd';
-import StackLayout from '../../layout/StackLayout';
-import ScrollView from '../../layout/ScrollView';
+import React, { useCallback,useEffect, useRef, useState } from 'react';
 import { InfoCircleOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { AutoComplete, Input, InputRef,Menu } from 'antd';
+
+import ScrollView from '../../layout/ScrollView';
+import StackLayout from '../../layout/StackLayout';
+
 import SearchIcon from './icons/SearchIcon';
 import SidebarMenuContentPanel from './SidebarMenuContentPanel';
 
@@ -44,22 +46,22 @@ const Sidebar = ({
     enableQuickFilter = false,
     defaultSelectedKey = undefined,
     toggleIcon = {
-        open: <MenuUnfoldOutlined />,
         close: <MenuFoldOutlined />,
+        open: <MenuUnfoldOutlined />,
     },
     quickFilterIcon = undefined,
     locale = {
         quickFilter: {
-            placeholder: 'Quick filter...',
             menuTitle: 'Quick Filter',
+            placeholder: 'Quick filter...',
         },
     },
     menuItems,
-}: ISidebarMenuProps) => {
+}: ISidebarMenuProps): React.ReactElement => {
     const [quickFilter, setQuickFilter] = useState('');
     const [collapsed, setCollapsed] = useState<boolean>(false);
     const [selectedKey, setSelectedKey] = useState<string>('');
-    const searchInputRef = useRef<Input>(null);
+    const searchInputRef = useRef<InputRef>(null);
     const selectedFilterComponent = menuItems.find((menuItem) => menuItem.key == selectedKey);
     const handleUserKeyUp = useCallback((e) => {
         const activeElement = document.activeElement?.getAttribute('data-key');
@@ -114,9 +116,9 @@ const Sidebar = ({
                     </div>
                     <ScrollView>
                         <Menu
-                            mode="inline"
-                            inlineCollapsed={collapsed}
                             className={styles.sidebarMenu}
+                            inlineCollapsed={collapsed}
+                            mode="inline"
                             onClick={(item) => {
                                 const cKey = item.key.toString();
                                 if (cKey == SEARCH_KEY) {
@@ -129,29 +131,29 @@ const Sidebar = ({
                             {enableQuickFilter &&
                                 (collapsed ? (
                                     <Menu.Item
-                                        tabIndex={0}
                                         className={styles.sidebarMenuItem}
-                                        key={SEARCH_KEY}
                                         icon={quickFilterIcon ? quickFilterIcon : <SearchIcon />}
+                                        key={SEARCH_KEY}
+                                        tabIndex={0}
                                     >
                                         {locale.quickFilter?.menuTitle}
                                     </Menu.Item>
                                 ) : (
                                     <div className={`${styles.searchMenuItem}`}>
                                         <AutoComplete
-                                            tabIndex={0}
                                             allowClear
                                             className={styles.searchInput}
                                             onChange={(value: string) => {
                                                 setQuickFilter(value ? value : '');
                                             }}
                                             options={[]}
+                                            tabIndex={0}
                                             value={quickFilter}
                                         >
                                             <Input
-                                                ref={searchInputRef}
                                                 placeholder={locale.quickFilter?.placeholder}
                                                 prefix={quickFilterIcon ? quickFilterIcon : <SearchIcon />}
+                                                ref={searchInputRef}
                                                 suffix={<InfoCircleOutlined></InfoCircleOutlined>}
                                             />
                                         </AutoComplete>
@@ -159,11 +161,11 @@ const Sidebar = ({
                                 ))}
                             {menuItems.map((menuItem) => (
                                 <Menu.Item
-                                    data-key={menuItem.key}
-                                    tabIndex={0}
                                     className={styles.sidebarMenuItem}
-                                    key={menuItem.key}
+                                    data-key={menuItem.key}
                                     icon={menuItem.icon}
+                                    key={menuItem.key}
+                                    tabIndex={0}
                                 >
                                     <span className={styles.sidebarMenuItemTitle}>{menuItem.title}</span>
                                 </Menu.Item>
@@ -173,8 +175,8 @@ const Sidebar = ({
                 </StackLayout>
             </div>
             <SidebarMenuContentPanel
-                isOpen={selectedKey.length > 0 && selectedKey != SEARCH_KEY}
                 className={contentPanelClassName}
+                isOpen={selectedKey.length > 0 && selectedKey != SEARCH_KEY}
                 onClose={() => setSelectedKey('')}
             >
                 {getSelectedFilterComponentByType()}

@@ -1,3 +1,5 @@
+### 3.3.9 | 2022-03-31
+- fix: Build erreor With sidebarMenu
 ### 3.3.5 | 2022-03-28
 - feat: Add facet name as ReactNode.
 
