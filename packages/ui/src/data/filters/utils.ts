@@ -19,14 +19,59 @@ import {
 } from '../sqon/types';
 import { isFieldOperator, isReference } from '../sqon/utils';
 import { BooleanOperators, FieldOperators, RangeOperators, TermOperators } from '../sqon/operators';
+import { getActiveQuery } from '../../components/QueryBuilder/utils/useQueryBuilderState';
 
 export const getQueryParams = (search: string | null = null) =>
     search ? qs.parse(search) : qs.parse(window.location.search);
 
+/** @deprecated */
 export const updateFilters = (history: any, filterGroup: IFilterGroup, selected: IFilter[], index?: string): void => {
     const newSelectedFilters: TSqonContent = createSQONFromFilters(filterGroup, selected, index);
 
     updateQueryFilters(history, filterGroup.field, newSelectedFilters);
+};
+
+/** V2 of updateFilters */
+export const getUpdatedActiveQuery = ({
+    queryBuilderId,
+    filterGroup,
+    selected,
+    index,
+}: {
+    queryBuilderId: string;
+    filterGroup: IFilterGroup;
+    selected: IFilter[];
+    index?: string;
+}): ISyntheticSqon => {
+    const operator = BooleanOperators.and;
+    const currentFilter = getActiveQuery(queryBuilderId);
+    const filters: TSqonContent = createSQONFromFilters(filterGroup, selected, index);
+
+    let newQuery: ISyntheticSqon = { content: filters, op: operator };
+
+    if (!isEmpty(currentFilter)) {
+        const results = getFilterWithNoSelection(currentFilter, filterGroup.field);
+
+        const fieldIndex = results[0];
+        const filterWithoutSelection = results[1] as ISyntheticSqon;
+
+        if (isEmpty(filterWithoutSelection.content) && isEmpty(filters)) {
+            newQuery = { content: [], op: operator };
+        } else {
+            if (fieldIndex >= 0) {
+                filterWithoutSelection.content.splice(fieldIndex as number, 0, ...filters);
+            } else {
+                filterWithoutSelection.content = [...filterWithoutSelection.content, ...filters];
+            }
+
+            newQuery = {
+                ...filterWithoutSelection,
+                content: [...filterWithoutSelection.content],
+            };
+        }
+    }
+
+    return newQuery;
 };
 
 export const getFilterType = (fieldType: string): VisualType => {
@@ -121,6 +166,7 @@ export const createInlineFilters = (field: string, filters: IFilter<IFilterCount
         : [];
 };
 
+/** @deprecated */
 export const updateQueryFilters = (
     history: any,
     field: string,
@@ -209,6 +255,7 @@ export const readQueryParam = <T = ''>(key: string, options: IValues<T>, search:
     return get<any, any, T>(query, key, options.defaultValue)!;
 };
 
+/** @deprecated */
 export const getFiltersQuery = (search: any = null): ISyntheticSqon => {
     const filters = readQueryParam('filters', { defaultValue: JSON.stringify({}) }, search);
 
@@ -231,8 +278,16 @@ const getSelectedFiltersOther = (filters: IFilter[], filterGroup: IFilterGroup, 
     }, []);
 };
 
-export const getSelectedFilters = (filters: IFilter[], filterGroup: IFilterGroup): IFilter[] => {
-    const selectedFilters = getFiltersQuery();
+export const getSelectedFilters = ({
+    queryBuilderId,
+    filters,
+    filterGroup,
+}: {
+    queryBuilderId: string;
+    filters: IFilter[];
+    filterGroup: IFilterGroup;
+}): IFilter[] => {
+    const selectedFilters = getActiveQuery(queryBuilderId);
     if (isEmpty(selectedFilters)) {
         return [];
     }
@@ -287,7 +342,7 @@ export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGr
     if (isReference(filters)) {
         return false;
     } else if (isFieldOperator(filters)) {
-        const valueContent = (filters.content as unknown) as IValueContent;
+        const valueContent = filters.content as unknown as IValueContent;
         return valueContent.value.includes(key) && valueContent.field === filterGroup.field;
     } else {
         return filters.content.reduce(
@@ -297,10 +352,9 @@ export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGr
     }
 };
 
-const emptySqon = { content: [], op: BooleanOperators.and };
-
+/** @deprecated */
 export const useFilters = (filterKey: string = 'filters') => {
-    var filters = { filters: emptySqon };
+    var filters = { filters: { content: [], op: BooleanOperators.and } };
     const searchParams = new URLSearchParams(window.location.search);
 
     if (searchParams.has(filterKey) && searchParams.get(filterKey)) {
@@ -315,6 +369,7 @@ export const useFilters = (filterKey: string = 'filters') => {
     return filters;
 };
 
+/** @deprecated */
 export const getQueryBuilderCache = (type: string): any => {
     const items = localStorage.getItem(`query-builder-cache-${type}`);
 
@@ -347,6 +402,7 @@ export const getQueryBuilderCache = (type: string): any => {
     }
 };
 
+/** @deprecated */
 export const setQueryBuilderCache = (type: string, items: any): void => {
     localStorage.setItem(`query-builder-cache-${type}`, JSON.stringify(items));
 };

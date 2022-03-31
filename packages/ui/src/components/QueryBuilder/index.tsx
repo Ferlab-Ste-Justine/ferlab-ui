@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
-import { cloneDeep, isEqual } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { createBrowserHistory, History } from 'history';
 import isEmpty from 'lodash/isEmpty';
 
@@ -16,9 +16,9 @@ import {
     IFacetFilterConfig,
     IQueryBuilderHeaderConfig,
     IQueriesState,
+    IQueryBuilderState,
 } from './types';
 import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
-import { getQueryBuilderCache, getQueryParams, setQueryBuilderCache, updateQueryParam } from '../../data/filters/utils';
 import {
     changeCombineOperator,
     getDefaultSyntheticSqon,
@@ -28,11 +28,12 @@ import {
     removeContentFromSqon,
     removeSqonAtIndex,
 } from '../../data/sqon/utils';
+import { getQueryBuilderState, setQueryBuilderState } from './utils/useQueryBuilderState';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
 
 export interface IQueryBuilderProps {
-    cacheKey: string;
+    id: string;
     history?: History;
     filtersKey?: string;
     className?: string;
@@ -41,31 +42,21 @@ export interface IQueryBuilderProps {
     IconTotal?: React.ReactNode;
     currentQuery?: ISyntheticSqon | Record<string, never>;
     onChangeQuery?: TOnChange;
-    onUpdate?: (state: IInitialQueryState) => void;
+    onUpdate?: (state: IQueryBuilderState) => void;
     loading?: boolean;
     enableCombine?: boolean;
     enableSingleQuery?: boolean;
     enableShowHideLabels?: boolean;
     initialShowLabelState?: boolean;
-    initialState?: IInitialQueryState | Record<any, any>;
+    initialState?: IQueryBuilderState | Record<any, any>;
     referenceColors?: ArrayTenOrMore<string>;
     headerConfig?: IQueryBuilderHeaderConfig;
     facetFilterConfig?: IFacetFilterConfig;
 }
 
-interface IInitialQueryState {
-    state: ISyntheticSqon[];
-    active: string;
-}
-
-const getUpdatedState = (state: ISyntheticSqon[], active: string): IInitialQueryState => ({
-    active,
-    state,
-});
-
 const QueryBuilder = ({
     className = '',
-    cacheKey = '',
+    id = '',
     filtersKey = 'filters',
     history = createBrowserHistory(),
     dictionary = {},
@@ -122,8 +113,8 @@ const QueryBuilder = ({
 }: IQueryBuilderProps) => {
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
     const [queriesState, setQueriesState] = useState<IQueriesState>({
-        activeId: initialState?.active || getQueryBuilderCache(cacheKey).active || v4(),
-        queries: initialState?.state || getQueryBuilderCache(cacheKey).state || [],
+        activeId: initialState?.active || getQueryBuilderState(id)?.active || v4(),
+        queries: initialState?.state || getQueryBuilderState(id)?.state || [],
     });
     const [queryBuilderCollapsed, toggleQueryBuilder] = useState(false);
     const [showLabels, setShowLabels] = useState(initialShowLabelState);
@@ -235,8 +226,11 @@ const QueryBuilder = ({
         return newQueries;
     };
 
-    const onQueryChange = (id: string, query: ISyntheticSqon | Record<string, never>) =>
-        onChangeQuery ? onChangeQuery(id, query) : updateQueryParam(history, filtersKey, query);
+    const onQueryChange = (id: string, query: ISyntheticSqon | Record<string, never>) => {
+        if (onChangeQuery) {
+            onChangeQuery(id, query);
+        }
+    };
 
     const onCombineClick = (operator: BooleanOperators) => {
         addNewQuery(v4(), operator, selectedQueryIndices.sort());
@@ -307,8 +301,6 @@ const QueryBuilder = ({
             if (current.content && current.content.length > 0 && isEmpty(currentQuery)) {
                 deleteQueryAndSetNext(queriesState.activeId);
             } else {
-                const hasQuery = queriesState.queries.find(({ id }) => id === currentQuery.id);
-
                 let tmpQuery = queriesState.queries.map((obj) => {
                     // Ensure there is always a op and content
                     if (obj.id === queriesState.activeId) {
@@ -335,11 +327,14 @@ const QueryBuilder = ({
     }, [JSON.stringify(currentQuery), total]);
 
     useEffect(() => {
-        const newState = getUpdatedState(queriesState.queries, queriesState.activeId);
+        const newState = {
+            active: queriesState.activeId,
+            state: queriesState.queries,
+        };
         if (onUpdate) {
             onUpdate(newState);
         } else {
-            setQueryBuilderCache(cacheKey, newState);
+            setQueryBuilderState(id, newState);
         }
     }, [queriesState]);
 
