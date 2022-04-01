@@ -13,7 +13,7 @@ import {
 export const QB_UPDATE_EVENT_KEY = 'QBCacheUpdate';
 export const QB_CACHE_KEY_PREFIX = 'query-builder-cache';
 
-type TQBUpdateEvent = Event & {
+type TQBStateUpdateEvent = Event & {
     qbID?: string;
     value?: IQueryBuilderState;
 };
@@ -184,7 +184,7 @@ const updateQuery = ({ queryBuilderId, query }: { queryBuilderId: string; query:
  * ```
  */
 export const setQueryBuilderState = (queryBuilderId: string, value: IQueryBuilderState) => {
-    const QBUpdateEvent: TQBUpdateEvent = new Event(QB_UPDATE_EVENT_KEY);
+    const QBUpdateEvent: TQBStateUpdateEvent = new Event(QB_UPDATE_EVENT_KEY);
 
     QBUpdateEvent.qbID = queryBuilderId;
     QBUpdateEvent.value = value;
@@ -212,7 +212,7 @@ const useQueryBuilderState = (queryBuilderId: string) => {
     const [state, setState] = useState<IQueryBuilderState | undefined>(getQueryBuilderState(queryBuilderId));
 
     useEffect(() => {
-        const listener = (event: TQBUpdateEvent) => {
+        const listener = (event: TQBStateUpdateEvent) => {
             if (event.qbID === queryBuilderId) {
                 setState({
                     active: event.value?.active ?? v4(),
