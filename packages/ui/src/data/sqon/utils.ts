@@ -1,5 +1,14 @@
 import { cloneDeep, isEmpty, merge, union } from 'lodash';
 import { v4 } from 'uuid';
+import {
+    IFilter,
+    IFilterCount,
+    IFilterGroup,
+    IFilterRange,
+    IFilterText,
+    VisualType,
+} from '../../components/filters/types';
+import { getActiveQuery } from '../../components/QueryBuilder/utils/useQueryBuilderState';
 import { getFiltersQuery, updateQueryParam } from '../filters/utils';
 
 import { BooleanOperators, FieldOperators, RangeOperators, TermOperators } from './operators';
@@ -231,13 +240,13 @@ export const termToSqon = ({ field, value }: IValueContent) => ({
         field: field,
         value: [value].flat(),
     },
-    op: 'in',
+    op: TermOperators.in,
 });
 
 export const addToSqons = ({ fieldsWValues, sqons }: { fieldsWValues: IValueContent[]; sqons: ISyntheticSqon[] }) => {
     const currentSqon = {
         content: fieldsWValues.map(({ field, value }) => ({ ...termToSqon({ field, value }) })),
-        op: 'and',
+        op: BooleanOperators.and,
     };
 
     if (!sqons || sqons.length === 0) {
@@ -323,23 +332,23 @@ const deeplySetSqonValue = (sourceSqon: ISyntheticSqon, newSqon: IValueFilter, o
     return found;
 };
 
-export const addFieldToActiveQuery = ({
+export const deepMergeFieldInActiveQuery = ({
+    queryBuilderId,
     field,
     value,
-    history,
     index,
-    merge_stategy = MERGE_VALUES_STRATEGIES.APPEND_VALUES,
+    merge_strategy = MERGE_VALUES_STRATEGIES.APPEND_VALUES,
     operator = TermOperators.in,
 }: {
+    queryBuilderId: string;
     field: string;
     value: Array<string | number | boolean>;
-    history: any;
     index?: string;
-    merge_stategy?: MERGE_VALUES_STRATEGIES;
+    merge_strategy?: MERGE_VALUES_STRATEGIES;
     operator?: TermOperators;
 }) => {
     let newSqon;
-    const filter = getFiltersQuery();
+    const activeQuery = getActiveQuery(queryBuilderId);
     const newSqonContent = {
         content: {
             field,
@@ -349,9 +358,9 @@ export const addFieldToActiveQuery = ({
         op: operator,
     };
 
-    if (!isEmpty(filter)) {
-        newSqon = deepMergeSqonValue(filter, newSqonContent, {
-            values: merge_stategy,
+    if (!isEmpty(activeQuery)) {
+        newSqon = deepMergeSqonValue(activeQuery, newSqonContent, {
+            values: merge_strategy,
             operator: MERGE_OPERATOR_STRATEGIES.OVERRIDE_OPERATOR,
         });
     } else {
@@ -359,7 +368,7 @@ export const addFieldToActiveQuery = ({
         newSqon.content = [newSqonContent];
     }
 
-    updateQueryParam(history, 'filters', newSqon);
+    return newSqon;
 };
 
 export const generateFilters = ({
@@ -427,3 +436,254 @@ export const removeValueFilterFromSqon = (field: string, sqon: ISqonGroupFilter)
         return !((sqon as IValueFilter).content.field === field);
     }),
 });
+
+export const getUpdatedActiveQueryByFilterGroup = ({
+    queryBuilderId,
+    filterGroup,
+    selectedFilters,
+    index,
+}: {
+    queryBuilderId: string;
+    filterGroup: IFilterGroup;
+    selectedFilters: IFilter[];
+    index?: string;
+}): ISyntheticSqon =>
+    getUpdatedActiveQuery({
+        queryBuilderId,
+        field: filterGroup.field,
+        sqonContent: createSQONFromFilters(filterGroup, selectedFilters, index),
+    });
+
+export const getUpdatedActiveQuery = ({
+    queryBuilderId,
+    field,
+    sqonContent,
+    operator = BooleanOperators.and,
+}: {
+    queryBuilderId: string;
+    field: string;
+    sqonContent: TSyntheticSqonContent;
+    operator?: TSqonGroupOp;
+}): ISyntheticSqon => {
+    const activeQuery = getActiveQuery(queryBuilderId);
+    let newQuery: ISyntheticSqon = { content: sqonContent, op: operator };
+
+    if (!isEmpty(activeQuery)) {
+        const results = getFilterWithNoSelection(activeQuery, field);
+
+        const fieldIndex = results[0];
+        const filterWithoutSelection = results[1] as ISyntheticSqon;
+
+        if (isEmpty(filterWithoutSelection.content) && isEmpty(activeQuery)) {
+            newQuery = { content: [], op: operator };
+        } else {
+            if (fieldIndex >= 0) {
+                filterWithoutSelection.content.splice(fieldIndex as number, 0, ...sqonContent);
+            } else {
+                filterWithoutSelection.content = [...filterWithoutSelection.content, ...sqonContent];
+            }
+
+            newQuery = {
+                ...filterWithoutSelection,
+                content: [...filterWithoutSelection.content],
+            };
+        }
+    }
+
+    return newQuery;
+};
+
+const getFilterWithNoSelection = (filters: ISyntheticSqon, field: string) => {
+    let fieldIndex = -1;
+    const filtered = filters.content.filter((filter: any, index: number) => {
+        if (isReference(filter)) {
+            return true;
+        }
+
+        if (filter.content.field == field) {
+            fieldIndex = index;
+        }
+        return filter.content.field !== field;
+    });
+
+    return [
+        fieldIndex,
+        {
+            ...filters,
+            content: filtered,
+        },
+    ];
+};
+
+export const createSQONFromFilters = (
+    filterGroup: IFilterGroup,
+    selectedFilters: IFilter[],
+    index?: string,
+): TSyntheticSqonContent => {
+    switch (filterGroup.type) {
+        case VisualType.Range:
+            return createRangeFilter(filterGroup.field, selectedFilters, index);
+        case VisualType.Text:
+            return createTextFilter(filterGroup.field, selectedFilters, index);
+        default:
+            return createInlineFilters(filterGroup.field, selectedFilters, index);
+    }
+};
+
+export const createTextFilter = (field: string, filters: IFilter<IFilterText>[], index?: string) => {
+    if (filters.length === 0) {
+        return [];
+    }
+
+    const selectedTextFilter = filters[0];
+
+    return [
+        {
+            content: { field, value: [selectedTextFilter.data.text], index },
+            op: FieldOperators.in,
+        },
+    ];
+};
+
+export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[], index?: string) => {
+    const selectedFilters: TSqonContent = [];
+    if (filters.length === 0) {
+        return [];
+    }
+
+    const selectedRange = filters[0];
+
+    switch (selectedRange.data.operator) {
+        case RangeOperators.between:
+            if (selectedRange.data.min && selectedRange.data.max) {
+                selectedFilters.push({
+                    content: { field, value: [selectedRange.data.min, selectedRange.data.max], index },
+                    op: RangeOperators.between,
+                });
+            }
+            break;
+        case RangeOperators['<']:
+        case RangeOperators['<=']:
+            if (selectedRange.data.max) {
+                selectedFilters.push({
+                    content: { field, value: [selectedRange.data.max], index },
+                    op: RangeOperators[selectedRange.data.operator],
+                });
+            }
+            break;
+        case RangeOperators['>']:
+        case RangeOperators['>=']:
+            if (selectedRange.data.min) {
+                selectedFilters.push({
+                    content: { field, value: [selectedRange.data.min], index },
+                    op: RangeOperators[selectedRange.data.operator],
+                });
+            }
+            break;
+    }
+
+    return selectedFilters;
+};
+
+export const createInlineFilters = (field: string, filters: IFilter<IFilterCount>[], index?: string): TSqonContent => {
+    const arrayFilters = filters.map((v) => v.data.key);
+    const operator = isEmpty(filters) ? TermOperators.in : filters[0].data.operator || TermOperators.in;
+    return arrayFilters.length > 0
+        ? [
+              {
+                  content: { field, value: arrayFilters, index },
+                  op: operator,
+              },
+          ]
+        : [];
+};
+
+export const getSelectedFilters = ({
+    queryBuilderId,
+    filters,
+    filterGroup,
+}: {
+    queryBuilderId: string;
+    filters: IFilter[];
+    filterGroup: IFilterGroup;
+}): IFilter[] => {
+    const selectedFilters = getActiveQuery(queryBuilderId);
+    if (isEmpty(selectedFilters)) {
+        return [];
+    }
+
+    switch (filterGroup.type) {
+        case VisualType.Range:
+            return getSelectedFiltersForRange(filters, filterGroup, selectedFilters);
+        default:
+            return getSelectedFiltersOther(filters, filterGroup, selectedFilters);
+    }
+};
+
+const getSelectedFiltersForRange = (filters: IFilter[], filterGroup: IFilterGroup, selectedFilters: ISyntheticSqon) => {
+    const rangeData = getRangeSelection(selectedFilters, filterGroup);
+    const currentFilter = filters[0] as IFilter<IFilterRange>;
+    return [{ ...currentFilter, data: rangeData }];
+};
+
+const getSelectedFiltersOther = (filters: IFilter[], filterGroup: IFilterGroup, selectedFilters: ISyntheticSqon) => {
+    const currentFilters = filters as IFilter<IFilterCount>[];
+    return currentFilters.reduce<IFilter<IFilterCount>[]>((acc, filter) => {
+        if (isFilterSelected(selectedFilters, filterGroup, filter.data.key)) {
+            acc.push(filter);
+        }
+        return acc;
+    }, []);
+};
+
+export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterGroup) => {
+    let rangeSelection: IFilterRange = { max: undefined, min: undefined, rangeType: undefined };
+    for (const filter of filters.content) {
+        if (isReference(filter)) continue;
+        const filt = filter as IValueFilter;
+        if (filt.content.field === filterGroup.field) {
+            switch (filt.op) {
+                case RangeOperators.between:
+                    rangeSelection = {
+                        ...rangeSelection,
+                        operator: RangeOperators.between,
+                        max: filt.content.value[1] as number,
+                        min: filt.content.value[0] as number,
+                    };
+                    break;
+                case RangeOperators['<']:
+                case RangeOperators['<=']:
+                    rangeSelection = {
+                        ...rangeSelection,
+                        operator: RangeOperators[filt.op],
+                        max: filt.content.value[0] as number,
+                    };
+                    break;
+                case RangeOperators['>']:
+                case RangeOperators['>=']:
+                    rangeSelection = {
+                        ...rangeSelection,
+                        operator: RangeOperators[filt.op],
+                        min: filt.content.value[0] as number,
+                    };
+                    break;
+            }
+        }
+    }
+
+    return rangeSelection;
+};
+
+export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGroup, key: string): boolean => {
+    if (isReference(filters)) {
+        return false;
+    } else if (isFieldOperator(filters)) {
+        const valueContent = (filters.content as unknown) as IValueContent;
+        return valueContent.value.includes(key) && valueContent.field === filterGroup.field;
+    } else {
+        return filters.content.reduce(
+            (acc: any, contentSqon: any) => acc || isFilterSelected(contentSqon, filterGroup, key),
+            false,
+        );
+    }
+};

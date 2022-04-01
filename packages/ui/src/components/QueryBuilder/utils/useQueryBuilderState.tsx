@@ -1,10 +1,14 @@
 import { v4 } from 'uuid';
 import { useEffect, useState } from 'react';
-import { ISyntheticSqon } from '../../../data/sqon/types';
-import { BooleanOperators } from '../../../data/sqon/operators';
+import { ISyntheticSqon, MERGE_VALUES_STRATEGIES, TSyntheticSqonContent } from '../../../data/sqon/types';
+import { BooleanOperators, TermOperators } from '../../../data/sqon/operators';
 import { IQueryBuilderState } from '../types';
 import { IFilter, IFilterGroup } from '../../filters/types';
-import { getUpdatedActiveQuery } from '../../../data/filters/utils';
+import {
+    deepMergeFieldInActiveQuery,
+    getUpdatedActiveQuery,
+    getUpdatedActiveQueryByFilterGroup,
+} from '../../../data/sqon/utils';
 
 export const QB_UPDATE_EVENT_KEY = 'QBCacheUpdate';
 export const QB_CACHE_KEY_PREFIX = 'query-builder-cache';
@@ -31,10 +35,9 @@ export const addQuery = ({
 }: {
     queryBuilderId: string;
     query: ISyntheticSqon;
-    setAsActive: boolean;
+    setAsActive?: boolean;
 }) => {
     const qbState = getQueryBuilderState(queryBuilderId);
-
     setQueryBuilderState(queryBuilderId, {
         active: setAsActive ? query.id! : qbState?.active ?? query.id!,
         state: [query, ...qbState?.state!],
@@ -49,7 +52,7 @@ export const addQuery = ({
 export const getActiveQuery = (queryBuilderId: string) => {
     const qbState = getQueryBuilderState(queryBuilderId);
     return (
-        qbState?.state.find(({ id }) => id === qbState.active) ?? {
+        qbState?.state?.find(({ id }) => id === qbState.active) ?? {
             content: [],
             op: BooleanOperators.and,
         }
@@ -58,6 +61,7 @@ export const getActiveQuery = (queryBuilderId: string) => {
 
 /**
  * Dynamically update the filters of the active query of a given QueryBuilder
+ * by generating sqon content using FilterGroup and Filter
  *
  * @param params
  * ```json
@@ -70,22 +74,101 @@ export const getActiveQuery = (queryBuilderId: string) => {
 export const updateActiveQueryFilters = ({
     queryBuilderId,
     filterGroup,
-    selected,
+    selectedFilters,
     index,
 }: {
     queryBuilderId: string;
     filterGroup: IFilterGroup;
-    selected: IFilter[];
+    selectedFilters: IFilter[];
     index?: string;
-}) => {
-    const qbState = getQueryBuilderState(queryBuilderId);
-    const query = getUpdatedActiveQuery({
+}) =>
+    updateQuery({
         queryBuilderId,
-        filterGroup,
-        selected,
-        index,
+        query: getUpdatedActiveQueryByFilterGroup({
+            queryBuilderId,
+            filterGroup,
+            selectedFilters,
+            index,
+        }),
     });
-    const queryToUpdate = qbState?.state.find(({ id }) => id === query.id)!;
+
+/**
+ * Dynamically update the filters of the active query of a given QueryBuilder
+ *
+ * @param params
+ * ```json
+ * - queryBuilderId: QueryBuilder unique identifier
+ * - field: Field name to update
+ * - sqonContent: List of sqon content to use
+ * - operator: Boolean Operator
+ * ```
+ */
+export const updateActiveQuery = ({
+    queryBuilderId,
+    field,
+    sqonContent,
+    operator = BooleanOperators.and,
+}: {
+    queryBuilderId: string;
+    field: string;
+    sqonContent: TSyntheticSqonContent;
+    operator?: BooleanOperators;
+}) =>
+    updateQuery({
+        queryBuilderId,
+        query: getUpdatedActiveQuery({
+            queryBuilderId,
+            field,
+            sqonContent,
+            operator,
+        }),
+    });
+
+/**
+ * Dynamically add field value to the active query of a given QueryBuilder by
+ * deep merging the values using a Merge Strategy
+ *
+ *
+ * @param params
+ * ```json
+ * - queryBuilderId: QueryBuilder unique identifier
+ * - field: Field name to update
+ * - value: List of values for the given field
+ * - merge_strategy: How to merge the values
+ * - operator: Term operator
+ * - index: Index related to the field
+ * ```
+ */
+export const addFieldToActiveQuery = ({
+    queryBuilderId,
+    field,
+    value,
+    merge_strategy = MERGE_VALUES_STRATEGIES.APPEND_VALUES,
+    operator = TermOperators.in,
+    index,
+}: {
+    queryBuilderId: string;
+    field: string;
+    value: Array<string | number | boolean>;
+    merge_strategy?: MERGE_VALUES_STRATEGIES;
+    operator?: TermOperators;
+    index?: string;
+}) =>
+    updateQuery({
+        queryBuilderId,
+        query: deepMergeFieldInActiveQuery({
+            queryBuilderId,
+            field,
+            value,
+            index,
+            merge_strategy,
+            operator,
+        }),
+    });
+
+const updateQuery = ({ queryBuilderId, query }: { queryBuilderId: string; query: ISyntheticSqon }) => {
+    const qbState = getQueryBuilderState(queryBuilderId);
+    const queryToUpdate = qbState?.state?.find(({ id }) => id === query.id)!;
     queryToUpdate.content = query.content;
     queryToUpdate.op = query.op;
 
@@ -144,7 +227,9 @@ const useQueryBuilderState = (queryBuilderId: string) => {
     }, []);
 
     return {
-        qbState: state,
+        state,
+        activeQueryId: state?.active,
+        queryList: state?.state ?? [],
         activeQuery: getActiveQuery(queryBuilderId),
     };
 };

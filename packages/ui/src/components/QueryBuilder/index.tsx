@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
-import { cloneDeep } from 'lodash';
-import { createBrowserHistory, History } from 'history';
+import { cloneDeep, isEqual } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 
 import ConditionalWrapper from '../utils/ConditionalWrapper';
@@ -11,7 +10,6 @@ import QueryTools from './QueryTools';
 import { BooleanOperators } from '../../data/sqon/operators';
 import {
     IDictionary,
-    TOnChange,
     ArrayTenOrMore,
     IFacetFilterConfig,
     IQueryBuilderHeaderConfig,
@@ -28,21 +26,17 @@ import {
     removeContentFromSqon,
     removeSqonAtIndex,
 } from '../../data/sqon/utils';
-import { getQueryBuilderState, setQueryBuilderState } from './utils/useQueryBuilderState';
+import useQueryBuilderState, { setQueryBuilderState } from './utils/useQueryBuilderState';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
 
 export interface IQueryBuilderProps {
     id: string;
-    history?: History;
-    filtersKey?: string;
     className?: string;
     dictionary?: IDictionary;
     total?: number;
     IconTotal?: React.ReactNode;
     currentQuery?: ISyntheticSqon | Record<string, never>;
-    onChangeQuery?: TOnChange;
-    onUpdate?: (state: IQueryBuilderState) => void;
     loading?: boolean;
     enableCombine?: boolean;
     enableSingleQuery?: boolean;
@@ -57,14 +51,10 @@ export interface IQueryBuilderProps {
 const QueryBuilder = ({
     className = '',
     id = '',
-    filtersKey = 'filters',
-    history = createBrowserHistory(),
     dictionary = {},
     total = 0,
     IconTotal = null,
     currentQuery = {},
-    onChangeQuery = undefined,
-    onUpdate = undefined,
     loading = false,
     enableCombine = false,
     enableSingleQuery = false,
@@ -112,9 +102,10 @@ const QueryBuilder = ({
     },
 }: IQueryBuilderProps) => {
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
+    const { state: queryBuilderState } = useQueryBuilderState(id);
     const [queriesState, setQueriesState] = useState<IQueriesState>({
-        activeId: initialState?.active || getQueryBuilderState(id)?.active || v4(),
-        queries: initialState?.state || getQueryBuilderState(id)?.state || [],
+        activeId: initialState?.active || queryBuilderState?.active || v4(),
+        queries: initialState?.state || queryBuilderState?.state || [],
     });
     const [queryBuilderCollapsed, toggleQueryBuilder] = useState(false);
     const [showLabels, setShowLabels] = useState(initialShowLabelState);
@@ -145,7 +136,6 @@ const QueryBuilder = ({
                 ...queriesState,
                 queries: cleanUpQueries(updatedQueries),
             });
-            onQueryChange!(id, newQuery);
         }
     };
 
@@ -170,7 +160,6 @@ const QueryBuilder = ({
             activeId: id,
             queries: [getDefaultSyntheticSqon(id)],
         });
-        onQueryChange(id, {});
     };
 
     const deleteQueryAndSetNext = (id: string) => {
@@ -194,7 +183,6 @@ const QueryBuilder = ({
                     activeId: nextID!,
                     queries: updatedQueries,
                 });
-                onQueryChange(id, updatedQueries.find(({ id }) => id === nextID!) || {});
             } else {
                 resetQueries(id);
             }
@@ -212,7 +200,6 @@ const QueryBuilder = ({
             activeId: id,
             queries: cleanUpQueries(cloneDeep([...queriesState.queries, newQuery])),
         });
-        onQueryChange(id, newQuery);
     };
 
     const cleanUpQueries = (tmpQuery: ISyntheticSqon[]) => {
@@ -224,12 +211,6 @@ const QueryBuilder = ({
             newQueries = cloneDeep([...fullQueries, emptyQuery]);
         }
         return newQueries;
-    };
-
-    const onQueryChange = (id: string, query: ISyntheticSqon | Record<string, never>) => {
-        if (onChangeQuery) {
-            onChangeQuery(id, query);
-        }
     };
 
     const onCombineClick = (operator: BooleanOperators) => {
@@ -251,7 +232,6 @@ const QueryBuilder = ({
                 activeId: activeId,
                 queries: selectedSavedFilter.queries,
             });
-            onQueryChange(activeId, selectedSavedFilter.queries.find(({ id }) => id === activeId) || {});
         }
     }, [selectedSavedFilter]);
 
@@ -262,13 +242,6 @@ const QueryBuilder = ({
     }, [headerConfig?.selectedSavedFilter]);
 
     useEffect(() => {
-        if (queriesState.queries.length > 0) {
-            const queryState = queriesState.queries.find((sqon) => sqon.id === queriesState.activeId);
-            if (isNotEmptySqon(queryState!) && isEmptySqon(currentQuery)) {
-                onQueryChange!(queriesState.activeId, queryState!);
-            }
-        }
-
         if (
             isEmpty(queriesState.queries) &&
             isEmptySqon(currentQuery) &&
@@ -327,16 +300,31 @@ const QueryBuilder = ({
     }, [JSON.stringify(currentQuery), total]);
 
     useEffect(() => {
-        const newState = {
+        if (queryBuilderState) {
+            const newQueriesState = {
+                activeId: queryBuilderState?.active!,
+                queries: queryBuilderState?.state!,
+            };
+
+            if (!isEqual(newQueriesState, queriesState)) {
+                setQueriesState({
+                    activeId: queryBuilderState?.active!,
+                    queries: queryBuilderState.state!,
+                });
+            }
+        }
+    }, [JSON.stringify(queryBuilderState)]);
+
+    useEffect(() => {
+        const newQueryBuilderState = {
             active: queriesState.activeId,
             state: queriesState.queries,
         };
-        if (onUpdate) {
-            onUpdate(newState);
-        } else {
-            setQueryBuilderState(id, newState);
+
+        if (!isEqual(newQueryBuilderState, queryBuilderState)) {
+            setQueryBuilderState(id, newQueryBuilderState);
         }
-    }, [queriesState]);
+    }, [JSON.stringify(queriesState)]);
 
     return (
         <ConditionalWrapper
@@ -372,7 +360,6 @@ const QueryBuilder = ({
                             dictionary={dictionary}
                             getColorForReference={getColorForReference}
                             onChangeQuery={(id, query) => {
-                                onQueryChange(id, query);
                                 setQueriesState((prevState) => {
                                     return {
                                         ...prevState,
@@ -401,7 +388,6 @@ const QueryBuilder = ({
                                         queries: cleanUpQueries(updatedQueries),
                                     };
                                 });
-                                onQueryChange!(id, updatedQueries[currentQueryIndex]);
                             }}
                             onDeleteQuery={deleteQueryAndSetNext}
                             onDuplicate={(_, query) =>

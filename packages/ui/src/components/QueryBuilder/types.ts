@@ -21,8 +21,8 @@ export enum CombinerEnum {
 }
 
 export interface IQueryBuilderState {
-    state: ISyntheticSqon[];
-    active: string;
+    state?: ISyntheticSqon[];
+    active?: string;
 }
 
 export interface IQueriesState {

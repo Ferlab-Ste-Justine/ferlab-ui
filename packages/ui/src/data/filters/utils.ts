@@ -1,78 +1,17 @@
 import qs from 'query-string';
 import get from 'lodash/get';
-import { filter, isEmpty } from 'lodash';
-import {
-    IFilter,
-    IFilterCount,
-    IFilterGroup,
-    IFilterRange,
-    IFilterText,
-    VisualType,
-} from '../../components/filters/types';
-import {
-    ISyntheticSqon,
-    IValueContent,
-    IValueFilter,
-    TSqonContent,
-    TSqonGroupOp,
-    TSyntheticSqonContent,
-} from '../sqon/types';
-import { isFieldOperator, isReference } from '../sqon/utils';
-import { BooleanOperators, FieldOperators, RangeOperators, TermOperators } from '../sqon/operators';
-import { getActiveQuery } from '../../components/QueryBuilder/utils/useQueryBuilderState';
+import { isEmpty } from 'lodash';
+import { IFilter, IFilterGroup, VisualType } from '../../components/filters/types';
+import { ISyntheticSqon, TSqonGroupOp, TSyntheticSqonContent } from '../sqon/types';
+import { createSQONFromFilters, isReference } from '../sqon/utils';
+import { BooleanOperators } from '../sqon/operators';
 
 export const getQueryParams = (search: string | null = null) =>
     search ? qs.parse(search) : qs.parse(window.location.search);
 
 /** @deprecated */
-export const updateFilters = (history: any, filterGroup: IFilterGroup, selected: IFilter[], index?: string): void => {
-    const newSelectedFilters: TSqonContent = createSQONFromFilters(filterGroup, selected, index);
-
-    updateQueryFilters(history, filterGroup.field, newSelectedFilters);
-};
-
-/** V2 of updateFilters */
-export const getUpdatedActiveQuery = ({
-    queryBuilderId,
-    filterGroup,
-    selected,
-    index,
-}: {
-    queryBuilderId: string;
-    filterGroup: IFilterGroup;
-    selected: IFilter[];
-    index?: string;
-}): ISyntheticSqon => {
-    const operator = BooleanOperators.and;
-    const currentFilter = getActiveQuery(queryBuilderId);
-    const filters: TSqonContent = createSQONFromFilters(filterGroup, selected, index);
-
-    let newQuery: ISyntheticSqon = { content: filters, op: operator };
-
-    if (!isEmpty(currentFilter)) {
-        const results = getFilterWithNoSelection(currentFilter, filterGroup.field);
-
-        const fieldIndex = results[0];
-        const filterWithoutSelection = results[1] as ISyntheticSqon;
-
-        if (isEmpty(filterWithoutSelection.content) && isEmpty(filters)) {
-            newQuery = { content: [], op: operator };
-        } else {
-            if (fieldIndex >= 0) {
-                filterWithoutSelection.content.splice(fieldIndex as number, 0, ...filters);
-            } else {
-                filterWithoutSelection.content = [...filterWithoutSelection.content, ...filters];
-            }
-
-            newQuery = {
-                ...filterWithoutSelection,
-                content: [...filterWithoutSelection.content],
-            };
-        }
-    }
-
-    return newQuery;
-};
+export const updateFilters = (history: any, filterGroup: IFilterGroup, selected: IFilter[], index?: string): void =>
+    updateQueryFilters(history, filterGroup.field, createSQONFromFilters(filterGroup, selected, index));
 
 export const getFilterType = (fieldType: string): VisualType => {
     if (['long', 'float', 'integer', 'date'].includes(fieldType)) {
@@ -81,89 +20,6 @@ export const getFilterType = (fieldType: string): VisualType => {
         return VisualType.Toggle;
     }
     return VisualType.Checkbox;
-};
-
-export const createSQONFromFilters = (
-    filterGroup: IFilterGroup,
-    selectedFilters: IFilter[],
-    index?: string,
-): TSqonContent => {
-    switch (filterGroup.type) {
-        case VisualType.Range:
-            return createRangeFilter(filterGroup.field, selectedFilters, index);
-        case VisualType.Text:
-            return createTextFilter(filterGroup.field, selectedFilters, index);
-        default:
-            return createInlineFilters(filterGroup.field, selectedFilters, index);
-    }
-};
-
-export const createTextFilter = (field: string, filters: IFilter<IFilterText>[], index?: string) => {
-    if (filters.length === 0) {
-        return [];
-    }
-
-    const selectedTextFilter = filters[0];
-
-    return [
-        {
-            content: { field, value: [selectedTextFilter.data.text], index },
-            op: FieldOperators.in,
-        },
-    ];
-};
-
-export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[], index?: string) => {
-    const selectedFilters: TSqonContent = [];
-    if (filters.length === 0) {
-        return [];
-    }
-
-    const selectedRange = filters[0];
-
-    switch (selectedRange.data.operator) {
-        case RangeOperators.between:
-            if (selectedRange.data.min && selectedRange.data.max) {
-                selectedFilters.push({
-                    content: { field, value: [selectedRange.data.min, selectedRange.data.max], index },
-                    op: RangeOperators.between,
-                });
-            }
-            break;
-        case RangeOperators['<']:
-        case RangeOperators['<=']:
-            if (selectedRange.data.max) {
-                selectedFilters.push({
-                    content: { field, value: [selectedRange.data.max], index },
-                    op: RangeOperators[selectedRange.data.operator],
-                });
-            }
-            break;
-        case RangeOperators['>']:
-        case RangeOperators['>=']:
-            if (selectedRange.data.min) {
-                selectedFilters.push({
-                    content: { field, value: [selectedRange.data.min], index },
-                    op: RangeOperators[selectedRange.data.operator],
-                });
-            }
-            break;
-    }
-
-    return selectedFilters;
-};
-
-export const createInlineFilters = (field: string, filters: IFilter<IFilterCount>[], index?: string): TSqonContent => {
-    const arrayFilters = filters.map((v) => v.data.key);
-    const operator = isEmpty(filters) ? TermOperators.in : filters[0].data.operator || TermOperators.in;
-    return arrayFilters.length > 0
-        ? [
-              {
-                  content: { field, value: arrayFilters, index },
-                  op: operator,
-              },
-          ]
-        : [];
 };
 
 /** @deprecated */
@@ -202,6 +58,7 @@ export const updateQueryFilters = (
     updateQueryParam(history, 'filters', newFilters);
 };
 
+/** @deprecated */
 const getFilterWithNoSelection = (filters: ISyntheticSqon, field: string) => {
     let fieldIndex = -1;
     const filtered = filters.content.filter((filter: any, index: number) => {
@@ -245,6 +102,13 @@ export const updateQueryParam = (history: any, key: string, value: any): void =>
     }
 };
 
+/** @deprecated */
+export const getFiltersQuery = (search: any = null): ISyntheticSqon => {
+    const filters = readQueryParam('filters', { defaultValue: JSON.stringify({}) }, search);
+
+    return JSON.parse(filters);
+};
+
 interface IValues<T> {
     defaultValue: T;
     whiteList?: Array<T>;
@@ -253,103 +117,6 @@ interface IValues<T> {
 export const readQueryParam = <T = ''>(key: string, options: IValues<T>, search: any = null): any => {
     const query = getQueryParams(search);
     return get<any, any, T>(query, key, options.defaultValue)!;
-};
-
-/** @deprecated */
-export const getFiltersQuery = (search: any = null): ISyntheticSqon => {
-    const filters = readQueryParam('filters', { defaultValue: JSON.stringify({}) }, search);
-
-    return JSON.parse(filters);
-};
-
-const getSelectedFiltersForRange = (filters: IFilter[], filterGroup: IFilterGroup, selectedFilters: ISyntheticSqon) => {
-    const rangeData = getRangeSelection(selectedFilters, filterGroup);
-    const currentFilter = filters[0] as IFilter<IFilterRange>;
-    return [{ ...currentFilter, data: rangeData }];
-};
-
-const getSelectedFiltersOther = (filters: IFilter[], filterGroup: IFilterGroup, selectedFilters: ISyntheticSqon) => {
-    const currentFilters = filters as IFilter<IFilterCount>[];
-    return currentFilters.reduce<IFilter<IFilterCount>[]>((acc, filter) => {
-        if (isFilterSelected(selectedFilters, filterGroup, filter.data.key)) {
-            acc.push(filter);
-        }
-        return acc;
-    }, []);
-};
-
-export const getSelectedFilters = ({
-    queryBuilderId,
-    filters,
-    filterGroup,
-}: {
-    queryBuilderId: string;
-    filters: IFilter[];
-    filterGroup: IFilterGroup;
-}): IFilter[] => {
-    const selectedFilters = getActiveQuery(queryBuilderId);
-    if (isEmpty(selectedFilters)) {
-        return [];
-    }
-
-    switch (filterGroup.type) {
-        case VisualType.Range:
-            return getSelectedFiltersForRange(filters, filterGroup, selectedFilters);
-        default:
-            return getSelectedFiltersOther(filters, filterGroup, selectedFilters);
-    }
-};
-
-export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterGroup) => {
-    let rangeSelection: IFilterRange = { max: undefined, min: undefined, rangeType: undefined };
-    for (const filter of filters.content) {
-        if (isReference(filter)) continue;
-        const filt = filter as IValueFilter;
-        if (filt.content.field === filterGroup.field) {
-            switch (filt.op) {
-                case RangeOperators.between:
-                    rangeSelection = {
-                        ...rangeSelection,
-                        operator: RangeOperators.between,
-                        max: filt.content.value[1] as number,
-                        min: filt.content.value[0] as number,
-                    };
-                    break;
-                case RangeOperators['<']:
-                case RangeOperators['<=']:
-                    rangeSelection = {
-                        ...rangeSelection,
-                        operator: RangeOperators[filt.op],
-                        max: filt.content.value[0] as number,
-                    };
-                    break;
-                case RangeOperators['>']:
-                case RangeOperators['>=']:
-                    rangeSelection = {
-                        ...rangeSelection,
-                        operator: RangeOperators[filt.op],
-                        min: filt.content.value[0] as number,
-                    };
-                    break;
-            }
-        }
-    }
-
-    return rangeSelection;
-};
-
-export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGroup, key: string): boolean => {
-    if (isReference(filters)) {
-        return false;
-    } else if (isFieldOperator(filters)) {
-        const valueContent = filters.content as unknown as IValueContent;
-        return valueContent.value.includes(key) && valueContent.field === filterGroup.field;
-    } else {
-        return filters.content.reduce(
-            (acc: any, contentSqon: any) => acc || isFilterSelected(contentSqon, filterGroup, key),
-            false,
-        );
-    }
 };
 
 /** @deprecated */
