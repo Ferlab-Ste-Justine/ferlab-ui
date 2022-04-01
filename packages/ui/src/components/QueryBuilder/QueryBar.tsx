@@ -16,12 +16,14 @@ import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
 import { numberFormat } from '../../utils/numberUtils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBar.module.scss';
+import { LoadingOutlined } from '@ant-design/icons';
 
 interface IQueryBarProps {
     id: string;
     Icon: React.ReactNode;
     total: number;
     index: number;
+    loading?: boolean;
     dictionary?: IDictionary;
     query: ISyntheticSqon | Record<string, never>;
     actionDisabled?: boolean;
@@ -46,6 +48,7 @@ const QueryBar = ({
     Icon,
     index,
     total,
+    loading = false,
     dictionary = {},
     query,
     onRemoveFacet,
@@ -124,7 +127,12 @@ const QueryBar = ({
                         )
                     )}
                     <span className={styles.total}>
-                        {Icon} {numberFormat(total)}
+                        {Icon}{' '}
+                        {isActive && loading ? (
+                            <LoadingOutlined spin />
+                        ) : (
+                            numberFormat(isActive ? total : query.total ?? 0)
+                        )}
                     </span>
                 </Space>
                 {!actionDisabled && (
