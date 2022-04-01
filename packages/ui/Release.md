@@ -1,4 +1,4 @@
-### 4.0.0 | 2022-04-01
+### 3.4.0 | 2022-04-01
 - Breaking Changes / feat: Refactor QueryBuilder State Management
 
 ### 3.3.9 | 2022-03-31
