@@ -1,12 +1,11 @@
 import { v4 } from 'uuid';
 import { useEffect, useState } from 'react';
-import { ISyntheticSqon, MERGE_VALUES_STRATEGIES, TSyntheticSqonContent } from '../../../data/sqon/types';
+import { ISyntheticSqon, MERGE_VALUES_STRATEGIES } from '../../../data/sqon/types';
 import { BooleanOperators, TermOperators } from '../../../data/sqon/operators';
 import { IQueryBuilderState } from '../types';
 import { IFilter, IFilterGroup } from '../../filters/types';
 import {
     deepMergeFieldInActiveQuery,
-    getUpdatedActiveQuery,
     getUpdatedActiveQueryByFilterGroup,
 } from '../../../data/sqon/utils';
 
@@ -93,39 +92,7 @@ export const updateActiveQueryFilters = ({
     });
 
 /**
- * Dynamically update the filters of the active query of a given QueryBuilder
- *
- * @param params
- * ```json
- * - queryBuilderId: QueryBuilder unique identifier
- * - field: Field name to update
- * - sqonContent: List of sqon content to use
- * - operator: Boolean Operator
- * ```
- */
-export const updateActiveQuery = ({
-    queryBuilderId,
-    field,
-    sqonContent,
-    operator = BooleanOperators.and,
-}: {
-    queryBuilderId: string;
-    field: string;
-    sqonContent: TSyntheticSqonContent;
-    operator?: BooleanOperators;
-}) =>
-    updateQuery({
-        queryBuilderId,
-        query: getUpdatedActiveQuery({
-            queryBuilderId,
-            field,
-            sqonContent,
-            operator,
-        }),
-    });
-
-/**
- * Dynamically add field value to the active query of a given QueryBuilder by
+ * Dynamically update field value of the active query of a given QueryBuilder by
  * deep merging the values using a Merge Strategy
  *
  *
@@ -139,7 +106,7 @@ export const updateActiveQuery = ({
  * - index: Index related to the field
  * ```
  */
-export const addFieldToActiveQuery = ({
+export const updateActiveQueryField = ({
     queryBuilderId,
     field,
     value,

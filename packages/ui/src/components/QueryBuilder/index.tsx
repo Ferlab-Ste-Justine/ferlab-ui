@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 import { cloneDeep, isEqual } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
-
 import ConditionalWrapper from '../utils/ConditionalWrapper';
 import QueryBuilderHeader from './Header';
 import QueryBar from './QueryBar';
@@ -29,6 +28,7 @@ import {
 import useQueryBuilderState, { setQueryBuilderState } from './utils/useQueryBuilderState';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
+import { isQueryStateEqual } from './utils/helper';
 
 export interface IQueryBuilderProps {
     id: string;
@@ -301,12 +301,7 @@ const QueryBuilder = ({
 
     useEffect(() => {
         if (queryBuilderState) {
-            const newQueriesState = {
-                activeId: queryBuilderState?.active!,
-                queries: queryBuilderState?.state!,
-            };
-
-            if (!isEqual(newQueriesState, queriesState)) {
+            if (!isQueryStateEqual(queryBuilderState, queriesState)) {
                 setQueriesState({
                     activeId: queryBuilderState?.active!,
                     queries: queryBuilderState.state!,
@@ -316,13 +311,13 @@ const QueryBuilder = ({
     }, [JSON.stringify(queryBuilderState)]);
 
     useEffect(() => {
-        const newQueryBuilderState = {
-            active: queriesState.activeId,
-            state: queriesState.queries,
-        };
-
-        if (!isEqual(newQueryBuilderState, queryBuilderState)) {
-            setQueryBuilderState(id, newQueryBuilderState);
+        if (queryBuilderState) {
+            if (!isQueryStateEqual(queryBuilderState, queriesState)) {
+                setQueryBuilderState(id, {
+                    active: queriesState.activeId,
+                    state: queriesState.queries,
+                });
+            }
         }
     }, [JSON.stringify(queriesState)]);
 
