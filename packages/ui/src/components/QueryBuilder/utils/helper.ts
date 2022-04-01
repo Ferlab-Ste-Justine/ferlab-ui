@@ -1,4 +1,4 @@
-import { clone, isEqual } from 'lodash';
+import { cloneDeep, isEqual } from 'lodash';
 import { ISyntheticSqon } from '../../../data/sqon/types';
 import { IQueriesState, IQueryBuilderState } from '../types';
 
@@ -11,11 +11,11 @@ const removeTotal = (sqonList: ISyntheticSqon[]) =>
 export const isQueryStateEqual = (queryBuilderState: IQueryBuilderState, queriesState: IQueriesState) => {
     const cleanedQueriesState: IQueryBuilderState = {
         active: queriesState.activeId,
-        state: removeTotal(clone(queriesState.queries)),
+        state: removeTotal(cloneDeep(queriesState.queries)),
     };
     const cleanedQueryBuilderState: IQueryBuilderState = {
         ...queryBuilderState,
-        state: removeTotal(clone(queryBuilderState.state ?? [])),
+        state: removeTotal(cloneDeep(queryBuilderState.state ?? [])),
     };
 
     return isEqual(cleanedQueryBuilderState, cleanedQueriesState);
