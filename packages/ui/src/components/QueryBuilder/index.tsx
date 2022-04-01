@@ -351,6 +351,7 @@ const QueryBuilder = ({
                             Icon={IconTotal}
                             actionDisabled={isEmptySqon(sqon)}
                             isActive={sqon.id! === queriesState.activeId}
+                            loading={loading}
                             canDelete={!noQueries}
                             dictionary={dictionary}
                             getColorForReference={getColorForReference}
@@ -409,7 +410,7 @@ const QueryBuilder = ({
                             isSelected={selectedQueryIndices.includes(i)}
                             selectionDisabled={queriesState.queries.length === 1 || !enableCombine}
                             showLabels={showLabels}
-                            total={sqon.total!}
+                            total={total}
                         />
                     ))}
                 </div>

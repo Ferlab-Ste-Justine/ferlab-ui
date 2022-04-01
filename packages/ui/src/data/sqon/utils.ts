@@ -371,7 +371,7 @@ export const deepMergeFieldInActiveQuery = ({
     return newSqon;
 };
 
-export const generateFilters = ({
+export const generateQuery = ({
     filters,
     newFilters,
     operator = BooleanOperators.and,
@@ -413,7 +413,9 @@ export const generateValueFilter = ({
 export const findSqonValueByField = (field: string, sqon: ISqonGroupFilter, prevValue: any = undefined) => {
     let value: any = prevValue;
     sqon.content.forEach((content) => {
-        if (isBooleanOperator(content)) {
+        if (isReference(content)) {
+            return;
+        } else if (isBooleanOperator(content)) {
             value = value || findSqonValueByField(field, content as ISqonGroupFilter, prevValue);
         } else {
             const valueContent = content as IValueFilter;
@@ -426,9 +428,13 @@ export const findSqonValueByField = (field: string, sqon: ISqonGroupFilter, prev
     return value;
 };
 
-export const removeValueFilterFromSqon = (field: string, sqon: ISqonGroupFilter) => ({
+export const removeFieldFromSqon = (field: string, sqon: ISyntheticSqon) => ({
     ...sqon,
     content: sqon.content.filter(function f(sqon: any): boolean {
+        if (isReference(sqon)) {
+            return true;
+        }
+
         if (isBooleanOperator(sqon)) {
             return (sqon.content as TSqonContent).filter(f).length > 0;
         }
@@ -436,6 +442,9 @@ export const removeValueFilterFromSqon = (field: string, sqon: ISqonGroupFilter)
         return !((sqon as IValueFilter).content.field === field);
     }),
 });
+
+export const removeFieldFromActiveQuery = (queryBuilderId: string, field: string) =>
+    removeFieldFromSqon(field, getActiveQuery(queryBuilderId));
 
 export const getUpdatedActiveQueryByFilterGroup = ({
     queryBuilderId,

@@ -8,7 +8,9 @@ import {
     deepMergeFieldInActiveQuery,
     getDefaultSyntheticSqon,
     getUpdatedActiveQueryByFilterGroup,
+    removeFieldFromActiveQuery,
 } from '../../../data/sqon/utils';
+import { isEmpty } from 'lodash';
 
 export const QB_UPDATE_EVENT_KEY = 'QBCacheUpdate';
 export const QB_CACHE_KEY_PREFIX = 'query-builder-cache';
@@ -38,9 +40,19 @@ export const addQuery = ({
     setAsActive?: boolean;
 }) => {
     const qbState = getQueryBuilderState(queryBuilderId);
+    const queries = qbState?.state ?? [];
+    const hasEmptyQuery = queries.find(({ content }) => isEmpty(content));
+
     setQueryBuilderState(queryBuilderId, {
         active: setAsActive ? query.id! : qbState?.active ?? query.id!,
-        state: [...qbState?.state!, query],
+        state: hasEmptyQuery
+            ? queries.map((cQuery) => {
+                  if (isEmpty(cQuery.content)) {
+                      return query;
+                  }
+                  return cQuery;
+              })
+            : [...qbState?.state!, query],
     });
 };
 
@@ -124,14 +136,16 @@ export const updateActiveQueryField = ({
 }) =>
     updateQuery({
         queryBuilderId,
-        query: deepMergeFieldInActiveQuery({
-            queryBuilderId,
-            field,
-            value,
-            index,
-            merge_strategy,
-            operator,
-        }),
+        query: isEmpty(value)
+            ? removeFieldFromActiveQuery(queryBuilderId, field)
+            : deepMergeFieldInActiveQuery({
+                  queryBuilderId,
+                  field,
+                  value,
+                  index,
+                  merge_strategy,
+                  operator,
+              }),
     });
 
 const updateQuery = ({ queryBuilderId, query }: { queryBuilderId: string; query: ISyntheticSqon }) => {
