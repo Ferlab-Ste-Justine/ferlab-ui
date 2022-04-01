@@ -20,6 +20,11 @@ export enum CombinerEnum {
     Or = 'or',
 }
 
+export interface IQueryBuilderState {
+    state?: ISyntheticSqon[];
+    active?: string;
+}
+
 export interface IQueriesState {
     activeId: string;
     queries: ISyntheticSqon[];
