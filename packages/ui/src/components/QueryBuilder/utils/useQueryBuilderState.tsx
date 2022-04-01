@@ -6,6 +6,7 @@ import { IQueryBuilderState } from '../types';
 import { IFilter, IFilterGroup } from '../../filters/types';
 import {
     deepMergeFieldInActiveQuery,
+    getDefaultSyntheticSqon,
     getUpdatedActiveQueryByFilterGroup,
 } from '../../../data/sqon/utils';
 
@@ -163,7 +164,15 @@ export const setQueryBuilderState = (queryBuilderId: string, value: IQueryBuilde
 export const getQueryBuilderState = (queryBuilderId: string): IQueryBuilderState | undefined => {
     const qbState = window.localStorage.getItem(`${QB_CACHE_KEY_PREFIX}-${queryBuilderId}`);
 
-    if (!qbState) return undefined;
+    if (!qbState) {
+        const defaultSqon = getDefaultSyntheticSqon();
+        const newQbState: IQueryBuilderState = {
+            active: defaultSqon.id,
+            state: [defaultSqon],
+        };
+        setQueryBuilderState(queryBuilderId, newQbState)
+        return newQbState;
+    }
 
     return JSON.parse(qbState);
 };
