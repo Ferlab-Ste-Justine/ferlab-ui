@@ -40,7 +40,7 @@ export const addQuery = ({
     const qbState = getQueryBuilderState(queryBuilderId);
     setQueryBuilderState(queryBuilderId, {
         active: setAsActive ? query.id! : qbState?.active ?? query.id!,
-        state: [query, ...qbState?.state!],
+        state: [...qbState?.state!, query],
     });
 };
 
@@ -170,7 +170,7 @@ export const getQueryBuilderState = (queryBuilderId: string): IQueryBuilderState
             active: defaultSqon.id,
             state: [defaultSqon],
         };
-        setQueryBuilderState(queryBuilderId, newQbState)
+        setQueryBuilderState(queryBuilderId, newQbState);
         return newQbState;
     }
 
