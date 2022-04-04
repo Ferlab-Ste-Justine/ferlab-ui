@@ -196,8 +196,8 @@ const QueryBuilderHeader = ({
                             onNewSavedFilter={onNewSavedFilter}
                             onDuplicateSavedFilter={() => {
                                 const duplicatedQueries = [...queriesState.queries].map((query) => ({
-                                    id: v4(),
                                     ...query,
+                                    id: v4(),
                                 }));
                                 const title = `${selectedSavedFilter?.title!} ${
                                     dictionary.queryBuilderHeader?.duplicateFilterTitleSuffix || 'COPY'
