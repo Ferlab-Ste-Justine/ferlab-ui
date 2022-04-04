@@ -227,13 +227,14 @@ const QueryBuilder = ({
 
     useEffect(() => {
         if (selectedSavedFilter?.queries?.length!) {
-            const activeId = selectedSavedFilter.queries[0].id!;
+            const activeQuery = selectedSavedFilter.queries.find(({ id }) => id === queryBuilderState?.active);
+            const activeId = activeQuery?.id ?? selectedSavedFilter.queries[0].id!;
             setQueriesState({
                 activeId: activeId,
                 queries: selectedSavedFilter.queries,
             });
         }
-    }, [selectedSavedFilter]);
+    }, [JSON.stringify(selectedSavedFilter)]);
 
     useEffect(() => {
         if (!isEmpty(headerConfig?.selectedSavedFilter!)) {
