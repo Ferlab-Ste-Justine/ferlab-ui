@@ -1,3 +1,6 @@
+### 3.4.5 | 2022-04-04
+- Feat: Add new onShareFilter callback
+
 ### 3.4.0 | 2022-04-01
 - Breaking Changes / feat: Refactor QueryBuilder State Management
 
