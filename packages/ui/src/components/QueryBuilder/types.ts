@@ -54,6 +54,7 @@ export interface IQueryBuilderHeaderConfig {
     selectedSavedFilter?: ISavedFilter | null;
     onSetAsFavorite?: (filter: ISavedFilter) => void;
     onUpdateFilter?: (filter: ISavedFilter) => void;
+    onShareFilter?: (filter: ISavedFilter) => void;
     onSaveFilter?: (filter: ISavedFilter) => void;
     onDeleteFilter?: (filterId: string) => void;
 }

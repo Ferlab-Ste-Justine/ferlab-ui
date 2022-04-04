@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
-import isEqual from 'lodash/isEqual';
 import { Button, Tooltip, Modal, Popconfirm } from 'antd';
 import { DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import StackLayout from '../../../../layout/StackLayout';
@@ -13,9 +12,9 @@ import ShareIcon from '../../icons/ShareIcon';
 import FolderIcon from '../../icons/FolderIcon';
 import ConditionalWrapper from '../../../utils/ConditionalWrapper';
 import SavedFilters from './SavedFilters';
+import { hasQueries, hasUnsavedChanges, isNewUnsavedFilter } from '../utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeaderTools.module.scss';
-import { hasQueries, hasUnsavedChanges, isNewUnsavedFilter } from '../utils';
 
 interface IQueryBuilderHeaderProps {
     config: IQueryBuilderHeaderConfig;
@@ -172,9 +171,12 @@ const QueryBuilderHeaderTools = ({
                             className={styles.queryBuilderHeaderActionIconBtn}
                             onClick={(e: React.MouseEvent) => {
                                 e.stopPropagation();
+                                if (config.onShareFilter) {
+                                    config.onShareFilter(selectedSavedFilter!);
+                                }
                             }}
                             type="text"
-                            disabled={isNewFilter}
+                            disabled={isNewFilter || isDirty}
                         >
                             <ShareIcon />
                         </Button>

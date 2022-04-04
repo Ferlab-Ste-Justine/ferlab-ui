@@ -91,6 +91,7 @@ const QueryBuilder = ({
         savedFilters: [],
         selectedSavedFilter: null,
         onSetAsFavorite: () => {},
+        onShareFilter: () => {},
         onUpdateFilter: () => {},
         onSaveFilter: () => {},
         onDeleteFilter: () => {},
