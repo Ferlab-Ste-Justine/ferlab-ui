@@ -37,39 +37,16 @@ type FilterContainerProps = {
 };
 
 type FilterContainerHeaderProps = {
-    searchEnabled?: boolean;
-    onSearchClick: (v: boolean) => void;
-    searchInputVisibled: boolean;
     title: string | React.ReactNode;
-    isCollapsed: boolean;
     hasFilters?: boolean;
 };
 
-const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({
-    searchEnabled = false,
-    onSearchClick = (f) => f,
-    searchInputVisibled,
-    title,
-    isCollapsed,
-    hasFilters = false,
-}) => (
+const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({ title, hasFilters = false }) => (
     <StackLayout className={styles.filtersContainerHeader}>
         <div className={styles.titleContainer}>
             <span className={styles.title}>{title}</span>
             {hasFilters && <CheckedIcon className={styles.hasFilterIcon}></CheckedIcon>}
         </div>
-        {searchEnabled && !isCollapsed && (
-            <div className={styles.searchIconWrapper}>
-                <SearchOutlined
-                    className={`search-icon ${styles.fuiSearchIcon}`}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        onSearchClick(!searchInputVisibled);
-                    }}
-                />
-            </div>
-        )}
     </StackLayout>
 );
 
@@ -105,6 +82,13 @@ const FilterContainer = ({
     const [isCollapsed, setIsCollapsed] = useState(!isOpen);
     const defaultActiveKey = isCollapsed ? {} : { defaultActiveKey: '1' };
 
+    const onSearchClick = (visible: boolean) => {
+        if (onSearchVisibleChange) onSearchVisibleChange(visible);
+        setIsSearchVisible(visible);
+    };
+
+    const hasSearchEnabled = () => filterGroup.type === VisualType.Checkbox && filters.length > maxShowing;
+
     return (
         <div className={styles.filterContainer}>
             <Collapse
@@ -117,19 +101,22 @@ const FilterContainer = ({
             >
                 <Panel
                     className={styles.filterContainerContent}
-                    header={
-                        <FilterContainerHeader
-                            isCollapsed={isCollapsed}
-                            onSearchClick={(visible) => {
-                                if (onSearchVisibleChange) onSearchVisibleChange(visible);
-                                setIsSearchVisible(visible);
-                            }}
-                            searchEnabled={filterGroup.type === VisualType.Checkbox && filters.length > maxShowing}
-                            searchInputVisibled={isSearchVisible}
-                            title={filterGroup.title}
-                        />
-                    }
+                    header={<FilterContainerHeader title={filterGroup.title} />}
                     key={`1`}
+                    extra={
+                        hasSearchEnabled() && !isCollapsed
+                            ? [
+                                  <SearchOutlined
+                                      className={`search-icon ${styles.fuiSearchIcon}`}
+                                      onClick={(e) => {
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                          onSearchClick(!isSearchVisible);
+                                      }}
+                                  />,
+                              ]
+                            : []
+                    }
                 >
                     {customContent ? (
                         customContent
