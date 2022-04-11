@@ -20,7 +20,7 @@ $padding-side-and-bottom: 24px;
 
     div[class^="ant-spin"] {
       height: 100%;
-    } 
+    }
 
     .contentWrapper {
       height: 100%;
@@ -82,6 +82,10 @@ $padding-side-and-bottom: 24px;
         text-align: unset;
         margin: 0;
         padding-top: 16px;
+
+        span {
+          cursor: unset;
+        }
       }
     }
   }
