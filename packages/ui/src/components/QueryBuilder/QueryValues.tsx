@@ -10,7 +10,7 @@ import { IValueFilter } from '../../data/sqon/types';
 import { IDictionary } from '../QueryBuilder/types';
 import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import { keyEnhance } from '../../data/arranger/formatting';
 import { FieldOperators } from '../../data/sqon/operators';
 import IntersectionOperator from './icons/IntersectionOperator';
@@ -32,6 +32,14 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
     );
 
     const getMappedValueName = (value: string) => {
+        const alternateName = valueFilter.content.alternateName;
+
+        if (alternateName && !isEmpty(alternateName)) {
+            if (Object.keys(alternateName).includes(value)) {
+                return alternateName[value];
+            }
+        }
+
         const facetMapping = get(get(dictionary.query, 'facetValueMapping', {}), valueFilter.content.field, {});
         return removeUnderscoreAndCapitalize(value in facetMapping ? facetMapping[value] : value);
     };
@@ -40,7 +48,7 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
         const newValues = !hasMoreValues || expanded ? valueFilter.content.value : take(valueFilter.content.value, 3);
         setValues(newValues);
     }, [expanded, valueFilter]);
-    const totalValues = values.length;
+
     return (
         <StackLayout
             onClick={(e) => (onClick ? onClick(e) : undefined)}
@@ -58,7 +66,7 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
                                 <span className={styles.value}>
                                     {typeof v == 'string' ? getMappedValueName(keyEnhance(v)) : v}
                                 </span>
-                                {totalValues - 1 > i &&
+                                {values.length - 1 > i &&
                                     (valueFilter.op === FieldOperators.all ? (
                                         <IntersectionOperator className={styles.operator} />
                                     ) : (
