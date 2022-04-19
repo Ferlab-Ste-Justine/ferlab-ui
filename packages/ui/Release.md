@@ -1,3 +1,6 @@
+### 3.4.8 | 2022-04-19
+- Feat: Handle set 
+
 ### 3.4.5 | 2022-04-04
 - Feat: Add new onShareFilter callback
 

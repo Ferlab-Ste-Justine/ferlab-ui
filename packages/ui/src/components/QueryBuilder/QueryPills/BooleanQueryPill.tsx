@@ -1,12 +1,13 @@
 import React from 'react';
 
 import { ISyntheticSqon, IValueFilter, TSqonGroupOp } from '../../../data/sqon/types';
-import { isBooleanOperator, isReference } from '../../../data/sqon/utils';
+import { isBooleanOperator, isReference, isSet } from '../../../data/sqon/utils';
 import ReferenceQueryPill from './ReferenceQueryPill';
 import FieldQueryPill from './FieldQueryPill';
 import Combiner from '../Combiner';
 import { IDictionary, IFacetFilterConfig, TCallbackRemoveAction, TCallbackRemoveReferenceAction } from '../types';
 import { Space } from 'antd';
+import SetQueryPill from './SetQueryPill';
 
 interface IBooleanQueryPillProps {
     parentQueryId: string;
@@ -35,6 +36,13 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
                         refIndex={f as number}
                         onRemove={() => props.onRemoveReference(f as number, props.query)}
                         getColorForReference={props.getColorForReference}
+                    />
+                ) : isSet(f) ? (
+                    <SetQueryPill
+                        isBarActive={props.isActive}
+                        dictionary={props.dictionary}
+                        valueFilter={f as IValueFilter}
+                        onRemove={() => props.onRemoveReference(f as number, props.query)}
                     />
                 ) : (
                     <FieldQueryPill

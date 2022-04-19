@@ -5,6 +5,7 @@ export interface IValueContent {
     field: string;
     value: TFilterValue;
     index?: string;
+    alternateName?: Record<string, string>;
 }
 
 export type TValueOp = FieldOperators | string;
@@ -29,6 +30,8 @@ export interface ISyntheticSqon {
     id?: string;
     total?: number;
 }
+
+export const SET_ID_PREFIX = 'set_id:';
 
 /**
  * Strategy to use to merge the values of the field.
