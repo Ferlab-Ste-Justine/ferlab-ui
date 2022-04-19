@@ -9,8 +9,6 @@ import {
     VisualType,
 } from '../../components/filters/types';
 import { getActiveQuery } from '../../components/QueryBuilder/utils/useQueryBuilderState';
-import { getFiltersQuery, updateQueryParam } from '../filters/utils';
-
 import { BooleanOperators, FieldOperators, RangeOperators, TermOperators } from './operators';
 import {
     IMergeOptions,
@@ -20,6 +18,7 @@ import {
     IValueFilter,
     MERGE_OPERATOR_STRATEGIES,
     MERGE_VALUES_STRATEGIES,
+    SET_ID_PREFIX,
     TSqonContent,
     TSqonContentValue,
     TSqonGroupOp,
@@ -47,6 +46,16 @@ export const isReference = (sqon: ISyntheticSqon | Record<string, never> | TSynt
     !isNotReference(sqon);
 
 export const isNotReference = (sqon: any) => isNaN(sqon);
+
+/**
+ * Check if a sqon value is a set.
+ *
+ * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
+ */
+export const isSet = (value: IValueFilter) =>
+    value.content.value.some((value) => value.toString().startsWith(SET_ID_PREFIX));
+
+export const isNotSet = (value: IValueFilter) => !isSet(value);
 
 /**
  * Check if a synthetic sqon is a boolean operator
@@ -400,13 +409,15 @@ export const generateValueFilter = ({
     value,
     index = '',
     operator = TermOperators.in,
+    alternateName,
 }: {
     field: string;
     value: string[];
     index?: string;
     operator?: TermOperators;
+    alternateName?: Record<string, string>;
 }) => ({
-    content: { field, value, index },
+    content: { field, value, index, alternateName },
     op: operator,
 });
 
