@@ -348,6 +348,7 @@ export const deepMergeFieldInActiveQuery = ({
     index,
     merge_strategy = MERGE_VALUES_STRATEGIES.APPEND_VALUES,
     operator = TermOperators.in,
+    alternateName,
 }: {
     queryBuilderId: string;
     field: string;
@@ -355,6 +356,7 @@ export const deepMergeFieldInActiveQuery = ({
     index?: string;
     merge_strategy?: MERGE_VALUES_STRATEGIES;
     operator?: TermOperators;
+    alternateName?: Record<string, string>;
 }) => {
     let newSqon;
     const activeQuery = getActiveQuery(queryBuilderId);
@@ -363,6 +365,7 @@ export const deepMergeFieldInActiveQuery = ({
             field,
             index,
             value,
+            alternateName,
         },
         op: operator,
     };

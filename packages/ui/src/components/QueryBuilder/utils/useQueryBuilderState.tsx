@@ -126,6 +126,7 @@ export const updateActiveQueryField = ({
     merge_strategy = MERGE_VALUES_STRATEGIES.APPEND_VALUES,
     operator = TermOperators.in,
     index,
+    alternateName,
 }: {
     queryBuilderId: string;
     field: string;
@@ -133,6 +134,7 @@ export const updateActiveQueryField = ({
     merge_strategy?: MERGE_VALUES_STRATEGIES;
     operator?: TermOperators;
     index?: string;
+    alternateName?: Record<string, string>;
 }) =>
     updateQuery({
         queryBuilderId,
@@ -145,6 +147,7 @@ export const updateActiveQueryField = ({
                   index,
                   merge_strategy,
                   operator,
+                  alternateName
               }),
     });
 
