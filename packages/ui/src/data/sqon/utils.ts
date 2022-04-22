@@ -97,17 +97,14 @@ export const isRangeFilter = (query: IValueFilter) => query.op in RangeOperators
  */
 export const generateEmptyQuery = (
     sqon: ISyntheticSqon = { content: [], id: v4(), op: BooleanOperators.and },
-    total = 0,
 ): ISyntheticSqon => ({
     ...sqon,
     content: [],
-    total: total,
 });
 
 export const getDefaultSyntheticSqon = (id: string = v4()): ISyntheticSqon => ({
     id,
     op: BooleanOperators.and,
-    total: 0,
     content: [],
 });
 

@@ -28,6 +28,9 @@ export interface ISyntheticSqon {
     op: TSqonGroupOp;
     content: TSyntheticSqonContent;
     id?: string;
+    /**
+     * @deprecated The params should not be used anymore
+     */
     total?: number;
 }
 
