@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
-import { cloneDeep, isEqual } from 'lodash';
+import { cloneDeep } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
 import QueryBuilderHeader from './Header';
@@ -14,6 +14,8 @@ import {
     IQueryBuilderHeaderConfig,
     IQueriesState,
     IQueryBuilderState,
+    IFetchQueryCount,
+    IGetResolvedQueryForCount,
 } from './types';
 import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import {
@@ -26,9 +28,9 @@ import {
     removeSqonAtIndex,
 } from '../../data/sqon/utils';
 import useQueryBuilderState, { setQueryBuilderState } from './utils/useQueryBuilderState';
+import { isQueryStateEqual } from './utils/helper';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
-import { isQueryStateEqual } from './utils/helper';
 
 export interface IQueryBuilderProps {
     id: string;
@@ -37,7 +39,6 @@ export interface IQueryBuilderProps {
     total?: number;
     IconTotal?: React.ReactNode;
     currentQuery?: ISyntheticSqon | Record<string, never>;
-    loading?: boolean;
     enableCombine?: boolean;
     enableSingleQuery?: boolean;
     enableShowHideLabels?: boolean;
@@ -46,6 +47,8 @@ export interface IQueryBuilderProps {
     referenceColors?: ArrayTenOrMore<string>;
     headerConfig?: IQueryBuilderHeaderConfig;
     facetFilterConfig?: IFacetFilterConfig;
+    fetchQueryCount: IFetchQueryCount;
+    getResolvedQueryForCount: IGetResolvedQueryForCount;
 }
 
 const QueryBuilder = ({
@@ -55,7 +58,6 @@ const QueryBuilder = ({
     total = 0,
     IconTotal = null,
     currentQuery = {},
-    loading = false,
     enableCombine = false,
     enableSingleQuery = false,
     enableShowHideLabels = false,
@@ -91,7 +93,7 @@ const QueryBuilder = ({
         savedFilters: [],
         selectedSavedFilter: null,
         onSetAsFavorite: () => {},
-        onShareFilter: () => {},
+        onShareFilter: () => {},
         onUpdateFilter: () => {},
         onSaveFilter: () => {},
         onDeleteFilter: () => {},
@@ -101,6 +103,8 @@ const QueryBuilder = ({
         onFacetClick: () => {},
         blacklistedFacets: [],
     },
+    fetchQueryCount,
+    getResolvedQueryForCount,
 }: IQueryBuilderProps) => {
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
     const { state: queryBuilderState } = useQueryBuilderState(id);
@@ -194,9 +198,8 @@ const QueryBuilder = ({
         id: string = v4(),
         op: BooleanOperators = BooleanOperators.and,
         content: TSyntheticSqonContent = [],
-        total: number = 0,
     ) => {
-        const newQuery = { id: id, op: op, content: content, total: total };
+        const newQuery = { id: id, op: op, content: content };
         setQueriesState({
             activeId: id,
             queries: cleanUpQueries(cloneDeep([...queriesState.queries, newQuery])),
@@ -265,7 +268,6 @@ const QueryBuilder = ({
                         op: currentQuery.op,
                         content: currentQuery.content,
                         id: queriesState.activeId,
-                        total: total,
                     },
                 ],
             });
@@ -283,7 +285,6 @@ const QueryBuilder = ({
                             ...obj,
                             op: obj.op || BooleanOperators.and,
                             content: currentQuery.content ? currentQuery.content : [],
-                            total: total || currentQuery.total,
                         };
                     }
                     return {
@@ -299,7 +300,7 @@ const QueryBuilder = ({
                 });
             }
         }
-    }, [JSON.stringify(currentQuery), total]);
+    }, [JSON.stringify(currentQuery)]);
 
     useEffect(() => {
         if (queryBuilderState) {
@@ -351,9 +352,9 @@ const QueryBuilder = ({
                             key={sqon.id!}
                             index={i}
                             Icon={IconTotal}
+                            queryBuilderId={id}
                             actionDisabled={isEmptySqon(sqon)}
                             isActive={sqon.id! === queriesState.activeId}
-                            loading={loading}
                             canDelete={!noQueries}
                             dictionary={dictionary}
                             getColorForReference={getColorForReference}
@@ -388,9 +389,7 @@ const QueryBuilder = ({
                                 });
                             }}
                             onDeleteQuery={deleteQueryAndSetNext}
-                            onDuplicate={(_, query) =>
-                                addNewQuery(v4(), query.op as BooleanOperators, query.content, query.total)
-                            }
+                            onDuplicate={(_, query) => addNewQuery(v4(), query.op as BooleanOperators, query.content)}
                             onRemoveFacet={(filter, query) => {
                                 updateQueryById(query.id!, removeContentFromSqon(filter, query));
                             }}
@@ -412,7 +411,8 @@ const QueryBuilder = ({
                             isSelected={selectedQueryIndices.includes(i)}
                             selectionDisabled={queriesState.queries.length === 1 || !enableCombine}
                             showLabels={showLabels}
-                            total={total}
+                            fetchQueryCount={fetchQueryCount}
+                            getResolvedQueryForCount={getResolvedQueryForCount}
                         />
                     ))}
                 </div>

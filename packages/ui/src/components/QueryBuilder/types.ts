@@ -1,5 +1,5 @@
 import React from 'react';
-import { ISyntheticSqon, IValueFilter } from '../../data/sqon/types';
+import { ISqonGroupFilter, ISyntheticSqon, IValueFilter } from '../../data/sqon/types';
 
 export type ArrayTenOrMore<T> = {
     0: T;
@@ -19,6 +19,10 @@ export enum CombinerEnum {
     And = 'and',
     Or = 'or',
 }
+
+export type IFetchQueryCount = (sqon: ISyntheticSqon) => Promise<number>;
+
+export type IGetResolvedQueryForCount = (sqon: ISyntheticSqon) => ISqonGroupFilter;
 
 export interface IQueryBuilderState {
     state?: ISyntheticSqon[];
@@ -54,7 +58,7 @@ export interface IQueryBuilderHeaderConfig {
     selectedSavedFilter?: ISavedFilter | null;
     onSetAsFavorite?: (filter: ISavedFilter) => void;
     onUpdateFilter?: (filter: ISavedFilter) => void;
-    onShareFilter?: (filter: ISavedFilter) => void;
+    onShareFilter?: (filter: ISavedFilter) => void;
     onSaveFilter?: (filter: ISavedFilter) => void;
     onDeleteFilter?: (filterId: string) => void;
 }

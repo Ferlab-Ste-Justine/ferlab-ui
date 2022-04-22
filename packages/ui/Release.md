@@ -1,3 +1,6 @@
+### 3.5.0 | 2022-04-22
+- Fix: Update combined queries when a referenced query is modified
+
 ### 3.4.8 | 2022-04-19
 - Feat: Handle set 
 

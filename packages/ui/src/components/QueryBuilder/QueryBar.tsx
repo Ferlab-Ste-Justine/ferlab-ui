@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineCopy, AiOutlineDelete } from 'react-icons/ai';
 import { Button, Checkbox, Popconfirm, Space, Tooltip } from 'antd';
 import cx from 'classnames';
@@ -7,25 +7,28 @@ import BooleanQueryPill from './QueryPills/BooleanQueryPill';
 import {
     IDictionary,
     IFacetFilterConfig,
+    IFetchQueryCount,
+    IGetResolvedQueryForCount,
     TCallbackRemoveAction,
     TCallbackRemoveReferenceAction,
     TOnChange,
 } from './types';
-import { ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
+import { ISqonGroupFilter, ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
 import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
 import { numberFormat } from '../../utils/numberUtils';
+import { LoadingOutlined } from '@ant-design/icons';
+import useQueryBuilderState from './utils/useQueryBuilderState';
+import { isEqual } from 'lodash';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBar.module.scss';
-import { LoadingOutlined } from '@ant-design/icons';
 
 interface IQueryBarProps {
     id: string;
+    queryBuilderId: string;
     Icon: React.ReactNode;
-    total: number;
     index: number;
-    loading?: boolean;
     dictionary?: IDictionary;
-    query: ISyntheticSqon | Record<string, never>;
+    query: ISyntheticSqon;
     actionDisabled?: boolean;
     selectionDisabled?: boolean;
     canDelete?: boolean;
@@ -42,15 +45,16 @@ interface IQueryBarProps {
     onCombineChange: (id: string, combinator: TSqonGroupOp) => void;
     getColorForReference: (refIndex: number) => string;
     facetFilterConfig: IFacetFilterConfig;
+    fetchQueryCount: IFetchQueryCount;
+    getResolvedQueryForCount: IGetResolvedQueryForCount;
 }
 const QueryBar = ({
     id,
     Icon,
     index,
-    total,
-    loading = false,
     dictionary = {},
     query,
+    queryBuilderId,
     onRemoveFacet,
     onRemoveReference,
     actionDisabled = false,
@@ -67,13 +71,35 @@ const QueryBar = ({
     onSelectBar,
     getColorForReference,
     facetFilterConfig,
+    fetchQueryCount,
+    getResolvedQueryForCount,
 }: IQueryBarProps) => {
+    const previousQuery = useRef<ISqonGroupFilter | null>(null);
+    const [total, setTotal] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
     const [checked, setChecked] = useState(isSelected);
+    const referenceColor = getColorForReference(index);
+    const { queryList } = useQueryBuilderState(queryBuilderId);
+    const containerClassNames = cx(styles.queryBarContainer, { [styles.selected]: isActive });
+
     useEffect(() => {
         setChecked(isSelected);
     }, [isSelected]);
-    const referenceColor = getColorForReference(index);
-    const containerClassNames = cx(styles.queryBarContainer, { [styles.selected]: isActive });
+
+    useEffect(() => {
+        const previous = previousQuery.current;
+        const current = getResolvedQueryForCount(query);
+
+        if (!previousQuery.current || !isEqual(previous, current)) {
+            previousQuery.current = current;
+            setIsLoading(true);
+            fetchQueryCount(query)
+                .then(setTotal)
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        }
+    }, [JSON.stringify(queryList), JSON.stringify(query)]);
 
     return (
         <div className={styles.queryBarWrapper}>
@@ -90,11 +116,16 @@ const QueryBar = ({
                 }}
             >
                 {!selectionDisabled && (
-                    <Space direction="horizontal" className={styles.selectionWrapper}>
+                    <Space
+                        direction="horizontal"
+                        className={styles.selectionWrapper}
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <Checkbox
                             checked={checked}
                             className={styles.label}
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.stopPropagation();
                                 setChecked(!checked);
                                 onSelectBar(index, checked);
                             }}
@@ -127,12 +158,7 @@ const QueryBar = ({
                         )
                     )}
                     <span className={styles.total}>
-                        {Icon}{' '}
-                        {isActive && loading ? (
-                            <LoadingOutlined spin />
-                        ) : (
-                            numberFormat(isActive ? total : query.total ?? 0)
-                        )}
+                        {Icon} {isLoading ? <LoadingOutlined spin /> : numberFormat(total)}
                     </span>
                 </Space>
                 {!actionDisabled && (
