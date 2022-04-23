@@ -62,7 +62,7 @@
         "classnames": "^2.2.6",
         "history": "^4.9.0",
         "query-string": "^7.0.1",
-        "react-icons": "^4.2.0",
+        "react-icons": "^4.3.1",
         "simplebar-react": "^2.3.6",
         "uuid": "^8.3.2",
         "xss": "^1.0.9"
