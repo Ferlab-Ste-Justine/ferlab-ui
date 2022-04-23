@@ -27,7 +27,7 @@
     "react-router-dom": ">=5.2.0"
   },
   "dependencies": {
-    "command-line-args": "^5.1.1",
+    "command-line-args": "^5.2.1",
     "cross-spawn": "^7.0.3",
     "less": "^4.1.0",
     "less2sass": "^1.0.3"
