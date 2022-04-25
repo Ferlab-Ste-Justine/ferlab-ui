@@ -43,7 +43,6 @@ export interface IQueryBuilderProps {
     enableSingleQuery?: boolean;
     enableShowHideLabels?: boolean;
     initialShowLabelState?: boolean;
-    initialState?: IQueryBuilderState | Record<any, any>;
     referenceColors?: ArrayTenOrMore<string>;
     headerConfig?: IQueryBuilderHeaderConfig;
     facetFilterConfig?: IFacetFilterConfig;
@@ -62,7 +61,6 @@ const QueryBuilder = ({
     enableSingleQuery = false,
     enableShowHideLabels = false,
     initialShowLabelState = true,
-    initialState = {},
     referenceColors = [
         '#C31D7E',
         '#328536',
@@ -110,8 +108,8 @@ const QueryBuilder = ({
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
     const { state: queryBuilderState } = useQueryBuilderState(id);
     const [queriesState, setQueriesState] = useState<IQueriesState>({
-        activeId: initialState?.active || queryBuilderState?.active || v4(),
-        queries: initialState?.state || queryBuilderState?.state || [],
+        activeId: queryBuilderState?.active || v4(),
+        queries: queryBuilderState?.state || [],
     });
     const [queryBuilderCollapsed, toggleQueryBuilder] = useState(false);
     const [showLabels, setShowLabels] = useState(initialShowLabelState);
@@ -231,14 +229,9 @@ const QueryBuilder = ({
             (!canCombine && queryCount > 1));
 
     useEffect(() => {
-        console.log(selectedSavedFilter?.queries);
-
         if (selectedSavedFilter?.queries?.length!) {
             const activeQuery = selectedSavedFilter.queries.find(({ id }) => id === queryBuilderState?.active);
             const activeId = activeQuery?.id ?? selectedSavedFilter.queries[0].id!;
-
-            console.log('Active: ', activeQuery);
-            console.log('QUERIES: ', selectedSavedFilter.queries);
 
             setQueriesState({
                 activeId: activeId,
