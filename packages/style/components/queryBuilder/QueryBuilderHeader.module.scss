@@ -30,13 +30,8 @@
     justify-content: space-between;
 
     .QBTitleContainer {
-      display: flex;
-      align-items: center;
-
       .QBHActionContainer {
         display: flex;
-        height: auto;
-        line-height: normal;
         align-items: center;
 
         &:hover {
@@ -55,20 +50,6 @@
 
         &.QBHOptionsActionsContainer {
           .iconBtnAction {
-            display: flex;
-            align-items: center;
-            border: 1px solid transparent;
-            padding: 0;
-            max-height: 18px;
-
-            span {
-              display: flex;
-            }
-
-            &:not(:first-child) {
-              margin-left: 12px;
-            }
-
             &:focus,
             &:hover {
               background-color: transparent;

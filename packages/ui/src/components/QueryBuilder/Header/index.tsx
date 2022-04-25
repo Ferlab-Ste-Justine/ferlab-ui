@@ -27,6 +27,7 @@ interface IQueryBuilderHeaderProps {
 }
 
 const { Title } = Typography;
+const tooltipAlign = { align: { offset: [0, 5] } };
 const DEFAULT_TITLE_MAX_LENGTH = 50;
 
 const QueryBuilderHeader = ({
@@ -124,7 +125,7 @@ const QueryBuilderHeader = ({
                                 {localSelectedSavedFilter?.title || config.defaultTitle}
                             </Title>
                         </div>
-                        <div className={cx(styles.QBHActionContainer, styles.QBHOptionsActionsContainer)}>
+                        <Space className={cx(styles.QBHActionContainer, styles.QBHOptionsActionsContainer)}>
                             {config.options?.enableEditTitle && (
                                 <Button
                                     className={styles.iconBtnAction}
@@ -132,34 +133,10 @@ const QueryBuilderHeader = ({
                                         setEditModalVisible(true);
                                     }}
                                     type="text"
-                                >
-                                    <EditOutlined />
-                                </Button>
+                                    size="small"
+                                    icon={<EditOutlined />}
+                                />
                             )}
-                            {config.options?.enableUndoChanges &&
-                                hasUnsavedChanges(selectedSavedFilter!, config.savedFilters!, queriesState) && (
-                                    <Tooltip
-                                        title={
-                                            dictionary.queryBuilderHeader?.tooltips?.undoChanges ||
-                                            'Discard unsaved changes'
-                                        }
-                                    >
-                                        <Button
-                                            className={styles.iconBtnAction}
-                                            onClick={() => {
-                                                if (selectedSavedFilter) {
-                                                    setQueryBuilderState(queryBuilderId, {
-                                                        active: selectedSavedFilter?.queries[0].id,
-                                                        state: selectedSavedFilter?.queries,
-                                                    });
-                                                }
-                                            }}
-                                            type="text"
-                                        >
-                                            <UndoOutlined />
-                                        </Button>
-                                    </Tooltip>
-                                )}
                             {config.options?.enableFavoriteFilter &&
                                 !isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!) && (
                                     <Tooltip
@@ -170,6 +147,7 @@ const QueryBuilderHeader = ({
                                                 : dictionary.queryBuilderHeader?.tooltips?.setAsDefaultFilter ||
                                                   'Set as default filter'
                                         }
+                                        {...tooltipAlign}
                                     >
                                         <Button
                                             className={styles.iconBtnAction}
@@ -190,6 +168,7 @@ const QueryBuilderHeader = ({
                                                 onSavedFilterChange(updatedSavedFilter);
                                             }}
                                             type="text"
+                                            size="small"
                                             icon={
                                                 localSelectedSavedFilter?.favorite ? (
                                                     <StarFilled className={styles.QBHOptionsFavoriteStar} />
@@ -200,7 +179,32 @@ const QueryBuilderHeader = ({
                                         />
                                     </Tooltip>
                                 )}
-                        </div>
+                            {config.options?.enableUndoChanges &&
+                                hasUnsavedChanges(selectedSavedFilter!, config.savedFilters!, queriesState) && (
+                                    <Tooltip
+                                        title={
+                                            dictionary.queryBuilderHeader?.tooltips?.undoChanges ||
+                                            'Discard unsaved changes'
+                                        }
+                                        {...tooltipAlign}
+                                    >
+                                        <Button
+                                            className={styles.iconBtnAction}
+                                            onClick={() => {
+                                                if (selectedSavedFilter) {
+                                                    setQueryBuilderState(queryBuilderId, {
+                                                        active: selectedSavedFilter?.queries[0].id,
+                                                        state: selectedSavedFilter?.queries,
+                                                    });
+                                                }
+                                            }}
+                                            type="text"
+                                            size="small"
+                                            icon={<UndoOutlined />}
+                                        />
+                                    </Tooltip>
+                                )}
+                        </Space>
                     </Space>
                     {config.showTools && (
                         <QueryBuilderHeaderTools
