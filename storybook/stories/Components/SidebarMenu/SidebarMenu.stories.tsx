@@ -1,6 +1,6 @@
 import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
-import SidebarMenu, {ISidebarMenuProps} from '@ferlab/ui/components/sidebarMenu';
+import SidebarMenu, {ISidebarMenuProps} from '@ferlab/ui/components/SidebarMenu';
 import {
     DashboardOutlined,
     ThunderboltOutlined,

@@ -46,6 +46,7 @@ export interface IQueryBuilderHeaderConfigOptions {
     enableShare?: boolean;
     enableDuplicate?: boolean;
     enableFavoriteFilter?: boolean;
+    enableUndoChanges?: boolean;
 }
 
 export interface IQueryBuilderHeaderConfig {
@@ -175,7 +176,8 @@ interface IQueryBuilderHeaderDictionnary {
         delete: React.ReactNode;
         share: React.ReactNode;
         setAsDefaultFilter: React.ReactNode;
-        usetDefaultFilter: React.ReactNode;
+        unsetDefaultFilter: React.ReactNode;
+        undoChanges: React.ReactNode;
         noSavedFilters: React.ReactNode;
     };
     myFiltersDropdown?: {

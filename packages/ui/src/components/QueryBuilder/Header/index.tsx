@@ -4,18 +4,17 @@ import cx from 'classnames';
 import { v4 } from 'uuid';
 import CaretRightIcon from '../icons/CaretRightIcon';
 import CaretDownIcon from '../icons/CaretDownIcon';
-import EditIcon from '../icons/EditIcon';
-import StarIcon from '../icons/StarIcon';
-import StarFilledIcon from '../icons/StarFilledIcon';
 import QueryBuilderHeaderTools from './Tools';
 import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../types';
 import { getDefaultSyntheticSqon } from '../../../data/sqon/utils';
-import { isNewUnsavedFilter } from './utils';
+import { hasUnsavedChanges, isNewUnsavedFilter } from './utils';
+import { EditOutlined, StarFilled, StarOutlined, UndoOutlined, WarningFilled } from '@ant-design/icons';
+import { setQueryBuilderState } from '../utils/useQueryBuilderState';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
-import { WarningFilled } from '@ant-design/icons';
 
 interface IQueryBuilderHeaderProps {
+    queryBuilderId: string;
     config: IQueryBuilderHeaderConfig;
     collapsed: boolean;
     dictionary: IDictionary;
@@ -31,6 +30,7 @@ const { Title } = Typography;
 const DEFAULT_TITLE_MAX_LENGTH = 50;
 
 const QueryBuilderHeader = ({
+    queryBuilderId,
     config,
     collapsed,
     dictionary = {},
@@ -133,15 +133,39 @@ const QueryBuilderHeader = ({
                                     }}
                                     type="text"
                                 >
-                                    <EditIcon />
+                                    <EditOutlined />
                                 </Button>
                             )}
+                            {config.options?.enableUndoChanges &&
+                                hasUnsavedChanges(selectedSavedFilter!, config.savedFilters!, queriesState) && (
+                                    <Tooltip
+                                        title={
+                                            dictionary.queryBuilderHeader?.tooltips?.undoChanges ||
+                                            'Discard unsaved changes'
+                                        }
+                                    >
+                                        <Button
+                                            className={styles.iconBtnAction}
+                                            onClick={() => {
+                                                if (selectedSavedFilter) {
+                                                    setQueryBuilderState(queryBuilderId, {
+                                                        active: selectedSavedFilter?.queries[0].id,
+                                                        state: selectedSavedFilter?.queries,
+                                                    });
+                                                }
+                                            }}
+                                            type="text"
+                                        >
+                                            <UndoOutlined />
+                                        </Button>
+                                    </Tooltip>
+                                )}
                             {config.options?.enableFavoriteFilter &&
                                 !isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!) && (
                                     <Tooltip
                                         title={
                                             localSelectedSavedFilter?.favorite
-                                                ? dictionary.queryBuilderHeader?.tooltips?.usetDefaultFilter ||
+                                                ? dictionary.queryBuilderHeader?.tooltips?.unsetDefaultFilter ||
                                                   'Unset default filter'
                                                 : dictionary.queryBuilderHeader?.tooltips?.setAsDefaultFilter ||
                                                   'Set as default filter'
@@ -166,13 +190,14 @@ const QueryBuilderHeader = ({
                                                 onSavedFilterChange(updatedSavedFilter);
                                             }}
                                             type="text"
-                                        >
-                                            {localSelectedSavedFilter?.favorite ? (
-                                                <StarFilledIcon className={styles.QBHOptionsFavoriteStar} />
-                                            ) : (
-                                                <StarIcon />
-                                            )}
-                                        </Button>
+                                            icon={
+                                                localSelectedSavedFilter?.favorite ? (
+                                                    <StarFilled className={styles.QBHOptionsFavoriteStar} />
+                                                ) : (
+                                                    <StarOutlined />
+                                                )
+                                            }
+                                        />
                                     </Tooltip>
                                 )}
                         </div>

@@ -61,6 +61,10 @@
             padding: 0;
             max-height: 18px;
 
+            span {
+              display: flex;
+            }
+
             &:not(:first-child) {
               margin-left: 12px;
             }

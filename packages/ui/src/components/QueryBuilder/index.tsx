@@ -43,7 +43,6 @@ export interface IQueryBuilderProps {
     enableSingleQuery?: boolean;
     enableShowHideLabels?: boolean;
     initialShowLabelState?: boolean;
-    initialState?: IQueryBuilderState | Record<any, any>;
     referenceColors?: ArrayTenOrMore<string>;
     headerConfig?: IQueryBuilderHeaderConfig;
     facetFilterConfig?: IFacetFilterConfig;
@@ -62,7 +61,6 @@ const QueryBuilder = ({
     enableSingleQuery = false,
     enableShowHideLabels = false,
     initialShowLabelState = true,
-    initialState = {},
     referenceColors = [
         '#C31D7E',
         '#328536',
@@ -89,6 +87,7 @@ const QueryBuilder = ({
             enableEditTitle: true,
             enableShare: false,
             enableFavoriteFilter: false,
+            enableUndoChanges: false,
         },
         savedFilters: [],
         selectedSavedFilter: null,
@@ -109,8 +108,8 @@ const QueryBuilder = ({
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
     const { state: queryBuilderState } = useQueryBuilderState(id);
     const [queriesState, setQueriesState] = useState<IQueriesState>({
-        activeId: initialState?.active || queryBuilderState?.active || v4(),
-        queries: initialState?.state || queryBuilderState?.state || [],
+        activeId: queryBuilderState?.active || v4(),
+        queries: queryBuilderState?.state || [],
     });
     const [queryBuilderCollapsed, toggleQueryBuilder] = useState(false);
     const [showLabels, setShowLabels] = useState(initialShowLabelState);
@@ -233,6 +232,7 @@ const QueryBuilder = ({
         if (selectedSavedFilter?.queries?.length!) {
             const activeQuery = selectedSavedFilter.queries.find(({ id }) => id === queryBuilderState?.active);
             const activeId = activeQuery?.id ?? selectedSavedFilter.queries[0].id!;
+
             setQueriesState({
                 activeId: activeId,
                 queries: selectedSavedFilter.queries,
@@ -329,6 +329,7 @@ const QueryBuilder = ({
             condition={headerConfig?.showHeader}
             wrapper={(children: JSX.Element) => (
                 <QueryBuilderHeader
+                    queryBuilderId={id}
                     config={headerConfig}
                     queriesState={queriesState}
                     selectedSavedFilter={selectedSavedFilter!}

@@ -16,7 +16,7 @@ import {
 import { ISqonGroupFilter, ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
 import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
 import { numberFormat } from '../../utils/numberUtils';
-import { LoadingOutlined } from '@ant-design/icons';
+import { CopyOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 import useQueryBuilderState from './utils/useQueryBuilderState';
 import { isEqual } from 'lodash';
 
@@ -162,7 +162,7 @@ const QueryBar = ({
                     </span>
                 </Space>
                 {!actionDisabled && (
-                    <Space className={styles.actions} size={16}>
+                    <Space className={styles.actions} size={4}>
                         <Button
                             className={styles.actionButton}
                             onClick={(e: React.MouseEvent) => {
@@ -170,9 +170,8 @@ const QueryBar = ({
                                 onDuplicate(id, query);
                             }}
                             type="text"
-                        >
-                            <AiOutlineCopy size={18} />
-                        </Button>
+                            icon={<CopyOutlined />}
+                        />
                         <Popconfirm
                             arrowPointAtCenter
                             cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
@@ -182,7 +181,7 @@ const QueryBar = ({
                                 e!.stopPropagation();
                                 onDeleteQuery(id, query);
                             }}
-                            placement="topRight"
+                            placement="topLeft"
                             title={dictionary.actions?.delete?.title || 'Delete this query?'}
                             getPopupContainer={(trigger) => trigger.parentElement!}
                         >
@@ -192,9 +191,8 @@ const QueryBar = ({
                                     e.stopPropagation();
                                 }}
                                 type="text"
-                            >
-                                <AiOutlineDelete size={18} />
-                            </Button>
+                                icon={<DeleteOutlined />}
+                            />
                         </Popconfirm>
                     </Space>
                 )}

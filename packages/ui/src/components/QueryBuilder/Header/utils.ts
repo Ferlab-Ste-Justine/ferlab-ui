@@ -18,7 +18,7 @@ export const hasUnsavedChanges = (
         return false;
     }
 
-    if (selectedSavedFilter.queries.length != queriesState.queries.length) {
+    if (selectedSavedFilter.queries?.length != queriesState.queries?.length) {
         return true;
     }
 

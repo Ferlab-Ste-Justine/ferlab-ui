@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
-import { Button, Tooltip, Modal, Popconfirm } from 'antd';
-import { DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import StackLayout from '../../../../layout/StackLayout';
+import { Button, Tooltip, Modal, Space } from 'antd';
+import {
+    CopyOutlined,
+    DeleteOutlined,
+    DownOutlined,
+    ExclamationCircleOutlined,
+    FolderOutlined,
+    PlusOutlined,
+    SaveOutlined,
+    ShareAltOutlined,
+} from '@ant-design/icons';
 import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../../types';
-import PlusIcon from '../../icons/PlusIcon';
-import SaveIcon from '../../icons/SaveIcon';
-import CopyIcon from '../../icons/CopyIcon';
-import DeleteIcon from '../../icons/DeleteIcon';
-import ShareIcon from '../../icons/ShareIcon';
-import FolderIcon from '../../icons/FolderIcon';
 import ConditionalWrapper from '../../../utils/ConditionalWrapper';
 import SavedFilters from './SavedFilters';
 import { hasQueries, hasUnsavedChanges, isNewUnsavedFilter } from '../utils';
@@ -26,6 +28,8 @@ interface IQueryBuilderHeaderProps {
     onNewSavedFilter: () => void;
     onDuplicateSavedFilter: () => void;
 }
+
+const tooltipAlign = { align: { offset: [0, 5] } };
 
 const QueryBuilderHeaderTools = ({
     config,
@@ -70,9 +74,12 @@ const QueryBuilderHeaderTools = ({
     }, [JSON.stringify(queriesState), JSON.stringify(selectedSavedFilter), JSON.stringify(config.savedFilters)]);
 
     return (
-        <StackLayout className={styles.queryBuilderHeaderTools}>
-            <StackLayout className={styles.toolsContainer}>
-                <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.newQueryBuilder || 'New query builder'}>
+        <Space className={styles.queryBuilderHeaderTools} size={20}>
+            <Space className={styles.toolsContainer} align="center">
+                <Tooltip
+                    title={dictionary.queryBuilderHeader?.tooltips?.newQueryBuilder || 'New query builder'}
+                    {...tooltipAlign}
+                >
                     <Button
                         className={styles.queryBuilderHeaderActionIconBtn}
                         onClick={(e: React.MouseEvent) => {
@@ -85,9 +92,9 @@ const QueryBuilderHeaderTools = ({
                         }}
                         type="text"
                         disabled={isNewFilter}
-                    >
-                        <PlusIcon />
-                    </Button>
+                        size="small"
+                        icon={<PlusOutlined />}
+                    />
                 </Tooltip>
                 <Tooltip
                     title={
@@ -95,6 +102,7 @@ const QueryBuilderHeaderTools = ({
                             ? dictionary.queryBuilderHeader?.tooltips?.saveChanges || 'Save changes'
                             : dictionary.queryBuilderHeader?.tooltips?.save || 'Save filter'
                     }
+                    {...tooltipAlign}
                 >
                     <Button
                         className={cx(styles.queryBuilderHeaderActionIconBtn, isDirty ? styles.dirty : '')}
@@ -110,15 +118,16 @@ const QueryBuilderHeaderTools = ({
                         }}
                         type="text"
                         disabled={isSaveButtonDisabled}
-                    >
-                        <SaveIcon />
-                    </Button>
+                        size="small"
+                        icon={<SaveOutlined />}
+                    />
                 </Tooltip>
                 {config.options?.enableDuplicate && (
                     <Tooltip
                         title={
                             dictionary.queryBuilderHeader?.tooltips?.duplicateQueryBuilder || 'Duplicate query builder'
                         }
+                        {...tooltipAlign}
                     >
                         <Button
                             className={styles.queryBuilderHeaderActionIconBtn}
@@ -132,12 +141,12 @@ const QueryBuilderHeaderTools = ({
                             }}
                             type="text"
                             disabled={isNewFilter}
-                        >
-                            <CopyIcon />
-                        </Button>
+                            size="small"
+                            icon={<CopyOutlined />}
+                        />
                     </Tooltip>
                 )}
-                <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.delete || 'Delete'}>
+                <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.delete || 'Delete'} {...tooltipAlign}>
                     <Button
                         className={styles.queryBuilderHeaderActionIconBtn}
                         type="text"
@@ -161,12 +170,15 @@ const QueryBuilderHeaderTools = ({
                                 },
                             })
                         }
-                    >
-                        <DeleteIcon />
-                    </Button>
+                        size="small"
+                        icon={<DeleteOutlined />}
+                    />
                 </Tooltip>
                 {config.options?.enableShare && (
-                    <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.share || 'Share (Copy url)'}>
+                    <Tooltip
+                        title={dictionary.queryBuilderHeader?.tooltips?.share || 'Share (Copy url)'}
+                        {...tooltipAlign}
+                    >
                         <Button
                             className={styles.queryBuilderHeaderActionIconBtn}
                             onClick={(e: React.MouseEvent) => {
@@ -176,14 +188,14 @@ const QueryBuilderHeaderTools = ({
                                 }
                             }}
                             type="text"
+                            size="small"
                             disabled={isNewFilter || isDirty}
-                        >
-                            <ShareIcon />
-                        </Button>
+                            icon={<ShareAltOutlined />}
+                        />
                     </Tooltip>
                 )}
-            </StackLayout>
-            <StackLayout className={styles.extra}>
+            </Space>
+            <div className={styles.extra}>
                 <ConditionalWrapper
                     condition={true}
                     wrapper={(children: JSX.Element) => {
@@ -215,8 +227,8 @@ const QueryBuilderHeaderTools = ({
                 >
                     <Button
                         className={styles.queryBuilderHeaderDdb}
-                        size={'small'}
-                        icon={<FolderIcon className={styles.prefixIcon} />}
+                        size="small"
+                        icon={<FolderOutlined />}
                         disabled={savedFilters.length == 0}
                     >
                         <span className={styles.bContent}>
@@ -225,8 +237,8 @@ const QueryBuilderHeaderTools = ({
                         </span>
                     </Button>
                 </ConditionalWrapper>
-            </StackLayout>
-        </StackLayout>
+            </div>
+        </Space>
     );
 };
 

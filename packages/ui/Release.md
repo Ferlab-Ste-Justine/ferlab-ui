@@ -1,3 +1,6 @@
+### 3.5.1 | 2022-04-25
+- Feat: Add options to discard unsaved filter changes
+
 ### 3.5.0 | 2022-04-22
 - Fix: Update combined queries when a referenced query is modified
 
