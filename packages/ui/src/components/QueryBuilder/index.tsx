@@ -89,6 +89,7 @@ const QueryBuilder = ({
             enableEditTitle: true,
             enableShare: false,
             enableFavoriteFilter: false,
+            enableUndoChanges: false,
         },
         savedFilters: [],
         selectedSavedFilter: null,
@@ -230,9 +231,15 @@ const QueryBuilder = ({
             (!canCombine && queryCount > 1));
 
     useEffect(() => {
+        console.log(selectedSavedFilter?.queries);
+
         if (selectedSavedFilter?.queries?.length!) {
             const activeQuery = selectedSavedFilter.queries.find(({ id }) => id === queryBuilderState?.active);
             const activeId = activeQuery?.id ?? selectedSavedFilter.queries[0].id!;
+
+            console.log('Active: ', activeQuery);
+            console.log('QUERIES: ', selectedSavedFilter.queries);
+
             setQueriesState({
                 activeId: activeId,
                 queries: selectedSavedFilter.queries,
@@ -329,6 +336,7 @@ const QueryBuilder = ({
             condition={headerConfig?.showHeader}
             wrapper={(children: JSX.Element) => (
                 <QueryBuilderHeader
+                    queryBuilderId={id}
                     config={headerConfig}
                     queriesState={queriesState}
                     selectedSavedFilter={selectedSavedFilter!}
