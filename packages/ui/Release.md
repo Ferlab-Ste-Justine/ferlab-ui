@@ -1,3 +1,6 @@
+### 3.5.3 | 2022-04-26
+- Fix: Add new class props for FilterContainer
+
 ### 3.5.1 | 2022-04-25
 - Feat: Add options to discard unsaved filter changes
 

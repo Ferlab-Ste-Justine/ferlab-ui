@@ -1,3 +1,7 @@
+### 1.17.2 | 2022-04-26
+
+- Fix: Update filter container styling
+
 ### 1.9.93 | 2021-12-06
 
 - Feat: add custom color variable for query builder header border divider
@@ -9,6 +13,7 @@
 ### 1.9.7 | 2021-11-01
 
 - fix: Hide input number controls for RangeFilter.
+
 ### 1.14.0 | 2022-01-26
 - feat: New component ProTable
 
