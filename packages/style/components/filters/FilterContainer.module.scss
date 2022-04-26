@@ -1,42 +1,51 @@
-@import 'theme.template';
+@import "theme.template";
 
 $prefix-ant-collapse: "ant-collapse";
 
 .filtersContainerHeader {
-    align-items: center;
-    box-sizing: border-box;
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+
+  .titleContainer {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
 
-    .titleContainer {
-        display: flex;
-        align-items: center;
-
-        .hasFilterIcon {
-            color: $filter-container-header-has-filter-icon-color;
-            fill: $filter-container-header-has-filter-icon-color;
-        }
-
-        .title {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            margin-right: .5rem;
-        }
+    .hasFilterIcon {
+      color: $filter-container-header-has-filter-icon-color;
+      fill: $filter-container-header-has-filter-icon-color;
     }
+
+    .title {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      margin-right: 0.5rem;
+    }
+  }
 }
 
 .filterContainer {
-    width: 100%;
-    
-    .filterContainerCollapse {
-        :global(.#{$prefix-ant-collapse}-header) {
-            padding-top: 5.5px;
-            padding-bottom: 5.5px;
-            padding-right: 16px;
+  width: 100%;
 
-            :global(.#{$prefix-ant-collapse}-arrow) {
-                padding-top: 5.5px;
-            } 
-        }
+  .filterContainerCollapse {
+    margin-top: 8px;
+
+    :global(.#{$prefix-ant-collapse}-header) {
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      padding-top: 5.5px;
+      padding-bottom: 5.5px;
+      padding-right: 16px;
+
+      > :nth-child(2) {
+        flex-grow: 1;
+      }
+
+      :global(.#{$prefix-ant-collapse}-arrow) {
+        padding-top: 5.5px;
+      }
     }
+  }
 }

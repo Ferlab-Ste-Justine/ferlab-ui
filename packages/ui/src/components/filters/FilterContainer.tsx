@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import { Collapse } from 'antd';
 import { isEmpty } from 'lodash';
-
+import cx from 'classnames';
 import StackLayout from '../../layout/StackLayout';
-
 import FilterSelector from './FilterSelector';
 import CheckedIcon from './icons/CheckedIcon';
 import {
@@ -31,6 +30,8 @@ type FilterContainerProps = {
     isOpen?: boolean;
     dictionary?: IDictionary;
     customContent?: React.ReactNode;
+    className?: string;
+    collapseClassName?: string;
     onChange: onChangeType;
     onIsOpenChange?: onIsOpenChange;
     onSearchVisibleChange?: onSearchVisibleChange;
@@ -68,6 +69,8 @@ const hasFilters = (filterGroup: IFilterGroup, selectedFilters: IFilter[]) => {
 
 const FilterContainer = ({
     filterGroup,
+    className = '',
+    collapseClassName = '',
     filters = [],
     maxShowing = 5,
     selectedFilters,
@@ -90,9 +93,9 @@ const FilterContainer = ({
     const hasSearchEnabled = () => filterGroup.type === VisualType.Checkbox && filters.length > maxShowing;
 
     return (
-        <div className={styles.filterContainer}>
+        <div className={cx(styles.filterContainer, className)}>
             <Collapse
-                className={styles.filterContainerCollapse}
+                className={cx(styles.filterContainerCollapse, collapseClassName)}
                 {...defaultActiveKey}
                 onChange={(panels) => {
                     if (onIsOpenChange) onIsOpenChange(panels.length !== 0);
