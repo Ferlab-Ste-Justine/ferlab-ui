@@ -34,6 +34,7 @@
     flex: 1;
     line-height: $checkbox-filter-item-line-height;
     width: 75%;
+    align-items: baseline;
 
     & > span {
       align-items: center;

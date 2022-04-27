@@ -9,7 +9,7 @@ import LessThanOperatorIcon from './icons/LessThanOperatorIcon';
 import LessThanOrEqualOperatorIcon from './icons/LessThanOrEqualOperatorIcon';
 import GreaterThanOperatorIcon from './icons/GreaterThanOperatorIcon';
 import GreaterThanOrEqualOperatorIcon from './icons/GreaterThanOrEqualOperatorIcon';
-
+import { isNull } from 'lodash';
 import {
     IDictionary,
     IFilter,
@@ -21,7 +21,6 @@ import {
 } from './types';
 
 import styles from '@ferlab/style/components/filters/RangeFilter.module.scss';
-import { isEmpty, isNull } from 'lodash';
 
 const { Option } = Select;
 
@@ -178,24 +177,14 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
         }));
     };
 
-    const onMinChanged = (value: string | number | null | undefined) => {
-        if (!value) return;
+    const onMinChanged = (value: string | number | undefined) => {
         let min = typeof value === 'string' ? parseFloat(value) : value;
-        min = min > max! ? max! : min;
-
-        if (!(min < minPossibleValue)) {
-            setRangeFilter((prevState) => ({ ...prevState, min }));
-        }
+        setRangeFilter((prevState) => ({ ...prevState, min }));
     };
 
-    const onMaxChanged = (value: string | number | null | undefined) => {
-        if (!value) return;
+    const onMaxChanged = (value: string | number | undefined) => {
         let max = typeof value === 'string' ? parseFloat(value) : value;
-        max = max < min! ? min! : max;
-
-        if (max <= maxPossibleValue) {
-            setRangeFilter((prevState) => ({ ...prevState, max }));
-        }
+        setRangeFilter((prevState) => ({ ...prevState, max }));
     };
 
     if (!range) {
