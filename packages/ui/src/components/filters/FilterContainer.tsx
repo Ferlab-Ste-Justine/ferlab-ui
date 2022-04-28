@@ -29,7 +29,7 @@ type FilterContainerProps = {
     onChange: onChangeType;
     onIsOpenChange?: onIsOpenChange;
     onSearchVisibleChange?: onSearchVisibleChange;
-    collapseProps: Omit<TCollapseProps, 'defaultActiveKey' | 'onChange' | 'size'>;
+    collapseProps?: Omit<TCollapseProps, 'defaultActiveKey' | 'onChange' | 'size'>;
 };
 
 type FilterContainerHeaderProps = {
