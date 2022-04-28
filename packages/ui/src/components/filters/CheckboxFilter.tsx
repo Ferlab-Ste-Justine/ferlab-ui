@@ -51,15 +51,6 @@ const CheckboxFilter = ({
               )
             : filter.name;
 
-    const hasChanged = () => {
-        if (localselectedFilters.length != selectedFilters.length) return true;
-        if (localselectedFilters.length + selectedFilters.length == 0) return false;
-
-        return !localselectedFilters.every(
-            (value: IFilter) => selectedFilters.find((sValue: IFilter) => sValue.id == value.id) != undefined,
-        );
-    };
-
     const handleOnChange = (newFilter: IFilter[]) => {
         if (withFooter) {
             setLocalSelectedFilters(newFilter);

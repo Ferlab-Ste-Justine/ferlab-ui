@@ -13,7 +13,7 @@ import {
     onSearchVisibleChange,
     VisualType,
 } from './types';
-import Collapse, { CollapsePanel } from '../Collapse';
+import Collapse, { CollapsePanel, TCollapseProps } from '../Collapse';
 
 import styles from '@ferlab/style/components/filters/FilterContainer.module.scss';
 
@@ -26,10 +26,10 @@ type FilterContainerProps = {
     dictionary?: IDictionary;
     customContent?: React.ReactNode;
     className?: string;
-    collapseClassName?: string;
     onChange: onChangeType;
     onIsOpenChange?: onIsOpenChange;
     onSearchVisibleChange?: onSearchVisibleChange;
+    collapseProps: Omit<TCollapseProps, 'defaultActiveKey' | 'onChange' | 'size'>;
 };
 
 type FilterContainerHeaderProps = {
@@ -49,7 +49,6 @@ const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({ title, ha
 const FilterContainer = ({
     filterGroup,
     className = '',
-    collapseClassName = '',
     filters = [],
     maxShowing = 5,
     selectedFilters,
@@ -59,6 +58,7 @@ const FilterContainer = ({
     onChange,
     onIsOpenChange,
     onSearchVisibleChange,
+    collapseProps,
 }: FilterContainerProps) => {
     const [isSearchVisible, setIsSearchVisible] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(!isOpen);
@@ -68,14 +68,14 @@ const FilterContainer = ({
         if (onSearchVisibleChange) onSearchVisibleChange(visible);
         setIsSearchVisible(visible);
     };
-
     const hasSearchEnabled = () => filterGroup.type === VisualType.Checkbox && filters.length > maxShowing;
 
     return (
         <div className={cx(styles.filterContainer, className)}>
             <Collapse
-                className={cx(styles.filterContainerCollapse, collapseClassName)}
+                {...collapseProps}
                 {...defaultActiveKey}
+                className={cx(styles.filterContainerCollapse, collapseProps?.className)}
                 onChange={(panels) => {
                     if (onIsOpenChange) onIsOpenChange(panels.length !== 0);
                     setIsCollapsed(panels.length === 0);
