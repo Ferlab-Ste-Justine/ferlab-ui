@@ -1,0 +1,51 @@
+@import "theme.template";
+
+$prefix-ant-collapse: "ant-collapse";
+
+.fuiCollapse {
+  > :global(.#{$prefix-ant-collapse}-item) {
+    > :global(.#{$prefix-ant-collapse}-header) {
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      padding-left: 35px !important;
+    }
+  }
+
+  :global(.#{$prefix-ant-collapse}-content-box) {
+    padding: 12px 16px !important;
+  }
+
+  &.headerBorderOnly {
+    :global(.#{$prefix-ant-collapse}-content) {
+      background-color: white;
+      border-top: 1px solid $collapse-header-border-color;
+    }
+  }
+
+  &.light {
+    :global(.#{$prefix-ant-collapse}-header) {
+      background-color: $collapse-light-background-color;
+    }
+  }
+
+  &.shade {
+    :global(.#{$prefix-ant-collapse}-header) {
+      background-color: $collapse-shade-background-color;
+    }
+  }
+
+  &.small {
+    > :global(.#{$prefix-ant-collapse}-item) {
+      > :global(.#{$prefix-ant-collapse}-header) {
+        padding-top: 5.5px;
+        padding-bottom: 5.5px;
+        padding-right: 16px;
+
+        :global(.#{$prefix-ant-collapse}-arrow) {
+          padding-top: 5.5px;
+        }
+      }
+    }
+  }
+}

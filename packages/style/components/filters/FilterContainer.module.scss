@@ -30,22 +30,5 @@ $prefix-ant-collapse: "ant-collapse";
 
   .filterContainerCollapse {
     margin-top: 8px;
-
-    :global(.#{$prefix-ant-collapse}-header) {
-      display: flex;
-      align-items: center;
-      font-weight: 500;
-      padding-top: 5.5px;
-      padding-bottom: 5.5px;
-      padding-right: 16px;
-
-      > :nth-child(2) {
-        flex-grow: 1;
-      }
-
-      :global(.#{$prefix-ant-collapse}-arrow) {
-        padding-top: 5.5px;
-      }
-    }
   }
 }

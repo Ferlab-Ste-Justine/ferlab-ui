@@ -1,3 +1,6 @@
+### 3.6.0 | 2022-04-27
+- Feat: New Collapse Component
+
 ### 3.5.3 | 2022-04-26
 - Fix: Add new class props for FilterContainer
 

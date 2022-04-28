@@ -1,3 +1,7 @@
+### 1.18.0 | 2022-04-27
+
+- Feat: New Collapse Component
+
 ### 1.17.2 | 2022-04-26
 
 - Fix: Update filter container styling

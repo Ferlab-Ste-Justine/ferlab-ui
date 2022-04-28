@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
-import { Collapse } from 'antd';
-import { isEmpty } from 'lodash';
 import cx from 'classnames';
 import StackLayout from '../../layout/StackLayout';
 import FilterSelector from './FilterSelector';
@@ -10,17 +8,14 @@ import {
     IDictionary,
     IFilter,
     IFilterGroup,
-    IFilterRange,
-    IFilterText,
     onChangeType,
     onIsOpenChange,
     onSearchVisibleChange,
     VisualType,
 } from './types';
+import Collapse, { CollapsePanel } from '../Collapse';
 
 import styles from '@ferlab/style/components/filters/FilterContainer.module.scss';
-
-const { Panel } = Collapse;
 
 type FilterContainerProps = {
     filterGroup: IFilterGroup;
@@ -50,22 +45,6 @@ const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({ title, ha
         </div>
     </StackLayout>
 );
-
-const hasFilters = (filterGroup: IFilterGroup, selectedFilters: IFilter[]) => {
-    switch (filterGroup.type) {
-        case VisualType.Checkbox:
-        case VisualType.Toggle:
-            return selectedFilters?.length > 0;
-        case VisualType.Range:
-            const rangeFilters = selectedFilters as IFilter<IFilterRange>[];
-            return rangeFilters.length ? rangeFilters[0].data.max! > 0 || rangeFilters[0].data.min! > 0 : false;
-        case VisualType.Text:
-            const textFilters = selectedFilters as IFilter<IFilterText>[];
-            return textFilters.length ? !isEmpty(textFilters[0].data.text) : false;
-        default:
-            return false;
-    }
-};
 
 const FilterContainer = ({
     filterGroup,
@@ -101,8 +80,9 @@ const FilterContainer = ({
                     if (onIsOpenChange) onIsOpenChange(panels.length !== 0);
                     setIsCollapsed(panels.length === 0);
                 }}
+                size="small"
             >
-                <Panel
+                <CollapsePanel
                     className={styles.filterContainerContent}
                     header={<FilterContainerHeader title={filterGroup.title} />}
                     key={`1`}
@@ -134,7 +114,7 @@ const FilterContainer = ({
                             selectedFilters={selectedFilters}
                         />
                     )}
-                </Panel>
+                </CollapsePanel>
             </Collapse>
         </div>
     );
