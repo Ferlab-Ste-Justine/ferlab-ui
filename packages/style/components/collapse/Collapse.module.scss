@@ -11,6 +11,13 @@ $prefix-ant-collapse: "ant-collapse";
     }
   }
 
+  > :global(.#{$prefix-ant-collapse}-active) {
+    > :global(.#{$prefix-ant-collapse}-header) {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
   :global(.#{$prefix-ant-collapse}-content-box) {
     padding: 12px 16px !important;
   }

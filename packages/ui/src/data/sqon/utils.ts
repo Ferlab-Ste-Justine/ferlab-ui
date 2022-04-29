@@ -319,6 +319,10 @@ const deeplySetSqonValue = (sourceSqon: ISyntheticSqon, newSqon: IValueFilter, o
         if (castedValueSqon.content.field === newSqon.content.field) {
             found = true;
 
+            if (newSqon.content.alternateName) {
+                castedValueSqon.content.alternateName = newSqon.content.alternateName;
+            }
+
             if (newSqon.op) {
                 if (opts.operator !== MERGE_OPERATOR_STRATEGIES.KEEP_OPERATOR) {
                     castedValueSqon.op = newSqon.op;
