@@ -5,7 +5,14 @@
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+
+  &.left {
+    justify-content: left;
+  }
+
+  &.center {
+    justify-content: center;
+  }
 
   .contentWrapper {
     .title,
@@ -13,7 +20,7 @@
       margin-bottom: 0;
       color: $empty-content-color;
     }
-    
+
     .action {
       color: unset;
       margin-top: 24px;
@@ -31,6 +38,10 @@
     align-items: center;
     flex-direction: column;
     text-align: center;
+  }
+
+  &.noPadding {
+    padding: 0 !important;
   }
 
   &.mini {

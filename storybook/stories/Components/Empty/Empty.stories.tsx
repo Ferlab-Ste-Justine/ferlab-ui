@@ -131,6 +131,14 @@ export const EmptyDefaultWithAction = EmptyPropsStory.bind({});
 EmptyDefaultWithAction.args = {
     storyTitle: "Empty Default Custom Action",
     description: "No data message",
-    action: <button>Custom action</button>
+    action: <button>Custom action</button>,
 };
 
+export const EmptyDescriptionOnlyLeft = EmptyPropsStory.bind({});
+EmptyDescriptionOnlyLeft.args = {
+    showImage: false,
+    noPadding: true, 
+    storyTitle: "Empty Description Only Left",
+    description: "No data message",
+    align: "left",
+};

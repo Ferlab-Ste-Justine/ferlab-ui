@@ -19,6 +19,8 @@ export interface IEmptyProps {
     imageType?: IImageType;
     description?: string;
     action?: ReactNode;
+    noPadding?: boolean;
+    align?: 'left' | 'center';
 }
 
 const { Text, Title } = Typography;
@@ -32,8 +34,10 @@ const Empty = ({
     showImage = true,
     imageType = 'row',
     action,
+    noPadding = false,
+    align = 'center',
 }: IEmptyProps) => (
-    <div className={cx(styles.fuiEmpty, className, styles[size])}>
+    <div className={cx(styles.fuiEmpty, className, styles[size], noPadding ? styles.noPadding : '', styles[align])}>
         <div className={styles.content}>
             {showImage ? (
                 image ? (
