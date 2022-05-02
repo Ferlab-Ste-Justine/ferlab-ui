@@ -1,5 +1,6 @@
 import React from 'react';
 import { ISqonGroupFilter, ISyntheticSqon, IValueFilter } from '../../data/sqon/types';
+import { TCollapseProps } from '../Collapse';
 
 export type ArrayTenOrMore<T> = {
     0: T;
@@ -57,6 +58,7 @@ export interface IQueryBuilderHeaderConfig {
     options?: IQueryBuilderHeaderConfigOptions;
     savedFilters?: ISavedFilter[];
     selectedSavedFilter?: ISavedFilter | null;
+    collapseProps?: Omit<TCollapseProps, 'defaultActiveKey'>;
     onSetAsFavorite?: (filter: ISavedFilter) => void;
     onUpdateFilter?: (filter: ISavedFilter) => void;
     onShareFilter?: (filter: ISavedFilter) => void;

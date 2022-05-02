@@ -8,7 +8,7 @@ import { getDefaultSyntheticSqon } from '../../../data/sqon/utils';
 import { hasUnsavedChanges, isNewUnsavedFilter } from './utils';
 import { EditOutlined, StarFilled, StarOutlined, UndoOutlined, WarningFilled } from '@ant-design/icons';
 import { setQueryBuilderState } from '../utils/useQueryBuilderState';
-import Collapse, { CollapsePanel } from '../../Collapse';
+import Collapse, { CollapsePanel, TCollapseProps } from '../../Collapse';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
 
@@ -148,7 +148,14 @@ const QueryBuilderHeader = ({
 
     return (
         <div id="query-builder-header-tools">
-            <Collapse arrowIcon="caretFilled" size="large" defaultActiveKey={'query-header-tools'}>
+            <Collapse
+                {...{
+                    ...config.collapseProps,
+                    arrowIcon: config.collapseProps?.arrowIcon ?? 'caretFilled',
+                    size: config.collapseProps?.size ?? 'large',
+                }}
+                defaultActiveKey={'query-header-tools'}
+            >
                 <CollapsePanel
                     key="query-header-tools"
                     header={
