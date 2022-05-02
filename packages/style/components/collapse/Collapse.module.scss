@@ -19,7 +19,7 @@ $prefix-ant-collapse: "ant-collapse";
   }
 
   :global(.#{$prefix-ant-collapse}-content-box) {
-    padding: 12px 16px !important;
+    padding: 12px 16px;
   }
 
   &.headerBorderOnly {
@@ -41,12 +41,18 @@ $prefix-ant-collapse: "ant-collapse";
     }
   }
 
+  &.large {
+    > :global(.#{$prefix-ant-collapse}-item) {
+      > :global(.#{$prefix-ant-collapse}-header) {
+        padding: 16px 24px;
+      }
+    }
+  }
+
   &.small {
     > :global(.#{$prefix-ant-collapse}-item) {
       > :global(.#{$prefix-ant-collapse}-header) {
-        padding-top: 5.5px;
-        padding-bottom: 5.5px;
-        padding-right: 16px;
+        padding: 5.5px 16px;
 
         :global(.#{$prefix-ant-collapse}-arrow) {
           padding-top: 5.5px;

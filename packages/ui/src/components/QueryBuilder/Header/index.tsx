@@ -2,23 +2,20 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Typography, Modal, Input, Space, Button, Tooltip, Form } from 'antd';
 import cx from 'classnames';
 import { v4 } from 'uuid';
-import CaretRightIcon from '../icons/CaretRightIcon';
-import CaretDownIcon from '../icons/CaretDownIcon';
 import QueryBuilderHeaderTools from './Tools';
 import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../types';
 import { getDefaultSyntheticSqon } from '../../../data/sqon/utils';
 import { hasUnsavedChanges, isNewUnsavedFilter } from './utils';
 import { EditOutlined, StarFilled, StarOutlined, UndoOutlined, WarningFilled } from '@ant-design/icons';
 import { setQueryBuilderState } from '../utils/useQueryBuilderState';
+import Collapse, { CollapsePanel } from '../../Collapse';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
 
 interface IQueryBuilderHeaderProps {
     queryBuilderId: string;
     config: IQueryBuilderHeaderConfig;
-    collapsed: boolean;
     dictionary: IDictionary;
-    toggleQb: (toggle: boolean) => void;
     children: JSX.Element;
     selectedSavedFilter?: ISavedFilter;
     onSavedFilterChange: TOnSavedFilterChange;
@@ -33,9 +30,7 @@ const DEFAULT_TITLE_MAX_LENGTH = 50;
 const QueryBuilderHeader = ({
     queryBuilderId,
     config,
-    collapsed,
     dictionary = {},
-    toggleQb,
     children,
     selectedSavedFilter,
     onSavedFilterChange,
@@ -104,6 +99,45 @@ const QueryBuilderHeader = ({
         [isEditModalVisible],
     );
 
+    const getExtra = () =>
+        config.showTools ? (
+            <QueryBuilderHeaderTools
+                config={{
+                    ...config,
+                    onDeleteFilter: onDeleteFilter,
+                    onSaveFilter: onSaveFilter,
+                    onUpdateFilter: onUpdateFilter,
+                }}
+                dictionary={dictionary}
+                savedFilters={localSavedFilters!}
+                selectedSavedFilter={selectedSavedFilter!}
+                queriesState={queriesState}
+                onSavedFilterChange={(filter) => {
+                    setSavedFilterTitle(filter.title);
+                    onSavedFilterChange(filter);
+                }}
+                onNewSavedFilter={onNewSavedFilter}
+                onDuplicateSavedFilter={() => {
+                    const duplicatedQueries = [...queriesState.queries].map((query) => ({
+                        ...query,
+                        id: v4(),
+                    }));
+                    const title = `${selectedSavedFilter?.title!} ${
+                        dictionary.queryBuilderHeader?.duplicateFilterTitleSuffix || 'COPY'
+                    }`;
+                    setSavedFilterTitle(title);
+                    onSavedFilterChange({
+                        id: v4(),
+                        title: title,
+                        favorite: false,
+                        queries: duplicatedQueries, // should probably set new id for each filter here
+                    });
+                }}
+            />
+        ) : (
+            []
+        );
+
     useEffect(() => {
         setLocalSavedFilters(config.savedFilters);
     }, [config.savedFilters]);
@@ -114,136 +148,104 @@ const QueryBuilderHeader = ({
 
     return (
         <div id="query-builder-header-tools">
-            <Space direction="vertical" className={styles.QBHContainer} size={0}>
-                <Space className={`${styles.QBToggler} ${collapsed && styles.togglerClosed}`}>
-                    <Space className={styles.QBTitleContainer} size={16}>
-                        <div className={styles.QBHActionContainer} onClick={() => toggleQb(!collapsed)}>
-                            <span className={styles.togglerIcon}>
-                                {collapsed ? <CaretRightIcon /> : <CaretDownIcon />}
-                            </span>
-                            <Title level={1} className={styles.togglerTitle}>
+            <Collapse arrowIcon="caretFilled" size="large" defaultActiveKey={'query-header-tools'}>
+                <CollapsePanel
+                    key="query-header-tools"
+                    header={
+                        <Space className={styles.QBHContainer} size={16}>
+                            <Title level={5} className={styles.togglerTitle}>
                                 {localSelectedSavedFilter?.title || config.defaultTitle}
                             </Title>
-                        </div>
-                        <Space className={cx(styles.QBHActionContainer, styles.QBHOptionsActionsContainer)}>
-                            {config.options?.enableEditTitle && (
-                                <Button
-                                    className={styles.iconBtnAction}
-                                    onClick={() => {
-                                        setEditModalVisible(true);
-                                    }}
-                                    type="text"
-                                    size="small"
-                                    icon={<EditOutlined />}
-                                />
-                            )}
-                            {config.options?.enableFavoriteFilter &&
-                                !isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!) && (
-                                    <Tooltip
-                                        title={
-                                            localSelectedSavedFilter?.favorite
-                                                ? dictionary.queryBuilderHeader?.tooltips?.unsetDefaultFilter ||
-                                                  'Unset default filter'
-                                                : dictionary.queryBuilderHeader?.tooltips?.setAsDefaultFilter ||
-                                                  'Set as default filter'
-                                        }
-                                        {...tooltipAlign}
-                                    >
-                                        <Button
-                                            className={styles.iconBtnAction}
-                                            onClick={() => {
-                                                const updatedSavedFilter = {
-                                                    ...selectedSavedFilter!,
-                                                    favorite: !selectedSavedFilter?.favorite,
-                                                };
-                                                if (selectedSavedFilter?.favorite) {
-                                                    if (config.onUpdateFilter) {
-                                                        config.onUpdateFilter(updatedSavedFilter);
-                                                    }
-                                                } else {
-                                                    if (config?.onSetAsFavorite) {
-                                                        config.onSetAsFavorite(updatedSavedFilter);
-                                                    }
-                                                }
-                                                onSavedFilterChange(updatedSavedFilter);
-                                            }}
-                                            type="text"
-                                            size="small"
-                                            icon={
-                                                localSelectedSavedFilter?.favorite ? (
-                                                    <StarFilled className={styles.QBHOptionsFavoriteStar} />
-                                                ) : (
-                                                    <StarOutlined />
-                                                )
+                            <Space className={cx(styles.QBHActionContainer, styles.QBHOptionsActionsContainer)}>
+                                {config.options?.enableEditTitle && (
+                                    <Button
+                                        className={styles.iconBtnAction}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setEditModalVisible(true);
+                                        }}
+                                        type="text"
+                                        size="small"
+                                        icon={<EditOutlined />}
+                                    />
+                                )}
+                                {config.options?.enableFavoriteFilter &&
+                                    !isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!) && (
+                                        <Tooltip
+                                            title={
+                                                localSelectedSavedFilter?.favorite
+                                                    ? dictionary.queryBuilderHeader?.tooltips?.unsetDefaultFilter ||
+                                                      'Unset default filter'
+                                                    : dictionary.queryBuilderHeader?.tooltips?.setAsDefaultFilter ||
+                                                      'Set as default filter'
                                             }
-                                        />
-                                    </Tooltip>
-                                )}
-                            {config.options?.enableUndoChanges &&
-                                hasUnsavedChanges(selectedSavedFilter!, config.savedFilters!, queriesState) && (
-                                    <Tooltip
-                                        title={
-                                            dictionary.queryBuilderHeader?.tooltips?.undoChanges ||
-                                            'Discard unsaved changes'
-                                        }
-                                        {...tooltipAlign}
-                                    >
-                                        <Button
-                                            className={styles.iconBtnAction}
-                                            onClick={() => {
-                                                if (selectedSavedFilter) {
-                                                    setQueryBuilderState(queryBuilderId, {
-                                                        active: selectedSavedFilter?.queries[0].id,
-                                                        state: selectedSavedFilter?.queries,
-                                                    });
+                                            {...tooltipAlign}
+                                        >
+                                            <Button
+                                                className={styles.iconBtnAction}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    const updatedSavedFilter = {
+                                                        ...selectedSavedFilter!,
+                                                        favorite: !selectedSavedFilter?.favorite,
+                                                    };
+                                                    if (selectedSavedFilter?.favorite) {
+                                                        if (config.onUpdateFilter) {
+                                                            config.onUpdateFilter(updatedSavedFilter);
+                                                        }
+                                                    } else {
+                                                        if (config?.onSetAsFavorite) {
+                                                            config.onSetAsFavorite(updatedSavedFilter);
+                                                        }
+                                                    }
+                                                    onSavedFilterChange(updatedSavedFilter);
+                                                }}
+                                                type="text"
+                                                size="small"
+                                                icon={
+                                                    localSelectedSavedFilter?.favorite ? (
+                                                        <StarFilled className={styles.QBHOptionsFavoriteStar} />
+                                                    ) : (
+                                                        <StarOutlined />
+                                                    )
                                                 }
-                                            }}
-                                            type="text"
-                                            size="small"
-                                            icon={<UndoOutlined />}
-                                        />
-                                    </Tooltip>
-                                )}
+                                            />
+                                        </Tooltip>
+                                    )}
+                                {config.options?.enableUndoChanges &&
+                                    hasUnsavedChanges(selectedSavedFilter!, config.savedFilters!, queriesState) && (
+                                        <Tooltip
+                                            title={
+                                                dictionary.queryBuilderHeader?.tooltips?.undoChanges ||
+                                                'Discard unsaved changes'
+                                            }
+                                            {...tooltipAlign}
+                                        >
+                                            <Button
+                                                className={styles.iconBtnAction}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (selectedSavedFilter) {
+                                                        setQueryBuilderState(queryBuilderId, {
+                                                            active: selectedSavedFilter?.queries[0].id,
+                                                            state: selectedSavedFilter?.queries,
+                                                        });
+                                                    }
+                                                }}
+                                                type="text"
+                                                size="small"
+                                                icon={<UndoOutlined />}
+                                            />
+                                        </Tooltip>
+                                    )}
+                            </Space>
                         </Space>
-                    </Space>
-                    {config.showTools && (
-                        <QueryBuilderHeaderTools
-                            config={{
-                                ...config,
-                                onDeleteFilter: onDeleteFilter,
-                                onSaveFilter: onSaveFilter,
-                                onUpdateFilter: onUpdateFilter,
-                            }}
-                            dictionary={dictionary}
-                            savedFilters={localSavedFilters!}
-                            selectedSavedFilter={selectedSavedFilter!}
-                            queriesState={queriesState}
-                            onSavedFilterChange={(filter) => {
-                                setSavedFilterTitle(filter.title);
-                                onSavedFilterChange(filter);
-                            }}
-                            onNewSavedFilter={onNewSavedFilter}
-                            onDuplicateSavedFilter={() => {
-                                const duplicatedQueries = [...queriesState.queries].map((query) => ({
-                                    ...query,
-                                    id: v4(),
-                                }));
-                                const title = `${selectedSavedFilter?.title!} ${
-                                    dictionary.queryBuilderHeader?.duplicateFilterTitleSuffix || 'COPY'
-                                }`;
-                                setSavedFilterTitle(title);
-                                onSavedFilterChange({
-                                    id: v4(),
-                                    title: title,
-                                    favorite: false,
-                                    queries: duplicatedQueries, // should probably set new id for each filter here
-                                });
-                            }}
-                        />
-                    )}
-                </Space>
-                {!collapsed && children}
-            </Space>
+                    }
+                    extra={getExtra()}
+                >
+                    {children}
+                </CollapsePanel>
+            </Collapse>
             <Modal
                 className={styles.QBHeditModal}
                 visible={isEditModalVisible}

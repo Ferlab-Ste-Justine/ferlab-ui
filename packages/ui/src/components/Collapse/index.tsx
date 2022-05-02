@@ -1,21 +1,19 @@
 import { Collapse as AntCollapse, CollapseProps, CollapsePanelProps } from 'antd';
 import cx from 'classnames';
 import React from 'react';
-
-import styles from '@ferlab/style/components/collapse/Collapse.module.scss';
 import {
-    CaretDownFilled,
     CaretDownOutlined,
-    CaretRightFilled,
     CaretRightOutlined,
     DownOutlined,
     RightOutlined,
 } from '@ant-design/icons';
 import { isUndefined } from 'lodash';
 
+import styles from '@ferlab/style/components/collapse/Collapse.module.scss';
+
 export type TCollapseProps = CollapseProps & {
     children?: React.ReactNode;
-    size?: 'default' | 'small';
+    size?: 'large' | 'default' | 'small';
     theme?: 'shade' | 'light';
     arrowIcon?: 'caretOutlined' | 'caretFilled';
     headerBorderOnly?: boolean;

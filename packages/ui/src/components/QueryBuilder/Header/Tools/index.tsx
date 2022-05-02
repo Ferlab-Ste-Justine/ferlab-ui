@@ -151,7 +151,8 @@ const QueryBuilderHeaderTools = ({
                         className={styles.queryBuilderHeaderActionIconBtn}
                         type="text"
                         disabled={isNewFilter}
-                        onClick={() =>
+                        onClick={(e) => {
+                            e.stopPropagation();
                             Modal.confirm({
                                 title:
                                     dictionary.queryBuilderHeader?.popupConfirm?.delete.title ||
@@ -168,8 +169,8 @@ const QueryBuilderHeaderTools = ({
                                         config.onDeleteFilter(selectedSavedFilter!.id);
                                     }
                                 },
-                            })
-                        }
+                            });
+                        }}
                         size="small"
                         icon={<DeleteOutlined />}
                     />
@@ -229,6 +230,7 @@ const QueryBuilderHeaderTools = ({
                         className={styles.queryBuilderHeaderDdb}
                         size="small"
                         icon={<FolderOutlined />}
+                        onClick={(e) => e.stopPropagation()}
                         disabled={savedFilters.length == 0}
                     >
                         <span className={styles.bContent}>

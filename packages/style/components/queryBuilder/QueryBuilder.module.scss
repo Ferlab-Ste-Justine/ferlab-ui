@@ -1,21 +1,22 @@
-@import 'theme.template';
+@import "theme.template";
 
-.queryBuilderContainer {
+.queryBuilderWrapper {
+  .queryBuilderContainer {
+    padding: $query-builder-content-padding;
     background: $query-builder-bg;
     border: 1px solid $query-builder-border-color;
     border-top: 1px solid $query-builder-header-border-divider-color;
-    border-radius: 2px;
-    padding: $query-builder-padding;
+  }
+}
 
-    &.hasHeader {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
+.queryBuilderContainer {
+  border-radius: 2px;
+  padding: $query-builder-collapse-content-box-padding;
 
-    .queryBars {
-        flex-direction: column;
-        > *:not(:last-child) {
-            margin-bottom: 8px;
-        }
+  .queryBars {
+    flex-direction: column;
+    > *:not(:last-child) {
+      margin-bottom: 8px;
     }
+  }
 }

@@ -36,7 +36,7 @@ const SavedFiltersMenu = ({
     return (
         <Dropdown
             overlay={
-                <Menu selectedKeys={selectedKey ? [selectedKey] : []}>
+                <Menu selectedKeys={selectedKey ? [selectedKey] : []} onClick={(e) => e.domEvent.stopPropagation()}>
                     {savedFilters.map((savedFilter: ISavedFilter) => (
                         <Menu.Item
                             key={savedFilter.id}

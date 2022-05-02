@@ -111,7 +111,6 @@ const QueryBuilder = ({
         activeId: queryBuilderState?.active || v4(),
         queries: queryBuilderState?.state || [],
     });
-    const [queryBuilderCollapsed, toggleQueryBuilder] = useState(false);
     const [showLabels, setShowLabels] = useState(initialShowLabelState);
     const [selectedQueryIndices, setSelectedQueryIndices] = useState<number[]>([]);
     const emptyQueries = queriesState.queries.filter((sqon) => isEmptySqon(sqon));
@@ -326,26 +325,26 @@ const QueryBuilder = ({
 
     return (
         <ConditionalWrapper
-            condition={headerConfig?.showHeader}
-            wrapper={(children: JSX.Element) => (
-                <QueryBuilderHeader
-                    queryBuilderId={id}
-                    config={headerConfig}
-                    queriesState={queriesState}
-                    selectedSavedFilter={selectedSavedFilter!}
-                    onSavedFilterChange={setSelectedSavedFilter}
-                    collapsed={queryBuilderCollapsed}
-                    dictionary={dictionary}
-                    toggleQb={toggleQueryBuilder}
-                    resetQueriesState={resetQueries}
-                >
-                    {children}
-                </QueryBuilderHeader>
-            )}
+            condition={true}
+            wrapper={(children: JSX.Element) =>
+                headerConfig?.showHeader ? (
+                    <QueryBuilderHeader
+                        queryBuilderId={id}
+                        config={headerConfig}
+                        queriesState={queriesState}
+                        selectedSavedFilter={selectedSavedFilter!}
+                        onSavedFilterChange={setSelectedSavedFilter}
+                        dictionary={dictionary}
+                        resetQueriesState={resetQueries}
+                    >
+                        {children}
+                    </QueryBuilderHeader>
+                ) : (
+                    <div className={`${styles.queryBuilderWrapper} ${className}`}>{children}</div>
+                )
+            }
         >
-            <div
-                className={`${styles.queryBuilderContainer} ${!queryBuilderCollapsed && styles.hasHeader} ${className}`}
-            >
+            <div className={`${styles.queryBuilderContainer} ${className}`}>
                 <div className={styles.queryBars}>
                     {queriesState.queries.map((sqon, i) => (
                         <QueryBar
