@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import cx from 'classnames';
 import StackLayout from '../../layout/StackLayout';
@@ -52,7 +52,7 @@ const FilterContainer = ({
     filters = [],
     maxShowing = 5,
     selectedFilters,
-    isOpen = true,
+    isOpen = false,
     dictionary,
     customContent,
     onChange,
@@ -61,24 +61,33 @@ const FilterContainer = ({
     collapseProps,
 }: FilterContainerProps) => {
     const [isSearchVisible, setIsSearchVisible] = useState(false);
-    const [isCollapsed, setIsCollapsed] = useState(!isOpen);
-    const defaultActiveKey = isCollapsed ? {} : { defaultActiveKey: filterGroup.field };
+    const [collapseOpen, setCollapseOpen] = useState(isOpen);
+
+    useEffect(() => {
+        if (isOpen !== collapseOpen) {
+            setCollapseOpen(isOpen);
+        }
+    }, [isOpen]);
 
     const onSearchClick = (visible: boolean) => {
         if (onSearchVisibleChange) onSearchVisibleChange(visible);
         setIsSearchVisible(visible);
     };
+
+    console.log(collapseOpen);
+
     const hasSearchEnabled = () => filterGroup.type === VisualType.Checkbox && filters.length > maxShowing;
 
     return (
         <div className={cx(styles.filterContainer, className)}>
             <Collapse
                 {...collapseProps}
-                {...defaultActiveKey}
+                defaultActiveKey={collapseOpen ? filterGroup.field : undefined}
+                activeKey={collapseOpen ? filterGroup.field : undefined}
                 className={cx(styles.filterContainerCollapse, collapseProps?.className)}
                 onChange={(panels) => {
                     if (onIsOpenChange) onIsOpenChange(panels.length !== 0);
-                    setIsCollapsed(panels.length === 0);
+                    setCollapseOpen(panels.length !== 0);
                 }}
                 size="small"
             >
@@ -87,7 +96,7 @@ const FilterContainer = ({
                     header={<FilterContainerHeader title={filterGroup.title} />}
                     key={filterGroup.field}
                     extra={
-                        hasSearchEnabled() && !isCollapsed
+                        hasSearchEnabled() && collapseOpen
                             ? [
                                   <SearchOutlined
                                       className={`search-icon ${styles.fuiSearchIcon}`}
