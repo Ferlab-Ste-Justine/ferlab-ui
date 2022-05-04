@@ -62,7 +62,7 @@ const FilterContainer = ({
 }: FilterContainerProps) => {
     const [isSearchVisible, setIsSearchVisible] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(!isOpen);
-    const defaultActiveKey = isCollapsed ? {} : { defaultActiveKey: '1' };
+    const defaultActiveKey = isCollapsed ? {} : { defaultActiveKey: filterGroup.field };
 
     const onSearchClick = (visible: boolean) => {
         if (onSearchVisibleChange) onSearchVisibleChange(visible);
@@ -85,12 +85,13 @@ const FilterContainer = ({
                 <CollapsePanel
                     className={styles.filterContainerContent}
                     header={<FilterContainerHeader title={filterGroup.title} />}
-                    key={`1`}
+                    key={filterGroup.field}
                     extra={
                         hasSearchEnabled() && !isCollapsed
                             ? [
                                   <SearchOutlined
                                       className={`search-icon ${styles.fuiSearchIcon}`}
+                                      key="search-icon"
                                       onClick={(e) => {
                                           e.preventDefault();
                                           e.stopPropagation();

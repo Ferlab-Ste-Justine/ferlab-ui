@@ -32,7 +32,7 @@ $select-prefix: 'ant-select';
         max-height: $sidebar-menu-item-icon-size;
         min-width: $sidebar-menu-item-icon-size;
         max-width: $sidebar-menu-item-icon-size;
-        font-size: $sidebar-menu-item-icon-size;
+        font-size: $sidebar-menu-item-icon-size !important;
         line-height: $sidebar-menu-item-icon-size;
         margin: 0;
     }
@@ -61,6 +61,7 @@ $select-prefix: 'ant-select';
 
           img, span[role='img'], svg {
             margin-right: 0;
+            display: flex;
           }
         }
       }
