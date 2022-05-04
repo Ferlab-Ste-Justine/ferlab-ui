@@ -74,7 +74,7 @@ const QueryBuilderHeaderTools = ({
     }, [JSON.stringify(queriesState), JSON.stringify(selectedSavedFilter), JSON.stringify(config.savedFilters)]);
 
     return (
-        <Space className={styles.queryBuilderHeaderTools} size={20}>
+        <Space className={styles.queryBuilderHeaderTools} size={20} onClick={(e) => e.stopPropagation()}>
             <Space className={styles.toolsContainer} align="center">
                 <Tooltip
                     title={dictionary.queryBuilderHeader?.tooltips?.newQueryBuilder || 'New query builder'}
@@ -82,8 +82,7 @@ const QueryBuilderHeaderTools = ({
                 >
                     <Button
                         className={styles.queryBuilderHeaderActionIconBtn}
-                        onClick={(e: React.MouseEvent) => {
-                            e.stopPropagation();
+                        onClick={() => {
                             if (isDirty) {
                                 confirmUnsavedChangeForNewFilter(onNewSavedFilter);
                             } else {
@@ -106,8 +105,7 @@ const QueryBuilderHeaderTools = ({
                 >
                     <Button
                         className={cx(styles.queryBuilderHeaderActionIconBtn, isDirty ? styles.dirty : '')}
-                        onClick={(e: React.MouseEvent) => {
-                            e.stopPropagation();
+                        onClick={() => {
                             if (isDirty) {
                                 if (config.onUpdateFilter) {
                                     config.onUpdateFilter(selectedSavedFilter!);
@@ -131,8 +129,7 @@ const QueryBuilderHeaderTools = ({
                     >
                         <Button
                             className={styles.queryBuilderHeaderActionIconBtn}
-                            onClick={(e: React.MouseEvent) => {
-                                e.stopPropagation();
+                            onClick={() => {
                                 if (isDirty) {
                                     confirmUnsavedChangeForNewFilter(onDuplicateSavedFilter);
                                 } else {
@@ -151,8 +148,7 @@ const QueryBuilderHeaderTools = ({
                         className={styles.queryBuilderHeaderActionIconBtn}
                         type="text"
                         disabled={isNewFilter}
-                        onClick={(e) => {
-                            e.stopPropagation();
+                        onClick={() => {
                             Modal.confirm({
                                 title:
                                     dictionary.queryBuilderHeader?.popupConfirm?.delete.title ||
@@ -182,8 +178,7 @@ const QueryBuilderHeaderTools = ({
                     >
                         <Button
                             className={styles.queryBuilderHeaderActionIconBtn}
-                            onClick={(e: React.MouseEvent) => {
-                                e.stopPropagation();
+                            onClick={() => {
                                 if (config.onShareFilter) {
                                     config.onShareFilter(selectedSavedFilter!);
                                 }
