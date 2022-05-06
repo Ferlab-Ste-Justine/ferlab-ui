@@ -27,7 +27,7 @@ const ExpandableTable = ({
         <>
             <Table dataSource={(dataSource || []).slice(0, sliceNum)} {...tableProps} />
             {showButton && (
-                <Typography.Link onClick={() => setShowAll(!showAll)} className={styles.tableExpBtn}>
+                <Typography.Link onClick={() => setShowAll(!showAll)} className={styles.fuiExpandableTableBtn}>
                     {buttonText(showAll, hiddenNum)} {showAll ? '-' : '+'}
                 </Typography.Link>
             )}
