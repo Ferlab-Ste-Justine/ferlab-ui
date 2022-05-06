@@ -1,3 +1,6 @@
+### 1.19.0 | 2022-05-06
+- Feat: New components : ProLabel, ExternalLink, ExpandableCell, ExpandableTable
+
 ### 1.18.0 | 2022-04-27
 
 - Feat: New Collapse Component
