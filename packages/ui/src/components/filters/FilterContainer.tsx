@@ -74,8 +74,6 @@ const FilterContainer = ({
         setIsSearchVisible(visible);
     };
 
-    console.log(collapseOpen);
-
     const hasSearchEnabled = () => filterGroup.type === VisualType.Checkbox && filters.length > maxShowing;
 
     return (
