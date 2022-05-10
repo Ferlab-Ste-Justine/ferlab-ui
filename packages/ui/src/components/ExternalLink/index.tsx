@@ -3,15 +3,16 @@ import cx from 'classnames';
 
 import styles from '@ferlab/style/components/prolabel/ProLabel.module.scss';
 
-export interface IExternalLinkProps {
-    href: string;
-    children: React.ReactNode;
-    className?: string;
-}
+export type IExternalLinkProps = Omit<
+    React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> & {
+        children: React.ReactNode;
+    },
+    'rel' | 'target'
+>;
 
-const ExternalLink = ({ href, children, className }: IExternalLinkProps) => (
-    <a className={cx(styles.fuiExternalLink, className)} href={href} rel="noreferrer" target="_blank">
-        {children}
+const ExternalLink = (props: IExternalLinkProps) => (
+    <a {...props} className={cx(styles.fuiExternalLink, props.className)} rel="noreferrer" target="_blank">
+        {props.children}
     </a>
 );
 
