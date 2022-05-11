@@ -7,6 +7,12 @@
     flex-direction: column;
     width: 100%;
 
+    :global(.ant-radio-wrapper) {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
     > * {
       margin-bottom: 0.8rem;
       width: 100%;
@@ -44,4 +50,13 @@
       display: none;
     }
   }
+}
+
+.noResultsText {
+  background: $filter-no-results-text-background-color;
+  color: $filter-no-results-text-color;
+  font-size: 14px;
+  line-height: 22px;
+  padding: 8px 16px;
+  width: 100%;
 }

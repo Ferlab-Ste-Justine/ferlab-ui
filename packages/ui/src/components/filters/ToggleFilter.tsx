@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Radio, Tag } from 'antd';
+import { Button, Radio, Space, Tag } from 'antd';
 import cx from 'classnames';
 import get from 'lodash/get';
 
@@ -11,6 +11,7 @@ import { numberFormat } from '../../utils/numberUtils';
 import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 
 import styles from '@ferlab/style/components/filters/ToggleFilter.module.scss';
+import { isEmpty } from 'lodash';
 
 export type BooleanFilterProps = {
     filters: IFilter<IFilterCount>[];
@@ -27,6 +28,7 @@ const ToggleFilter = ({ filterGroup, filters, onChange, selectedFilters = [], di
     useEffect(() => {
         setSelected(selectedFilter);
     }, [selectedFilters]);
+
     const options = filters.map((filter) => {
         const count = filter.data.count || 0;
         return {
@@ -43,7 +45,11 @@ const ToggleFilter = ({ filterGroup, filters, onChange, selectedFilters = [], di
         [styles['fui-filter-sc-button-disabled']]: selectedFilter.length === 0,
     });
 
-    return (
+    return isEmpty(options) ? (
+        <Space direction="vertical" className={styles.noResultsText}>
+            {get(dictionary, 'messages.errorNoData', 'No values found for this request')}
+        </Space>
+    ) : (
         <StackLayout className={styles['fui-filter-sc']} vertical>
             <Radio.Group
                 className={styles.radio}

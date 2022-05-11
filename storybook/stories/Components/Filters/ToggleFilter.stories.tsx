@@ -49,7 +49,6 @@ Basic.args = {
     filterGroup: filerGroup,
     filters: booleanFilters,
     onChange: onChangeTypeStory,
-
     onChangeType: onChangeTypeStory(filerGroup, booleanFilters),
 };
 
