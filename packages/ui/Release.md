@@ -1,3 +1,6 @@
+### 3.9.0 | 2022-05-11
+- Feat: New components : UploadIds
+
 ### 3.8.0 | 2022-05-06
 - Feat: New components : ProLabel, ExternalLink, ExpandableCell, ExpandableTable
 

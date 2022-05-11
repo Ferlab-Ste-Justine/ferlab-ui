@@ -5,7 +5,6 @@ import Collapse, {
     CollapsePanel,
 } from "@ferlab/ui/components/Collapse";
 import { SearchOutlined } from "@ant-design/icons";
-import { Button } from "antd";
 
 export default {
     title: "@ferlab/Components/Collapse",
@@ -40,9 +39,9 @@ const CollapsePropsStory = ({
     </>
 );
 
-export const CollapseLightBordered = CollapsePropsStory.bind({});
-CollapseLightBordered.args = {
-    storyTitle: "Collapse Light Bordered",
+export const LightBordered = CollapsePropsStory.bind({});
+LightBordered.args = {
+    storyTitle: "Light Bordered",
     children: (
         <CollapsePanel key={1} header="Panel">
             Bonjour
@@ -51,9 +50,9 @@ CollapseLightBordered.args = {
     theme: "light",
 };
 
-export const CollapseShadeBordered = CollapsePropsStory.bind({});
-CollapseShadeBordered.args = {
-    storyTitle: "Collapse Shade Bordered",
+export const ShadeBordered = CollapsePropsStory.bind({});
+ShadeBordered.args = {
+    storyTitle: "Shade Bordered",
     children: (
         <CollapsePanel key={1} header="Panel">
             Bonjour
@@ -62,9 +61,9 @@ CollapseShadeBordered.args = {
     theme: "shade",
 };
 
-export const CollapseLight = CollapsePropsStory.bind({});
-CollapseLight.args = {
-    storyTitle: "Collapse Light No Border",
+export const LightNoBorder = CollapsePropsStory.bind({});
+LightNoBorder.args = {
+    storyTitle: "Light No Border",
     children: (
         <CollapsePanel key={1} header="Panel">
             Bonjour
@@ -74,9 +73,9 @@ CollapseLight.args = {
     headerBorderOnly: true,
 };
 
-export const CollapseShade = CollapsePropsStory.bind({});
-CollapseShade.args = {
-    storyTitle: "Collapse Shade No Border",
+export const ShadeNoBorder = CollapsePropsStory.bind({});
+ShadeNoBorder.args = {
+    storyTitle: "Shade No Border",
     children: (
         <CollapsePanel key={1} header="Panel">
             Bonjour
@@ -86,9 +85,9 @@ CollapseShade.args = {
     headerBorderOnly: true,
 };
 
-export const CollapseSmall = CollapsePropsStory.bind({});
-CollapseSmall.args = {
-    storyTitle: "Collapse Small",
+export const Small = CollapsePropsStory.bind({});
+Small.args = {
+    storyTitle: "Small",
     children: (
         <CollapsePanel key={1} header="Panel">
             Bonjour
@@ -97,9 +96,20 @@ CollapseSmall.args = {
     size: "small",
 };
 
-export const CollapseWithExtra = CollapsePropsStory.bind({});
-CollapseWithExtra.args = {
-    storyTitle: "Collapse With Extra",
+export const Large = CollapsePropsStory.bind({});
+Large.args = {
+    storyTitle: "Large",
+    children: (
+        <CollapsePanel key={1} header="Panel">
+            Bonjour
+        </CollapsePanel>
+    ),
+    size: "large",
+};
+
+export const WithExtra = CollapsePropsStory.bind({});
+WithExtra.args = {
+    storyTitle: "With Extra",
     children: (
         <CollapsePanel key={1} header="Panel" extra={[<SearchOutlined />]}>
             Bonjour

@@ -5,7 +5,8 @@ export interface IValueContent {
     field: string;
     value: TFilterValue;
     index?: string;
-    alternateName?: Record<string, string>;
+    overrideValuesName?: string;
+    valueNameMapping?: Record<string, string>;
 }
 
 export type TValueOp = FieldOperators | string;

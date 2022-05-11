@@ -31,12 +31,12 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
         hasMoreValues ? take(valueFilter.content.value, 3) : valueFilter.content.value,
     );
 
-    const getMappedValueName = (value: string) => {
-        const alternateName = valueFilter.content.alternateName;
+    const getValueName = (value: string) => {
+        const valueNameMapping = valueFilter.content.valueNameMapping;
 
-        if (alternateName && !isEmpty(alternateName)) {
-            if (Object.keys(alternateName).includes(value)) {
-                return alternateName[value];
+        if (valueNameMapping && !isEmpty(valueNameMapping)) {
+            if (Object.keys(valueNameMapping).includes(value)) {
+                return valueNameMapping[value];
             }
         }
 
@@ -61,19 +61,25 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
                     wrapper={(children) => <a className={styles.queryValueSelector}>{children}</a>}
                 >
                     <>
-                        {values.map((v, i) => (
-                            <StackLayout className={styles.valueWrapper} key={`${v}-${i}`}>
-                                <span className={styles.value}>
-                                    {typeof v == 'string' ? getMappedValueName(keyEnhance(v)) : v}
-                                </span>
-                                {values.length - 1 > i &&
-                                    (valueFilter.op === FieldOperators.all ? (
-                                        <IntersectionOperator className={styles.operator} />
-                                    ) : (
-                                        <UnionOperator className={styles.operator} />
-                                    ))}
+                        {valueFilter.content.overrideValuesName ? (
+                            <StackLayout className={styles.valueWrapper} key={valueFilter.content.overrideValuesName}>
+                                <span className={styles.value}>{valueFilter.content.overrideValuesName}</span>
                             </StackLayout>
-                        ))}
+                        ) : (
+                            values.map((v, i) => (
+                                <StackLayout className={styles.valueWrapper} key={`${v}-${i}`}>
+                                    <span className={styles.value}>
+                                        {typeof v == 'string' ? getValueName(keyEnhance(v)) : v}
+                                    </span>
+                                    {values.length - 1 > i &&
+                                        (valueFilter.op === FieldOperators.all ? (
+                                            <IntersectionOperator className={styles.operator} />
+                                        ) : (
+                                            <UnionOperator className={styles.operator} />
+                                        ))}
+                                </StackLayout>
+                            ))
+                        )}
                     </>
                 </ConditionalWrapper>
             ) : (
