@@ -7,12 +7,6 @@
     span[class^="ProLabel_title"] {
       font-weight: 600;
     }
-  }
-
-  .upload {
-    :global(.ant-upload-list) {
-      margin-top: 8px;
-    }
 
     .ListItem {
       color: $file-upload-item-color;
@@ -24,14 +18,17 @@
     }
   }
 
-  .matchUnmatch {
-    margin-top: 32px;
+  .upload {
+    display: flex;
+    flex-direction: column;
+
+    :global(.ant-upload-list) {
+      margin-top: 8px;
+    }
   }
 
-  .collapsePanel {
-    :global(.ant-collapse-content-box) {
-      padding-top: 5px !important;
-    }
+  .matchUnmatch {
+    margin-top: 32px;
   }
 
   .tableCell {
@@ -43,6 +40,10 @@
   }
 
   .tabs {
+    :global(.ant-tabs-tab) {
+      padding-top: 0;
+    }
+
     :global(.ant-tabs-tab-btn) {
       font-weight: 500;
     }

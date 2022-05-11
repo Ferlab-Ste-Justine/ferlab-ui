@@ -29,25 +29,30 @@ const MatchTable = ({ matchItems, loading = false, dictionary }: OwnProps) => (
         }}
         columns={[
             {
+                key: 'submitted_id',
                 title: dictionary.submittedColTitle,
                 align: 'center',
                 className: styles.tableCell,
                 children: [
                     {
+                        key: 'submitted_id_field',
                         title: dictionary.matchTable.idColTitle,
                         dataIndex: 'submittedId',
                     },
                 ],
             },
             {
+                key: 'mapped_to',
                 title: get(dictionary, 'mappedTo', 'Mapped To'),
                 align: 'center',
                 children: [
                     {
+                        key: 'match_field',
                         title: dictionary.matchTable.matchFieldColTitle,
                         dataIndex: 'matchField',
                     },
                     {
+                        key: 'mapped_to_field',
                         title: dictionary.matchTable.mappedToFieldColTitle,
                         dataIndex: 'mappedTo',
                     },

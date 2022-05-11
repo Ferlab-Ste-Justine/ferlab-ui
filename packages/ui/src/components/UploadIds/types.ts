@@ -28,3 +28,5 @@ export interface MatchTableItem {
 export interface UnmatchTableItem {
     submittedId: string;
 }
+
+export type TFetchMatchFunc = (ids: string[]) => Promise<MatchTableItem[]>;
