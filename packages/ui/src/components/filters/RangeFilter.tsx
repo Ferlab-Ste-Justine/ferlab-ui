@@ -203,7 +203,6 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
             ) : (
                 <>
                     <StackLayout vertical className={styles.fuiRfRangeOperator}>
-                        <span className={styles.fuiRfSectionTitle}>{get(dictionary, 'range.is', 'Is')}</span>
                         <Select
                             className={styles.fuiRfRangeOperatorSelect}
                             onChange={onOperatorChanged}

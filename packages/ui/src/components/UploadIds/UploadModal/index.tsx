@@ -70,7 +70,7 @@ const UploadModal = ({
             <Space direction="vertical" className={styles.space}>
                 <ProLabel
                     title={
-                        get(dictionary, 'inputLabel', 'Copy-paste a list of indentifiers or upload a file') as string
+                        get(dictionary, 'inputLabel', 'Copy-paste a list of identifiers or upload a file') as string
                     }
                     popoverProps={popoverProps}
                 />
