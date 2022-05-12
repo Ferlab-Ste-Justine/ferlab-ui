@@ -5,6 +5,7 @@
     background: $query-values-bg;
     padding: 0 8px;
     height: 100%;
+    display: flex;
     flex-wrap: wrap;
     position: relative;
 
@@ -30,8 +31,13 @@
     }
 
     .valueWrapper {
+        display: flex;
         align-items: center;
         flex-shrink: unset;
+
+        :global(.ant-space-item) {
+            display: flex;
+        }
 
         .value {
             font-weight: $font-weight-bold;
@@ -40,6 +46,7 @@
     
         .operator {
             margin: 0 4px;
+            line-height: 18px;
         }
     }
 

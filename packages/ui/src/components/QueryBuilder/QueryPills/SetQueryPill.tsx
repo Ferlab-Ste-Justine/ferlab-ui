@@ -2,7 +2,6 @@ import React from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { Button } from 'antd';
 import cx from 'classnames';
-import StackLayout from '../../../layout/StackLayout';
 import QueryValues from '../QueryValues';
 import ElementOperator from '../icons/ElementOperator';
 import { IValueFilter } from '../../../data/sqon/types';
@@ -19,7 +18,7 @@ interface IReferenceQueryPillProps {
 }
 
 const SetQueryPill = ({ onRemove, isBarActive, valueFilter, dictionary = {} }: IReferenceQueryPillProps) => (
-    <StackLayout className={cx(styles.queryPillContainer, { [styles.selected]: isBarActive })}>
+    <div className={cx(styles.queryPillContainer, { [styles.selected]: isBarActive })}>
         <>
             <span className={`${styles.field}`}>
                 {valueFilter.content.index
@@ -34,7 +33,7 @@ const SetQueryPill = ({ onRemove, isBarActive, valueFilter, dictionary = {} }: I
         <Button className={styles.close} type="text">
             <AiOutlineClose onClick={(e) => onRemove()} />
         </Button>
-    </StackLayout>
+    </div>
 );
 
 export default SetQueryPill;

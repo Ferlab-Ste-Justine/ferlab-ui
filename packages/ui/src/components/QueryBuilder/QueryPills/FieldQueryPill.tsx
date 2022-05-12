@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import { Button, Dropdown, Spin } from 'antd';
+import { Button, Dropdown, Space, Spin } from 'antd';
 import cx from 'classnames';
-
-import StackLayout from '../../../layout/StackLayout';
-
 import ElementOperator from '../icons/ElementOperator';
 import EqualOperator from '../icons/EqualOperator';
 import GreaterThanOrEqualOperator from '../icons/GreaterThanOrEqualOperator';
@@ -93,7 +90,7 @@ const FieldQueryPill = ({
     }, [isBarActive]);
 
     return (
-        <StackLayout className={cx(styles.queryPillContainer, { [styles.selected]: isBarActive })} flexOwn>
+        <div className={cx(styles.queryPillContainer, { [styles.selected]: isBarActive })}>
             {(showLabels || isBooleanFilter(valueFilter) || isRangeFilter(valueFilter)) && (
                 <>
                     <span className={`${styles.field}`}>
@@ -154,7 +151,7 @@ const FieldQueryPill = ({
                     }}
                 />
             </Button>
-        </StackLayout>
+        </div>
     );
 };
 

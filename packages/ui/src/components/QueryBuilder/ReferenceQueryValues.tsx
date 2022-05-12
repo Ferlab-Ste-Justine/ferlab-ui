@@ -1,5 +1,4 @@
 import React from 'react';
-import StackLayout from '../../layout/StackLayout';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
 
@@ -9,13 +8,13 @@ interface IReferenceQueryValuesProps {
 }
 
 const ReferenceQueryValues = (props: IReferenceQueryValuesProps) => (
-    <StackLayout className={styles.queryValuesContainer}>
-        <StackLayout className={styles.valueWrapper}>
+    <div className={styles.queryValuesContainer}>
+        <div className={styles.valueWrapper}>
             <span className={styles.value} style={props.highlightColor ? { color: props.highlightColor } : undefined}>
                 {`Q${props.refIndex + 1}`}
             </span>
-        </StackLayout>
-    </StackLayout>
+        </div>
+    </div>
 );
 
 export default ReferenceQueryValues;

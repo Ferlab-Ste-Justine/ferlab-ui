@@ -3,8 +3,6 @@ import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import { Button } from 'antd';
 import take from 'lodash/take';
 import cx from 'classnames';
-
-import StackLayout from '../../layout/StackLayout';
 import UnionOperator from './icons/UnionOperator';
 import { IValueFilter } from '../../data/sqon/types';
 import { IDictionary } from '../QueryBuilder/types';
@@ -50,10 +48,9 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
     }, [expanded, valueFilter]);
 
     return (
-        <StackLayout
+        <div
             onClick={(e) => (onClick ? onClick(e) : undefined)}
             className={cx(styles.queryValuesContainer, onClick && styles.clickable, hasMoreValues && styles.hasMore)}
-            flexOwn
         >
             {!isElement ? (
                 <ConditionalWrapper
@@ -62,12 +59,12 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
                 >
                     <>
                         {valueFilter.content.overrideValuesName ? (
-                            <StackLayout className={styles.valueWrapper} key={valueFilter.content.overrideValuesName}>
+                            <div className={styles.valueWrapper} key={valueFilter.content.overrideValuesName}>
                                 <span className={styles.value}>{valueFilter.content.overrideValuesName}</span>
-                            </StackLayout>
+                            </div>
                         ) : (
                             values.map((v, i) => (
-                                <StackLayout className={styles.valueWrapper} key={`${v}-${i}`}>
+                                <div className={styles.valueWrapper} key={`${v}-${i}`}>
                                     <span className={styles.value}>
                                         {typeof v == 'string' ? getValueName(keyEnhance(v)) : v}
                                     </span>
@@ -77,15 +74,15 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
                                         ) : (
                                             <UnionOperator className={styles.operator} />
                                         ))}
-                                </StackLayout>
+                                </div>
                             ))
                         )}
                     </>
                 </ConditionalWrapper>
             ) : (
-                <StackLayout className={styles.valueWrapper}>
+                <div className={styles.valueWrapper}>
                     <span className={styles.value}>[{values.join(',')}]</span>
-                </StackLayout>
+                </div>
             )}
             {hasMoreValues &&
                 (expanded ? (
@@ -111,7 +108,7 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
                         <AiFillCaretRight />
                     </Button>
                 ))}
-        </StackLayout>
+        </div>
     );
 };
 

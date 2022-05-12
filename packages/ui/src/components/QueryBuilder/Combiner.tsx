@@ -1,7 +1,5 @@
 import React from 'react';
 import { Button, Tooltip } from 'antd';
-
-import StackLayout from '../../layout/StackLayout';
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
 import { CombinerEnum, IDictionary } from './types';
@@ -36,7 +34,7 @@ const Combiner = ({ onChange, type, dictionary = {} }: ICombinerProps) => {
     };
 
     return (
-        <StackLayout className={styles.combinerContainer}>
+        <div className={styles.combinerContainer}>
             <Tooltip title={getTooltipTitle()} align={{ offset: [0, 5] }}>
                 <Button className={styles.button} type="text" onClick={() => toggleOperator()}>
                     {isAndOperator() ? (
@@ -46,7 +44,7 @@ const Combiner = ({ onChange, type, dictionary = {} }: ICombinerProps) => {
                     )}
                 </Button>
             </Tooltip>
-        </StackLayout>
+        </div>
     );
 };
 
