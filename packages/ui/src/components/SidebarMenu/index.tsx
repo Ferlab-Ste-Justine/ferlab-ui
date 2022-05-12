@@ -1,6 +1,6 @@
-import React, { useCallback,useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { InfoCircleOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { AutoComplete, Input, InputRef,Menu } from 'antd';
+import { AutoComplete, Input, InputRef, Menu } from 'antd';
 
 import ScrollView from '../../layout/ScrollView';
 import StackLayout from '../../layout/StackLayout';
@@ -9,6 +9,7 @@ import SearchIcon from './icons/SearchIcon';
 import SidebarMenuContentPanel from './SidebarMenuContentPanel';
 
 import styles from '@ferlab/style/components/sidebarMenu/SidebarMenu.module.scss';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
 
 export interface ISidebarMenuItem {
     key: string | number;
@@ -63,12 +64,14 @@ const Sidebar = ({
     const [selectedKey, setSelectedKey] = useState<string>('');
     const searchInputRef = useRef<InputRef>(null);
     const selectedFilterComponent = menuItems.find((menuItem) => menuItem.key == selectedKey);
+
     const handleUserKeyUp = useCallback((e) => {
         const activeElement = document.activeElement?.getAttribute('data-key');
         if ([32, 13].includes(e.keyCode) && activeElement) {
             setSelectedKey(activeElement);
         }
     }, []);
+
     const getSelectedFilterComponentByType = () => {
         switch (typeof selectedFilterComponent?.panelContent) {
             case 'function':
@@ -78,6 +81,31 @@ const Sidebar = ({
             default:
                 <></>;
         }
+    };
+
+    const getMenuItems = () => {
+        let items: ItemType[] = [];
+
+        if (enableQuickFilter && collapsed) {
+            items.push({
+                key: SEARCH_KEY,
+                icon: quickFilterIcon ? quickFilterIcon : <SearchIcon />,
+                className: styles.sidebarMenuItem,
+                label: locale.quickFilter?.menuTitle,
+            });
+        }
+
+        items.push(
+            ...menuItems.map((menuItem) => ({
+                key: menuItem.key,
+                className: styles.sidebarMenuItem,
+                icon: menuItem.icon,
+                'data-key': menuItem.key,
+                label: <span className={styles.sidebarMenuItemTitle}>{menuItem.title}</span>,
+            })),
+        );
+
+        return items;
     };
 
     useEffect(() => {
@@ -115,6 +143,27 @@ const Sidebar = ({
                         </div>
                     </div>
                     <ScrollView>
+                        {enableQuickFilter && !collapsed && (
+                            <div className={styles.searchMenuItem}>
+                                <AutoComplete
+                                    allowClear
+                                    className={styles.searchInput}
+                                    onChange={(value: string) => {
+                                        setQuickFilter(value ? value : '');
+                                    }}
+                                    options={[]}
+                                    tabIndex={0}
+                                    value={quickFilter}
+                                >
+                                    <Input
+                                        placeholder={locale.quickFilter?.placeholder}
+                                        prefix={quickFilterIcon ? quickFilterIcon : <SearchIcon />}
+                                        ref={searchInputRef}
+                                        suffix={<InfoCircleOutlined></InfoCircleOutlined>}
+                                    />
+                                </AutoComplete>
+                            </div>
+                        )}
                         <Menu
                             className={styles.sidebarMenu}
                             inlineCollapsed={collapsed}
@@ -127,50 +176,8 @@ const Sidebar = ({
                                 setSelectedKey(selectedKey !== cKey ? cKey : '');
                             }}
                             selectedKeys={[selectedKey]}
-                        >
-                            {enableQuickFilter &&
-                                (collapsed ? (
-                                    <Menu.Item
-                                        className={styles.sidebarMenuItem}
-                                        icon={quickFilterIcon ? quickFilterIcon : <SearchIcon />}
-                                        key={SEARCH_KEY}
-                                        tabIndex={0}
-                                    >
-                                        {locale.quickFilter?.menuTitle}
-                                    </Menu.Item>
-                                ) : (
-                                    <div className={`${styles.searchMenuItem}`}>
-                                        <AutoComplete
-                                            allowClear
-                                            className={styles.searchInput}
-                                            onChange={(value: string) => {
-                                                setQuickFilter(value ? value : '');
-                                            }}
-                                            options={[]}
-                                            tabIndex={0}
-                                            value={quickFilter}
-                                        >
-                                            <Input
-                                                placeholder={locale.quickFilter?.placeholder}
-                                                prefix={quickFilterIcon ? quickFilterIcon : <SearchIcon />}
-                                                ref={searchInputRef}
-                                                suffix={<InfoCircleOutlined></InfoCircleOutlined>}
-                                            />
-                                        </AutoComplete>
-                                    </div>
-                                ))}
-                            {menuItems.map((menuItem) => (
-                                <Menu.Item
-                                    className={styles.sidebarMenuItem}
-                                    data-key={menuItem.key}
-                                    icon={menuItem.icon}
-                                    key={menuItem.key}
-                                    tabIndex={0}
-                                >
-                                    <span className={styles.sidebarMenuItemTitle}>{menuItem.title}</span>
-                                </Menu.Item>
-                            ))}
-                        </Menu>
+                            items={getMenuItems()}
+                        />
                     </ScrollView>
                 </StackLayout>
             </div>

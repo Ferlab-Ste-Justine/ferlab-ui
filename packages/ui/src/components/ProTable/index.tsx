@@ -62,6 +62,10 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>(initialSelectedKey);
 
     useEffect(() => {
+        setColumnsState(generateColumnState(initialColumnState!, columns));
+    }, [columns]);
+
+    useEffect(() => {
         setSelectedRowKeys(initialSelectedKey);
     }, [JSON.stringify(initialSelectedKey)]);
 

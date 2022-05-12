@@ -221,17 +221,23 @@ const CheckboxFilter = ({
                         size="small"
                         disabled={isEmpty(filteredFilters)}
                         overlay={
-                            <Menu onClick={(e) => handleOnApply(e.key as TermOperators)}>
-                                <Menu.Item key={TermOperators.in}>
-                                    {get(dictionary, 'operators.anyOf', 'Any of')}
-                                </Menu.Item>
-                                <Menu.Item key={TermOperators.all}>
-                                    {get(dictionary, 'operators.allOf', 'All of')}
-                                </Menu.Item>
-                                <Menu.Item key={TermOperators['not-in']}>
-                                    {get(dictionary, 'operators.noneOf', 'None of')}
-                                </Menu.Item>
-                            </Menu>
+                            <Menu
+                                onClick={(e) => handleOnApply(e.key as TermOperators)}
+                                items={[
+                                    {
+                                        key: TermOperators.in,
+                                        label: get(dictionary, 'operators.anyOf', 'Any of'),
+                                    },
+                                    {
+                                        key: TermOperators.in,
+                                        label: get(dictionary, 'operators.allOf', 'All of'),
+                                    },
+                                    {
+                                        key: TermOperators['some-not-in'],
+                                        label: get(dictionary, 'operators.noneOf', 'None of'),
+                                    },
+                                ]}
+                            />
                         }
                         onClick={() => handleOnApply(TermOperators.in)}
                     >

@@ -63,20 +63,20 @@ const QueryTools = ({
                         type="primary"
                         size="small"
                         overlay={
-                            <Menu>
-                                <Menu.Item
-                                    key={BooleanOperators.and}
-                                    onClick={() => onCombineClick(BooleanOperators.and)}
-                                >
-                                    <AndOperator />
-                                </Menu.Item>
-                                <Menu.Item
-                                    key={BooleanOperators.or}
-                                    onClick={() => onCombineClick(BooleanOperators.or)}
-                                >
-                                    <OrOperator />
-                                </Menu.Item>
-                            </Menu>
+                            <Menu
+                                items={[
+                                    {
+                                        key: BooleanOperators.and,
+                                        onClick: () => onCombineClick(BooleanOperators.and),
+                                        label: <AndOperator />,
+                                    },
+                                    {
+                                        key: BooleanOperators.and,
+                                        onClick: () => onCombineClick(BooleanOperators.or),
+                                        label: <OrOperator />,
+                                    },
+                                ]}
+                            />
                         }
                         trigger={['click']}
                         onClick={() => onCombineClick(BooleanOperators.and)}

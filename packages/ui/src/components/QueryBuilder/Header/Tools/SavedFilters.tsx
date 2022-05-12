@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { Dropdown, Menu, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { IDictionary, ISavedFilter, TOnSavedFilterChange } from '../../types';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
 
 interface OwnProps {
     selectedKey: string;
@@ -33,41 +34,47 @@ const SavedFiltersMenu = ({
         });
     };
 
+    const getMenuItems = () => {
+        let items: ItemType[] = savedFilters.map((savedFilter: ISavedFilter) => ({
+            key: savedFilter.id,
+            onClick: () => {
+                if (savedFilter.id != selectedKey) {
+                    const callback = () => onSavedFilterChange(savedFilter);
+
+                    if (isDirty) {
+                        confirmUnsavedChangeForExistingFilter(callback);
+                    } else {
+                        callback();
+                    }
+                }
+            },
+            label: savedFilter.title,
+        }));
+
+        if (false) {
+            items.push(
+                {
+                    type: 'divider',
+                },
+                {
+                    key: 'manage-my-filters',
+                    onClick: () => console.log('Manage filters option currently disabled'),
+                    label: dictionary.queryBuilderHeader?.myFiltersDropdown?.manageMyFilter || 'Manage my filters',
+                },
+            );
+        }
+
+        return items;
+    };
+
     return (
         <Dropdown
             overlay={
-                <Menu selectedKeys={selectedKey ? [selectedKey] : []} onClick={(e) => e.domEvent.stopPropagation()}>
-                    {savedFilters.map((savedFilter: ISavedFilter) => (
-                        <Menu.Item
-                            key={savedFilter.id}
-                            onClick={() => {
-                                if (savedFilter.id != selectedKey) {
-                                    const callback = () => onSavedFilterChange(savedFilter);
-
-                                    if (isDirty) {
-                                        confirmUnsavedChangeForExistingFilter(callback);
-                                    } else {
-                                        callback();
-                                    }
-                                }
-                            }}
-                        >
-                            {savedFilter.title}
-                        </Menu.Item>
-                    ))}
-                    {false && (
-                        <>
-                            <Menu.Divider />
-                            <Menu.Item
-                                key="manage-my-filters"
-                                onClick={() => console.log('Manage filters option currently disabled')}
-                            >
-                                {dictionary.queryBuilderHeader?.myFiltersDropdown?.manageMyFilter ||
-                                    'Manage my filters'}
-                            </Menu.Item>
-                        </>
-                    )}
-                </Menu>
+                <Menu
+                    selectedKeys={selectedKey ? [selectedKey] : []}
+                    onClick={(e) => e.domEvent.stopPropagation()}
+                    items={getMenuItems()}
+                />
             }
             disabled={savedFilters.length == 0}
             trigger={['click']}

@@ -90,6 +90,53 @@ $select-prefix: 'ant-select';
       }
     }
 
+    .searchMenuItem {
+      margin: 0 5px;
+      height: $sidebar-menu-item-height;
+      padding: 2px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      *,
+      ::placeholder {
+        color: $sidebar-quick-filter-input-placeholder-color;
+      }
+      .searchInput {
+        :global(.#{$input-prefix}) {
+          color: $sidebar-quick-filter-input-text-color;
+        }
+
+        :global(.#{$select-prefix}-clear) {
+          font-size: 14px;
+          width: 14px;
+          height: 14px;
+          margin-top: -7px;
+          right: 12px;
+        }
+
+        :global(.#{$input-prefix}-prefix) {
+          max-width: 16px;
+          font-size: 16px;
+        }
+
+        :global(.#{$input-wrapper-prefix}):hover, :global(.#{$input-wrapper-prefix}):focus {
+          border-color: transparent;
+        }
+
+        &:hover {
+          box-shadow: $sidebar-quick-filter-input-box-shadow-hover;
+          border-color: transparent;
+          border-radius: 2px;
+        }
+
+        :global(.#{$input-wrapper-prefix}-focused) {
+            box-shadow: $sidebar-quick-filter-input-box-shadow-focus;
+            border-color: transparent;
+        }
+      }
+    }
+    
     .sidebarMenu {
       @include transition(background 0s);
       background-color: transparent;
@@ -97,53 +144,6 @@ $select-prefix: 'ant-select';
       color: $sidebar-menu-item-text-color;
       font-weight: $font-weight-semibold;
       font-size: 14px;
-
-      .searchMenuItem {
-        margin: 0 5px;
-        height: $sidebar-menu-item-height;
-        padding: 2px;
-        border-radius: 4px;
-        border: 1px solid transparent;
-        display: flex;
-        align-items: center;
-        *,
-        ::placeholder {
-          color: $sidebar-quick-filter-input-placeholder-color;
-        }
-        .searchInput {
-          :global(.#{$input-prefix}) {
-            color: $sidebar-quick-filter-input-text-color;
-          }
-
-          :global(.#{$select-prefix}-clear) {
-            font-size: 14px;
-            width: 14px;
-            height: 14px;
-            margin-top: -7px;
-            right: 12px;
-          }
-
-          :global(.#{$input-prefix}-prefix) {
-            max-width: 16px;
-            font-size: 16px;
-          }
-
-          :global(.#{$input-wrapper-prefix}):hover, :global(.#{$input-wrapper-prefix}):focus {
-            border-color: transparent;
-          }
-
-          &:hover {
-            box-shadow: $sidebar-quick-filter-input-box-shadow-hover;
-            border-color: transparent;
-            border-radius: 2px;
-          }
-
-          :global(.#{$input-wrapper-prefix}-focused) {
-              box-shadow: $sidebar-quick-filter-input-box-shadow-focus;
-              border-color: transparent;
-          }
-        }
-      }
 
       .sidebarMenuItem {
         margin: 0;

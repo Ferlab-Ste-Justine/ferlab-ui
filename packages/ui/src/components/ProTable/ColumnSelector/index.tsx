@@ -46,6 +46,10 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
 
     useEffect(() => {
         setLocalColumnState(columnStates);
+        setLocalColumns({
+            saveIndex: -1,
+            state: [...columnStates].sort((a, b) => a.index - b.index),
+        });
     }, [columnStates]);
 
     useEffect(() => {
