@@ -107,6 +107,11 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
                             <List>
                                 {localColumns.state.map((localState, index) => {
                                     const foundColumn = columns.find(({ key }) => localState.key === key)!;
+
+                                    if (!foundColumn) {
+                                        return false;
+                                    }
+
                                     const title =
                                         typeof foundColumn.title === 'string'
                                             ? foundColumn.title

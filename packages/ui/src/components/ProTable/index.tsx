@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { ProColumnType, TColumnStates, TProTableProps } from './types';
 import { DownloadOutlined } from '@ant-design/icons';
 import cx from 'classnames';
+import { isEmpty } from 'lodash';
 
 import styles from '@ferlab/style/components/protable/ProTable.module.scss';
 
@@ -209,7 +210,8 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                 columns={columnsState
                     .filter(({ visible }) => visible)
                     .sort((a, b) => a.index - b.index)
-                    .map(({ key }) => columns.find((column) => column.key === key)!)}
+                    .map(({ key }) => columns.find((column) => column.key === key)!)
+                    .filter((column) => !isEmpty(column))}
             ></Table>
         </Space>
     );
