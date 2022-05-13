@@ -4,7 +4,7 @@ import { TableProps } from 'antd/lib/table';
 
 import styles from '@ferlab/style/components/tables/ExpandableTable.module.scss';
 
-type OwnProps = TableProps<any> & {
+export type TExpandableTableProps = TableProps<any> & {
     nOfElementsWhenCollapsed?: number;
     buttonText: (showAll: boolean, hiddenNum: number) => ReactElement | string;
 };
@@ -16,7 +16,7 @@ const ExpandableTable = ({
     nOfElementsWhenCollapsed = DEFAULT_NUM_COLLAPSED,
     dataSource,
     ...tableProps
-}: OwnProps) => {
+}: TExpandableTableProps) => {
     const [showAll, setShowAll] = useState(false);
     const dataTotalLength = dataSource?.length || 0;
     const sliceNum = showAll ? dataTotalLength : nOfElementsWhenCollapsed;

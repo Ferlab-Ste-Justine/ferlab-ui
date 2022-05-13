@@ -4,7 +4,7 @@ import ProTable from "@ferlab/ui/components/ProTable";
 import { TProTableProps } from "@ferlab/ui/components/ProTable/types";
 
 export default {
-    title: "@ferlab/Components/ProTable",
+    title: "@ferlab/Components/Tables/ProTable",
     component: ProTable,
     decorators: [
         (Story) => (
