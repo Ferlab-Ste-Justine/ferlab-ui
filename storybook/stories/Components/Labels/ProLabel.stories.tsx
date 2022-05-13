@@ -50,3 +50,14 @@ Required.args = {
     colon: true,
     requiredMark: true
 };
+
+export const WithInfoIcon = ProLabelPropsStory.bind({});
+WithInfoIcon.args = {
+    storyTitle: "With Info Icon",
+    title: "I'm a wonderfull label with info icon",
+    requiredMark: true,
+    popoverProps: {
+        title: "Hi, im a popover",
+        content: "I'm a useless popover"
+    }
+};
