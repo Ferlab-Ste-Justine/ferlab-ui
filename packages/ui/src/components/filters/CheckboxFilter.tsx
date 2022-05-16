@@ -86,7 +86,11 @@ const CheckboxFilter = ({
     useEffect(() => {
         const newFilters = filters
             .filter((f) => !isEmpty(f.data))
-            .filter(({ data }) => data.key.toLowerCase().includes(search.toLowerCase()));
+            .filter(
+                ({ data, name }) =>
+                    data.key.toLowerCase().includes(search.toLowerCase()) ||
+                    (typeof name === 'string' && name.toLowerCase().includes(search.toLowerCase())),
+            );
         setFilteredFilters(newFilters);
     }, [filters, search]);
 
