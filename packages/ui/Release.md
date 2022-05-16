@@ -1,3 +1,6 @@
+### 3.9.7 | 2022-05-16
+- Fix: Fix Checkbox List search to search on key and name
+
 ### 3.9.0 | 2022-05-11
 - Feat: New components : UploadIds
 
