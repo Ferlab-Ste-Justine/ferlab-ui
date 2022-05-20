@@ -1,4 +1,4 @@
-import { cloneDeep, isEmpty, merge, union } from 'lodash';
+import { cloneDeep, isEmpty, isUndefined, merge, union } from 'lodash';
 import { v4 } from 'uuid';
 import {
     IFilter,
@@ -586,7 +586,7 @@ export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[
 
     switch (selectedRange.data.operator) {
         case RangeOperators.between:
-            if (selectedRange.data.min && selectedRange.data.max) {
+            if (!isUndefined(selectedRange.data.min) && !isUndefined(selectedRange.data.max)) {
                 selectedFilters.push({
                     content: { field, value: [selectedRange.data.min, selectedRange.data.max], index },
                     op: RangeOperators.between,
@@ -595,7 +595,7 @@ export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[
             break;
         case RangeOperators['<']:
         case RangeOperators['<=']:
-            if (selectedRange.data.max) {
+            if (!isUndefined(selectedRange.data.max)) {
                 selectedFilters.push({
                     content: { field, value: [selectedRange.data.max], index },
                     op: RangeOperators[selectedRange.data.operator],
@@ -604,7 +604,7 @@ export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[
             break;
         case RangeOperators['>']:
         case RangeOperators['>=']:
-            if (selectedRange.data.min) {
+            if (!isUndefined(selectedRange.data.min)) {
                 selectedFilters.push({
                     content: { field, value: [selectedRange.data.min], index },
                     op: RangeOperators[selectedRange.data.operator],
