@@ -21,9 +21,9 @@ export enum CombinerEnum {
     Or = 'or',
 }
 
-export type IFetchQueryCount = (sqon: ISyntheticSqon) => Promise<number>;
+export type IFetchQueryCount = (sqon: ISyntheticSqon, sqonList: ISyntheticSqon[]) => Promise<number>;
 
-export type IGetResolvedQueryForCount = (sqon: ISyntheticSqon) => ISqonGroupFilter;
+export type IGetResolvedQueryForCount = (sqon: ISyntheticSqon, sqonList: ISyntheticSqon[]) => ISqonGroupFilter;
 
 export interface IQueryBuilderState {
     state?: ISyntheticSqon[];

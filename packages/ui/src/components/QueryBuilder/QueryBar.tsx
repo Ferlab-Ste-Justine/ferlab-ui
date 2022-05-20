@@ -87,17 +87,19 @@ const QueryBar = ({
     }, [isSelected]);
 
     useEffect(() => {
-        const previous = previousQuery.current;
-        const current = getResolvedQueryForCount(query);
+        if (queryList.find((cQuery) => cQuery.id === query.id)) {
+            const previous = previousQuery.current;
+            const current = getResolvedQueryForCount(query, queryList);
 
-        if (!previousQuery.current || !isEqual(previous, current)) {
-            previousQuery.current = current;
-            setIsLoading(true);
-            fetchQueryCount(query)
-                .then(setTotal)
-                .finally(() => {
-                    setIsLoading(false);
-                });
+            if (!previousQuery.current || !isEqual(previous, current)) {
+                previousQuery.current = current;
+                setIsLoading(true);
+                fetchQueryCount(query, queryList)
+                    .then(setTotal)
+                    .finally(() => {
+                        setIsLoading(false);
+                    });
+            }
         }
     }, [JSON.stringify(queryList), JSON.stringify(query)]);
 
