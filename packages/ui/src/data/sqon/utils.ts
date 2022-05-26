@@ -319,10 +319,6 @@ const deeplySetSqonValue = (sourceSqon: ISyntheticSqon, newSqon: IValueFilter, o
         if (castedValueSqon.content.field === newSqon.content.field) {
             found = true;
 
-            if (newSqon.content.valueNameMapping) {
-                castedValueSqon.content.valueNameMapping = newSqon.content.valueNameMapping;
-            }
-
             if (newSqon.content.overrideValuesName) {
                 castedValueSqon.content.overrideValuesName = newSqon.content.overrideValuesName;
             }
@@ -353,7 +349,6 @@ export const deepMergeFieldInActiveQuery = ({
     index,
     merge_strategy = MERGE_VALUES_STRATEGIES.APPEND_VALUES,
     operator = TermOperators.in,
-    valueNameMapping,
     overrideValuesName,
 }: {
     queryBuilderId: string;
@@ -362,7 +357,6 @@ export const deepMergeFieldInActiveQuery = ({
     index?: string;
     merge_strategy?: MERGE_VALUES_STRATEGIES;
     operator?: TermOperators;
-    valueNameMapping?: Record<string, string>;
     overrideValuesName?: string;
 }) => {
     let newSqon;
@@ -372,7 +366,6 @@ export const deepMergeFieldInActiveQuery = ({
             field,
             index,
             value,
-            valueNameMapping,
             overrideValuesName,
         },
         op: operator,
@@ -420,15 +413,15 @@ export const generateValueFilter = ({
     value,
     index = '',
     operator = TermOperators.in,
-    alternateName,
+    overrideValuesName,
 }: {
     field: string;
     value: string[];
     index?: string;
     operator?: TermOperators;
-    alternateName?: Record<string, string>;
+    overrideValuesName?: string;
 }) => ({
-    content: { field, value, index, alternateName },
+    content: { field, value, index, overrideValuesName },
     op: operator,
 });
 

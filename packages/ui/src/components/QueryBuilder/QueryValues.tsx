@@ -14,6 +14,7 @@ import { FieldOperators } from '../../data/sqon/operators';
 import IntersectionOperator from './icons/IntersectionOperator';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
+import { isSet } from '../../data/sqon/utils';
 
 interface IQueryValuesProps {
     valueFilter: IValueFilter;
@@ -30,12 +31,8 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
     );
 
     const getValueName = (value: string) => {
-        const valueNameMapping = valueFilter.content.valueNameMapping;
-
-        if (valueNameMapping && !isEmpty(valueNameMapping)) {
-            if (Object.keys(valueNameMapping).includes(value)) {
-                return valueNameMapping[value];
-            }
+        if (isSet(valueFilter) && dictionary.query?.setNameResolver) {
+            return dictionary.query?.setNameResolver(value);
         }
 
         const facetMapping = get(get(dictionary.query, 'facetValueMapping', {}), valueFilter.content.field, {});

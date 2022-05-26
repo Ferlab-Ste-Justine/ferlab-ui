@@ -111,6 +111,7 @@ interface IQuery {
     combine?: ICombineTranslation;
     noQuery?: React.ReactNode;
     facet?: TTranslation;
+    setNameResolver?: TTranslation;
     facetValueMapping?: IFacetValueMapping;
 }
 
