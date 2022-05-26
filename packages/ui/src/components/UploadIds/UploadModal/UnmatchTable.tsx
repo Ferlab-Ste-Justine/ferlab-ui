@@ -22,6 +22,7 @@ const UnmatchTable = ({ unmatchItems, loading = false, dictionary }: OwnProps) =
             pageSize: 5,
             hideOnSinglePage: true,
             className: styles.tablePagination,
+            showSizeChanger: false
         }}
         locale={{
             emptyText: <Empty showImage={false} description={get(dictionary, 'emptyTableDescription', 'No data')} />,

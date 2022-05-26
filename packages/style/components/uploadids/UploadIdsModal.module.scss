@@ -31,6 +31,16 @@
     margin-top: 32px;
   }
 
+  .tablesMessages {
+    margin-bottom: 12px;
+  }
+
+  td {
+    &.tableCell {
+      text-align: left !important;
+    }
+  }
+
   .tableCell {
     width: 50%;
   }

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { PaperClipOutlined, UploadOutlined } from '@ant-design/icons';
 import Collapse, { CollapsePanel } from '../../Collapse';
-import { Button, Input, Modal, PopoverProps, Space, Spin, Tabs, Upload } from 'antd';
-import { difference, get, isEmpty } from 'lodash';
+import { Button, Input, Modal, PopoverProps, Space, Spin, Tabs, Typography, Upload } from 'antd';
+import { difference, get, isEmpty, uniq, uniqBy, without } from 'lodash';
 import { MatchTableItem, TFetchMatchFunc, UnmatchTableItem, UploadIdDictionary } from '../types';
 import MatchTable from './MatchTable';
 import UnmatchTable from './UnmatchTable';
@@ -29,6 +29,8 @@ const defaultRenderMatchTabTitle = (matchCount: number) => `Matched (${matchCoun
 const defaultRenderUnmatchTabTitle = (unmatchCount: number) => `Unmatched (${unmatchCount})`;
 const defaultRenderCollapseTitle = (matchCount: number, unmatchCount: number) =>
     `Summary Table (${matchCount} matched, ${unmatchCount} unmatched)`;
+const defaultTablesMessage = (submittedCount: number, mappedCount: number) =>
+    `${submittedCount} submitted identifiers mapped to ${mappedCount} unique system identifiers`;
 
 const UploadModal = ({
     width = 945,
@@ -50,6 +52,7 @@ const UploadModal = ({
     const debouncedValue = useDebounce(value, 500);
 
     const getValueList = () => value.split(/[\n,\r ]/).filter((val) => !!val);
+
     const getUnmatchList = (results: MatchTableItem[]) =>
         difference(
             getValueList(),
@@ -57,6 +60,12 @@ const UploadModal = ({
         ).map((id) => ({
             submittedId: id,
         }));
+
+    const getMatchToCount = (match: MatchTableItem[]) =>
+        without(
+            uniqBy(match, ({ matchTo }) => matchTo).map(({ matchTo }) => matchTo),
+            undefined,
+        ).length;
 
     const onClear = () => {
         setUnmatch(undefined);
@@ -69,7 +78,7 @@ const UploadModal = ({
         if (debouncedValue) {
             (async () => {
                 setIsLoading(true);
-                const results = await fetchMatch(getValueList());
+                const results = await fetchMatch(uniq(getValueList()));
                 setMatch(results);
                 setUnmatch(getUnmatchList(results));
                 setIsLoading(false);
@@ -111,18 +120,19 @@ const UploadModal = ({
                         placeholder={placeHolder}
                         onChange={(e) => setValue(e.target.value)}
                         value={value}
-                    ></Input.TextArea>
+                    />
                     <Space>
                         <Upload
                             accept={mimeTypes}
-                            multiple={false}
-                            maxCount={1}
+                            multiple={true}
                             showUploadList={false}
                             fileList={fileList}
                             onChange={(info) => setFileList(info.fileList)}
                             className={styles.upload}
                             beforeUpload={async (file) => {
-                                setValue(await file.text());
+                                console.log(file.name);
+                                const fileContent = await file.text();
+                                setValue(`${value ? value + '\n' : value}${fileContent}`);
                                 return false;
                             }}
                         >
@@ -136,12 +146,14 @@ const UploadModal = ({
                             </Button>
                         )}
                     </Space>
-                    {fileList.map((file) => (
-                        <Space key={file.name + file.size} size={5} className={styles.ListItem}>
-                            <PaperClipOutlined className={styles.paperClipIcon} />
-                            {file.name}
-                        </Space>
-                    ))}
+                    <Space direction="vertical" size={0}>
+                        {fileList.map((file) => (
+                            <Space key={file.name + file.size} size={5} className={styles.ListItem}>
+                                <PaperClipOutlined className={styles.paperClipIcon} />
+                                {file.name}
+                            </Space>
+                        ))}
+                    </Space>
                 </Space>
             </Space>
             <Spin spinning={isLoading}>
@@ -156,6 +168,11 @@ const UploadModal = ({
                                     : defaultRenderCollapseTitle(match.length, unmatch.length)
                             }
                         >
+                            <Typography className={styles.tablesMessages}>
+                                {dictionary.tablesMessage
+                                    ? dictionary.tablesMessage(match.length, getMatchToCount(match))
+                                    : defaultTablesMessage(match.length, getMatchToCount(match))}
+                            </Typography>
                             {isEmpty(unmatch) ? (
                                 <MatchTable matchItems={match} dictionary={dictionary} />
                             ) : (

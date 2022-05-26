@@ -2,26 +2,27 @@ import { ReactNode } from 'react';
 
 export interface UploadIdDictionary {
     modalTitle: string;
-    collapseTitle?: (matchCount: number, unmatchCount: number) => string;
-    matchTabTitle?: (matchCount: number) => string;
-    unmatchTabTitle?: (unmatchCount: number) => string;
-    submittedColTitle: string;
+    collapseTitle?: (matchCount: number, unmatchCount: number) => ReactNode;
+    matchTabTitle?: (matchCount: number) => ReactNode;
+    unmatchTabTitle?: (unmatchCount: number) => ReactNode;
+    tablesMessage?: (submittedCount: number, mappedCount: number) => ReactNode;
+    submittedColTitle: ReactNode;
     modalOkText?: ReactNode;
     modalCancelText?: ReactNode;
-    modalUploadBtnText?: string;
+    modalUploadBtnText?: ReactNode;
     inputLabel?: ReactNode;
     mappedTo?: string;
     uploadBtnText: string;
     matchTable: {
         idColTitle: string;
-        matchFieldColTitle: string;
+        matchToFieldColTitle: string;
         mappedToFieldColTitle: string;
     };
 }
 
 export interface MatchTableItem {
     submittedId: string;
-    matchField: string;
+    matchTo: string;
     mappedTo: string;
 }
 

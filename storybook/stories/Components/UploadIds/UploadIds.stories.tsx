@@ -50,8 +50,12 @@ Button.args = {
         matchTable: {
             idColTitle: "[Entity] id",
             mappedToFieldColTitle: "Mapped id",
-            matchFieldColTitle: "Match id",
+            matchToFieldColTitle: "Match id",
         },
+    },
+    popoverProps: {
+        title: "Im a popover",
+        content: "Im the popover's content",
     },
     onUpload: (ids: string[]) => {
         console.log(ids);
@@ -61,7 +65,7 @@ Button.args = {
             resolve(
                 ids.map((id) => ({
                     submittedId: id,
-                    matchField: id,
+                    matchTo: id,
                     mappedTo: id,
                 }))
             );

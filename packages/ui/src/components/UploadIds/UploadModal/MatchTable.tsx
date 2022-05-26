@@ -22,6 +22,7 @@ const MatchTable = ({ matchItems, loading = false, dictionary }: OwnProps) => (
             pageSize: 5,
             hideOnSinglePage: true,
             className: styles.tablePagination,
+            showSizeChanger: false,
         }}
         loading={loading}
         locale={{
@@ -31,15 +32,9 @@ const MatchTable = ({ matchItems, loading = false, dictionary }: OwnProps) => (
             {
                 key: 'submitted_id',
                 title: dictionary.submittedColTitle,
+                dataIndex: 'submittedId',
                 align: 'center',
                 className: styles.tableCell,
-                children: [
-                    {
-                        key: 'submitted_id_field',
-                        title: dictionary.matchTable.idColTitle,
-                        dataIndex: 'submittedId',
-                    },
-                ],
             },
             {
                 key: 'mapped_to',
@@ -48,8 +43,8 @@ const MatchTable = ({ matchItems, loading = false, dictionary }: OwnProps) => (
                 children: [
                     {
                         key: 'match_field',
-                        title: dictionary.matchTable.matchFieldColTitle,
-                        dataIndex: 'matchField',
+                        title: dictionary.matchTable.matchToFieldColTitle,
+                        dataIndex: 'matchTo',
                     },
                     {
                         key: 'mapped_to_field',
