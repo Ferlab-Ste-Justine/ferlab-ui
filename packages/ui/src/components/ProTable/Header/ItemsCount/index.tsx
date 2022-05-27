@@ -17,6 +17,7 @@ export const ItemsCount = ({ className = '', page, size, total, dictionnary = {}
     const from = (page - 1) * size + 1;
     const to = from + (isLastPage && hasLessThanPageSize ? total % size : size) - 1;
 
+    const formatNumber = () => (dictionnary.numberFormat ? dictionnary.numberFormat(total) : total);
     return (
         <Space className={className}>
             {(to < size && page === 1) || total === 0 ? (
@@ -25,8 +26,7 @@ export const ItemsCount = ({ className = '', page, size, total, dictionnary = {}
                         dictionnary.itemCount?.noResults || 'No Results'
                     ) : (
                         <span>
-                            <strong>{dictionnary.numberFormat ? dictionnary.numberFormat(total) : total}</strong>{' '}
-                            {dictionnary.itemCount?.results || 'Results'}
+                            <strong>{formatNumber()}</strong> {dictionnary.itemCount?.results || 'Results'}
                         </span>
                     )}
                 </Typography.Text>
@@ -34,7 +34,7 @@ export const ItemsCount = ({ className = '', page, size, total, dictionnary = {}
                 <Typography.Text>
                     <span>
                         {dictionnary.itemCount?.results || 'Results'} <strong>{from}</strong> - <strong>{to}</strong>{' '}
-                        {dictionnary.itemCount?.of || 'of'} <strong>{total}</strong>
+                        {dictionnary.itemCount?.of || 'of'} <strong>{formatNumber()}</strong>
                     </span>
                 </Typography.Text>
             )}
