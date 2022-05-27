@@ -1,5 +1,6 @@
 import React from 'react';
 import { Space, Typography } from 'antd';
+
 import { IProTableDictionary } from '../../types';
 
 type Props = {
@@ -24,7 +25,8 @@ export const ItemsCount = ({ className = '', page, size, total, dictionnary = {}
                         dictionnary.itemCount?.noResults || 'No Results'
                     ) : (
                         <span>
-                            <strong>{total}</strong> {dictionnary.itemCount?.results || 'Results'}
+                            <strong>{dictionnary.numberFormat ? dictionnary.numberFormat(total) : total}</strong>{' '}
+                            {dictionnary.itemCount?.results || 'Results'}
                         </span>
                     )}
                 </Typography.Text>

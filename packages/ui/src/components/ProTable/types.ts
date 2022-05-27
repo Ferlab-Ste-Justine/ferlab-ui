@@ -21,6 +21,7 @@ export interface IProTableDictionary {
             columns: React.ReactNode;
         };
     };
+    numberFormat?: (value: number) => React.ReactNode;
 }
 
 export interface ProColumnType<T = any> extends ColumnType<T> {
