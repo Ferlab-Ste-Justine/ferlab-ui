@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "3.9.93",
+    "version": "3.9.94",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -59,6 +59,7 @@
         "@ant-design/icons": "^4.7.0",
         "@dnd-kit/core": "^4.0.3",
         "@dnd-kit/sortable": "^5.1.0",
+        "@dnd-kit/utilities": "^3.2.0",
         "antd": "^4.20.0",
         "classnames": "^2.2.6",
         "history": "^4.9.0",
