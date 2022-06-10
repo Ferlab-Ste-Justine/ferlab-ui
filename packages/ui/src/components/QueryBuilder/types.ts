@@ -64,6 +64,7 @@ export interface IQueryBuilderHeaderConfig {
     onShareFilter?: (filter: ISavedFilter) => void;
     onSaveFilter?: (filter: ISavedFilter) => void;
     onDeleteFilter?: (filterId: string) => void;
+    noCapLengthNameSavedQuery?: boolean;
 }
 
 export type TOnSavedFilterChange = (savedFilter: ISavedFilter) => void;

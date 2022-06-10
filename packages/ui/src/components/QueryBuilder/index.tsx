@@ -1,22 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { v4 } from 'uuid';
 import { cloneDeep } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
-import ConditionalWrapper from '../utils/ConditionalWrapper';
-import QueryBuilderHeader from './Header';
-import QueryBar from './QueryBar';
-import QueryTools from './QueryTools';
+import { v4 } from 'uuid';
+
 import { BooleanOperators } from '../../data/sqon/operators';
-import {
-    IDictionary,
-    ArrayTenOrMore,
-    IFacetFilterConfig,
-    IQueryBuilderHeaderConfig,
-    IQueriesState,
-    IQueryBuilderState,
-    IFetchQueryCount,
-    IGetResolvedQueryForCount,
-} from './types';
 import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import {
     changeCombineOperator,
@@ -27,8 +14,22 @@ import {
     removeContentFromSqon,
     removeSqonAtIndex,
 } from '../../data/sqon/utils';
-import useQueryBuilderState, { setQueryBuilderState } from './utils/useQueryBuilderState';
+import ConditionalWrapper from '../utils/ConditionalWrapper';
+
 import { isQueryStateEqual } from './utils/helper';
+import useQueryBuilderState, { setQueryBuilderState } from './utils/useQueryBuilderState';
+import QueryBuilderHeader from './Header';
+import QueryBar from './QueryBar';
+import QueryTools from './QueryTools';
+import {
+    ArrayTenOrMore,
+    IDictionary,
+    IFacetFilterConfig,
+    IFetchQueryCount,
+    IGetResolvedQueryForCount,
+    IQueriesState,
+    IQueryBuilderHeaderConfig,
+} from './types';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
 
@@ -79,28 +80,28 @@ const QueryBuilder = ({
         '#847545',
     ],
     headerConfig = {
-        showHeader: false,
-        showTools: false,
         defaultTitle: 'Untitled Filter',
+        onSaveFilter: () => {},
+        onDeleteFilter: () => {},
+        onSetAsFavorite: () => {},
+        onShareFilter: () => {},
+        onUpdateFilter: () => {},
         options: {
             enableDuplicate: true,
             enableEditTitle: true,
-            enableShare: false,
             enableFavoriteFilter: false,
+            enableShare: false,
             enableUndoChanges: false,
         },
         savedFilters: [],
         selectedSavedFilter: null,
-        onSetAsFavorite: () => {},
-        onShareFilter: () => {},
-        onUpdateFilter: () => {},
-        onSaveFilter: () => {},
-        onDeleteFilter: () => {},
+        showHeader: false,
+        showTools: false,
     },
     facetFilterConfig = {
+        blacklistedFacets: [],
         enable: false,
         onFacetClick: () => {},
-        blacklistedFacets: [],
     },
     fetchQueryCount,
     getResolvedQueryForCount,
@@ -132,8 +133,8 @@ const QueryBuilder = ({
             const updatedQueries = cloneDeep(queriesState.queries);
             updatedQueries[currentQueryIndex] = {
                 ...newQuery,
-                op: newQuery.op,
                 content: newQuery.content,
+                op: newQuery.op,
             };
             setQueriesState({
                 ...queriesState,
@@ -197,7 +198,7 @@ const QueryBuilder = ({
         op: BooleanOperators = BooleanOperators.and,
         content: TSyntheticSqonContent = [],
     ) => {
-        const newQuery = { id: id, op: op, content: content };
+        const newQuery = { content: content, id: id, op: op };
         setQueriesState({
             activeId: id,
             queries: cleanUpQueries(cloneDeep([...queriesState.queries, newQuery])),
@@ -264,9 +265,9 @@ const QueryBuilder = ({
                 ...queriesState,
                 queries: [
                     {
-                        op: currentQuery.op,
                         content: currentQuery.content,
                         id: queriesState.activeId,
+                        op: currentQuery.op,
                     },
                 ],
             });
@@ -277,19 +278,19 @@ const QueryBuilder = ({
             if (current.content && current.content.length > 0 && isEmpty(currentQuery)) {
                 deleteQueryAndSetNext(queriesState.activeId);
             } else {
-                let tmpQuery = queriesState.queries.map((obj) => {
+                const tmpQuery = queriesState.queries.map((obj) => {
                     // Ensure there is always a op and content
                     if (obj.id === queriesState.activeId) {
                         return {
                             ...obj,
-                            op: obj.op || BooleanOperators.and,
                             content: currentQuery.content ? currentQuery.content : [],
+                            op: obj.op || BooleanOperators.and,
                         };
                     }
                     return {
                         ...obj,
-                        op: obj.op || BooleanOperators.and,
                         content: obj.content ? obj.content : [],
+                        op: obj.op || BooleanOperators.and,
                     };
                 });
 
@@ -329,13 +330,13 @@ const QueryBuilder = ({
             wrapper={(children: JSX.Element) =>
                 headerConfig?.showHeader ? (
                     <QueryBuilderHeader
-                        queryBuilderId={id}
                         config={headerConfig}
-                        queriesState={queriesState}
-                        selectedSavedFilter={selectedSavedFilter!}
-                        onSavedFilterChange={setSelectedSavedFilter}
                         dictionary={dictionary}
+                        onSavedFilterChange={setSelectedSavedFilter}
+                        queriesState={queriesState}
+                        queryBuilderId={id}
                         resetQueriesState={resetQueries}
+                        selectedSavedFilter={selectedSavedFilter!}
                     >
                         {children}
                     </QueryBuilderHeader>
@@ -348,26 +349,28 @@ const QueryBuilder = ({
                 <div className={styles.queryBars}>
                     {queriesState.queries.map((sqon, i) => (
                         <QueryBar
-                            id={sqon.id!}
-                            key={sqon.id!}
-                            index={i}
                             Icon={IconTotal}
-                            queryBuilderId={id}
                             actionDisabled={isEmptySqon(sqon)}
-                            isActive={sqon.id! === queriesState.activeId}
                             canDelete={!noQueries}
                             dictionary={dictionary}
+                            facetFilterConfig={facetFilterConfig}
+                            fetchQueryCount={fetchQueryCount}
                             getColorForReference={getColorForReference}
+                            getResolvedQueryForCount={getResolvedQueryForCount}
+                            id={sqon.id!}
+                            index={i}
+                            isActive={sqon.id! === queriesState.activeId}
+                            isReferenced={isIndexReferencedInSqon(i, selectedSyntheticSqon)}
+                            isSelected={selectedQueryIndices.includes(i)}
+                            key={sqon.id!}
                             onChangeQuery={(id, query) => {
-                                setQueriesState((prevState) => {
-                                    return {
-                                        ...prevState,
-                                        activeId:
-                                            prevState.queries.findIndex((obj) => obj.id == id) != -1
-                                                ? id
-                                                : queriesState.activeId,
-                                    };
-                                });
+                                setQueriesState((prevState) => ({
+                                    ...prevState,
+                                    activeId:
+                                        prevState.queries.findIndex((obj) => obj.id == id) != -1
+                                            ? id
+                                            : queriesState.activeId,
+                                }));
                             }}
                             onCombineChange={(id, combinator) => {
                                 const updatedQueries = cloneDeep(queriesState.queries);
@@ -377,16 +380,14 @@ const QueryBuilder = ({
 
                                 updatedQueries[currentQueryIndex] = {
                                     ...currentQuery,
-                                    op: newQuery.op,
                                     content: newQuery.content,
+                                    op: newQuery.op,
                                 };
 
-                                setQueriesState((prevState) => {
-                                    return {
-                                        ...prevState,
-                                        queries: cleanUpQueries(updatedQueries),
-                                    };
-                                });
+                                setQueriesState((prevState) => ({
+                                    ...prevState,
+                                    queries: cleanUpQueries(updatedQueries),
+                                }));
                             }}
                             onDeleteQuery={deleteQueryAndSetNext}
                             onDuplicate={(_, query) => addNewQuery(v4(), query.op as BooleanOperators, query.content)}
@@ -406,34 +407,30 @@ const QueryBuilder = ({
                                 setSelectedQueryIndices([...selectedQueryIndices, id]);
                             }}
                             query={sqon}
-                            facetFilterConfig={facetFilterConfig}
-                            isReferenced={isIndexReferencedInSqon(i, selectedSyntheticSqon)}
-                            isSelected={selectedQueryIndices.includes(i)}
+                            queryBuilderId={id}
                             selectionDisabled={queriesState.queries.length === 1 || !enableCombine}
                             showLabels={showLabels}
-                            fetchQueryCount={fetchQueryCount}
-                            getResolvedQueryForCount={getResolvedQueryForCount}
                         />
                     ))}
                 </div>
                 {showQueryTools() && (
                     <QueryTools
-                        dictionary={dictionary}
-                        showLabels={showLabels}
-                        noQueries={noQueries}
-                        enableSingleQuery={enableSingleQuery}
-                        canCombine={canCombine}
-                        enableCombine={enableCombine}
-                        hasEmptyQuery={hasEmptyQuery}
-                        enableShowHideLabels={enableShowHideLabels}
                         addNewQuery={addNewQuery}
-                        queryCount={queryCount}
+                        canCombine={canCombine}
+                        dictionary={dictionary}
+                        enableCombine={enableCombine}
+                        enableShowHideLabels={enableShowHideLabels}
+                        enableSingleQuery={enableSingleQuery}
+                        hasEmptyQuery={hasEmptyQuery}
+                        noQueries={noQueries}
+                        onCombineClick={onCombineClick}
                         onDeleteAll={() => {
                             setSelectedQueryIndices([]);
                             resetQueries(queriesState.activeId);
                         }}
-                        onCombineClick={onCombineClick}
+                        queryCount={queryCount}
                         setShowLabels={setShowLabels}
+                        showLabels={showLabels}
                     />
                 )}
             </div>

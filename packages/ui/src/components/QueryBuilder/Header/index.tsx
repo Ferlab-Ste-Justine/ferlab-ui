@@ -1,14 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Typography, Modal, Input, Space, Button, Tooltip, Form } from 'antd';
+import { EditOutlined, StarFilled, StarOutlined, UndoOutlined, WarningFilled } from '@ant-design/icons';
+import { Button, Form, Input, Modal, Space, Tooltip, Typography } from 'antd';
+import { Rule } from 'antd/lib/form';
 import cx from 'classnames';
 import { v4 } from 'uuid';
-import QueryBuilderHeaderTools from './Tools';
-import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../types';
+
 import { getDefaultSyntheticSqon } from '../../../data/sqon/utils';
-import { hasUnsavedChanges, isNewUnsavedFilter } from './utils';
-import { EditOutlined, StarFilled, StarOutlined, UndoOutlined, WarningFilled } from '@ant-design/icons';
+import Collapse, { CollapsePanel } from '../../Collapse';
+import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../types';
 import { setQueryBuilderState } from '../utils/useQueryBuilderState';
-import Collapse, { CollapsePanel, TCollapseProps } from '../../Collapse';
+
+import QueryBuilderHeaderTools from './Tools';
+import { hasUnsavedChanges, isNewUnsavedFilter } from './utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
 
@@ -21,6 +24,7 @@ interface IQueryBuilderHeaderProps {
     onSavedFilterChange: TOnSavedFilterChange;
     queriesState: IQueriesState;
     resetQueriesState: (id: string) => void;
+    capLengthNameSavedQuery?: boolean;
 }
 
 const { Title } = Typography;
@@ -45,12 +49,32 @@ const QueryBuilderHeader = ({
     const [savedFilterTitle, setSavedFilterTitle] = useState('');
     const [localSavedFilters, setLocalSavedFilters] = useState(config.savedFilters);
 
+    const emptyRule: Rule = {
+        message: <span>{dictionary.queryBuilderHeader?.form?.error?.fieldRequired || 'This field is required'}</span>,
+        required: true,
+        type: 'string',
+    };
+
+    const maxLengthRule: Rule = {
+        max: DEFAULT_TITLE_MAX_LENGTH,
+        message: (
+            <span>
+                <WarningFilled /> {DEFAULT_TITLE_MAX_LENGTH}{' '}
+                {dictionary.queryBuilderHeader?.modal?.edit?.input.maximumLength || 'characters maximum'}
+            </span>
+        ),
+        required: false,
+        type: 'string',
+    };
+
+    const headerRules = !config.noCapLengthNameSavedQuery ? [emptyRule, maxLengthRule] : [emptyRule];
+
     const onSaveFilter = (savedFilter: ISavedFilter) => {
         const newSavedFilter = {
-            id: savedFilter?.id || v4(),
-            title: savedFilter?.title! || config.defaultTitle!,
             favorite: savedFilter?.favorite || false,
+            id: savedFilter?.id || v4(),
             queries: queriesState.queries,
+            title: savedFilter?.title! || config.defaultTitle!,
         };
         if (config?.onSaveFilter) {
             config.onSaveFilter(newSavedFilter);
@@ -81,10 +105,10 @@ const QueryBuilderHeader = ({
         resetQueriesState(defaultQueryId);
         setSavedFilterTitle(config.defaultTitle!);
         onSavedFilterChange({
-            id: v4(),
-            title: config.defaultTitle!,
             favorite: false,
+            id: v4(),
             queries: [getDefaultSyntheticSqon(defaultQueryId)],
+            title: config.defaultTitle!,
         });
     };
 
@@ -109,14 +133,6 @@ const QueryBuilderHeader = ({
                     onUpdateFilter: onUpdateFilter,
                 }}
                 dictionary={dictionary}
-                savedFilters={localSavedFilters!}
-                selectedSavedFilter={selectedSavedFilter!}
-                queriesState={queriesState}
-                onSavedFilterChange={(filter) => {
-                    setSavedFilterTitle(filter.title);
-                    onSavedFilterChange(filter);
-                }}
-                onNewSavedFilter={onNewSavedFilter}
                 onDuplicateSavedFilter={() => {
                     const duplicatedQueries = [...queriesState.queries].map((query) => ({
                         ...query,
@@ -127,12 +143,20 @@ const QueryBuilderHeader = ({
                     }`;
                     setSavedFilterTitle(title);
                     onSavedFilterChange({
-                        id: v4(),
-                        title: title,
                         favorite: false,
-                        queries: duplicatedQueries, // should probably set new id for each filter here
+                        id: v4(),
+                        queries: duplicatedQueries,
+                        title: title, // should probably set new id for each filter here
                     });
                 }}
+                onNewSavedFilter={onNewSavedFilter}
+                onSavedFilterChange={(filter) => {
+                    setSavedFilterTitle(filter.title);
+                    onSavedFilterChange(filter);
+                }}
+                queriesState={queriesState}
+                savedFilters={localSavedFilters!}
+                selectedSavedFilter={selectedSavedFilter!}
             />
         ) : (
             []
@@ -157,23 +181,23 @@ const QueryBuilderHeader = ({
                 defaultActiveKey={'query-header-tools'}
             >
                 <CollapsePanel
-                    key="query-header-tools"
+                    extra={getExtra()}
                     header={
                         <Space className={styles.QBHContainer} size={16}>
-                            <Title level={5} className={styles.togglerTitle}>
+                            <Title className={styles.togglerTitle} level={5}>
                                 {localSelectedSavedFilter?.title || config.defaultTitle}
                             </Title>
                             <Space className={cx(styles.QBHActionContainer, styles.QBHOptionsActionsContainer)}>
                                 {config.options?.enableEditTitle && (
                                     <Button
                                         className={styles.iconBtnAction}
+                                        icon={<EditOutlined />}
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setEditModalVisible(true);
                                         }}
-                                        type="text"
                                         size="small"
-                                        icon={<EditOutlined />}
+                                        type="text"
                                     />
                                 )}
                                 {config.options?.enableFavoriteFilter &&
@@ -190,6 +214,13 @@ const QueryBuilderHeader = ({
                                         >
                                             <Button
                                                 className={styles.iconBtnAction}
+                                                icon={
+                                                    localSelectedSavedFilter?.favorite ? (
+                                                        <StarFilled className={styles.QBHOptionsFavoriteStar} />
+                                                    ) : (
+                                                        <StarOutlined />
+                                                    )
+                                                }
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     const updatedSavedFilter = {
@@ -207,15 +238,8 @@ const QueryBuilderHeader = ({
                                                     }
                                                     onSavedFilterChange(updatedSavedFilter);
                                                 }}
-                                                type="text"
                                                 size="small"
-                                                icon={
-                                                    localSelectedSavedFilter?.favorite ? (
-                                                        <StarFilled className={styles.QBHOptionsFavoriteStar} />
-                                                    ) : (
-                                                        <StarOutlined />
-                                                    )
-                                                }
+                                                type="text"
                                             />
                                         </Tooltip>
                                     )}
@@ -230,6 +254,7 @@ const QueryBuilderHeader = ({
                                         >
                                             <Button
                                                 className={styles.iconBtnAction}
+                                                icon={<UndoOutlined />}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (selectedSavedFilter) {
@@ -239,41 +264,40 @@ const QueryBuilderHeader = ({
                                                         });
                                                     }
                                                 }}
-                                                type="text"
                                                 size="small"
-                                                icon={<UndoOutlined />}
+                                                type="text"
                                             />
                                         </Tooltip>
                                     )}
                             </Space>
                         </Space>
                     }
-                    extra={getExtra()}
+                    key="query-header-tools"
                 >
                     {children}
                 </CollapsePanel>
             </Collapse>
             <Modal
-                className={styles.QBHeditModal}
-                visible={isEditModalVisible}
-                okButtonProps={{ disabled: !localSavedFilters }}
-                title={dictionary.queryBuilderHeader?.modal?.edit?.title || 'Save this query'}
-                okText={dictionary.queryBuilderHeader?.modal?.edit?.okText || 'Save'}
                 cancelText={dictionary.queryBuilderHeader?.modal?.edit?.cancelText || 'Cancel'}
-                onOk={(e) => editForm.submit()}
+                className={styles.QBHeditModal}
+                okButtonProps={{ disabled: !localSavedFilters }}
+                okText={dictionary.queryBuilderHeader?.modal?.edit?.okText || 'Save'}
                 onCancel={() => {
                     setEditModalVisible(false);
                     editForm.resetFields();
                 }}
+                onOk={(e) => editForm.submit()}
+                title={dictionary.queryBuilderHeader?.modal?.edit?.title || 'Save this query'}
+                visible={isEditModalVisible}
             >
                 <Form
-                    form={editForm}
                     fields={[
                         {
                             name: ['title'],
                             value: savedFilterTitle || selectedSavedFilter?.title!,
                         },
                     ]}
+                    form={editForm}
                     layout="vertical"
                     onFinish={(values) => {
                         setEditModalVisible(false);
@@ -292,40 +316,18 @@ const QueryBuilderHeader = ({
                     <Form.Item noStyle shouldUpdate>
                         {() => (
                             <Form.Item
-                                name="title"
-                                label={dictionary.queryBuilderHeader?.modal?.edit?.input.label || 'Query name'}
-                                rules={[
-                                    {
-                                        type: 'string',
-                                        max: DEFAULT_TITLE_MAX_LENGTH,
-                                        message: (
-                                            <span>
-                                                <WarningFilled /> {DEFAULT_TITLE_MAX_LENGTH}{' '}
-                                                {dictionary.queryBuilderHeader?.modal?.edit?.input.maximumLength ||
-                                                    'characters maximum'}
-                                            </span>
-                                        ),
-                                    },
-                                    {
-                                        type: 'string',
-                                        required: true,
-                                        message: (
-                                            <span>
-                                                {dictionary.queryBuilderHeader?.form?.error?.fieldRequired ||
-                                                    'This field is required'}
-                                            </span>
-                                        ),
-                                    },
-                                ]}
-                                required={false}
                                 className={styles.QBHfilterEditFormItem}
+                                label={dictionary.queryBuilderHeader?.modal?.edit?.input.label || 'Query name'}
+                                name="title"
+                                required={false}
+                                rules={headerRules}
                             >
                                 <Input
-                                    ref={callbackRef}
                                     placeholder={
                                         dictionary.queryBuilderHeader?.modal?.edit?.input.placeholder ||
                                         'Untitled query'
                                     }
+                                    ref={callbackRef}
                                 />
                             </Form.Item>
                         )}
