@@ -530,6 +530,7 @@ WithHeaderAndTools.args = {
         },
         onDuplicateQuery: (filter: any) => {},
         onDeleteQuery: (filter: any) => {},
+        maxNameCapSavedQuery: 200,
     },
     onRemoveFacet: (f: any) => f,
     onChangeQuery: (f: any) => f,

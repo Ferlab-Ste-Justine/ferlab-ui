@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { EditOutlined, StarFilled, StarOutlined, UndoOutlined, WarningFilled } from '@ant-design/icons';
 import { Button, Form, Input, Modal, Space, Tooltip, Typography } from 'antd';
-import { Rule } from 'antd/lib/form';
 import cx from 'classnames';
 import { v4 } from 'uuid';
 
@@ -24,7 +23,7 @@ interface IQueryBuilderHeaderProps {
     onSavedFilterChange: TOnSavedFilterChange;
     queriesState: IQueriesState;
     resetQueriesState: (id: string) => void;
-    capLengthNameSavedQuery?: boolean;
+    maxNameCapSavedQuery?: number;
 }
 
 const { Title } = Typography;
@@ -48,26 +47,6 @@ const QueryBuilderHeader = ({
     );
     const [savedFilterTitle, setSavedFilterTitle] = useState('');
     const [localSavedFilters, setLocalSavedFilters] = useState(config.savedFilters);
-
-    const emptyRule: Rule = {
-        message: <span>{dictionary.queryBuilderHeader?.form?.error?.fieldRequired || 'This field is required'}</span>,
-        required: true,
-        type: 'string',
-    };
-
-    const maxLengthRule: Rule = {
-        max: DEFAULT_TITLE_MAX_LENGTH,
-        message: (
-            <span>
-                <WarningFilled /> {DEFAULT_TITLE_MAX_LENGTH}{' '}
-                {dictionary.queryBuilderHeader?.modal?.edit?.input.maximumLength || 'characters maximum'}
-            </span>
-        ),
-        required: false,
-        type: 'string',
-    };
-
-    const headerRules = !config.noCapLengthNameSavedQuery ? [emptyRule, maxLengthRule] : [emptyRule];
 
     const onSaveFilter = (savedFilter: ISavedFilter) => {
         const newSavedFilter = {
@@ -320,7 +299,31 @@ const QueryBuilderHeader = ({
                                 label={dictionary.queryBuilderHeader?.modal?.edit?.input.label || 'Query name'}
                                 name="title"
                                 required={false}
-                                rules={headerRules}
+                                rules={[
+                                    {
+                                        message: (
+                                            <span>
+                                                {dictionary.queryBuilderHeader?.form?.error?.fieldRequired ||
+                                                    'This field is required'}
+                                            </span>
+                                        ),
+                                        required: true,
+                                        type: 'string',
+                                    },
+                                    {
+                                        max: config.maxNameCapSavedQuery || DEFAULT_TITLE_MAX_LENGTH,
+                                        message: (
+                                            <span>
+                                                <WarningFilled />{' '}
+                                                {config.maxNameCapSavedQuery || DEFAULT_TITLE_MAX_LENGTH}{' '}
+                                                {dictionary.queryBuilderHeader?.modal?.edit?.input.maximumLength ||
+                                                    'characters maximum'}
+                                            </span>
+                                        ),
+                                        required: false,
+                                        type: 'string',
+                                    },
+                                ]}
                             >
                                 <Input
                                     placeholder={
