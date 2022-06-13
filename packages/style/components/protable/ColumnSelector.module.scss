@@ -11,3 +11,8 @@
 .ProTablePopoverColumnResetBtn {
   padding: 0;
 }
+
+.ProTablePopoverColumnListWrapper {
+  max-height: 315px;
+  overflow: auto;
+}

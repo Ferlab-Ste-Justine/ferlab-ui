@@ -103,50 +103,52 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
             overlayClassName={styles.ProTablePopoverColumn}
             content={
                 <Space direction="vertical">
-                    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                        <SortableContext
-                            items={localColumns.state.map(({ key }) => key)}
-                            strategy={rectSortingStrategy}
-                        >
-                            <List>
-                                {localColumns.state.map((localState, index) => {
-                                    const foundColumn = columns.find(({ key }) => localState.key === key)!;
+                    <div className={styles.ProTablePopoverColumnListWrapper}>
+                        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                            <SortableContext
+                                items={localColumns.state.map(({ key }) => key)}
+                                strategy={rectSortingStrategy}
+                            >
+                                <List>
+                                    {localColumns.state.map((localState, index) => {
+                                        const foundColumn = columns.find(({ key }) => localState.key === key)!;
 
-                                    if (!foundColumn) {
-                                        return false;
-                                    }
+                                        if (!foundColumn) {
+                                            return false;
+                                        }
 
-                                    const title =
-                                        typeof foundColumn.title === 'string'
-                                            ? foundColumn.title
-                                            : foundColumn.displayTitle;
-                                    const savedColumnState = getColumnStateByKey(localState.key);
-                                    return (
-                                        <SortableColumnItem
-                                            id={localState.key!}
-                                            label={title?.toString()!}
-                                            key={index}
-                                            checked={savedColumnState?.visible}
-                                            onChange={(e) => {
-                                                const filteredStates = localColumnState.filter(
-                                                    ({ key }) => key !== localState.key,
-                                                );
-                                                const newStates = [
-                                                    ...filteredStates,
-                                                    {
-                                                        ...savedColumnState!,
-                                                        visible: e.target.checked,
-                                                    },
-                                                ];
+                                        const title =
+                                            typeof foundColumn.title === 'string'
+                                                ? foundColumn.title
+                                                : foundColumn.displayTitle;
+                                        const savedColumnState = getColumnStateByKey(localState.key);
+                                        return (
+                                            <SortableColumnItem
+                                                id={localState.key!}
+                                                label={title?.toString()!}
+                                                key={index}
+                                                checked={savedColumnState?.visible}
+                                                onChange={(e) => {
+                                                    const filteredStates = localColumnState.filter(
+                                                        ({ key }) => key !== localState.key,
+                                                    );
+                                                    const newStates = [
+                                                        ...filteredStates,
+                                                        {
+                                                            ...savedColumnState!,
+                                                            visible: e.target.checked,
+                                                        },
+                                                    ];
 
-                                                onChange(newStates);
-                                            }}
-                                        />
-                                    );
-                                })}
-                            </List>
-                        </SortableContext>
-                    </DndContext>
+                                                    onChange(newStates);
+                                                }}
+                                            />
+                                        );
+                                    })}
+                                </List>
+                            </SortableContext>
+                        </DndContext>
+                    </div>
                     <div className={styles.ProTablePopoverColumnResetBtnWrapper}>
                         <Button
                             className={styles.ProTablePopoverColumnResetBtn}
