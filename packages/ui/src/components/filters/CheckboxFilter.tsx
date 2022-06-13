@@ -233,7 +233,7 @@ const CheckboxFilter = ({
                                         label: get(dictionary, 'operators.anyOf', 'Any of'),
                                     },
                                     {
-                                        key: TermOperators.in,
+                                        key: TermOperators.all,
                                         label: get(dictionary, 'operators.allOf', 'All of'),
                                     },
                                     {
