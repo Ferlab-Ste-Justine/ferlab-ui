@@ -57,8 +57,8 @@ Button.args = {
         title: "Im a popover",
         content: "Im the popover's content",
     },
-    onUpload: (ids: string[]) => {
-        console.log(ids);
+    onUpload: (match: any) => {
+        console.log(match);
     },
     fetchMatch: (ids: string[]) =>
         new Promise((resolve) => {
