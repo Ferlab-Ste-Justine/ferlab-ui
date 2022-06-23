@@ -45,11 +45,13 @@ const MatchTable = ({ matchItems, loading = false, dictionary }: OwnProps) => (
                         key: 'match_field',
                         title: dictionary.matchTable.matchToFieldColTitle,
                         dataIndex: 'matchTo',
+                        render: (field) => field ?? '-',
                     },
                     {
                         key: 'mapped_to_field',
                         title: dictionary.matchTable.mappedToFieldColTitle,
                         dataIndex: 'mappedTo',
+                        render: (field) => field ?? '-',
                     },
                 ],
             },
