@@ -21,10 +21,10 @@ const SetQueryPill = ({ onRemove, isBarActive, valueFilter, dictionary = {} }: I
     <div className={cx(styles.queryPillContainer, { [styles.selected]: isBarActive })}>
         <>
             <span className={`${styles.field}`}>
-                {valueFilter.content.index
-                    ? capitalize(valueFilter.content.index)
-                    : dictionary.query?.facet
+                {dictionary.query?.facet
                     ? dictionary.query?.facet(valueFilter.content.field)
+                    : valueFilter.content.index
+                    ? capitalize(valueFilter.content.index)
                     : valueFilter.content.field}
             </span>
             <ElementOperator className={styles.operator} />
