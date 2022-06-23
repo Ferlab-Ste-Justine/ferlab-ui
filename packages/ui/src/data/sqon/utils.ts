@@ -53,7 +53,8 @@ export const isNotReference = (sqon: any) => isNaN(sqon);
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
 export const isSet = (value: IValueFilter) =>
-    value.content.value.some((value) => value.toString().startsWith(SET_ID_PREFIX));
+    value.content.value.some((value) => value.toString().startsWith(SET_ID_PREFIX)) ||
+    !isEmpty(value.content.overrideValuesName);
 
 export const isNotSet = (value: IValueFilter) => !isSet(value);
 
