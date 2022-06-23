@@ -6,6 +6,7 @@ export interface UploadIdDictionary {
     matchTabTitle?: (matchCount: number) => ReactNode;
     unmatchTabTitle?: (unmatchCount: number) => ReactNode;
     tablesMessage?: (submittedCount: number, mappedCount: number) => ReactNode;
+    emptyTableDescription?: string;
     submittedColTitle: ReactNode;
     modalOkText?: ReactNode;
     modalCancelText?: ReactNode;
