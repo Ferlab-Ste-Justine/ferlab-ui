@@ -3,7 +3,7 @@ import { PaperClipOutlined, UploadOutlined } from '@ant-design/icons';
 import Collapse, { CollapsePanel } from '../../Collapse';
 import { Button, Input, Modal, PopoverProps, Space, Spin, Tabs, Typography, Upload } from 'antd';
 import { difference, get, isEmpty, uniq, uniqBy, without } from 'lodash';
-import { MatchTableItem, TFetchMatchFunc, UnmatchTableItem, UploadIdDictionary } from '../types';
+import { MatchTableItem, TFetchMatchFunc, TOnUpload, UnmatchTableItem, UploadIdDictionary } from '../types';
 import MatchTable from './MatchTable';
 import UnmatchTable from './UnmatchTable';
 import ProLabel from '../../ProLabel';
@@ -19,7 +19,7 @@ interface OwnProps {
     dictionary: UploadIdDictionary;
     popoverProps?: PopoverProps;
     placeHolder: string;
-    onUpload: (matchIds: string[]) => void;
+    onUpload: TOnUpload;
     /** Comma separated string. Ex.: '.txt, .csv' */
     mimeTypes?: string;
     fetchMatch: TFetchMatchFunc;
@@ -57,7 +57,8 @@ const UploadModal = ({
         difference(
             getValueList(),
             results.map((item) => item.submittedId),
-        ).map((id) => ({
+        ).map((id, index) => ({
+            key: index,
             submittedId: id,
         }));
 
@@ -102,7 +103,7 @@ const UploadModal = ({
             onOk={() => {
                 setVisible(false);
                 setValue('');
-                onUpload(match ? match.map(({ submittedId }) => submittedId) : []);
+                onUpload(match ?? []);
             }}
             okButtonProps={{ disabled: !match?.length }}
             cancelText={get(dictionary, 'modalCancelText', 'Cancel')}

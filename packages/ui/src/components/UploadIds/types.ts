@@ -20,6 +20,8 @@ export interface UploadIdDictionary {
     };
 }
 
+export type TOnUpload = (match: MatchTableItem[]) => void;
+
 export interface MatchTableItem {
     submittedId: string;
     matchTo: string;

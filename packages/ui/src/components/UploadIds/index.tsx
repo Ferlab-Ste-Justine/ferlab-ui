@@ -4,7 +4,7 @@ import { Button, PopoverProps } from 'antd';
 import { useState } from 'react';
 import UploadModal from './UploadModal';
 import cx from 'classnames';
-import { TFetchMatchFunc, UploadIdDictionary } from './types';
+import { TFetchMatchFunc, TOnUpload, UploadIdDictionary } from './types';
 
 import styles from '@ferlab/style/components/uploadids/UploadIds.module.scss';
 
@@ -14,7 +14,7 @@ export interface UploadIdsProps {
     popoverProps?: PopoverProps;
     dictionary: UploadIdDictionary;
     placeHolder: string;
-    onUpload: (matchIds: string[]) => void;
+    onUpload: TOnUpload;
     modalWidth?: number;
     mimeTypes?: string;
 }
