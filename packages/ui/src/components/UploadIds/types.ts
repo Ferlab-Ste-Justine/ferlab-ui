@@ -13,6 +13,7 @@ export interface UploadIdDictionary {
     inputLabel?: ReactNode;
     mappedTo?: string;
     uploadBtnText: string;
+    clear?: string;
     matchTable: {
         idColTitle: string;
         matchToFieldColTitle: string;
