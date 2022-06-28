@@ -82,6 +82,7 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
                 </div>
             )}
             {hasMoreValues &&
+                !valueFilter.content.overrideValuesName &&
                 (expanded ? (
                     <Button
                         className={`${styles.button} ${styles.icon}`}

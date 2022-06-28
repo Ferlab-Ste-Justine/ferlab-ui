@@ -64,6 +64,7 @@ Button.args = {
         new Promise((resolve) => {
             resolve(
                 ids.map((id) => ({
+                    key: id,
                     submittedId: id,
                     matchTo: id,
                     mappedTo: id,

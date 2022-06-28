@@ -158,6 +158,7 @@ const QueryBuilderHeader = ({
                     size: config.collapseProps?.size ?? 'large',
                 }}
                 defaultActiveKey={'query-header-tools'}
+                className={styles.QBHCollapse}
             >
                 <CollapsePanel
                     extra={getExtra()}
