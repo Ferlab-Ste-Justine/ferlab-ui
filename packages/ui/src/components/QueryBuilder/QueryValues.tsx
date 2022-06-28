@@ -47,7 +47,11 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
     return (
         <div
             onClick={(e) => (onClick ? onClick(e) : undefined)}
-            className={cx(styles.queryValuesContainer, onClick && styles.clickable, hasMoreValues && styles.hasMore)}
+            className={cx(
+                styles.queryValuesContainer,
+                onClick && styles.clickable,
+                hasMoreValues && !valueFilter.content.overrideValuesName ? styles.hasMore : '',
+            )}
         >
             {!isElement ? (
                 <ConditionalWrapper
