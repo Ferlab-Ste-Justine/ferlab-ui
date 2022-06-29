@@ -44,7 +44,6 @@ const UploadModal = ({
     mimeTypes = '.txt, .csv, .tsv',
 }: OwnProps) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [isUploadLoading, setIsUploadLoading] = useState(false);
     const [value, setValue] = useState('');
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const [match, setMatch] = useState<MatchTableItem[] | undefined>(undefined);
@@ -65,6 +64,12 @@ const UploadModal = ({
     const getMatchToCount = (match: MatchTableItem[]) =>
         without(
             uniqBy(match, ({ matchTo }) => matchTo).map(({ matchTo }) => matchTo),
+            undefined,
+        ).length;
+
+    const getSubmittedIdsCount = (match: MatchTableItem[]) =>
+        without(
+            uniqBy(match, ({ submittedId }) => submittedId).map(({ submittedId }) => submittedId),
             undefined,
         ).length;
 
@@ -131,13 +136,12 @@ const UploadModal = ({
                             onChange={(info) => setFileList(info.fileList)}
                             className={styles.upload}
                             beforeUpload={async (file) => {
-                                console.log(file.name);
                                 const fileContent = await file.text();
                                 setValue(`${value ? value + '\n' : value}${fileContent}`);
                                 return false;
                             }}
                         >
-                            <Button icon={<UploadOutlined />} loading={isUploadLoading}>
+                            <Button icon={<UploadOutlined />}>
                                 {get(dictionary, 'modalUploadBtnText', 'Upload a File')}
                             </Button>
                         </Upload>
@@ -171,8 +175,8 @@ const UploadModal = ({
                         >
                             <Typography className={styles.tablesMessages}>
                                 {dictionary.tablesMessage
-                                    ? dictionary.tablesMessage(match.length, getMatchToCount(match))
-                                    : defaultTablesMessage(match.length, getMatchToCount(match))}
+                                    ? dictionary.tablesMessage(getSubmittedIdsCount(match), getMatchToCount(match))
+                                    : defaultTablesMessage(getSubmittedIdsCount(match), getMatchToCount(match))}
                             </Typography>
                             {isEmpty(unmatch) ? (
                                 <MatchTable matchItems={match} dictionary={dictionary} />
