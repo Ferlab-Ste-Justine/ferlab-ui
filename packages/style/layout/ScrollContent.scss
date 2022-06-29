@@ -5,11 +5,11 @@
     &.vertical {
         flex-direction: column;
         overflow-x: hidden;
+        height: 100%;
     }
 
     &.horizontal {
         flex-direction: row;
         overflow-y: hidden;
-        height: 100%;
     }
 }
