@@ -6,12 +6,41 @@
 
 ### Requirements
 
-Styles are installed separetly
+Styles are installed separately
 
 [@ferlab/style](github/)
 
+## Developper
 
-## Development
+- All work must be done based on master
+- All styles automatically reference to the @ferlab/styles package
+- Components should be added and tests in [storybook](../../storybook)
+
+### Development
+
+Steps to develop or debug the library in a real project
+
+1. Make @ferlab/ui accessible to link
+   1. `npm link`
+2. Link the library in your project
+   1. `npm link @ferlab/ui`
+
+Linking the library will add the packages twice in the bundle, which could create some issues with `react` and `react-dom`. It's important to add an alias to use the host modules.
+
+e.g. in tsconfig | please refer to [clin-portal-ui](https://github.com/Ferlab-Ste-Justine/clin-portal-ui) for a working example. 
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "react": ["node_modules/react"],
+      "react-dom": ["node_modules/react-dom"]
+    }
+  }
+}
+```
+
 ### Storybook
 
 In order to see and test all available components
@@ -20,7 +49,7 @@ First you need to build the components
 
 > npm run build
 
-or run in development mode 
+or run in development mode
 
 > npm start
 
@@ -29,11 +58,7 @@ cd ferlab-ui/storybook
 npm start
 ```
 
-## Developper
-
-All work must be done based on master
-All styles automatically reference to the @ferlab/styles package
-## Publish new release
+### Publish new release
 To publish a new release once a PR as been validated and merged
 
 1. Try to install the package to make sure everything work corretly

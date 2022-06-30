@@ -173,6 +173,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                                   handleOnSelectRowsChange(selectedRowKeys, selectedRows);
 
                                   if (tableProps.rowSelection?.onChange) {
+                                      // @ts-ignore
                                       tableProps.rowSelection.onChange(selectedRowKeys, selectedRows);
                                   }
                               },
