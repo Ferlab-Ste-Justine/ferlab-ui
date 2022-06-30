@@ -50,7 +50,7 @@ const UploadModal = ({
     const [unmatch, setUnmatch] = useState<UnmatchTableItem[] | undefined>(undefined);
     const debouncedValue = useDebounce(value, 500);
 
-    const getValueList = () => value.split(/[\n,\r ]/).filter((val) => !!val);
+    const getValueList = () => uniq(value.split(/[\n,\r ]/).filter((val) => !!val));
 
     const getUnmatchList = (results: MatchTableItem[]) =>
         difference(
@@ -84,9 +84,9 @@ const UploadModal = ({
         if (debouncedValue) {
             (async () => {
                 setIsLoading(true);
-                const results = await fetchMatch(uniq(getValueList()));
+                const results = await fetchMatch(getValueList());
                 setMatch(results);
-                setUnmatch(uniq(getUnmatchList(results)));
+                setUnmatch(getUnmatchList(results));
                 setIsLoading(false);
             })();
         } else {
