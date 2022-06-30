@@ -86,7 +86,7 @@ const UploadModal = ({
                 setIsLoading(true);
                 const results = await fetchMatch(uniq(getValueList()));
                 setMatch(results);
-                setUnmatch(getUnmatchList(results));
+                setUnmatch(uniq(getUnmatchList(results)));
                 setIsLoading(false);
             })();
         } else {
