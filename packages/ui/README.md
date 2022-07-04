@@ -68,8 +68,9 @@ To publish a new release once a PR as been validated and merged
 3. Prepare the package 
     > npm run build
 4. On master Update package.json version
-5. Create a tag to the new version `git tag [semantic version]`
-6. Login to npm
+5. Push the new version
+6. Create a tag to the new version `git tag [semantic version]`
+7. Login to npm
     > npm login
-7. Push the new version
+8. Push the new version
     > npm publish
