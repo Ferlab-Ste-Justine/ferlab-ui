@@ -18,6 +18,8 @@
 .QBHCollapse {
   :global(.ant-collapse-header-text) {
     width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
   }
 }
 
@@ -25,7 +27,6 @@
   background-color: white;
   border-radius: 2px;
   width: 100%;
-  max-width: 50%;
 
   :global(.ant-space-item) {
     &:first-child {
