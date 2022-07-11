@@ -55,3 +55,12 @@
   display: flex;
   align-items: center;
 }
+
+.fuiQBHTSavedFiltersMenu {
+  :global(.ant-dropdown-menu-title-content) {
+    max-width: 300px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

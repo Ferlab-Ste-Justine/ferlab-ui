@@ -4,6 +4,8 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { IDictionary, ISavedFilter, TOnSavedFilterChange } from '../../types';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 
+import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeaderTools.module.scss';
+
 interface OwnProps {
     selectedKey: string;
     isDirty: boolean;
@@ -69,6 +71,7 @@ const SavedFiltersMenu = ({
 
     return (
         <Dropdown
+            overlayClassName={styles.fuiQBHTSavedFiltersMenu}
             overlay={
                 <Menu
                     selectedKeys={selectedKey ? [selectedKey] : []}

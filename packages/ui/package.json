@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "3.9.110",
+    "version": "3.9.111",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -31,7 +31,6 @@
         "@types/classnames": "^2.2.11",
         "@types/lodash": "^4.14.168",
         "@types/md5": "^2.3.2",
-        "@types/react": "^16.9.51",
         "@types/react": "^16.9.51",
         "@types/react-router-dom": "^5.1.6",
         "@types/uuid": "^8.3.0",
