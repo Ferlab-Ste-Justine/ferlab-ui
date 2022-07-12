@@ -50,7 +50,8 @@ const UploadModal = ({
     const [unmatch, setUnmatch] = useState<UnmatchTableItem[] | undefined>(undefined);
     const debouncedValue = useDebounce(value, 500);
 
-    const getValueList = () => uniq(value.split(/[\n,\r ]/).filter((val) => !!val));
+    const getRawValueList = () => value.split(/[\n,\r ]/).filter((val) => !!val);
+    const getValueList = () => uniq(getRawValueList());
 
     const getUnmatchList = (results: MatchTableItem[]) =>
         difference(
@@ -175,8 +176,8 @@ const UploadModal = ({
                         >
                             <Typography className={styles.tablesMessages}>
                                 {dictionary.tablesMessage
-                                    ? dictionary.tablesMessage(getValueList().length, getMatchToCount(match))
-                                    : defaultTablesMessage(getValueList().length, getMatchToCount(match))}
+                                    ? dictionary.tablesMessage(getRawValueList().length, getMatchToCount(match))
+                                    : defaultTablesMessage(getRawValueList().length, getMatchToCount(match))}
                             </Typography>
                             {isEmpty(unmatch) ? (
                                 <MatchTable matchItems={match} dictionary={dictionary} />
