@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "3.9.111",
+    "version": "3.9.112",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"

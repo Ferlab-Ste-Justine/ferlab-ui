@@ -175,8 +175,8 @@ const UploadModal = ({
                         >
                             <Typography className={styles.tablesMessages}>
                                 {dictionary.tablesMessage
-                                    ? dictionary.tablesMessage(getSubmittedIdsCount(match), getMatchToCount(match))
-                                    : defaultTablesMessage(getSubmittedIdsCount(match), getMatchToCount(match))}
+                                    ? dictionary.tablesMessage(getValueList().length, getMatchToCount(match))
+                                    : defaultTablesMessage(getValueList().length, getMatchToCount(match))}
                             </Typography>
                             {isEmpty(unmatch) ? (
                                 <MatchTable matchItems={match} dictionary={dictionary} />
