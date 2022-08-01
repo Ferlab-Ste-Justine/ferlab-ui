@@ -14,7 +14,7 @@ export const updateFilters = (history: any, filterGroup: IFilterGroup, selected:
     updateQueryFilters(history, filterGroup.field, createSQONFromFilters(filterGroup, selected, index));
 
 export const getFilterType = (fieldType: string): VisualType => {
-    if (['long', 'float', 'integer', 'date'].includes(fieldType)) {
+    if (['long', 'float', 'double', 'integer', 'date'].includes(fieldType)) {
         return VisualType.Range;
     } else if (['boolean'].includes(fieldType)) {
         return VisualType.Toggle;
