@@ -129,6 +129,22 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         return customExtra;
     };
 
+    const generateColumnTitle = (column: ProColumnType) => {
+        const style: React.CSSProperties = {
+            textDecoration: 'underline dotted',
+        };
+        let title = column.tooltip ? <span style={style}>{column.title}</span> : column.title;
+        title = column.icon ? (
+            <Space size={3}>
+                {column.icon} {title}
+            </Space>
+        ) : (
+            title
+        );
+        title = column.tooltip ? <Tooltip title={column.tooltip}>{title}</Tooltip> : title;
+        return { ...column, title };
+    };
+
     return (
         <Space
             size={headerConfig.marginBtm}
@@ -216,7 +232,8 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                     .filter(({ visible }) => visible)
                     .sort((a, b) => a.index - b.index)
                     .map(({ key }) => columns.find((column) => column.key === key)!)
-                    .filter((column) => !isEmpty(column))}
+                    .filter((column) => !isEmpty(column))
+                    .map(generateColumnTitle)}
             ></Table>
         </Space>
     );

@@ -26,7 +26,8 @@ export interface IProTableDictionary {
 
 export interface ProColumnType<T = any> extends ColumnType<T> {
     key: string;
-    displayTitle?: string;
+    icon?: React.ReactElement;
+    tooltip?: string;
     defaultHidden?: boolean;
 }
 
