@@ -31,7 +31,7 @@
         "@types/classnames": "^2.2.11",
         "@types/lodash": "^4.14.168",
         "@types/md5": "^2.3.2",
-        "@types/react": "^16.9.51",
+        "@types/react": "^18.0.15",
         "@types/react-router-dom": "^5.1.6",
         "@types/uuid": "^8.3.0",
         "@typescript-eslint/eslint-plugin": "^4.10.0",
@@ -54,8 +54,8 @@
     "peerDependencies": {
         "@ferlab/style": "^1.14.1",
         "antd": "^4.20.0",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2"
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
     },
     "dependencies": {
         "@ant-design/icons": "^4.7.0",
@@ -67,6 +67,8 @@
         "md5": "^2.3.0",
         "query-string": "^7.0.1",
         "react-icons": "^4.2.0",
+        "react-router": "^6.3.0",
+        "react-router-dom": "^6.3.0",
         "simplebar-react": "^2.3.6",
         "uuid": "^8.3.2",
         "xss": "^1.0.9"

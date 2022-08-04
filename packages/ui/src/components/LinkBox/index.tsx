@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { Space } from 'antd';
 
@@ -15,23 +15,19 @@ interface OwnProps {
     to: string;
 }
 
-const LinkBox = ({ icon, label, multiLabelClassName = '', subLabel, to }: OwnProps): ReactElement => {
-    console.log('href', to); //TODO: to remove
-
-    return (
-        <Link className={styles.dataExploBox} to={to}>
-            <Space align="start" direction="horizontal" size={16}>
-                <MultiLabel
-                    Icon={icon}
-                    className={multiLabelClassName}
-                    iconPosition={MultiLabelIconPositionEnum.Top}
-                    label={label}
-                    subLabel={subLabel}
-                />
-                <ArrowRightOutlined className={styles.linkArrow} />
-            </Space>
-        </Link>
-    );
-};
+const LinkBox = ({ icon, label, multiLabelClassName = '', subLabel, to }: OwnProps): ReactElement => (
+    <Link className={styles.dataExploBox} to={to}>
+        <Space align="start" direction="horizontal" size={16}>
+            <MultiLabel
+                Icon={icon}
+                className={multiLabelClassName}
+                iconPosition={MultiLabelIconPositionEnum.Top}
+                label={label}
+                subLabel={subLabel}
+            />
+            <ArrowRightOutlined className={styles.linkArrow} />
+        </Space>
+    </Link>
+);
 
 export default LinkBox;
