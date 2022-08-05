@@ -117,15 +117,11 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
                                             return false;
                                         }
 
-                                        const title =
-                                            typeof foundColumn.title === 'string'
-                                                ? foundColumn.title
-                                                : foundColumn.displayTitle;
                                         const savedColumnState = getColumnStateByKey(localState.key);
                                         return (
                                             <SortableColumnItem
                                                 id={localState.key!}
-                                                label={title?.toString()!}
+                                                label={String(foundColumn.title)}
                                                 key={index}
                                                 checked={savedColumnState?.visible}
                                                 onChange={(e) => {
