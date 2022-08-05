@@ -47,6 +47,7 @@ BasicTable.args = {
             key: "column_three",
             title: "Column 3",
             dataIndex: "column_three",
+            tooltip: "This is Column 3",
         },
         {
             key: "column_four",
