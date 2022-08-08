@@ -131,7 +131,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
 
     const generateColumnTitle = (column: ProColumnType) => {
         const style: React.CSSProperties = {
-            textDecoration: 'underline dotted',
+            borderBottom: '1px dotted',
         };
         let title = column.tooltip ? <span style={style}>{column.title}</span> : column.title;
         title = column.icon ? (
