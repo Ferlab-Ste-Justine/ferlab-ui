@@ -1,10 +1,11 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Button, Checkbox, Divider, Tag, Typography, Input, Dropdown, Menu, Space } from 'antd';
-import get from 'lodash/get';
-import isEqual from 'lodash/isEqual';
-import isEmpty from 'lodash/isEmpty';
+import { Button, Checkbox, Divider, Dropdown, Input, Menu, Space, Tag, Typography } from 'antd';
 import cx from 'classnames';
+import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 
+import { TermOperators } from '../../data/sqon/operators';
 import ScrollContent from '../../layout/ScrollContent';
 import StackLayout from '../../layout/StackLayout';
 import { numberFormat } from '../../utils/numberUtils';
@@ -13,7 +14,6 @@ import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from './types';
 
 import styles from '@ferlab/style/components/filters/CheckboxFilter.module.scss';
-import { TermOperators } from '../../data/sqon/operators';
 
 export type TermFilterProps = {
     dictionary?: IDictionary | Record<string, never>;
@@ -117,7 +117,7 @@ const CheckboxFilter = ({
             )}
 
             {isEmpty(filteredFilters) ? (
-                <Space direction="vertical" className={styles.noResultsText}>
+                <Space className={styles.noResultsText} direction="vertical">
                     {get(dictionary, 'messages.errorNoData', 'No values found for this request')}
                 </Space>
             ) : (
@@ -126,7 +126,13 @@ const CheckboxFilter = ({
                         <StackLayout className={styles.checkboxFilterActions}>
                             <Button
                                 className={styles.checkboxFilterLinks}
-                                onClick={() => handleOnChange(filters)}
+                                onClick={() => {
+                                    const selectedItem = [...bumpCheckedFilterFirst(), ...localselectedFilters];
+                                    const uniqueObjArray = [
+                                        ...new Map(selectedItem.map((item) => [item['name'], item])).values(),
+                                    ];
+                                    handleOnChange(uniqueObjArray);
+                                }}
                                 type="text"
                             >
                                 {get(dictionary, 'actions.all', 'Select All')}
@@ -211,22 +217,20 @@ const CheckboxFilter = ({
             {withFooter && (
                 <StackLayout className={styles.fuiCbfActions} horizontal>
                     <Button
-                        disabled={selectedFilters.length == 0 && localselectedFilters.length == 0}
                         className={styles.fuiCbfActionsClear}
-                        size="small"
+                        disabled={selectedFilters.length == 0 && localselectedFilters.length == 0}
                         onClick={() => setLocalSelectedFilters([])}
+                        size="small"
                         type="text"
                     >
                         {get(dictionary, 'actions.clear', 'Clear')}
                     </Button>
                     <Dropdown.Button
                         className={styles.fuiCbfActionsApply}
-                        type="primary"
-                        size="small"
                         disabled={isEmpty(filteredFilters)}
+                        onClick={() => handleOnApply(TermOperators.in)}
                         overlay={
                             <Menu
-                                onClick={(e) => handleOnApply(e.key as TermOperators)}
                                 items={[
                                     {
                                         key: TermOperators.in,
@@ -241,9 +245,11 @@ const CheckboxFilter = ({
                                         label: get(dictionary, 'operators.noneOf', 'None of'),
                                     },
                                 ]}
+                                onClick={(e) => handleOnApply(e.key as TermOperators)}
                             />
                         }
-                        onClick={() => handleOnApply(TermOperators.in)}
+                        size="small"
+                        type="primary"
                     >
                         <span data-key="apply">{get(dictionary, 'actions.apply', 'Apply')}</span>
                     </Dropdown.Button>
