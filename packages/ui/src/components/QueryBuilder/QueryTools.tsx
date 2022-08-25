@@ -68,12 +68,12 @@ const QueryTools = ({
                                     {
                                         key: BooleanOperators.and,
                                         onClick: () => onCombineClick(BooleanOperators.and),
-                                        label: <AndOperator />,
+                                        label: <AndOperator dictionary={dictionary} />,
                                     },
                                     {
-                                        key: BooleanOperators.and,
+                                        key: BooleanOperators.or,
                                         onClick: () => onCombineClick(BooleanOperators.or),
-                                        label: <OrOperator />,
+                                        label: <OrOperator dictionary={dictionary} />,
                                     },
                                 ]}
                             />
