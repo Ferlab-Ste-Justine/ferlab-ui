@@ -18,8 +18,7 @@ const ExternalLink = (props: IExternalLinkProps) => (
     <a {...props} className={cx(styles.fuiExternalLink, props.className)} rel="noreferrer" target="_blank">
         <Space size={5.75}>
             {props.children}
-
-            {props.hasIcon === true ? <ExternalLinkIcon height="14" width="14" /> : null}
+            {props.hasIcon && <ExternalLinkIcon height="14" width="14" />}
         </Space>
     </a>
 );
