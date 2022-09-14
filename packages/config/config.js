@@ -20,6 +20,16 @@ const copyEslintFile = () => {
     })
 }
 
+const copyCommitLintFile = () => {
+    const source = `${__dirname}/templates/commitlint.config.js`;
+    const target = `${process.cwd()}/commitlint.config.js`;
+
+    fs.copyFile(source, target, err => {
+        err ? console.log('ERROR: ', err)
+            : console.log(`SUCCESS: ~${target.replace(os.homedir(), '')} is now updated`);
+    })
+}
+
 const huskyConfig = () => {
     const dest = `${process.cwd()}/.husky`
     fs.cp(`${__dirname}/.husky`, `${dest}`, {recursive: true},  err => {
@@ -51,4 +61,5 @@ const updatePackageJson = () => {
 
 updatePackageJson();
 copyEslintFile();
+copyCommitLintFile();
 huskyConfig();

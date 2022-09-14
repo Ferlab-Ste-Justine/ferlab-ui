@@ -3,12 +3,12 @@
         "commit:lint": "commitlint --edit $1",
         "lint": "eslint $(git diff-index --name-only --diff-filter=d HEAD | grep \"[\\.js|\\.jsx|\\.tsx|\\.ts]$\" | xargs)",
         "lint:fix": "npm run lint -- --fix",
-        "prepare": "husky install",
+        "prepare": "npm run theme; husky install",
         "update:config": "npx @ferbab/config"
     },
     "lint-staged": {
         "src/**/*.{ts,tsx}": [
-            "npm run lint&fix"
+            "npm run lint:fix"
         ]
     },
     "eslintConfig": {
@@ -47,7 +47,9 @@
         "eslint-plugin-react-hooks": "^4.5.0",
         "eslint-plugin-simple-import-sort": "^7.0.0",
         "eslint-plugin-sort-destructure-keys": "^1.4.0",
-        "eslint-plugin-sort-keys-fix": "^1.1.2"
+        "eslint-plugin-sort-keys-fix": "^1.1.2",
+        "husky": "^8.0.1",
+        "lint-staged": "^13.0.3"
     },
     "prettier": {
         "printWidth": 100,

@@ -1,9 +1,12 @@
 {
   "name": "@ferlab/config",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Script and Standard Configuration for all ferlab project",
   "main": "config.js",
   "bin": "./config.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,6 +17,7 @@
     "standard",
     "configuration"
   ],
-  "author": "",
-  "license": "MIT"
+  "author": "Ferlab - Centre de recherche du CHU Ste-Justine",
+  "license": "MIT",
+  "homepage": "https://github.com/Ferlab-Ste-Justine/ferlab-ui#readme"
 }
