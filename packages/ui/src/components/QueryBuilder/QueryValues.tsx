@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import { Button } from 'antd';
-import take from 'lodash/take';
 import cx from 'classnames';
-import UnionOperator from './icons/UnionOperator';
-import { IValueFilter } from '../../data/sqon/types';
-import { IDictionary } from '../QueryBuilder/types';
-import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
-import ConditionalWrapper from '../utils/ConditionalWrapper';
-import { get, isEmpty } from 'lodash';
+import { get } from 'lodash';
+import take from 'lodash/take';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import { keyEnhance } from '../../data/arranger/formatting';
 import { FieldOperators } from '../../data/sqon/operators';
+import { IValueFilter } from '../../data/sqon/types';
+import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
+import ConditionalWrapper from '../utils/ConditionalWrapper';
 import IntersectionOperator from './icons/IntersectionOperator';
+import UnionOperator from './icons/UnionOperator';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
 import { isSet } from '../../data/sqon/utils';
+import { QueryBuilderContext } from './context';
 
 interface IQueryValuesProps {
     valueFilter: IValueFilter;
     isElement?: boolean;
     onClick?: (e: any) => void;
-    dictionary: IDictionary;
 }
 
-const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} }: IQueryValuesProps) => {
+const QueryValues = ({ isElement = false, valueFilter, onClick }: IQueryValuesProps) => {
+    const { dictionary } = useContext(QueryBuilderContext);
     const hasMoreValues = valueFilter.content.value.length > 3;
     const [expanded, setExpanded] = useState(false);
     const [values, setValues] = useState(
@@ -58,7 +58,7 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
                     condition={onClick !== undefined}
                     wrapper={(children) => <a className={styles.queryValueSelector}>{children}</a>}
                 >
-                    <>
+                    <Fragment>
                         {valueFilter.content.overrideValuesName ? (
                             <div className={styles.valueWrapper} key={valueFilter.content.overrideValuesName}>
                                 <span className={styles.value}>{valueFilter.content.overrideValuesName}</span>
@@ -78,7 +78,7 @@ const QueryValues = ({ isElement = false, valueFilter, onClick, dictionary = {} 
                                 </div>
                             ))
                         )}
-                    </>
+                    </Fragment>
                 </ConditionalWrapper>
             ) : (
                 <div className={styles.valueWrapper}>

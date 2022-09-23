@@ -1,46 +1,34 @@
-import React from 'react';
 import { Button, Dropdown, Menu, Modal, Space, Switch } from 'antd';
+import React from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
+import { BooleanOperators } from '../../data/sqon/operators';
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
-import { IDictionary } from './types';
-import { BooleanOperators } from '../../data/sqon/operators';
-
-import StackLayout from '../../layout/StackLayout';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryTools.module.scss';
+import { useContext } from 'react';
+import { QueryBuilderContext } from './context';
 
 export interface IQueryToolsProps {
-    dictionary?: IDictionary;
-    showLabels: boolean;
     queryCount: number;
-    noQueries: boolean;
-    enableSingleQuery: boolean;
-    canCombine: boolean;
-    enableCombine: boolean;
-    hasEmptyQuery: boolean;
-    enableShowHideLabels: boolean;
     onCombineClick: (operator: BooleanOperators) => void;
     onDeleteAll: () => void;
     addNewQuery: () => void;
     setShowLabels: (value: boolean) => void;
 }
 
-const QueryTools = ({
-    dictionary = {},
-    addNewQuery,
-    onDeleteAll,
-    onCombineClick,
-    setShowLabels,
-    queryCount,
-    showLabels = false,
-    noQueries,
-    enableSingleQuery,
-    canCombine,
-    enableCombine,
-    hasEmptyQuery,
-    enableShowHideLabels,
-}: IQueryToolsProps) => {
+const QueryTools = ({ addNewQuery, onDeleteAll, onCombineClick, setShowLabels, queryCount }: IQueryToolsProps) => {
+    const {
+        dictionary,
+        noQueries,
+        showLabels,
+        canCombine,
+        enableCombine,
+        enableShowHideLabels,
+        enableSingleQuery,
+        hasEmptyQuery,
+    } = useContext(QueryBuilderContext);
+
     return (
         <Space direction="horizontal" className={styles.queryTools}>
             <Space className={styles.leftTools}>

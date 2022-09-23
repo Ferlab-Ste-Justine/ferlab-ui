@@ -1,21 +1,18 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
+import { Space } from 'antd';
 import { ISyntheticSqon, IValueFilter, TSqonGroupOp } from '../../../data/sqon/types';
 import { isBooleanOperator, isReference, isSet } from '../../../data/sqon/utils';
-import ReferenceQueryPill from './ReferenceQueryPill';
-import FieldQueryPill from './FieldQueryPill';
 import Combiner from '../Combiner';
-import { IDictionary, IFacetFilterConfig, TCallbackRemoveAction, TCallbackRemoveReferenceAction } from '../types';
-import { Space } from 'antd';
+import { TCallbackRemoveAction, TCallbackRemoveReferenceAction } from '../types';
+import FieldQueryPill from './FieldQueryPill';
+import ReferenceQueryPill from './ReferenceQueryPill';
 import SetQueryPill from './SetQueryPill';
 
 interface IBooleanQueryPillProps {
+    isActive: boolean;
     parentQueryId: string;
     query: ISyntheticSqon | Record<string, never>;
-    isActive: boolean;
-    showLabels?: boolean;
-    dictionary: IDictionary;
-    facetFilterConfig: IFacetFilterConfig;
     onRemoveFacet: TCallbackRemoveAction;
     onRemoveReference: TCallbackRemoveReferenceAction;
     onCombineChange?: (id: string, combinator: TSqonGroupOp) => void;
@@ -25,7 +22,7 @@ interface IBooleanQueryPillProps {
 const isNotEnd = (props: IBooleanQueryPillProps, index: number) => props.query.content.length - 1 > index;
 
 const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
-    <>
+    <Fragment>
         {props.query.content.map((f: any, i: number) => (
             <Space key={i} size={0} style={{ padding: '2px 0px' }}>
                 {isBooleanOperator(f) ? (
@@ -40,30 +37,25 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
                 ) : isSet(f) ? (
                     <SetQueryPill
                         isBarActive={props.isActive}
-                        dictionary={props.dictionary}
                         valueFilter={f as IValueFilter}
                         onRemove={() => props.onRemoveReference(f as number, props.query)}
                     />
                 ) : (
                     <FieldQueryPill
                         isBarActive={props.isActive}
-                        dictionary={props.dictionary}
                         onRemove={() => props.onRemoveFacet(f, props.query)}
                         valueFilter={f as IValueFilter}
-                        showLabels={props.showLabels}
-                        facetFilterConfig={props.facetFilterConfig}
                     />
                 )}
                 {isNotEnd(props, i) && (
                     <Combiner
-                        dictionary={props.dictionary}
                         onChange={(type) => props.onCombineChange!(props.parentQueryId, type)}
                         type={props.query.op}
                     />
                 )}
             </Space>
         ))}
-    </>
+    </Fragment>
 );
 
 export default BooleanQueryPill;

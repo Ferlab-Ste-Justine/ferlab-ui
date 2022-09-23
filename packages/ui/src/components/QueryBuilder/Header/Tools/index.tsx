@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import cx from 'classnames';
-import { Button, Tooltip, Modal, Space } from 'antd';
 import {
     CopyOutlined,
     DeleteOutlined,
@@ -9,21 +6,24 @@ import {
     FolderOutlined,
     PlusOutlined,
     SaveOutlined,
-    ShareAltOutlined,
+    ShareAltOutlined
 } from '@ant-design/icons';
-import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../../types';
+import { Button, Modal, Space, Tooltip } from 'antd';
+import cx from 'classnames';
+import React, { useEffect, useState } from 'react';
 import ConditionalWrapper from '../../../utils/ConditionalWrapper';
-import SavedFilters from './SavedFilters';
+import { IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../../types';
 import { hasQueries, hasUnsavedChanges, isNewUnsavedFilter } from '../utils';
+import SavedFiltersMenu from './SavedFiltersMenu';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeaderTools.module.scss';
+import { useContext } from 'react';
+import { QueryBuilderContext } from '../../context';
+import { deleteFilterConfirm } from './utils';
 
 interface IQueryBuilderHeaderProps {
     config: IQueryBuilderHeaderConfig;
-    dictionary?: IDictionary;
     savedFilters: ISavedFilter[];
-    selectedSavedFilter?: ISavedFilter;
-    queriesState: IQueriesState;
     onSavedFilterChange: TOnSavedFilterChange;
     onNewSavedFilter: () => void;
     onDuplicateSavedFilter: () => void;
@@ -33,14 +33,12 @@ const tooltipAlign = { align: { offset: [0, 5] } };
 
 const QueryBuilderHeaderTools = ({
     config,
-    dictionary = {},
     savedFilters = [],
-    selectedSavedFilter,
-    queriesState,
     onSavedFilterChange,
     onNewSavedFilter,
     onDuplicateSavedFilter,
 }: IQueryBuilderHeaderProps) => {
+    const { dictionary, selectedSavedFilter, queriesState } = useContext(QueryBuilderContext);
     const [isDirty, setIsDirty] = useState(false);
     const [isNewFilter, setIsNewFilter] = useState(false);
     const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
@@ -148,25 +146,13 @@ const QueryBuilderHeaderTools = ({
                         className={styles.queryBuilderHeaderActionIconBtn}
                         type="text"
                         disabled={isNewFilter}
-                        onClick={() => {
-                            Modal.confirm({
-                                title:
-                                    dictionary.queryBuilderHeader?.popupConfirm?.delete.title ||
-                                    'Permanently delete this filter?',
-                                icon: <ExclamationCircleOutlined />,
-                                content:
-                                    dictionary.queryBuilderHeader?.popupConfirm?.delete.content ||
-                                    'You are about to permanently delete this filter and all of its queries.',
-                                okText: dictionary.queryBuilderHeader?.popupConfirm?.delete.okText || 'Delete filter',
-                                cancelText: dictionary.queryBuilderHeader?.popupConfirm?.delete.cancelText || 'Cancel',
-                                okButtonProps: { danger: true },
-                                onOk: () => {
-                                    if (config?.onDeleteFilter) {
-                                        config.onDeleteFilter(selectedSavedFilter!.id);
-                                    }
-                                },
-                            });
-                        }}
+                        onClick={() =>
+                            deleteFilterConfirm({
+                                dictionary,
+                                savedFilter: selectedSavedFilter!,
+                                onDeleteFilter: config.onDeleteFilter,
+                            })
+                        }
                         size="small"
                         icon={<DeleteOutlined />}
                     />
@@ -197,15 +183,16 @@ const QueryBuilderHeaderTools = ({
                     wrapper={(children: JSX.Element) => {
                         if (savedFilters.length > 0) {
                             return (
-                                <SavedFilters
+                                <SavedFiltersMenu
                                     selectedKey={selectedSavedFilter ? selectedSavedFilter.id : ''}
-                                    dictionary={dictionary}
                                     isDirty={isDirty}
                                     savedFilters={savedFilters}
                                     onSavedFilterChange={onSavedFilterChange}
+                                    onDeleteFilter={config.onDeleteFilter}
+                                    onUpdateFilter={config.onUpdateFilter}
                                 >
                                     {children}
-                                </SavedFilters>
+                                </SavedFiltersMenu>
                             );
                         }
 

@@ -1,19 +1,21 @@
-import React from 'react';
 import { Button, Tooltip } from 'antd';
+import React, { useContext } from 'react';
+import { TSqonGroupOp } from '../../data/sqon/types';
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
-import { CombinerEnum, IDictionary } from './types';
-import { TSqonGroupOp } from '../../data/sqon/types';
+import { CombinerEnum } from './types';
 
 import styles from '@ferlab/style/components/queryBuilder/Combiner.module.scss';
+import { QueryBuilderContext } from './context';
 
 interface ICombinerProps {
-    dictionary?: IDictionary;
     type: TSqonGroupOp;
     onChange: (type: TSqonGroupOp) => void;
 }
 
-const Combiner = ({ onChange, type, dictionary = {} }: ICombinerProps) => {
+const Combiner = ({ onChange, type }: ICombinerProps) => {
+    const { dictionary } = useContext(QueryBuilderContext);
+
     const isAndOperator = () => {
         return type === 'and';
     };

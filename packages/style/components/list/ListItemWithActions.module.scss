@@ -1,0 +1,73 @@
+@import "theme.template";
+
+.fuiListItemWithActions {
+  align-items: baseline;
+  padding: 8px 12px !important;
+
+  .filterLink {
+    padding: 0;
+    height: unset;
+    color: $gray-8;
+  }
+
+  &:not(:hover) {
+    :global(.ant-list-item-action) {
+      display: none;
+    }
+  }
+
+  :global(.ant-list-item-action) {
+    > li {
+      padding: 0 4px;
+
+      &:last-child {
+        padding-right: 0;
+      }
+      color: $gray-8;
+    }
+  }
+
+  :global(.ant-list-item-action-split) {
+    display: none;
+  }
+
+  &:hover {
+    .setLink {
+      * {
+        text-decoration: underline;
+      }
+
+      &:hover {
+        color: $gray-8;
+        cursor: pointer;
+        
+        * {
+          text-decoration: none;
+        }
+      }
+    }
+
+    .extra {
+      display: none;
+    }
+  }
+
+  .itemMeta {
+    margin-bottom: 0px;
+
+    :global(.ant-list-item-meta-title) {
+      margin-bottom: 2px;
+    }
+
+    :global(.ant-list-item-meta-description) {
+      font-size: 12px;
+    }
+  }
+
+  .actionBtn {
+    &:hover,
+    &:focus {
+      background-color: transparent;
+    }
+  }
+}
