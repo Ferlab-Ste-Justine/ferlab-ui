@@ -26,6 +26,37 @@ const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFi
         setEditModalVisible(true);
     };
 
+    const getListItem = (item: ISavedFilter) => {
+        let lastSavedAt: string | undefined = undefined;
+        const filterItem = item as ISavedFilter & {
+            updated_date: string;
+        };
+
+        if (filterItem.updated_date) {
+            lastSavedAt = distanceInWords(new Date(), new Date(filterItem.updated_date));
+        }
+
+        return (
+            <ListItemWithActions
+                title={item.title}
+                description={
+                    lastSavedAt &&
+                    (dictionary.queryBuilderHeader?.manageFilters?.lastSavedAt
+                        ? dictionary.queryBuilderHeader?.manageFilters?.lastSavedAt.replace('{date}', lastSavedAt)
+                        : `Last saved: ${lastSavedAt} ago`)
+                }
+                onEdit={() => showEditModal(item)}
+                onDelete={() =>
+                    deleteFilterConfirm({
+                        dictionary,
+                        savedFilter: item,
+                        onDeleteFilter,
+                    })
+                }
+            />
+        );
+    };
+
     return (
         <Fragment>
             <Modal
@@ -37,43 +68,7 @@ const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFi
                 cancelButtonProps={{ style: { display: 'none' } }}
                 width={600}
             >
-                <List
-                    bordered
-                    dataSource={savedFilters}
-                    renderItem={(item) => {
-                        let lastSavedAt: string | undefined = undefined;
-                        const filterItem = item as ISavedFilter & {
-                            updated_date: string;
-                        };
-
-                        if (filterItem.updated_date) {
-                            lastSavedAt = distanceInWords(new Date(), new Date(filterItem.updated_date));
-                        }
-
-                        return (
-                            <ListItemWithActions
-                                title={item.title}
-                                description={
-                                    lastSavedAt &&
-                                    (dictionary.queryBuilderHeader?.manageFilters?.lastSavedAt
-                                        ? dictionary.queryBuilderHeader?.manageFilters?.lastSavedAt.replace(
-                                              '{date}',
-                                              lastSavedAt,
-                                          )
-                                        : `Last saved: ${lastSavedAt} ago`)
-                                }
-                                onEdit={() => showEditModal(item)}
-                                onDelete={() =>
-                                    deleteFilterConfirm({
-                                        dictionary,
-                                        savedFilter: item,
-                                        onDeleteFilter,
-                                    })
-                                }
-                            />
-                        );
-                    }}
-                />
+                <List bordered dataSource={savedFilters} renderItem={getListItem} />
             </Modal>
             <EditFilterModal
                 visible={isEditModalVisible}
