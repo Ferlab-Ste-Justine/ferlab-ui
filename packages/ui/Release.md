@@ -1,4 +1,4 @@
-### 4.2.0 | 2022-09-23
+### 4.1.0 | 2022-09-23
 - Fix: Improve QueryBuilder Props
 - Feat: Add new saved filter management in QueryBuilder
 - Feat: Add new ListItemWithAction component
