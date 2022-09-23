@@ -61,7 +61,9 @@ const ListItemWithActions = ({
                         </div>
                     )}
                 >
-                    <>{title}</>
+                    <Text ellipsis={{ tooltip: title }}>
+                        {title}
+                    </Text>
                 </ConditionalWrapper>
             }
             description={description && <Text type="secondary">{description}</Text>}

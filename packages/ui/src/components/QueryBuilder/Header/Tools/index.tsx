@@ -141,7 +141,7 @@ const QueryBuilderHeaderTools = ({
                         />
                     </Tooltip>
                 )}
-                <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.delete || 'Delete'} {...tooltipAlign}>
+                <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.delete || 'Delete filter'} {...tooltipAlign}>
                     <Button
                         className={styles.queryBuilderHeaderActionIconBtn}
                         type="text"

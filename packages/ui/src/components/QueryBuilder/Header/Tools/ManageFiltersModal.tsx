@@ -70,20 +70,27 @@ const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFi
                 cancelButtonProps={{ style: { display: 'none' } }}
                 width={600}
             >
-                <List className={styles.manageFiltersList} bordered dataSource={savedFilters} renderItem={getListItem} />
+                <List
+                    className={styles.QBHManageFiltersList}
+                    bordered
+                    dataSource={savedFilters}
+                    renderItem={getListItem}
+                />
             </Modal>
             <EditFilterModal
                 visible={isEditModalVisible}
                 onCancel={() => setEditModalVisible(false)}
                 initialTitleValue={selectedFilter?.title!}
                 okDisabled={false}
-                onSubmit={(title) =>
-                    onUpdateFilter &&
-                    onUpdateFilter({
-                        ...selectedFilter!,
-                        title,
-                    })
-                }
+                onSubmit={(title) => {
+                    setEditModalVisible(false);
+                    if (onUpdateFilter) {
+                        onUpdateFilter({
+                            ...selectedFilter!,
+                            title,
+                        });
+                    }
+                }}
             />
         </Fragment>
     );
