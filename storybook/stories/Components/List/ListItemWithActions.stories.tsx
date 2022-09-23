@@ -1,4 +1,5 @@
 import ListItemWithActions from "@ferlab/ui/components/List/ListItemWithActions";
+import { action } from "@storybook/addon-actions";
 import { Meta } from "@storybook/react/types-6-0";
 import React from "react";
 import { List, Typography } from "../../../node_modules/antd";
@@ -46,8 +47,9 @@ export const Default = () => {
                         </Typography.Text>
                     }
                     description={item.description}
-                    onEdit={() => {}}
-                    onDelete={() => {}}
+                    onClick={action("onClickItem")}
+                    onEdit={action("onEdit")}
+                    onDelete={action("onDelete")}
                 />
             )}
         />
