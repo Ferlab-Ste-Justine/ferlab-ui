@@ -1,10 +1,10 @@
-import React from "react";
-import { Meta, Story } from "@storybook/react/types-6-0";
-import { MdPeople } from "react-icons/md";
 import QueryBuilder, {
-    IQueryBuilderProps,
+    IQueryBuilderProps
 } from "@ferlab/ui/components/QueryBuilder";
 import { setQueryBuilderState } from "@ferlab/ui/components/QueryBuilder/utils/useQueryBuilderState";
+import { Meta, Story } from "@storybook/react/types-6-0";
+import React from "react";
+import { MdPeople } from "react-icons/md";
 
 export default {
     title: "@ferlab/Components/QueryBuilder/QueryBuilder",
@@ -523,7 +523,29 @@ WithHeaderAndTools.args = {
                 ],
                 total: 1500,
                 id: "1",
+                updated_date: "2022-09-23T03:02:01.286Z"
             },
+            {
+                title: "My query 2",
+                op: "and",
+                content: [
+                    {
+                        content: {
+                            value: [
+                                "something 1",
+                                "else 2",
+                                "more 2",
+                                "perfect 2",
+                            ],
+                            field: "test",
+                            op: "in",
+                        },
+                    },
+                ],
+                total: 1500,
+                id: "2",
+                updated_date: "2022-09-23T03:02:01.286Z"
+            }
         ],
         onSaveQuery: (filter: any) => {
             console.log(filter);

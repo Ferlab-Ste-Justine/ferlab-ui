@@ -1,62 +1,50 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { EditOutlined, StarFilled, StarOutlined, UndoOutlined, WarningFilled } from '@ant-design/icons';
-import { Button, Form, Input, Modal, Space, Tooltip, Typography } from 'antd';
+import { EditOutlined, StarFilled, StarOutlined, UndoOutlined } from '@ant-design/icons';
+import { Button, Space, Tooltip, Typography } from 'antd';
 import cx from 'classnames';
+import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
 import { getDefaultSyntheticSqon } from '../../../data/sqon/utils';
 import Collapse, { CollapsePanel } from '../../Collapse';
-import { IDictionary, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../types';
+import { ISavedFilter, TOnSavedFilterChange } from '../types';
 import { setQueryBuilderState } from '../utils/useQueryBuilderState';
 
 import QueryBuilderHeaderTools from './Tools';
 import { hasUnsavedChanges, isNewUnsavedFilter } from './utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
+import { useContext } from 'react';
+import { QueryBuilderContext } from '../context';
+import EditFilterModal from './Tools/EditFilterModal';
 
 interface IQueryBuilderHeaderProps {
-    queryBuilderId: string;
-    config: IQueryBuilderHeaderConfig;
-    dictionary: IDictionary;
     children: JSX.Element;
-    selectedSavedFilter?: ISavedFilter;
     onSavedFilterChange: TOnSavedFilterChange;
-    queriesState: IQueriesState;
     resetQueriesState: (id: string) => void;
     maxNameCapSavedQuery?: number;
 }
 
 const { Title } = Typography;
 const tooltipAlign = { align: { offset: [0, 5] } };
-const DEFAULT_TITLE_MAX_LENGTH = 50;
 
-const QueryBuilderHeader = ({
-    queryBuilderId,
-    config,
-    dictionary = {},
-    children,
-    selectedSavedFilter,
-    onSavedFilterChange,
-    queriesState,
-    resetQueriesState,
-}: IQueryBuilderHeaderProps) => {
-    const [editForm] = Form.useForm();
-    const [isEditModalVisible, setEditModalVisible] = useState(false);
-    const [localSelectedSavedFilter, setLocalSelectedSavedFilter] = useState<ISavedFilter | undefined>(
-        selectedSavedFilter,
-    );
+const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }: IQueryBuilderHeaderProps) => {
+    const { queryBuilderId, dictionary, headerConfig, queriesState, selectedSavedFilter } =
+        useContext(QueryBuilderContext);
     const [savedFilterTitle, setSavedFilterTitle] = useState('');
-    const [localSavedFilters, setLocalSavedFilters] = useState(config.savedFilters);
+    const [isEditModalVisible, setEditModalVisible] = useState(false);
+    const [localSelectedSavedFilter, setLocalSelectedSavedFilter] = useState<ISavedFilter | null>(selectedSavedFilter);
+    const [localSavedFilters, setLocalSavedFilters] = useState(headerConfig.savedFilters);
 
     const onSaveFilter = (savedFilter: ISavedFilter) => {
         const newSavedFilter = {
             favorite: savedFilter?.favorite || false,
             id: savedFilter?.id || v4(),
             queries: queriesState.queries,
-            title: savedFilter?.title! || config.defaultTitle!,
+            title: savedFilter?.title! || headerConfig.defaultTitle!,
         };
-        if (config?.onSaveFilter) {
-            config.onSaveFilter(newSavedFilter);
+
+        if (headerConfig?.onSaveFilter) {
+            headerConfig.onSaveFilter(newSavedFilter);
         }
         onSavedFilterChange(newSavedFilter);
     };
@@ -66,15 +54,15 @@ const QueryBuilderHeader = ({
             ...savedFilter,
             queries: queriesState.queries,
         };
-        if (config?.onUpdateFilter) {
-            config.onUpdateFilter(updatedSavedFilter);
+        if (headerConfig?.onUpdateFilter) {
+            headerConfig.onUpdateFilter(updatedSavedFilter);
         }
         onSavedFilterChange(updatedSavedFilter);
     };
 
     const onDeleteFilter = (id: string) => {
-        if (config?.onDeleteFilter) {
-            config.onDeleteFilter(id);
+        if (headerConfig?.onDeleteFilter) {
+            headerConfig.onDeleteFilter(id);
         }
         onNewSavedFilter();
     };
@@ -82,36 +70,24 @@ const QueryBuilderHeader = ({
     const onNewSavedFilter = () => {
         const defaultQueryId = v4();
         resetQueriesState(defaultQueryId);
-        setSavedFilterTitle(config.defaultTitle!);
+        setSavedFilterTitle(headerConfig.defaultTitle!);
         onSavedFilterChange({
             favorite: false,
             id: v4(),
             queries: [getDefaultSyntheticSqon(defaultQueryId)],
-            title: config.defaultTitle!,
+            title: headerConfig.defaultTitle!,
         });
     };
 
-    const callbackRef = useCallback(
-        (inputElement) => {
-            if (inputElement) {
-                setTimeout(() => {
-                    inputElement.focus();
-                }, 10);
-            }
-        },
-        [isEditModalVisible],
-    );
-
     const getExtra = () =>
-        config.showTools ? (
+        headerConfig.showTools ? (
             <QueryBuilderHeaderTools
                 config={{
-                    ...config,
+                    ...headerConfig,
                     onDeleteFilter: onDeleteFilter,
                     onSaveFilter: onSaveFilter,
                     onUpdateFilter: onUpdateFilter,
                 }}
-                dictionary={dictionary}
                 onDuplicateSavedFilter={() => {
                     const duplicatedQueries = [...queriesState.queries].map((query) => ({
                         ...query,
@@ -133,17 +109,15 @@ const QueryBuilderHeader = ({
                     setSavedFilterTitle(filter.title);
                     onSavedFilterChange(filter);
                 }}
-                queriesState={queriesState}
                 savedFilters={localSavedFilters!}
-                selectedSavedFilter={selectedSavedFilter!}
             />
         ) : (
             []
         );
 
     useEffect(() => {
-        setLocalSavedFilters(config.savedFilters);
-    }, [config.savedFilters]);
+        setLocalSavedFilters(headerConfig.savedFilters);
+    }, [headerConfig.savedFilters]);
 
     useEffect(() => {
         setLocalSelectedSavedFilter(selectedSavedFilter!);
@@ -153,9 +127,9 @@ const QueryBuilderHeader = ({
         <div id="query-builder-header-tools">
             <Collapse
                 {...{
-                    ...config.collapseProps,
-                    arrowIcon: config.collapseProps?.arrowIcon ?? 'caretFilled',
-                    size: config.collapseProps?.size ?? 'large',
+                    ...headerConfig.collapseProps,
+                    arrowIcon: headerConfig.collapseProps?.arrowIcon ?? 'caretFilled',
+                    size: headerConfig.collapseProps?.size ?? 'large',
                 }}
                 defaultActiveKey={'query-header-tools'}
                 className={styles.QBHCollapse}
@@ -165,10 +139,10 @@ const QueryBuilderHeader = ({
                     header={
                         <Space className={styles.QBHContainer} size={16}>
                             <Title className={styles.togglerTitle} level={5}>
-                                {localSelectedSavedFilter?.title || config.defaultTitle}
+                                {localSelectedSavedFilter?.title || headerConfig.defaultTitle}
                             </Title>
                             <Space className={cx(styles.QBHActionContainer, styles.QBHOptionsActionsContainer)}>
-                                {config.options?.enableEditTitle && (
+                                {headerConfig.options?.enableEditTitle && (
                                     <Button
                                         className={styles.iconBtnAction}
                                         icon={<EditOutlined />}
@@ -180,7 +154,7 @@ const QueryBuilderHeader = ({
                                         type="text"
                                     />
                                 )}
-                                {config.options?.enableFavoriteFilter &&
+                                {headerConfig.options?.enableFavoriteFilter &&
                                     !isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!) && (
                                         <Tooltip
                                             title={
@@ -208,12 +182,12 @@ const QueryBuilderHeader = ({
                                                         favorite: !selectedSavedFilter?.favorite,
                                                     };
                                                     if (selectedSavedFilter?.favorite) {
-                                                        if (config.onUpdateFilter) {
-                                                            config.onUpdateFilter(updatedSavedFilter);
+                                                        if (headerConfig.onUpdateFilter) {
+                                                            headerConfig.onUpdateFilter(updatedSavedFilter);
                                                         }
                                                     } else {
-                                                        if (config?.onSetAsFavorite) {
-                                                            config.onSetAsFavorite(updatedSavedFilter);
+                                                        if (headerConfig?.onSetAsFavorite) {
+                                                            headerConfig.onSetAsFavorite(updatedSavedFilter);
                                                         }
                                                     }
                                                     onSavedFilterChange(updatedSavedFilter);
@@ -223,8 +197,12 @@ const QueryBuilderHeader = ({
                                             />
                                         </Tooltip>
                                     )}
-                                {config.options?.enableUndoChanges &&
-                                    hasUnsavedChanges(selectedSavedFilter!, config.savedFilters!, queriesState) && (
+                                {headerConfig.options?.enableUndoChanges &&
+                                    hasUnsavedChanges(
+                                        selectedSavedFilter!,
+                                        headerConfig.savedFilters!,
+                                        queriesState,
+                                    ) && (
                                         <Tooltip
                                             title={
                                                 dictionary.queryBuilderHeader?.tooltips?.undoChanges ||
@@ -257,87 +235,25 @@ const QueryBuilderHeader = ({
                     {children}
                 </CollapsePanel>
             </Collapse>
-            <Modal
-                cancelText={dictionary.queryBuilderHeader?.modal?.edit?.cancelText || 'Cancel'}
-                className={styles.QBHeditModal}
-                okButtonProps={{ disabled: !localSavedFilters }}
-                okText={dictionary.queryBuilderHeader?.modal?.edit?.okText || 'Save'}
-                onCancel={() => {
-                    setEditModalVisible(false);
-                    editForm.resetFields();
-                }}
-                onOk={(e) => editForm.submit()}
-                title={dictionary.queryBuilderHeader?.modal?.edit?.title || 'Save this query'}
+            <EditFilterModal
                 visible={isEditModalVisible}
-            >
-                <Form
-                    fields={[
-                        {
-                            name: ['title'],
-                            value: savedFilterTitle || selectedSavedFilter?.title!,
-                        },
-                    ]}
-                    form={editForm}
-                    layout="vertical"
-                    onFinish={(values) => {
-                        setEditModalVisible(false);
-                        setSavedFilterTitle(values.title);
-                        const filterToSave = {
-                            ...selectedSavedFilter!,
-                            title: values.title,
-                        };
-                        if (isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!)) {
-                            onSaveFilter(filterToSave);
-                        } else {
-                            onUpdateFilter(filterToSave);
-                        }
-                    }}
-                >
-                    <Form.Item noStyle shouldUpdate>
-                        {() => (
-                            <Form.Item
-                                className={styles.QBHfilterEditFormItem}
-                                label={dictionary.queryBuilderHeader?.modal?.edit?.input.label || 'Query name'}
-                                name="title"
-                                required={false}
-                                rules={[
-                                    {
-                                        message: (
-                                            <span>
-                                                {dictionary.queryBuilderHeader?.form?.error?.fieldRequired ||
-                                                    'This field is required'}
-                                            </span>
-                                        ),
-                                        required: true,
-                                        type: 'string',
-                                    },
-                                    {
-                                        max: config.maxNameCapSavedQuery || DEFAULT_TITLE_MAX_LENGTH,
-                                        message: (
-                                            <span>
-                                                <WarningFilled />{' '}
-                                                {config.maxNameCapSavedQuery || DEFAULT_TITLE_MAX_LENGTH}{' '}
-                                                {dictionary.queryBuilderHeader?.modal?.edit?.input.maximumLength ||
-                                                    'characters maximum'}
-                                            </span>
-                                        ),
-                                        required: false,
-                                        type: 'string',
-                                    },
-                                ]}
-                            >
-                                <Input
-                                    placeholder={
-                                        dictionary.queryBuilderHeader?.modal?.edit?.input.placeholder ||
-                                        'Untitled query'
-                                    }
-                                    ref={callbackRef}
-                                />
-                            </Form.Item>
-                        )}
-                    </Form.Item>
-                </Form>
-            </Modal>
+                onCancel={() => setEditModalVisible(false)}
+                okDisabled={!localSavedFilters}
+                initialTitleValue={savedFilterTitle || selectedSavedFilter?.title!}
+                onSubmit={(title) => {
+                    setEditModalVisible(false);
+                    setSavedFilterTitle(title);
+                    const filterToSave = {
+                        ...selectedSavedFilter!,
+                        title,
+                    };
+                    if (isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!)) {
+                        onSaveFilter(filterToSave);
+                    } else {
+                        onUpdateFilter(filterToSave);
+                    }
+                }}
+            />
         </div>
     );
 };
