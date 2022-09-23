@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
-import { Button, Space, Table, Tooltip } from 'antd';
-import ColumnSelector from './ColumnSelector';
-import TableHeader from './Header';
-import { useState } from 'react';
-import { ProColumnType, TColumnStates, TProTableProps } from './types';
 import { DownloadOutlined } from '@ant-design/icons';
+import { Button, Space, Table, Tooltip } from 'antd';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
+import React, { useEffect, useState } from 'react';
+import ColumnSelector from './ColumnSelector';
+import TableHeader from './Header';
+import { ProColumnType, TColumnStates, TProTableProps } from './types';
 
 import styles from '@ferlab/style/components/protable/ProTable.module.scss';
 
