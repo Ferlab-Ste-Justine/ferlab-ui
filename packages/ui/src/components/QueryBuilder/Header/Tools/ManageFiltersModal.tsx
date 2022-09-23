@@ -7,6 +7,8 @@ import { ISavedFilter } from '../../types';
 import EditFilterModal from './EditFilterModal';
 import { deleteFilterConfirm } from './utils';
 
+import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
+
 interface OwnProps {
     visible: boolean;
     savedFilters: ISavedFilter[];
@@ -68,7 +70,7 @@ const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFi
                 cancelButtonProps={{ style: { display: 'none' } }}
                 width={600}
             >
-                <List bordered dataSource={savedFilters} renderItem={getListItem} />
+                <List className={styles.manageFiltersList} bordered dataSource={savedFilters} renderItem={getListItem} />
             </Modal>
             <EditFilterModal
                 visible={isEditModalVisible}
