@@ -147,6 +147,7 @@ interface IQueryBuilderHeaderDictionnary {
                 maximumLength: React.ReactNode;
             };
         };
+        saveThisFilter: React.ReactNode;
         confirmUnsaved?: {
             title: React.ReactNode;
             openSavedFilter: {
@@ -189,6 +190,11 @@ interface IQueryBuilderHeaderDictionnary {
         manageMyFilter: React.ReactNode;
     };
     duplicateFilterTitleSuffix?: string;
+    manageFilters?: {
+        modalTitle?: string;
+        okText?: string;
+        lastSavedAt?: string;
+    };
 }
 
 export interface IDictionary {

@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "4.0.3",
+    "version": "4.1.1",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -55,7 +55,8 @@
         "@ferlab/style": "^1.14.1",
         "antd": "^4.20.0",
         "react": "^17.0.2",
-        "react-dom": "^17.0.2"
+        "react-dom": "^17.0.2",
+        "date-fns": "^1.29.0"
     },
     "dependencies": {
         "@ant-design/icons": "^4.7.0",

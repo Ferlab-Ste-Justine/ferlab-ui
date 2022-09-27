@@ -1,30 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
-import { Button, Dropdown, Space, Spin } from 'antd';
+import { Button, Dropdown, Spin } from 'antd';
 import cx from 'classnames';
-import ElementOperator from '../icons/ElementOperator';
-import EqualOperator from '../icons/EqualOperator';
-import GreaterThanOrEqualOperator from '../icons/GreaterThanOrEqualOperator';
-import LessThanOrEqualOperator from '../icons/LessThanOrEqualOperator';
-import GreaterThanOperator from '../icons/GreaterThanOperator';
-import LessThanOperator from '../icons/LessThanOperator';
-import NotInOperator from '../icons/NotInOperator';
-import QueryValues from '../QueryValues';
-import { IDictionary, IFacetFilterConfig } from '../types';
-import { IValueFilter } from '../../../data/sqon/types';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
 import { FieldOperators } from '../../../data/sqon/operators';
+import { IValueFilter } from '../../../data/sqon/types';
 import { isBooleanFilter, isRangeFilter } from '../../../data/sqon/utils';
 import ConditionalWrapper from '../../utils/ConditionalWrapper';
+import ElementOperator from '../icons/ElementOperator';
+import EqualOperator from '../icons/EqualOperator';
+import GreaterThanOperator from '../icons/GreaterThanOperator';
+import GreaterThanOrEqualOperator from '../icons/GreaterThanOrEqualOperator';
+import LessThanOperator from '../icons/LessThanOperator';
+import LessThanOrEqualOperator from '../icons/LessThanOrEqualOperator';
+import NotInOperator from '../icons/NotInOperator';
+import QueryValues from '../QueryValues';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
+import { QueryBuilderContext } from '../context';
 
 interface IFieldQueryPillProps {
     isBarActive?: boolean;
     valueFilter: IValueFilter;
-    dictionary?: IDictionary;
-    showLabels?: boolean;
     onRemove: () => void;
-    facetFilterConfig: IFacetFilterConfig;
 }
 
 interface IOperatorProps {
@@ -54,14 +51,8 @@ const Operator = ({ className = '', type }: IOperatorProps) => {
     }
 };
 
-const FieldQueryPill = ({
-    valueFilter,
-    dictionary = {},
-    showLabels,
-    onRemove,
-    isBarActive,
-    facetFilterConfig,
-}: IFieldQueryPillProps) => {
+const FieldQueryPill = ({ valueFilter, onRemove, isBarActive }: IFieldQueryPillProps) => {
+    const { dictionary, facetFilterConfig, showLabels } = useContext(QueryBuilderContext);
     const [tryOpenQueryPillFilter, setTryOpenQueryPillFilter] = useState(false);
     const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
     const [dropdownContent, setDropdownContent] = useState(facetFilterConfig.selectedFilterContent);
@@ -92,14 +83,14 @@ const FieldQueryPill = ({
     return (
         <div className={cx(styles.queryPillContainer, { [styles.selected]: isBarActive })}>
             {(showLabels || isBooleanFilter(valueFilter) || isRangeFilter(valueFilter)) && (
-                <>
+                <Fragment>
                     <span className={`${styles.field}`}>
                         {dictionary.query?.facet
                             ? dictionary.query?.facet(valueFilter.content.field)
                             : valueFilter.content.field}
                     </span>
                     <Operator className={styles.operator} type={valueFilter.op} />
-                </>
+                </Fragment>
             )}
 
             <ConditionalWrapper
@@ -139,7 +130,6 @@ const FieldQueryPill = ({
                 <QueryValues
                     onClick={isFacetFilterEnableForField() ? () => handleQueryPillClick(isBarActive!) : undefined}
                     isElement={valueFilter.op === FieldOperators.between}
-                    dictionary={dictionary}
                     valueFilter={valueFilter}
                 />
             </ConditionalWrapper>

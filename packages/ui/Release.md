@@ -1,3 +1,11 @@
+### 4.1.1 | 2022-09-26
+- Fix: Fix QueryBuilder save/edit filter modal title
+
+### 4.1.0 | 2022-09-23
+- Fix: Improve QueryBuilder Props
+- Feat: Add new saved filter management in QueryBuilder
+- Feat: Add new ListItemWithAction component
+
 ### 3.9.7 | 2022-05-16
 - Fix: Fix Checkbox List search to search on key and name
 

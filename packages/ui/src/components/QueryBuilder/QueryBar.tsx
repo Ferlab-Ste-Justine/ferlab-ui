@@ -1,38 +1,33 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { AiOutlineCopy, AiOutlineDelete } from 'react-icons/ai';
-import { Button, Checkbox, Popconfirm, Space, Tooltip } from 'antd';
+import { Button, Checkbox, Popconfirm, Space } from 'antd';
 import cx from 'classnames';
+import React, { useEffect, useRef, useState } from 'react';
 
+import { CopyOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
+import { isEqual } from 'lodash';
+import { ISqonGroupFilter, ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
+import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
+import { numberFormat } from '../../utils/numberUtils';
 import BooleanQueryPill from './QueryPills/BooleanQueryPill';
 import {
-    IDictionary,
-    IFacetFilterConfig,
     IFetchQueryCount,
     IGetResolvedQueryForCount,
     TCallbackRemoveAction,
     TCallbackRemoveReferenceAction,
-    TOnChange,
+    TOnChange
 } from './types';
-import { ISqonGroupFilter, ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
-import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
-import { numberFormat } from '../../utils/numberUtils';
-import { CopyOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 import useQueryBuilderState from './utils/useQueryBuilderState';
-import { isEqual } from 'lodash';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBar.module.scss';
+import { useContext } from 'react';
+import { QueryBuilderContext } from './context';
 
 interface IQueryBarProps {
     id: string;
-    queryBuilderId: string;
     Icon: React.ReactNode;
     index: number;
-    dictionary?: IDictionary;
     query: ISyntheticSqon;
     actionDisabled?: boolean;
     selectionDisabled?: boolean;
-    canDelete?: boolean;
-    showLabels?: boolean;
     onRemoveFacet: TCallbackRemoveAction;
     onRemoveReference: TCallbackRemoveReferenceAction;
     isActive?: boolean;
@@ -44,7 +39,6 @@ interface IQueryBarProps {
     onSelectBar: (index: number, toRemove: boolean) => void;
     onCombineChange: (id: string, combinator: TSqonGroupOp) => void;
     getColorForReference: (refIndex: number) => string;
-    facetFilterConfig: IFacetFilterConfig;
     fetchQueryCount: IFetchQueryCount;
     getResolvedQueryForCount: IGetResolvedQueryForCount;
 }
@@ -52,15 +46,11 @@ const QueryBar = ({
     id,
     Icon,
     index,
-    dictionary = {},
     query,
-    queryBuilderId,
     onRemoveFacet,
     onRemoveReference,
     actionDisabled = false,
     selectionDisabled = false,
-    canDelete = true,
-    showLabels = true,
     isActive = true,
     isSelected = false,
     isReferenced = false,
@@ -70,10 +60,10 @@ const QueryBar = ({
     onCombineChange,
     onSelectBar,
     getColorForReference,
-    facetFilterConfig,
     fetchQueryCount,
     getResolvedQueryForCount,
 }: IQueryBarProps) => {
+    const { queryBuilderId, dictionary, noQueries } = useContext(QueryBuilderContext);
     const previousQuery = useRef<ISqonGroupFilter | null>(null);
     const [total, setTotal] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -148,13 +138,10 @@ const QueryBar = ({
                                     parentQueryId={id}
                                     query={query}
                                     isActive={isActive}
-                                    dictionary={dictionary}
-                                    showLabels={showLabels}
                                     onRemoveFacet={onRemoveFacet}
                                     onRemoveReference={onRemoveReference}
                                     onCombineChange={onCombineChange}
                                     getColorForReference={getColorForReference}
-                                    facetFilterConfig={facetFilterConfig}
                                 />
                             </Space>
                         )
@@ -177,7 +164,7 @@ const QueryBar = ({
                         <Popconfirm
                             arrowPointAtCenter
                             cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
-                            disabled={!canDelete}
+                            disabled={noQueries}
                             okText={dictionary.actions?.delete?.confirm || 'Delete'}
                             onConfirm={(e) => {
                                 e!.stopPropagation();
