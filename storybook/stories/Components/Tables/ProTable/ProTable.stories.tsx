@@ -1,7 +1,8 @@
-import React from "react";
-import { Meta } from "@storybook/react/types-6-0";
 import ProTable from "@ferlab/ui/components/ProTable";
 import { TProTableProps } from "@ferlab/ui/components/ProTable/types";
+import { Meta } from "@storybook/react/types-6-0";
+import React from "react";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 export default {
     title: "@ferlab/Components/Tables/ProTable",
@@ -48,6 +49,7 @@ BasicTable.args = {
             title: "Column 3",
             dataIndex: "column_three",
             tooltip: "This is Column 3",
+            iconTitle: <AiOutlineUsergroupAdd />
         },
         {
             key: "column_four",

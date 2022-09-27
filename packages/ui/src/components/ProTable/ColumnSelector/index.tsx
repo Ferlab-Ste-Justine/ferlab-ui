@@ -117,15 +117,11 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
                                         }
 
                                         const savedColumnState = getColumnStateByKey(localState.key);
-                                        const title =
-                                            typeof foundColumn.title === 'object'
-                                                ? foundColumn.tooltip
-                                                : String(foundColumn.title);
 
                                         return (
                                             <SortableColumnItem
                                                 id={localState.key!}
-                                                label={String(title)}
+                                                label={String(foundColumn.title)}
                                                 key={index}
                                                 checked={savedColumnState?.visible}
                                                 onChange={(e) => {
