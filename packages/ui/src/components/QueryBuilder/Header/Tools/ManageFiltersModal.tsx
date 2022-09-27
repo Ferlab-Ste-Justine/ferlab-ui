@@ -82,6 +82,7 @@ const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFi
                 onCancel={() => setEditModalVisible(false)}
                 initialTitleValue={selectedFilter?.title!}
                 okDisabled={false}
+                isNewFilter={false}
                 onSubmit={(title) => {
                     setEditModalVisible(false);
                     if (onUpdateFilter) {

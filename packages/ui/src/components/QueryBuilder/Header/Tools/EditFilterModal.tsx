@@ -11,11 +11,12 @@ interface OwnProps {
     onCancel: () => void;
     okDisabled: boolean;
     initialTitleValue: string;
+    isNewFilter: boolean;
 }
 
 const DEFAULT_TITLE_MAX_LENGTH = 50;
 
-const EditFilterModal = ({ visible, okDisabled, initialTitleValue, onSubmit, onCancel }: OwnProps) => {
+const EditFilterModal = ({ visible, okDisabled, initialTitleValue, isNewFilter, onSubmit, onCancel }: OwnProps) => {
     const { dictionary, headerConfig } = useContext(QueryBuilderContext);
     const [editForm] = Form.useForm();
 
@@ -41,7 +42,11 @@ const EditFilterModal = ({ visible, okDisabled, initialTitleValue, onSubmit, onC
                 onCancel();
             }}
             onOk={() => editForm.submit()}
-            title={dictionary.queryBuilderHeader?.modal?.edit?.title || 'Edit filter'}
+            title={
+                isNewFilter
+                    ? dictionary.queryBuilderHeader?.modal?.saveThisFilter || 'Save this filter'
+                    : dictionary.queryBuilderHeader?.modal?.edit?.title || 'Edit filter'
+            }
             visible={visible}
         >
             <Form
