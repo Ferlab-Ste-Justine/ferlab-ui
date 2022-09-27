@@ -1,6 +1,6 @@
 import { TableProps } from 'antd';
 import { ColumnType } from 'antd/lib/table';
-import React from "react";
+import React, { ReactNode } from 'react';
 
 export interface IProTableDictionary {
     itemCount?: {
@@ -26,7 +26,9 @@ export interface IProTableDictionary {
 
 export interface ProColumnType<T = any> extends ColumnType<T> {
     key: string;
+    title: string;
     icon?: React.ReactElement;
+    iconTitle?: ReactNode;
     tooltip?: string;
     defaultHidden?: boolean;
 }

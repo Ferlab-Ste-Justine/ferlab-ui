@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
-import { Button, Space, Table, Tooltip } from 'antd';
-import ColumnSelector from './ColumnSelector';
-import TableHeader from './Header';
-import { useState } from 'react';
-import { ProColumnType, TColumnStates, TProTableProps } from './types';
 import { DownloadOutlined } from '@ant-design/icons';
+import { Button, Space, Table, Tooltip } from 'antd';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
+import React, { useEffect, useState } from 'react';
+import ColumnSelector from './ColumnSelector';
+import TableHeader from './Header';
+import { ProColumnType, TColumnStates, TProTableProps } from './types';
 
 import styles from '@ferlab/style/components/protable/ProTable.module.scss';
 
@@ -130,18 +129,31 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     };
 
     const generateColumnTitle = (column: ProColumnType) => {
-        const style: React.CSSProperties = {
-            borderBottom: '1px dotted',
-        };
-        let title = column.tooltip ? <span style={style}>{column.title}</span> : column.title;
-        title = column.icon ? (
-            <Space size={3}>
-                {column.icon} {title}
-            </Space>
+        const titleToUse = column.iconTitle ? column.iconTitle : column.title;
+
+        let title = column.tooltip ? (
+            <span
+                style={{
+                    borderBottom: '1px dotted',
+                }}
+            >
+                {titleToUse}
+            </span>
         ) : (
-            title
+            titleToUse
         );
+
+        title =
+            column.icon && !column.iconTitle ? (
+                <Space size={3}>
+                    {column.icon} {title}
+                </Space>
+            ) : (
+                title
+            );
+
         title = column.tooltip ? <Tooltip title={column.tooltip}>{title}</Tooltip> : title;
+        
         return { ...column, title };
     };
 

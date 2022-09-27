@@ -1,21 +1,20 @@
-import React from 'react';
 import { SettingOutlined } from '@ant-design/icons';
-import { Button, Popover, Space, Tooltip } from 'antd';
 import {
-    DndContext,
     closestCenter,
+    DndContext,
+    DragEndEvent,
     KeyboardSensor,
     PointerSensor,
     useSensor,
-    useSensors,
-    DragEndEvent,
+    useSensors
 } from '@dnd-kit/core';
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, rectSortingStrategy } from '@dnd-kit/sortable';
-import SortableColumnItem from './SortableColumnItem';
-import { useEffect, useState } from 'react';
-import { IProTableDictionary, ProColumnType, TColumnStates } from '../types';
-import { generateColumnState } from '..';
+import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { Button, Popover, Space, Tooltip } from 'antd';
 import { isEqual } from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { generateColumnState } from '..';
+import { IProTableDictionary, ProColumnType, TColumnStates } from '../types';
+import SortableColumnItem from './SortableColumnItem';
 
 import styles from '@ferlab/style/components/protable/ColumnSelector.module.scss';
 
@@ -118,6 +117,7 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
                                         }
 
                                         const savedColumnState = getColumnStateByKey(localState.key);
+
                                         return (
                                             <SortableColumnItem
                                                 id={localState.key!}
