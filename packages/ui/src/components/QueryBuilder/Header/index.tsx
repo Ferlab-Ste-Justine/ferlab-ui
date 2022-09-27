@@ -240,6 +240,7 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
                 onCancel={() => setEditModalVisible(false)}
                 okDisabled={!localSavedFilters}
                 initialTitleValue={savedFilterTitle || selectedSavedFilter?.title!}
+                isNewFilter={isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!)}
                 onSubmit={(title) => {
                     setEditModalVisible(false);
                     setSavedFilterTitle(title);
