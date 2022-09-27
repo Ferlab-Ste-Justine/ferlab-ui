@@ -67,7 +67,7 @@ const SavedFiltersMenu = ({
             {
                 key: 'manage-my-filters',
                 onClick: () => setManageFiltersVisible(true),
-                label: dictionary.queryBuilderHeader?.myFiltersDropdown?.manageMyFilter || 'Manage my filters',
+                label: dictionary.queryBuilderHeader?.myFiltersDropdown?.manageMyFilter || 'Manage filters',
             },
         );
 
