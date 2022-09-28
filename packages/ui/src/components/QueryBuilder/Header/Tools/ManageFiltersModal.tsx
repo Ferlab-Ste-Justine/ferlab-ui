@@ -1,5 +1,5 @@
 import { List, Modal } from 'antd';
-import { distanceInWords } from 'date-fns';
+import { formatDistance } from 'date-fns';
 import React, { Fragment, useContext, useState } from 'react';
 import ListItemWithActions from '../../../List/ListItemWithActions';
 import { QueryBuilderContext } from '../../context';
@@ -35,7 +35,7 @@ const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFi
         };
 
         if (filterItem.updated_date) {
-            lastSavedAt = distanceInWords(new Date(), new Date(filterItem.updated_date));
+            lastSavedAt = formatDistance(new Date(), new Date(filterItem.updated_date));
         }
 
         return (
