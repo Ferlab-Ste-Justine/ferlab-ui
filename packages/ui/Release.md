@@ -1,3 +1,6 @@
+### 4.2.0 | 2022-09-29
+- Feat: Add new AnchorMenu component
+
 ### 4.1.1 | 2022-09-26
 - Fix: Fix QueryBuilder save/edit filter modal title
 
