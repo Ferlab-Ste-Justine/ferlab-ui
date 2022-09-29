@@ -1,49 +1,65 @@
 import React from 'react';
-import { Anchor } from 'antd';
+import { Anchor, AnchorProps } from 'antd';
 
 import styles from '@ferlab/style/components/anchorMenu/AnchorMenu.module.scss';
 
 const { Link } = Anchor;
 
-export interface IAnchorMenuProps {
+export interface IAnchorLink {
+    href: string;
+    title: string;
+}
+
+export interface IAnchorMenuProps extends AnchorProps {
     className?: string;
     scrollContainerId: string;
     preventUrlHash?: boolean;
-    children: any;
-    storyBookMockContent?: boolean;
+    links: IAnchorLink[];
 }
 
 const AnchorMenu = ({
-    children,
+    affix,
+    getContainer,
+    bounds,
     className,
+    getCurrentAnchor,
+    links = [],
+    offsetTop,
+    onChange,
+    prefixCls,
     preventUrlHash = true,
     scrollContainerId,
-    storyBookMockContent = false,
+    showInkInFixed,
+    targetOffset,
 }: IAnchorMenuProps) => {
-    const scrollContainer: HTMLElement | null = document.getElementById(scrollContainerId);
-    const targetOffset = window.innerHeight / 2;
+    const scrollContainer = document.getElementById(scrollContainerId);
 
     const handlePreventUrlHash = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
     };
 
+    /** by default use first href link */
+    const _getCurrentAnchor = (activeLink: string) => activeLink || (links[0] && links[0].href);
+    const _getContainer = scrollContainer ? () => scrollContainer : undefined;
+
+    /** all props are overridable by new props */
     return (
         <Anchor
+            affix={affix}
+            bounds={bounds}
             className={`${styles.anchorMenu} ${className}`}
-            getContainer={scrollContainer ? () => scrollContainer : undefined}
+            getContainer={getContainer || _getContainer}
+            getCurrentAnchor={getCurrentAnchor || _getCurrentAnchor}
+            offsetTop={offsetTop}
+            onChange={onChange}
             onClick={preventUrlHash ? handlePreventUrlHash : undefined}
+            prefixCls={prefixCls}
+            showInkInFixed={showInkInFixed}
             targetOffset={targetOffset}
         >
-            {children}
-            {storyBookMockContent && (
-                <>
-                    <Link href="#Blank1" title="Blank1withLongText" />
-                    <Link href="#Blank2" title="Blank2" />
-                    <Link href="#Blank3" title="Blank3" />
-                    <Link href="#Blank4" title="Blank4" />
-                    <Link href="#Blank5" title="Blank5" />
-                </>
-            )}
+            {links.map(({ href, title }: IAnchorLink, index: number) => (
+                <Link href={href} key={index} title={title} />
+            ))}
         </Anchor>
     );
 };

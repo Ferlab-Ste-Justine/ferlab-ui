@@ -1,14 +1,6 @@
 import React from 'react';
 import { Meta } from '@storybook/react/types-6-0';
-import AnchorMenu, { IAnchorMenuProps } from '@ferlab/ui/components/AnchorMenu';
-
-const Blank = ({ id }: { id: string }) => {
-    return (
-        <div id={id} style={{ height: 500, width: 500, backgroundColor: 'white', margin: 10, padding: 10 }}>
-            {id}
-        </div>
-    );
-};
+import AnchorMenu, { IAnchorLink } from '@ferlab/ui/components/AnchorMenu';
 
 export default {
     title: "@ferlab/Components/Menu/AnchorMenu",
@@ -24,38 +16,41 @@ export default {
         preventUrlHash: {
             control: 'boolean'
         },
-        children: {
-            control: 'any'
+        links: {
+            control: 'array'
         },
     },
-  } as Meta;
+} as Meta
 
-  const AnchorMenuStory = ({title, ...props} : {title: string, props: IAnchorMenuProps}) => (
+const scrollContainerId = 'scrollContainerId';
+const links: IAnchorLink[] = [
+    { href: '#Blank1', title: 'Blank1withVeryVeryVeryVeryVeryVeryVeryVeryLongText' },
+    { href: '#Blank2', title: 'Blank2' },
+    { href: '#Blank3', title: 'Blank3' },
+    { href: '#Blank4', title: 'Blank4' },
+    { href: '#Blank5', title: 'Blank5' },
+]
+
+const Blank = ({ id, title }: { id: string, title: string }) => (
+    <div id={id} style={{ height: 800, width: 600, backgroundColor: 'white', margin: 20, padding: 20 }}>
+        {title}
+    </div>
+)
+
+export const AnchorMenuStory = () => (
     <>
-        <h3>{title}</h3>
-        <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-        }}>
-            <div id={'scrollContainerId'}>
-                <Blank id="Blank1"  />
-                <Blank id="Blank2"   />
-                <Blank id="Blank3"   />
-                <Blank id="Blank4"  />
-                <Blank id="Blank5"  />
+        <h3>Anchor Menu Story</h3>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div id={scrollContainerId} style={{ overflow: 'auto' }}>
+                {
+                    links.map(({ href, title }, index) =>
+                        <Blank key={index} id={href.replace('#', '')} title={title}  />)
+                }
             </div>
-            <AnchorMenu {...props} />
+            <AnchorMenu
+                links={links}
+                scrollContainerId={scrollContainerId}
+            />
         </div>
     </>
 );
-
-/* Basic */
-export const AnchorMenuBasic = AnchorMenuStory.bind({});
-
-AnchorMenuBasic.args = {
-    title: 'Anchor Menu Basic',
-    scrollContainerId: 'scrollContainerId',
-    preventUrlHash: true,
-    storyBookMockContent: true,
-};
-

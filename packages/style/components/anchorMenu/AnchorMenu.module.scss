@@ -1,7 +1,7 @@
 @import "theme.template";
 
 .anchorMenu {
-  width: 120px;
+  max-width: 180px;
   margin: 24px;
 
   *[class$="-anchor-ink-ball visible"] {
@@ -15,24 +15,30 @@
   }
 
   *[class$="-anchor-link"] {
+    padding: 0 16px;
+    margin-bottom: 4px;
+    height: 20px;
+    display: flex;
+    align-items: center;
     border-left: 2px solid transparent;
     transition: all .1s ease;
   }
 
   *[class$="-anchor-link-active"] {
-    z-index: 9;
+    padding: 0 16px;
+    margin-bottom: 4px;
+    height: 20px;
+    display: flex;
+    align-items: center;
     border-left: 2px solid $blue-8;
+    z-index: 9;
   }
 
   *[class$="-anchor-link-title"] {
     font-size: 12px;
-    line-height: 20px;
-    margin-bottom: 1px;
   }
 
   *[class$="-anchor-link-title-active"] {
     font-size: 12px;
-    line-height: 20px;
-    margin-bottom: 1px;
   }
 }
