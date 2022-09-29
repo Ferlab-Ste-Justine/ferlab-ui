@@ -17,7 +17,7 @@ export default {
             control: 'boolean'
         },
         links: {
-            control: 'any'
+            control: 'array'
         },
     },
 } as Meta
