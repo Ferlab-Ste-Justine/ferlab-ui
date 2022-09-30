@@ -1,3 +1,6 @@
+### 1.23.0 | 2022-09-29
+- Feat: Add new AnchorMenu component
+
 ### 1.20.0 | 2022-05-11
 - Feat: New components : UploadIds
 
