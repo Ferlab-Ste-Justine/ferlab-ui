@@ -23,7 +23,7 @@
     "react-router-dom": ">=5.2.0"
   },
   "dependencies": {
-    "antd": "^4.20.0",
+    "antd": "^4.23.1",
     "command-line-args": "^5.1.1",
     "cross-spawn": "^7.0.3",
     "less": "^4.1.0",
