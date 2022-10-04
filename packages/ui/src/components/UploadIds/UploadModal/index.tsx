@@ -102,7 +102,7 @@ const UploadModal = ({
 
     const isMaximumItemsReached = () => {
         if (limitItem) {
-            return getRawValueList().length > limitItem ? true : false;
+            return getRawValueList().length > limitItem;
         }
         return false;
     };
