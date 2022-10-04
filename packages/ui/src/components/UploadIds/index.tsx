@@ -17,6 +17,7 @@ export interface UploadIdsProps {
     onUpload: TOnUpload;
     modalWidth?: number;
     mimeTypes?: string;
+    limitItem?: number;
 }
 
 const UploadIds = ({
@@ -28,6 +29,7 @@ const UploadIds = ({
     onUpload,
     modalWidth,
     mimeTypes,
+    limitItem,
 }: UploadIdsProps) => {
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -51,6 +53,7 @@ const UploadIds = ({
                 onUpload={onUpload}
                 mimeTypes={mimeTypes}
                 fetchMatch={fetchMatch}
+                limitItem={limitItem}
             />
         </>
     );
