@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { PaperClipOutlined, UploadOutlined } from '@ant-design/icons';
-import Collapse, { CollapsePanel } from '../../Collapse';
 import { Button, Input, Modal, PopoverProps, Space, Spin, Tabs, Typography, Upload } from 'antd';
+import { UploadFile } from 'antd/lib/upload/interface';
 import { difference, get, isEmpty, uniq, uniqBy, without } from 'lodash';
+
+import useDebounce from '../../../hooks/useDebounce';
+import Collapse, { CollapsePanel } from '../../Collapse';
+import ProLabel from '../../ProLabel';
 import { MatchTableItem, TFetchMatchFunc, TOnUpload, UnmatchTableItem, UploadIdDictionary } from '../types';
+
 import MatchTable from './MatchTable';
 import UnmatchTable from './UnmatchTable';
-import ProLabel from '../../ProLabel';
-import useDebounce from '../../../hooks/useDebounce';
 
 import styles from '@ferlab/style/components/uploadids/UploadIdsModal.module.scss';
-import { UploadFile } from 'antd/lib/upload/interface';
 
 interface OwnProps {
     width?: number;
@@ -23,6 +25,7 @@ interface OwnProps {
     /** Comma separated string. Ex.: '.txt, .csv' */
     mimeTypes?: string;
     fetchMatch: TFetchMatchFunc;
+    limitItem?: number;
 }
 
 const defaultRenderMatchTabTitle = (matchCount: number) => `Matched (${matchCount})`;
@@ -33,15 +36,16 @@ const defaultTablesMessage = (submittedCount: number, mappedCount: number) =>
     `${submittedCount} submitted identifiers mapped to ${mappedCount} unique system identifiers`;
 
 const UploadModal = ({
-    width = 945,
-    visible,
-    setVisible,
     dictionary,
-    popoverProps,
-    placeHolder,
-    onUpload,
     fetchMatch,
+    limitItem,
     mimeTypes = '.txt, .csv, .tsv',
+    onUpload,
+    placeHolder,
+    popoverProps,
+    setVisible,
+    visible,
+    width = 945,
 }: OwnProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const [value, setValue] = useState('');
@@ -96,119 +100,150 @@ const UploadModal = ({
         // eslint-disable-next-line
     }, [debouncedValue]);
 
+    const isMaximumItemsReached = () => {
+        if (limitItem) {
+            return getRawValueList().length > limitItem;
+        }
+        return false;
+    };
     return (
         <Modal
-            visible={visible}
+            cancelText={get(dictionary, 'modalCancelText', 'Cancel')}
+            destroyOnClose
+            okButtonProps={{ disabled: !match?.length || isMaximumItemsReached() }}
+            okText={get(dictionary, 'modalOkText', 'Upload')}
             onCancel={() => {
                 setVisible(false);
                 setValue('');
             }}
-            width={width}
-            title={dictionary.modalTitle}
-            okText={get(dictionary, 'modalOkText', 'Upload')}
             onOk={() => {
                 setVisible(false);
                 setValue('');
                 onUpload(match ?? []);
             }}
-            okButtonProps={{ disabled: !match?.length }}
-            cancelText={get(dictionary, 'modalCancelText', 'Cancel')}
+            title={dictionary.modalTitle}
+            visible={visible}
+            width={width}
             wrapClassName={styles.fuiUploadIdsModalWrapper}
-            destroyOnClose
         >
-            <Space direction="vertical" className={styles.space}>
+            <Space className={styles.space} direction="vertical">
                 <ProLabel
-                    title={get(dictionary, 'inputLabel', 'Copy-paste a list of identifiers or upload a file') as string}
                     popoverProps={popoverProps}
+                    title={get(dictionary, 'inputLabel', 'Copy-paste a list of identifiers or upload a file') as string}
                 />
-                <Space direction="vertical" size={12} className={styles.space}>
-                    <Input.TextArea
-                        rows={4}
-                        placeholder={placeHolder}
-                        onChange={(e) => setValue(e.target.value)}
-                        value={value}
-                    />
+                <Space className={styles.space} direction="vertical" size={12}>
+                    <Space className={styles.space} direction="vertical" size={2}>
+                        <Input.TextArea
+                            onChange={(e) => setValue(e.target.value)}
+                            placeholder={placeHolder}
+                            rows={4}
+                            status={isMaximumItemsReached() ? 'error' : undefined}
+                            value={value}
+                        />
+                        {isMaximumItemsReached() && (
+                            <Typography.Text type="danger">{`${get(
+                                dictionary,
+                                'inputLimitError',
+                                'Maximum',
+                            )} ${limitItem} ${get(
+                                dictionary,
+                                'inputLimitErrorText',
+                                'items allowed per upload',
+                            )}`}</Typography.Text>
+                        )}
+                    </Space>
                     <Space>
                         <Upload
                             accept={mimeTypes}
-                            multiple={true}
-                            showUploadList={false}
-                            fileList={fileList}
-                            onChange={(info) => setFileList(info.fileList)}
-                            className={styles.upload}
                             beforeUpload={async (file) => {
                                 const fileContent = await file.text();
                                 setValue(`${value ? value + '\n' : value}${fileContent}`);
                                 return false;
                             }}
+                            className={styles.upload}
+                            fileList={fileList}
+                            multiple={true}
+                            onChange={(info) => setFileList(info.fileList)}
+                            showUploadList={false}
                         >
                             <Button icon={<UploadOutlined />}>
                                 {get(dictionary, 'modalUploadBtnText', 'Upload a File')}
                             </Button>
                         </Upload>
                         {isEmpty(match) ? null : (
-                            <Button type="text" onClick={onClear}>
+                            <Button onClick={onClear} type="text">
                                 {get(dictionary, 'clear', 'Clear')}
                             </Button>
                         )}
                     </Space>
                     <Space direction="vertical" size={0}>
                         {fileList.map((file) => (
-                            <Space key={file.name + file.size} size={5} className={styles.ListItem}>
-                                <PaperClipOutlined className={styles.paperClipIcon} />
-                                {file.name}
+                            <Space className={styles.ListItem} key={file.name + file.size}>
+                                <Typography.Text
+                                    className={
+                                        !isMaximumItemsReached()
+                                            ? `${styles.ListItemText} ${styles.ListItemDefault}`
+                                            : styles.ListItemText
+                                    }
+                                    type={isMaximumItemsReached() ? 'danger' : undefined}
+                                >
+                                    <PaperClipOutlined className={styles.paperClipIcon} />
+                                    {file.name}
+                                </Typography.Text>
                             </Space>
                         ))}
                     </Space>
                 </Space>
             </Space>
-            <Spin spinning={isLoading}>
-                {match && unmatch ? (
-                    <Collapse className={styles.matchUnmatch}>
-                        <CollapsePanel
-                            className={styles.collapsePanel}
-                            key="match-unmatch-ids"
-                            header={
-                                dictionary.collapseTitle
-                                    ? dictionary.collapseTitle(match.length, unmatch.length)
-                                    : defaultRenderCollapseTitle(match.length, unmatch.length)
-                            }
-                        >
-                            <Typography className={styles.tablesMessages}>
-                                {dictionary.tablesMessage
-                                    ? dictionary.tablesMessage(getRawValueList().length, getMatchToCount(match))
-                                    : defaultTablesMessage(getRawValueList().length, getMatchToCount(match))}
-                            </Typography>
-                            {isEmpty(unmatch) ? (
-                                <MatchTable matchItems={match} dictionary={dictionary} />
-                            ) : (
-                                <Tabs size="small" defaultActiveKey="matched" className={styles.tabs}>
-                                    <Tabs.TabPane
-                                        key="matched"
-                                        tab={
-                                            dictionary.matchTabTitle
-                                                ? dictionary.matchTabTitle(match.length)
-                                                : defaultRenderMatchTabTitle(match.length)
-                                        }
-                                    >
-                                        <MatchTable matchItems={match} dictionary={dictionary} />
-                                    </Tabs.TabPane>
-                                    <Tabs.TabPane
-                                        key="unmatched"
-                                        tab={
-                                            dictionary.unmatchTabTitle
-                                                ? dictionary.unmatchTabTitle(unmatch.length)
-                                                : defaultRenderUnmatchTabTitle(unmatch.length)
-                                        }
-                                    >
-                                        <UnmatchTable unmatchItems={unmatch} dictionary={dictionary} />
-                                    </Tabs.TabPane>
-                                </Tabs>
-                            )}
-                        </CollapsePanel>
-                    </Collapse>
-                ) : null}
-            </Spin>
+            {!isMaximumItemsReached() ? (
+                <Spin spinning={isLoading}>
+                    {match && unmatch ? (
+                        <Collapse className={styles.matchUnmatch}>
+                            <CollapsePanel
+                                className={styles.collapsePanel}
+                                header={
+                                    dictionary.collapseTitle
+                                        ? dictionary.collapseTitle(match.length, unmatch.length)
+                                        : defaultRenderCollapseTitle(match.length, unmatch.length)
+                                }
+                                key="match-unmatch-ids"
+                            >
+                                <Typography className={styles.tablesMessages}>
+                                    {dictionary.tablesMessage
+                                        ? dictionary.tablesMessage(getRawValueList().length, getMatchToCount(match))
+                                        : defaultTablesMessage(getRawValueList().length, getMatchToCount(match))}
+                                </Typography>
+                                {isEmpty(unmatch) ? (
+                                    <MatchTable dictionary={dictionary} matchItems={match} />
+                                ) : (
+                                    <Tabs className={styles.tabs} defaultActiveKey="matched" size="small">
+                                        <Tabs.TabPane
+                                            key="matched"
+                                            tab={
+                                                dictionary.matchTabTitle
+                                                    ? dictionary.matchTabTitle(match.length)
+                                                    : defaultRenderMatchTabTitle(match.length)
+                                            }
+                                        >
+                                            <MatchTable dictionary={dictionary} matchItems={match} />
+                                        </Tabs.TabPane>
+                                        <Tabs.TabPane
+                                            key="unmatched"
+                                            tab={
+                                                dictionary.unmatchTabTitle
+                                                    ? dictionary.unmatchTabTitle(unmatch.length)
+                                                    : defaultRenderUnmatchTabTitle(unmatch.length)
+                                            }
+                                        >
+                                            <UnmatchTable dictionary={dictionary} unmatchItems={unmatch} />
+                                        </Tabs.TabPane>
+                                    </Tabs>
+                                )}
+                            </CollapsePanel>
+                        </Collapse>
+                    ) : null}
+                </Spin>
+            ) : null}
         </Modal>
     );
 };

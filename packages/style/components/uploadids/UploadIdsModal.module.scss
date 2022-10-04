@@ -5,11 +5,16 @@
     width: 100%;
     
     .ListItem {
-      color: $file-upload-item-color;
-
       .paperClipIcon {
         font-size: 18px;
         display: flex;
+      }
+      .ListItemText {
+        display: flex;
+        gap: 5px
+      }
+      .ListItemDefault {
+        color: $file-upload-item-color;
       }
     }
   }
