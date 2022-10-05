@@ -128,3 +128,20 @@ WithoutUnit.args = {
     filters: rangeFilters,
     onChange: () => undefined,
 };
+
+export const WithNoDataCheckbox = RangeFilterStory.bind({});
+WithNoDataCheckbox.args = {
+    title: 'RangeFilter With No Data Checkbox',
+    filterGroup: {
+      type: VisualType.Range,
+      field: 'this.field',
+      config: {
+        min: 1,
+        max: 2,
+    },
+      title: 'title_filter_group'
+  },
+    filters: rangeFilters,
+    onChange: () => undefined,
+    noDataInputOption: true
+};

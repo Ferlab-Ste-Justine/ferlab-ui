@@ -1,16 +1,18 @@
-import { v4 } from 'uuid';
 import { useEffect, useState } from 'react';
-import { ISyntheticSqon, MERGE_VALUES_STRATEGIES } from '../../../data/sqon/types';
+import { isEmpty } from 'lodash';
+import { v4 } from 'uuid';
+
 import { BooleanOperators, TermOperators } from '../../../data/sqon/operators';
-import { IQueryBuilderState } from '../types';
-import { IFilter, IFilterGroup } from '../../filters/types';
+import { TSqonGroupOp } from '../../../data/sqon/types';
+import { ISyntheticSqon, MERGE_VALUES_STRATEGIES } from '../../../data/sqon/types';
 import {
     deepMergeFieldInActiveQuery,
     getDefaultSyntheticSqon,
     getUpdatedActiveQueryByFilterGroup,
     removeFieldFromActiveQuery,
 } from '../../../data/sqon/utils';
-import { isEmpty } from 'lodash';
+import { IFilter, IFilterGroup } from '../../filters/types';
+import { IQueryBuilderState } from '../types';
 
 export const QB_UPDATE_EVENT_KEY = 'QBCacheUpdate';
 export const QB_CACHE_KEY_PREFIX = 'query-builder-cache';
@@ -31,8 +33,8 @@ type TQBStateUpdateEvent = Event & {
  * ```
  */
 export const addQuery = ({
-    queryBuilderId,
     query,
+    queryBuilderId,
     setAsActive = false,
 }: {
     queryBuilderId: string;
@@ -84,24 +86,27 @@ export const getActiveQuery = (queryBuilderId: string) => {
  * ```
  */
 export const updateActiveQueryFilters = ({
-    queryBuilderId,
     filterGroup,
-    selectedFilters,
     index,
+    operator,
+    queryBuilderId,
+    selectedFilters,
 }: {
     queryBuilderId: string;
     filterGroup: IFilterGroup;
     selectedFilters: IFilter[];
     index?: string;
-}) =>
+    operator?: TSqonGroupOp;
+}): void =>
     updateQuery({
-        queryBuilderId,
         query: getUpdatedActiveQueryByFilterGroup({
-            queryBuilderId,
             filterGroup,
-            selectedFilters,
             index,
+            operator,
+            queryBuilderId,
+            selectedFilters,
         }),
+        queryBuilderId,
     });
 
 /**
@@ -137,21 +142,21 @@ export const updateActiveQueryField = ({
     overrideValuesName?: string;
 }) =>
     updateQuery({
-        queryBuilderId,
         query: isEmpty(value)
             ? removeFieldFromActiveQuery(queryBuilderId, field)
             : deepMergeFieldInActiveQuery({
-                  queryBuilderId,
                   field,
-                  value,
                   index,
                   merge_strategy,
                   operator,
                   overrideValuesName,
+                  queryBuilderId,
+                  value,
               }),
+        queryBuilderId,
     });
 
-const updateQuery = ({ queryBuilderId, query }: { queryBuilderId: string; query: ISyntheticSqon }) => {
+const updateQuery = ({ query, queryBuilderId }: { queryBuilderId: string; query: ISyntheticSqon }) => {
     const qbState = getQueryBuilderState(queryBuilderId);
     const queryToUpdate = qbState?.state?.find(({ id }) => id === query.id)!;
     queryToUpdate.content = query.content;
@@ -220,10 +225,10 @@ const useQueryBuilderState = (queryBuilderId: string) => {
     }, []);
 
     return {
-        state,
+        activeQuery: getActiveQuery(queryBuilderId),
         activeQueryId: state?.active,
         queryList: state?.state ?? [],
-        activeQuery: getActiveQuery(queryBuilderId),
+        state,
     };
 };
 

@@ -13,6 +13,7 @@ export interface IFilterRangeTypes {
 export interface IFilterRange {
     max: number | undefined;
     min: number | undefined;
+    noDataSelected?: boolean;
     operator?: string;
     rangeType?: string | undefined;
 }

@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Button, InputNumber, Select, Space } from 'antd';
+import { Button, Checkbox, InputNumber, Select, Space } from 'antd';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+import cx from 'classnames';
+import { isNull } from 'lodash';
 import get from 'lodash/get';
 
-import StackLayout from '../../layout/StackLayout';
 import { RangeOperators } from '../../data/sqon/operators';
+import StackLayout from '../../layout/StackLayout';
+
 import BetweenOperatorIcon from './icons/BetweenOperatorIcon';
-import LessThanOperatorIcon from './icons/LessThanOperatorIcon';
-import LessThanOrEqualOperatorIcon from './icons/LessThanOrEqualOperatorIcon';
 import GreaterThanOperatorIcon from './icons/GreaterThanOperatorIcon';
 import GreaterThanOrEqualOperatorIcon from './icons/GreaterThanOrEqualOperatorIcon';
-import { isNull } from 'lodash';
+import LessThanOperatorIcon from './icons/LessThanOperatorIcon';
+import LessThanOrEqualOperatorIcon from './icons/LessThanOrEqualOperatorIcon';
 import {
     IDictionary,
     IFilter,
@@ -30,6 +33,7 @@ export type RangeFilterProps = {
     onChange: onChangeType;
     selectedFilters?: IFilter[];
     dictionary?: IDictionary | Record<string, never>;
+    noDataInputOption?: boolean;
 };
 
 const DEFAULT_STEP = 1;
@@ -40,7 +44,7 @@ const getDefaultOperatorList = (
 ): IRangeOperatorConfig[] => {
     const defaultOperatorList = [
         {
-            operator: RangeOperators['<'],
+            disableMin: true,
             name: (
                 <span className={styles.fuiRfSelectOptionContent}>
                     <LessThanOperatorIcon className={styles.operatorIcon} />
@@ -49,10 +53,10 @@ const getDefaultOperatorList = (
                     </span>
                 </span>
             ),
-            disableMin: true,
+            operator: RangeOperators['<'],
         },
         {
-            operator: RangeOperators['<='],
+            disableMin: true,
             name: (
                 <span className={styles.fuiRfSelectOptionContent}>
                     <LessThanOrEqualOperatorIcon className={styles.operatorIcon} />
@@ -61,10 +65,10 @@ const getDefaultOperatorList = (
                     </span>
                 </span>
             ),
-            disableMin: true,
+            operator: RangeOperators['<='],
         },
         {
-            operator: RangeOperators['>'],
+            disableMax: true,
             name: (
                 <span className={styles.fuiRfSelectOptionContent}>
                     <GreaterThanOperatorIcon className={styles.operatorIcon} />
@@ -73,10 +77,10 @@ const getDefaultOperatorList = (
                     </span>
                 </span>
             ),
-            disableMax: true,
+            operator: RangeOperators['>'],
         },
         {
-            operator: RangeOperators['>='],
+            disableMax: true,
             name: (
                 <span className={styles.fuiRfSelectOptionContent}>
                     <GreaterThanOrEqualOperatorIcon className={styles.operatorIcon} />
@@ -85,10 +89,9 @@ const getDefaultOperatorList = (
                     </span>
                 </span>
             ),
-            disableMax: true,
+            operator: RangeOperators['>='],
         },
         {
-            operator: RangeOperators.between,
             name: (
                 <span className={styles.fuiRfSelectOptionContent}>
                     <BetweenOperatorIcon className={styles.operatorIcon} />
@@ -97,6 +100,7 @@ const getDefaultOperatorList = (
                     </span>
                 </span>
             ),
+            operator: RangeOperators.between,
         },
     ];
 
@@ -107,29 +111,80 @@ const getDefaultOperatorList = (
         : defaultOperatorList;
 };
 
-const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilters }: RangeFilterProps) => {
+type config = {
+    selectedMax?: number;
+    selectedMin?: number;
+    selectedOperator?: RangeOperators;
+    selectedRangeType?: string;
+    noDataSelected?: boolean;
+};
+
+const getConfig = (selectedFilters: IFilter[] | undefined): config => {
+    if (!selectedFilters || selectedFilters?.length === 0) {
+        return {
+            noDataSelected: false,
+        };
+    }
+
+    if (selectedFilters.length > 1) {
+        selectedFilters.find((filter) => filter.data);
+    }
+
+    const selectedMax = get(selectedFilters, '[0].data.max');
+    const selectedMin = get(selectedFilters, '[0].data.min');
+    const selectedOperator = get(selectedFilters, '[0].data.operator');
+    const selectedRangeType = get(selectedFilters, '[0].data.rangeType');
+    const noDataSelected = get(selectedFilters, '[0].data.noDataSelected');
+
+    return {
+        noDataSelected,
+        selectedMax,
+        selectedMin,
+        selectedOperator,
+        selectedRangeType,
+    };
+};
+
+const RangeFilter = ({
+    dictionary,
+    filterGroup,
+    filters,
+    noDataInputOption = true,
+    onChange,
+    selectedFilters,
+}: RangeFilterProps): React.ReactElement | null => {
     const { config: range } = filterGroup;
     const currentFilter: IFilter<IFilterRange> = filters[0];
-    const maxPossibleValue = filterGroup.config?.max || 0;
-    const minPossibleValue = filterGroup.config?.min || 0;
     const rangeTypes = filterGroup.config?.rangeTypes;
     const defaultOperators = getDefaultOperatorList(dictionary, filterGroup.config?.defaultOperator!);
     const operatorsList = range?.operators?.length ? range?.operators : defaultOperators;
-    const selectedMax = get(selectedFilters, '[0].data.max', undefined);
-    const selectedMin = get(selectedFilters, '[0].data.min', undefined);
-    const selectedOperator = get(selectedFilters, '[0].data.operator', operatorsList[0].operator);
-    const selectedRangeType = get(
-        selectedFilters,
-        '[0].data.rangeType',
-        rangeTypes?.length ? rangeTypes[0].key : undefined,
-    );
+
+    const {
+        selectedMax = undefined,
+        selectedMin = undefined,
+        selectedOperator = operatorsList[0].operator,
+        selectedRangeType = rangeTypes?.length ? rangeTypes[0].key : undefined,
+        noDataSelected,
+    } = getConfig(selectedFilters);
+
     const defaultStateValue = {
         max: selectedMax,
         min: selectedMin,
         operator: selectedOperator,
         rangeType: selectedRangeType,
     };
+
+    const defaultNoDataStateValue = {
+        max: undefined,
+        min: undefined,
+        noDataSelected: noDataSelected,
+        operator: 'in',
+        rangeType: selectedRangeType,
+    };
+
     const [rangeFilter, setRangeFilter] = useState<IFilterRange>(defaultStateValue);
+    const [noDataFilter, setNoDataFilter] = useState<IFilterRange>(defaultNoDataStateValue);
+
     const [userCleared, setUserCleared] = useState(false);
     const { max, min, operator, rangeType } = rangeFilter;
     const currentOperator = operatorsList.find((value) => value.operator == operator);
@@ -138,16 +193,22 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
 
     useEffect(() => {
         setRangeFilter(defaultStateValue);
+        setNoDataFilter(defaultNoDataStateValue);
     }, [selectedFilters]);
 
     const hasChanged = () =>
-        validateSelectedValues() &&
-        (selectedMax != rangeFilter.max ||
-            selectedMin != rangeFilter.min ||
-            selectedOperator != rangeFilter.operator ||
-            selectedRangeType != rangeFilter.rangeType);
+        noDataSelected != noDataFilter.noDataSelected ||
+        (validateSelectedValues() &&
+            (selectedMax != rangeFilter.max ||
+                selectedMin != rangeFilter.min ||
+                selectedOperator != rangeFilter.operator ||
+                selectedRangeType != rangeFilter.rangeType));
 
     const validateSelectedValues = () => {
+        if (rangeFilter.noDataSelected) {
+            return true;
+        }
+
         if (!currentOperator?.disableMax && !currentOperator?.disableMin) {
             return rangeFilter.max != undefined && rangeFilter.min != undefined;
         }
@@ -178,13 +239,18 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
     };
 
     const onMinChanged = (value: string | number | undefined) => {
-        let min = typeof value === 'string' ? parseFloat(value) : value;
+        const min = typeof value === 'string' ? parseFloat(value) : value;
         setRangeFilter((prevState) => ({ ...prevState, min }));
     };
 
     const onMaxChanged = (value: string | number | undefined) => {
-        let max = typeof value === 'string' ? parseFloat(value) : value;
+        const max = typeof value === 'string' ? parseFloat(value) : value;
         setRangeFilter((prevState) => ({ ...prevState, max }));
+    };
+
+    const onNoDataChanged = (value: CheckboxChangeEvent) => {
+        const noDataSelected = value.target.checked;
+        setNoDataFilter((prevState) => ({ ...prevState, noDataSelected }));
     };
 
     if (!range) {
@@ -197,12 +263,12 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
     return (
         <StackLayout className={styles.fuiRfContainer} vertical>
             {isNull(filterGroup.config?.min) && isNull(filterGroup.config?.min) ? (
-                <Space direction="vertical" className={styles.noResultsText}>
+                <Space className={styles.noResultsText} direction="vertical">
                     {get(dictionary, 'messages.errorNoData', 'No values found for this request')}
                 </Space>
             ) : (
                 <>
-                    <StackLayout vertical className={styles.fuiRfRangeOperator}>
+                    <StackLayout className={styles.fuiRfRangeOperator} vertical>
                         <Select
                             className={styles.fuiRfRangeOperatorSelect}
                             onChange={onOperatorChanged}
@@ -216,36 +282,36 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                         </Select>
                     </StackLayout>
 
-                    <StackLayout className={styles.fuiRfGroupedValues} horizontal>
-                        <StackLayout vertical className={styles.fuiRfRangeInputContainer}>
+                    <StackLayout className={cx(styles.fuiRfGroupedValues, styles.fuiRfRangeOperator)} horizontal>
+                        <StackLayout className={styles.fuiRfRangeInputContainer} vertical>
                             <span className={styles.fuiRfSectionTitle}>Min.</span>
                             <InputNumber
-                                disabled={isMinDisabled}
-                                step={range.step || DEFAULT_STEP}
                                 className={styles.rangeInput}
+                                disabled={isMinDisabled}
                                 id={`from-${dotField}`}
                                 key={`from-${dotField}`}
                                 max={range.max}
                                 min={range.min}
                                 onChange={onMinChanged}
                                 placeholder={range.min?.toString()}
+                                step={range.step || DEFAULT_STEP}
                                 title={get(dictionary, 'range.min', 'min')}
                                 type="number"
                                 value={isMinDisabled ? range.min : min}
                             />
                         </StackLayout>
-                        <StackLayout vertical className={styles.fuiRfRangeInputContainer}>
+                        <StackLayout className={styles.fuiRfRangeInputContainer} vertical>
                             <span className={styles.fuiRfSectionTitle}>Max.</span>
                             <InputNumber
-                                disabled={isMaxDisabled}
-                                step={range.step || DEFAULT_STEP}
                                 className={styles.rangeInput}
+                                disabled={isMaxDisabled}
                                 id={`to-${dotField}`}
                                 key={`to-${dotField}`}
                                 max={range.max}
                                 min={range.min}
                                 onChange={onMaxChanged}
                                 placeholder={range.max?.toString()}
+                                step={range.step || DEFAULT_STEP}
                                 title={get(dictionary, 'range.max', 'max')}
                                 type="number"
                                 value={isMaxDisabled ? range.max : max}
@@ -254,7 +320,7 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                     </StackLayout>
 
                     {range?.rangeTypes?.length! > 0 && (
-                        <StackLayout vertical className={styles.fuiRfRangeTarget}>
+                        <StackLayout className={styles.fuiRfRangeTarget} vertical>
                             <span className={styles.fuiRfSectionTitle}>{get(dictionary, 'range.unit', 'Unit')}</span>
                             <Select
                                 className={styles.fuiRfRangeTargetSelect}
@@ -269,36 +335,46 @@ const RangeFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilte
                             </Select>
                         </StackLayout>
                     )}
+
+                    {noDataInputOption && (
+                        <StackLayout vertical>
+                            <Checkbox checked={noDataFilter.noDataSelected} onChange={onNoDataChanged}>
+                                {get(dictionary, 'range.nodata', 'No Data')}
+                            </Checkbox>
+                        </StackLayout>
+                    )}
                 </>
             )}
 
             <StackLayout className={styles.fuiRfActions} horizontal>
                 <Button
                     className={styles.fuiRfActionsClear}
-                    size="small"
                     disabled={buttonActionDisabled}
                     onClick={() => {
                         setRangeFilter((prevState) => ({
                             ...prevState,
-                            operator: operatorsList[0].operator,
-                            min: undefined,
                             max: undefined,
+                            min: undefined,
+                            operator: operatorsList[0].operator,
                         }));
                         setUserCleared(true);
                     }}
+                    size="small"
                     type="text"
                 >
                     {get(dictionary, 'actions.none', 'Clear')}
                 </Button>
                 <Button
-                    size="small"
-                    type="primary"
                     className={styles.fuiRfActionsApply}
                     disabled={userCleared ? !userCleared : !hasChanged()}
                     onClick={() => {
-                        onChange(filterGroup, [{ ...currentFilter, data: rangeFilter }]);
+                        const selectedFilters = [{ ...currentFilter, data: rangeFilter }];
+                        selectedFilters.push({ ...currentFilter, data: noDataFilter });
+                        onChange(filterGroup, selectedFilters);
                         setUserCleared(false);
                     }}
+                    size="small"
+                    type="primary"
                 >
                     <span data-key="apply">{get(dictionary, 'actions.apply', 'Apply')}</span>
                 </Button>
