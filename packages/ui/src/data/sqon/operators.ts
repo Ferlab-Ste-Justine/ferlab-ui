@@ -16,6 +16,7 @@ export enum RangeOperators {
     between = 'between',
     '>=' = '>=',
     '<=' = '<=',
+    in = 'in',
 }
 
 export enum TermOperators {
