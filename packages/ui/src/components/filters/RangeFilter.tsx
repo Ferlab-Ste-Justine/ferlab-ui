@@ -339,7 +339,7 @@ const RangeFilter = ({
                     {noDataInputOption && (
                         <StackLayout vertical>
                             <Checkbox checked={noDataFilter.noDataSelected} onChange={onNoDataChanged}>
-                                {get(dictionary, 'range.nodata', 'No Data')}
+                                {get(dictionary, 'range.noData', 'No Data')}
                             </Checkbox>
                         </StackLayout>
                     )}

@@ -92,7 +92,8 @@ export const isBooleanFilter = (query: IValueFilter) =>
  *
  * @param {Boolean}
  */
-export const isRangeFilter = (query: IValueFilter) => query.op in RangeOperators;
+export const isRangeFilter = (query: IValueFilter): boolean =>
+    query.op === RangeOperators.in ? false : query.op in RangeOperators;
 
 /**
  * Generates an empty synthetic sqon

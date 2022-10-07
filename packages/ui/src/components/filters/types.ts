@@ -116,6 +116,7 @@ export interface IRange {
     min: ReactNode;
     unit?: ReactNode;
     is?: ReactNode;
+    noData: ReactNode;
 }
 
 export interface IOperators {
