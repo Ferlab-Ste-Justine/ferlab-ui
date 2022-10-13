@@ -1,7 +1,7 @@
 {
     "scripts": {
         "commit:lint": "commitlint --edit $1",
-        "lint": "eslint $(git diff-index --name-only --diff-filter=d HEAD | grep \"[\\.js|\\.jsx|\\.tsx|\\.ts]$\" | xargs)",
+        "lint": "eslint src",
         "lint:fix": "npm run lint -- --fix",
         "prepare": "npm run theme; husky install",
         "update:config": "npx @ferbab/config"
