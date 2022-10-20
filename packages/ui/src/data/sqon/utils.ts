@@ -361,7 +361,7 @@ export const deepMergeFieldInActiveQuery = ({
     value: Array<string | number | boolean>;
     index?: string;
     merge_strategy?: MERGE_VALUES_STRATEGIES;
-    operator?: TermOperators;
+    operator?: TermOperators | RangeOperators;
     overrideValuesName?: string;
 }) => {
     let newSqon;
