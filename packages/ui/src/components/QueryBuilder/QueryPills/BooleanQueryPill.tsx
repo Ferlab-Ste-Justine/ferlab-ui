@@ -25,7 +25,7 @@ const isNotEnd = (content: any[], index: number) => content.length - 1 > index;
 
 const BooleanQueryPill = (props: IBooleanQueryPillProps) => {
     const newQueryDict: { [content: string]: any } = {};
-    props.query.content.map((f: any) => {
+    props.query.content.forEach((f: any) => {
         if (newQueryDict.hasOwnProperty(f.content.field)) {
             newQueryDict[f.content.field] = cloneDeep(newQueryDict[f.content.field]);
             newQueryDict[f.content.field].content.value = newQueryDict[f.content.field].content.value.concat(
