@@ -1,4 +1,4 @@
-import { FieldOperators, BooleanOperators } from './operators';
+import { BooleanOperators, FieldOperators } from './operators';
 
 export type TFilterValue = Array<string | number | boolean>;
 export interface IValueContent {

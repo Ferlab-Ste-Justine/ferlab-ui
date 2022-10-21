@@ -10,6 +10,7 @@ import {
     VisualType,
 } from '../../components/filters/types';
 import { getActiveQuery } from '../../components/QueryBuilder/utils/useQueryBuilderState';
+import { getSelectedFiltersForRange } from '../filters/Range';
 
 import { BooleanOperators, FieldOperators, RangeOperators, TermOperators } from './operators';
 import {
@@ -238,13 +239,23 @@ export const isIndexReferencedInSqon = (
  * @returns {ISyntheticSqon} The modified synthetic sqon
  */
 export const removeContentFromSqon = (
-    contentToRemove: TSyntheticSqonContentValue,
+    contentToRemove: IValueFilter | number,
     syntheticSqon: ISyntheticSqon | Record<string, never>,
-) => ({
-    ...syntheticSqon,
-    content: syntheticSqon.content.filter((content: TSyntheticSqonContentValue) => content !== contentToRemove),
-    op: syntheticSqon.op,
-});
+): ISyntheticSqon => {
+    const content = syntheticSqon.content as TSyntheticSqonContent;
+    const contentCleaned =
+        typeof contentToRemove === 'number'
+            ? content.filter((c) => c !== contentToRemove)
+            : content.filter(
+                  (c) => typeof c !== 'number' && (c as IValueFilter).content.field !== contentToRemove.content.field,
+              );
+
+    return {
+        ...syntheticSqon,
+        content: contentCleaned,
+        op: syntheticSqon.op,
+    };
+};
 
 export const termToSqon = ({ field, value }: IValueContent) => ({
     content: {
@@ -658,11 +669,6 @@ export const getSelectedFilters = ({
     }
 };
 
-const getSelectedFiltersForRange = (filters: IFilter[], filterGroup: IFilterGroup, selectedFilters: ISyntheticSqon) => {
-    const rangeData = getRangeSelection(selectedFilters, filterGroup);
-    return filters.map((f) => ({ ...f, data: rangeData }));
-};
-
 const getSelectedFiltersOther = (filters: IFilter[], filterGroup: IFilterGroup, selectedFilters: ISyntheticSqon) => {
     const currentFilters = filters as IFilter<IFilterCount>[];
     return currentFilters.reduce<IFilter<IFilterCount>[]>((acc, filter) => {
@@ -671,50 +677,6 @@ const getSelectedFiltersOther = (filters: IFilter[], filterGroup: IFilterGroup, 
         }
         return acc;
     }, []);
-};
-
-export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterGroup): IFilterRange => {
-    let rangeSelection: IFilterRange = { max: undefined, min: undefined, rangeType: undefined };
-    for (const filter of filters.content) {
-        if (isReference(filter)) continue;
-        const filt = filter as IValueFilter;
-        if (filt.content.field !== filterGroup.field) {
-            continue;
-        }
-        switch (filt.op) {
-            case RangeOperators.between:
-                rangeSelection = {
-                    ...rangeSelection,
-                    max: filt.content.value[1] as number,
-                    min: filt.content.value[0] as number,
-                    operator: RangeOperators.between,
-                };
-                break;
-            case RangeOperators['<']:
-            case RangeOperators['<=']:
-                rangeSelection = {
-                    ...rangeSelection,
-                    max: filt.content.value[0] as number,
-                    operator: RangeOperators[filt.op],
-                };
-                break;
-            case RangeOperators['>']:
-            case RangeOperators['>=']:
-                rangeSelection = {
-                    ...rangeSelection,
-                    min: filt.content.value[0] as number,
-                    operator: RangeOperators[filt.op],
-                };
-                break;
-            case RangeOperators['in']:
-                rangeSelection = {
-                    ...rangeSelection,
-                    noDataSelected: !!filt.content.value,
-                };
-        }
-    }
-
-    return rangeSelection;
 };
 
 export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGroup, key: string): boolean => {
