@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 import { v4 } from 'uuid';
 
-import { BooleanOperators, TermOperators } from '../../../data/sqon/operators';
+import { BooleanOperators, RangeOperators, TermOperators } from '../../../data/sqon/operators';
 import { TSqonGroupOp } from '../../../data/sqon/types';
 import { ISyntheticSqon, MERGE_VALUES_STRATEGIES } from '../../../data/sqon/types';
 import {
@@ -137,7 +137,7 @@ export const updateActiveQueryField = ({
     field: string;
     value: Array<string | number | boolean>;
     merge_strategy?: MERGE_VALUES_STRATEGIES;
-    operator?: TermOperators;
+    operator?: TermOperators | RangeOperators;
     index?: string;
     overrideValuesName?: string;
 }) =>
