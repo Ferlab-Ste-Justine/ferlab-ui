@@ -1,5 +1,7 @@
 import { List, Modal } from 'antd';
 import { formatDistance } from 'date-fns';
+import enUS from 'date-fns/locale/en-US';
+import frCa from 'date-fns/locale/fr-CA';
 import React, { Fragment, useContext, useState } from 'react';
 import ListItemWithActions from '../../../List/ListItemWithActions';
 import { QueryBuilderContext } from '../../context';
@@ -8,6 +10,7 @@ import EditFilterModal from './EditFilterModal';
 import { deleteFilterConfirm } from './utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
+import { ConfigContext } from 'antd/lib/config-provider';
 
 interface OwnProps {
     visible: boolean;
@@ -19,6 +22,7 @@ interface OwnProps {
 
 const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFilter, onUpdateFilter }: OwnProps) => {
     const { dictionary } = useContext(QueryBuilderContext);
+    const { locale } = useContext(ConfigContext);
     const [isEditModalVisible, setEditModalVisible] = useState(false);
     const [selectedFilter, setSelectedFilter] = useState<ISavedFilter | undefined>(undefined);
 
@@ -35,7 +39,9 @@ const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFi
         };
 
         if (filterItem.updated_date) {
-            lastSavedAt = formatDistance(new Date(), new Date(filterItem.updated_date));
+            lastSavedAt = formatDistance(new Date(), new Date(filterItem.updated_date), {
+                locale: locale?.locale === 'fr' ? frCa : enUS,
+            });
         }
 
         return (
