@@ -1,4 +1,4 @@
-# [BUG | FEATUER | DOC] [TITLE]
+# [BUG | FEATURE | DOC] [TITLE]
 
 - closes #3242
 
@@ -6,22 +6,19 @@
 
 Acceptance Criterias
 
-## Validation
-
-- [ ] Code Approved
-- [ ] Test Coverage
-- [ ] QA Done
-- [ ] Design/UI Approved from design
-
-## Screenshot (Before and After)
+## Validation de Qualité
 
 
-## QA
+- [ ] Validation du design avec design figma (dev)
+- [ ] QA - Validation des critère de succès (via screenshot)
+- [ ] Design/UI - Validation du respect du design/theme
 
-Steps to validate
-Url (storybook, ...)
-...
+## Screenshot
+### Before
+
+### After
+
 
 ## Mention
+@luclemo @kstonge
 
-@ QA, Design ...

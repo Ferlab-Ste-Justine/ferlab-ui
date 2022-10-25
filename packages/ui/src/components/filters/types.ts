@@ -13,6 +13,7 @@ export interface IFilterRangeTypes {
 export interface IFilterRange {
     max: number | undefined;
     min: number | undefined;
+    noDataSelected?: boolean;
     operator?: string;
     rangeType?: string | undefined;
 }
@@ -115,6 +116,7 @@ export interface IRange {
     min: ReactNode;
     unit?: ReactNode;
     is?: ReactNode;
+    noData: ReactNode;
 }
 
 export interface IOperators {

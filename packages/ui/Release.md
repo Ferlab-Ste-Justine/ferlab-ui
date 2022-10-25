@@ -1,3 +1,9 @@
+### 4.3.0 | 2022-09-29
+- Feat: Add no data checkbox to range filter
+
+### 4.2.0 | 2022-09-29
+- Feat: Add new AnchorMenu component
+
 ### 4.1.1 | 2022-09-26
 - Fix: Fix QueryBuilder save/edit filter modal title
 
@@ -28,7 +34,7 @@
 - Fix: Update combined queries when a referenced query is modified
 
 ### 3.4.8 | 2022-04-19
-- Feat: Handle set 
+- Feat: Handle set
 
 ### 3.4.5 | 2022-04-04
 - Feat: Add new onShareFilter callback

@@ -1,5 +1,6 @@
 import { cloneDeep, isEmpty, isUndefined, merge, union } from 'lodash';
 import { v4 } from 'uuid';
+
 import {
     IFilter,
     IFilterCount,
@@ -9,6 +10,8 @@ import {
     VisualType,
 } from '../../components/filters/types';
 import { getActiveQuery } from '../../components/QueryBuilder/utils/useQueryBuilderState';
+import { getSelectedFiltersForRange } from '../filters/Range';
+
 import { BooleanOperators, FieldOperators, RangeOperators, TermOperators } from './operators';
 import {
     IMergeOptions,
@@ -19,6 +22,7 @@ import {
     MERGE_OPERATOR_STRATEGIES,
     MERGE_VALUES_STRATEGIES,
     SET_ID_PREFIX,
+    TFilterValue,
     TSqonContent,
     TSqonContentValue,
     TSqonGroupOp,
@@ -89,7 +93,8 @@ export const isBooleanFilter = (query: IValueFilter) =>
  *
  * @param {Boolean}
  */
-export const isRangeFilter = (query: IValueFilter) => query.op in RangeOperators;
+export const isRangeFilter = (query: IValueFilter): boolean =>
+    query.op === RangeOperators.in ? false : query.op in RangeOperators;
 
 /**
  * Generates an empty synthetic sqon
@@ -104,9 +109,9 @@ export const generateEmptyQuery = (
 });
 
 export const getDefaultSyntheticSqon = (id: string = v4()): ISyntheticSqon => ({
+    content: [],
     id,
     op: BooleanOperators.and,
-    content: [],
 });
 
 /**
@@ -234,13 +239,23 @@ export const isIndexReferencedInSqon = (
  * @returns {ISyntheticSqon} The modified synthetic sqon
  */
 export const removeContentFromSqon = (
-    contentToRemove: TSyntheticSqonContentValue,
+    contentToRemove: IValueFilter | number,
     syntheticSqon: ISyntheticSqon | Record<string, never>,
-) => ({
-    ...syntheticSqon,
-    content: syntheticSqon.content.filter((content: TSyntheticSqonContentValue) => content !== contentToRemove),
-    op: syntheticSqon.op,
-});
+): ISyntheticSqon => {
+    const content = syntheticSqon.content as TSyntheticSqonContent;
+    const contentCleaned =
+        typeof contentToRemove === 'number'
+            ? content.filter((c) => c !== contentToRemove)
+            : content.filter(
+                  (c) => typeof c !== 'number' && (c as IValueFilter).content.field !== contentToRemove.content.field,
+              );
+
+    return {
+        ...syntheticSqon,
+        content: contentCleaned,
+        op: syntheticSqon.op,
+    };
+};
 
 export const termToSqon = ({ field, value }: IValueContent) => ({
     content: {
@@ -273,8 +288,8 @@ export const deepMergeSqonValue = (sourceSqon: ISyntheticSqon, newSqon: IValueFi
     opts = merge(
         {},
         {
-            values: MERGE_VALUES_STRATEGIES.DEFAULT,
             operator: MERGE_OPERATOR_STRATEGIES.DEFAULT,
+            values: MERGE_VALUES_STRATEGIES.DEFAULT,
         },
         opts,
     );
@@ -291,12 +306,12 @@ export const deepMergeSqonValue = (sourceSqon: ISyntheticSqon, newSqon: IValueFi
 
 /**
   * Recursively traverse the `sourceSqon` and mutate the matching field's value and, optionaly, it's operator.
-  
+
   * @param {Object} sourceSqon - a sqon object to traverse recursively and mutate
   * @param {Object} newSqon - a sqon, that may omit the operator,
   * that provide the field name searched and value to be set
   * @param {Object} opts - options to handle merging the values.
-  * 
+  *
   * @returns `true` if the field was found; `false` otherwise.
   */
 const deeplySetSqonValue = (sourceSqon: ISyntheticSqon, newSqon: IValueFilter, opts: IMergeOptions) => {
@@ -357,7 +372,7 @@ export const deepMergeFieldInActiveQuery = ({
     value: Array<string | number | boolean>;
     index?: string;
     merge_strategy?: MERGE_VALUES_STRATEGIES;
-    operator?: TermOperators;
+    operator?: TermOperators | RangeOperators;
     overrideValuesName?: string;
 }) => {
     let newSqon;
@@ -366,16 +381,16 @@ export const deepMergeFieldInActiveQuery = ({
         content: {
             field,
             index,
-            value,
             overrideValuesName,
+            value,
         },
         op: operator,
     };
 
     if (!isEmpty(activeQuery)) {
         newSqon = deepMergeSqonValue(activeQuery, newSqonContent, {
-            values: merge_strategy,
             operator: MERGE_OPERATOR_STRATEGIES.OVERRIDE_OPERATOR,
+            values: merge_strategy,
         });
     } else {
         newSqon = getDefaultSyntheticSqon();
@@ -396,16 +411,16 @@ export const generateQuery = ({
 }): ISyntheticSqon => {
     if (isEmpty(filters)) {
         return {
-            id: v4(),
             content: newFilters,
+            id: v4(),
             op: operator,
         };
     }
 
     return {
+        content: [...filters!.content, ...newFilters],
         id: filters?.id || v4(),
         op: filters?.op || operator,
-        content: [...filters!.content, ...newFilters],
     };
 };
 
@@ -422,7 +437,7 @@ export const generateValueFilter = ({
     operator?: TermOperators;
     overrideValuesName?: string;
 }) => ({
-    content: { field, value, index, overrideValuesName },
+    content: { field, index, overrideValuesName, value },
     op: operator,
 });
 
@@ -463,19 +478,22 @@ export const removeFieldFromActiveQuery = (queryBuilderId: string, field: string
     removeFieldFromSqon(field, getActiveQuery(queryBuilderId));
 
 export const getUpdatedActiveQueryByFilterGroup = ({
-    queryBuilderId,
     filterGroup,
-    selectedFilters,
     index,
+    operator,
+    queryBuilderId,
+    selectedFilters,
 }: {
     queryBuilderId: string;
     filterGroup: IFilterGroup;
     selectedFilters: IFilter[];
     index?: string;
+    operator?: TSqonGroupOp;
 }): ISyntheticSqon =>
     getUpdatedActiveQuery({
-        queryBuilderId,
         field: filterGroup.field,
+        operator,
+        queryBuilderId,
         sqonContent: createSQONFromFilters(filterGroup, selectedFilters, index),
     });
 
@@ -497,7 +515,8 @@ export const getUpdatedActiveQuery = ({
         const results = getFilterWithNoSelection(activeQuery, field);
 
         const fieldIndex = results[0];
-        const filterWithoutSelection = results[1] as ISyntheticSqon;
+        const initialResults = results[1] as ISyntheticSqon;
+        const filterWithoutSelection = { ...initialResults };
 
         if (isEmpty(filterWithoutSelection.content) && isEmpty(activeQuery)) {
             newQuery = { content: [], op: operator };
@@ -512,6 +531,9 @@ export const getUpdatedActiveQuery = ({
                 ...filterWithoutSelection,
                 content: [...filterWithoutSelection.content],
             };
+            if (initialResults.content.length === 0) {
+                newQuery.op = operator;
+            }
         }
     }
 
@@ -564,51 +586,53 @@ export const createTextFilter = (field: string, filters: IFilter<IFilterText>[],
 
     return [
         {
-            content: { field, value: [selectedTextFilter.data.text], index },
+            content: { field, index, value: [selectedTextFilter.data.text] },
             op: FieldOperators.in,
         },
     ];
 };
 
-export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[], index?: string) => {
-    const selectedFilters: TSqonContent = [];
-    if (filters.length === 0) {
-        return [];
-    }
-
-    const selectedRange = filters[0];
+const tsqonFromRangeFilter = (
+    field: string,
+    selectedRange: IFilter<IFilterRange>,
+    index?: string,
+): TSqonContentValue | null => {
+    const createContentValue = (value: TFilterValue, op: string) => ({
+        content: { field, index, value },
+        op,
+    });
 
     switch (selectedRange.data.operator) {
         case RangeOperators.between:
-            if (!isUndefined(selectedRange.data.min) && !isUndefined(selectedRange.data.max)) {
-                selectedFilters.push({
-                    content: { field, value: [selectedRange.data.min, selectedRange.data.max], index },
-                    op: RangeOperators.between,
-                });
-            }
-            break;
+            return !isUndefined(selectedRange.data.min) && !isUndefined(selectedRange.data.max)
+                ? createContentValue(
+                      [selectedRange.data.min, selectedRange.data.max],
+                      RangeOperators[selectedRange.data.operator],
+                  )
+                : null;
         case RangeOperators['<']:
         case RangeOperators['<=']:
-            if (!isUndefined(selectedRange.data.max)) {
-                selectedFilters.push({
-                    content: { field, value: [selectedRange.data.max], index },
-                    op: RangeOperators[selectedRange.data.operator],
-                });
-            }
-            break;
+            return !isUndefined(selectedRange.data.max)
+                ? createContentValue([selectedRange.data.max], RangeOperators[selectedRange.data.operator])
+                : null;
         case RangeOperators['>']:
         case RangeOperators['>=']:
-            if (!isUndefined(selectedRange.data.min)) {
-                selectedFilters.push({
-                    content: { field, value: [selectedRange.data.min], index },
-                    op: RangeOperators[selectedRange.data.operator],
-                });
-            }
-            break;
+            return !isUndefined(selectedRange.data.min)
+                ? createContentValue([selectedRange.data.min], RangeOperators[selectedRange.data.operator])
+                : null;
+        case RangeOperators['in']:
+            return selectedRange.data.noDataSelected
+                ? createContentValue(['__missing__'], RangeOperators[selectedRange.data.operator])
+                : null;
     }
 
-    return selectedFilters;
+    return null;
 };
+
+export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[], index?: string): TSqonContent =>
+    filters.length === 0
+        ? []
+        : (filters.map((f) => tsqonFromRangeFilter(field, f, index)).filter((f) => f !== null) as TSqonContent);
 
 export const createInlineFilters = (field: string, filters: IFilter<IFilterCount>[], index?: string): TSqonContent => {
     const arrayFilters = filters.map((v) => v.data.key);
@@ -616,7 +640,7 @@ export const createInlineFilters = (field: string, filters: IFilter<IFilterCount
     return arrayFilters.length > 0
         ? [
               {
-                  content: { field, value: arrayFilters, index },
+                  content: { field, index, value: arrayFilters },
                   op: operator,
               },
           ]
@@ -624,9 +648,9 @@ export const createInlineFilters = (field: string, filters: IFilter<IFilterCount
 };
 
 export const getSelectedFilters = ({
-    queryBuilderId,
-    filters,
     filterGroup,
+    filters,
+    queryBuilderId,
 }: {
     queryBuilderId: string;
     filters: IFilter[];
@@ -645,12 +669,6 @@ export const getSelectedFilters = ({
     }
 };
 
-const getSelectedFiltersForRange = (filters: IFilter[], filterGroup: IFilterGroup, selectedFilters: ISyntheticSqon) => {
-    const rangeData = getRangeSelection(selectedFilters, filterGroup);
-    const currentFilter = filters[0] as IFilter<IFilterRange>;
-    return [{ ...currentFilter, data: rangeData }];
-};
-
 const getSelectedFiltersOther = (filters: IFilter[], filterGroup: IFilterGroup, selectedFilters: ISyntheticSqon) => {
     const currentFilters = filters as IFilter<IFilterCount>[];
     return currentFilters.reduce<IFilter<IFilterCount>[]>((acc, filter) => {
@@ -661,49 +679,11 @@ const getSelectedFiltersOther = (filters: IFilter[], filterGroup: IFilterGroup, 
     }, []);
 };
 
-export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterGroup) => {
-    let rangeSelection: IFilterRange = { max: undefined, min: undefined, rangeType: undefined };
-    for (const filter of filters.content) {
-        if (isReference(filter)) continue;
-        const filt = filter as IValueFilter;
-        if (filt.content.field === filterGroup.field) {
-            switch (filt.op) {
-                case RangeOperators.between:
-                    rangeSelection = {
-                        ...rangeSelection,
-                        operator: RangeOperators.between,
-                        max: filt.content.value[1] as number,
-                        min: filt.content.value[0] as number,
-                    };
-                    break;
-                case RangeOperators['<']:
-                case RangeOperators['<=']:
-                    rangeSelection = {
-                        ...rangeSelection,
-                        operator: RangeOperators[filt.op],
-                        max: filt.content.value[0] as number,
-                    };
-                    break;
-                case RangeOperators['>']:
-                case RangeOperators['>=']:
-                    rangeSelection = {
-                        ...rangeSelection,
-                        operator: RangeOperators[filt.op],
-                        min: filt.content.value[0] as number,
-                    };
-                    break;
-            }
-        }
-    }
-
-    return rangeSelection;
-};
-
 export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGroup, key: string): boolean => {
     if (isReference(filters)) {
         return false;
     } else if (isFieldOperator(filters)) {
-        const valueContent = (filters.content as unknown) as IValueContent;
+        const valueContent = filters.content as unknown as IValueContent;
         return valueContent.value.includes(key) && valueContent.field === filterGroup.field;
     } else {
         return filters.content.reduce(

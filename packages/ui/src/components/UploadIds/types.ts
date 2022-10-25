@@ -12,6 +12,8 @@ export interface UploadIdDictionary {
     modalCancelText?: ReactNode;
     modalUploadBtnText?: ReactNode;
     inputLabel?: ReactNode;
+    inputLimitError?: ReactNode;
+    inputLimitErrorText?: ReactNode;
     mappedTo?: string;
     uploadBtnText: string;
     clear?: string;

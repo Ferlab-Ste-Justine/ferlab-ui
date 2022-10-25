@@ -1,0 +1,44 @@
+@import "theme.template";
+
+.anchorMenu {
+  max-width: 180px;
+  margin: 24px;
+
+  *[class$="-anchor-ink-ball visible"] {
+    display: none;
+  }
+
+  *[class$="-anchor-ink"] {
+    z-index: -9;
+    top: inherit;
+    left: inherit;
+  }
+
+  *[class$="-anchor-link"] {
+    padding: 0 16px;
+    margin-bottom: 4px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    border-left: 2px solid transparent;
+    transition: all .1s ease;
+  }
+
+  *[class$="-anchor-link-active"] {
+    padding: 0 16px;
+    margin-bottom: 4px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    border-left: 2px solid $blue-8;
+    z-index: 9;
+  }
+
+  *[class$="-anchor-link-title"] {
+    font-size: 12px;
+  }
+
+  *[class$="-anchor-link-title-active"] {
+    font-size: 12px;
+  }
+}
