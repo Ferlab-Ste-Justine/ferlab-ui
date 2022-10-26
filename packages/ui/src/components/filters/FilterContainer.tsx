@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { SearchOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, SearchOutlined } from '@ant-design/icons';
+import { Tooltip } from 'antd';
 import cx from 'classnames';
+
 import StackLayout from '../../layout/StackLayout';
-import FilterSelector from './FilterSelector';
+import Collapse, { CollapsePanel, TCollapseProps } from '../Collapse';
+
 import CheckedIcon from './icons/CheckedIcon';
+import FilterSelector from './FilterSelector';
 import {
     IDictionary,
     IFilter,
@@ -13,7 +17,6 @@ import {
     onSearchVisibleChange,
     VisualType,
 } from './types';
-import Collapse, { CollapsePanel, TCollapseProps } from '../Collapse';
 
 import styles from '@ferlab/style/components/filters/FilterContainer.module.scss';
 
@@ -34,13 +37,27 @@ type FilterContainerProps = {
 
 type FilterContainerHeaderProps = {
     title: string | React.ReactNode;
+    tooltip?: string;
     hasFilters?: boolean;
 };
 
-const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({ title, hasFilters = false }) => (
+const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({ hasFilters = false, title, tooltip }) => (
     <StackLayout className={styles.filtersContainerHeader}>
         <div className={styles.titleContainer}>
-            <span className={styles.title}>{title}</span>
+            {tooltip ? (
+                <Tooltip title={tooltip}>
+                    <span
+                        className={styles.title}
+                        style={{
+                            borderBottom: '1px dotted',
+                        }}
+                    >
+                        {title}
+                    </span>
+                </Tooltip>
+            ) : (
+                <span className={styles.title}>{title}</span>
+            )}
             {hasFilters && <CheckedIcon className={styles.hasFilterIcon}></CheckedIcon>}
         </div>
     </StackLayout>
@@ -80,9 +97,9 @@ const FilterContainer = ({
         <div className={cx(styles.filterContainer, className)}>
             <Collapse
                 {...collapseProps}
-                defaultActiveKey={collapseOpen ? filterGroup.field : undefined}
                 activeKey={collapseOpen ? filterGroup.field : undefined}
                 className={cx(styles.filterContainerCollapse, collapseProps?.className)}
+                defaultActiveKey={collapseOpen ? filterGroup.field : undefined}
                 onChange={(panels) => {
                     if (onIsOpenChange) onIsOpenChange(panels.length !== 0);
                     setCollapseOpen(panels.length !== 0);
@@ -91,8 +108,6 @@ const FilterContainer = ({
             >
                 <CollapsePanel
                     className={styles.filterContainerContent}
-                    header={<FilterContainerHeader title={filterGroup.title} />}
-                    key={filterGroup.field}
                     extra={
                         hasSearchEnabled() && collapseOpen
                             ? [
@@ -108,6 +123,8 @@ const FilterContainer = ({
                               ]
                             : []
                     }
+                    header={<FilterContainerHeader title={filterGroup.title} tooltip={filterGroup.headerTooltip} />}
+                    key={filterGroup.field}
                 >
                     {customContent ? (
                         customContent

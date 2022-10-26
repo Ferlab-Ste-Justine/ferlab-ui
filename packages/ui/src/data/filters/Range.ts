@@ -4,6 +4,7 @@ import {
     IFilterGroup,
     IFilterRange,
     IFilterText,
+    IRangeAggs,
     VisualType,
 } from '../../components/filters/types';
 import { BooleanOperators, FieldOperators, RangeOperators, TermOperators } from '../sqon/operators';
@@ -77,3 +78,5 @@ export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterG
 
     return rangeSelection;
 };
+
+export const isRangeAgg = (obj: IRangeAggs) => !!obj.stats;
