@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+
 import { RangeOperators, TermOperators } from '../../data/sqon/operators';
 
 export type onChangeType = (fg: IFilterGroup, f: IFilter[]) => void;
@@ -63,6 +64,7 @@ export interface IFilterGroup<T extends TFilterGroupConfig = any> {
     config?: T;
     title: ReactNode;
     type: VisualType;
+    headerTooltip?: string;
 }
 
 export interface IFilterCount {
@@ -92,6 +94,10 @@ export interface IDictionary {
     checkBox?: ICheckBox;
     range?: IRange;
     operators?: IOperators;
+}
+
+export interface IFacetDictionary {
+    [key: string]: any;
 }
 
 export interface IActions {
@@ -128,4 +134,20 @@ export interface IOperators {
     allOf?: ReactNode;
     anyOf?: ReactNode;
     noneOf?: ReactNode;
+}
+
+export type TExtendedMapping = {
+    active: boolean;
+    displayName: string;
+    isArray: boolean;
+    type: string;
+    field: string;
+    rangeStep?: number;
+};
+
+export interface IRangeAggs {
+    stats: {
+        max: number;
+        min: number;
+    };
 }

@@ -1,10 +1,13 @@
-import qs from 'query-string';
-import get from 'lodash/get';
 import { isEmpty } from 'lodash';
-import { IFilter, IFilterGroup, VisualType } from '../../components/filters/types';
+import get from 'lodash/get';
+import qs from 'query-string';
+
+import { IFacetDictionary, IFilter, IFilterGroup, TExtendedMapping, VisualType } from '../../components/filters/types';
+import { BooleanOperators } from '../sqon/operators';
 import { ISyntheticSqon, TSqonGroupOp, TSyntheticSqonContent } from '../sqon/types';
 import { createSQONFromFilters, isReference } from '../sqon/utils';
-import { BooleanOperators } from '../sqon/operators';
+
+import { isRangeAgg } from './Range';
 
 export const getQueryParams = (search: string | null = null) =>
     search ? qs.parse(search) : qs.parse(window.location.search);
@@ -120,8 +123,8 @@ export const readQueryParam = <T = ''>(key: string, options: IValues<T>, search:
 };
 
 /** @deprecated */
-export const useFilters = (filterKey: string = 'filters') => {
-    var filters = { filters: { content: [], op: BooleanOperators.and } };
+export const useFilters = (filterKey = 'filters') => {
+    let filters = { filters: { content: [], op: BooleanOperators.and } };
     const searchParams = new URLSearchParams(window.location.search);
 
     if (searchParams.has(filterKey) && searchParams.get(filterKey)) {
@@ -153,10 +156,10 @@ export const getQueryBuilderCache = (type: string): any => {
             state: state.map((queryState: any) => {
                 if (queryState.query) {
                     return {
-                        id: queryState.id,
-                        total: queryState.total,
                         content: [],
+                        id: queryState.id,
                         op: BooleanOperators.and,
+                        total: queryState.total,
                         ...queryState.query,
                     };
                 } else {
@@ -189,4 +192,45 @@ export const createQueryParams = (queryParams: IQueryParams): string => {
     }
 
     return `?${qs.stringify(query)}`;
+};
+
+export const getFilterGroup = (
+    extendedMapping: TExtendedMapping | undefined,
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    aggregation: any,
+    rangeTypes: string[],
+    filterFooter: boolean,
+    headerTooltip?: boolean,
+    dictionary?: IFacetDictionary,
+): IFilterGroup => {
+    if (isRangeAgg(aggregation)) {
+        return {
+            config: {
+                max: aggregation.stats.max,
+                min: aggregation.stats.min,
+                rangeTypes: rangeTypes.map((r) => ({
+                    key: r,
+                    name: r,
+                })),
+            },
+            field: extendedMapping?.field || '',
+            headerTooltip: headerTooltip
+                ? get(dictionary, `tooltips.${extendedMapping?.field}`, extendedMapping?.displayName || '')
+                : undefined,
+            title: get(dictionary, `${extendedMapping?.field}`, extendedMapping?.displayName || ''),
+            type: getFilterType(extendedMapping?.type || ''),
+        };
+    }
+
+    return {
+        config: {
+            withFooter: filterFooter,
+        },
+        field: extendedMapping?.field || '',
+        headerTooltip: headerTooltip
+            ? get(dictionary, `tooltips.${extendedMapping?.field}`, extendedMapping?.displayName || '')
+            : undefined,
+        title: get(dictionary, `${extendedMapping?.field}`, extendedMapping?.displayName || ''),
+        type: getFilterType(extendedMapping?.type || ''),
+    };
 };
