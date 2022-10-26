@@ -96,9 +96,9 @@ export interface IDictionary {
     operators?: IOperators;
 }
 
-export interface IFacetDictionary {
+export type IFacetDictionary = {
     [key: string]: any;
-}
+};
 
 export interface IActions {
     all: ReactNode;
@@ -145,9 +145,9 @@ export type TExtendedMapping = {
     rangeStep?: number;
 };
 
-export interface IRangeAggs {
+export type IRangeAggs = {
     stats: {
         max: number;
         min: number;
     };
-}
+};
