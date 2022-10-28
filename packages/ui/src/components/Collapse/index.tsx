@@ -1,19 +1,14 @@
-import { Collapse as AntCollapse, CollapseProps, CollapsePanelProps } from 'antd';
-import cx from 'classnames';
 import React from 'react';
-import {
-    CaretDownOutlined,
-    CaretRightOutlined,
-    DownOutlined,
-    RightOutlined,
-} from '@ant-design/icons';
+import { CaretDownOutlined, CaretRightOutlined, DownOutlined, RightOutlined } from '@ant-design/icons';
+import { Collapse as AntCollapse, CollapsePanelProps, CollapseProps } from 'antd';
+import cx from 'classnames';
 import { isUndefined } from 'lodash';
 
 import styles from '@ferlab/style/components/collapse/Collapse.module.scss';
 
 export type TCollapseProps = CollapseProps & {
     children?: React.ReactNode;
-    size?: 'large' | 'default' | 'small';
+    size?: 'large' | 'default' | 'small';
     theme?: 'shade' | 'light';
     arrowIcon?: 'caretOutlined' | 'caretFilled';
     headerBorderOnly?: boolean;
@@ -24,14 +19,22 @@ export type TCollapsePanelProps = CollapsePanelProps & {
 };
 
 const Collapse = ({
-    size = 'default',
-    theme = 'light',
     arrowIcon = 'caretOutlined',
     headerBorderOnly = false,
+    size = 'default',
+    theme = 'light',
     ...rest
 }: TCollapseProps) => (
     <AntCollapse
         {...rest}
+        bordered={isUndefined(rest.bordered) ? !headerBorderOnly : rest.bordered && !headerBorderOnly}
+        className={cx(
+            styles.fuiCollapse,
+            styles[size],
+            styles[theme],
+            headerBorderOnly ? styles.headerBorderOnly : '',
+            rest.className,
+        )}
         expandIcon={
             rest.expandIcon ??
             (({ isActive }) =>
@@ -47,14 +50,6 @@ const Collapse = ({
                     <CaretRightOutlined />
                 ))
         }
-        bordered={isUndefined(rest.bordered) ? !headerBorderOnly : rest.bordered && !headerBorderOnly}
-        className={cx(
-            styles.fuiCollapse,
-            styles[size],
-            styles[theme],
-            headerBorderOnly ? styles.headerBorderOnly : '',
-            rest.className,
-        )}
     />
 );
 
