@@ -1,6 +1,28 @@
-import { TableProps } from 'antd';
-import { ColumnType } from 'antd/lib/table';
 import React, { ReactNode } from 'react';
+import { TableProps } from 'antd';
+import { ColumnType, TablePaginationConfig } from 'antd/lib/table';
+
+import { IQueryConfig, ISearchAfter, TQueryConfigCb } from '../../graphql/types';
+
+import { PaginationViewPerQuery } from './Pagination/constants';
+
+export enum PaginationDirection {
+    Previous = 'previous',
+    Next = 'next',
+}
+
+export interface IPaginationProps {
+    current: number;
+    setQueryConfig: TQueryConfigCb;
+    queryConfig: IQueryConfig;
+    defaultViewPerQuery?: PaginationViewPerQuery;
+    searchAfter?: ISearchAfter;
+    onPageChange: () => void;
+    onShowSizeChange: () => void;
+    onChange: (page: number, pageSize: number) => void;
+    total: number;
+    dictionary?: IProTableDictionary;
+}
 
 export interface IProTableDictionary {
     itemCount?: {
@@ -21,6 +43,12 @@ export interface IProTableDictionary {
             columns: React.ReactNode;
         };
     };
+    pagination?: {
+        first: string;
+        previous: string;
+        next: string;
+        view: string;
+    };
     numberFormat?: (value: number) => React.ReactNode;
 }
 
@@ -33,11 +61,12 @@ export interface ProColumnType<T = any> extends ColumnType<T> {
     defaultHidden?: boolean;
 }
 
-export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns'> & {
+export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns' | 'pagination'> & {
     tableId: string;
     headerConfig: THeaderConfig<RecordType>;
     wrapperClassName?: string;
     columns: ProColumnType<RecordType>[];
+    pagination?: IPaginationProps | TablePaginationConfig;
     initialColumnState?: TColumnStates;
     initialSelectedKey?: any[];
     dictionary?: IProTableDictionary;
