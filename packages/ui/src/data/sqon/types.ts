@@ -19,6 +19,7 @@ export type TSqonContentValue = ISqonGroupFilter | IValueFilter;
 export type TSqonContent = Array<TSqonContentValue>;
 export interface ISqonGroupFilter {
     op: TSqonGroupOp;
+    skipBooleanOperatorCheck?: boolean;
     content: TSqonContent;
 }
 

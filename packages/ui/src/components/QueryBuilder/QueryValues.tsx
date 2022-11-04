@@ -4,9 +4,9 @@ import { get } from 'lodash';
 import take from 'lodash/take';
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
-import { keyEnhance } from '../../data/arranger/formatting';
+import { ArrangerValues, keyEnhance } from '../../data/arranger/formatting';
 import { FieldOperators } from '../../data/sqon/operators';
-import { IValueFilter } from '../../data/sqon/types';
+import { IValueFilter, TFilterValue } from '../../data/sqon/types';
 import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
 import IntersectionOperator from './icons/IntersectionOperator';
@@ -37,6 +37,14 @@ const QueryValues = ({ isElement = false, valueFilter, onClick }: IQueryValuesPr
 
         const facetMapping = get(get(dictionary.query, 'facetValueMapping', {}), valueFilter.content.field, {});
         return removeUnderscoreAndCapitalize(value in facetMapping ? facetMapping[value] : value);
+    };
+
+    const getElementOfValueString = (values: TFilterValue) => {
+        const hasValueMissing = values.some((val) => val === ArrangerValues.missing);
+
+        return `[${values.filter((val) => val !== ArrangerValues.missing).join(' , ')}]${
+            hasValueMissing ? ` , ${getValueName(keyEnhance(ArrangerValues.missing))}` : ''
+        }`;
     };
 
     useEffect(() => {
@@ -82,7 +90,7 @@ const QueryValues = ({ isElement = false, valueFilter, onClick }: IQueryValuesPr
                 </ConditionalWrapper>
             ) : (
                 <div className={styles.valueWrapper}>
-                    <span className={styles.value}>[{values.join(',')}]</span>
+                    <span className={styles.value}>{getElementOfValueString(values)}</span>
                 </div>
             )}
             {hasMoreValues &&

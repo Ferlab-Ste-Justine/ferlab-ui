@@ -7,9 +7,10 @@ import {
     IFilterGroup,
     IFilterRange,
     IFilterText,
-    VisualType,
+    VisualType
 } from '../../components/filters/types';
 import { getActiveQuery } from '../../components/QueryBuilder/utils/useQueryBuilderState';
+import { ArrangerValues } from '../arranger/formatting';
 import { getSelectedFiltersForRange } from '../filters/Range';
 
 import { BooleanOperators, FieldOperators, RangeOperators, TermOperators } from './operators';
@@ -27,7 +28,7 @@ import {
     TSqonContentValue,
     TSqonGroupOp,
     TSyntheticSqonContent,
-    TSyntheticSqonContentValue,
+    TSyntheticSqonContentValue
 } from './types';
 
 /**
@@ -57,8 +58,9 @@ export const isNotReference = (sqon: any) => isNaN(sqon);
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
 export const isSet = (value: IValueFilter) =>
-    value.content.value.some((value) => value.toString().startsWith(SET_ID_PREFIX)) ||
-    !isEmpty(value.content.overrideValuesName);
+    value.content.value &&
+    (value.content.value.some((value) => value.toString().startsWith(SET_ID_PREFIX)) ||
+        !isEmpty(value.content.overrideValuesName));
 
 export const isNotSet = (value: IValueFilter) => !isSet(value);
 
@@ -205,7 +207,9 @@ export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSq
 export const changeCombineOperator = (operator: TSqonGroupOp, syntheticSqon: ISyntheticSqon): ISyntheticSqon => ({
     ...syntheticSqon,
     content: syntheticSqon.content.map((subContent: TSyntheticSqonContentValue) =>
-        isBooleanOperator(subContent) ? changeCombineOperator(operator, subContent as ISyntheticSqon) : subContent,
+        isBooleanOperator(subContent) && !(subContent as ISqonGroupFilter).skipBooleanOperatorCheck
+            ? changeCombineOperator(operator, subContent as ISyntheticSqon)
+            : subContent,
     ) as TSyntheticSqonContent,
     op: operator,
 });
@@ -239,16 +243,24 @@ export const isIndexReferencedInSqon = (
  * @returns {ISyntheticSqon} The modified synthetic sqon
  */
 export const removeContentFromSqon = (
-    contentToRemove: IValueFilter | number,
+    indexOrField: string | number,
     syntheticSqon: ISyntheticSqon | Record<string, never>,
 ): ISyntheticSqon => {
     const content = syntheticSqon.content as TSyntheticSqonContent;
     const contentCleaned =
-        typeof contentToRemove === 'number'
-            ? content.filter((c) => c !== contentToRemove)
-            : content.filter(
-                  (c) => typeof c !== 'number' && (c as IValueFilter).content.field !== contentToRemove.content.field,
-              );
+        typeof indexOrField === 'number'
+            ? content.filter((c) => c !== indexOrField)
+            : content.filter((c) => {
+                  const contentAsSqonGroupFilter = c as ISqonGroupFilter;
+                  const skipBooleanOperatorCheck = contentAsSqonGroupFilter.skipBooleanOperatorCheck;
+                  const isValueContentToDelete =
+                      skipBooleanOperatorCheck &&
+                      (contentAsSqonGroupFilter.content[0].content as IValueContent).field !== indexOrField;
+                  const isValueFilterToDelete =
+                      typeof c !== 'number' && (c as IValueFilter).content.field !== indexOrField;
+
+                  return skipBooleanOperatorCheck ? isValueContentToDelete : isValueFilterToDelete;
+              });
 
     return {
         ...syntheticSqon,
@@ -513,7 +525,6 @@ export const getUpdatedActiveQuery = ({
 
     if (!isEmpty(activeQuery)) {
         const results = getFilterWithNoSelection(activeQuery, field);
-
         const fieldIndex = results[0];
         const initialResults = results[1] as ISyntheticSqon;
         const filterWithoutSelection = { ...initialResults };
@@ -531,6 +542,7 @@ export const getUpdatedActiveQuery = ({
                 ...filterWithoutSelection,
                 content: [...filterWithoutSelection.content],
             };
+
             if (initialResults.content.length === 0) {
                 newQuery.op = operator;
             }
@@ -547,10 +559,17 @@ const getFilterWithNoSelection = (filters: ISyntheticSqon, field: string) => {
             return true;
         }
 
-        if (filter.content.field == field) {
+        const filterAsSqonGroupFilter = filter as ISqonGroupFilter;
+        const skipBooleanOperatorCheck = filterAsSqonGroupFilter.skipBooleanOperatorCheck;
+        const skipBooleanOperatorCheckField =
+            skipBooleanOperatorCheck &&
+            filterAsSqonGroupFilter.content.find((f) => (f.content as IValueContent).field === field);
+
+        if (skipBooleanOperatorCheckField || filter.content.field == field) {
             fieldIndex = index;
         }
-        return filter.content.field !== field;
+
+        return skipBooleanOperatorCheck ? !skipBooleanOperatorCheckField : filter.content.field !== field;
     });
 
     return [
@@ -597,10 +616,36 @@ const tsqonFromRangeFilter = (
     selectedRange: IFilter<IFilterRange>,
     index?: string,
 ): TSqonContentValue | null => {
-    const createContentValue = (value: TFilterValue, op: string) => ({
-        content: { field, index, value },
-        op,
-    });
+    const noDataFilterContent = {
+        content: { field, index, value: [ArrangerValues.missing] },
+        op: RangeOperators.in,
+    };
+
+    const isEmptyRangeValue = isUndefined(selectedRange.data.min) && isUndefined(selectedRange.data.max);
+
+    const createContentValue = (value: TFilterValue, op: string): TSqonContentValue => {
+        if (selectedRange.data.noDataSelected) {
+            return {
+                content: [
+                    {
+                        content: { field, index, value },
+                        op,
+                    },
+                    noDataFilterContent,
+                ],
+                skipBooleanOperatorCheck: true,
+                op: BooleanOperators.or,
+            };
+        }
+        return {
+            content: { field, index, value },
+            op,
+        };
+    };
+
+    if (isEmptyRangeValue) {
+        return selectedRange.data.noDataSelected ? noDataFilterContent : null;
+    }
 
     switch (selectedRange.data.operator) {
         case RangeOperators.between:
@@ -619,10 +664,6 @@ const tsqonFromRangeFilter = (
         case RangeOperators['>=']:
             return !isUndefined(selectedRange.data.min)
                 ? createContentValue([selectedRange.data.min], RangeOperators[selectedRange.data.operator])
-                : null;
-        case RangeOperators['in']:
-            return selectedRange.data.noDataSelected
-                ? createContentValue(['__missing__'], RangeOperators[selectedRange.data.operator])
                 : null;
     }
 
