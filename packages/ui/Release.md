@@ -1,3 +1,6 @@
+### 4.5.2 | 2022-11-04
+- Fix: Fix no data checkbox to range filter
+
 ### 4.3.0 | 2022-09-29
 - Feat: Add no data checkbox to range filter
 
