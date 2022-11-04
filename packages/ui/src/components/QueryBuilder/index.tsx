@@ -382,8 +382,8 @@ const QueryBuilder = ({
                                 onDuplicate={(_, query) =>
                                     addNewQuery(v4(), query.op as BooleanOperators, query.content)
                                 }
-                                onRemoveFacet={(filter, query) => {
-                                    updateQueryById(query.id!, removeContentFromSqon(filter, query));
+                                onRemoveFacet={(field, query) => {
+                                    updateQueryById(query.id!, removeContentFromSqon(field, query));
                                 }}
                                 onRemoveReference={(refIndex, query) => {
                                     updateQueryById(query.id!, removeContentFromSqon(refIndex, query));

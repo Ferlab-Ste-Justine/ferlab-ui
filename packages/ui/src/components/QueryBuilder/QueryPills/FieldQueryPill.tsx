@@ -92,7 +92,6 @@ const FieldQueryPill = ({ valueFilter, onRemove, isBarActive }: IFieldQueryPillP
                     <Operator className={styles.operator} type={valueFilter.op} />
                 </Fragment>
             )}
-
             <ConditionalWrapper
                 condition={isFacetFilterEnableForField()}
                 wrapper={(children) => (

@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import { RangeOperators, TermOperators } from '../../data/sqon/operators';
 
-export type onChangeType = (fg: IFilterGroup, f: IFilter[]) => void;
+export type onChangeType<IFilterType extends TFilterData = any> = (fg: IFilterGroup, f: IFilter<IFilterType>[]) => void;
 export type onIsOpenChange = (isOpen: boolean) => void;
 export type onSearchVisibleChange = (isVisible: boolean) => void;
 
@@ -15,7 +15,7 @@ export interface IFilterRange {
     max: number | undefined;
     min: number | undefined;
     noDataSelected?: boolean;
-    operator?: string;
+    operator: RangeOperators;
     rangeType?: string | undefined;
 }
 

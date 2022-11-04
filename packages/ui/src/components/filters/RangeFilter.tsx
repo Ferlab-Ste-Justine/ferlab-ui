@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, InputNumber, Select, Space } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import cx from 'classnames';
 import { isNull } from 'lodash';
 import get from 'lodash/get';
-
+import React, { useEffect, useState } from 'react';
 import { RangeOperators } from '../../data/sqon/operators';
 import StackLayout from '../../layout/StackLayout';
-
 import BetweenOperatorIcon from './icons/BetweenOperatorIcon';
 import GreaterThanOperatorIcon from './icons/GreaterThanOperatorIcon';
 import GreaterThanOrEqualOperatorIcon from './icons/GreaterThanOrEqualOperatorIcon';
@@ -20,7 +18,7 @@ import {
     IFilterRange,
     IFilterRangeConfig,
     IRangeOperatorConfig,
-    onChangeType,
+    onChangeType
 } from './types';
 
 import styles from '@ferlab/style/components/filters/RangeFilter.module.scss';
@@ -30,7 +28,7 @@ const { Option } = Select;
 export type RangeFilterProps = {
     filters: IFilter<IFilterRange>[];
     filterGroup: IFilterGroup<IFilterRangeConfig>;
-    onChange: onChangeType;
+    onChange: onChangeType<IFilterRange>;
     selectedFilters?: IFilter[];
     dictionary?: IDictionary | Record<string, never>;
     noDataInputOption?: boolean;
@@ -164,7 +162,7 @@ const RangeFilter = ({
         selectedMin = undefined,
         selectedOperator = operatorsList[0].operator,
         selectedRangeType = rangeTypes?.length ? rangeTypes[0].key : undefined,
-        noDataSelected,
+        noDataSelected = false,
     } = getConfig(selectedFilters);
 
     const defaultStateValue = {
@@ -172,53 +170,40 @@ const RangeFilter = ({
         min: selectedMin,
         operator: selectedOperator,
         rangeType: selectedRangeType,
+        noDataSelected,
     };
 
-    const defaultNoDataStateValue = {
-        max: undefined,
-        min: undefined,
-        noDataSelected: noDataSelected,
-        operator: 'in',
-        rangeType: selectedRangeType,
-    };
+    const getValidOperator = (operator: RangeOperators) =>
+        operator === RangeOperators.in ? operatorsList[0].operator : operator;
 
     const [rangeFilter, setRangeFilter] = useState<IFilterRange>(defaultStateValue);
-    const [noDataFilter, setNoDataFilter] = useState<IFilterRange>(defaultNoDataStateValue);
-
+    const [checkNoData, setCheckNoData] = useState(noDataSelected);
     const [userCleared, setUserCleared] = useState(false);
-    const { max, min, operator, rangeType } = rangeFilter;
+    const { max, min, operator, rangeType } = {
+        ...rangeFilter,
+        operator: getValidOperator(rangeFilter.operator),
+    };
+
     const currentOperator = operatorsList.find((value) => value.operator == operator);
     const isMaxDisabled = currentOperator?.disableMax;
     const isMinDisabled = currentOperator?.disableMin;
 
     useEffect(() => {
         setRangeFilter(defaultStateValue);
-        setNoDataFilter(defaultNoDataStateValue);
+        setCheckNoData(defaultStateValue.noDataSelected);
     }, [selectedFilters]);
 
     const hasChanged = () =>
-        noDataSelected != noDataFilter.noDataSelected ||
+        checkNoData != rangeFilter.noDataSelected ||
         (validateSelectedValues() &&
-            (selectedMax != rangeFilter.max ||
-                selectedMin != rangeFilter.min ||
-                selectedOperator != rangeFilter.operator ||
-                selectedRangeType != rangeFilter.rangeType));
+            (selectedMax != max ||
+                selectedMin != min ||
+                selectedOperator != operator ||
+                selectedRangeType != rangeType));
 
     const validateSelectedValues = () => {
-        if (rangeFilter.noDataSelected) {
-            return true;
-        }
-
         if (!currentOperator?.disableMax && !currentOperator?.disableMin) {
-            return rangeFilter.max != undefined && rangeFilter.min != undefined;
-        }
-
-        if (currentOperator.disableMax) {
-            return rangeFilter.min != undefined;
-        }
-
-        if (currentOperator.disableMin) {
-            return rangeFilter.max != undefined;
+            return max != undefined && min != undefined;
         }
 
         return true;
@@ -231,7 +216,7 @@ const RangeFilter = ({
         }));
     };
 
-    const onOperatorChanged = (value: string) => {
+    const onOperatorChanged = (value: RangeOperators) => {
         setRangeFilter((prevState) => ({
             ...prevState,
             operator: value,
@@ -240,17 +225,17 @@ const RangeFilter = ({
 
     const onMinChanged = (value: string | number | undefined) => {
         const min = typeof value === 'string' ? parseFloat(value) : value;
-        setRangeFilter((prevState) => ({ ...prevState, min }));
+        setRangeFilter((prevState) => ({ ...prevState, min: min ? min : undefined }));
     };
 
     const onMaxChanged = (value: string | number | undefined) => {
         const max = typeof value === 'string' ? parseFloat(value) : value;
-        setRangeFilter((prevState) => ({ ...prevState, max }));
+        setRangeFilter((prevState) => ({ ...prevState, max: max ? max : undefined }));
     };
 
     const onNoDataChanged = (value: CheckboxChangeEvent) => {
         const noDataSelected = value.target.checked;
-        setNoDataFilter((prevState) => ({ ...prevState, noDataSelected }));
+        setCheckNoData(noDataSelected);
     };
 
     if (!range) {
@@ -338,7 +323,7 @@ const RangeFilter = ({
 
                     {noDataInputOption && (
                         <StackLayout vertical>
-                            <Checkbox checked={noDataFilter.noDataSelected} onChange={onNoDataChanged}>
+                            <Checkbox checked={checkNoData} onChange={onNoDataChanged}>
                                 {get(dictionary, 'range.noData', 'No Data')}
                             </Checkbox>
                         </StackLayout>
@@ -368,9 +353,16 @@ const RangeFilter = ({
                     className={styles.fuiRfActionsApply}
                     disabled={userCleared ? !userCleared : !hasChanged()}
                     onClick={() => {
-                        const selectedFilters = [{ ...currentFilter, data: rangeFilter }];
-                        selectedFilters.push({ ...currentFilter, data: noDataFilter });
-                        onChange(filterGroup, selectedFilters);
+                        onChange(filterGroup, [
+                            {
+                                ...currentFilter,
+                                data: {
+                                    ...rangeFilter,
+                                    operator: getValidOperator(rangeFilter.operator),
+                                    noDataSelected: checkNoData,
+                                },
+                            },
+                        ]);
                         setUserCleared(false);
                     }}
                     size="small"
