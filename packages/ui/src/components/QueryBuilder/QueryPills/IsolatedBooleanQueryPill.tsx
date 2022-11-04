@@ -3,13 +3,13 @@ import React from 'react';
 import { ISqonGroupFilter, IValueFilter } from '../../../data/sqon/types';
 import FieldQueryPill from './FieldQueryPill';
 
-interface ISingleBoolenQueryPillProps {
+interface IIsolatedBooleanQueryPillProps {
     isBarActive?: boolean;
     onRemove: () => void;
     contentValue: ISqonGroupFilter;
 }
 
-const IsolatedBooleanQueryPill = ({ contentValue, onRemove, isBarActive }: ISingleBoolenQueryPillProps) => {
+const IsolatedBooleanQueryPill = ({ contentValue, onRemove, isBarActive }: IIsolatedBooleanQueryPillProps) => {
     const newQueryDict: { [content: string]: any } = {};
     
     contentValue.content.forEach((f: any) => {
