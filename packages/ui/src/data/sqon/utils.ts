@@ -58,9 +58,7 @@ export const isNotReference = (sqon: any) => isNaN(sqon);
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
 export const isSet = (value: IValueFilter) =>
-    value.content.value &&
-    (value.content.value.some((value) => value.toString().startsWith(SET_ID_PREFIX)) ||
-        !isEmpty(value.content.overrideValuesName));
+    value.content.value && value.content.value.some((value) => value.toString().startsWith(SET_ID_PREFIX));
 
 export const isNotSet = (value: IValueFilter) => !isSet(value);
 
@@ -616,58 +614,61 @@ const tsqonFromRangeFilter = (
     selectedRange: IFilter<IFilterRange>,
     index?: string,
 ): TSqonContentValue | null => {
+    const noDataSelected = selectedRange.data.noDataSelected;
     const noDataFilterContent = {
         content: { field, index, value: [ArrangerValues.missing] },
         op: RangeOperators.in,
     };
 
-    const isEmptyRangeValue = isUndefined(selectedRange.data.min) && isUndefined(selectedRange.data.max);
-
     const createContentValue = (value: TFilterValue, op: string): TSqonContentValue => {
-        if (selectedRange.data.noDataSelected) {
+        const baseFilter = {
+            content: { field, index, value },
+            op,
+        };
+
+        if (noDataSelected) {
             return {
-                content: [
-                    {
-                        content: { field, index, value },
-                        op,
-                    },
-                    noDataFilterContent,
-                ],
+                content: [baseFilter, noDataFilterContent],
                 skipBooleanOperatorCheck: true,
                 op: BooleanOperators.or,
             };
         }
-        return {
-            content: { field, index, value },
-            op,
-        };
+
+        return baseFilter;
     };
 
-    if (isEmptyRangeValue) {
-        return selectedRange.data.noDataSelected ? noDataFilterContent : null;
+    if (!hasSelectedRangeForOperator(selectedRange)) {
+        return noDataSelected ? noDataFilterContent : null;
     }
 
     switch (selectedRange.data.operator) {
         case RangeOperators.between:
-            return !isUndefined(selectedRange.data.min) && !isUndefined(selectedRange.data.max)
-                ? createContentValue(
-                      [selectedRange.data.min, selectedRange.data.max],
-                      RangeOperators[selectedRange.data.operator],
-                  )
-                : null;
+            return createContentValue(
+                [selectedRange.data.min!, selectedRange.data.max!],
+                RangeOperators[selectedRange.data.operator],
+            );
         case RangeOperators['<']:
         case RangeOperators['<=']:
-            return !isUndefined(selectedRange.data.max)
-                ? createContentValue([selectedRange.data.max], RangeOperators[selectedRange.data.operator])
-                : null;
+            return createContentValue([selectedRange.data.max!], RangeOperators[selectedRange.data.operator]);
         case RangeOperators['>']:
         case RangeOperators['>=']:
-            return !isUndefined(selectedRange.data.min)
-                ? createContentValue([selectedRange.data.min], RangeOperators[selectedRange.data.operator])
-                : null;
+            return createContentValue([selectedRange.data.min!], RangeOperators[selectedRange.data.operator]);
     }
 
     return null;
+};
+
+export const hasSelectedRangeForOperator = (selectedRange: IFilter<IFilterRange>) => {
+    switch (selectedRange.data.operator) {
+        case RangeOperators.between:
+            return !isUndefined(selectedRange.data.min) && !isUndefined(selectedRange.data.max);
+        case RangeOperators['<']:
+        case RangeOperators['<=']:
+            return !isUndefined(selectedRange.data.max);
+        case RangeOperators['>']:
+        case RangeOperators['>=']:
+            return !isUndefined(selectedRange.data.min);
+    }
 };
 
 export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[], index?: string): TSqonContent =>

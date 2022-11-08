@@ -28,12 +28,12 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
                 {f.skipBooleanOperatorCheck ? (
                     <IsolatedBooleanQueryPill
                         isBarActive={props.isActive}
-                        onRemove={() => {
+                        onRemove={() =>
                             props.onRemoveFacet(
                                 ((f as ISqonGroupFilter).content[0].content as IValueContent).field,
                                 props.query,
-                            );
-                        }}
+                            )
+                        }
                         contentValue={f as ISqonGroupFilter}
                     />
                 ) : isBooleanOperator(f) ? (
@@ -48,7 +48,7 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
                 ) : isSet(f) ? (
                     <SetQueryPill
                         isBarActive={props.isActive}
-                        onRemove={() => props.onRemoveReference(f as number, props.query)}
+                        onRemove={() => props.onRemoveFacet((f as IValueFilter).content.field, props.query)}
                         valueFilter={f as IValueFilter}
                     />
                 ) : (
