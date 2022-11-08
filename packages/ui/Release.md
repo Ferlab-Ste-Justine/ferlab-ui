@@ -1,3 +1,6 @@
+### 4.5.3 | 2022-11-08
+- Fix: Fix no data checkbox to range filter bugs
+
 ### 4.5.2 | 2022-11-04
 - Fix: Fix no data checkbox to range filter
 
