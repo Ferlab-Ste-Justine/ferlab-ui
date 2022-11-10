@@ -50,7 +50,7 @@ const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFi
                     lastSavedAt &&
                     (dictionary.queryBuilderHeader?.manageFilters?.lastSavedAt
                         ? dictionary.queryBuilderHeader?.manageFilters?.lastSavedAt.replace('{date}', lastSavedAt)
-                        : `Last saved: ${lastSavedAt} ago`)
+                        : `Last saved : ${lastSavedAt} ago`)
                 }
                 onEdit={() => showEditModal(item)}
                 onDelete={() =>
