@@ -1,4 +1,4 @@
-import { List, Modal } from 'antd';
+import { ConfigProvider, List, Modal } from 'antd';
 import { formatDistance } from 'date-fns';
 import enUS from 'date-fns/locale/en-US';
 import frCa from 'date-fns/locale/fr-CA';
@@ -10,7 +10,6 @@ import EditFilterModal from './EditFilterModal';
 import { deleteFilterConfirm } from './utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
-import { ConfigContext } from 'antd/lib/config-provider';
 
 interface OwnProps {
     visible: boolean;
@@ -22,7 +21,7 @@ interface OwnProps {
 
 const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFilter, onUpdateFilter }: OwnProps) => {
     const { dictionary } = useContext(QueryBuilderContext);
-    const { locale } = useContext(ConfigContext);
+    const { locale } = useContext(ConfigProvider.ConfigContext);
     const [isEditModalVisible, setEditModalVisible] = useState(false);
     const [selectedFilter, setSelectedFilter] = useState<ISavedFilter | undefined>(undefined);
 
@@ -51,7 +50,7 @@ const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFi
                     lastSavedAt &&
                     (dictionary.queryBuilderHeader?.manageFilters?.lastSavedAt
                         ? dictionary.queryBuilderHeader?.manageFilters?.lastSavedAt.replace('{date}', lastSavedAt)
-                        : `Last saved: ${lastSavedAt} ago`)
+                        : `Last saved : ${lastSavedAt} ago`)
                 }
                 onEdit={() => showEditModal(item)}
                 onDelete={() =>
