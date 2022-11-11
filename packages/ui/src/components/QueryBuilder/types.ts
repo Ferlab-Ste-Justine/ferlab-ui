@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { ISqonGroupFilter, ISyntheticSqon, IValueFilter } from '../../data/sqon/types';
 import { TCollapseProps } from '../Collapse';
 

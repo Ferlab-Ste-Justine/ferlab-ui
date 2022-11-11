@@ -1,11 +1,13 @@
+import React, { useEffect, useState } from 'react';
 import { DownloadOutlined } from '@ant-design/icons';
-import { Button, Space, Table, Tooltip } from 'antd';
+import { Button, Space, Table, TablePaginationConfig, Tooltip } from 'antd';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
-import React, { useEffect, useState } from 'react';
+
 import ColumnSelector from './ColumnSelector';
 import TableHeader from './Header';
-import { ProColumnType, TColumnStates, TProTableProps } from './types';
+import Pagination from './Pagination';
+import { IPaginationProps, ProColumnType, TColumnStates, TProTableProps } from './types';
 
 import styles from '@ferlab/style/components/protable/ProTable.module.scss';
 
@@ -30,23 +32,24 @@ export const generateColumnState = <RecordType,>(initialState: TColumnStates, co
 const ProTable = <RecordType extends object & { key: string } = any>({
     tableId,
     columns,
+    pagination,
     wrapperClassName = '',
     headerConfig = {
-        marginBtm: 12,
-        extraSpacing: 12,
-        extra: [],
         enableColumnSort: false,
-        onColumnSortChange: () => {},
         enableTableExport: false,
-        onTableExportClick: () => {},
+        extra: [],
+        extraSpacing: 12,
         itemCount: {
             pageIndex: 1,
             pageSize: 15,
             total: 0,
         },
-        onSelectedRowsChange: () => {},
-        onSelectAllResultsChange: () => {},
+        marginBtm: 12,
         onClearSelection: () => {},
+        onColumnSortChange: () => {},
+        onSelectAllResultsChange: () => {},
+        onSelectedRowsChange: () => {},
+        onTableExportClick: () => {},
     },
     initialSelectedKey = [],
     enableRowSelection = false,
@@ -69,9 +72,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     }, [JSON.stringify(initialSelectedKey)]);
 
     const getTotalResults = () =>
-        tableProps.pagination
-            ? tableProps.pagination.total || tableProps.dataSource?.length
-            : tableProps.dataSource?.length;
+        pagination ? headerConfig.itemCount?.total || tableProps.dataSource?.length : tableProps.dataSource?.length;
 
     const handleOnSelectAllResultsChange = (selected: boolean) => {
         if (headerConfig.onSelectAllResultsChange) {
@@ -94,15 +95,15 @@ const ProTable = <RecordType extends object & { key: string } = any>({
             customExtra = customExtra.concat(
                 <Tooltip title={dictionary.tooltips?.tableExport || 'Export as TSV'}>
                     <Button
-                        key="table-export"
-                        size="small"
-                        type="text"
                         icon={<DownloadOutlined />}
+                        key="table-export"
                         onClick={() => {
                             if (headerConfig.onTableExportClick) {
                                 headerConfig.onTableExportClick();
                             }
                         }}
+                        size="small"
+                        type="text"
                     />
                 </Tooltip>,
             );
@@ -111,16 +112,16 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         if (headerConfig.enableColumnSort) {
             customExtra = customExtra.concat(
                 <ColumnSelector
-                    key="column-selector"
-                    columns={columns}
                     columnStates={columnsState}
+                    columns={columns}
+                    dictionary={dictionary}
+                    key="column-selector"
                     onChange={(newColumnState) => {
                         setColumnsState(newColumnState);
                         if (headerConfig.onColumnSortChange) {
                             headerConfig.onColumnSortChange(newColumnState);
                         }
                     }}
-                    dictionary={dictionary}
                 />,
             );
         }
@@ -153,27 +154,20 @@ const ProTable = <RecordType extends object & { key: string } = any>({
             );
 
         title = column.tooltip ? <Tooltip title={column.tooltip}>{title}</Tooltip> : title;
-        
+
         return { ...column, title };
     };
 
     return (
         <Space
-            size={headerConfig.marginBtm}
-            direction="vertical"
             className={cx(styles.ProTableWrapper, wrapperClassName)}
+            direction="vertical"
+            size={headerConfig.marginBtm}
         >
             <TableHeader
-                pageIndex={headerConfig.itemCount?.pageIndex}
-                pageSize={headerConfig.itemCount?.pageSize}
-                total={headerConfig.itemCount?.total}
-                selectedAllResults={selectedAllResults}
-                selectedAllPage={selectedAllPage && selectedRowKeys.length < headerConfig.itemCount?.total}
-                selectedRowCount={selectedAllResults ? getTotalResults() : selectedRowKeys.length}
-                onSelectAllResults={() => {
-                    handleOnSelectAllResultsChange(true);
-                    setSelectedAllPage(false);
-                }}
+                dictionary={dictionary}
+                extra={getExtraConfig()}
+                extraSpacing={headerConfig.extraSpacing!}
                 onClearSelection={() => {
                     if (headerConfig.onClearSelection) {
                         headerConfig.onClearSelection();
@@ -181,18 +175,53 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                     handleOnSelectRowsChange([], []);
                     handleOnSelectAllResultsChange(false);
                 }}
-                extraSpacing={headerConfig.extraSpacing!}
-                extra={getExtraConfig()}
-                dictionary={dictionary}
+                onSelectAllResults={() => {
+                    handleOnSelectAllResultsChange(true);
+                    setSelectedAllPage(false);
+                }}
+                pageIndex={headerConfig.itemCount?.pageIndex}
+                pageSize={headerConfig.itemCount?.pageSize}
+                selectedAllPage={selectedAllPage && selectedRowKeys.length < headerConfig.itemCount?.total}
+                selectedAllResults={selectedAllResults}
+                selectedRowCount={selectedAllResults ? getTotalResults() : selectedRowKeys.length}
+                total={headerConfig.itemCount?.total}
             />
             <Table
                 {...tableProps}
+                columns={columnsState
+                    .filter(({ visible }) => visible)
+                    .sort((a, b) => a.index - b.index)
+                    .map(({ key }) => columns.find((column) => column.key === key)!)
+                    .filter((column) => !isEmpty(column))
+                    .map(generateColumnTitle)}
+                pagination={
+                    pagination && (pagination as IPaginationProps)?.searchAfter === undefined
+                        ? {
+                              ...pagination,
+                              onChange: (page, size) => {
+                                  if (selectedAllResults) {
+                                      handleOnSelectRowsChange([], []);
+                                      handleOnSelectAllResultsChange(false);
+                                  }
+
+                                  if (pagination.onChange) {
+                                      pagination?.onChange(page, size);
+                                  }
+                              },
+                              onShowSizeChange: (current, size) => {
+                                  handleOnSelectRowsChange([], []);
+
+                                  if (pagination.onShowSizeChange) {
+                                      pagination.onShowSizeChange(current, size);
+                                  }
+                              },
+                          }
+                        : false
+                }
                 rowSelection={
                     tableProps.rowSelection || enableRowSelection
                         ? {
                               ...tableProps.rowSelection,
-                              preserveSelectedRowKeys: true,
-                              selectedRowKeys: selectedRowKeys,
                               onChange: (selectedRowKeys, selectedRows) => {
                                   if (!selectedRowKeys.length) {
                                       handleOnSelectAllResultsChange(false);
@@ -205,7 +234,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                                       tableProps.rowSelection.onChange(selectedRowKeys, selectedRows);
                                   }
                               },
-                              onSelectAll: setSelectedAllPage, // Deprecated will need to change eventually
+                              // Deprecated will need to change eventually
                               onSelect: (_, selected, selectedRows, event) => {
                                   setSelectedAllPage(false);
 
@@ -213,40 +242,30 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                                       tableProps.rowSelection.onSelect(_, selected, selectedRows, event);
                                   }
                               },
+
+                              onSelectAll: setSelectedAllPage,
+
+                              preserveSelectedRowKeys: true,
+                              selectedRowKeys: selectedRowKeys,
                           }
                         : undefined
                 }
-                pagination={
-                    tableProps.pagination
-                        ? {
-                              ...tableProps.pagination,
-                              onChange: (page, size) => {
-                                  if (selectedAllResults) {
-                                      handleOnSelectRowsChange([], []);
-                                      handleOnSelectAllResultsChange(false);
-                                  }
-
-                                  if (tableProps.pagination && tableProps.pagination.onChange) {
-                                      tableProps.pagination.onChange(page, size);
-                                  }
-                              },
-                              onShowSizeChange: (current, size) => {
-                                  handleOnSelectRowsChange([], []);
-
-                                  if (tableProps.pagination && tableProps.pagination.onShowSizeChange) {
-                                      tableProps.pagination.onShowSizeChange(current, size);
-                                  }
-                              },
-                          }
-                        : false
-                }
-                columns={columnsState
-                    .filter(({ visible }) => visible)
-                    .sort((a, b) => a.index - b.index)
-                    .map(({ key }) => columns.find((column) => column.key === key)!)
-                    .filter((column) => !isEmpty(column))
-                    .map(generateColumnTitle)}
             ></Table>
+            {(pagination as IPaginationProps)?.searchAfter && (
+                <Pagination
+                    {...(pagination as IPaginationProps)}
+                    dictionary={dictionary}
+                    onPageChange={() => {
+                        if (selectedAllResults) {
+                            handleOnSelectRowsChange([], []);
+                            handleOnSelectAllResultsChange(false);
+                        }
+                    }}
+                    onShowSizeChange={() => {
+                        handleOnSelectRowsChange([], []);
+                    }}
+                />
+            )}
         </Space>
     );
 };
