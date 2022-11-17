@@ -264,6 +264,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                     onShowSizeChange={() => {
                         handleOnSelectRowsChange([], []);
                     }}
+                    total={tableProps.dataSource?.length || headerConfig.itemCount?.total}
                 />
             )}
         </Space>
