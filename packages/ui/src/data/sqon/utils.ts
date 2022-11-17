@@ -249,13 +249,18 @@ export const removeContentFromSqon = (
         typeof indexOrField === 'number'
             ? content.filter((c) => c !== indexOrField)
             : content.filter((c) => {
+                  if (typeof c === 'number') {
+                      return true;
+                  }
+
                   const contentAsSqonGroupFilter = c as ISqonGroupFilter;
                   const skipBooleanOperatorCheck = contentAsSqonGroupFilter.skipBooleanOperatorCheck;
+
                   const isValueContentToDelete =
                       skipBooleanOperatorCheck &&
                       (contentAsSqonGroupFilter.content[0].content as IValueContent).field !== indexOrField;
-                  const isValueFilterToDelete =
-                      typeof c !== 'number' && (c as IValueFilter).content.field !== indexOrField;
+
+                  const isValueFilterToDelete = (c as IValueFilter).content.field !== indexOrField;
 
                   return skipBooleanOperatorCheck ? isValueContentToDelete : isValueFilterToDelete;
               });

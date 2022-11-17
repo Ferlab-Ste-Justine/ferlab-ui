@@ -1,3 +1,6 @@
+### 4.6.1 | 2022-11-16
+- Fix: FLUI-17 remove field value from combined query remove all ref pills
+
 ### 4.5.3 | 2022-11-08
 - Fix: Fix no data checkbox to range filter bugs
 
