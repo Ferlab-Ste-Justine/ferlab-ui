@@ -86,7 +86,7 @@ const Pagination = ({
                 {dictionary?.pagination?.previous || 'Prev.'}
             </Button>
             <Button
-                disabled={total === 0}
+                disabled={total === 0 || total < queryConfig.size}
                 onClick={() => {
                     setQueryConfig({
                         ...queryConfig,
