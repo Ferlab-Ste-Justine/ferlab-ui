@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from 'react';
 import { cloneDeep } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
-import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
 import { BooleanOperators } from '../../data/sqon/operators';
@@ -12,10 +12,13 @@ import {
     isIndexReferencedInSqon,
     isNotEmptySqon,
     removeContentFromSqon,
-    removeSqonAtIndex
+    removeSqonAtIndex,
 } from '../../data/sqon/utils';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
 
+import { isQueryStateEqual } from './utils/helper';
+import useQueryBuilderState, { setQueryBuilderState } from './utils/useQueryBuilderState';
+import { defaultFacetFilterConfig, defaultHeaderConfig, QueryBuilderContext } from './context';
 import QueryBuilderHeader from './Header';
 import QueryBar from './QueryBar';
 import QueryTools from './QueryTools';
@@ -26,13 +29,10 @@ import {
     IFetchQueryCount,
     IGetResolvedQueryForCount,
     IQueriesState,
-    IQueryBuilderHeaderConfig
+    IQueryBuilderHeaderConfig,
 } from './types';
-import { isQueryStateEqual } from './utils/helper';
-import useQueryBuilderState, { setQueryBuilderState } from './utils/useQueryBuilderState';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
-import { defaultFacetFilterConfig, defaultHeaderConfig, QueryBuilderContext } from './context';
 
 export interface IQueryBuilderProps {
     id: string;
@@ -306,19 +306,19 @@ const QueryBuilder = ({
     return (
         <QueryBuilderContext.Provider
             value={{
-                queryBuilderId: id,
-                dictionary,
-                queriesState,
-                headerConfig,
-                facetFilterConfig,
-                selectedSavedFilter,
-                noQueries,
-                showLabels,
                 canCombine,
+                dictionary,
                 enableCombine,
                 enableShowHideLabels,
                 enableSingleQuery,
+                facetFilterConfig,
                 hasEmptyQuery,
+                headerConfig,
+                noQueries,
+                queriesState,
+                queryBuilderId: id,
+                selectedSavedFilter,
+                showLabels,
             }}
         >
             <ConditionalWrapper
@@ -340,18 +340,17 @@ const QueryBuilder = ({
                     <div className={styles.queryBars}>
                         {queriesState.queries.map((sqon, i) => (
                             <QueryBar
-                                index={i}
-                                query={sqon}
-                                id={sqon.id!}
-                                key={sqon.id!}
                                 Icon={IconTotal}
                                 actionDisabled={isEmptySqon(sqon)}
                                 fetchQueryCount={fetchQueryCount}
                                 getColorForReference={getColorForReference}
                                 getResolvedQueryForCount={getResolvedQueryForCount}
+                                id={sqon.id!}
+                                index={i}
                                 isActive={sqon.id! === queriesState.activeId}
                                 isReferenced={isIndexReferencedInSqon(i, selectedSyntheticSqon)}
                                 isSelected={selectedQueryIndices.includes(i)}
+                                key={sqon.id!}
                                 onChangeQuery={(id) => {
                                     setQueriesState((prevState) => ({
                                         ...prevState,
@@ -397,19 +396,24 @@ const QueryBuilder = ({
                                     }
                                     setSelectedQueryIndices([...selectedQueryIndices, id]);
                                 }}
-                                selectionDisabled={queriesState.queries.length === 1 || !enableCombine}
+                                query={sqon}
+                                selectionDisabled={
+                                    queriesState.queries.length === 1 ||
+                                    !enableCombine ||
+                                    queriesState.queries[i].content.length === 0
+                                }
                             />
                         ))}
                     </div>
                     {showQueryTools() && (
                         <QueryTools
-                            queryCount={queryCount}
                             addNewQuery={addNewQuery}
                             onCombineClick={onCombineClick}
                             onDeleteAll={() => {
                                 setSelectedQueryIndices([]);
                                 resetQueries(queriesState.activeId);
                             }}
+                            queryCount={queryCount}
                             setShowLabels={setShowLabels}
                         />
                     )}
