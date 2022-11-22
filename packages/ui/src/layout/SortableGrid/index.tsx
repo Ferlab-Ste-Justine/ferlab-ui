@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import {
     closestCenter,
@@ -47,6 +47,12 @@ const SortableGrid = ({ gutter, items, onReorder }: OwnProps) => {
             });
         }
     };
+
+    useEffect(() => {
+        if (items) {
+            setCurrentItems(items);
+        }
+    }, [items]);
 
     return (
         <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd} sensors={sensors}>
