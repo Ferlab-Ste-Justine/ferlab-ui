@@ -1,3 +1,6 @@
+### 4.6.4 | 2022-11-22
+- Fix: CQDG-110 add useEffect to SortableGrid to rerender when `items` prop change
+
 ### 4.6.1 | 2022-11-16
 - Fix: FLUI-17 remove field value from combined query remove all ref pills
 
