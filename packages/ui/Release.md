@@ -1,3 +1,6 @@
+### 4.7.0 | 2022-12-02
+- Feat: SKFP-554 add VariantEntity page 
+
 ### 4.6.4 | 2022-11-22
 - Fix: CQDG-110 add useEffect to SortableGrid to rerender when `items` prop change
 
