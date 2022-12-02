@@ -1,0 +1,18 @@
+@import "theme.template";
+
+.participantLink {
+  margin: 0;
+}
+
+.participantNumLink {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.row {
+  background-color: $gray-2;
+}
+
+.cell {
+  font-weight: bold;
+}

@@ -28,6 +28,7 @@
     "core-js": "^3.9.0",
     "css-loader": "^5.0.2",
     "fork-ts-checker-webpack-plugin": "^6.1.0",
+    "html-webpack-plugin": "^5.5.0",
     "react-docgen-typescript": "^1.21.0",
     "react-icons": "^4.2.0",
     "react-is": "^16.13.1",

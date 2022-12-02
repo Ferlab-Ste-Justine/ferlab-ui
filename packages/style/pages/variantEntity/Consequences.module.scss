@@ -1,0 +1,35 @@
+.container {
+  max-width: 1600px;
+  margin-bottom: 40px;
+
+  .title {
+    margin-bottom: 16px;
+  }
+
+  .collapse {
+    .panel {
+      .card {
+        width: 100%;
+        border: none;
+        *[class$="-card-body"] {
+          padding: 0;
+        }
+
+        .consequenceCards {
+          width: 100%;
+        }
+
+        .consequenceTableWrapper {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.longValue {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: initial;
+}
