@@ -23,6 +23,9 @@ module.exports = {
     "storybook-addon-jsx",
     '@storybook/preset-ant-design'
   ],
+  core: {
+    builder: 'webpack5',
+  },
   webpackFinal: async (config, { configType }) => {
     config.module.rules.push({
       test: /\.less$/,
