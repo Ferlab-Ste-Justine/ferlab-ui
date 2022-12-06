@@ -113,6 +113,102 @@ BasicTable.args = {
     },
 };
 
+export const TableWithSubChildren = ProTableStory.bind({});
+TableWithSubChildren.args = {
+    columns: [
+        {
+            key: "column_one",
+            title: "Column 1",
+            dataIndex: "column_one",
+            children: [
+                {
+                    title: "Sub Column 1",
+                    dataIndex: "sub1",
+                    key: "sub1",
+                    width: 150,
+                },
+                {
+                    title: "Sub Column 2",
+                    dataIndex: "sub2",
+                    key: "sub2",
+                    width: 150,
+                },
+            ],
+        },
+        {
+            key: "column_two",
+            title: "Column 2",
+            dataIndex: "column_two",
+        },
+        {
+            key: "column_three",
+            title: "Column 3",
+            dataIndex: "column_three",
+            tooltip: "This is Column 3",
+            iconTitle: <AiOutlineUsergroupAdd />,
+        },
+        {
+            key: "column_four",
+            title: "Column 4",
+            dataIndex: "column_four",
+            defaultHidden: true,
+        },
+    ],
+    dataSource: [
+        {
+            key: "1",
+            column_one: "test",
+            column_two: "test",
+            column_three: "test",
+            column_four: "test",
+        },
+        {
+            key: "2",
+            column_one: "test",
+            column_two: "test",
+            column_three: "test",
+            column_four: "test",
+        },
+        {
+            key: "3",
+            column_one: "test",
+            column_two: "test",
+            column_three: "test",
+            column_four: "test",
+        },
+        {
+            key: "4",
+            column_one: "test",
+            column_two: "test",
+            column_three: "test",
+            column_four: "test",
+        },
+    ],
+    bordered: true,
+    tableId: "test-table",
+    pagination: {
+        pageSize: 2,
+        defaultPageSize: 2,
+        total: 4,
+    },
+    headerConfig: {
+        marginBtm: 12,
+        extra: [<a>Extra Actions</a>],
+        enableColumnSort: true,
+        itemCount: {
+            pageIndex: 1,
+            pageSize: 2,
+            total: 4,
+        },
+        onClearSelection: () => {
+            console.log("Clicked on clear selection");
+        },
+        onColumnStateChange: (state: any) => {
+            console.log(state);
+        },
+    },
+} as TProTableProps<any>;
+
 export const AfterSearchTable = ProTableStory.bind({});
 AfterSearchTable.args = {
     columns: [
@@ -181,7 +277,6 @@ AfterSearchTable.args = {
             size: 10,
             sort: [{ field: "column_one", order: "desc" }],
         },
-        onChange: (page: number, _) => {},
         searchAfter: {
             head: [],
             tail: [],
