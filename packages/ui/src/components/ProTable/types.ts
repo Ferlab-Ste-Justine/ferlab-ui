@@ -61,11 +61,20 @@ export interface ProColumnType<T = any> extends ColumnType<T> {
     defaultHidden?: boolean;
 }
 
+export declare type ProColumnsType<RecordType = unknown> = (
+    | ProColumnGroupType<RecordType>
+    | ProColumnType<RecordType>
+)[];
+
+export interface ProColumnGroupType<RecordType> extends Omit<ProColumnType<RecordType>, 'dataIndex'> {
+    children: ProColumnsType<RecordType>;
+}
+
 export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns' | 'pagination'> & {
     tableId: string;
     headerConfig: THeaderConfig<RecordType>;
     wrapperClassName?: string;
-    columns: ProColumnType<RecordType>[];
+    columns: ProColumnsType<RecordType>;
     pagination?: IPaginationProps | TablePaginationConfig;
     initialColumnState?: TColumnStates;
     initialSelectedKey?: any[];
@@ -98,4 +107,4 @@ export type TColumnStates = Array<{
     visible: boolean;
 }>;
 
-export type TColumnSettingChangeCb = <RecordType>(columns: ProColumnType<RecordType>) => void;
+export type TColumnSettingChangeCb = <RecordType>(columns: ProColumnsType<RecordType>) => void;

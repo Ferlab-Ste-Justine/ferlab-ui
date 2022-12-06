@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { DownloadOutlined } from '@ant-design/icons';
-import { Button, Space, Table, TablePaginationConfig, Tooltip } from 'antd';
+import { Button, Space, Table, Tooltip } from 'antd';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
 
 import ColumnSelector from './ColumnSelector';
 import TableHeader from './Header';
 import Pagination from './Pagination';
-import { IPaginationProps, ProColumnType, TColumnStates, TProTableProps } from './types';
+import { IPaginationProps, ProColumnsType, ProColumnType, TColumnStates, TProTableProps } from './types';
 
 import styles from '@ferlab/style/components/protable/ProTable.module.scss';
 
-export const generateColumnState = <RecordType,>(initialState: TColumnStates, columns: ProColumnType<RecordType>[]) => {
+export const generateColumnState = <RecordType,>(initialState: TColumnStates, columns: ProColumnsType<RecordType>) => {
     let state: TColumnStates = initialState || [];
     columns.forEach((column, index) => {
         if (!state.find(({ key }) => key === column.key)) {
