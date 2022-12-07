@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import {
     CopyOutlined,
     DeleteOutlined,
@@ -6,20 +8,20 @@ import {
     FolderOutlined,
     PlusOutlined,
     SaveOutlined,
-    ShareAltOutlined
+    ShareAltOutlined,
 } from '@ant-design/icons';
 import { Button, Modal, Space, Tooltip } from 'antd';
 import cx from 'classnames';
-import React, { useEffect, useState } from 'react';
+
 import ConditionalWrapper from '../../../utils/ConditionalWrapper';
+import { QueryBuilderContext } from '../../context';
 import { IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../../types';
 import { hasQueries, hasUnsavedChanges, isNewUnsavedFilter } from '../utils';
+
 import SavedFiltersMenu from './SavedFiltersMenu';
+import { deleteFilterConfirm } from './utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeaderTools.module.scss';
-import { useContext } from 'react';
-import { QueryBuilderContext } from '../../context';
-import { deleteFilterConfirm } from './utils';
 
 interface IQueryBuilderHeaderProps {
     config: IQueryBuilderHeaderConfig;
@@ -38,21 +40,21 @@ const QueryBuilderHeaderTools = ({
     onNewSavedFilter,
     onDuplicateSavedFilter,
 }: IQueryBuilderHeaderProps) => {
-    const { dictionary, selectedSavedFilter, queriesState } = useContext(QueryBuilderContext);
+    const { dictionary, queriesState, selectedSavedFilter } = useContext(QueryBuilderContext);
     const [isDirty, setIsDirty] = useState(false);
     const [isNewFilter, setIsNewFilter] = useState(false);
     const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
 
     const confirmUnsavedChangeForNewFilter = (onOkCallback: Function) =>
         Modal.confirm({
-            title: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.title || 'Unsaved changes',
-            icon: <ExclamationCircleOutlined />,
+            cancelText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.createNewFilter?.cancelText || 'Cancel',
             content:
                 dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.createNewFilter?.content ||
                 'You are about to create a new filter; all modifications will be lost.',
+            icon: <ExclamationCircleOutlined />,
             okText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.createNewFilter?.okText || 'Create',
-            cancelText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.createNewFilter?.cancelText || 'Cancel',
             onOk: () => onOkCallback(),
+            title: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.title || 'Unsaved changes',
         });
 
     useEffect(() => {
@@ -72,14 +74,16 @@ const QueryBuilderHeaderTools = ({
     }, [JSON.stringify(queriesState), JSON.stringify(selectedSavedFilter), JSON.stringify(config.savedFilters)]);
 
     return (
-        <Space className={styles.queryBuilderHeaderTools} size={20} onClick={(e) => e.stopPropagation()}>
-            <Space className={styles.toolsContainer} align="center">
+        <Space className={styles.queryBuilderHeaderTools} onClick={(e) => e.stopPropagation()} size={20}>
+            <Space align="center" className={styles.toolsContainer}>
                 <Tooltip
                     title={dictionary.queryBuilderHeader?.tooltips?.newQueryBuilder || 'New query builder'}
                     {...tooltipAlign}
                 >
                     <Button
                         className={styles.queryBuilderHeaderActionIconBtn}
+                        disabled={isNewFilter}
+                        icon={<PlusOutlined />}
                         onClick={() => {
                             if (isDirty) {
                                 confirmUnsavedChangeForNewFilter(onNewSavedFilter);
@@ -87,10 +91,8 @@ const QueryBuilderHeaderTools = ({
                                 onNewSavedFilter();
                             }
                         }}
-                        type="text"
-                        disabled={isNewFilter}
                         size="small"
-                        icon={<PlusOutlined />}
+                        type="text"
                     />
                 </Tooltip>
                 <Tooltip
@@ -103,6 +105,8 @@ const QueryBuilderHeaderTools = ({
                 >
                     <Button
                         className={cx(styles.queryBuilderHeaderActionIconBtn, isDirty ? styles.dirty : '')}
+                        disabled={isSaveButtonDisabled}
+                        icon={<SaveOutlined />}
                         onClick={() => {
                             if (isDirty) {
                                 if (config.onUpdateFilter) {
@@ -112,10 +116,8 @@ const QueryBuilderHeaderTools = ({
                                 config.onSaveFilter(selectedSavedFilter!);
                             }
                         }}
-                        type="text"
-                        disabled={isSaveButtonDisabled}
                         size="small"
-                        icon={<SaveOutlined />}
+                        type="text"
                     />
                 </Tooltip>
                 {config.options?.enableDuplicate && (
@@ -127,6 +129,8 @@ const QueryBuilderHeaderTools = ({
                     >
                         <Button
                             className={styles.queryBuilderHeaderActionIconBtn}
+                            disabled={isNewFilter}
+                            icon={<CopyOutlined />}
                             onClick={() => {
                                 if (isDirty) {
                                     confirmUnsavedChangeForNewFilter(onDuplicateSavedFilter);
@@ -134,27 +138,25 @@ const QueryBuilderHeaderTools = ({
                                     onDuplicateSavedFilter();
                                 }
                             }}
-                            type="text"
-                            disabled={isNewFilter}
                             size="small"
-                            icon={<CopyOutlined />}
+                            type="text"
                         />
                     </Tooltip>
                 )}
                 <Tooltip title={dictionary.queryBuilderHeader?.tooltips?.delete || 'Delete filter'} {...tooltipAlign}>
                     <Button
                         className={styles.queryBuilderHeaderActionIconBtn}
-                        type="text"
                         disabled={isNewFilter}
+                        icon={<DeleteOutlined />}
                         onClick={() =>
                             deleteFilterConfirm({
                                 dictionary,
-                                savedFilter: selectedSavedFilter!,
                                 onDeleteFilter: config.onDeleteFilter,
+                                savedFilter: selectedSavedFilter!,
                             })
                         }
                         size="small"
-                        icon={<DeleteOutlined />}
+                        type="text"
                     />
                 </Tooltip>
                 {config.options?.enableShare && (
@@ -164,15 +166,15 @@ const QueryBuilderHeaderTools = ({
                     >
                         <Button
                             className={styles.queryBuilderHeaderActionIconBtn}
+                            disabled={isNewFilter || isDirty}
+                            icon={<ShareAltOutlined />}
                             onClick={() => {
                                 if (config.onShareFilter) {
                                     config.onShareFilter(selectedSavedFilter!);
                                 }
                             }}
-                            type="text"
                             size="small"
-                            disabled={isNewFilter || isDirty}
-                            icon={<ShareAltOutlined />}
+                            type="text"
                         />
                     </Tooltip>
                 )}
@@ -184,12 +186,12 @@ const QueryBuilderHeaderTools = ({
                         if (savedFilters.length > 0) {
                             return (
                                 <SavedFiltersMenu
-                                    selectedKey={selectedSavedFilter ? selectedSavedFilter.id : ''}
                                     isDirty={isDirty}
-                                    savedFilters={savedFilters}
-                                    onSavedFilterChange={onSavedFilterChange}
                                     onDeleteFilter={config.onDeleteFilter}
-                                    onUpdateFilter={config.onUpdateFilter}
+                                    onSavedFilterChange={onSavedFilterChange}
+                                    onUpdateFilter={config.onUpdateFilterModal}
+                                    savedFilters={savedFilters}
+                                    selectedKey={selectedSavedFilter ? selectedSavedFilter.id : ''}
                                 >
                                     {children}
                                 </SavedFiltersMenu>
@@ -210,10 +212,10 @@ const QueryBuilderHeaderTools = ({
                 >
                     <Button
                         className={styles.queryBuilderHeaderDdb}
-                        size="small"
+                        disabled={savedFilters.length == 0}
                         icon={<FolderOutlined />}
                         onClick={(e) => e.stopPropagation()}
-                        disabled={savedFilters.length == 0}
+                        size="small"
                     >
                         <span className={styles.bContent}>
                             {dictionary.queryBuilderHeader?.myFiltersDropdown?.title || 'My Filters'}
