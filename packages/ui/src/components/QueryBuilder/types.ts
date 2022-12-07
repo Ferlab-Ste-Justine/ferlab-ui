@@ -62,6 +62,7 @@ export interface IQueryBuilderHeaderConfig {
     collapseProps?: Omit<TCollapseProps, 'defaultActiveKey'>;
     onSetAsFavorite?: (filter: ISavedFilter) => void;
     onUpdateFilter?: (filter: ISavedFilter) => void;
+    onUpdateFilterModal?: (filter: ISavedFilter) => void;
     onShareFilter?: (filter: ISavedFilter) => void;
     onSaveFilter?: (filter: ISavedFilter) => void;
     onDeleteFilter?: (filterId: string) => void;
