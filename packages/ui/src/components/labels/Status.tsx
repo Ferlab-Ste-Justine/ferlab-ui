@@ -67,7 +67,7 @@ export type StatusLabelProps = {
     status: string;
     style?: React.CSSProperties;
 };
-const StatusLabel = ({ className = '', dictionary, status, style = {} }: StatusLabelProps) => {
+const StatusLabel = ({ className = '', dictionary, status, style = {} }: StatusLabelProps): React.ReactElement => {
     return (
         <Typography.Text className={`statuslabel__container ${status} ${className}`} style={style}>
             {(StatusLabelElement as StatusLabelElementFromStringType)[status](dictionary)}
