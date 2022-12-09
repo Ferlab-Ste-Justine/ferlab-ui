@@ -126,6 +126,7 @@ TableWithSubChildren.args = {
                     dataIndex: "sub1",
                     key: "sub1",
                     width: 150,
+                    tooltip: "This is sub Column 1",
                 },
                 {
                     title: "Sub Column 2",

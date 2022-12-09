@@ -7,7 +7,14 @@ import { isEmpty } from 'lodash';
 import ColumnSelector from './ColumnSelector';
 import TableHeader from './Header';
 import Pagination from './Pagination';
-import { IPaginationProps, ProColumnsType, ProColumnType, TColumnStates, TProTableProps } from './types';
+import {
+    IPaginationProps,
+    ProColumnGroupType,
+    ProColumnsType,
+    ProColumnType,
+    TColumnStates,
+    TProTableProps,
+} from './types';
 
 import styles from '@ferlab/style/components/protable/ProTable.module.scss';
 
@@ -129,9 +136,8 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         return customExtra;
     };
 
-    const generateColumnTitle = (column: ProColumnType) => {
+    const getTitleByType = (column: ProColumnType) => {
         const titleToUse = column.iconTitle ? column.iconTitle : column.title;
-
         let title = column.tooltip ? (
             <span
                 style={{
@@ -154,7 +160,19 @@ const ProTable = <RecordType extends object & { key: string } = any>({
             );
 
         title = column.tooltip ? <Tooltip title={column.tooltip}>{title}</Tooltip> : title;
+        return title;
+    };
 
+    const generateColumnTitle = (column: ProColumnGroupType<RecordType> | ProColumnType) => {
+        const title = getTitleByType(column);
+        if (column.children) {
+            const children = column.children.map((subColumn: ProColumnType) => {
+                const subTitle = getTitleByType(subColumn);
+                return { ...subColumn, title: subTitle };
+            });
+            console.log('children', children);
+            return { ...column, children, title };
+        }
         return { ...column, title };
     };
 
