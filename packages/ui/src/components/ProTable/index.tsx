@@ -12,6 +12,7 @@ import {
     ProColumnGroupType,
     ProColumnsType,
     ProColumnType,
+    ProColumnTypes,
     TColumnStates,
     TProTableProps,
 } from './types';
@@ -163,14 +164,16 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         return title;
     };
 
-    const generateColumnTitle = (column: ProColumnGroupType<RecordType> | ProColumnType) => {
+    const generateColumnTitle = (column: ProColumnTypes<RecordType>) => {
         const title = getTitleByType(column);
-        if (column.children) {
-            const children = column.children.map((subColumn: ProColumnType) => {
+        const asColumnGroup = column as ProColumnGroupType<RecordType>;
+
+        if (asColumnGroup.children) {
+            const children = asColumnGroup.children.map((subColumn: ProColumnType) => {
                 const subTitle = getTitleByType(subColumn);
                 return { ...subColumn, title: subTitle };
             });
-            console.log('children', children);
+
             return { ...column, children, title };
         }
         return { ...column, title };
