@@ -61,7 +61,7 @@ type FilterContainerProps = {
     onIsOpenChange?: onIsOpenChange;
     onSearchVisibleChange?: onSearchVisibleChange;
     collapseProps?: Omit<TCollapseProps, 'defaultActiveKey' | 'onChange' | 'size'>;
-    searchInputVisible: boolean;
+    searchInputVisible?: boolean;
 };
 
 const FilterContainer = ({

@@ -1,4 +1,4 @@
-### 4.7.5 | 2022-12-12
+### 4.7.7 | 2022-12-12
 - Fix: CQDG-117 add/debug search input for FilterContainer
 
 ### 4.7.4 | 2022-12-12
