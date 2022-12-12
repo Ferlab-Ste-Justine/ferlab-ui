@@ -33,20 +33,26 @@ const Summary: React.FC<ISummaryProps> = ({ dictionary, id, loading, variant }) 
                                 <Descriptions.Item label={dictionary.position}>
                                     {variant?.start || TABLE_EMPTY_PLACE_HOLDER}
                                 </Descriptions.Item>
-                                <Descriptions.Item label={dictionary.cytobande}>
+                                <Descriptions.Item label={dictionary.cytoband}>
                                     {variant?.genes?.hits?.edges[0]
                                         ? variant.genes.hits.edges[0].node.location
                                         : TABLE_EMPTY_PLACE_HOLDER}
                                 </Descriptions.Item>
                                 <Descriptions.Item
                                     label={
-                                        <Tooltip title={dictionary.alternativeAllele}>{dictionary.altAllele}</Tooltip>
+                                        <Tooltip className={styles.dotted} title={dictionary.alternativeAllele}>
+                                            {dictionary.altAllele}
+                                        </Tooltip>
                                     }
                                 >
                                     {variant?.alternate || TABLE_EMPTY_PLACE_HOLDER}
                                 </Descriptions.Item>
                                 <Descriptions.Item
-                                    label={<Tooltip title={dictionary.referenceAllele}>{dictionary.refAllele}</Tooltip>}
+                                    label={
+                                        <Tooltip className={styles.dotted} title={dictionary.referenceAllele}>
+                                            {dictionary.refAllele}
+                                        </Tooltip>
+                                    }
                                 >
                                     {variant?.reference || TABLE_EMPTY_PLACE_HOLDER}
                                 </Descriptions.Item>
@@ -65,12 +71,25 @@ const Summary: React.FC<ISummaryProps> = ({ dictionary, id, loading, variant }) 
                             <Descriptions bordered column={1} size="small">
                                 <Descriptions.Item label={dictionary.genes}>
                                     {variant?.genes?.hits?.edges?.length
-                                        ? variant.genes.hits.edges.map((gene) => gene.node.symbol)
+                                        ? variant.genes.hits.edges.map((gene) => (
+                                              <ExternalLink
+                                                  className={styles.link}
+                                                  href={`https://useast.ensembl.org/Homo_sapiens/Gene/Summary?g=${gene.node.symbol}`}
+                                              >
+                                                  {gene.node.symbol}
+                                              </ExternalLink>
+                                          ))
                                         : TABLE_EMPTY_PLACE_HOLDER}
                                 </Descriptions.Item>
                                 <Descriptions.Item label={dictionary.omim}>
-                                    {(variant?.genes?.hits?.edges[0] &&
-                                        variant.genes.hits.edges[0].node.omim_gene_id) ||
+                                    {(variant?.genes?.hits?.edges[0] && (
+                                        <ExternalLink
+                                            className={styles.link}
+                                            href={`https://omim.org/entry/${variant.genes.hits.edges[0].node.omim_gene_id}`}
+                                        >
+                                            {variant.genes.hits.edges[0].node.omim_gene_id}
+                                        </ExternalLink>
+                                    )) ||
                                         TABLE_EMPTY_PLACE_HOLDER}
                                 </Descriptions.Item>
                             </Descriptions>
@@ -93,6 +112,7 @@ const Summary: React.FC<ISummaryProps> = ({ dictionary, id, loading, variant }) 
                                 <Descriptions.Item label={dictionary.clinVar}>
                                     {variant?.clinvar?.clinvar_id ? (
                                         <ExternalLink
+                                            className={styles.link}
                                             href={`https://www.ncbi.nlm.nih.gov/clinvar/variation/${variant.clinvar.clinvar_id}`}
                                         >
                                             {variant?.clinvar?.clinvar_id}
@@ -103,7 +123,10 @@ const Summary: React.FC<ISummaryProps> = ({ dictionary, id, loading, variant }) 
                                 </Descriptions.Item>
                                 <Descriptions.Item label={dictionary.dbSNP}>
                                     {variant?.rsnumber ? (
-                                        <ExternalLink href={`https://www.ncbi.nlm.nih.gov/snp/${variant.rsnumber}`}>
+                                        <ExternalLink
+                                            className={styles.link}
+                                            href={`https://www.ncbi.nlm.nih.gov/snp/${variant.rsnumber}`}
+                                        >
                                             {variant?.rsnumber}
                                         </ExternalLink>
                                     ) : (

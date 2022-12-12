@@ -22,7 +22,7 @@ const dictionary: IVariantEntityDictionary = {
         type: 'Type',
         chromosome: 'Chromosome',
         position: 'Position',
-        cytobande: 'Cytobande',
+        cytoband: 'Cytoband',
         alternativeAllele: 'Alternative allele',
         altAllele: 'ALT Allele',
         referenceAllele: 'Reference allele',
@@ -49,8 +49,8 @@ const dictionary: IVariantEntityDictionary = {
         cdnaChangeColumn: 'coding DNA',
         strand: 'Strand',
         vep: 'VEP',
-        prediction: {
-          prediction: 'Prediction',
+        predictions: {
+          predictions: 'Predictions',
           sift: 'Sift',
           polyphen2: 'Polyphen2',
           fathmm: 'Fathmm',
@@ -65,19 +65,19 @@ const dictionary: IVariantEntityDictionary = {
         transcript: 'Transcript',
         canonical: 'Canonical transcript',
         refSeq: 'RefSeq',
-        geneConsequences: 'Gene Consequences',
+        geneConsequence: 'Gene Consequence',
         gene: 'Gene',
         omim: 'OMIM',
         hideTranscript: 'Show less',
-        showTranscript: 'other transcripts',
+        showTranscript: (count: number = 3) => `${count} other transcripts`,
         noDataAvailable: 'No data available',
       },
       frequencies: {
-        frequence: 'Frequence',
         kfStudies: 'Kids First Studies',
         publicCohorts: 'Public Cohorts',
         studies: 'Studies',
         domain: 'Domain',
+        participantsInfoIconTooltip: 'Due to participant confidentiality, links may return a smaller number than displayed',
         participantsTooltip: '# of affected participants across Kids First studies',
         participants: 'Participants',
         frequency: 'Frequency',
@@ -100,6 +100,7 @@ const dictionary: IVariantEntityDictionary = {
         gene: 'Gene',
         condition: 'Condition',
         inheritance: 'Inheritance',
+        inheritances: 'Inheritances',
         interpretation: 'Interpretation',
       }
 }
@@ -129,14 +130,15 @@ const variant: IVariantEntity = {
                 {
                     node: {
                         id: 'OLK63HwBxS_wf2ymadU5',
-                        aa_change: 'A217V',
                         canonical: true,
-                        coding_dna_change: '297G>T',
                         consequences: ['splice_region_variant', 'synonymous_variant'],
                         conservations: {phylo_p17way_primate_rankscore: 0.999},
                         ensembl_gene_id: 'ENSG00000254636',
                         ensembl_transcript_id: 'ENST00000528446',
                         impact_score: 2,
+                        biotype: 'protein_coding',
+                        hgvsc: 'ENST00000528446.1:c.112C>T',
+                        hgvsp: 'ENSP00000436682.1:p.Arg38Ter',
                         predictions: {
                             cadd_rankscore: 0.66174,
                             dann_rankscore: 0.98917,

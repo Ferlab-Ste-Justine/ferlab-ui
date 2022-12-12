@@ -1,3 +1,6 @@
+### 4.7.4 | 2022-12-12
+- Fix: SKFP-554 Multiple minor fixes on the VariantEntity page 
+
 ### 4.7.0 | 2022-12-02
 - Feat: SKFP-554 add VariantEntity page 
 

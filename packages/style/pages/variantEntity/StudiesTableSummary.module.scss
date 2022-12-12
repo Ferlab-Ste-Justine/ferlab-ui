@@ -6,13 +6,14 @@
 
 .participantNumLink {
   text-decoration: underline;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .row {
-  background-color: $gray-2;
+  background-color: $summary-bg-color;
 }
 
 .cell {
-  font-weight: bold;
+  font-weight: 500;
+  color: $heading-color;
 }

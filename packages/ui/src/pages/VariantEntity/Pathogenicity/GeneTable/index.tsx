@@ -57,7 +57,7 @@ export const getColumnsPhenotypes = (dictionary: IVariantEntityDictionary['patho
                 const [geneName, omimId] = record.gene as OmimGene;
                 return (
                     <>
-                        {`${geneName} (OMIM:`}
+                        {`${geneName} (MIM:`}
                         <ExternalLink href={`https://www.omim.org/entry/${omimId}`}>{omimId}</ExternalLink>)
                     </>
                 );
@@ -96,7 +96,7 @@ export const getColumnsPhenotypes = (dictionary: IVariantEntityDictionary['patho
                         {orphanetInheritance.map((inheritance: string[], index: number) => (
                             <StackLayout key={index}>
                                 <Typography.Text>
-                                    {inheritance ? inheritance.join(',') : TABLE_EMPTY_PLACE_HOLDER}
+                                    {inheritance ? inheritance.join(', ') : TABLE_EMPTY_PLACE_HOLDER}
                                 </Typography.Text>
                             </StackLayout>
                         ))}
@@ -109,7 +109,7 @@ export const getColumnsPhenotypes = (dictionary: IVariantEntityDictionary['patho
                         {omimInheritance.map((inheritance: string[], index: number) => (
                             <StackLayout key={index}>
                                 <Typography.Text>
-                                    {inheritance ? inheritance.join(',') : TABLE_EMPTY_PLACE_HOLDER}
+                                    {inheritance ? inheritance.join(', ') : TABLE_EMPTY_PLACE_HOLDER}
                                 </Typography.Text>
                             </StackLayout>
                         ))}
@@ -119,7 +119,7 @@ export const getColumnsPhenotypes = (dictionary: IVariantEntityDictionary['patho
             const inheritance = record.inheritance as SingleValuedInheritance;
             return inheritance || TABLE_EMPTY_PLACE_HOLDER;
         },
-        title: dictionary.inheritance,
+        title: dictionary.inheritances,
         width: '33%',
     },
 ];
