@@ -61,10 +61,9 @@ export interface ProColumnType<T = any> extends ColumnType<T> {
     defaultHidden?: boolean;
 }
 
-export declare type ProColumnsType<RecordType = unknown> = (
-    | ProColumnGroupType<RecordType>
-    | ProColumnType<RecordType>
-)[];
+export type ProColumnTypes<RecordType = unknown> = ProColumnGroupType<RecordType> | ProColumnType<RecordType>;
+
+export type ProColumnsType<RecordType = unknown> = ProColumnTypes<RecordType>[];
 
 export interface ProColumnGroupType<RecordType> extends Omit<ProColumnType<RecordType>, 'dataIndex'> {
     children: ProColumnsType<RecordType>;
