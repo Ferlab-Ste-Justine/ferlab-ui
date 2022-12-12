@@ -1,3 +1,6 @@
+### 4.7.5 | 2022-12-12
+- Fix: CQDG-117 add/debug search input for FilterContainer
+
 ### 4.7.4 | 2022-12-12
 - Fix: SKFP-554 Multiple minor fixes on the VariantEntity page 
 

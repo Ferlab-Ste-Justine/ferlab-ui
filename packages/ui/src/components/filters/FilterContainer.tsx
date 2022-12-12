@@ -20,21 +20,6 @@ import {
 
 import styles from '@ferlab/style/components/filters/FilterContainer.module.scss';
 
-type FilterContainerProps = {
-    filterGroup: IFilterGroup;
-    filters: IFilter[];
-    selectedFilters?: IFilter[];
-    maxShowing?: number;
-    isOpen?: boolean;
-    dictionary?: IDictionary;
-    customContent?: React.ReactNode;
-    className?: string;
-    onChange: onChangeType;
-    onIsOpenChange?: onIsOpenChange;
-    onSearchVisibleChange?: onSearchVisibleChange;
-    collapseProps?: Omit<TCollapseProps, 'defaultActiveKey' | 'onChange' | 'size'>;
-};
-
 type FilterContainerHeaderProps = {
     title: string | React.ReactNode;
     tooltip?: string;
@@ -63,6 +48,22 @@ const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({ hasFilter
     </StackLayout>
 );
 
+type FilterContainerProps = {
+    filterGroup: IFilterGroup;
+    filters: IFilter[];
+    selectedFilters?: IFilter[];
+    maxShowing?: number;
+    isOpen?: boolean;
+    dictionary?: IDictionary;
+    customContent?: React.ReactNode;
+    className?: string;
+    onChange: onChangeType;
+    onIsOpenChange?: onIsOpenChange;
+    onSearchVisibleChange?: onSearchVisibleChange;
+    collapseProps?: Omit<TCollapseProps, 'defaultActiveKey' | 'onChange' | 'size'>;
+    searchInputVisible: boolean;
+};
+
 const FilterContainer = ({
     filterGroup,
     className = '',
@@ -76,8 +77,9 @@ const FilterContainer = ({
     onIsOpenChange,
     onSearchVisibleChange,
     collapseProps,
+    searchInputVisible = false,
 }: FilterContainerProps) => {
-    const [isSearchVisible, setIsSearchVisible] = useState(false);
+    const [isSearchVisible, setIsSearchVisible] = useState(searchInputVisible);
     const [collapseOpen, setCollapseOpen] = useState(isOpen);
 
     useEffect(() => {
@@ -85,6 +87,10 @@ const FilterContainer = ({
             setCollapseOpen(isOpen);
         }
     }, [isOpen]);
+
+    useEffect(() => {
+        setIsSearchVisible(searchInputVisible);
+    }, [searchInputVisible]);
 
     const onSearchClick = (visible: boolean) => {
         if (onSearchVisibleChange) onSearchVisibleChange(visible);
