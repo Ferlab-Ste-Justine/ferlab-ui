@@ -22,7 +22,7 @@ interface IFrequenciesProps {
 const Frequencies: React.FC<IFrequenciesProps> = ({ dictionary, id, loading, participantQueryParams, variant }) => (
     <div className={styles.container} id={id}>
         <Title className={styles.title} level={4}>
-            {dictionary.frequence}
+            {dictionary.frequency}
         </Title>
         <Collapse arrowIcon="caretFilled" className={styles.collapse} defaultActiveKey={['1']}>
             <CollapsePanel className={styles.panel} header={dictionary.kfStudies} key="1">

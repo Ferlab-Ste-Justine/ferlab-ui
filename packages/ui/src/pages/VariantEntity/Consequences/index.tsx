@@ -11,6 +11,7 @@ import ExpandableCell from '../../../components/tables/ExpandableCell';
 import ExpandableTable from '../../../components/tables/ExpandableTable';
 import { IArrangerEdge } from '../../../graphql/types';
 import StackLayout from '../../../layout/StackLayout';
+import { removeUnderscoreAndCapitalize } from '../../../utils/stringUtils';
 import { IVariantEntity, IVariantEntityDictionary } from '../types';
 import { Impact } from '../types';
 import { IVariantConsequence, IVariantGene } from '../types';
@@ -144,11 +145,11 @@ export const makeTables = (
 
 export const makeRows = (
     consequences: IArrangerEdge<IVariantConsequence>[],
-    dictionary: IVariantEntityDictionary['consequences']['prediction'],
+    dictionary: IVariantEntityDictionary['consequences']['predictions'],
 ) =>
     consequences.map((consequence: IArrangerEdge<IVariantConsequence>, index: number) => ({
-        aa_change: consequence.node.aa_change,
-        coding_dna_change: consequence.node.coding_dna_change,
+        aa_change: consequence.node.hgvsp?.split(':')[1],
+        coding_dna_change: consequence.node.hgvsc?.split(':')[1],
         consequences: consequence.node.consequences?.filter((c) => c?.length),
         conservation: consequence.node.conservations?.phylo_p17way_primate_rankscore,
         impact: [
@@ -190,7 +191,11 @@ export const getColumns = (dictionary: IVariantEntityDictionary['consequences'])
     {
         dataIndex: 'aa_change',
         render: (aa_change: string) => <div className={styles.longValue}>{aa_change || TABLE_EMPTY_PLACE_HOLDER}</div>,
-        title: <Tooltip title={dictionary.aaColumnTooltip}>{dictionary.aaColumn}</Tooltip>,
+        title: (
+            <Tooltip className={styles.dotted} title={dictionary.aaColumnTooltip}>
+                {dictionary.aaColumn}
+            </Tooltip>
+        ),
         width: '10%',
     },
     {
@@ -255,7 +260,9 @@ export const getColumns = (dictionary: IVariantEntityDictionary['consequences'])
                         const description = label ? `${capitalize(label)} - ${score}` : score;
                         return (
                             <StackLayout className={styles.cellList} horizontal key={id}>
-                                <Text type={'secondary'}>{predictionField}:</Text>
+                                <Text className={styles.predictionLabel} type={'secondary'}>
+                                    {predictionField}:
+                                </Text>
                                 <Text>{description}</Text>
                             </StackLayout>
                         );
@@ -263,7 +270,7 @@ export const getColumns = (dictionary: IVariantEntityDictionary['consequences'])
                 />
             );
         },
-        title: dictionary.prediction.prediction,
+        title: dictionary.predictions.predictions,
         width: '15%',
     },
     {
@@ -322,13 +329,12 @@ const Consequences: React.FC<IConsequencesProps> = ({ dictionary, id, loading, v
                 {dictionary.consequence}
             </Title>
             <Collapse arrowIcon="caretFilled" className={styles.collapse} defaultActiveKey={['1']}>
-                <CollapsePanel className={styles.panel} header={dictionary.geneConsequences} key="1">
+                <CollapsePanel className={styles.panel} header={dictionary.geneConsequence} key="1">
                     <Card className={styles.card} loading={loading}>
                         <Space className={styles.consequenceCards} direction="vertical" size={48}>
                             {tables.length > 0 ? (
                                 tables.map((tableData: TableGroup, index: number) => {
-                                    const { symbol } = tableData;
-                                    const { omim } = tableData;
+                                    const { omim, symbol } = tableData;
                                     const orderedConsequences = sortConsequences(tableData.consequences);
 
                                     return (
@@ -341,9 +347,10 @@ const Consequences: React.FC<IConsequencesProps> = ({ dictionary, id, loading, v
                                             <Space size={12}>
                                                 <Space size={4}>
                                                     <span>
-                                                        <span>{dictionary.gene} </span>
+                                                        <span className={styles.bold}>{dictionary.gene} </span>
                                                         <span>
                                                             <ExternalLink
+                                                                className={styles.link}
                                                                 href={`https://useast.ensembl.org/Homo_sapiens/Gene/Summary?g=${symbol}`}
                                                             >
                                                                 {symbol}
@@ -354,14 +361,24 @@ const Consequences: React.FC<IConsequencesProps> = ({ dictionary, id, loading, v
                                                 <Space size={4}>
                                                     {omim && (
                                                         <>
-                                                            <span>{dictionary.omim}</span>
+                                                            <span className={styles.bold}>{dictionary.omim}</span>
                                                             <span>
-                                                                <ExternalLink href={`https://omim.org/entry/${omim}`}>
+                                                                <ExternalLink
+                                                                    className={styles.link}
+                                                                    href={`https://omim.org/entry/${omim}`}
+                                                                >
                                                                     {omim}
                                                                 </ExternalLink>
                                                             </span>
                                                         </>
                                                     )}
+                                                </Space>
+                                                <Space size={4}>
+                                                    <span className={styles.bold}>
+                                                        {removeUnderscoreAndCapitalize(
+                                                            orderedConsequences[0].node.biotype,
+                                                        )}
+                                                    </span>
                                                 </Space>
                                             </Space>
                                             <ExpandableTable
@@ -369,10 +386,10 @@ const Consequences: React.FC<IConsequencesProps> = ({ dictionary, id, loading, v
                                                 buttonText={(showAll, hiddenNum) =>
                                                     showAll
                                                         ? `${dictionary.hideTranscript}`
-                                                        : `${hiddenNum} ${dictionary.showTranscript}`
+                                                        : `${dictionary.showTranscript(hiddenNum)}`
                                                 }
                                                 columns={getColumns(dictionary)}
-                                                dataSource={makeRows(orderedConsequences, dictionary['prediction'])}
+                                                dataSource={makeRows(orderedConsequences, dictionary['predictions'])}
                                                 nOfElementsWhenCollapsed={1}
                                                 pagination={false}
                                                 size="small"

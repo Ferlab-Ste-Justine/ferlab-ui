@@ -35,7 +35,7 @@ const VariantEntity: React.FC<IVariantEntityProps> = ({
     const links: IAnchorLink[] = [
         { href: '#summary', title: summary.summary },
         { href: '#consequences', title: consequences.consequence },
-        { href: '#frequencies', title: frequencies.frequence },
+        { href: '#frequencies', title: frequencies.frequency },
         { href: '#pathogenicity', title: pathogenicity.pathogenicity },
     ];
 
@@ -49,7 +49,7 @@ const VariantEntity: React.FC<IVariantEntityProps> = ({
             setScrollContainerId(scrollContainerId);
             simplebarContent[simplebarContent.length - 1].setAttribute('id', scrollContainerId);
         }
-    });
+    }, [scrollContainerId]);
 
     return (
         <div className={`${styles.variantEntityContainer} ${containerClassName}`}>
@@ -57,10 +57,7 @@ const VariantEntity: React.FC<IVariantEntityProps> = ({
                 {variant && (
                     <div className={styles.titleHeader}>
                         <LineStyleIcon />
-                        <Title
-                            className={styles.title}
-                            level={4}
-                        >{`${variant?.hgvsg} ${variant?.variant_class} `}</Title>
+                        <Title className={styles.title} level={4}>{`${variant?.hgvsg}`}</Title>
                         <Tag className={styles.variantTag}>Germline</Tag>
                     </div>
                 )}

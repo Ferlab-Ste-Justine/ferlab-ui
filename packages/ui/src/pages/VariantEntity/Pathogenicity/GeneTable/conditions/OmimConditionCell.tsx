@@ -21,7 +21,7 @@ const OmimConditionCell: React.FC<OwnProps> = ({ conditions }) => (
 
                 return (
                     <StackLayout key={index}>
-                        <Text>{geneOmimName}</Text>&nbsp;(OMIM:
+                        <Text>{geneOmimName}</Text>&nbsp;(MIM:
                         <ExternalLink href={`https://www.omim.org/entry/${omimId}`} key={index}>
                             {omimId}
                         </ExternalLink>

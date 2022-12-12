@@ -40,19 +40,31 @@ const getExternalColumns = (dictionary: IVariantEntityDictionary['frequencies'])
         dataIndex: 'alt',
         key: 'alt',
         render: (alt: string) => alt || TABLE_EMPTY_PLACE_HOLDER,
-        title: <Tooltip title={dictionary.altAllelesTooltip}>{dictionary.altAlleles}</Tooltip>,
+        title: (
+            <Tooltip className={styles.dotted} title={dictionary.altAllelesTooltip}>
+                {dictionary.altAlleles}
+            </Tooltip>
+        ),
     },
     {
         dataIndex: 'altRef',
         key: 'altRef',
         render: (altRef: string) => altRef || TABLE_EMPTY_PLACE_HOLDER,
-        title: <Tooltip title={dictionary.altRefTooltip}>{dictionary.altRef}</Tooltip>,
+        title: (
+            <Tooltip className={styles.dotted} title={dictionary.altRefTooltip}>
+                {dictionary.altRef}
+            </Tooltip>
+        ),
     },
     {
         dataIndex: 'homozygotes',
         key: 'homozygotes',
         render: (homozygotes: string) => homozygotes || TABLE_EMPTY_PLACE_HOLDER,
-        title: <Tooltip title={dictionary.homozygotesTooltip}>{dictionary.homozygotes}</Tooltip>,
+        title: (
+            <Tooltip className={styles.dotted} title={dictionary.homozygotesTooltip}>
+                {dictionary.homozygotes}
+            </Tooltip>
+        ),
     },
     {
         dataIndex: 'frequency',
@@ -100,7 +112,6 @@ const makeRowFromFrequencies = (frequencies: IVariantFrequencies | undefined, lo
             altRef: gnomadGenomes3.an,
             cohort: {
                 cohortName: 'gnomAD Genomes (v3)',
-                link: `https://gnomad.broadinstitute.org/variant/${locus}?dataset=gnomad_r3`,
             },
             frequency: toExponentialNotation(gnomadGenomes3.af),
             homozygotes: gnomadGenomes3.homozygotes,
