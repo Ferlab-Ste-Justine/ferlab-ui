@@ -1,5 +1,6 @@
 import React from 'react';
-import { Table, Tooltip } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons';
+import { Space, Table, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 
 import { updateActiveQueryField } from '../../../../components/QueryBuilder/utils/useQueryBuilderState';
@@ -71,7 +72,17 @@ const getInternalColumns = (
                 formatQuotientOrElse(participantsNumber, participantsTotal)
             );
         },
-        title: <Tooltip title={dictionary.participantsTooltip}>{dictionary.participants}</Tooltip>,
+        title: (
+            <Space>
+                <Tooltip className={styles.dotted} title={dictionary.participantsTooltip}>
+                    {dictionary.participants}
+                </Tooltip>
+
+                <Tooltip title={dictionary.participantsInfoIconTooltip}>
+                    <InfoCircleOutlined />
+                </Tooltip>
+            </Space>
+        ),
     },
     {
         key: 'frequency',
@@ -80,20 +91,32 @@ const getInternalColumns = (
             const participantsTotal = row.participantTotalNumber;
             return formatQuotientToExponentialOrElse(participantsNumber, participantsTotal);
         },
-        title: <Tooltip title={dictionary.frequencyTooltip}>{dictionary.frequency}</Tooltip>,
+        title: (
+            <Tooltip className={styles.dotted} title={dictionary.frequencyTooltip}>
+                {dictionary.frequency}
+            </Tooltip>
+        ),
     },
     {
         dataIndex: 'frequencies',
         key: 'upper_bound_kf_ac',
         render: (frequencies: IVariantStudyFrequencies) => frequencies?.upper_bound_kf?.ac,
-        title: <Tooltip title={dictionary.altAllelesTooltip}>{dictionary.altAlleles}</Tooltip>,
+        title: (
+            <Tooltip className={styles.dotted} title={dictionary.altAllelesTooltip}>
+                {dictionary.altAlleles}
+            </Tooltip>
+        ),
         width: '14%',
     },
     {
         dataIndex: 'frequencies',
         key: 'upper_bound_kf_homozygotes',
         render: (frequencies: IVariantStudyFrequencies) => frequencies?.upper_bound_kf?.homozygotes,
-        title: <Tooltip title={dictionary.homozygotesTooltip}>{dictionary.homozygotes}</Tooltip>,
+        title: (
+            <Tooltip className={styles.dotted} title={dictionary.homozygotesTooltip}>
+                {dictionary.homozygotes}
+            </Tooltip>
+        ),
         width: '14%',
     },
 ];

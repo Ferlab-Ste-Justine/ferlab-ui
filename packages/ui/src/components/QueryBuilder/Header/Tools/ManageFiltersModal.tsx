@@ -1,11 +1,13 @@
+import React, { Fragment, useContext, useState } from 'react';
 import { ConfigProvider, List, Modal } from 'antd';
 import { formatDistance } from 'date-fns';
 import enUS from 'date-fns/locale/en-US';
 import frCa from 'date-fns/locale/fr-CA';
-import React, { Fragment, useContext, useState } from 'react';
+
 import ListItemWithActions from '../../../List/ListItemWithActions';
 import { QueryBuilderContext } from '../../context';
 import { ISavedFilter } from '../../types';
+
 import EditFilterModal from './EditFilterModal';
 import { deleteFilterConfirm } from './utils';
 
@@ -19,7 +21,7 @@ interface OwnProps {
     onUpdateFilter: ((filter: ISavedFilter) => void) | undefined;
 }
 
-const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFilter, onUpdateFilter }: OwnProps) => {
+const ManageFiltersModal = ({ onDeleteFilter, onUpdateFilter, onVisibleChange, savedFilters, visible }: OwnProps) => {
     const { dictionary } = useContext(QueryBuilderContext);
     const { locale } = useContext(ConfigProvider.ConfigContext);
     const [isEditModalVisible, setEditModalVisible] = useState(false);
@@ -45,21 +47,21 @@ const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFi
 
         return (
             <ListItemWithActions
-                title={item.title}
                 description={
                     lastSavedAt &&
                     (dictionary.queryBuilderHeader?.manageFilters?.lastSavedAt
                         ? dictionary.queryBuilderHeader?.manageFilters?.lastSavedAt.replace('{date}', lastSavedAt)
                         : `Last saved : ${lastSavedAt} ago`)
                 }
-                onEdit={() => showEditModal(item)}
                 onDelete={() =>
                     deleteFilterConfirm({
                         dictionary,
-                        savedFilter: item,
                         onDeleteFilter,
+                        savedFilter: item,
                     })
                 }
+                onEdit={() => showEditModal(item)}
+                title={item.title}
             />
         );
     };
@@ -67,27 +69,26 @@ const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFi
     return (
         <Fragment>
             <Modal
-                visible={visible}
+                cancelButtonProps={{ style: { display: 'none' } }}
+                okText={dictionary.queryBuilderHeader?.manageFilters?.okText || 'Close'}
                 onCancel={onDismiss}
                 onOk={onDismiss}
                 title={dictionary.queryBuilderHeader?.manageFilters?.modalTitle || 'Manage filters'}
-                okText={dictionary.queryBuilderHeader?.manageFilters?.okText || 'Close'}
-                cancelButtonProps={{ style: { display: 'none' } }}
+                visible={visible}
                 width={600}
             >
                 <List
-                    className={styles.QBHManageFiltersList}
                     bordered
+                    className={styles.QBHManageFiltersList}
                     dataSource={savedFilters}
                     renderItem={getListItem}
                 />
             </Modal>
             <EditFilterModal
-                visible={isEditModalVisible}
-                onCancel={() => setEditModalVisible(false)}
                 initialTitleValue={selectedFilter?.title!}
-                okDisabled={false}
                 isNewFilter={false}
+                okDisabled={false}
+                onCancel={() => setEditModalVisible(false)}
                 onSubmit={(title) => {
                     setEditModalVisible(false);
                     if (onUpdateFilter) {
@@ -97,6 +98,7 @@ const ManageFiltersModal = ({ visible, savedFilters, onVisibleChange, onDeleteFi
                         });
                     }
                 }}
+                visible={isEditModalVisible}
             />
         </Fragment>
     );

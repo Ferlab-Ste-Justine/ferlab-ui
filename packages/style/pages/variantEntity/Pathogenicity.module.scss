@@ -18,3 +18,12 @@
     }
   }
 }
+
+.externalLink {
+  font-weight: 400;
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

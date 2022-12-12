@@ -1,21 +1,21 @@
+import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { EditOutlined, StarFilled, StarOutlined, UndoOutlined } from '@ant-design/icons';
 import { Button, Space, Tooltip, Typography } from 'antd';
 import cx from 'classnames';
-import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
 import { getDefaultSyntheticSqon } from '../../../data/sqon/utils';
 import Collapse, { CollapsePanel } from '../../Collapse';
+import { QueryBuilderContext } from '../context';
 import { ISavedFilter, TOnSavedFilterChange } from '../types';
 import { setQueryBuilderState } from '../utils/useQueryBuilderState';
 
+import EditFilterModal from './Tools/EditFilterModal';
 import QueryBuilderHeaderTools from './Tools';
 import { hasUnsavedChanges, isNewUnsavedFilter } from './utils';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
-import { useContext } from 'react';
-import { QueryBuilderContext } from '../context';
-import EditFilterModal from './Tools/EditFilterModal';
 
 interface IQueryBuilderHeaderProps {
     children: JSX.Element;
@@ -28,7 +28,7 @@ const { Title } = Typography;
 const tooltipAlign = { align: { offset: [0, 5] } };
 
 const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }: IQueryBuilderHeaderProps) => {
-    const { queryBuilderId, dictionary, headerConfig, queriesState, selectedSavedFilter } =
+    const { dictionary, headerConfig, queriesState, queryBuilderId, selectedSavedFilter } =
         useContext(QueryBuilderContext);
     const [savedFilterTitle, setSavedFilterTitle] = useState('');
     const [isEditModalVisible, setEditModalVisible] = useState(false);
@@ -87,6 +87,11 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
                     onDeleteFilter: onDeleteFilter,
                     onSaveFilter: onSaveFilter,
                     onUpdateFilter: onUpdateFilter,
+                    onUpdateFilterModal: (savedFilter: ISavedFilter) => {
+                        if (headerConfig?.onUpdateFilter) {
+                            headerConfig.onUpdateFilter(savedFilter);
+                        }
+                    },
                 }}
                 onDuplicateSavedFilter={() => {
                     const duplicatedQueries = [...queriesState.queries].map((query) => ({
@@ -131,8 +136,8 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
                     arrowIcon: headerConfig.collapseProps?.arrowIcon ?? 'caretFilled',
                     size: headerConfig.collapseProps?.size ?? 'large',
                 }}
-                defaultActiveKey={'query-header-tools'}
                 className={styles.QBHCollapse}
+                defaultActiveKey={'query-header-tools'}
             >
                 <CollapsePanel
                     extra={getExtra()}
@@ -236,11 +241,10 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
                 </CollapsePanel>
             </Collapse>
             <EditFilterModal
-                visible={isEditModalVisible}
-                onCancel={() => setEditModalVisible(false)}
-                okDisabled={!localSavedFilters}
                 initialTitleValue={savedFilterTitle || selectedSavedFilter?.title!}
                 isNewFilter={isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!)}
+                okDisabled={!localSavedFilters}
+                onCancel={() => setEditModalVisible(false)}
                 onSubmit={(title) => {
                     setEditModalVisible(false);
                     setSavedFilterTitle(title);
@@ -254,6 +258,7 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
                         onUpdateFilter(filterToSave);
                     }
                 }}
+                visible={isEditModalVisible}
             />
         </div>
     );

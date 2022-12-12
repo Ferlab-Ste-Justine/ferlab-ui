@@ -1,3 +1,5 @@
+@import 'theme.template';
+
 .container {
   max-width: 1600px;
   margin-bottom: 40px;
@@ -32,4 +34,28 @@
   overflow: hidden;
   text-overflow: ellipsis;
   overflow-wrap: initial;
+}
+
+.dotted {
+  border-bottom: 1px dotted;
+}
+
+.bold {
+  font-weight: 500;
+}
+
+.link {
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.canonicalIcon {
+  color: $canonical-icon-color;
+}
+
+.predictionLabel {
+  margin-right: 4px;
 }

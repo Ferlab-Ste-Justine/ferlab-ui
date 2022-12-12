@@ -7,6 +7,8 @@ $font-weight-bold: 600;
 $default-page-content-padding: 24px;
 $main-header-height: 64px;
 
+$heading-color: $gray-9;
+
 // QueryBuilder
 $query-default-action-default-color: black;
 $query-default-action-hover-color: black;
@@ -148,3 +150,9 @@ $prolabel-required-mark-color: #a8071a;
 
 // UploadIds
 $file-upload-item-color: #1890ff;
+
+// Variant Entity
+$variant-tag-color: #531DAB;
+$variant-tag-bg-color: #EFDBFF;
+$canonical-icon-color: $blue-8;
+$summary-bg-color: $gray-3;

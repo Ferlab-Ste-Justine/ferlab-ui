@@ -22,3 +22,15 @@
     }
   }
 }
+
+.dotted {
+  border-bottom: 1px dotted;
+}
+
+.link {
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

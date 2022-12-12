@@ -6,7 +6,7 @@ export interface IVariantEntityDictionary {
         type: string;
         chromosome: string;
         position: string;
-        cytobande: string;
+        cytoband: string;
         alternativeAllele: string;
         altAllele: string;
         referenceAllele: string;
@@ -33,8 +33,8 @@ export interface IVariantEntityDictionary {
         cdnaChangeColumn: string;
         strand: string;
         vep: string;
-        prediction: {
-            prediction: string;
+        predictions: {
+            predictions: string;
             sift: string;
             polyphen2: string;
             fathmm: string;
@@ -49,19 +49,19 @@ export interface IVariantEntityDictionary {
         transcript: string;
         canonical: string;
         refSeq: string;
-        geneConsequences: string;
+        geneConsequence: string;
         gene: string;
         omim: string;
         hideTranscript: string;
-        showTranscript: string;
+        showTranscript: (count: number) => string;
         noDataAvailable: string;
     };
     frequencies: {
-        frequence: string;
         kfStudies: string;
         publicCohorts: string;
         studies: string;
         domain: string;
+        participantsInfoIconTooltip: string;
         participantsTooltip: string;
         participants: string;
         frequencyTooltip: string;
@@ -84,6 +84,7 @@ export interface IVariantEntityDictionary {
         gene: string;
         condition: string;
         inheritance: string;
+        inheritances: string;
         interpretation: string;
     };
 }
@@ -146,16 +147,17 @@ export interface IVariantConsequence {
     symbol: string;
     consequences: string[];
     vep_impact: Impact;
-    aa_change: string | undefined | null;
     impact_score: number | null;
     canonical: boolean;
-    coding_dna_change: string;
     strand: string;
     refseq_mrna_id: string;
     ensembl_transcript_id: string;
     ensembl_gene_id: string;
     predictions: IPredictionEntity;
     conservations: IConservationsEntity;
+    biotype: string;
+    hgvsc: string;
+    hgvsp: string;
 }
 
 export interface IPredictionEntity {
