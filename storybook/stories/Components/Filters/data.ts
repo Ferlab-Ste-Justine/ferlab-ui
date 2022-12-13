@@ -84,6 +84,17 @@ export const filters: IFilter<IFilterCount>[] = [
 
 ]
 
+export const filtersWithNoData = [... filters, 
+    {
+        data: {
+            count: 42,
+            key: '__missing__',
+        },
+        name: '__missing__',
+        id: '__missing__'
+    }
+]
+
 export const filtersWithBigCounts: IFilter<IFilterCount>[] = [
     {
         data: {

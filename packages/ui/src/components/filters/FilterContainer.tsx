@@ -62,6 +62,7 @@ type FilterContainerProps = {
     onSearchVisibleChange?: onSearchVisibleChange;
     collapseProps?: Omit<TCollapseProps, 'defaultActiveKey' | 'onChange' | 'size'>;
     searchInputVisible?: boolean;
+    withNoData?: boolean;
 };
 
 const FilterContainer = ({
@@ -78,6 +79,7 @@ const FilterContainer = ({
     onSearchVisibleChange,
     collapseProps,
     searchInputVisible = false,
+    withNoData = false,
 }: FilterContainerProps) => {
     const [isSearchVisible, setIsSearchVisible] = useState(searchInputVisible);
     const [collapseOpen, setCollapseOpen] = useState(isOpen);
@@ -143,6 +145,7 @@ const FilterContainer = ({
                             onChange={onChange}
                             searchInputVisible={isSearchVisible}
                             selectedFilters={selectedFilters}
+                            withNoData={withNoData}
                         />
                     )}
                 </CollapsePanel>
