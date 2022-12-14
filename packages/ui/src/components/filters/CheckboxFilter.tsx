@@ -27,7 +27,56 @@ export type TermFilterProps = {
     noDataInputOption?: boolean;
 };
 
+type InternalCheckBoxProps = {
+    filter: IFilter;
+    filterGroup: IFilterGroup<IFilterCheckboxConfig>;
+    getMappedName: (filter: IFilter) => string;
+    handleOnChange: (newFilter: IFilter[]) => void;
+    localSelectedFilters: IFilter[];
+    setLocalSelectedFilters: (newFilter: IFilter[]) => void;
+    index?: number;
+};
+
 const { Text } = Typography;
+
+const InternalCheckBox = ({
+    filter,
+    filterGroup,
+    getMappedName,
+    handleOnChange,
+    localSelectedFilters,
+    setLocalSelectedFilters,
+    index = -1,
+}: InternalCheckBoxProps) => (
+    <StackLayout
+        className={styles.checkboxFilterItem}
+        horizontal
+        key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${localSelectedFilters.length}-${index}`}
+    >
+        <Checkbox
+            checked={localSelectedFilters.some((f) => f.data.key === filter.data.key)}
+            className={styles.fuiMcItemCheckbox}
+            id={`input-${filter.data.key}`}
+            name={`input-${filter.id}`}
+            onChange={(e) => {
+                const { checked } = e.target;
+                let newFilters: IFilter[];
+                if (checked) {
+                    newFilters = [...localSelectedFilters, filter];
+                } else {
+                    newFilters = localSelectedFilters.filter((f) => f.id !== filter.id);
+                    setLocalSelectedFilters(newFilters);
+                }
+
+                handleOnChange(newFilters);
+            }}
+            type="checkbox"
+        >
+            <Text>{getMappedName(filter)}</Text>
+        </Checkbox>
+        <Tag className={styles.tag}>{numberFormat(filter.data.count)}</Tag>
+    </StackLayout>
+);
 
 const CheckboxFilter = ({
     dictionary,
@@ -108,37 +157,6 @@ const CheckboxFilter = ({
         }
     }, [selectedFilters]);
 
-    const renderCheckBox = (filter: IFilter, i = -1) => (
-        <StackLayout
-            className={styles.checkboxFilterItem}
-            horizontal
-            key={`${filterGroup.field}-${filter.id}-${filter.data.count}-${localselectedFilters.length}-${i}`}
-        >
-            <Checkbox
-                checked={localselectedFilters.some((f) => f.data.key === filter.data.key)}
-                className={styles.fuiMcItemCheckbox}
-                id={`input-${filter.data.key}`}
-                name={`input-${filter.id}`}
-                onChange={(e) => {
-                    const { checked } = e.target;
-                    let newFilters: IFilter[];
-                    if (checked) {
-                        newFilters = [...localselectedFilters, filter];
-                    } else {
-                        newFilters = localselectedFilters.filter((f) => f.id !== filter.id);
-                        setLocalSelectedFilters(newFilters);
-                    }
-
-                    handleOnChange(newFilters);
-                }}
-                type="checkbox"
-            >
-                <Text>{getMappedName(filter)}</Text>
-            </Checkbox>
-            <Tag className={styles.tag}>{numberFormat(filter.data.count)}</Tag>
-        </StackLayout>
-    );
-
     const noDataFilter = noDataInputOption && filteredFilters.find((f) => f.id === ArrangerValues.missing);
 
     return (
@@ -197,9 +215,28 @@ const CheckboxFilter = ({
                         {bumpCheckedFilterFirst()
                             .filter((f) => !noDataInputOption || f.id !== ArrangerValues.missing)
                             .slice(0, isShowingMore ? Infinity : maxShowing)
-                            .map((filter, i) => renderCheckBox(filter, i))}
+                            .map((filter, i) => (
+                                <InternalCheckBox
+                                    filter={filter}
+                                    filterGroup={filterGroup}
+                                    getMappedName={getMappedName}
+                                    handleOnChange={handleOnChange}
+                                    index={i}
+                                    localSelectedFilters={localselectedFilters}
+                                    setLocalSelectedFilters={setLocalSelectedFilters}
+                                />
+                            ))}
                     </ScrollContent>
-                    {noDataFilter && renderCheckBox(noDataFilter)}
+                    {noDataFilter && (
+                        <InternalCheckBox
+                            filter={noDataFilter}
+                            filterGroup={filterGroup}
+                            getMappedName={getMappedName}
+                            handleOnChange={handleOnChange}
+                            localSelectedFilters={localselectedFilters}
+                            setLocalSelectedFilters={setLocalSelectedFilters}
+                        />
+                    )}
                     {showMoreReadOnly ? (
                         <span className={cx(styles.filtersTypesFooter, styles.readOnly)}>
                             <>{`${filteredFilters.length} `}</>
