@@ -84,7 +84,7 @@ export const filters: IFilter<IFilterCount>[] = [
 
 ]
 
-export const filtersWithNoData = [... filters, 
+export const filtersWithNoData = [...filters, 
     {
         data: {
             count: 42,

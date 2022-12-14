@@ -121,15 +121,15 @@ const CheckboxFilter = ({
                 name={`input-${filter.id}`}
                 onChange={(e) => {
                     const { checked } = e.target;
-                    let newFilter: IFilter[];
+                    let newFilters: IFilter[];
                     if (checked) {
-                        newFilter = [...localselectedFilters, filter];
+                        newFilters = [...localselectedFilters, filter];
                     } else {
-                        newFilter = localselectedFilters.filter((f) => f.id != filter.id);
-                        setLocalSelectedFilters(newFilter);
+                        newFilters = localselectedFilters.filter((f) => f.id !== filter.id);
+                        setLocalSelectedFilters(newFilters);
                     }
 
-                    handleOnChange(newFilter);
+                    handleOnChange(newFilters);
                 }}
                 type="checkbox"
             >
