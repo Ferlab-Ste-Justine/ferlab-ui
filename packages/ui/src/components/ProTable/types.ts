@@ -50,6 +50,9 @@ export interface IProTableDictionary {
         view: string;
     };
     numberFormat?: (value: number) => React.ReactNode;
+    table?: {
+        emptyText: string;
+    };
 }
 
 export interface ProColumnType<T = any> extends ColumnType<T> {
