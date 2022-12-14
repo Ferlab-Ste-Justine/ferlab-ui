@@ -87,7 +87,7 @@ WithNoDataCheckbox.args = {
     onChangeType: onChangeTypeStory(filerGroup, filters),
     hasSearchInput: true,
     filters: filtersWithNoData,
-    WithNoDataInputOption: true
+    noDataInputOption: true
 };
 
 export const WithBigCount = TermFilterStory.bind({});
