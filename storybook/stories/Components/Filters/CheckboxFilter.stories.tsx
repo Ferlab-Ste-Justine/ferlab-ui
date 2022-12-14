@@ -81,13 +81,13 @@ WithNoData.args = {
 
 export const WithNoDataCheckbox = TermFilterStory.bind({});
 WithNoDataCheckbox.args = {
-    title: 'CheckboxFilter No Data checbox',
+    title: 'CheckboxFilter No Data checkbox',
     maxShowing: 6,
     filterGroup: filerGroup,
     onChangeType: onChangeTypeStory(filerGroup, filters),
     hasSearchInput: true,
     filters: filtersWithNoData,
-    withNoData: true
+    WithNoDataInputOption: true
 };
 
 export const WithBigCount = TermFilterStory.bind({});

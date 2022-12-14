@@ -24,7 +24,7 @@ export type TermFilterProps = {
     maxShowing: number;
     hasSearchInput: boolean;
     filters: IFilter<IFilterCount>[];
-    withNoData: boolean;
+    noDataInputOption: boolean;
 };
 
 const { Text } = Typography;
@@ -37,7 +37,7 @@ const CheckboxFilter = ({
     maxShowing,
     onChange,
     selectedFilters = [],
-    withNoData,
+    noDataInputOption,
 }: TermFilterProps) => {
     const [search, setSearch] = useState('');
     const [isShowingMore, setShowingMore] = useState(false);
@@ -48,7 +48,7 @@ const CheckboxFilter = ({
     const showSelectAll = get(filterGroup.config, 'showSelectAll', true);
 
     const getMappedName = (filter: IFilter) => {
-        if (withNoData && filter.id === ArrangerValues.missing) {
+        if (noDataInputOption && filter.id === ArrangerValues.missing) {
             return get(dictionary, 'checkBox.noData', 'No Data');
         }
 
@@ -139,7 +139,7 @@ const CheckboxFilter = ({
         </StackLayout>
     );
 
-    const noDataFilter = withNoData && filteredFilters.find((f) => f.id === ArrangerValues.missing);
+    const noDataFilter = noDataInputOption && filteredFilters.find((f) => f.id === ArrangerValues.missing);
 
     return (
         <Fragment>
@@ -195,7 +195,7 @@ const CheckboxFilter = ({
                         }`}
                     >
                         {bumpCheckedFilterFirst()
-                            .filter((f) => !withNoData || f.id !== ArrangerValues.missing)
+                            .filter((f) => !noDataInputOption || f.id !== ArrangerValues.missing)
                             .slice(0, isShowingMore ? Infinity : maxShowing)
                             .map((filter, i) => renderCheckBox(filter, i))}
                     </ScrollContent>
