@@ -24,7 +24,7 @@ export type TermFilterProps = {
     maxShowing: number;
     hasSearchInput: boolean;
     filters: IFilter<IFilterCount>[];
-    noDataInputOption: boolean;
+    noDataInputOption?: boolean;
 };
 
 const { Text } = Typography;
@@ -37,7 +37,7 @@ const CheckboxFilter = ({
     maxShowing,
     onChange,
     selectedFilters = [],
-    noDataInputOption,
+    noDataInputOption = false,
 }: TermFilterProps) => {
     const [search, setSearch] = useState('');
     const [isShowingMore, setShowingMore] = useState(false);
@@ -199,6 +199,7 @@ const CheckboxFilter = ({
                             .slice(0, isShowingMore ? Infinity : maxShowing)
                             .map((filter, i) => renderCheckBox(filter, i))}
                     </ScrollContent>
+                    {noDataFilter && renderCheckBox(noDataFilter)}
                     {showMoreReadOnly ? (
                         <span className={cx(styles.filtersTypesFooter, styles.readOnly)}>
                             <>{`${filteredFilters.length} `}</>
@@ -224,7 +225,6 @@ const CheckboxFilter = ({
                             </Button>
                         )
                     )}
-                    {noDataFilter && renderCheckBox(noDataFilter)}
                 </StackLayout>
             )}
 
