@@ -19,6 +19,7 @@ const Pagination = ({
     onChange,
     onPageChange,
     onShowSizeChange,
+    onViewQueryChange,
     queryConfig,
     searchAfter,
     setQueryConfig,
@@ -39,6 +40,10 @@ const Pagination = ({
                         size: viewPerQuery,
                         sort: queryConfig.operations?.previous ? reverseSortDirection(queryConfig) : queryConfig.sort,
                     });
+
+                    if (onViewQueryChange) {
+                        onViewQueryChange(viewPerQuery);
+                    }
                     onShowSizeChange();
                 }}
                 options={getPaginationOptions(dictionary?.pagination?.view || '{value} / view')}
@@ -97,7 +102,6 @@ const Pagination = ({
                         searchAfter: searchAfter?.tail,
                         sort: queryConfig.operations?.previous ? reverseSortDirection(queryConfig) : queryConfig.sort,
                     });
-
                     onPageChange();
                     onChange(current + 1, queryConfig.size);
                 }}
