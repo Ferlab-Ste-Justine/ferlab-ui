@@ -96,7 +96,8 @@ const Summary: React.FC<ISummaryProps> = ({ dictionary, id, loading, variant }) 
                             <br />
                             <Descriptions bordered column={1} size="small">
                                 <Descriptions.Item label={dictionary.clinVar}>
-                                    {variant?.clinvar?.clin_sig || TABLE_EMPTY_PLACE_HOLDER}
+                                    {variant?.clinvar?.clin_sig.join(', ').replaceAll('_', ' ') ||
+                                        TABLE_EMPTY_PLACE_HOLDER}
                                 </Descriptions.Item>
                             </Descriptions>
                             <br />
