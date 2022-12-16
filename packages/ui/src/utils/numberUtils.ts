@@ -1,16 +1,16 @@
 const VALUE_SYMBOLE_LIST = [
-    { value: 1e3, symbol: 'K' },
-    { value: 1e6, symbol: 'M' },
-    { value: 1e9, symbol: 'G' },
-    { value: 1e12, symbol: 'T' },
-    { value: 1e15, symbol: 'P' },
-    { value: 1e18, symbol: 'E' },
+    { symbol: 'K', value: 1e3 },
+    { symbol: 'M', value: 1e6 },
+    { symbol: 'G', value: 1e9 },
+    { symbol: 'T', value: 1e12 },
+    { symbol: 'P', value: 1e15 },
+    { symbol: 'E', value: 1e18 },
 ];
 
 const BLACK_LIST_LENGTH = [1, 2, 3, 4];
 const NUM_FORMAT_REGEX = /\.0+$|(\.[0-9]*[1-9])0+$/;
 
-const getDefaultDigits = (num: number) => {
+export const getDefaultDigits = (num: number) => {
     switch (num.toString().length) {
         case 5:
         case 7:
@@ -20,10 +20,10 @@ const getDefaultDigits = (num: number) => {
     }
 };
 
-export const numberFormat = (num: number, digits: number = 0) => {
+export const numberFormat = (num: number, digits = 0) => {
     if (!num) return 0;
 
-    var index: number;
+    let index: number;
     digits = digits ? digits : getDefaultDigits(num);
 
     if (BLACK_LIST_LENGTH.includes(num.toString().length)) {
