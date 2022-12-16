@@ -27,7 +27,7 @@ export const makeClinVarRows = (clinvar?: IClinVar) => {
         return [];
     }
     const inheritance = (clinvar.inheritance || [])[0] || '';
-    const interpretation = (clinvar.clin_sig || [])[0] || '';
+    const interpretation = (clinvar.clin_sig || [])[0].replaceAll('_', ' ') || '';
 
     return clinvar.conditions.map((condition: string, index: number) => ({
         condition,
