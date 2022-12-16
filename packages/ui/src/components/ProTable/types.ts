@@ -16,6 +16,7 @@ export interface IPaginationProps {
     setQueryConfig: TQueryConfigCb;
     queryConfig: IQueryConfig;
     defaultViewPerQuery?: PaginationViewPerQuery;
+    onViewQueryChange?: (viewPerQuery: PaginationViewPerQuery) => void;
     searchAfter?: ISearchAfter;
     onPageChange: () => void;
     onShowSizeChange: () => void;
