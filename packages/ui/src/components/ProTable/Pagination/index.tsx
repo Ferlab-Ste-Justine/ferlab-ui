@@ -41,9 +41,7 @@ const Pagination = ({
                         sort: queryConfig.operations?.previous ? reverseSortDirection(queryConfig) : queryConfig.sort,
                     });
 
-                    if (onViewQueryChange) {
-                        onViewQueryChange(viewPerQuery);
-                    }
+                    onViewQueryChange?.(viewPerQuery);
                     onShowSizeChange();
                 }}
                 options={getPaginationOptions(dictionary?.pagination?.view || '{value} / view')}
