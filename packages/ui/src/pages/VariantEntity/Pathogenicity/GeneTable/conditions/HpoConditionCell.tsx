@@ -4,6 +4,7 @@ import { Typography } from 'antd';
 import ExternalLink from '../../../../../components/ExternalLink';
 import ExpandableCell from '../../../../../components/tables/ExpandableCell';
 import StackLayout from '../../../../../layout/StackLayout';
+import { titleCase } from '../../../../../utils/stringUtils';
 import { HpoCondition, HpoConditions } from '../../../types';
 
 interface OwnProps {
@@ -27,7 +28,7 @@ const HpoConditionCell: React.FC<OwnProps> = ({ conditions }) => (
 
             return (
                 <StackLayout key={id}>
-                    <Text>{condition}</Text>&nbsp;(
+                    <Text>{titleCase(condition)}</Text>&nbsp;(
                     <ExternalLink href={`https://hpo.jax.org/app/browse/term/${termId}`} key={id}>
                         {termId}
                     </ExternalLink>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'antd';
 
+import { removeUnderscoreAndCapitalize } from '../../../../utils/stringUtils';
 import { IClinVar, IVariantEntity, IVariantEntityDictionary } from '../../types';
 
 import styles from '@ferlab/style/pages/variantEntity/ClinvarTable.module.scss';
@@ -27,7 +28,7 @@ export const makeClinVarRows = (clinvar?: IClinVar) => {
         return [];
     }
     const inheritance = (clinvar.inheritance || [])[0] || '';
-    const interpretation = (clinvar.clin_sig || [])[0].replaceAll('_', ' ') || '';
+    const interpretation = removeUnderscoreAndCapitalize((clinvar.clin_sig || [])[0] || '');
 
     return clinvar.conditions.map((condition: string, index: number) => ({
         condition,
