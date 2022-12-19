@@ -2,6 +2,7 @@ import React from 'react';
 
 import ExternalLink from '../../../../../components/ExternalLink';
 import StackLayout from '../../../../../layout/StackLayout';
+import { titleCase } from '../../../../../utils/stringUtils';
 import { OrphanetCondition, OrphanetConditions } from '../../../types';
 
 interface OwnProps {
@@ -22,7 +23,7 @@ const OrphanetConditionCell: React.FC<OwnProps> = ({ conditions }) => (
                                 `?lng=EN&data_id=${disorderId}`
                             }
                         >
-                            {panel}
+                            {titleCase(panel)}
                         </ExternalLink>
                     </StackLayout>
                 );

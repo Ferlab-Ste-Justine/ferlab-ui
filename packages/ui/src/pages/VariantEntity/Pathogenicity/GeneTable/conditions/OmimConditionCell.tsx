@@ -4,6 +4,7 @@ import { Typography } from 'antd';
 import { TABLE_EMPTY_PLACE_HOLDER } from '../../../../../common/constants';
 import ExternalLink from '../../../../../components/ExternalLink';
 import StackLayout from '../../../../../layout/StackLayout';
+import { titleCase } from '../../../../../utils/stringUtils';
 import { OmimCondition, OmimConditions } from '../../../types';
 
 interface OwnProps {
@@ -21,7 +22,7 @@ const OmimConditionCell: React.FC<OwnProps> = ({ conditions }) => (
 
                 return (
                     <StackLayout key={index}>
-                        <Text>{geneOmimName}</Text>&nbsp;(MIM:
+                        <Text>{titleCase(geneOmimName)}</Text>&nbsp;(MIM:
                         <ExternalLink href={`https://www.omim.org/entry/${omimId}`} key={index}>
                             {omimId}
                         </ExternalLink>

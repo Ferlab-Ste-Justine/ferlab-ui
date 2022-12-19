@@ -207,7 +207,7 @@ export const getColumns = (dictionary: IVariantEntityDictionary['consequences'])
                     dataSource={consequences}
                     renderItem={(item: any, id) => (
                         <StackLayout className={styles.cellList} horizontal key={id}>
-                            <Text>{item.replaceAll('_', ' ')}</Text>
+                            <Text>{removeUnderscoreAndCapitalize(item)}</Text>
                         </StackLayout>
                     )}
                 />
