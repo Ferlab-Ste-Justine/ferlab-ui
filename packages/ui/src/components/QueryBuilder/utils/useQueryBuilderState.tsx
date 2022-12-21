@@ -132,6 +132,7 @@ export const updateActiveQueryField = ({
     operator = TermOperators.in,
     index,
     overrideValuesName,
+    isUploadedList,
 }: {
     queryBuilderId: string;
     field: string;
@@ -140,6 +141,7 @@ export const updateActiveQueryField = ({
     operator?: TermOperators | RangeOperators;
     index?: string;
     overrideValuesName?: string;
+    isUploadedList?: boolean;
 }) =>
     updateQuery({
         query: isEmpty(value)
@@ -147,6 +149,7 @@ export const updateActiveQueryField = ({
             : deepMergeFieldInActiveQuery({
                   field,
                   index,
+                  isUploadedList,
                   merge_strategy,
                   operator,
                   overrideValuesName,

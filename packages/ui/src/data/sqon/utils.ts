@@ -7,7 +7,7 @@ import {
     IFilterGroup,
     IFilterRange,
     IFilterText,
-    VisualType
+    VisualType,
 } from '../../components/filters/types';
 import { getActiveQuery } from '../../components/QueryBuilder/utils/useQueryBuilderState';
 import { ArrangerValues } from '../arranger/formatting';
@@ -28,7 +28,7 @@ import {
     TSqonContentValue,
     TSqonGroupOp,
     TSyntheticSqonContent,
-    TSyntheticSqonContentValue
+    TSyntheticSqonContentValue,
 } from './types';
 
 /**
@@ -61,6 +61,13 @@ export const isSet = (value: IValueFilter) =>
     value.content.value && value.content.value.some((value) => value?.toString().startsWith(SET_ID_PREFIX));
 
 export const isNotSet = (value: IValueFilter) => !isSet(value);
+
+/**
+ * Check if a sqon value is an uploaded list.
+ *
+ * @param {IValueFilter} value The value to check
+ */
+export const isUploadedList = (value: IValueFilter): boolean => Boolean(value.content.isUploadedList);
 
 /**
  * Check if a synthetic sqon is a boolean operator
@@ -254,7 +261,7 @@ export const removeContentFromSqon = (
                   }
 
                   const contentAsSqonGroupFilter = c as ISqonGroupFilter;
-                  const skipBooleanOperatorCheck = contentAsSqonGroupFilter.skipBooleanOperatorCheck;
+                  const { skipBooleanOperatorCheck } = contentAsSqonGroupFilter;
 
                   const isValueContentToDelete =
                       skipBooleanOperatorCheck &&
@@ -381,6 +388,7 @@ export const deepMergeFieldInActiveQuery = ({
     merge_strategy = MERGE_VALUES_STRATEGIES.APPEND_VALUES,
     operator = TermOperators.in,
     overrideValuesName,
+    isUploadedList,
 }: {
     queryBuilderId: string;
     field: string;
@@ -389,6 +397,7 @@ export const deepMergeFieldInActiveQuery = ({
     merge_strategy?: MERGE_VALUES_STRATEGIES;
     operator?: TermOperators | RangeOperators;
     overrideValuesName?: string;
+    isUploadedList?: boolean;
 }) => {
     let newSqon;
     const activeQuery = getActiveQuery(queryBuilderId);
@@ -396,6 +405,7 @@ export const deepMergeFieldInActiveQuery = ({
         content: {
             field,
             index,
+            isUploadedList,
             overrideValuesName,
             value,
         },
@@ -563,7 +573,7 @@ const getFilterWithNoSelection = (filters: ISyntheticSqon, field: string) => {
         }
 
         const filterAsSqonGroupFilter = filter as ISqonGroupFilter;
-        const skipBooleanOperatorCheck = filterAsSqonGroupFilter.skipBooleanOperatorCheck;
+        const { skipBooleanOperatorCheck } = filterAsSqonGroupFilter;
         const skipBooleanOperatorCheckField =
             skipBooleanOperatorCheck &&
             filterAsSqonGroupFilter.content.find((f) => (f.content as IValueContent).field === field);
@@ -619,7 +629,7 @@ const tsqonFromRangeFilter = (
     selectedRange: IFilter<IFilterRange>,
     index?: string,
 ): TSqonContentValue | null => {
-    const noDataSelected = selectedRange.data.noDataSelected;
+    const { noDataSelected } = selectedRange.data;
     const noDataFilterContent = {
         content: { field, index, value: [ArrangerValues.missing] },
         op: RangeOperators.in,
@@ -634,8 +644,8 @@ const tsqonFromRangeFilter = (
         if (noDataSelected) {
             return {
                 content: [baseFilter, noDataFilterContent],
-                skipBooleanOperatorCheck: true,
                 op: BooleanOperators.or,
+                skipBooleanOperatorCheck: true,
             };
         }
 
