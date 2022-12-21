@@ -1,3 +1,6 @@
+### 4.9.0 | 2022-12-21
+- Feat: SKFP-547 add UploadedListQueryPill component 
+
 ### 4.7.7 | 2022-12-12
 - Fix: CQDG-117 add/debug search input for FilterContainer
 

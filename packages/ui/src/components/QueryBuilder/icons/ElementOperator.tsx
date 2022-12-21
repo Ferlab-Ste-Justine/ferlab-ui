@@ -4,10 +4,12 @@ import styles from '@ferlab/style/components/queryBuilder/LabelOperator.module.s
 
 interface IElementlOperatorProps {
     className?: string;
+    testId?: string;
 }
-const ElementOperator = ({ className = '' }: IElementlOperatorProps) => (
+const ElementOperator = ({ className = '', testId }: IElementlOperatorProps) => (
     <svg
         className={`${styles.icon} ${className}`}
+        data-testid={testId}
         fill="currentColor"
         height="14"
         viewBox="0 0 14 14"
