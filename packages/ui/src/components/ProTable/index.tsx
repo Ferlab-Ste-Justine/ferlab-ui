@@ -191,6 +191,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                 dictionary={dictionary}
                 extra={getExtraConfig()}
                 extraSpacing={headerConfig.extraSpacing!}
+                hideItemsCount={headerConfig.hideItemsCount}
                 onClearSelection={() => {
                     if (headerConfig.onClearSelection) {
                         headerConfig.onClearSelection();
@@ -202,8 +203,8 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                     handleOnSelectAllResultsChange(true);
                     setSelectedAllPage(false);
                 }}
-                pageIndex={headerConfig.itemCount?.pageIndex}
-                pageSize={headerConfig.itemCount?.pageSize}
+                pageIndex={headerConfig.itemCount?.pageIndex || 0}
+                pageSize={headerConfig.itemCount?.pageSize || 0}
                 selectedAllPage={selectedAllPage && selectedRowKeys.length < headerConfig.itemCount?.total}
                 selectedAllResults={selectedAllResults}
                 selectedRowCount={selectedAllResults ? getTotalResults() : selectedRowKeys.length}

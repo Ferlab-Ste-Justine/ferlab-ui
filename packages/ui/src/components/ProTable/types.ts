@@ -102,6 +102,7 @@ export type THeaderConfig<RecordType> = {
         pageSize: number;
         total: number;
     };
+    hideItemsCount?: boolean;
 };
 
 export type TColumnStates = Array<{
