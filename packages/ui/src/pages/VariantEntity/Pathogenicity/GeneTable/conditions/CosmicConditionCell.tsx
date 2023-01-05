@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography } from 'antd';
 
 import StackLayout from '../../../../../layout/StackLayout';
+import { titleCase } from '../../../../../utils/stringUtils';
 import { CosmicConditions } from '../../../types';
 
 interface OwnProps {
@@ -15,7 +16,7 @@ const CosmicConditionCell: React.FC<OwnProps> = ({ conditions }) => (
         {conditions.length >= 0 &&
             conditions.map((cosmicCondition, index: number) => (
                 <StackLayout key={index}>
-                    <Text>{cosmicCondition}</Text>
+                    <Text>{titleCase(cosmicCondition)}</Text>
                 </StackLayout>
             ))}
     </div>

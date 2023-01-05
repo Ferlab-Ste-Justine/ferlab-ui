@@ -4,6 +4,8 @@ import { Button, Space, Table, Tooltip } from 'antd';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
 
+import Empty from '../Empty';
+
 import ColumnSelector from './ColumnSelector';
 import TableHeader from './Header';
 import Pagination from './Pagination';
@@ -215,6 +217,9 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                     .map(({ key }) => columns.find((column) => column.key === key)!)
                     .filter((column) => !isEmpty(column))
                     .map(generateColumnTitle)}
+                locale={{
+                    emptyText: <Empty description={dictionary.table?.emptyText || 'No available data'} size="mini" />,
+                }}
                 pagination={
                     pagination && (pagination as IPaginationProps)?.searchAfter === undefined
                         ? {

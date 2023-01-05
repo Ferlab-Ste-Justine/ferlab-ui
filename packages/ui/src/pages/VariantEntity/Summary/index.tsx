@@ -4,6 +4,7 @@ import { Card, Col, Descriptions, Row, Tooltip } from 'antd';
 import { TABLE_EMPTY_PLACE_HOLDER } from '../../../common/constants';
 import Collapse, { CollapsePanel } from '../../../components/Collapse';
 import ExternalLink from '../../../components/ExternalLink';
+import { removeUnderscoreAndCapitalize } from '../../../utils/stringUtils';
 import { IVariantEntity, IVariantEntityDictionary } from '../types';
 import { toExponentialNotation } from '../utils';
 
@@ -96,7 +97,8 @@ const Summary: React.FC<ISummaryProps> = ({ dictionary, id, loading, variant }) 
                             <br />
                             <Descriptions bordered column={1} size="small">
                                 <Descriptions.Item label={dictionary.clinVar}>
-                                    {variant?.clinvar?.clin_sig || TABLE_EMPTY_PLACE_HOLDER}
+                                    {removeUnderscoreAndCapitalize(variant?.clinvar?.clin_sig.join(', ') || '') ||
+                                        TABLE_EMPTY_PLACE_HOLDER}
                                 </Descriptions.Item>
                             </Descriptions>
                             <br />

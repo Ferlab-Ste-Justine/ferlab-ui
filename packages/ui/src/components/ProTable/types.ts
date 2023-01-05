@@ -16,6 +16,7 @@ export interface IPaginationProps {
     setQueryConfig: TQueryConfigCb;
     queryConfig: IQueryConfig;
     defaultViewPerQuery?: PaginationViewPerQuery;
+    onViewQueryChange?: (viewPerQuery: PaginationViewPerQuery) => void;
     searchAfter?: ISearchAfter;
     onPageChange: () => void;
     onShowSizeChange: () => void;
@@ -50,6 +51,9 @@ export interface IProTableDictionary {
         view: string;
     };
     numberFormat?: (value: number) => React.ReactNode;
+    table?: {
+        emptyText: string;
+    };
 }
 
 export interface ProColumnType<T = any> extends ColumnType<T> {
