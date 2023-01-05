@@ -111,6 +111,7 @@ export interface IActions {
 
 export interface ICheckBox {
     searchPlaceholder: ReactNode;
+    noData: ReactNode;
 }
 
 export interface IMessages {

@@ -14,6 +14,7 @@ export type FilterSelectorProps = {
     maxShowing: number;
     filters: IFilter[];
     dictionary?: IDictionary;
+    noDataInputOption?: boolean;
 };
 
 const FilterSelector = ({
@@ -21,6 +22,7 @@ const FilterSelector = ({
     filterGroup,
     filters,
     maxShowing,
+    noDataInputOption = false,
     onChange,
     searchInputVisible,
     selectedFilters,
@@ -46,6 +48,7 @@ const FilterSelector = ({
                     filters={filters}
                     hasSearchInput={searchInputVisible}
                     maxShowing={maxShowing}
+                    noDataInputOption={noDataInputOption}
                 />
             );
     }
