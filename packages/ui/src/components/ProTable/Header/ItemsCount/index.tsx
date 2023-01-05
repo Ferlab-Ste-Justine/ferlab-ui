@@ -6,12 +6,24 @@ import { IProTableDictionary } from '../../types';
 type Props = {
     className?: string;
     dictionnary?: IProTableDictionary;
+    hidden?: boolean;
     page: number;
     size: number;
     total: number;
 };
 
-export const ItemsCount = ({ className = '', page, size, total, dictionnary = {} }: Props): React.ReactElement => {
+export const ItemsCount = ({
+    className = '',
+    page,
+    hidden = false,
+    size,
+    total,
+    dictionnary = {},
+}: Props): React.ReactElement => {
+    if (hidden) {
+        return <></>;
+    }
+
     const isLastPage = page >= total / size;
     const hasLessThanPageSize = total % size > 0;
     const from = (page - 1) * size + 1;

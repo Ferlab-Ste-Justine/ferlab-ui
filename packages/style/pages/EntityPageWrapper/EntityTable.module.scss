@@ -1,0 +1,40 @@
+@import "theme.template";
+
+.container {
+  max-width: 1600px;
+  margin-bottom: 40px;
+
+  .collapse {
+    .panel {
+      .card {
+        border: none;
+        *[class$="-card-body"] {
+          padding: 0;
+        }
+        *[class$="-descriptions-item-label"] {
+          width: 245px;
+          background-color: $entity-table-label-bg-color;
+        }
+        *[class$="-descriptions-item-content"] {
+          width: 245px;
+        }
+
+        .content {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.dotted {
+  border-bottom: 1px dotted;
+}
+
+.link {
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

@@ -1,7 +1,9 @@
 import React from 'react';
-import { ItemsCount } from './ItemsCount';
 import { Space } from 'antd';
+
 import { IProTableDictionary } from '../types';
+
+import { ItemsCount } from './ItemsCount';
 import { SelectedCount } from './SelectedCount';
 
 import styles from '@ferlab/style/components/protable/ProTableHeader.module.scss';
@@ -15,6 +17,7 @@ interface OwnProps {
     selectedAllPage?: boolean;
     selectedRowCount?: number;
     total: number;
+    hideItemsCount?: boolean;
     dictionary?: IProTableDictionary;
     onSelectAllResults?: () => void;
     onClearSelection?: () => void;
@@ -32,19 +35,26 @@ const TableHeader = ({
     dictionary = {},
     onSelectAllResults,
     onClearSelection,
+    hideItemsCount = false,
 }: OwnProps) => (
     <div className={styles.ProTableHeader}>
         {selectedRowCount > 0 ? (
             <SelectedCount
                 dictionnary={dictionary}
-                selectedRowCount={selectedRowCount}
-                selectedAllResults={selectedAllResults}
-                selectedAllPage={selectedAllPage}
                 onClear={onClearSelection}
                 onSelectAll={onSelectAllResults}
+                selectedAllPage={selectedAllPage}
+                selectedAllResults={selectedAllResults}
+                selectedRowCount={selectedRowCount}
             />
         ) : (
-            <ItemsCount dictionnary={dictionary} page={pageIndex} size={pageSize} total={total} />
+            <ItemsCount
+                dictionnary={dictionary}
+                hidden={hideItemsCount}
+                page={pageIndex}
+                size={pageSize}
+                total={total}
+            />
         )}
         <Space size={extraSpacing}>
             {extra.map((element, index) => (

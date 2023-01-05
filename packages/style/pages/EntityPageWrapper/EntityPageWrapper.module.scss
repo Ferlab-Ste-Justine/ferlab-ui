@@ -1,0 +1,39 @@
+@import "theme.template";
+
+.entityPageWrapperContainer {
+  height: calc(100vh - #{$main-header-height});
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  padding: $default-page-content-padding;
+
+  .scrollContent {
+    overflow: auto;
+    width: 100%;
+    max-width: 1600px;
+  }
+
+  .anchorMenu {
+    margin-top: 0;
+  }
+
+  .titleHeader {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    color: $heading-color;
+
+    .title {
+      margin-left: 12px;
+      margin-bottom: 0;
+    }
+
+    .tag {
+      margin-left: 12px;
+      color: $entity-tag-color;
+      background-color: $entity-tag-bg-color;
+    }
+  }
+}
