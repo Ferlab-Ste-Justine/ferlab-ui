@@ -1,14 +1,22 @@
 import React, { Fragment } from 'react';
 import { Space } from 'antd';
 
-import { ISqonGroupFilter, ISyntheticSqon, IValueContent, IValueFilter, TSqonGroupOp } from '../../../data/sqon/types';
-import { isBooleanOperator, isReference, isSet, isUploadedList } from '../../../data/sqon/utils';
+import {
+    IRemoteComponent,
+    ISqonGroupFilter,
+    ISyntheticSqon,
+    IValueContent,
+    IValueFilter,
+    TSqonGroupOp,
+} from '../../../data/sqon/types';
+import { isBooleanOperator, isReference, isRemoteComponent, isSet, isUploadedList } from '../../../data/sqon/utils';
 import Combiner from '../Combiner';
 import { TCallbackRemoveAction, TCallbackRemoveReferenceAction } from '../types';
 
 import FieldQueryPill from './FieldQueryPill';
 import IsolatedBooleanQueryPill from './IsolatedBooleanQueryPill';
 import ReferenceQueryPill from './ReferenceQueryPill';
+import RemoveComponentQueryPill from './RemoteComponentQueryPill';
 import SetQueryPill from './SetQueryPill';
 import UploadedListQueryPill from './UploadedListQueryPill';
 
@@ -20,6 +28,7 @@ interface IBooleanQueryPillProps {
     onRemoveReference: TCallbackRemoveReferenceAction;
     onCombineChange?: (id: string, combinator: TSqonGroupOp) => void;
     getColorForReference?: (refIndex: number) => string;
+    remoteComponentMapping?: (props: IRemoteComponent) => void;
 }
 
 const isNotEnd = (content: any[], index: number) => content.length - 1 > index;
@@ -58,6 +67,13 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
                     <UploadedListQueryPill
                         isBarActive={props.isActive}
                         onRemove={() => props.onRemoveFacet((f as IValueFilter).content.field, props.query)}
+                        valueFilter={f as IValueFilter}
+                    />
+                ) : isRemoteComponent(f) ? (
+                    <RemoveComponentQueryPill
+                        isBarActive={props.isActive}
+                        onRemove={() => props.onRemoveFacet((f as IValueFilter).content.field, props.query)}
+                        remoteComponentMapping={props.remoteComponentMapping}
                         valueFilter={f as IValueFilter}
                     />
                 ) : (

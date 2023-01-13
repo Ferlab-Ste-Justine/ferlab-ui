@@ -1,12 +1,19 @@
 import { BooleanOperators, FieldOperators } from './operators';
 
 export type TFilterValue = Array<string | number | boolean>;
+export interface IRemoteComponent {
+    id: string;
+    props?: {
+        [value: string]: any;
+    };
+}
 export interface IValueContent {
     field: string;
     value: TFilterValue;
     index?: string;
     overrideValuesName?: string;
     isUploadedList?: boolean;
+    remoteComponent?: IRemoteComponent;
 }
 
 export type TValueOp = FieldOperators | string;

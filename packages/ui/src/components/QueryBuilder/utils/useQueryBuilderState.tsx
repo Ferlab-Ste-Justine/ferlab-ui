@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 import { v4 } from 'uuid';
 
 import { BooleanOperators, RangeOperators, TermOperators } from '../../../data/sqon/operators';
-import { TSqonGroupOp } from '../../../data/sqon/types';
+import { IRemoteComponent, TSqonGroupOp } from '../../../data/sqon/types';
 import { ISyntheticSqon, MERGE_VALUES_STRATEGIES } from '../../../data/sqon/types';
 import {
     deepMergeFieldInActiveQuery,
@@ -133,6 +133,7 @@ export const updateActiveQueryField = ({
     index,
     overrideValuesName,
     isUploadedList,
+    remoteComponent,
 }: {
     queryBuilderId: string;
     field: string;
@@ -142,7 +143,8 @@ export const updateActiveQueryField = ({
     index?: string;
     overrideValuesName?: string;
     isUploadedList?: boolean;
-}) =>
+    remoteComponent?: IRemoteComponent;
+}): void =>
     updateQuery({
         query: isEmpty(value)
             ? removeFieldFromActiveQuery(queryBuilderId, field)
@@ -154,6 +156,7 @@ export const updateActiveQueryField = ({
                   operator,
                   overrideValuesName,
                   queryBuilderId,
+                  remoteComponent,
                   value,
               }),
         queryBuilderId,

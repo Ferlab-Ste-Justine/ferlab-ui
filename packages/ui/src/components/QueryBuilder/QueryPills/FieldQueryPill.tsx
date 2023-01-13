@@ -1,11 +1,13 @@
-import { Button, Dropdown, Spin } from 'antd';
-import cx from 'classnames';
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import { Button, Dropdown, Spin } from 'antd';
+import cx from 'classnames';
+
 import { FieldOperators } from '../../../data/sqon/operators';
 import { IValueFilter } from '../../../data/sqon/types';
 import { isBooleanFilter, isRangeFilter } from '../../../data/sqon/utils';
 import ConditionalWrapper from '../../utils/ConditionalWrapper';
+import { QueryBuilderContext } from '../context';
 import ElementOperator from '../icons/ElementOperator';
 import EqualOperator from '../icons/EqualOperator';
 import GreaterThanOperator from '../icons/GreaterThanOperator';
@@ -16,7 +18,6 @@ import NotInOperator from '../icons/NotInOperator';
 import QueryValues from '../QueryValues';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
-import { QueryBuilderContext } from '../context';
 
 interface IFieldQueryPillProps {
     isBarActive?: boolean;
@@ -31,7 +32,7 @@ interface IOperatorProps {
 
 const APPLY_KEY = 'apply';
 
-const Operator = ({ className = '', type }: IOperatorProps) => {
+export const Operator = ({ className = '', type }: IOperatorProps) => {
     switch (type) {
         case FieldOperators['>']:
             return <GreaterThanOperator className={className} />;
@@ -51,7 +52,7 @@ const Operator = ({ className = '', type }: IOperatorProps) => {
     }
 };
 
-const FieldQueryPill = ({ valueFilter, onRemove, isBarActive }: IFieldQueryPillProps) => {
+const FieldQueryPill = ({ isBarActive, onRemove, valueFilter }: IFieldQueryPillProps) => {
     const { dictionary, facetFilterConfig, showLabels } = useContext(QueryBuilderContext);
     const [tryOpenQueryPillFilter, setTryOpenQueryPillFilter] = useState(false);
     const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
@@ -64,9 +65,8 @@ const FieldQueryPill = ({ valueFilter, onRemove, isBarActive }: IFieldQueryPillP
             setTryOpenQueryPillFilter(true);
         }
     };
-    const isFacetFilterEnableForField = () => {
-        return facetFilterConfig.enable && !facetFilterConfig.blacklistedFacets?.includes(valueFilter.content.field);
-    };
+    const isFacetFilterEnableForField = () =>
+        facetFilterConfig.enable && !facetFilterConfig.blacklistedFacets?.includes(valueFilter.content.field);
 
     useEffect(() => {
         if (facetFilterConfig.selectedFilterContent) {
@@ -96,14 +96,13 @@ const FieldQueryPill = ({ valueFilter, onRemove, isBarActive }: IFieldQueryPillP
                 condition={isFacetFilterEnableForField()}
                 wrapper={(children) => (
                     <Dropdown
-                        visible={filterDropdownVisible}
+                        getPopupContainer={(trigger) => trigger.parentElement!}
                         onVisibleChange={(visible) => {
                             if (visible) {
                                 setDropdownContent(undefined);
                             }
                             setFilterDropdownVisible(visible);
                         }}
-                        overlayClassName={styles.filtersDropdown}
                         overlay={
                             <div
                                 onClick={(e: any) => {
@@ -119,16 +118,17 @@ const FieldQueryPill = ({ valueFilter, onRemove, isBarActive }: IFieldQueryPillP
                                 )}
                             </div>
                         }
+                        overlayClassName={styles.filtersDropdown}
                         trigger={['click']}
-                        getPopupContainer={(trigger) => trigger.parentElement!}
+                        visible={filterDropdownVisible}
                     >
                         {children}
                     </Dropdown>
                 )}
             >
                 <QueryValues
-                    onClick={isFacetFilterEnableForField() ? () => handleQueryPillClick(isBarActive!) : undefined}
                     isElement={valueFilter.op === FieldOperators.between}
+                    onClick={isFacetFilterEnableForField() ? () => handleQueryPillClick(isBarActive!) : undefined}
                     valueFilter={valueFilter}
                 />
             </ConditionalWrapper>

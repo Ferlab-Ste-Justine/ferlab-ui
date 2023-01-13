@@ -1,25 +1,26 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { useContext } from 'react';
+import { CopyOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Popconfirm, Space } from 'antd';
 import cx from 'classnames';
-import React, { useEffect, useRef, useState } from 'react';
-
-import { CopyOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 import { isEqual } from 'lodash';
-import { ISqonGroupFilter, ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
+
+import { IRemoteComponent, ISqonGroupFilter, ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
 import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
 import { numberFormat } from '../../utils/numberUtils';
+
 import BooleanQueryPill from './QueryPills/BooleanQueryPill';
+import useQueryBuilderState from './utils/useQueryBuilderState';
+import { QueryBuilderContext } from './context';
 import {
     IFetchQueryCount,
     IGetResolvedQueryForCount,
     TCallbackRemoveAction,
     TCallbackRemoveReferenceAction,
-    TOnChange
+    TOnChange,
 } from './types';
-import useQueryBuilderState from './utils/useQueryBuilderState';
 
 import styles from '@ferlab/style/components/queryBuilder/QueryBar.module.scss';
-import { useContext } from 'react';
-import { QueryBuilderContext } from './context';
 
 interface IQueryBarProps {
     id: string;
@@ -41,29 +42,31 @@ interface IQueryBarProps {
     getColorForReference: (refIndex: number) => string;
     fetchQueryCount: IFetchQueryCount;
     getResolvedQueryForCount: IGetResolvedQueryForCount;
+    remoteComponentMapping?: (props: IRemoteComponent) => void;
 }
 const QueryBar = ({
-    id,
-    Icon,
-    index,
-    query,
-    onRemoveFacet,
-    onRemoveReference,
     actionDisabled = false,
-    selectionDisabled = false,
+    fetchQueryCount,
+    getColorForReference,
+    getResolvedQueryForCount,
+    Icon,
+    id,
+    index,
     isActive = true,
-    isSelected = false,
     isReferenced = false,
+    isSelected = false,
     onChangeQuery,
+    onCombineChange,
     onDeleteQuery,
     onDuplicate,
-    onCombineChange,
+    onRemoveFacet,
+    onRemoveReference,
     onSelectBar,
-    getColorForReference,
-    fetchQueryCount,
-    getResolvedQueryForCount,
+    query,
+    remoteComponentMapping,
+    selectionDisabled = false,
 }: IQueryBarProps) => {
-    const { queryBuilderId, dictionary, noQueries } = useContext(QueryBuilderContext);
+    const { dictionary, noQueries, queryBuilderId } = useContext(QueryBuilderContext);
     const previousQuery = useRef<ISqonGroupFilter | null>(null);
     const [total, setTotal] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -109,8 +112,8 @@ const QueryBar = ({
             >
                 {!selectionDisabled && (
                     <Space
-                        direction="horizontal"
                         className={styles.selectionWrapper}
+                        direction="horizontal"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <Checkbox
@@ -135,13 +138,14 @@ const QueryBar = ({
                         isBooleanOperator(query) && (
                             <Space className={styles.queryValues}>
                                 <BooleanQueryPill
-                                    parentQueryId={id}
-                                    query={query}
+                                    getColorForReference={getColorForReference}
                                     isActive={isActive}
+                                    onCombineChange={onCombineChange}
                                     onRemoveFacet={onRemoveFacet}
                                     onRemoveReference={onRemoveReference}
-                                    onCombineChange={onCombineChange}
-                                    getColorForReference={getColorForReference}
+                                    parentQueryId={id}
+                                    query={query}
+                                    remoteComponentMapping={remoteComponentMapping}
                                 />
                             </Space>
                         )
@@ -154,17 +158,18 @@ const QueryBar = ({
                     <Space className={styles.actions} size={4}>
                         <Button
                             className={styles.actionButton}
+                            icon={<CopyOutlined />}
                             onClick={(e: React.MouseEvent) => {
                                 e.stopPropagation();
                                 onDuplicate(id, query);
                             }}
                             type="text"
-                            icon={<CopyOutlined />}
                         />
                         <Popconfirm
                             arrowPointAtCenter
                             cancelText={dictionary.actions?.delete?.cancel || 'Cancel'}
                             disabled={noQueries}
+                            getPopupContainer={(trigger) => trigger.parentElement!}
                             okText={dictionary.actions?.delete?.confirm || 'Delete'}
                             onConfirm={(e) => {
                                 e!.stopPropagation();
@@ -172,15 +177,14 @@ const QueryBar = ({
                             }}
                             placement="topLeft"
                             title={dictionary.actions?.delete?.title || 'Delete this query?'}
-                            getPopupContainer={(trigger) => trigger.parentElement!}
                         >
                             <Button
                                 className={styles.actionButton}
+                                icon={<DeleteOutlined />}
                                 onClick={(e: React.MouseEvent) => {
                                     e.stopPropagation();
                                 }}
                                 type="text"
-                                icon={<DeleteOutlined />}
                             />
                         </Popconfirm>
                     </Space>
