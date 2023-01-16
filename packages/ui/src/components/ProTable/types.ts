@@ -77,6 +77,7 @@ export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns' 
     tableId: string;
     headerConfig: THeaderConfig<RecordType>;
     wrapperClassName?: string;
+    tableHeaderClassName?: string;
     columns: ProColumnsType<RecordType>;
     pagination?: IPaginationProps | TablePaginationConfig;
     initialColumnState?: TColumnStates;
@@ -97,7 +98,7 @@ export type THeaderConfig<RecordType> = {
     onClearSelection?: () => void;
     onColumnSortChange?: (columns: TColumnStates) => void;
     onTableExportClick?: () => void;
-    itemCount: {
+    itemCount?: {
         pageIndex: number;
         pageSize: number;
         total: number;

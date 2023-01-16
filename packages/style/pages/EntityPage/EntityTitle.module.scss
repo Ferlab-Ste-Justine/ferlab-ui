@@ -1,0 +1,21 @@
+@import "theme.template";
+
+.titleHeader {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    color: $heading-color;
+
+    .title {
+      margin-left: 12px;
+      margin-bottom: 0;
+    }
+
+    .tag {
+      margin-left: 12px;
+    }
+
+    .extra {
+      margin-left: auto;
+    }
+  }

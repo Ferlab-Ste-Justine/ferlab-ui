@@ -1,3 +1,6 @@
+### 4.10.0 | 2023-01-16
+- Feat: SKFP-404 add EntityPage components
+
 ### 4.9.0 | 2022-12-21
 - Feat: SKFP-547 add UploadedListQueryPill component 
 

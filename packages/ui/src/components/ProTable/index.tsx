@@ -44,6 +44,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     columns,
     pagination,
     wrapperClassName = '',
+    tableHeaderClassName,
     headerConfig = {
         enableColumnSort: false,
         enableTableExport: false,
@@ -188,6 +189,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
             size={headerConfig.marginBtm}
         >
             <TableHeader
+                className={tableHeaderClassName}
                 dictionary={dictionary}
                 extra={getExtraConfig()}
                 extraSpacing={headerConfig.extraSpacing!}
@@ -205,10 +207,10 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                 }}
                 pageIndex={headerConfig.itemCount?.pageIndex || 0}
                 pageSize={headerConfig.itemCount?.pageSize || 0}
-                selectedAllPage={selectedAllPage && selectedRowKeys.length < headerConfig.itemCount?.total}
+                selectedAllPage={selectedAllPage && selectedRowKeys.length < (headerConfig.itemCount?.total || 0)}
                 selectedAllResults={selectedAllResults}
                 selectedRowCount={selectedAllResults ? getTotalResults() : selectedRowKeys.length}
-                total={headerConfig.itemCount?.total}
+                total={headerConfig.itemCount?.total || 0}
             />
             <Table
                 {...tableProps}
@@ -291,7 +293,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                     onShowSizeChange={() => {
                         handleOnSelectRowsChange([], []);
                     }}
-                    total={tableProps.dataSource?.length || headerConfig.itemCount?.total}
+                    total={tableProps.dataSource?.length || headerConfig.itemCount?.total || 0}
                 />
             )}
         </Space>
