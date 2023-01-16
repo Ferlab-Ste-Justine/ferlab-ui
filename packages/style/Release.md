@@ -1,3 +1,6 @@
+### 1.27.0 | 2023-01-16
+- Feat: SKFP-404 add EntityPage styles
+
 ### 1.26.0 | 2022-12-02
 - Feat: SKFP-554 add VariantEntity page 
 

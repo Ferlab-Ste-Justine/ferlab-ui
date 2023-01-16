@@ -1,0 +1,32 @@
+@import "theme.template";
+
+.container {
+  max-width: 1600px;
+  margin-bottom: 40px;
+
+  .title {
+    margin-bottom: 16px;
+  }
+  
+  .collapse {
+    .panel {
+      .card {
+        border: none;
+        *[class$="-card-body"] {
+          padding: 0;
+        }
+        *[class$="-descriptions-item-label"] {
+          width: 245px;
+          background-color: $gray-2;
+        }
+        *[class$="-descriptions-item-content"] {
+          width: 245px;
+        } 
+
+        .content {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

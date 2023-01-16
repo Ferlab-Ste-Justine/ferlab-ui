@@ -21,6 +21,7 @@ interface OwnProps {
     dictionary?: IProTableDictionary;
     onSelectAllResults?: () => void;
     onClearSelection?: () => void;
+    className?: string;
 }
 
 const TableHeader = ({
@@ -36,8 +37,9 @@ const TableHeader = ({
     onSelectAllResults,
     onClearSelection,
     hideItemsCount = false,
+    className,
 }: OwnProps) => (
-    <div className={styles.ProTableHeader}>
+    <div className={className || styles.ProTableHeader}>
         {selectedRowCount > 0 ? (
             <SelectedCount
                 dictionnary={dictionary}
