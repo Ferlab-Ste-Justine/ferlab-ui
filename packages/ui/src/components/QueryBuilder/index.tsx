@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import { v4 } from 'uuid';
 
 import { BooleanOperators } from '../../data/sqon/operators';
-import { ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
+import { IRemoteComponent, ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import {
     changeCombineOperator,
     getDefaultSyntheticSqon,
@@ -50,6 +50,7 @@ export interface IQueryBuilderProps {
     facetFilterConfig?: IFacetFilterConfig;
     fetchQueryCount: IFetchQueryCount;
     getResolvedQueryForCount: IGetResolvedQueryForCount;
+    remoteComponentMapping?: (props: IRemoteComponent) => void;
 }
 
 const QueryBuilder = ({
@@ -84,6 +85,7 @@ const QueryBuilder = ({
     facetFilterConfig = defaultFacetFilterConfig,
     fetchQueryCount,
     getResolvedQueryForCount,
+    remoteComponentMapping,
 }: IQueryBuilderProps) => {
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
     const { state: queryBuilderState } = useQueryBuilderState(id);
@@ -397,6 +399,7 @@ const QueryBuilder = ({
                                     setSelectedQueryIndices([...selectedQueryIndices, id]);
                                 }}
                                 query={sqon}
+                                remoteComponentMapping={remoteComponentMapping}
                                 selectionDisabled={
                                     queriesState.queries.length === 1 ||
                                     !enableCombine ||

@@ -16,6 +16,7 @@ import { getSelectedFiltersForRange } from '../filters/Range';
 import { BooleanOperators, FieldOperators, RangeOperators, TermOperators } from './operators';
 import {
     IMergeOptions,
+    IRemoteComponent,
     ISqonGroupFilter,
     ISyntheticSqon,
     IValueContent,
@@ -68,6 +69,13 @@ export const isNotSet = (value: IValueFilter) => !isSet(value);
  * @param {IValueFilter} value The value to check
  */
 export const isUploadedList = (value: IValueFilter): boolean => Boolean(value.content.isUploadedList);
+
+/**
+ *
+ * @param value Check if a sqon value is a treefacet
+ * @returns
+ */
+export const isRemoteComponent = (value: IValueFilter): boolean => !!value.content.remoteComponent;
 
 /**
  * Check if a synthetic sqon is a boolean operator
@@ -389,6 +397,7 @@ export const deepMergeFieldInActiveQuery = ({
     operator = TermOperators.in,
     overrideValuesName,
     isUploadedList,
+    remoteComponent,
 }: {
     queryBuilderId: string;
     field: string;
@@ -398,6 +407,7 @@ export const deepMergeFieldInActiveQuery = ({
     operator?: TermOperators | RangeOperators;
     overrideValuesName?: string;
     isUploadedList?: boolean;
+    remoteComponent?: IRemoteComponent;
 }) => {
     let newSqon;
     const activeQuery = getActiveQuery(queryBuilderId);
@@ -407,6 +417,7 @@ export const deepMergeFieldInActiveQuery = ({
             index,
             isUploadedList,
             overrideValuesName,
+            remoteComponent,
             value,
         },
         op: operator,

@@ -1,7 +1,8 @@
 import QueryBuilder, {
-    IQueryBuilderProps
+    IQueryBuilderProps,
 } from "@ferlab/ui/components/QueryBuilder";
 import { setQueryBuilderState } from "@ferlab/ui/components/QueryBuilder/utils/useQueryBuilderState";
+import { IRemoteComponent } from "@ferlab/ui/data/sqon/types";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import React from "react";
 import { MdPeople } from "react-icons/md";
@@ -523,7 +524,7 @@ WithHeaderAndTools.args = {
                 ],
                 total: 1500,
                 id: "1",
-                updated_date: "2022-09-23T03:02:01.286Z"
+                updated_date: "2022-09-23T03:02:01.286Z",
             },
             {
                 title: "My query 2",
@@ -544,8 +545,8 @@ WithHeaderAndTools.args = {
                 ],
                 total: 1500,
                 id: "2",
-                updated_date: "2022-09-23T03:02:01.286Z"
-            }
+                updated_date: "2022-09-23T03:02:01.286Z",
+            },
         ],
         onSaveQuery: (filter: any) => {
             console.log(filter);
@@ -631,4 +632,44 @@ WithNameMapping.args = {
         },
     },
     IconTotal: <MdPeople />,
+};
+
+/* remoteComponent */
+export const RemoteComponentQuery = QueryBuilderStory.bind({});
+const RemoteComponentQueryQbId = QB_ID + "RemoteComponentQuery";
+setQueryBuilderState(RemoteComponentQueryQbId, {
+    state: [
+        {
+            op: "and",
+            content: [
+                {
+                    content: {
+                        value: ["something"],
+                        field: "test",
+                        remoteComponent: {
+                            id: "remoteComponent",
+                            props: {
+                                customProps: "customProps",
+                            },
+                        },
+                    },
+                    op: "in",
+                },
+            ],
+            total: 1500,
+            id: "1",
+        },
+    ],
+    active: "1",
+});
+RemoteComponentQuery.args = {
+    id: RemoteComponentQueryQbId,
+    title: "Remote Component",
+    onRemoveFacet: (f: any) => f,
+    onChangeQuery: (f: any) => f,
+    getResolvedQueryForCount: defaultResolveCountPromise,
+    fetchQueryCount: defaultFetchQuerCount,
+    remoteComponentMapping: (remoteComponent: IRemoteComponent) => {
+        console.log("remoteComponentMapping has been called", remoteComponent);
+    },
 };
