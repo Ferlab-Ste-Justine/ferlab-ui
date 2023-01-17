@@ -1,3 +1,6 @@
+### 1.27.1 | 2023-01-17
+- Feat: SKFP-597 Boolean filters styling
+
 ### 1.27.0 | 2023-01-16
 - Feat: SKFP-404 add EntityPage styles
 

@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Radio, Space, Tag } from 'antd';
-import cx from 'classnames';
+import { isEmpty } from 'lodash';
 import get from 'lodash/get';
 
-import StackLayout from '../../layout/StackLayout';
-
-import { IDictionary, IFilter, IFilterCount } from './types';
-import { IFilterGroup, onChangeType } from './types';
 import { numberFormat } from '../../utils/numberUtils';
 import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 
+import { IDictionary, IFilter, IFilterCount } from './types';
+import { IFilterGroup, onChangeType } from './types';
+
 import styles from '@ferlab/style/components/filters/ToggleFilter.module.scss';
-import { isEmpty } from 'lodash';
 
 export type BooleanFilterProps = {
     filters: IFilter<IFilterCount>[];
@@ -41,18 +39,15 @@ const ToggleFilter = ({ filterGroup, filters, onChange, selectedFilters = [], di
             value: filter.data.key,
         };
     });
-    const classNames = cx(styles['fui-filter-sc-button'], {
-        [styles['fui-filter-sc-button-disabled']]: selectedFilter.length === 0,
-    });
 
     return isEmpty(options) ? (
-        <Space direction="vertical" className={styles.noResultsText}>
+        <Space className={styles.noResultsText} direction="vertical">
             {get(dictionary, 'messages.errorNoData', 'No values found for this request')}
         </Space>
     ) : (
-        <StackLayout className={styles['fui-filter-sc']} vertical>
+        <>
             <Radio.Group
-                className={styles.radio}
+                className={styles.radioGroup}
                 onChange={(e) => {
                     const newSelection = filters.filter((f) => f.data.key === e.target.value);
                     onChange(filterGroup, newSelection);
@@ -61,16 +56,21 @@ const ToggleFilter = ({ filterGroup, filters, onChange, selectedFilters = [], di
                 size="small"
                 value={selected}
             />
-            <Button
-                className={classNames}
-                onClick={() => onChange(filterGroup, [])}
-                onKeyPress={() => onChange(filterGroup, [])}
-                tabIndex={0}
-                type="text"
-            >
-                {get(dictionary, 'actions.clear', 'clear')}
-            </Button>
-        </StackLayout>
+
+            {selectedFilter?.length > 0 && (
+                <div className={styles.actions}>
+                    <Button
+                        className={styles.clearButton}
+                        onClick={() => onChange(filterGroup, [])}
+                        onKeyPress={() => onChange(filterGroup, [])}
+                        tabIndex={0}
+                        type="text"
+                    >
+                        {get(dictionary, 'actions.clear', 'clear')}
+                    </Button>
+                </div>
+            )}
+        </>
     );
 };
 
