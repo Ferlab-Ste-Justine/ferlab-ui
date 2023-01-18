@@ -14,7 +14,7 @@ export interface IEntityTable {
     columns: ProColumnType[];
     data: any[];
     dictionary?: IProTableDictionary;
-    header: string;
+    header: React.ReactNode;
     headerConfig?: THeaderConfig<any>;
     id: string;
     initialColumnState?: TColumnStates;
