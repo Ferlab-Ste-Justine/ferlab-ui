@@ -23,7 +23,7 @@
         "build:scss": "sass ./src:./lib/esnext",
         "start": "tsc -w --declaration",
         "test": "jest",
-        "test:github": "jest --coverage --watchAll=false --no-watchma  --coverageReporters=\"text-summary\"",
+        "test:github": "jest --coverage --watchAll=false --no-watchman  --coverageReporters=\"text-summary\"",
         "coverage": "jest --watchAll=false --coverage --coverageReporters=\"json-summary\"",
         "coverage:changed": "jest --coverage --watchAll=false --onlyChanged --coverageReporters=\"json-summary\""
     },
