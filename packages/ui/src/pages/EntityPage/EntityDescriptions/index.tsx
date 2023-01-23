@@ -14,12 +14,12 @@ export interface IEntityDescriptions {
     loading: boolean;
     title?: string;
     header: string;
-    subheader?: JSX.Element;
+    subheader?: React.ReactNode;
 }
 
 export interface IEntityDescriptionsItem {
-    label: any;
-    value: any;
+    label: React.ReactNode;
+    value: React.ReactNode;
 }
 
 const EntityDescriptions: React.FC<IEntityDescriptions> = ({ descriptions, header, id, loading, subheader, title }) => (

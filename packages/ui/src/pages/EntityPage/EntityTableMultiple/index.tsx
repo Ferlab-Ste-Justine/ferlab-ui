@@ -26,7 +26,7 @@ export interface IEntityTableMultiple {
     }[];
 }
 
-const EntityTableMultiple = ({ header, id, loading, tables, title }: IEntityTableMultiple): React.ReactElement => (
+const EntityTableMultiple = ({ header, id, loading, tables = [], title }: IEntityTableMultiple): React.ReactElement => (
     <div className={styles.container} id={id}>
         {title && (
             <Title className={styles.title} level={4}>
@@ -37,47 +37,46 @@ const EntityTableMultiple = ({ header, id, loading, tables, title }: IEntityTabl
             <CollapsePanel className={styles.panel} header={header} key="1">
                 <Card className={styles.card} loading={loading}>
                     <Space className={styles.content} direction="horizontal" size={12}>
-                        {tables?.length &&
-                            tables.map(
-                                (
-                                    {
-                                        bordered = true,
-                                        columns,
-                                        data,
-                                        dictionary,
-                                        headerConfig,
-                                        initialColumnState,
-                                        size,
-                                        subTitle,
-                                    },
-                                    index,
-                                ) => (
-                                    <div className={styles.contentTable}>
-                                        {subTitle && <span className={styles.subTitle}>{subTitle}</span>}
-                                        <ProTable
-                                            bordered={bordered}
-                                            columns={columns}
-                                            dataSource={data}
-                                            dictionary={dictionary}
-                                            headerConfig={{
-                                                hideItemsCount: true,
-                                                itemCount: {
-                                                    pageIndex: 0,
-                                                    pageSize: 0,
-                                                    total: 0,
-                                                },
-                                                ...headerConfig,
-                                            }}
-                                            initialColumnState={initialColumnState}
-                                            loading={loading}
-                                            rowClassName={styles.notStriped}
-                                            size={size}
-                                            tableHeaderClassName={styles.tableHeader}
-                                            tableId={id + index}
-                                        />
-                                    </div>
-                                ),
-                            )}
+                        {tables.map(
+                            (
+                                {
+                                    bordered = true,
+                                    columns,
+                                    data,
+                                    dictionary,
+                                    headerConfig,
+                                    initialColumnState,
+                                    size,
+                                    subTitle,
+                                },
+                                index,
+                            ) => (
+                                <div className={styles.contentTable}>
+                                    {subTitle && <span className={styles.subTitle}>{subTitle}</span>}
+                                    <ProTable
+                                        bordered={bordered}
+                                        columns={columns}
+                                        dataSource={data}
+                                        dictionary={dictionary}
+                                        headerConfig={{
+                                            hideItemsCount: true,
+                                            itemCount: {
+                                                pageIndex: 0,
+                                                pageSize: 0,
+                                                total: 0,
+                                            },
+                                            ...headerConfig,
+                                        }}
+                                        initialColumnState={initialColumnState}
+                                        loading={loading}
+                                        rowClassName={styles.notStriped}
+                                        size={size}
+                                        tableHeaderClassName={styles.tableHeader}
+                                        tableId={id + index}
+                                    />
+                                </div>
+                            ),
+                        )}
                     </Space>
                 </Card>
             </CollapsePanel>
