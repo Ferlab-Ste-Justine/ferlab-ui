@@ -1,3 +1,6 @@
+### 4.12.0 | 2023-01-23
+- Feat: CQDG-31 add EntityTableMultiple component on EntityPage
+
 ### 4.11.1 | 2023-01-17
 - Feat: SKFP-597 Boolean filters styling
 
