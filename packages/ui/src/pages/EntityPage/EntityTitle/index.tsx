@@ -6,9 +6,9 @@ import styles from '@ferlab/style/pages/EntityPage/EntityTitle.module.scss';
 
 export interface IEntityTitle {
     text?: string;
-    icon: JSX.Element;
-    tag?: JSX.Element;
-    extra?: JSX.Element | JSX.Element[];
+    icon: React.ReactNode;
+    tag?: React.ReactNode;
+    extra?: React.ReactNode;
     loading?: boolean;
 }
 

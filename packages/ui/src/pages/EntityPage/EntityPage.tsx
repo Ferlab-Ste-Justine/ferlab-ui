@@ -13,7 +13,7 @@ export interface IEntityPage {
     data?: any;
     loading: boolean;
     emptyText?: string;
-    children: JSX.Element | JSX.Element[];
+    children: React.ReactNode;
 }
 
 const EntityPage: React.FC<IEntityPage> = ({ children, data, emptyText, links, loading, pageId }) => {
