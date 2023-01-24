@@ -46,7 +46,7 @@ const EntityTableMultiple = ({ header, id, loading, tables = [], title }: IEntit
                                     dictionary,
                                     headerConfig,
                                     initialColumnState,
-                                    size,
+                                    size = 'small',
                                     subTitle,
                                 },
                                 index,
