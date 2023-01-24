@@ -36,7 +36,7 @@ const EntityTableMultiple = ({ header, id, loading, tables = [], title }: IEntit
         <Collapse arrowIcon="caretFilled" className={styles.collapse} defaultActiveKey={['1']}>
             <CollapsePanel className={styles.panel} header={header} key="1">
                 <Card className={styles.card} loading={loading}>
-                    <Space className={styles.content} direction="horizontal" size={12}>
+                    <Space align="start" className={styles.content} direction="horizontal" size={12}>
                         {tables.map(
                             (
                                 {
