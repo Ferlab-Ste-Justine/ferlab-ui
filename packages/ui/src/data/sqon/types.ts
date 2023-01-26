@@ -16,10 +16,17 @@ export interface IValueContent {
     remoteComponent?: IRemoteComponent;
 }
 
+export interface IWildCardValueContent extends Omit<IValueContent, 'field'> {
+    fields: string[];
+}
+
 export type TValueOp = FieldOperators | string;
 export interface IValueFilter {
     content: IValueContent;
     op: TValueOp;
+}
+export interface IWildCardValueFilter extends Omit<IValueFilter, 'content'> {
+    content: IWildCardValueContent;
 }
 
 export type TSqonGroupOp = BooleanOperators | string;
@@ -31,7 +38,7 @@ export interface ISqonGroupFilter {
     content: TSqonContent;
 }
 
-export type TSyntheticSqonContentValue = ISqonGroupFilter | IValueFilter | number;
+export type TSyntheticSqonContentValue = ISqonGroupFilter | IValueFilter | IWildCardValueFilter | number;
 export type TSyntheticSqonContent = Array<TSyntheticSqonContentValue>;
 export interface ISyntheticSqon {
     op: TSqonGroupOp;
