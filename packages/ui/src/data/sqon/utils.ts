@@ -13,7 +13,7 @@ import { getActiveQuery } from '../../components/QueryBuilder/utils/useQueryBuil
 import { ArrangerValues } from '../arranger/formatting';
 import { getSelectedFiltersForRange } from '../filters/Range';
 
-import { BooleanOperators, FieldOperators, RangeOperators, TermOperators } from './operators';
+import { BooleanOperators, FieldOperators, FilterOperators, RangeOperators, TermOperators } from './operators';
 import {
     IMergeOptions,
     IRemoteComponent,
@@ -21,6 +21,7 @@ import {
     ISyntheticSqon,
     IValueContent,
     IValueFilter,
+    IWildCardValueFilter,
     MERGE_OPERATOR_STRATEGIES,
     MERGE_VALUES_STRATEGIES,
     SET_ID_PREFIX,
@@ -441,9 +442,9 @@ export const generateQuery = ({
     newFilters,
     operator = BooleanOperators.and,
 }: {
-    newFilters: IValueFilter[];
+    newFilters: IValueFilter[] | IWildCardValueFilter[];
     filters?: ISyntheticSqon;
-    operator?: BooleanOperators;
+    operator?: BooleanOperators | FilterOperators;
 }): ISyntheticSqon => {
     if (isEmpty(filters)) {
         return {
@@ -470,10 +471,27 @@ export const generateValueFilter = ({
     field: string;
     value: string[];
     index?: string;
-    operator?: TermOperators;
+    operator?: TermOperators | string;
     overrideValuesName?: string;
 }) => ({
     content: { field, index, overrideValuesName, value },
+    op: operator,
+});
+
+export const generateWildCardValueFilter = ({
+    fields,
+    value,
+    index = '',
+    operator = FilterOperators.filter,
+    overrideValuesName,
+}: {
+    fields: string[];
+    value: string[];
+    index?: string;
+    operator?: TermOperators | string;
+    overrideValuesName?: string;
+}) => ({
+    content: { fields, index, overrideValuesName, value },
     op: operator,
 });
 
