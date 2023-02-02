@@ -1,3 +1,6 @@
+### 4.13.1 | 2023-02-02
+- Fix: SJIP-350 Set default icon size for entity pages
+
 ### 4.12.0 | 2023-01-23
 - Feat: CQDG-31 add EntityTableMultiple component on EntityPage
 

@@ -17,7 +17,7 @@ const EntityTitle: React.FC<IEntityTitle> = ({ extra, icon, loading, tag, text }
         <Skeleton loading={loading} paragraph={{ rows: 0 }} />
     ) : (
         <div className={styles.titleHeader}>
-            {icon}
+            {icon && <span className={styles.icon}>{icon}</span>}
             {text && (
                 <Title className={styles.title} level={4}>
                     {text}
