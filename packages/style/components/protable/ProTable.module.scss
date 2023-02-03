@@ -1,3 +1,14 @@
+@import "theme.template";
+
 .ProTableWrapper {
-    width: 100%;
+  width: 100%;
+}
+
+.row {
+  background-color: $summary-bg-color;
+}
+
+.cell {
+  font-weight: 500;
+  color: $heading-color;
 }

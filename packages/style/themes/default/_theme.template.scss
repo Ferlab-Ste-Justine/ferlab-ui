@@ -1,5 +1,5 @@
-@import 'colors';
-@import 'mixins';
+@import "colors";
+@import "mixins";
 
 $font-weight-semibold: 500;
 $font-weight-bold: 600;
@@ -15,34 +15,35 @@ $query-default-action-hover-color: black;
 $query-default-action-focus-color: black;
 
 $query-builder-bg: $white;
-$query-builder-border-color: #D8E1EB;
-$query-builder-header-border-divider-color: #D8E1EB;
+$query-builder-border-color: #d8e1eb;
+$query-builder-header-border-divider-color: #d8e1eb;
 $query-builder-collapse-content-box-padding: 12px 8px;
 $query-builder-content-padding: 24px;
 
 $query-builder-header-tools-icon-color: black;
 $query-builder-header-tools-icon-hover: black;
 $query-builder-header-tools-icon-focus: black;
-$query-builder-header-tools-icon-color-dirty:#D16F13;
-$query-builder-header-tools-favorite-icon-color: #F5B800;
+$query-builder-header-tools-icon-color-dirty: #d16f13;
+$query-builder-header-tools-favorite-icon-color: #f5b800;
 
-$query-bar-bg: #F1F4F8;
-$query-bar-bg-active: #FFEFC1;
-$query-bar-border-color: #BCC9DC;
-$query-bar-border-color-active: #FFDC73;
+$query-bar-bg: #f1f4f8;
+$query-bar-bg-active: #ffefc1;
+$query-bar-border-color: #bcc9dc;
+$query-bar-border-color-active: #ffdc73;
 $query-bar-height: 100%;
 $query-bar-padding-top: 8px;
 $query-bar-padding-bottom: 8px;
 $query-bar-padding-right: 12px;
 $query-bar-padding-left: 12px;
-$query-bar-padding: $query-bar-padding-top $query-bar-padding-right $query-bar-padding-bottom $query-bar-padding-left;
+$query-bar-padding: $query-bar-padding-top $query-bar-padding-right
+  $query-bar-padding-bottom $query-bar-padding-left;
 
-$query-bar-identifier: #BCC9DC;
+$query-bar-identifier: #bcc9dc;
 $query-bar-identifier-width: 4px;
-$query-bar-identifier-active: #F5B800; 
+$query-bar-identifier-active: #f5b800;
 
-$query-pill-bg: #DDE4EE;
-$query-pill-bg-active: #FFC926;
+$query-pill-bg: #dde4ee;
+$query-pill-bg-active: #ffc926;
 $query-pill-button-default-color: $query-default-action-default-color;
 $query-pill-button-hover-color: $query-default-action-hover-color;
 $query-pill-button-focus-color: $query-default-action-focus-color;
@@ -56,51 +57,51 @@ $query-combiner-button-default-color: $query-default-action-default-color;
 $query-combiner-button-hover-color: $query-default-action-hover-color;
 $query-combiner-button-focus-color: $query-default-action-focus-color;
 
-$query-icon-operator-color: #5A77A0;
-$query-text-operator-color-hover: #26436E; 
-$query-icon-operator-color-hover: #26436E; 
-$query-icon-label-operator-color: #26436E;
+$query-icon-operator-color: #5a77a0;
+$query-text-operator-color-hover: #26436e;
+$query-icon-operator-color-hover: #26436e;
+$query-icon-label-operator-color: #26436e;
 $query-total-color: inherit;
 
 // CountWithIcon
-$multi-label-inline-label-size: 1.4rem; 
-$multi-label-inline-label-weight: 600; 
-$multi-label-inline-sub-label-size: 1.4rem; 
-$multi-label-inline-sub-label-weight: 600; 
-$multi-label-inline-icon-space: .6rem;
-$multi-label-inline-label-space: .5rem;
+$multi-label-inline-label-size: 1.4rem;
+$multi-label-inline-label-weight: 600;
+$multi-label-inline-sub-label-size: 1.4rem;
+$multi-label-inline-sub-label-weight: 600;
+$multi-label-inline-icon-space: 0.6rem;
+$multi-label-inline-label-space: 0.5rem;
 
-$multi-label-stack-label-size: 1.6rem; 
-$multi-label-stack-label-weight: 600; 
-$multi-label-stack-sub-label-size: inherit; 
-$multi-label-stack-sub-label-weight: normal; 
+$multi-label-stack-label-size: 1.6rem;
+$multi-label-stack-label-weight: 600;
+$multi-label-stack-sub-label-size: inherit;
+$multi-label-stack-sub-label-weight: normal;
 $multi-label-stack-icon-space: 1.6rem;
 
 $multi-label-stack-top-icon-space: 1rem;
 
 // Filters
-$toggle-filter-sc-button-color: #008FC7;
-$range-filter-grouped-inputs-spacer-color: #B5C6D8;
+$toggle-filter-sc-button-color: #008fc7;
+$range-filter-grouped-inputs-spacer-color: #b5c6d8;
 $range-filter-grouped-inputs-color-color: #d9d9d9;
 $checkbox-filter-item-font-size: inherit;
 $checkbox-filter-item-line-height: inherit;
-$checkbox-filter-types-mc-footer: #0075A2;
-$checkbox-filter-links-hover: #0075A2;
+$checkbox-filter-types-mc-footer: #0075a2;
+$checkbox-filter-links-hover: #0075a2;
 $checkbox-filter-link-font-size: inherit;
 $checkbox-filter-link-line-height: inherit;
-$checkbox-filter-actions-separator-background: #90A9C1;
-$checkbox-filter-actions-separator-links: #008FC7;
-$filter-no-results-text-background-color: #F0F3F8;
-$filter-no-results-text-color: #18486B;
+$checkbox-filter-actions-separator-background: #90a9c1;
+$checkbox-filter-actions-separator-links: #008fc7;
+$filter-no-results-text-background-color: #f0f3f8;
+$filter-no-results-text-color: #18486b;
 
 $filter-input-label-color: #000;
 $filter-actions-border-color: #d9d9d9;
-$filter-actions-disabled-border-color: #D7D8DB;
-$filter-actions-disabled-background-color: #F3F4F6;
-$filter-actions-disabled-color: #8A8DA8;
-$filter-input-error-border-color: #DD1F2A;
+$filter-actions-disabled-border-color: #d7d8db;
+$filter-actions-disabled-background-color: #f3f4f6;
+$filter-actions-disabled-color: #8a8da8;
+$filter-input-error-border-color: #dd1f2a;
 
-$filter-container-header-has-filter-icon-color: #389E0D;
+$filter-container-header-has-filter-icon-color: #389e0d;
 
 // SidebarMenu
 $sidebar-menu-width: 180px;
@@ -115,7 +116,7 @@ $sidebar-menu-item-active-background-color: #00546e;
 $sidebar-menu-item-active-color: #fff;
 $sidebar-menu-item-hover-color: #fff;
 $sidebar-menu-item-hover-opacity: 0.8;
-$sidebar-menu-item-border-focus-color:#003447;
+$sidebar-menu-item-border-focus-color: #003447;
 
 $sidebar-quick-filter-input-box-shadow-hover: 0 0 0 2px #00546e;
 $sidebar-quick-filter-input-box-shadow-focus: 0 0 0 2px #007694, 0 0 0 3px white;
@@ -131,18 +132,18 @@ $sidebar-content-panel-close-icon-width: 16px;
 
 // Grid Card V2
 $grid-card-light-background-color: white;
-$grid-card-shade-background-color: #F8FAFC;
+$grid-card-shade-background-color: #f8fafc;
 
 // Empty
-$empty-image-color: #B5C6D8;
-$empty-content-color: #486F90;
+$empty-image-color: #b5c6d8;
+$empty-content-color: #486f90;
 $empty-content-mini-padding: 30px 0;
 $empty-content-default-padding: 50px 0;
 $empty-content-large-padding: 50px 0;
 
 // Collapse
 $collapse-light-background-color: white;
-$collapse-shade-background-color: #F8FAFC;
+$collapse-shade-background-color: #f8fafc;
 $collapse-header-border-color: #e1e8ef;
 
 // ProLabel
@@ -152,10 +153,10 @@ $prolabel-required-mark-color: #a8071a;
 $file-upload-item-color: #1890ff;
 
 // Variant Entity
-$variant-tag-color: #531DAB;
-$variant-tag-bg-color: #EFDBFF;
+$variant-tag-color: #531dab;
+$variant-tag-bg-color: #efdbff;
 $canonical-icon-color: $blue-8;
-$summary-bg-color: $gray-3;
 
 // Entities
 $entity-icon-size: 20px;
+$summary-bg-color: $gray-3;

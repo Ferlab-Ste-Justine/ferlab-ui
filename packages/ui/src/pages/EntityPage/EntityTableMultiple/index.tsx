@@ -14,10 +14,11 @@ export interface IEntityTableMultiple {
     header: React.ReactNode;
     title?: string;
     loading: boolean;
+    direction?: 'horizontal' | 'vertical';
     tables: {
         columns: ProColumnType[];
         data: any[];
-        subTitle?: string;
+        subTitle?: string | React.ReactNode;
         dictionary?: IProTableDictionary;
         bordered?: boolean;
         headerConfig?: THeaderConfig<any>;
@@ -26,7 +27,14 @@ export interface IEntityTableMultiple {
     }[];
 }
 
-const EntityTableMultiple = ({ header, id, loading, tables = [], title }: IEntityTableMultiple): React.ReactElement => (
+const EntityTableMultiple = ({
+    header,
+    direction = 'horizontal',
+    id,
+    loading,
+    tables = [],
+    title,
+}: IEntityTableMultiple): React.ReactElement => (
     <div className={styles.container} id={id}>
         {title && (
             <Title className={styles.title} level={4}>
@@ -36,7 +44,7 @@ const EntityTableMultiple = ({ header, id, loading, tables = [], title }: IEntit
         <Collapse arrowIcon="caretFilled" className={styles.collapse} defaultActiveKey={['1']}>
             <CollapsePanel className={styles.panel} header={header} key="1">
                 <Card className={styles.card} loading={loading}>
-                    <Space align="start" className={styles.content} direction="horizontal" size={12}>
+                    <Space align="start" className={styles.content} direction={direction} size={12}>
                         {tables.map(
                             (
                                 {
@@ -51,7 +59,7 @@ const EntityTableMultiple = ({ header, id, loading, tables = [], title }: IEntit
                                 },
                                 index,
                             ) => (
-                                <div className={styles.contentTable}>
+                                <div className={styles.contentTable} key={id + index}>
                                     {subTitle && <span className={styles.subTitle}>{subTitle}</span>}
                                     <ProTable
                                         bordered={bordered}

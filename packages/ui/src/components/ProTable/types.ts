@@ -73,7 +73,16 @@ export interface ProColumnGroupType<RecordType> extends Omit<ProColumnType<Recor
     children: ProColumnsType<RecordType>;
 }
 
-export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns' | 'pagination'> & {
+export type TPropsTablePropsExtra = {
+    summary?: () => JSX.Element;
+};
+
+export type TProTableSummary = {
+    index: number;
+    value: any;
+};
+
+export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns' | 'pagination' | 'summary'> & {
     tableId: string;
     headerConfig: THeaderConfig<RecordType>;
     wrapperClassName?: string;
@@ -85,6 +94,7 @@ export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns' 
     dictionary?: IProTableDictionary;
     enableRowSelection?: boolean;
     onSelectionChange?: (selectedRows: RecordType[], selectedKeys: any[]) => void;
+    summaryColumns?: TProTableSummary[];
 };
 
 export type THeaderConfig<RecordType> = {

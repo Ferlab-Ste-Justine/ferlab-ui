@@ -9,7 +9,7 @@ import styles from '@ferlab/style/pages/EntityPage/EntityDescriptions.module.scs
 const { Title } = Typography;
 
 export interface IEntityDescriptions {
-    id: string;
+    id?: string;
     descriptions: IEntityDescriptionsItem[];
     loading: boolean;
     title?: string;
@@ -19,10 +19,18 @@ export interface IEntityDescriptions {
 
 export interface IEntityDescriptionsItem {
     label: React.ReactNode;
-    value: React.ReactNode;
+    value?: React.ReactNode;
+    separator?: boolean;
 }
 
-const EntityDescriptions: React.FC<IEntityDescriptions> = ({ descriptions, header, id, loading, subheader, title }) => (
+const EntityDescriptions: React.FC<IEntityDescriptions> = ({
+    descriptions,
+    header,
+    id = '',
+    loading,
+    subheader,
+    title,
+}) => (
     <div className={styles.container} id={id}>
         {title && (
             <Title className={styles.title} level={4}>
