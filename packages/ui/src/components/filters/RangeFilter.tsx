@@ -1,7 +1,7 @@
 import { Button, Checkbox, InputNumber, Select, Space } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import cx from 'classnames';
-import { isNull } from 'lodash';
+import { isNull, isUndefined } from 'lodash';
 import get from 'lodash/get';
 import React, { useEffect, useState } from 'react';
 import { RangeOperators } from '../../data/sqon/operators';
@@ -18,7 +18,7 @@ import {
     IFilterRange,
     IFilterRangeConfig,
     IRangeOperatorConfig,
-    onChangeType
+    onChangeType,
 } from './types';
 
 import styles from '@ferlab/style/components/filters/RangeFilter.module.scss';
@@ -203,7 +203,7 @@ const RangeFilter = ({
 
     const validateSelectedValues = () => {
         if (!currentOperator?.disableMax && !currentOperator?.disableMin) {
-            return max != undefined && min != undefined;
+            return !isUndefined(max) && !isUndefined(min);
         }
 
         return true;
@@ -225,12 +225,12 @@ const RangeFilter = ({
 
     const onMinChanged = (value: string | number | undefined) => {
         const min = typeof value === 'string' ? parseFloat(value) : value;
-        setRangeFilter((prevState) => ({ ...prevState, min: min ? min : undefined }));
+        setRangeFilter((prevState) => ({ ...prevState, min: isUndefined(min) ? min : undefined }));
     };
 
     const onMaxChanged = (value: string | number | undefined) => {
         const max = typeof value === 'string' ? parseFloat(value) : value;
-        setRangeFilter((prevState) => ({ ...prevState, max: max ? max : undefined }));
+        setRangeFilter((prevState) => ({ ...prevState, max: isUndefined(max) ? max : undefined }));
     };
 
     const onNoDataChanged = (value: CheckboxChangeEvent) => {
