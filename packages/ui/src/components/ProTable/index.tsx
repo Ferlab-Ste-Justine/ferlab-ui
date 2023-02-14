@@ -16,6 +16,7 @@ import {
     ProColumnType,
     ProColumnTypes,
     TColumnStates,
+    TPropsTablePropsExtra,
     TProTableProps,
 } from './types';
 
@@ -66,6 +67,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     enableRowSelection = false,
     initialColumnState,
     dictionary = {},
+    summaryColumns,
     onSelectionChange,
     ...tableProps
 }: TProTableProps<RecordType>) => {
@@ -182,6 +184,21 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         return { ...column, title };
     };
 
+    const tablePropsExtra: TPropsTablePropsExtra = {};
+    if (summaryColumns) {
+        tablePropsExtra.summary = () => (
+            <Table.Summary>
+                <Table.Summary.Row className={styles.row}>
+                    {summaryColumns.map((e) => (
+                        <Table.Summary.Cell className={styles.cell} index={e.index} key={e.index}>
+                            {e.value}
+                        </Table.Summary.Cell>
+                    ))}
+                </Table.Summary.Row>
+            </Table.Summary>
+        );
+    }
+
     return (
         <Space
             className={cx(styles.ProTableWrapper, wrapperClassName)}
@@ -214,6 +231,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
             />
             <Table
                 {...tableProps}
+                {...tablePropsExtra}
                 columns={columnsState
                     .filter(({ visible }) => visible)
                     .sort((a, b) => a.index - b.index)

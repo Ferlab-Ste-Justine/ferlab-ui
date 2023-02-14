@@ -42,3 +42,17 @@ export const numberFormat = (num: number, digits = 0) => {
         );
     }
 };
+
+export const toExponentialNotation = (numberCandidate?: number, fractionDigits = 2): string =>
+    numberCandidate ? numberCandidate.toExponential(fractionDigits) : '';
+
+export const canQuotientBeComputed = (num: number, denum: number): boolean => {
+    const areNumbers = !isNaN(num) && !isNaN(denum);
+    return areNumbers && denum !== 0;
+};
+
+export const formatQuotientToExponentialOrElse = (num: number, denum: number, defaultValue = '') =>
+    canQuotientBeComputed(num, denum) ? `${toExponentialNotation(num / denum)}` : defaultValue;
+
+export const formatQuotientOrElse = (num: number, denum: number, defaultValue = '') =>
+    canQuotientBeComputed(num, denum) ? `${num} / ${denum}` : defaultValue;

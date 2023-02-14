@@ -1,0 +1,56 @@
+@import "theme.template";
+
+.container {
+  max-width: 1600px;
+  margin-bottom: 40px;
+
+  .collapse {
+    .panel {
+      .card {
+        border: none;
+        *[class$="-card-body"] {
+          padding: 0;
+        }
+        *[class$="-descriptions-header"] {
+          width: 245px;
+          margin-top: 16px;
+          margin-bottom: 8px;
+        }
+
+        .column {
+          & > :first-child {
+            *[class$="-descriptions-header"] {
+              margin-top: 0;
+            }
+          }
+        }
+
+        *[class$="-descriptions-title"] {
+          width: 245px;
+          font-weight: 500;
+          font-size: 14px;
+          color: $blue-9;
+        }
+        *[class$="-descriptions-item-label"] {
+          width: 245px;
+          background-color: $gray-2;
+        }
+        *[class$="-descriptions-item-content"] {
+          width: 245px;
+        }
+      }
+    }
+  }
+}
+
+.dotted {
+  border-bottom: 1px dotted;
+}
+
+.link {
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

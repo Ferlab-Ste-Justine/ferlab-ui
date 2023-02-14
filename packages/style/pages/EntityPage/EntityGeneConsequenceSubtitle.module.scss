@@ -1,0 +1,29 @@
+@import "theme.template";
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  margin: 16px 0 12px;
+
+  span {
+    margin-right: 4px;
+    color: $blue-9;
+
+    &.separator {
+      color: $gray-5;
+    }
+  }
+}
+
+.link {
+  text-decoration: underline;
+  color: $blue-8;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.bold {
+  font-weight: 500;
+}
