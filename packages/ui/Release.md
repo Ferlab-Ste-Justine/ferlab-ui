@@ -1,3 +1,6 @@
+### 4.13.2 | 2023-02-14
+- Fix: SJIP-351 Change title props type for protable columns
+
 ### 4.13.1 | 2023-02-02
 - Fix: SJIP-350 Set default icon size for entity pages
 
