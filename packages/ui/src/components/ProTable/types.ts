@@ -58,7 +58,7 @@ export interface IProTableDictionary {
 
 export interface ProColumnType<T = any> extends ColumnType<T> {
     key: string;
-    title: string;
+    title: ReactNode;
     icon?: React.ReactElement;
     iconTitle?: ReactNode;
     tooltip?: string;
