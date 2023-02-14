@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { TableProps } from 'antd';
 import { ColumnType, TablePaginationConfig } from 'antd/lib/table';
 
@@ -27,21 +27,21 @@ export interface IPaginationProps {
 
 export interface IProTableDictionary {
     itemCount?: {
-        noResults: React.ReactNode;
-        results: React.ReactNode;
-        of: React.ReactNode;
-        selected: React.ReactNode;
-        selectedPlural: React.ReactNode;
-        selectAllResults: React.ReactNode;
-        clear: React.ReactNode;
+        noResults: ReactNode;
+        results: ReactNode;
+        of: ReactNode;
+        selected: ReactNode;
+        selectedPlural: ReactNode;
+        selectAllResults: ReactNode;
+        clear: ReactNode;
     };
     tooltips?: {
-        tableExport: React.ReactNode;
+        tableExport: ReactNode;
     };
     columnSelector?: {
-        reset: React.ReactNode;
+        reset: ReactNode;
         tooltips?: {
-            columns: React.ReactNode;
+            columns: ReactNode;
         };
     };
     pagination?: {
@@ -50,7 +50,7 @@ export interface IProTableDictionary {
         next: string;
         view: string;
     };
-    numberFormat?: (value: number) => React.ReactNode;
+    numberFormat?: (value: number) => ReactNode;
     table?: {
         emptyText: string;
     };
@@ -59,7 +59,7 @@ export interface IProTableDictionary {
 export interface ProColumnType<T = any> extends ColumnType<T> {
     key: string;
     title: ReactNode;
-    icon?: React.ReactElement;
+    icon?: ReactElement;
     iconTitle?: ReactNode;
     tooltip?: string;
     defaultHidden?: boolean;
@@ -90,7 +90,7 @@ export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns' 
 export type THeaderConfig<RecordType> = {
     marginBtm?: number;
     extraSpacing?: number;
-    extra?: React.ReactNode[];
+    extra?: ReactNode[];
     enableTableExport?: boolean;
     enableColumnSort?: boolean;
     onSelectedRowsChange?: (selectedKeys: any[], selectedRows: RecordType[]) => void;
