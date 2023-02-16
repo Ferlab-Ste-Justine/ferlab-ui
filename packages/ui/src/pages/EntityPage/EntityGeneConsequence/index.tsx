@@ -33,6 +33,7 @@ export const EntityGeneConsequences = ({
     header,
     id,
     loading,
+    title,
 }: IEntityGeneConsequences): JSX.Element => {
     const geneConsequences = mergeConsequencesWithGenes(consequences || [], genes || []);
 
@@ -58,7 +59,7 @@ export const EntityGeneConsequences = ({
                     />
                 ),
             }))}
-            title={header}
+            title={title}
         />
     );
 };
