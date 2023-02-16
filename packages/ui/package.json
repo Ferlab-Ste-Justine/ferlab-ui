@@ -1,12 +1,6 @@
 {
     "name": "@ferlab/ui",
-<<<<<<< HEAD
-    "version": "4.13.2",
-||||||| parent of 99fabb0 (✨feat(variant): SKFP-612 remove static variant entity page and add generic wrappers)
-    "version": "4.13.1",
-=======
     "version": "4.14.0",
->>>>>>> 99fabb0 (✨feat(variant): SKFP-612 remove static variant entity page and add generic wrappers)
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
