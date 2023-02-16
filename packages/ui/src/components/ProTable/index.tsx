@@ -101,7 +101,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     summaryColumns,
     onSelectionChange,
     ...tableProps
-}: TProTableProps<RecordType>) : React.ReactElement => {
+}: TProTableProps<RecordType>): React.ReactElement => {
     const [leftColumnsState, setLeftColumnsState] = useState<TColumnStates>(
         generateColumnState(initialColumnState!, columns).left,
     );
