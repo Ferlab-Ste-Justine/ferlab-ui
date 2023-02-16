@@ -35,17 +35,20 @@ export const generateColumnState = <RecordType,>(
     const leftState: TColumnStates = [];
     let dynamicState: TColumnStates = initialState || [];
     const rightState: TColumnStates = [];
+    let leftIndex = 0;
+    let dynamicIndex = columns.length;
+    let rightIndex = columns.length * 2;
 
-    columns.forEach((column, index) => {
+    columns.forEach((column) => {
         if (column.fixed === 'left') {
             leftState.push({
-                index,
+                index: leftIndex++,
                 key: column.key,
                 visible: !column.defaultHidden,
             });
         } else if (column.fixed === 'right') {
             rightState.push({
-                index,
+                index: rightIndex++,
                 key: column.key,
                 visible: !column.defaultHidden,
             });
@@ -53,7 +56,7 @@ export const generateColumnState = <RecordType,>(
             dynamicState = [
                 ...dynamicState,
                 {
-                    index,
+                    index: dynamicIndex++,
                     key: column.key,
                     visible: !column.defaultHidden,
                 },
