@@ -6,3 +6,4 @@ lib/
 build/
 storybook-static/
 .DS_Store
+docs
