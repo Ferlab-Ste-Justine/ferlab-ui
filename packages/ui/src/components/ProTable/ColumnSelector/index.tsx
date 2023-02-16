@@ -150,10 +150,12 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
                                     saveIndex: -1,
                                     state: newState,
                                 });
+
+                                let firstIndex = localColumns.state[0].index;
                                 onChange(
-                                    newState.map((newColumnState, index) => ({
-                                        ...newColumnState,
-                                        index,
+                                    newState.map((localState) => ({
+                                        ...getColumnStateByKey(localState.key)!,
+                                        index: firstIndex++,
                                     })),
                                 );
                             }}
