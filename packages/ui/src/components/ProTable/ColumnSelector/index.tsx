@@ -150,9 +150,9 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
                             className={styles.ProTablePopoverColumnResetBtn}
                             size="small"
                             type="link"
-                            disabled={isEqual(generateColumnState([], columns), localColumnState)}
+                            disabled={isEqual(generateColumnState([], columns).dynamic, localColumnState)}
                             onClick={() => {
-                                const newState = generateColumnState([], columns);
+                                const newState = generateColumnState([], columns).dynamic;
                                 setLocalColumns({
                                     saveIndex: -1,
                                     state: newState,

@@ -22,12 +22,36 @@ import {
 
 import styles from '@ferlab/style/components/protable/ProTable.module.scss';
 
-export const generateColumnState = <RecordType,>(initialState: TColumnStates, columns: ProColumnsType<RecordType>) => {
-    let state: TColumnStates = initialState || [];
+type staticTable = {
+    left: TColumnStates;
+    dynamic: TColumnStates;
+    right: TColumnStates;
+};
+
+export const generateColumnState = <RecordType,>(
+    initialState: TColumnStates,
+    columns: ProColumnsType<RecordType>,
+): staticTable => {
+    const leftState: TColumnStates = [];
+    let dynamicState: TColumnStates = initialState || [];
+    const rightState: TColumnStates = [];
+
     columns.forEach((column, index) => {
-        if (!state.find(({ key }) => key === column.key)) {
-            state = [
-                ...state,
+        if (column.fixed === 'left') {
+            leftState.push({
+                index,
+                key: column.key,
+                visible: !column.defaultHidden,
+            });
+        } else if (column.fixed === 'right') {
+            rightState.push({
+                index,
+                key: column.key,
+                visible: !column.defaultHidden,
+            });
+        } else if (!dynamicState.find(({ key }) => key === column.key)) {
+            dynamicState = [
+                ...dynamicState,
                 {
                     index,
                     key: column.key,
@@ -37,7 +61,11 @@ export const generateColumnState = <RecordType,>(initialState: TColumnStates, co
         }
     });
 
-    return state.filter(({ key }) => columns.find(({ key: colKey }) => colKey === key));
+    return {
+        dynamic: dynamicState.filter(({ key }) => columns.find(({ key: colKey }) => colKey === key)),
+        left: leftState,
+        right: rightState,
+    };
 };
 
 const ProTable = <RecordType extends object & { key: string } = any>({
@@ -70,14 +98,22 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     summaryColumns,
     onSelectionChange,
     ...tableProps
-}: TProTableProps<RecordType>) => {
-    const [columnsState, setColumnsState] = useState<TColumnStates>(generateColumnState(initialColumnState!, columns));
+}: TProTableProps<RecordType>) : React.ReactElement => {
+    const [leftColumnsState, setLeftColumnsState] = useState<TColumnStates>(
+        generateColumnState(initialColumnState!, columns).left,
+    );
+    const [columnsState, setColumnsState] = useState<TColumnStates>(
+        generateColumnState(initialColumnState!, columns).dynamic,
+    );
+    const [rightColumnsState, setRightColumnsState] = useState<TColumnStates>(
+        generateColumnState(initialColumnState!, columns).right,
+    );
     const [selectedAllResults, setSelectedAllResults] = useState(false);
     const [selectedAllPage, setSelectedAllPage] = useState(false);
     const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>(initialSelectedKey);
 
     useEffect(() => {
-        setColumnsState(generateColumnState(initialColumnState!, columns));
+        setColumnsState(generateColumnState(initialColumnState!, columns).dynamic);
     }, [columns]);
 
     useEffect(() => {
@@ -232,7 +268,8 @@ const ProTable = <RecordType extends object & { key: string } = any>({
             <Table
                 {...tableProps}
                 {...tablePropsExtra}
-                columns={columnsState
+                columns={leftColumnsState
+                    .concat(columnsState, rightColumnsState)
                     .filter(({ visible }) => visible)
                     .sort((a, b) => a.index - b.index)
                     .map(({ key }) => columns.find((column) => column.key === key)!)
