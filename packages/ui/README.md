@@ -69,6 +69,8 @@ npm start
 
 ### Publish new release
 
+On your PR, make sure to increment the version in packge.json
+
 To publish a new release once a PR as been validated and merged
 
 1. Try to install the package to make sure everything work corretly
@@ -77,13 +79,12 @@ To publish a new release once a PR as been validated and merged
     > rm -rf core/
 3. Prepare the package
     > npm run build
-4. On master Update package.json version
-5. Push the new version
-6. Create a tag to the new version `git tag ui@[semantic version]`
+4. Push the new version
+5. Create a tag to the new version `git tag ui@[semantic version]`
    e.g.
-    > git tab ui@4.4.1
+    > git tag ui@4.4.1
     > git push --tags
-7. Login to npm
+6. Login to npm
     > npm login
-8. Push the new version
+7. Push the new version
     > npm publish

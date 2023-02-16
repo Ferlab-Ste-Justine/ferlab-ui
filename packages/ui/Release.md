@@ -1,3 +1,6 @@
+### 4.15.1 | 2023-02-16
+- Fix: FLUI-33 Fixed columns in protable cannot be reorder
+
 ### 4.13.2 | 2023-02-14
 - Fix: SJIP-351 Change title props type for protable columns
 
@@ -14,16 +17,16 @@
 - Feat: SKFP-404 add EntityPage components
 
 ### 4.9.0 | 2022-12-21
-- Feat: SKFP-547 add UploadedListQueryPill component 
+- Feat: SKFP-547 add UploadedListQueryPill component
 
 ### 4.7.7 | 2022-12-12
 - Fix: CQDG-117 add/debug search input for FilterContainer
 
 ### 4.7.4 | 2022-12-12
-- Fix: SKFP-554 Multiple minor fixes on the VariantEntity page 
+- Fix: SKFP-554 Multiple minor fixes on the VariantEntity page
 
 ### 4.7.0 | 2022-12-02
-- Feat: SKFP-554 add VariantEntity page 
+- Feat: SKFP-554 add VariantEntity page
 
 ### 4.6.4 | 2022-11-22
 - Fix: CQDG-110 add useEffect to SortableGrid to rerender when `items` prop change

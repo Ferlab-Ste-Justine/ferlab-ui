@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
 import {
     closestCenter,
@@ -6,14 +7,15 @@ import {
     KeyboardSensor,
     PointerSensor,
     useSensor,
-    useSensors
+    useSensors,
 } from '@dnd-kit/core';
 import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Button, Popover, Space, Tooltip } from 'antd';
 import { isEqual } from 'lodash';
-import React, { useEffect, useState } from 'react';
-import { generateColumnState } from '..';
+
 import { IProTableDictionary, ProColumnType, TColumnStates } from '../types';
+import { generateColumnState } from '..';
+
 import SortableColumnItem from './SortableColumnItem';
 
 import styles from '@ferlab/style/components/protable/ColumnSelector.module.scss';
@@ -54,14 +56,13 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
     useEffect(() => {
         // Ensure onChange is not call on load
         if (localColumns.saveIndex > -1) {
-            onChange(
-                localColumns.state.map((localState, index) => {
-                    return {
-                        ...getColumnStateByKey(localState.key)!,
-                        index,
-                    };
-                }),
-            );
+            let firstIndex = localColumns.state[0].index;
+            const updatedColumns: TColumnStates = localColumns.state.map((localState) => ({
+                ...getColumnStateByKey(localState.key)!,
+                index: firstIndex++,
+            }));
+
+            onChange(updatedColumns);
         }
     }, [localColumns]);
 
@@ -83,27 +84,21 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
         }
     };
 
-    const List = ({ children }: any) => {
+    const List = ({ children }: any) => (
         // Needs to be defined here else it breaks the grid
-        return (
-            <Space direction="vertical" className={className}>
-                {children}
-            </Space>
-        );
-    };
-
+        <Space className={className} direction="vertical">
+            {children}
+        </Space>
+    );
     return (
         <Popover
-            placement="bottomLeft"
-            trigger="click"
             align={{
                 offset: [-9, 0],
             }}
-            overlayClassName={styles.ProTablePopoverColumn}
             content={
                 <Space direction="vertical">
                     <div className={styles.ProTablePopoverColumnListWrapper}>
-                        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                        <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd} sensors={sensors}>
                             <SortableContext
                                 items={localColumns.state.map(({ key }) => key)}
                                 strategy={rectSortingStrategy}
@@ -120,10 +115,10 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
 
                                         return (
                                             <SortableColumnItem
-                                                id={localState.key!}
-                                                label={String(foundColumn.title)}
-                                                key={index}
                                                 checked={savedColumnState?.visible}
+                                                id={localState.key!}
+                                                key={index}
+                                                label={String(foundColumn.title)}
                                                 onChange={(e) => {
                                                     const filteredStates = localColumnState.filter(
                                                         ({ key }) => key !== localState.key,
@@ -148,8 +143,6 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
                     <div className={styles.ProTablePopoverColumnResetBtnWrapper}>
                         <Button
                             className={styles.ProTablePopoverColumnResetBtn}
-                            size="small"
-                            type="link"
                             disabled={isEqual(generateColumnState([], columns).dynamic, localColumnState)}
                             onClick={() => {
                                 const newState = generateColumnState([], columns).dynamic;
@@ -158,26 +151,29 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
                                     state: newState,
                                 });
                                 onChange(
-                                    newState.map((newColumnState, index) => {
-                                        return {
-                                            ...newColumnState,
-                                            index,
-                                        };
-                                    }),
+                                    newState.map((newColumnState, index) => ({
+                                        ...newColumnState,
+                                        index,
+                                    })),
                                 );
                             }}
+                            size="small"
+                            type="link"
                         >
                             {dictionary.columnSelector?.reset || 'Reset'}
                         </Button>
                     </div>
                 </Space>
             }
+            overlayClassName={styles.ProTablePopoverColumn}
+            placement="bottomLeft"
+            trigger="click"
         >
             <Tooltip title={dictionary.columnSelector?.tooltips?.columns || 'Columns'}>
                 <Button
-                    type="text"
-                    size="small"
                     icon={<SettingOutlined className={styles.ProTableSettingBtnIcon} />}
+                    size="small"
+                    type="text"
                 ></Button>
             </Tooltip>
         </Popover>
