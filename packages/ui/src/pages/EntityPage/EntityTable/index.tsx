@@ -56,34 +56,35 @@ const EntityTable = ({
         <Collapse arrowIcon="caretFilled" className={styles.collapse} defaultActiveKey={['1']}>
             <CollapsePanel className={styles.panel} header={header} key="1">
                 <Card className={styles.card} loading={loading}>
-                    <Space className={styles.content} direction="vertical" size={12}>
-                        {!loading && data.length ? (
-                            <ProTable
-                                bordered={bordered}
-                                columns={columns}
-                                dataSource={data}
-                                dictionary={dictionary}
-                                headerConfig={{
-                                    hideItemsCount: true,
-                                    itemCount: {
-                                        pageIndex: 0,
-                                        pageSize: 0,
-                                        total: 0,
-                                    },
-                                    ...headerConfig,
-                                }}
-                                initialColumnState={initialColumnState}
-                                loading={loading}
-                                rowClassName={styles.notStriped}
-                                size={size}
-                                summaryColumns={summaryColumns}
-                                tableHeaderClassName={styles.tableHeader}
-                                tableId={id}
-                            />
-                        ) : (
+                    {!loading && data.length ? (
+                        <ProTable
+                            bordered={bordered}
+                            columns={columns}
+                            dataSource={data}
+                            dictionary={dictionary}
+                            headerConfig={{
+                                hideItemsCount: true,
+                                itemCount: {
+                                    pageIndex: 0,
+                                    pageSize: 0,
+                                    total: 0,
+                                },
+                                ...headerConfig,
+                            }}
+                            initialColumnState={initialColumnState}
+                            loading={loading}
+                            rowClassName={styles.notStriped}
+                            size={size}
+                            summaryColumns={summaryColumns}
+                            tableHeaderClassName={styles.tableHeader}
+                            tableId={id}
+                            wrapperClassName={styles.contentTable}
+                        />
+                    ) : (
+                        <Space className={styles.content} direction="vertical" size={12}>
                             <Empty align="left" description={emptyMessage} noPadding showImage={false} size="mini" />
-                        )}
-                    </Space>
+                        </Space>
+                    )}
                 </Card>
             </CollapsePanel>
         </Collapse>
