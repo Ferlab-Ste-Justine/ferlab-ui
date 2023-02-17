@@ -64,6 +64,15 @@ export const generateColumnState = <RecordType,>(
         }
     });
 
+    if (initialState && initialState.length !== 0) {
+        dynamicState = dynamicState.filter(
+            (dElem) => !(leftState.find((e) => dElem.key === e.key) || rightState.find((e) => dElem.key === e.key)),
+        );
+        dynamicState.forEach((e) => {
+            e.index = dynamicIndex++;
+        });
+    }
+
     return {
         dynamic: dynamicState.filter(({ key }) => columns.find(({ key: colKey }) => colKey === key)),
         left: leftState,
@@ -103,22 +112,20 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     tableRef,
     ...tableProps
 }: TProTableProps<RecordType>): React.ReactElement => {
-    const [leftColumnsState, setLeftColumnsState] = useState<TColumnStates>(
-        generateColumnState(initialColumnState!, columns).left,
-    );
-    const [columnsState, setColumnsState] = useState<TColumnStates>(
-        generateColumnState(initialColumnState!, columns).dynamic,
-    );
-    const [rightColumnsState, setRightColumnsState] = useState<TColumnStates>(
-        generateColumnState(initialColumnState!, columns).right,
-    );
+    //    const columnState = generateColumnState(initialColumnState!, columns);
+    const [leftColumnsState, setLeftColumnsState] = useState<TColumnStates>();
+    const [columnsState, setColumnsState] = useState<TColumnStates>();
+    const [rightColumnsState, setRightColumnsState] = useState<TColumnStates>();
     const [selectedAllResults, setSelectedAllResults] = useState(false);
     const [selectedAllPage, setSelectedAllPage] = useState(false);
     const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>(initialSelectedKey);
 
     useEffect(() => {
-        setColumnsState(generateColumnState(initialColumnState!, columns).dynamic);
-    }, [columns]);
+        const orderedColumns = generateColumnState(initialColumnState!, columns);
+        setLeftColumnsState(orderedColumns.left);
+        setColumnsState(orderedColumns.dynamic);
+        setRightColumnsState(orderedColumns.right);
+    }, [columns.length]);
 
     useEffect(() => {
         setSelectedRowKeys(initialSelectedKey);
@@ -162,7 +169,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
             );
         }
 
-        if (headerConfig.enableColumnSort) {
+        if (headerConfig.enableColumnSort && columnsState) {
             customExtra = customExtra.concat(
                 <ColumnSelector
                     columnStates={columnsState}
@@ -269,77 +276,82 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                 selectedRowCount={selectedAllResults ? getTotalResults() : selectedRowKeys.length}
                 total={headerConfig.itemCount?.total || 0}
             />
-            <Table
-                ref={tableRef}
-                {...tableProps}
-                {...tablePropsExtra}
-                columns={leftColumnsState
-                    .concat(columnsState, rightColumnsState)
-                    .filter(({ visible }) => visible)
-                    .sort((a, b) => a.index - b.index)
-                    .map(({ key }) => columns.find((column) => column.key === key)!)
-                    .filter((column) => !isEmpty(column))
-                    .map(generateColumnTitle)}
-                locale={{
-                    emptyText: <Empty description={dictionary.table?.emptyText || 'No available data'} size="mini" />,
-                }}
-                pagination={
-                    pagination && (pagination as IPaginationProps)?.searchAfter === undefined
-                        ? {
-                              ...pagination,
-                              onChange: (page, size) => {
-                                  if (selectedAllResults) {
+
+            {columnsState !== undefined && rightColumnsState !== undefined && (
+                <Table
+                    ref={tableRef}
+                    {...tableProps}
+                    {...tablePropsExtra}
+                    columns={leftColumnsState
+                        ?.concat(columnsState, rightColumnsState)
+                        .filter(({ visible }) => visible)
+                        .sort((a, b) => a.index - b.index)
+                        .map(({ key }) => columns.find((column) => column.key === key)!)
+                        .filter((column) => !isEmpty(column))
+                        .map(generateColumnTitle)}
+                    locale={{
+                        emptyText: (
+                            <Empty description={dictionary.table?.emptyText || 'No available data'} size="mini" />
+                        ),
+                    }}
+                    pagination={
+                        pagination && (pagination as IPaginationProps)?.searchAfter === undefined
+                            ? {
+                                  ...pagination,
+                                  onChange: (page, size) => {
+                                      if (selectedAllResults) {
+                                          handleOnSelectRowsChange([], []);
+                                          handleOnSelectAllResultsChange(false);
+                                      }
+
+                                      if (pagination.onChange) {
+                                          pagination?.onChange(page, size);
+                                      }
+                                  },
+                                  onShowSizeChange: (current, size) => {
                                       handleOnSelectRowsChange([], []);
-                                      handleOnSelectAllResultsChange(false);
-                                  }
 
-                                  if (pagination.onChange) {
-                                      pagination?.onChange(page, size);
-                                  }
-                              },
-                              onShowSizeChange: (current, size) => {
-                                  handleOnSelectRowsChange([], []);
+                                      if (pagination.onShowSizeChange) {
+                                          pagination.onShowSizeChange(current, size);
+                                      }
+                                  },
+                              }
+                            : false
+                    }
+                    rowSelection={
+                        tableProps.rowSelection || enableRowSelection
+                            ? {
+                                  ...tableProps.rowSelection,
+                                  onChange: (selectedRowKeys, selectedRows) => {
+                                      if (!selectedRowKeys.length) {
+                                          handleOnSelectAllResultsChange(false);
+                                      }
 
-                                  if (pagination.onShowSizeChange) {
-                                      pagination.onShowSizeChange(current, size);
-                                  }
-                              },
-                          }
-                        : false
-                }
-                rowSelection={
-                    tableProps.rowSelection || enableRowSelection
-                        ? {
-                              ...tableProps.rowSelection,
-                              onChange: (selectedRowKeys, selectedRows) => {
-                                  if (!selectedRowKeys.length) {
-                                      handleOnSelectAllResultsChange(false);
-                                  }
+                                      handleOnSelectRowsChange(selectedRowKeys, selectedRows);
 
-                                  handleOnSelectRowsChange(selectedRowKeys, selectedRows);
+                                      if (tableProps.rowSelection?.onChange) {
+                                          // @ts-ignore
+                                          tableProps.rowSelection.onChange(selectedRowKeys, selectedRows);
+                                      }
+                                  },
+                                  // Deprecated will need to change eventually
+                                  onSelect: (_, selected, selectedRows, event) => {
+                                      setSelectedAllPage(false);
 
-                                  if (tableProps.rowSelection?.onChange) {
-                                      // @ts-ignore
-                                      tableProps.rowSelection.onChange(selectedRowKeys, selectedRows);
-                                  }
-                              },
-                              // Deprecated will need to change eventually
-                              onSelect: (_, selected, selectedRows, event) => {
-                                  setSelectedAllPage(false);
+                                      if (tableProps.rowSelection?.onSelect) {
+                                          tableProps.rowSelection.onSelect(_, selected, selectedRows, event);
+                                      }
+                                  },
 
-                                  if (tableProps.rowSelection?.onSelect) {
-                                      tableProps.rowSelection.onSelect(_, selected, selectedRows, event);
-                                  }
-                              },
+                                  onSelectAll: setSelectedAllPage,
 
-                              onSelectAll: setSelectedAllPage,
-
-                              preserveSelectedRowKeys: true,
-                              selectedRowKeys: selectedRowKeys,
-                          }
-                        : undefined
-                }
-            ></Table>
+                                  preserveSelectedRowKeys: true,
+                                  selectedRowKeys: selectedRowKeys,
+                              }
+                            : undefined
+                    }
+                ></Table>
+            )}
             {(pagination as IPaginationProps)?.searchAfter && (
                 <Pagination
                     {...(pagination as IPaginationProps)}

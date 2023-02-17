@@ -1,3 +1,6 @@
+### 4.15.7 | 2023-02-17
+- Fix: FLUI-33 Fix protable with initial columns and reordering
+
 ### 4.15.6 | 2023-02-16
 - Fix: SJIP-364 Add scroll to EntityTable
 
