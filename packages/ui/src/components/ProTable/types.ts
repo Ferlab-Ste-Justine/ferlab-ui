@@ -95,6 +95,7 @@ export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns' 
     enableRowSelection?: boolean;
     onSelectionChange?: (selectedRows: RecordType[], selectedKeys: any[]) => void;
     summaryColumns?: TProTableSummary[];
+    tableRef?: React.Ref<HTMLDivElement>;
 };
 
 export type THeaderConfig<RecordType> = {

@@ -100,6 +100,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     dictionary = {},
     summaryColumns,
     onSelectionChange,
+    tableRef,
     ...tableProps
 }: TProTableProps<RecordType>): React.ReactElement => {
     const [leftColumnsState, setLeftColumnsState] = useState<TColumnStates>(
@@ -269,6 +270,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                 total={headerConfig.itemCount?.total || 0}
             />
             <Table
+                ref={tableRef}
                 {...tableProps}
                 {...tablePropsExtra}
                 columns={leftColumnsState
@@ -357,5 +359,4 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         </Space>
     );
 };
-
 export default ProTable;
