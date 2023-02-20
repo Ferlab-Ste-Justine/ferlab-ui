@@ -1,3 +1,6 @@
+### 4.15.8 0 2032-02-20
+- fix: FLUI-33 fix issue with reset columns 500
+
 ### 4.15.7 | 2023-02-17
 - Fix: FLUI-33 Fix protable with initial columns and reordering
 

@@ -65,12 +65,14 @@ export const generateColumnState = <RecordType,>(
     });
 
     if (initialState && initialState.length !== 0) {
-        dynamicState = dynamicState.filter(
-            (dElem) => !(leftState.find((e) => dElem.key === e.key) || rightState.find((e) => dElem.key === e.key)),
-        );
-        dynamicState.forEach((e) => {
-            e.index = dynamicIndex++;
-        });
+        dynamicState = dynamicState
+            .filter(
+                (dElem) => !(leftState.find((e) => dElem.key === e.key) || rightState.find((e) => dElem.key === e.key)),
+            )
+            .map((e) => {
+                e.index = dynamicIndex++;
+                return e;
+            });
     }
 
     return {

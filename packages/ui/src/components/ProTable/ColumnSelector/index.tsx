@@ -152,12 +152,12 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
                                 });
 
                                 let firstIndex = localColumns.state[0].index;
-                                onChange(
-                                    newState.map((localState) => ({
-                                        ...getColumnStateByKey(localState.key)!,
-                                        index: firstIndex++,
-                                    })),
-                                );
+                                const reindexState = newState.map((localState) => ({
+                                    ...getColumnStateByKey(localState.key)!,
+                                    index: firstIndex++,
+                                    visible: localState.visible,
+                                }));
+                                onChange(reindexState);
                             }}
                             size="small"
                             type="link"
