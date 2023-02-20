@@ -1,3 +1,6 @@
+### 4.15.9 0 2032-02-20
+- fix: FLUI-33 fix issue with reset columns 500 2
+
 ### 4.15.8 0 2032-02-20
 - fix: FLUI-33 fix issue with reset columns 500
 
