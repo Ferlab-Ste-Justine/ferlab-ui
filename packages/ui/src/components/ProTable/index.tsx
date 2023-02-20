@@ -69,10 +69,10 @@ export const generateColumnState = <RecordType,>(
             .filter(
                 (dElem) => !(leftState.find((e) => dElem.key === e.key) || rightState.find((e) => dElem.key === e.key)),
             )
-            .map((e) => {
-                e.index = dynamicIndex++;
-                return e;
-            });
+            .map((e) => ({
+                ...e,
+                index: dynamicIndex++,
+            }));
     }
 
     return {
