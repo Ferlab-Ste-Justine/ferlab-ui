@@ -9,7 +9,7 @@ import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 import { IDictionary, IFilter, IFilterCount } from './types';
 import { IFilterGroup, onChangeType } from './types';
 
-import styles from '@ferlab/style/components/filters/ToggleFilter.module.scss';
+import styles from './ToggleFilter.module.scss';
 
 export type BooleanFilterProps = {
     filters: IFilter<IFilterCount>[];

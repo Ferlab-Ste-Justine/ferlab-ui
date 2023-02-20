@@ -18,7 +18,7 @@ import {
     VisualType,
 } from './types';
 
-import styles from '@ferlab/style/components/filters/FilterContainer.module.scss';
+import styles from './FilterContainer.module.scss';
 
 type FilterContainerHeaderProps = {
     title: string | React.ReactNode;

@@ -12,7 +12,7 @@ import { MatchTableItem, TFetchMatchFunc, TOnUpload, UnmatchTableItem, UploadIdD
 import MatchTable from './MatchTable';
 import UnmatchTable from './UnmatchTable';
 
-import styles from '@ferlab/style/components/uploadids/UploadIdsModal.module.scss';
+import styles from './index.module.scss';
 
 interface OwnProps {
     width?: number;

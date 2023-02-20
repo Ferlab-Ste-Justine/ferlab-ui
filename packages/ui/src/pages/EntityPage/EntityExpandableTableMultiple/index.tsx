@@ -6,7 +6,7 @@ import Empty from '../../../components/Empty';
 import ExpandableTable from '../../../components/tables/ExpandableTable';
 import { IEntityTableMultiple } from '../EntityTableMultiple';
 
-import styles from '@ferlab/style/pages/EntityPage/EntityTable.module.scss';
+import styles from '../EntityTable/index.module.scss';
 const { Title } = Typography;
 
 export interface IEntityExpandableTableMultiple extends IEntityTableMultiple {

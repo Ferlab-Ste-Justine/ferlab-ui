@@ -6,7 +6,7 @@ import { IProTableDictionary } from '../types';
 import { ItemsCount } from './ItemsCount';
 import { SelectedCount } from './SelectedCount';
 
-import styles from '@ferlab/style/components/protable/ProTableHeader.module.scss';
+import styles from './index.module.scss';
 
 interface OwnProps {
     extra?: React.ReactNode[];

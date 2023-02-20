@@ -1,7 +1,7 @@
 import React from 'react';
 import { Anchor, AnchorProps } from 'antd';
 
-import styles from '@ferlab/style/components/anchorMenu/AnchorMenu.module.scss';
+import styles from './index.module.scss';
 
 const { Link } = Anchor;
 

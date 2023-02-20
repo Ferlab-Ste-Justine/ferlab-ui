@@ -6,7 +6,7 @@ import Collapse, { CollapsePanel } from '../../../components/Collapse';
 import ProTable from '../../../components/ProTable';
 import { IProTableDictionary, ProColumnType, TColumnStates, THeaderConfig } from '../../../components/ProTable/types';
 
-import styles from '@ferlab/style/pages/EntityPage/EntityTable.module.scss';
+import styles from '../EntityTable/index.module.scss';
 const { Title } = Typography;
 
 export interface IEntityTableMultiple {

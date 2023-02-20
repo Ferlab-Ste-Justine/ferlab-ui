@@ -1,14 +1,15 @@
+import React, { Fragment, useContext } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
 import { Button } from 'antd';
 import cx from 'classnames';
 import { capitalize } from 'lodash';
-import React, { Fragment, useContext } from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
+
 import { IValueFilter } from '../../../data/sqon/types';
+import { QueryBuilderContext } from '../context';
 import ElementOperator from '../icons/ElementOperator';
 import QueryValues from '../QueryValues';
 
-import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
-import { QueryBuilderContext } from '../context';
+import styles from './QueryPill.module.scss';
 
 interface IReferenceQueryPillProps {
     isBarActive?: boolean;
@@ -16,7 +17,7 @@ interface IReferenceQueryPillProps {
     onRemove: Function;
 }
 
-const SetQueryPill = ({ onRemove, isBarActive, valueFilter }: IReferenceQueryPillProps) => {
+const SetQueryPill = ({ isBarActive, onRemove, valueFilter }: IReferenceQueryPillProps) => {
     const { dictionary } = useContext(QueryBuilderContext);
 
     return (

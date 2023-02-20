@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { InfoCircleOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { AutoComplete, Input, InputRef, Menu } from 'antd';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
 
 import ScrollView from '../../layout/ScrollView';
 import StackLayout from '../../layout/StackLayout';
@@ -8,8 +9,7 @@ import StackLayout from '../../layout/StackLayout';
 import SearchIcon from './icons/SearchIcon';
 import SidebarMenuContentPanel from './SidebarMenuContentPanel';
 
-import styles from '@ferlab/style/components/sidebarMenu/SidebarMenu.module.scss';
-import { ItemType } from 'antd/lib/menu/hooks/useItems';
+import styles from './index.module.scss';
 
 export interface ISidebarMenuItem {
     key: string | number;
@@ -84,23 +84,23 @@ const Sidebar = ({
     };
 
     const getMenuItems = () => {
-        let items: ItemType[] = [];
+        const items: ItemType[] = [];
 
         if (enableQuickFilter && collapsed) {
             items.push({
-                key: SEARCH_KEY,
-                icon: quickFilterIcon ? quickFilterIcon : <SearchIcon />,
                 className: styles.sidebarMenuItem,
+                icon: quickFilterIcon ? quickFilterIcon : <SearchIcon />,
+                key: SEARCH_KEY,
                 label: locale.quickFilter?.menuTitle,
             });
         }
 
         items.push(
             ...menuItems.map((menuItem) => ({
-                key: menuItem.key,
                 className: styles.sidebarMenuItem,
-                icon: menuItem.icon,
                 'data-key': menuItem.key,
+                icon: menuItem.icon,
+                key: menuItem.key,
                 label: <span className={styles.sidebarMenuItemTitle}>{menuItem.title}</span>,
             })),
         );
@@ -130,7 +130,7 @@ const Sidebar = ({
     return (
         <div className={`${styles.siderContainer} ${className}`} style={style}>
             <div className={styles.sider} data-collapsed={collapsed}>
-                <StackLayout className={styles.siderStackLayout} vertical center={false} flexContent>
+                <StackLayout center={false} className={styles.siderStackLayout} flexContent vertical>
                     <div className={styles.sidebarToggleIconContainer}>
                         <div
                             className={styles.sidebarToggleIcon}
@@ -167,6 +167,7 @@ const Sidebar = ({
                         <Menu
                             className={styles.sidebarMenu}
                             inlineCollapsed={collapsed}
+                            items={getMenuItems()}
                             mode="inline"
                             onClick={(item) => {
                                 const cKey = item.key.toString();
@@ -176,7 +177,6 @@ const Sidebar = ({
                                 setSelectedKey(selectedKey !== cKey ? cKey : '');
                             }}
                             selectedKeys={[selectedKey]}
-                            items={getMenuItems()}
                         />
                     </ScrollView>
                 </StackLayout>

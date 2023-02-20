@@ -1,9 +1,12 @@
 {
     "name": "@ferlab/ui",
-    "version": "4.15.13",
+    "version": "5.0.0",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
+    },
+    "bin": {
+        "ferlabui-script": "themes/bin/style-script.js"
     },
     "repository": {
         "type": "git",
@@ -17,15 +20,16 @@
     ],
     "scripts": {
         "fix-linter": "eslint --fix --rule 'no-console: 2'",
-        "build": "npm-run-all build:es build:esnext",
+        "build": "npm-run-all build:es build:esnext && tscp",
         "build:es": "tsc --declaration --sourceMap --outDir lib/es",
         "build:esnext": "tsc --declaration --declarationMap",
-        "build:scss": "sass ./src:./lib/esnext",
-        "start": "tsc -w --declaration",
+        "build:scss": "sass ./themes:./lib/esnext",
+        "start": "tsc -w --declaration && tscp -w --declaration",
         "test": "jest",
         "test:github": "jest --coverage --watchAll=false --no-watchma  --coverageReporters=\"text-summary\"",
         "coverage": "jest --watchAll=false --coverage --coverageReporters=\"json-summary\"",
-        "coverage:changed": "jest --coverage --watchAll=false --onlyChanged --coverageReporters=\"json-summary\""
+        "coverage:changed": "jest --coverage --watchAll=false --onlyChanged --coverageReporters=\"json-summary\"",
+        "compile:colors": "./themes/bin/style-script.js colors"
     },
     "author": "Ferlab - Centre de recherche du CHU Ste-Justine",
     "license": "SEE LICENSE IN LICENSE",
@@ -60,10 +64,10 @@
         "ts-jest": "^29.0.3",
         "ts-node": "^10.9.1",
         "typescript": "^4.4.4",
+        "typescript-cp": "^0.1.7",
         "webpack-cli": "^3.3.12"
     },
     "peerDependencies": {
-        "@ferlab/style": "^1.29.2",
         "antd": "^4.20.0",
         "date-fns": "^2.29.3",
         "react": "^17.0.2",
@@ -75,7 +79,11 @@
         "@dnd-kit/sortable": "^5.1.0",
         "@dnd-kit/utilities": "^3.2.0",
         "classnames": "^2.2.6",
+        "command-line-args": "^5.1.1",
+        "cross-spawn": "^7.0.3",
         "history": "^4.9.0",
+        "less": "^4.1.0",
+        "less2sass": "^1.0.3",
         "md5": "^2.3.0",
         "query-string": "^7.0.1",
         "react-icons": "^4.2.0",

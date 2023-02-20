@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Space, Typography } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
+import { Button, Space, Typography } from 'antd';
+
 import { IProTableDictionary } from '../../types';
 
-import styles from '@ferlab/style/components/protable/ProTableHeader.module.scss';
+import styles from '../index.module.scss';
 
 type Props = {
     className?: string;
@@ -34,17 +35,17 @@ export const SelectedCount = ({
             </span>
         </Typography.Text>
         {selectedAllPage && (
-            <Button type="link" onClick={onSelectAll} size="small" className={styles.ProTableHeaderSelectAllBtn}>
+            <Button className={styles.ProTableHeaderSelectAllBtn} onClick={onSelectAll} size="small" type="link">
                 {dictionnary.itemCount?.selectAllResults || 'Select all results'}
             </Button>
         )}
         {selectedAllResults || (!selectedAllResults && selectedRowCount > 0 && !selectedAllPage) ? (
             <Button
                 className={styles.ProTableHeaderClearSelectedBtn}
-                type="link"
+                icon={<CloseOutlined />}
                 onClick={onClear}
                 size="small"
-                icon={<CloseOutlined />}
+                type="link"
             >
                 {dictionnary.itemCount?.clear || 'Clear'}
             </Button>

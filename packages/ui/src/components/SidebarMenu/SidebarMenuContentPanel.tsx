@@ -1,9 +1,10 @@
 import React from 'react';
+
 import ScrollContent from '../../layout/ScrollContent';
 
 import CloseIcon from './icons/CloseIcon';
 
-import styles from '@ferlab/style/components/sidebarMenu/SidebarMenuContentPanel.module.scss';
+import styles from './SidebarMenuContentPanel.module.scss';
 
 type ISidebarMenuContentPanelProps = {
     className?: string;
@@ -20,9 +21,7 @@ const SidebarMenuContentPanel = ({
 }: ISidebarMenuContentPanelProps) => (
     <div className={`${styles.contentPanel} ${isOpen ? styles.opened : ''} ${className}`}>
         <div className={styles.contentPanelHeader}>
-            <a
-                onClick={() =>  onClose()}
-            >
+            <a onClick={() => onClose()}>
                 <CloseIcon className={styles.closeIcon} />
             </a>
         </div>

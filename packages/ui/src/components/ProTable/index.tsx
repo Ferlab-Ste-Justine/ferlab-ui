@@ -20,7 +20,7 @@ import {
     TProTableProps,
 } from './types';
 
-import styles from '@ferlab/style/components/protable/ProTable.module.scss';
+import styles from './index.module.scss';
 
 type staticTable = {
     left: TColumnStates;

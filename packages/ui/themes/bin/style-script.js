@@ -4,14 +4,14 @@ const commandLineArgs = require('command-line-args');
 const spawn = require('cross-spawn');
 
 const optionDefinitions = [
-    { name: 'scriptName', multiple: false, defaultOption: true },
-    { name: 'source', alias: 's', type: String },
-    { name: 'dest', alias: 'd', type: String },
+    { defaultOption: true, multiple: false, name: 'scriptName' },
+    { alias: 's', name: 'source', type: String },
+    { alias: 'd', name: 'dest', type: String },
     { name: 'inputFile', type: String },
-    { name: 'outputFile', type: String},
-    { name: 'inputColors', type: String},
+    { name: 'outputFile', type: String },
+    { name: 'inputColors', type: String },
     { name: 'outputColors', type: String },
-    { name: 'theme', alias: 't', type: String },
+    { alias: 't', name: 'theme', type: String },
 ];
 
 const options = commandLineArgs(optionDefinitions);
@@ -22,9 +22,7 @@ if (!options['scriptName']) {
 }
 
 const scriptName = options['scriptName'];
-let scriptParams = [
-    require.resolve('../scripts/' + scriptName),
-];
+let scriptParams = [require.resolve('../scripts/' + scriptName)];
 
 for (let cmd in options) {
     if (cmd === 'scriptName') continue;
@@ -34,12 +32,12 @@ for (let cmd in options) {
 switch (scriptName) {
     case 'compile':
         const compile = spawn.sync('node', scriptParams, {
-            stdio: 'inherit'
+            stdio: 'inherit',
         });
         process.exit(compile.status);
     case 'colors':
         const colors = spawn.sync('node', [require.resolve('../scripts/' + scriptName)], {
-            stdio: 'inherit'
+            stdio: 'inherit',
         });
         process.exit(colors.status);
     default:

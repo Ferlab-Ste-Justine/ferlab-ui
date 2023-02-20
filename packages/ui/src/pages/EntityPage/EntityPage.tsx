@@ -5,7 +5,7 @@ import { IAnchorLink } from '../../components/AnchorMenu';
 import Empty from '../../components/Empty';
 import ScrollContent from '../../layout/ScrollContent';
 
-import styles from '@ferlab/style/pages/EntityPage/EntityPage.module.scss';
+import styles from './EntityPage.module.scss';
 
 export interface IEntityPage {
     pageId: string;

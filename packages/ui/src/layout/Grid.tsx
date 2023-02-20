@@ -10,8 +10,8 @@ const Grid: FunctionComponent<GridProps> = ({ backgroundColor, children, classNa
     const styles: React.CSSProperties = backgroundColor ? { backgroundColor } : {};
     return (
         <div
-            style={{ ...styles }}
             className={`core-layout-grid--content core-layout-grid--content-summary ${className}`}
+            style={{ ...styles }}
         >
             {children}
         </div>

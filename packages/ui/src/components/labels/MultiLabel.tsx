@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '@ferlab/style/components/labels/MultiLabel.scss';
+import './MultiLabel.scss';
 
 export enum MultiLabelTypeEnum {
     Inline = 'inline',

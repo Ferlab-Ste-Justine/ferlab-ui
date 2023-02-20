@@ -3,7 +3,7 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import { Popover, PopoverProps, Typography } from 'antd';
 import cx from 'classnames';
 
-import styles from '@ferlab/style/components/prolabel/ProLabel.module.scss';
+import styles from './index.module.scss';
 
 export interface IProLabelProps {
     title: string;
@@ -17,18 +17,18 @@ export interface IProLabelProps {
 const { Text } = Typography;
 
 const ProLabel = ({
-    title,
-    popoverProps,
-    colon = false,
-    size = 'default',
     className = '',
+    colon = false,
+    popoverProps,
     requiredMark = false,
+    size = 'default',
+    title,
 }: IProLabelProps) => (
     <Text className={cx(styles.fuiProLabel, requiredMark ? styles.requiredMark : '', className)}>
         <span>
             <span className={cx(styles.title, styles[size])}>{title}</span>
             {popoverProps && (
-                <Text type="secondary" className={styles.infoIconWrapper}>
+                <Text className={styles.infoIconWrapper} type="secondary">
                     <Popover {...popoverProps}>
                         <InfoCircleOutlined />
                     </Popover>

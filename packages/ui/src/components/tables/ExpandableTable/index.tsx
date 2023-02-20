@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from 'react';
 import { Table, Typography } from 'antd';
 import { TableProps } from 'antd/lib/table';
 
-import styles from '@ferlab/style/components/tables/ExpandableTable.module.scss';
+import styles from './index.module.scss';
 
 export type TExpandableTableProps = TableProps<any> & {
     nOfElementsWhenCollapsed?: number;

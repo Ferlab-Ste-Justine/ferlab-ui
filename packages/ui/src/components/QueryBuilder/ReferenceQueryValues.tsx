@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
+import styles from './QueryValues.module.scss';
 
 interface IReferenceQueryValuesProps {
     refIndex: number;

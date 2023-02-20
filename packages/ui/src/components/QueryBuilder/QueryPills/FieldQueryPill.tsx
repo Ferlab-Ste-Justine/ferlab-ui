@@ -17,7 +17,7 @@ import LessThanOrEqualOperator from '../icons/LessThanOrEqualOperator';
 import NotInOperator from '../icons/NotInOperator';
 import QueryValues from '../QueryValues';
 
-import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
+import styles from './QueryPill.module.scss';
 
 interface IFieldQueryPillProps {
     isBarActive?: boolean;

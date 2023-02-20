@@ -2,7 +2,7 @@ import React from 'react';
 import { Skeleton } from 'antd';
 import Title from 'antd/lib/typography/Title';
 
-import styles from '@ferlab/style/pages/EntityPage/EntityTitle.module.scss';
+import styles from './index.module.scss';
 
 export interface IEntityTitle {
     text?: string;

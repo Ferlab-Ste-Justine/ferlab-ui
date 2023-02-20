@@ -1,12 +1,14 @@
-import { Button, Tooltip } from 'antd';
 import React, { useContext } from 'react';
+import { Button, Tooltip } from 'antd';
+
 import { TSqonGroupOp } from '../../data/sqon/types';
+
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
+import { QueryBuilderContext } from './context';
 import { CombinerEnum } from './types';
 
-import styles from '@ferlab/style/components/queryBuilder/Combiner.module.scss';
-import { QueryBuilderContext } from './context';
+import styles from './Combiner.module.scss';
 
 interface ICombinerProps {
     type: TSqonGroupOp;
@@ -16,16 +18,13 @@ interface ICombinerProps {
 const Combiner = ({ onChange, type }: ICombinerProps) => {
     const { dictionary } = useContext(QueryBuilderContext);
 
-    const isAndOperator = () => {
-        return type === 'and';
-    };
+    const isAndOperator = () => type === 'and';
 
     const toggleOperator = () => {
         onChange(isAndOperator() ? CombinerEnum.Or : CombinerEnum.And);
     };
 
-    const getTooltipTitle = () => {
-        return `
+    const getTooltipTitle = () => `
             ${dictionary.actions?.changeOperatorTo || 'Change operator to'}
             ${
                 isAndOperator()
@@ -33,16 +32,15 @@ const Combiner = ({ onChange, type }: ICombinerProps) => {
                     : `"${dictionary.query?.combine?.and || 'and'}"`
             }
         `;
-    };
 
     return (
         <div className={styles.combinerContainer}>
-            <Tooltip title={getTooltipTitle()} align={{ offset: [0, 5] }}>
-                <Button className={styles.button} type="text" onClick={() => toggleOperator()}>
+            <Tooltip align={{ offset: [0, 5] }} title={getTooltipTitle()}>
+                <Button className={styles.button} onClick={() => toggleOperator()} type="text">
                     {isAndOperator() ? (
-                        <AndOperator dictionary={dictionary} className={styles.operator} />
+                        <AndOperator className={styles.operator} dictionary={dictionary} />
                     ) : (
-                        <OrOperator dictionary={dictionary} className={styles.operator} />
+                        <OrOperator className={styles.operator} dictionary={dictionary} />
                     )}
                 </Button>
             </Tooltip>

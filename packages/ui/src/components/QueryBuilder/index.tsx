@@ -32,7 +32,7 @@ import {
     IQueryBuilderHeaderConfig,
 } from './types';
 
-import styles from '@ferlab/style/components/queryBuilder/QueryBuilder.module.scss';
+import styles from './index.module.scss';
 
 export interface IQueryBuilderProps {
     id: string;

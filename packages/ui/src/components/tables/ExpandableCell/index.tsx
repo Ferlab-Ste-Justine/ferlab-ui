@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Typography } from 'antd';
-import { get } from 'lodash';
 import cx from 'classnames';
+import { get } from 'lodash';
 
-import styles from '@ferlab/style/components/tables/ExpandableCell.module.scss';
+import styles from './index.module.scss';
 
 export interface IExpandableCellDict {
     'see.less': string;

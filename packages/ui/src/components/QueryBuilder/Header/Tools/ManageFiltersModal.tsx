@@ -11,7 +11,7 @@ import { ISavedFilter } from '../../types';
 import EditFilterModal from './EditFilterModal';
 import { deleteFilterConfirm } from './utils';
 
-import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
+import styles from './QueryBuilderHeaderTools.module.scss';
 
 interface OwnProps {
     visible: boolean;

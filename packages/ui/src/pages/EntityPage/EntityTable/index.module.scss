@@ -1,0 +1,47 @@
+@import 'theme.template';
+
+.container {
+    max-width: 1600px;
+    margin-bottom: 40px;
+
+    .title {
+        margin-bottom: 16px;
+    }
+
+    .collapse {
+        .panel {
+            .card {
+                border: none;
+                *[class$='-card-body'] {
+                    padding: 0;
+                }
+
+                .content {
+                    width: 100%;
+
+                    *[class$='-space-item'] {
+                        width: 100%;
+                    }
+
+                    .subTitle {
+                        font-size: 14px;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+
+    .tableHeader {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+    }
+}
+
+.contentTable {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0 !important;
+}

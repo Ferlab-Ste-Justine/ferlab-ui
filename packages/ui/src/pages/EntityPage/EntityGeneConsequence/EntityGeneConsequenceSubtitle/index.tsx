@@ -5,7 +5,7 @@ import { removeUnderscoreAndCapitalize } from '../../../../utils/stringUtils';
 import { IGeneConsquenceTableGroup } from '../../type';
 import { sortConsequences } from '../../utils/consequences';
 
-import styles from '@ferlab/style/pages/EntityPage/EntityGeneConsequenceSubtitle.module.scss';
+import styles from './index.module.scss';
 
 interface IEntityGeneConsequenceSubtitle extends Omit<IGeneConsquenceTableGroup, 'ensembleGeneId'> {
     dictionary: {

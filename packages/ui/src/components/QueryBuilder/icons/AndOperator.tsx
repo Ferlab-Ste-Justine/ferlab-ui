@@ -1,7 +1,8 @@
 import React from 'react';
 
-import styles from '@ferlab/style/components/queryBuilder/Operator.module.scss';
 import { IDictionary } from '../types';
+
+import styles from './Operator.module.scss';
 
 interface IAndOperatorProps {
     dictionary?: IDictionary;
