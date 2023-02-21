@@ -127,7 +127,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         setLeftColumnsState(orderedColumns.left);
         setColumnsState(orderedColumns.dynamic);
         setRightColumnsState(orderedColumns.right);
-    }, [columns.length]);
+    }, [columns.length, initialColumnState]);
 
     useEffect(() => {
         setSelectedRowKeys(initialSelectedKey);
