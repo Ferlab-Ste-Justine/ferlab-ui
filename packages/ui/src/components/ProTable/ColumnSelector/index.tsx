@@ -123,13 +123,18 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
                                                     const filteredStates = localColumnState.filter(
                                                         ({ key }) => key !== localState.key,
                                                     );
-                                                    const newStates = [
+                                                    let newStates = [
                                                         ...filteredStates,
                                                         {
                                                             ...savedColumnState!,
                                                             visible: e.target.checked,
                                                         },
                                                     ];
+                                                    
+                                                    // DnD list use array order and not index
+                                                    newStates.sort((a, b) => {
+                                                        return a.index - b.index;
+                                                    });
 
                                                     onChange(newStates);
                                                 }}

@@ -1,3 +1,6 @@
+### 4.15.13 0 2032-02-21
+- fix: FLUI-33 protable dropdown uses index to sort entries
+
 ### 4.15.12 0 2032-02-21
 - fix: SKFP-605 Adjust MatchTableItem interface to handle case insensitive upload searches 
 
