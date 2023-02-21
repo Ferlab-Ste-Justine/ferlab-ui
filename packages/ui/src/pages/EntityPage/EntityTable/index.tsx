@@ -13,7 +13,7 @@ import {
     TProTableSummary,
 } from '../../../components/ProTable/types';
 
-import styles from '@ferlab/style/pages/EntityPage/EntityTable.module.scss';
+import styles from './index.module.scss';
 const { Title } = Typography;
 
 export interface IEntityTable {

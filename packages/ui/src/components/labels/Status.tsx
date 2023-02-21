@@ -1,5 +1,4 @@
 import React from 'react';
-import { Typography } from 'antd';
 import {
     CheckOutlined,
     FormOutlined,
@@ -8,7 +7,9 @@ import {
     StopOutlined,
     WarningOutlined,
 } from '@ant-design/icons';
-import '@ferlab/style/components/labels/StatusLabel.scss';
+import { Typography } from 'antd';
+
+import './StatusLabel.scss';
 
 export enum StatusOptions {
     Active = 'active',
@@ -67,12 +68,10 @@ export type StatusLabelProps = {
     status: string;
     style?: React.CSSProperties;
 };
-const StatusLabel = ({ className = '', dictionary, status, style = {} }: StatusLabelProps): React.ReactElement => {
-    return (
-        <Typography.Text className={`statuslabel__container ${status} ${className}`} style={style}>
-            {(StatusLabelElement as StatusLabelElementFromStringType)[status](dictionary)}
-        </Typography.Text>
-    );
-};
+const StatusLabel = ({ className = '', dictionary, status, style = {} }: StatusLabelProps): React.ReactElement => (
+    <Typography.Text className={`statuslabel__container ${status} ${className}`} style={style}>
+        {(StatusLabelElement as StatusLabelElementFromStringType)[status](dictionary)}
+    </Typography.Text>
+);
 
 export default StatusLabel;

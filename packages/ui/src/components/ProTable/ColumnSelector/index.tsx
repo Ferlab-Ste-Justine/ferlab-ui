@@ -18,7 +18,7 @@ import { generateColumnState } from '..';
 
 import SortableColumnItem from './SortableColumnItem';
 
-import styles from '@ferlab/style/components/protable/ColumnSelector.module.scss';
+import styles from './index.module.scss';
 
 interface OwnProps<T = any> {
     className?: string;

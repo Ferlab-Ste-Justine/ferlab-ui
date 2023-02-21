@@ -1,12 +1,14 @@
+import React, { Fragment, ReactNode, useContext, useState } from 'react';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Dropdown, Menu, Modal } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
-import React, { Fragment, ReactNode, useContext, useState } from 'react';
+
+import { QueryBuilderContext } from '../../context';
 import { ISavedFilter, TOnSavedFilterChange } from '../../types';
 
-import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeaderTools.module.scss';
-import { QueryBuilderContext } from '../../context';
 import ManageFiltersModal from './ManageFiltersModal';
+
+import styles from './QueryBuilderHeaderTools.module.scss';
 
 interface OwnProps {
     selectedKey: string;
@@ -32,20 +34,21 @@ const SavedFiltersMenu = ({
 
     const confirmUnsavedChangeForExistingFilter = (onOkCallback: Function) => {
         Modal.confirm({
-            title: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.title || 'Unsaved changes',
-            icon: <ExclamationCircleOutlined />,
+            cancelText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.openSavedFilter?.cancelText || 'Cancel',
             content:
                 dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.openSavedFilter?.content ||
                 'You are about to open a saved filter; all modifications will be lost.',
+            icon: <ExclamationCircleOutlined />,
             okText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.openSavedFilter?.okText || 'Continue',
-            cancelText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.openSavedFilter?.cancelText || 'Cancel',
             onOk: () => onOkCallback(),
+            title: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.title || 'Unsaved changes',
         });
     };
 
     const getMenuItems = () => {
-        let items: ItemType[] = savedFilters.map((savedFilter: ISavedFilter) => ({
+        const items: ItemType[] = savedFilters.map((savedFilter: ISavedFilter) => ({
             key: savedFilter.id,
+            label: savedFilter.title,
             onClick: () => {
                 if (savedFilter.id != selectedKey) {
                     const callback = () => onSavedFilterChange(savedFilter);
@@ -57,7 +60,6 @@ const SavedFiltersMenu = ({
                     }
                 }
             },
-            label: savedFilter.title,
         }));
 
         items.push(
@@ -66,8 +68,8 @@ const SavedFiltersMenu = ({
             },
             {
                 key: 'manage-my-filters',
-                onClick: () => setManageFiltersVisible(true),
                 label: dictionary.queryBuilderHeader?.myFiltersDropdown?.manageMyFilter || 'Manage filters',
+                onClick: () => setManageFiltersVisible(true),
             },
         );
 
@@ -77,25 +79,25 @@ const SavedFiltersMenu = ({
     return (
         <Fragment>
             <Dropdown
-                overlayClassName={styles.fuiQBHTSavedFiltersMenu}
+                disabled={savedFilters.length == 0}
                 overlay={
                     <Menu
-                        selectedKeys={selectedKey ? [selectedKey] : []}
-                        onClick={(e) => e.domEvent.stopPropagation()}
                         items={getMenuItems()}
+                        onClick={(e) => e.domEvent.stopPropagation()}
+                        selectedKeys={selectedKey ? [selectedKey] : []}
                     />
                 }
-                disabled={savedFilters.length == 0}
+                overlayClassName={styles.fuiQBHTSavedFiltersMenu}
                 trigger={['click']}
             >
                 {children}
             </Dropdown>
             <ManageFiltersModal
-                savedFilters={savedFilters}
-                visible={manageFiltersVisible}
-                onVisibleChange={setManageFiltersVisible}
                 onDeleteFilter={onDeleteFilter}
                 onUpdateFilter={onUpdateFilter}
+                onVisibleChange={setManageFiltersVisible}
+                savedFilters={savedFilters}
+                visible={manageFiltersVisible}
             />
         </Fragment>
     );

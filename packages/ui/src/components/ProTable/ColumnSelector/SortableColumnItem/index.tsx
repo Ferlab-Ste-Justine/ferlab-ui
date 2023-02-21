@@ -1,11 +1,11 @@
 import React from 'react';
-import { useSortable } from '@dnd-kit/sortable';
-import { Checkbox } from 'antd';
-import { CSS } from '@dnd-kit/utilities';
-import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { HolderOutlined } from '@ant-design/icons';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { Checkbox } from 'antd';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
-import styles from '@ferlab/style/components/protable/SortableColumnItem.module.scss';
+import styles from './index.module.scss';
 
 export type TSortableColumnItem = {
     id: string;
@@ -14,14 +14,14 @@ export type TSortableColumnItem = {
     onChange: (e: CheckboxChangeEvent) => void;
 };
 
-const SortableColumnItem = ({ id, label, checked = true, onChange }: TSortableColumnItem) => {
-    const { setNodeRef, transform, transition, isDragging, attributes, listeners } = useSortable({ id });
+const SortableColumnItem = ({ checked = true, id, label, onChange }: TSortableColumnItem) => {
+    const { attributes, isDragging, listeners, setNodeRef, transform, transition } = useSortable({ id });
 
     const style: React.CSSProperties = {
+        opacity: isDragging ? 0.65 : 1,
         transform: CSS.Translate.toString(transform),
         transition,
         zIndex: isDragging ? 100 : 'auto',
-        opacity: isDragging ? 0.65 : 1,
     };
 
     return (

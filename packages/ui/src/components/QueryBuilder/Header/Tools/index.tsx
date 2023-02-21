@@ -21,7 +21,7 @@ import { hasQueries, hasUnsavedChanges, isNewUnsavedFilter } from '../utils';
 import SavedFiltersMenu from './SavedFiltersMenu';
 import { deleteFilterConfirm } from './utils';
 
-import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeaderTools.module.scss';
+import styles from './QueryBuilderHeaderTools.module.scss';
 
 interface IQueryBuilderHeaderProps {
     config: IQueryBuilderHeaderConfig;

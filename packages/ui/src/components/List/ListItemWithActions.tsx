@@ -1,10 +1,11 @@
+import React, { ReactNode } from 'react';
 import { DeleteFilled, EditFilled } from '@ant-design/icons';
 import { Button, List, Typography } from 'antd';
 import cx from 'classnames';
-import React, { ReactNode } from 'react';
 
-import styles from '@ferlab/style/components/list/ListItemWithActions.module.scss';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
+
+import styles from './ListItemWithActions.module.scss';
 
 export type TListItemWithActionsProps = {
     onEdit: () => void;
@@ -20,54 +21,52 @@ export type TListItemWithActionsProps = {
 const { Text } = Typography;
 
 const ListItemWithActions = ({
-    onEdit,
-    onDelete,
-    onClick,
     className = '',
-    titleClassName,
-    extra,
-    title,
     description,
+    extra,
+    onClick,
+    onDelete,
+    onEdit,
+    title,
+    titleClassName,
 }: TListItemWithActionsProps) => (
     <List.Item
-        className={cx(styles.fuiListItemWithActions, className)}
         actions={[
             <Button
-                key="edit"
-                type="text"
-                size="small"
-                icon={<EditFilled />}
-                onClick={onEdit}
                 className={styles.actionBtn}
+                icon={<EditFilled />}
+                key="edit"
+                onClick={onEdit}
+                size="small"
+                type="text"
             />,
             <Button
-                key="delete"
                 className={styles.actionBtn}
-                type="text"
-                size="small"
                 icon={<DeleteFilled />}
+                key="delete"
                 onClick={onDelete}
+                size="small"
+                type="text"
             />,
         ]}
+        className={cx(styles.fuiListItemWithActions, className)}
         extra={extra && <div className={styles.extra}>{extra}</div>}
     >
         <List.Item.Meta
+            className={styles.itemMeta}
+            description={description && <Text type="secondary">{description}</Text>}
             title={
                 <ConditionalWrapper
                     condition={!!onClick}
                     wrapper={(children) => (
-                        <div onClick={onClick} className={cx(styles.setLink, titleClassName)}>
+                        <div className={cx(styles.setLink, titleClassName)} onClick={onClick}>
                             {children}
                         </div>
                     )}
                 >
-                    <Text ellipsis={{ tooltip: title }}>
-                        {title}
-                    </Text>
+                    <Text ellipsis={{ tooltip: title }}>{title}</Text>
                 </ConditionalWrapper>
             }
-            description={description && <Text type="secondary">{description}</Text>}
-            className={styles.itemMeta}
         />
     </List.Item>
 );

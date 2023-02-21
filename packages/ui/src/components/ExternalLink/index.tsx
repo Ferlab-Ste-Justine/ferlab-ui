@@ -4,7 +4,7 @@ import cx from 'classnames';
 
 import ExternalLinkIcon from './ExternalLinkIcon';
 
-import styles from '@ferlab/style/components/prolabel/ProLabel.module.scss';
+import styles from './index.module.scss';
 
 export type IExternalLinkProps = Omit<
     React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> & {

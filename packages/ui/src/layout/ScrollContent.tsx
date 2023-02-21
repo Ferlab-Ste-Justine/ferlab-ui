@@ -2,7 +2,7 @@ import React from 'react';
 import SimpleBar from 'simplebar-react';
 
 import 'simplebar/dist/simplebar.min.css';
-import '@ferlab/style/layout/ScrollContent.scss';
+import './ScrollContent.scss';
 
 export enum StackOrientation {
     Vertical = 'vertical',
@@ -16,16 +16,14 @@ export type ScrollContentProps = {
     style?: React.CSSProperties;
 };
 
-const ScrollContent: React.FC<ScrollContentProps> = ({ id = '', children, className = '', style = {} }) => {
-    return (
-        <SimpleBar
-            id={id}
-            className={`ferlabui-scroll-content ${StackOrientation.Vertical} ${className || ''}`}
-            style={style}
-        >
-            {children}
-        </SimpleBar>
-    );
-};
+const ScrollContent: React.FC<ScrollContentProps> = ({ id = '', children, className = '', style = {} }) => (
+    <SimpleBar
+        className={`ferlabui-scroll-content ${StackOrientation.Vertical} ${className || ''}`}
+        id={id}
+        style={style}
+    >
+        {children}
+    </SimpleBar>
+);
 
 export default ScrollContent;

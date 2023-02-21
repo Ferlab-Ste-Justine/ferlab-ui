@@ -1,9 +1,10 @@
-import { Form, Input, Modal } from 'antd';
 import React, { useCallback, useContext } from 'react';
+import { WarningFilled } from '@ant-design/icons';
+import { Form, Input, Modal } from 'antd';
+
 import { QueryBuilderContext } from '../../context';
 
-import { WarningFilled } from '@ant-design/icons';
-import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
+import styles from './QueryBuilderHeaderTools.module.scss';
 
 interface OwnProps {
     visible: boolean;
@@ -16,7 +17,7 @@ interface OwnProps {
 
 const DEFAULT_TITLE_MAX_LENGTH = 50;
 
-const EditFilterModal = ({ visible, okDisabled, initialTitleValue, isNewFilter, onSubmit, onCancel }: OwnProps) => {
+const EditFilterModal = ({ initialTitleValue, isNewFilter, okDisabled, onCancel, onSubmit, visible }: OwnProps) => {
     const { dictionary, headerConfig } = useContext(QueryBuilderContext);
     const [editForm] = Form.useForm();
 

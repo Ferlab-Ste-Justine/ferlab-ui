@@ -14,7 +14,7 @@ import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 
 import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from './types';
 
-import styles from '@ferlab/style/components/filters/CheckboxFilter.module.scss';
+import styles from './CheckboxFilter.module.scss';
 
 export type TermFilterProps = {
     dictionary?: IDictionary | Record<string, never>;

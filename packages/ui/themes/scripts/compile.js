@@ -3,13 +3,13 @@ const spawn = require('cross-spawn');
 const path = require('path');
 
 const optionDefinitions = [
-    { name: 'source', alias: 's', type: String, defaultValue: 'src/style/themes/default' },
-    { name: 'dest', alias: 'd', type: String, defaultValue: 'src/style/dist/themes/default' },
-    { name: 'inputFile', type: String, defaultValue: 'antd/antd.less' },
-    { name: 'outputFile', type: String, defaultValue: 'antd.css' },
-    { name: 'inputColors', type: String, defaultValue: 'antd/_colors.less' },
-    { name: 'outputColors', type: String, defaultValue: '_colors.scss' },
-    { name: 'theme', alias: 't', type: String },
+    { alias: 's', defaultValue: 'src/style/themes/default', name: 'source', type: String },
+    { alias: 'd', defaultValue: 'src/style/dist/themes/default', name: 'dest', type: String },
+    { defaultValue: 'antd/antd.less', name: 'inputFile', type: String },
+    { defaultValue: 'antd.css', name: 'outputFile', type: String },
+    { defaultValue: 'antd/_colors.less', name: 'inputColors', type: String },
+    { defaultValue: '_colors.scss', name: 'outputColors', type: String },
+    { alias: 't', name: 'theme', type: String },
 ];
 
 const options = commandLineArgs(optionDefinitions);
@@ -18,11 +18,11 @@ const options = commandLineArgs(optionDefinitions);
 const defaultFolderSource = path.resolve(`${options['source']}`);
 const defaultInFile = options['inputFile'];
 
-let srcFolder = `${defaultFolderSource}/`
+let srcFolder = `${defaultFolderSource}/`;
 let inputFile = defaultInFile;
 
 // default output folder and file
-const defaultDestFolder = path.resolve(`${options['dest']}`)
+const defaultDestFolder = path.resolve(`${options['dest']}`);
 const defaultOutFile = options['outputFile'];
 
 const outFolder = `${defaultDestFolder}/`;
@@ -34,7 +34,7 @@ if (theme) {
     srcFolder = `${path.resolve(`${__dirname}/../themes/${theme}`)}/`;
 }
 spawn.sync('lessc', ['--js', `${srcFolder}${inputFile}`, `${outFolder}${outputFile}`], {
-    stdio: 'inherit'
+    stdio: 'inherit',
 });
 
 // colors output
@@ -43,10 +43,10 @@ outputFile = options['outputColors'];
 
 if (!theme) {
     spawn.sync('less2sass', [`${srcFolder}${inputFile}`], {
-        stdio: 'inherit'
+        stdio: 'inherit',
     });
-    
-    spawn.sync('mv', [`${srcFolder}${inputFile.replace('.less', '.scss')}`,`${outFolder}${outputFile}`], {
-        stdio: 'inherit'
-    }); 
+
+    spawn.sync('mv', [`${srcFolder}${inputFile.replace('.less', '.scss')}`, `${outFolder}${outputFile}`], {
+        stdio: 'inherit',
+    });
 }

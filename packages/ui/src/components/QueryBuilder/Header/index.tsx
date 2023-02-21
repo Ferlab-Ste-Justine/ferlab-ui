@@ -15,7 +15,7 @@ import EditFilterModal from './Tools/EditFilterModal';
 import QueryBuilderHeaderTools from './Tools';
 import { hasUnsavedChanges, isNewUnsavedFilter } from './utils';
 
-import styles from '@ferlab/style/components/queryBuilder/QueryBuilderHeader.module.scss';
+import styles from './index.module.scss';
 
 interface IQueryBuilderHeaderProps {
     children: JSX.Element;

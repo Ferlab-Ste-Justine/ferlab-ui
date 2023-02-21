@@ -8,7 +8,7 @@ import { reverseSortDirection } from '../utils';
 import { PaginationViewPerQuery } from './constants';
 import { getPaginationOptions } from './utils';
 
-import styles from '@ferlab/style/components/protable/Pagination.module.scss';
+import styles from './index.module.scss';
 
 const iconSize = 11;
 

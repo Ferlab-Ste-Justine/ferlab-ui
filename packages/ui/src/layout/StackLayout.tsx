@@ -2,7 +2,7 @@
 import React from 'react';
 import cx from 'classnames';
 
-import '@ferlab/style/layout/StackLayout.scss';
+import './StackLayout.scss';
 
 export enum StackOrientation {
     Vertical = 'vertical',
@@ -53,7 +53,12 @@ const StackLayout: React.FC<StackLayoutProps> = ({
         extraProps.onKeyDown = onClick;
     }
 
-    const compoundCN = cx('ferlabui-stack-layout', definedOrientation, { center, fitContent, flexContent, flexOwn }, className);
+    const compoundCN = cx(
+        'ferlabui-stack-layout',
+        definedOrientation,
+        { center, fitContent, flexContent, flexOwn },
+        className,
+    );
     return (
         <div className={compoundCN} {...extraProps} style={style || {}}>
             {children}

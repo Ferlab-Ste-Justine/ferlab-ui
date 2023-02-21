@@ -1,12 +1,13 @@
 import React from 'react';
+import { useState } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, PopoverProps } from 'antd';
-import { useState } from 'react';
-import UploadModal from './UploadModal';
 import cx from 'classnames';
-import { TFetchMatchFunc, TOnUpload, UploadIdDictionary } from './types';
 
-import styles from '@ferlab/style/components/uploadids/UploadIds.module.scss';
+import { TFetchMatchFunc, TOnUpload, UploadIdDictionary } from './types';
+import UploadModal from './UploadModal';
+
+import styles from './index.module.scss';
 
 export interface UploadIdsProps {
     className?: string;
@@ -22,38 +23,38 @@ export interface UploadIdsProps {
 
 const UploadIds = ({
     className = '',
-    fetchMatch,
-    popoverProps,
     dictionary,
-    placeHolder,
-    onUpload,
-    modalWidth,
-    mimeTypes,
+    fetchMatch,
     limitItem,
+    mimeTypes,
+    modalWidth,
+    onUpload,
+    placeHolder,
+    popoverProps,
 }: UploadIdsProps) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <>
             <Button
-                type="primary"
                 className={cx(styles.fuiUploadIdsButton, className)}
                 icon={<UploadOutlined />}
                 onClick={() => setModalVisible(true)}
+                type="primary"
             >
                 {dictionary.uploadBtnText}
             </Button>
             <UploadModal
-                width={modalWidth}
-                visible={modalVisible}
-                setVisible={setModalVisible}
                 dictionary={dictionary}
-                popoverProps={popoverProps}
-                placeHolder={placeHolder}
-                onUpload={onUpload}
-                mimeTypes={mimeTypes}
                 fetchMatch={fetchMatch}
                 limitItem={limitItem}
+                mimeTypes={mimeTypes}
+                onUpload={onUpload}
+                placeHolder={placeHolder}
+                popoverProps={popoverProps}
+                setVisible={setModalVisible}
+                visible={modalVisible}
+                width={modalWidth}
             />
         </>
     );

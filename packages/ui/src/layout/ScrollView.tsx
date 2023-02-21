@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '@ferlab/style/layout/ScrollView.scss';
+import './ScrollView.scss';
 
 export enum StackOrientation {
     Vertical = 'vertical',

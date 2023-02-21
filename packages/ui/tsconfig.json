@@ -10,13 +10,10 @@
         "downlevelIteration": true,
         "strict": true,
         "moduleResolution": "node",
-        "paths": {
-            "@ferlab/style": ["../packages/style"],
-            "@ferlab/style/*": ["../packages/style/*"]
-        },
         "esModuleInterop": true,
         "skipLibCheck": true,
+        "rootDir": "src",
         "forceConsistentCasingInFileNames": true
     },
-    "include": ["src", "typings.d.ts", "../data/src/sqon"]
+    "include": ["typings.d.ts", "src", "../data/src/sqon"]
 }

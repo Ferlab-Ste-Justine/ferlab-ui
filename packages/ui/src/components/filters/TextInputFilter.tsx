@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, Input, Tooltip } from 'antd';
 import { get, isEmpty } from 'lodash';
-import { InfoCircleOutlined } from '@ant-design/icons';
 
 import StackLayout from '../../layout/StackLayout';
 
 import { IDictionary, IFilter, IFilterGroup, IFilterText, IFilterTextInputConfig, onChangeType } from './types';
 
-import styles from '@ferlab/style/components/filters/TextInputFilter.module.scss';
-import { useEffect } from 'react';
+import styles from './TextInputFilter.module.scss';
 
 export type TextInputFilterProps = {
     filters: IFilter<IFilterText>[];
@@ -51,25 +51,25 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
         <StackLayout className={styles.fuiTIfContainer} vertical>
             <StackLayout vertical>
                 {config?.label && (
-                    <StackLayout horizontal className={styles.fuiTIfLabelContainer}>
+                    <StackLayout className={styles.fuiTIfLabelContainer} horizontal>
                         <span className={styles.fuiTIfSectionTitle}>{config.label}</span>
                         {config.tooltip && (
-                            <Tooltip title={config.tooltip.text} align={{ offset: [0, 5] }}>
+                            <Tooltip align={{ offset: [0, 5] }} title={config.tooltip.text}>
                                 <InfoCircleOutlined className={styles.fuiTIfLabelTooltipIcon} />
                             </Tooltip>
                         )}
                     </StackLayout>
                 )}
                 <Input
-                    placeholder={config?.placeholder}
                     className={`${!inputValid && styles.inputError}`}
                     onChange={onTextInputChanged}
+                    placeholder={config?.placeholder}
                     value={text}
                 ></Input>
             </StackLayout>
             <StackLayout className={styles.fuiTIfActions} horizontal>
                 <Button
-                  className={styles.fuiTIfActionsClear}
+                    className={styles.fuiTIfActionsClear}
                     disabled={buttonActionDisabled}
                     onClick={() => {
                         onChange(filterGroup, []);
@@ -80,12 +80,12 @@ const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedF
                     {get(dictionary, 'actions.none', 'Clear')}
                 </Button>
                 <Button
-                    type="primary"
                     className={styles.fuiTIfActionsApply}
                     disabled={buttonActionDisabled || !inputValid}
                     onClick={() => {
                         onChange(filterGroup, [{ ...currentFilter, data: textInputFilter }]);
                     }}
+                    type="primary"
                 >
                     <span data-key="apply">{get(dictionary, 'actions.apply', 'Apply')}</span>
                 </Button>

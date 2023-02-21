@@ -1,11 +1,13 @@
+import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, InputNumber, Select, Space } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import cx from 'classnames';
 import { isNull } from 'lodash';
 import get from 'lodash/get';
-import React, { useEffect, useState } from 'react';
+
 import { RangeOperators } from '../../data/sqon/operators';
 import StackLayout from '../../layout/StackLayout';
+
 import BetweenOperatorIcon from './icons/BetweenOperatorIcon';
 import GreaterThanOperatorIcon from './icons/GreaterThanOperatorIcon';
 import GreaterThanOrEqualOperatorIcon from './icons/GreaterThanOrEqualOperatorIcon';
@@ -21,7 +23,7 @@ import {
     onChangeType,
 } from './types';
 
-import styles from '@ferlab/style/components/filters/RangeFilter.module.scss';
+import styles from './RangeFilter.module.scss';
 
 const { Option } = Select;
 
@@ -168,9 +170,9 @@ const RangeFilter = ({
     const defaultStateValue = {
         max: selectedMax,
         min: selectedMin,
+        noDataSelected,
         operator: selectedOperator,
         rangeType: selectedRangeType,
-        noDataSelected,
     };
 
     const getValidOperator = (operator: RangeOperators) =>
@@ -203,7 +205,7 @@ const RangeFilter = ({
 
     const validateSelectedValues = () => {
         if (!currentOperator?.disableMax && !currentOperator?.disableMin) {
-            return !!max ||max === 0 && !!min || min === 0
+            return !!max || (max === 0 && !!min) || min === 0;
         }
 
         return true;
@@ -225,7 +227,7 @@ const RangeFilter = ({
 
     const onMinChanged = (value: string | number | undefined) => {
         const min = typeof value === 'string' ? parseFloat(value) : value;
-        setRangeFilter((prevState) => ({ ...prevState, min: !!min || min === 0 ? min : undefined }));
+        setRangeFilter((prevState) => ({ ...prevState, min: !!min || min === 0 ? min : undefined }));
     };
 
     const onMaxChanged = (value: string | number | undefined) => {
@@ -358,8 +360,8 @@ const RangeFilter = ({
                                 ...currentFilter,
                                 data: {
                                     ...rangeFilter,
-                                    operator: getValidOperator(rangeFilter.operator),
                                     noDataSelected: checkNoData,
+                                    operator: getValidOperator(rangeFilter.operator),
                                 },
                             },
                         ]);

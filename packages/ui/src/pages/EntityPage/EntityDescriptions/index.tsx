@@ -4,7 +4,7 @@ import { Card, Descriptions, Space, Typography } from 'antd';
 import { TABLE_EMPTY_PLACE_HOLDER } from '../../../common/constants';
 import Collapse, { CollapsePanel } from '../../../components/Collapse';
 
-import styles from '@ferlab/style/pages/EntityPage/EntityDescriptions.module.scss';
+import styles from './index.module.scss';
 
 const { Title } = Typography;
 

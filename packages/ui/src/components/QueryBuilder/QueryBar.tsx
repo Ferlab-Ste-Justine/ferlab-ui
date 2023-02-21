@@ -20,7 +20,7 @@ import {
     TOnChange,
 } from './types';
 
-import styles from '@ferlab/style/components/queryBuilder/QueryBar.module.scss';
+import styles from './QueryBar.module.scss';
 
 interface IQueryBarProps {
     id: string;

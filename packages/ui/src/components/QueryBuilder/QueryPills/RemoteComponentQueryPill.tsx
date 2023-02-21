@@ -10,7 +10,7 @@ import QueryValues from '../QueryValues';
 
 import { Operator } from './FieldQueryPill';
 
-import styles from '@ferlab/style/components/queryBuilder/QueryPill.module.scss';
+import styles from './QueryPill.module.scss';
 
 interface IFieldQueryPillProps {
     isBarActive?: boolean;

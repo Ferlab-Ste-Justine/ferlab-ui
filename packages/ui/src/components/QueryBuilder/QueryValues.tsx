@@ -1,20 +1,22 @@
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import { Button } from 'antd';
 import cx from 'classnames';
 import { get } from 'lodash';
 import take from 'lodash/take';
-import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
+
 import { ArrangerValues, keyEnhance } from '../../data/arranger/formatting';
 import { FieldOperators } from '../../data/sqon/operators';
 import { IValueFilter, TFilterValue } from '../../data/sqon/types';
+import { isSet } from '../../data/sqon/utils';
 import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
+
 import IntersectionOperator from './icons/IntersectionOperator';
 import UnionOperator from './icons/UnionOperator';
-
-import styles from '@ferlab/style/components/queryBuilder/QueryValues.module.scss';
-import { isSet } from '../../data/sqon/utils';
 import { QueryBuilderContext } from './context';
+
+import styles from './QueryValues.module.scss';
 
 interface IQueryValuesProps {
     valueFilter: IValueFilter;
@@ -22,7 +24,7 @@ interface IQueryValuesProps {
     onClick?: (e: any) => void;
 }
 
-const QueryValues = ({ isElement = false, valueFilter, onClick }: IQueryValuesProps) => {
+const QueryValues = ({ isElement = false, onClick, valueFilter }: IQueryValuesProps) => {
     const { dictionary } = useContext(QueryBuilderContext);
     const hasMoreValues = valueFilter.content.value.length > 3;
     const [expanded, setExpanded] = useState(false);
@@ -54,12 +56,12 @@ const QueryValues = ({ isElement = false, valueFilter, onClick }: IQueryValuesPr
 
     return (
         <div
-            onClick={(e) => (onClick ? onClick(e) : undefined)}
             className={cx(
                 styles.queryValuesContainer,
                 onClick && styles.clickable,
                 hasMoreValues && !valueFilter.content.overrideValuesName ? styles.hasMore : '',
             )}
+            onClick={(e) => (onClick ? onClick(e) : undefined)}
         >
             {!isElement ? (
                 <ConditionalWrapper

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from '@ferlab/style/components/queryBuilder/LabelOperator.module.scss';
+import styles from './LabelOperator.module.scss';
 
 interface IGreaterThanOperatorProps {
     className?: string;

@@ -1,13 +1,15 @@
-import { Button, Dropdown, Menu, Modal, Space, Switch } from 'antd';
 import React from 'react';
+import { useContext } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
+import { Button, Dropdown, Menu, Modal, Space, Switch } from 'antd';
+
 import { BooleanOperators } from '../../data/sqon/operators';
+
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
-
-import styles from '@ferlab/style/components/queryBuilder/QueryTools.module.scss';
-import { useContext } from 'react';
 import { QueryBuilderContext } from './context';
+
+import styles from './QueryTools.module.scss';
 
 export interface IQueryToolsProps {
     queryCount: number;
@@ -17,29 +19,29 @@ export interface IQueryToolsProps {
     setShowLabels: (value: boolean) => void;
 }
 
-const QueryTools = ({ addNewQuery, onDeleteAll, onCombineClick, setShowLabels, queryCount }: IQueryToolsProps) => {
+const QueryTools = ({ addNewQuery, onCombineClick, onDeleteAll, queryCount, setShowLabels }: IQueryToolsProps) => {
     const {
-        dictionary,
-        noQueries,
-        showLabels,
         canCombine,
+        dictionary,
         enableCombine,
         enableShowHideLabels,
         enableSingleQuery,
         hasEmptyQuery,
+        noQueries,
+        showLabels,
     } = useContext(QueryBuilderContext);
 
     return (
-        <Space direction="horizontal" className={styles.queryTools}>
+        <Space className={styles.queryTools} direction="horizontal">
             <Space className={styles.leftTools}>
                 {!enableSingleQuery && !canCombine && (
                     <Button
                         className={styles.button}
-                        type="primary"
                         disabled={noQueries || hasEmptyQuery}
+                        icon={<AiOutlinePlus />}
                         onClick={() => addNewQuery()}
                         size="small"
-                        icon={<AiOutlinePlus />}
+                        type="primary"
                     >
                         {dictionary.actions?.addQuery || 'New query'}
                     </Button>
@@ -48,33 +50,33 @@ const QueryTools = ({ addNewQuery, onDeleteAll, onCombineClick, setShowLabels, q
                     <Dropdown.Button
                         className={styles.button}
                         disabled={!canCombine}
-                        type="primary"
-                        size="small"
+                        onClick={() => onCombineClick(BooleanOperators.and)}
                         overlay={
                             <Menu
                                 items={[
                                     {
                                         key: BooleanOperators.and,
-                                        onClick: () => onCombineClick(BooleanOperators.and),
                                         label: <AndOperator dictionary={dictionary} />,
+                                        onClick: () => onCombineClick(BooleanOperators.and),
                                     },
                                     {
                                         key: BooleanOperators.or,
-                                        onClick: () => onCombineClick(BooleanOperators.or),
                                         label: <OrOperator dictionary={dictionary} />,
+                                        onClick: () => onCombineClick(BooleanOperators.or),
                                     },
                                 ]}
                             />
                         }
+                        size="small"
                         trigger={['click']}
-                        onClick={() => onCombineClick(BooleanOperators.and)}
+                        type="primary"
                     >
                         {dictionary.actions?.combine || 'Combine'}
                     </Dropdown.Button>
                 )}
                 {enableShowHideLabels && !canCombine && (
                     <span className={`${styles.switch} ${styles.withLabel}`}>
-                        <Switch checked={showLabels} size="small" onChange={(checked) => setShowLabels(checked)} />
+                        <Switch checked={showLabels} onChange={(checked) => setShowLabels(checked)} size="small" />
                         <span className={styles.label}>{dictionary.actions?.labels || 'Labels'}</span>
                     </span>
                 )}
