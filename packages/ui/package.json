@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "5.0.0",
+    "version": "5.0.1",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -16,7 +16,8 @@
     "sideEffects": false,
     "typings": "index.d.ts",
     "files": [
-        "core/**/*"
+        "core/**/*",
+        "themes/**/*"
     ],
     "scripts": {
         "fix-linter": "eslint --fix --rule 'no-console: 2'",
