@@ -31,6 +31,7 @@ export interface MatchTableItem {
     matchTo: string;
     mappedTo: string;
     key: string;
+    value?: string;
 }
 
 export interface UnmatchTableItem {
