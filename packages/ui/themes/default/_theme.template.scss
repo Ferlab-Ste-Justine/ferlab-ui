@@ -1,5 +1,5 @@
-@import "colors";
-@import "mixins";
+@import 'colors';
+@import 'mixins';
 
 $font-weight-semibold: 500;
 $font-weight-bold: 600;
@@ -35,8 +35,7 @@ $query-bar-padding-top: 8px;
 $query-bar-padding-bottom: 8px;
 $query-bar-padding-right: 12px;
 $query-bar-padding-left: 12px;
-$query-bar-padding: $query-bar-padding-top $query-bar-padding-right
-  $query-bar-padding-bottom $query-bar-padding-left;
+$query-bar-padding: $query-bar-padding-top $query-bar-padding-right $query-bar-padding-bottom $query-bar-padding-left;
 
 $query-bar-identifier: #bcc9dc;
 $query-bar-identifier-width: 4px;
@@ -160,3 +159,8 @@ $canonical-icon-color: $blue-8;
 // Entities
 $entity-icon-size: 20px;
 $summary-bg-color: $gray-3;
+
+// Maintenance
+$maintenance-page-bg: $gray-3;
+$maintenance-page-title: $gray-8;
+$maintenance-page-subtitle: $gray-9;
