@@ -15,8 +15,6 @@
       "paths": {
         "@ferlab/ui": ["../../packages/ui/src"],
         "@ferlab/ui/*": ["../../packages/ui/src/*"],
-        "@ferlab/style": ["../../packages/style"],
-        "@ferlab/style/*": ["../../packages/style/*"],
       },
     },
     "exclude": ["node_modules", "lib", "es"]
