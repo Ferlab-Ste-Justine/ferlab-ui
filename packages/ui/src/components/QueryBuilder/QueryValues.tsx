@@ -43,10 +43,10 @@ const QueryValues = ({ isElement = false, onClick, valueFilter }: IQueryValuesPr
 
     const getElementOfValueString = (values: TFilterValue) => {
         const hasValueMissing = values.some((val) => val === ArrangerValues.missing);
+        const filteredValues = values.filter((val) => val !== ArrangerValues.missing).join(' , ');
+        const formattedValues = valueFilter.op === FieldOperators.between ? `[${filteredValues}]` : filteredValues;
 
-        return `[${values.filter((val) => val !== ArrangerValues.missing).join(' , ')}]${
-            hasValueMissing ? ` , ${getValueName(keyEnhance(ArrangerValues.missing))}` : ''
-        }`;
+        return `${formattedValues}${hasValueMissing ? ` , ${getValueName(keyEnhance(ArrangerValues.missing))}` : ''}`;
     };
 
     useEffect(() => {

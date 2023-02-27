@@ -1,3 +1,6 @@
+### 5.1.1 2023-02-27
+- fix: SKFP-628 Remove brackets around values in query pill with remote component
+
 ### 4.15.13 0 2032-02-21
 - fix: FLUI-33 protable dropdown uses index to sort entries
 
