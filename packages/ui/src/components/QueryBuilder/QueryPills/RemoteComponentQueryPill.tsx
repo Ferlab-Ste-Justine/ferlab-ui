@@ -12,19 +12,19 @@ import { Operator } from './FieldQueryPill';
 
 import styles from './QueryPill.module.scss';
 
-interface IFieldQueryPillProps {
+interface IRemoteComponentQueryPillProps {
     isBarActive?: boolean;
     valueFilter: IValueFilter;
     onRemove: () => void;
     remoteComponentMapping?: (props: IRemoteComponent) => void;
 }
 
-const RemoveComponentQueryPill = ({
+const RemoteComponentQueryPill = ({
     isBarActive,
     onRemove,
     remoteComponentMapping,
     valueFilter,
-}: IFieldQueryPillProps): ReactElement => {
+}: IRemoteComponentQueryPillProps): ReactElement => {
     const { dictionary, showLabels } = useContext(QueryBuilderContext);
     const [tryOpenQueryPillFilter, setTryOpenQueryPillFilter] = useState(false);
     const handleQueryPillClick = (isBarActive: boolean) => {
@@ -70,4 +70,4 @@ const RemoveComponentQueryPill = ({
     );
 };
 
-export default RemoveComponentQueryPill;
+export default RemoteComponentQueryPill;
