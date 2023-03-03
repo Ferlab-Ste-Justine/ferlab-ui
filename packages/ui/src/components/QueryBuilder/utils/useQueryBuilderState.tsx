@@ -189,20 +189,27 @@ export const setQueryBuilderState = (queryBuilderId: string, value: IQueryBuilde
     document.dispatchEvent(QBUpdateEvent);
 };
 
+export const defaultQueryBuilderState = (queryBuilderId: string) => {
+    const defaultSqon = getDefaultSyntheticSqon();
+    const newQbState: IQueryBuilderState = {
+        active: defaultSqon.id,
+        state: [defaultSqon],
+    };
+    setQueryBuilderState(queryBuilderId, newQbState);
+    return newQbState;
+};
+
 export const getQueryBuilderState = (queryBuilderId: string): IQueryBuilderState | undefined => {
     const qbState = window.localStorage.getItem(`${QB_CACHE_KEY_PREFIX}-${queryBuilderId}`);
-
     if (!qbState) {
-        const defaultSqon = getDefaultSyntheticSqon();
-        const newQbState: IQueryBuilderState = {
-            active: defaultSqon.id,
-            state: [defaultSqon],
-        };
-        setQueryBuilderState(queryBuilderId, newQbState);
-        return newQbState;
+        return defaultQueryBuilderState(queryBuilderId);
     }
 
-    return JSON.parse(qbState);
+    try {
+        return JSON.parse(qbState);
+    } catch (err) {
+        return defaultQueryBuilderState(queryBuilderId);
+    }
 };
 
 /**
