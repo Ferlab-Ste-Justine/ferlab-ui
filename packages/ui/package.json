@@ -27,6 +27,7 @@
         "build:scss": "sass ./themes:./lib/esnext",
         "start": "tsc -w --declaration && tscp -w --declaration",
         "test": "jest",
+        "test:watch": "jest --watch",
         "test:github": "jest --coverage --watchAll=false --no-watchma  --coverageReporters=\"text-summary\"",
         "coverage": "jest --watchAll=false --coverage --coverageReporters=\"json-summary\"",
         "coverage:changed": "jest --coverage --watchAll=false --onlyChanged --coverageReporters=\"json-summary\"",
