@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Button, Checkbox, Divider, Dropdown, Input, Menu, Space, Tag, Typography } from 'antd';
+import { Button, Checkbox, Divider, Dropdown, Input, Menu, Space, Switch, Tag, Typography } from 'antd';
 import cx from 'classnames';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
@@ -89,12 +89,15 @@ const CheckboxFilter = ({
     noDataInputOption = false,
 }: TermFilterProps) => {
     const [search, setSearch] = useState('');
+    const [includeExtraValues, setIncludeExtraValues] = useState(false);
     const [isShowingMore, setShowingMore] = useState(false);
     const [localselectedFilters, setLocalSelectedFilters] = useState<IFilter[]>(selectedFilters);
     const [filteredFilters, setFilteredFilters] = useState(filters.filter((f) => !isEmpty(f.data)));
     const withFooter = get(filterGroup.config, 'withFooter', false);
     const showMoreReadOnly = get(filterGroup.config, 'showMoreReadOnly', false);
     const showSelectAll = get(filterGroup.config, 'showSelectAll', true);
+    const extraFilterDictionary = get(filterGroup.config, 'extraFilterDictionary', null);
+    const showActionBar = showSelectAll || extraFilterDictionary;
 
     const getMappedName = (filter: IFilter) => {
         if (noDataInputOption && filter.id === ArrangerValues.missing) {
@@ -116,6 +119,20 @@ const CheckboxFilter = ({
         }
     };
 
+    const formatExtraFilters = (currentFilters: IFilter<IFilterCount>[]): IFilter<IFilterCount>[] =>
+        (extraFilterDictionary || [])
+            .filter((filterKey) => !currentFilters.some(({ id }) => id === filterKey))
+            .map(
+                (value): IFilter<IFilterCount> => ({
+                    data: {
+                        key: value,
+                        count: 0,
+                    },
+                    name: value,
+                    id: value,
+                }),
+            );
+
     const bumpCheckedFilterFirst = () => {
         if (search) {
             return filteredFilters;
@@ -124,7 +141,13 @@ const CheckboxFilter = ({
         const filterIdsToBump = selectedFilters.map((value: IFilter) => value.id);
         const cleanedFilteredFilters = filteredFilters.filter((value: IFilter) => !filterIdsToBump.includes(value.id));
 
-        return [...selectedFilters, ...cleanedFilteredFilters];
+        const currentFilterList = [...selectedFilters, ...cleanedFilteredFilters];
+
+        if (includeExtraValues) {
+            return [...currentFilterList, ...formatExtraFilters(currentFilterList)];
+        }
+
+        return currentFilterList;
     };
 
     const handleOnApply = (operator: TermOperators = TermOperators.in) => {
@@ -159,6 +182,8 @@ const CheckboxFilter = ({
 
     const noDataFilter = noDataInputOption && filteredFilters.find((f) => f.id === ArrangerValues.missing);
 
+    const bumpedFilters = bumpCheckedFilterFirst();
+
     return (
         <Fragment>
             {hasSearchInput && (
@@ -181,38 +206,57 @@ const CheckboxFilter = ({
                 </Space>
             ) : (
                 <StackLayout className={styles.checkboxFilter} vertical>
-                    {showSelectAll && (
-                        <StackLayout className={styles.checkboxFilterActions}>
-                            <Button
-                                className={styles.checkboxFilterLinks}
-                                onClick={() => {
-                                    const selectedItem = [...bumpCheckedFilterFirst(), ...localselectedFilters];
-                                    const uniqueObjArray = [
-                                        ...new Map(selectedItem.map((item) => [item['name'], item])).values(),
-                                    ];
-                                    handleOnChange(uniqueObjArray);
-                                }}
-                                type="text"
-                            >
-                                {get(dictionary, 'actions.all', 'Select All')}
-                            </Button>
+                    {showActionBar && (
+                        <StackLayout className={styles.actionBar}>
+                            {showSelectAll && (
+                                <StackLayout className={styles.checkboxSelectActions}>
+                                    <Button
+                                        className={styles.checkboxFilterLinks}
+                                        onClick={() => {
+                                            const selectedItem = [...bumpedFilters, ...localselectedFilters];
+                                            const uniqueObjArray = [
+                                                ...new Map(selectedItem.map((item) => [item['name'], item])).values(),
+                                            ];
+                                            handleOnChange(uniqueObjArray);
+                                        }}
+                                        type="text"
+                                    >
+                                        {get(dictionary, 'actions.all', 'Select All')}
+                                    </Button>
 
-                            <Divider className={styles.separator} type="vertical" />
-                            <Button
-                                className={styles.checkboxFilterLinks}
-                                onClick={() => handleOnChange([])}
-                                type="text"
-                            >
-                                {get(dictionary, 'actions.none', 'None')}
-                            </Button>
+                                    <Divider className={styles.separator} type="vertical" />
+                                    <Button
+                                        className={styles.checkboxFilterLinks}
+                                        onClick={() => handleOnChange([])}
+                                        type="text"
+                                    >
+                                        {get(dictionary, 'actions.none', 'None')}
+                                    </Button>
+                                </StackLayout>
+                            )}
+                            {extraFilterDictionary && (
+                                <StackLayout className={styles.checkboxDictAction}>
+                                    <Space>
+                                        <Text>{get(dictionary, 'actions.dictionary', 'Dictionary')}</Text>
+                                        <Switch
+                                            size="small"
+                                            onChange={(checked) => {
+                                                setIncludeExtraValues(checked);
+                                                setShowingMore(checked);
+                                            }}
+                                        />
+                                    </Space>
+                                </StackLayout>
+                            )}
                         </StackLayout>
                     )}
                     <ScrollContent
+                        id="lol"
                         className={`${styles.checkboxFiltersContent} ${
                             filteredFilters.length > maxShowing && styles.withMargin
                         }`}
                     >
-                        {bumpCheckedFilterFirst()
+                        {bumpedFilters
                             .filter((f) => !noDataInputOption || f.id !== ArrangerValues.missing)
                             .slice(0, isShowingMore ? Infinity : maxShowing)
                             .map((filter, i) => (
@@ -239,11 +283,11 @@ const CheckboxFilter = ({
                     )}
                     {showMoreReadOnly ? (
                         <span className={cx(styles.filtersTypesFooter, styles.readOnly)}>
-                            <>{`${filteredFilters.length} `}</>
+                            <>{`${bumpedFilters.length} `}</>
                             <>{get(dictionary, 'actions.terms', 'terms')}</>
                         </span>
                     ) : (
-                        filteredFilters.length > maxShowing && (
+                        bumpedFilters.length > maxShowing && (
                             <Button
                                 className={styles.filtersTypesFooter}
                                 onClick={() => setShowingMore(!isShowingMore)}
@@ -253,9 +297,9 @@ const CheckboxFilter = ({
                             >
                                 {isShowingMore
                                     ? get(dictionary, 'actions.less', 'Less')
-                                    : filteredFilters.length - maxShowing && (
+                                    : bumpedFilters.length - maxShowing && (
                                           <>
-                                              <>{`${filteredFilters.length - maxShowing} `}</>
+                                              <>{`${bumpedFilters.length - maxShowing} `}</>
                                               <>{get(dictionary, 'actions.more', 'More')}</>
                                           </>
                                       )}
