@@ -87,8 +87,8 @@ WithDictionary.args = {
         ...filterGroup,
         config: {
             extraFilterDictionary: [
-              "extra_value_1",
-              "extra_value_2"
+              "extra_filter_1",
+              "extra_filter_2"
             ],
         },
     },
