@@ -251,7 +251,6 @@ const CheckboxFilter = ({
                         </StackLayout>
                     )}
                     <ScrollContent
-                        id="lol"
                         className={`${styles.checkboxFiltersContent} ${
                             filteredFilters.length > maxShowing && styles.withMargin
                         }`}
