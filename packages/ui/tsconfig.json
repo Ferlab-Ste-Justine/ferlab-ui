@@ -13,8 +13,8 @@
         "moduleResolution": "node",
         "esModuleInterop": true,
         "skipLibCheck": true,
-        "sourceMap": true,
         "rootDir": "src",
+        "sourceMap": true,
         "forceConsistentCasingInFileNames": true
     },
     "include": ["typings.d.ts", "src", "../data/src/sqon/**/*"],
