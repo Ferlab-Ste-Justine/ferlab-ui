@@ -1,0 +1,67 @@
+@import "theme.template";
+
+.booleanTrue {
+    background-color: $color-tag-boolean-true-bg;
+    border: 1px solid $color-tag-boolean-true-bg;
+    color: $color-tag-boolean-true-color;
+}
+
+.genderFemale {
+    background-color: $color-tag-gender-female-bg;
+    border: 1px solid $color-tag-gender-female-bg;
+    color: $color-tag-gender-female-color;
+}
+
+.genderMale {
+    background-color: $color-tag-gender-male-bg;
+    border: 1px solid $color-tag-gender-male-bg;
+    color: $color-tag-gender-male-color;
+}
+
+.family {
+    background-color: $color-tag-family-bg;
+    border: 1px solid $color-tag-family-bg;
+    color: $color-tag-family-color;
+}
+
+.positionProband {
+    background-color: $color-tag-position-proband-bg;
+    border: 1px solid $color-tag-position-proband-bg;
+    color: $color-tag-position-proband-color;
+}
+
+.vitalStatusAlive {
+    background-color: $color-tag-vital-status-alive-bg;
+    border: 1px solid $color-tag-vital-status-alive-bg;
+    color: $color-tag-vital-status-alive-color;
+}
+
+.vitalStatusDeceased {
+    background-color: $color-tag-vital-status-deceased-bg;
+    border: 1px solid $color-tag-vital-status-deceased-bg;
+    color: $color-tag-vital-status-deceased-color;
+}
+
+.interpretationObserved {
+    background-color: $color-tag-interpretation-observed-bg;
+    border: 1px solid $color-tag-interpretation-observed-bg;
+    color: $color-tag-interpretation-observed-color;
+}
+
+.pathogenic {
+    background-color: $color-tag-pathogenic-bg;
+    border: 1px solid $color-tag-pathogenic-bg;
+    color: $color-tag-pathogenic-color;
+}
+
+.benign {
+    background-color: $color-tag-benign-bg;
+    border: 1px solid $color-tag-benign-bg;
+    color: $color-tag-benign-color;
+}
+
+.default {
+    background-color: $color-tag-default-bg;
+    border: 1px solid $color-tag-default-bg;
+    color: $color-tag-default-color;
+}
