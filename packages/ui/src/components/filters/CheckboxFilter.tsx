@@ -167,11 +167,10 @@ const CheckboxFilter = ({
         }
     }, [selectedFilters]);
 
-    const noDataFilter = noDataInputOption && filteredFilters.find((f) => f.id === ArrangerValues.missing);
-
     const bumpedFilters = bumpCheckedFilterFirst();
-    const showDictionaryOption = formatExtraFilters(filteredFilters, filterGroup).length > 0
+    const showDictionaryOption = filteredFilters.length > 0 && formatExtraFilters(filteredFilters, filterGroup).length > 0;
     const showActionBar = isEmpty(bumpedFilters) ? showDictionaryOption : showSelectAll || showDictionaryOption;
+    const noDataFilter = noDataInputOption && filteredFilters.find((f) => f.id === ArrangerValues.missing);
 
     return (
         <Fragment>
