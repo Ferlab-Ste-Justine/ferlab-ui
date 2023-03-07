@@ -1,8 +1,9 @@
-import { cloneDeep, isEmpty, isUndefined, merge, union } from 'lodash';
+import { cloneDeep, conforms, isEmpty, isUndefined, merge, union } from 'lodash';
 import { v4 } from 'uuid';
 
 import {
     IFilter,
+    IFilterCheckboxConfig,
     IFilterCount,
     IFilterGroup,
     IFilterRange,
@@ -751,18 +752,46 @@ export const getSelectedFilters = ({
         case VisualType.Range:
             return getSelectedFiltersForRange(filters, filterGroup, selectedFilters);
         default:
-            return getSelectedFiltersOther(filters, filterGroup, selectedFilters);
+            return getSelectedFiltersOther(
+                [...filters, ...formatExtraFilters(filters, filterGroup)],
+                filterGroup,
+                selectedFilters,
+            );
     }
 };
 
+export const formatExtraFilters = (
+    currentFilters: IFilter<IFilterCount>[],
+    filterGroup: IFilterGroup<IFilterCheckboxConfig>,
+): IFilter<IFilterCount>[] =>
+    (filterGroup.config?.extraFilterDictionary || [])
+        .filter((filterKey) => !currentFilters.some(({ id }) => id === filterKey))
+        .map((key): IFilter<IFilterCount> => getEmptyCountFilter(key));
+
+export const hasExtraFilterSelected = (
+    currentFilters: IFilter<IFilterCount>[],
+    filterGroup: IFilterGroup<IFilterCheckboxConfig>,
+): boolean => currentFilters.some(({ id }) => (filterGroup.config?.extraFilterDictionary || []).includes(id));
+
+export const getEmptyCountFilter = (key: string) => ({
+    data: {
+        key,
+        count: 0,
+    },
+    name: key,
+    id: key,
+});
+
 const getSelectedFiltersOther = (filters: IFilter[], filterGroup: IFilterGroup, selectedFilters: ISyntheticSqon) => {
     const currentFilters = filters as IFilter<IFilterCount>[];
-    return currentFilters.reduce<IFilter<IFilterCount>[]>((acc, filter) => {
+    const actualFilters = currentFilters.reduce<IFilter<IFilterCount>[]>((acc, filter) => {
         if (isFilterSelected(selectedFilters, filterGroup, filter.data.key)) {
             acc.push(filter);
         }
         return acc;
     }, []);
+
+    return actualFilters;
 };
 
 export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGroup, key: string): boolean => {

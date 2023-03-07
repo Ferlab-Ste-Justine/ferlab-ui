@@ -11,10 +11,9 @@ import ScrollContent from '../../layout/ScrollContent';
 import StackLayout from '../../layout/StackLayout';
 import { numberFormat } from '../../utils/numberUtils';
 import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
-
 import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from './types';
-
 import styles from './CheckboxFilter.module.scss';
+import { formatExtraFilters, hasExtraFilterSelected } from '../../data/sqon/utils';
 
 export type TermFilterProps = {
     dictionary?: IDictionary | Record<string, never>;
@@ -119,20 +118,6 @@ const CheckboxFilter = ({
         }
     };
 
-    const formatExtraFilters = (currentFilters: IFilter<IFilterCount>[]): IFilter<IFilterCount>[] =>
-        (extraFilterDictionary || [])
-            .filter((filterKey) => !currentFilters.some(({ id }) => id === filterKey))
-            .map(
-                (value): IFilter<IFilterCount> => ({
-                    data: {
-                        key: value,
-                        count: 0,
-                    },
-                    name: value,
-                    id: value,
-                }),
-            );
-
     const bumpCheckedFilterFirst = () => {
         if (search) {
             return filteredFilters;
@@ -144,7 +129,7 @@ const CheckboxFilter = ({
         const currentFilterList = [...selectedFilters, ...cleanedFilteredFilters];
 
         if (includeExtraValues) {
-            return [...currentFilterList, ...formatExtraFilters(currentFilterList)];
+            return [...currentFilterList, ...formatExtraFilters(currentFilterList, filterGroup)];
         }
 
         return currentFilterList;
@@ -174,9 +159,10 @@ const CheckboxFilter = ({
         setFilteredFilters(newFilters);
     }, [filters, search]);
 
-    useEffect(() => {
+    useEffect(() => {    
         if (!isEqual(localselectedFilters, selectedFilters)) {
             setLocalSelectedFilters(selectedFilters);
+            setIncludeExtraValues(hasExtraFilterSelected(selectedFilters, filterGroup))
         }
     }, [selectedFilters]);
 
@@ -240,6 +226,7 @@ const CheckboxFilter = ({
                                         <Text>{get(dictionary, 'actions.dictionary', 'Dictionary')}</Text>
                                         <Switch
                                             size="small"
+                                            checked={includeExtraValues}
                                             onChange={(checked) => {
                                                 setIncludeExtraValues(checked);
                                                 setShowingMore(checked);
@@ -260,6 +247,7 @@ const CheckboxFilter = ({
                             .slice(0, isShowingMore ? Infinity : maxShowing)
                             .map((filter, i) => (
                                 <InternalCheckBox
+                                    key={filter.id}
                                     filter={filter}
                                     filterGroup={filterGroup}
                                     getMappedName={getMappedName}
