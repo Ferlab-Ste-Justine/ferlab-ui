@@ -1,3 +1,6 @@
+### 5.2.2 2023-03-06
+- fix: CLIN-1663 500 error when bad formatted json
+
 ### 5.2.1 2023-03-06
 - fix: CLIN-1663 500 error when bad formatted json
 
