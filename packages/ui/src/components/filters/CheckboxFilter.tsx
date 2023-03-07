@@ -99,7 +99,7 @@ const CheckboxFilter = ({
     const showActionBar = showSelectAll || extraFilterDictionary;
 
     const getMappedName = (filter: IFilter) => {
-        if (noDataInputOption && filter.id === ArrangerValues.missing) {
+        if (filter.id === ArrangerValues.missing) {
             return get(dictionary, 'checkBox.noData', 'No Data');
         }
 
