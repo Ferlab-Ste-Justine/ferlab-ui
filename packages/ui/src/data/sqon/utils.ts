@@ -1,4 +1,4 @@
-import { cloneDeep, conforms, isEmpty, isUndefined, merge, union } from 'lodash';
+import { cloneDeep, isEmpty, isUndefined, merge, union } from 'lodash';
 import { v4 } from 'uuid';
 
 import {
