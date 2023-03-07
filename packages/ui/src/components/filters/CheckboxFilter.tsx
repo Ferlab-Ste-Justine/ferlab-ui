@@ -96,7 +96,6 @@ const CheckboxFilter = ({
     const showMoreReadOnly = get(filterGroup.config, 'showMoreReadOnly', false);
     const showSelectAll = get(filterGroup.config, 'showSelectAll', true);
     const extraFilterDictionary = get(filterGroup.config, 'extraFilterDictionary', null);
-    const showActionBar = showSelectAll || extraFilterDictionary;
 
     const getMappedName = (filter: IFilter) => {
         if (filter.id === ArrangerValues.missing) {
@@ -169,6 +168,7 @@ const CheckboxFilter = ({
     const noDataFilter = noDataInputOption && filteredFilters.find((f) => f.id === ArrangerValues.missing);
 
     const bumpedFilters = bumpCheckedFilterFirst();
+    const showActionBar = isEmpty(bumpedFilters) ? !!extraFilterDictionary : showSelectAll || !!extraFilterDictionary;
 
     return (
         <Fragment>
@@ -297,7 +297,6 @@ const CheckboxFilter = ({
                     </>
                 )}
             </StackLayout>
-
             {withFooter && (
                 <StackLayout className={styles.fuiCbfActions} horizontal>
                     <Button
