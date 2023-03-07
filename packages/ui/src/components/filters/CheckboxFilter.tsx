@@ -159,10 +159,10 @@ const CheckboxFilter = ({
         setFilteredFilters(newFilters);
     }, [filters, search]);
 
-    useEffect(() => {    
+    useEffect(() => {
         if (!isEqual(localselectedFilters, selectedFilters)) {
             setLocalSelectedFilters(selectedFilters);
-            setIncludeExtraValues(hasExtraFilterSelected(selectedFilters, filterGroup))
+            setIncludeExtraValues(hasExtraFilterSelected(selectedFilters, filterGroup));
         }
     }, [selectedFilters]);
 
@@ -186,115 +186,117 @@ const CheckboxFilter = ({
                 </div>
             )}
 
-            {isEmpty(filteredFilters) ? (
-                <Space className={styles.noResultsText} direction="vertical">
-                    {get(dictionary, 'messages.errorNoData', 'No values found for this request')}
-                </Space>
-            ) : (
-                <StackLayout className={styles.checkboxFilter} vertical>
-                    {showActionBar && (
-                        <StackLayout className={styles.actionBar}>
-                            {showSelectAll && (
-                                <StackLayout className={styles.checkboxSelectActions}>
-                                    <Button
-                                        className={styles.checkboxFilterLinks}
-                                        onClick={() => {
-                                            const selectedItem = [...bumpedFilters, ...localselectedFilters];
-                                            const uniqueObjArray = [
-                                                ...new Map(selectedItem.map((item) => [item['name'], item])).values(),
-                                            ];
-                                            handleOnChange(uniqueObjArray);
-                                        }}
-                                        type="text"
-                                    >
-                                        {get(dictionary, 'actions.all', 'Select All')}
-                                    </Button>
+            <StackLayout className={styles.checkboxFilter} vertical>
+                {showActionBar && (
+                    <StackLayout className={styles.actionBar}>
+                        {showSelectAll && (
+                            <StackLayout className={styles.checkboxSelectActions}>
+                                <Button
+                                    className={styles.checkboxFilterLinks}
+                                    onClick={() => {
+                                        const selectedItem = [...bumpedFilters, ...localselectedFilters];
+                                        const uniqueObjArray = [
+                                            ...new Map(selectedItem.map((item) => [item['name'], item])).values(),
+                                        ];
+                                        handleOnChange(uniqueObjArray);
+                                    }}
+                                    type="text"
+                                >
+                                    {get(dictionary, 'actions.all', 'Select All')}
+                                </Button>
 
-                                    <Divider className={styles.separator} type="vertical" />
-                                    <Button
-                                        className={styles.checkboxFilterLinks}
-                                        onClick={() => handleOnChange([])}
-                                        type="text"
-                                    >
-                                        {get(dictionary, 'actions.none', 'None')}
-                                    </Button>
-                                </StackLayout>
-                            )}
-                            {extraFilterDictionary && (
-                                <StackLayout className={styles.checkboxDictAction}>
-                                    <Space>
-                                        <Text>{get(dictionary, 'actions.dictionary', 'Dictionary')}</Text>
-                                        <Switch
-                                            size="small"
-                                            checked={includeExtraValues}
-                                            onChange={(checked) => {
-                                                setIncludeExtraValues(checked);
-                                                setShowingMore(checked);
-                                            }}
-                                        />
-                                    </Space>
-                                </StackLayout>
-                            )}
-                        </StackLayout>
-                    )}
-                    <ScrollContent
-                        className={`${styles.checkboxFiltersContent} ${
-                            filteredFilters.length > maxShowing && styles.withMargin
-                        }`}
-                    >
-                        {bumpedFilters
-                            .filter((f) => !noDataInputOption || f.id !== ArrangerValues.missing)
-                            .slice(0, isShowingMore ? Infinity : maxShowing)
-                            .map((filter, i) => (
-                                <InternalCheckBox
-                                    key={filter.id}
-                                    filter={filter}
-                                    filterGroup={filterGroup}
-                                    getMappedName={getMappedName}
-                                    handleOnChange={handleOnChange}
-                                    index={i}
-                                    localSelectedFilters={localselectedFilters}
-                                    setLocalSelectedFilters={setLocalSelectedFilters}
-                                />
-                            ))}
-                    </ScrollContent>
-                    {noDataFilter && (
-                        <InternalCheckBox
-                            filter={noDataFilter}
-                            filterGroup={filterGroup}
-                            getMappedName={getMappedName}
-                            handleOnChange={handleOnChange}
-                            localSelectedFilters={localselectedFilters}
-                            setLocalSelectedFilters={setLocalSelectedFilters}
-                        />
-                    )}
-                    {showMoreReadOnly ? (
-                        <span className={cx(styles.filtersTypesFooter, styles.readOnly)}>
-                            <>{`${bumpedFilters.length} `}</>
-                            <>{get(dictionary, 'actions.terms', 'terms')}</>
-                        </span>
-                    ) : (
-                        bumpedFilters.length > maxShowing && (
-                            <Button
-                                className={styles.filtersTypesFooter}
-                                onClick={() => setShowingMore(!isShowingMore)}
-                                onKeyPress={() => setShowingMore(!isShowingMore)}
-                                tabIndex={0}
-                                type="link"
-                            >
-                                {isShowingMore
-                                    ? get(dictionary, 'actions.less', 'Less')
-                                    : bumpedFilters.length - maxShowing && (
-                                          <>
-                                              <>{`${bumpedFilters.length - maxShowing} `}</>
-                                              <>{get(dictionary, 'actions.more', 'More')}</>
-                                          </>
-                                      )}
-                            </Button>
-                        )
-                    )}
-                </StackLayout>
-            )}
+                                <Divider className={styles.separator} type="vertical" />
+                                <Button
+                                    className={styles.checkboxFilterLinks}
+                                    onClick={() => handleOnChange([])}
+                                    type="text"
+                                >
+                                    {get(dictionary, 'actions.none', 'None')}
+                                </Button>
+                            </StackLayout>
+                        )}
+                        {extraFilterDictionary && (
+                            <StackLayout className={styles.checkboxDictAction}>
+                                <Space>
+                                    <Text>{get(dictionary, 'actions.dictionary', 'Dictionary')}</Text>
+                                    <Switch
+                                        size="small"
+                                        checked={includeExtraValues}
+                                        onChange={(checked) => {
+                                            setIncludeExtraValues(checked);
+                                            setShowingMore(checked);
+                                        }}
+                                    />
+                                </Space>
+                            </StackLayout>
+                        )}
+                    </StackLayout>
+                )}
+                {isEmpty(bumpedFilters) ? (
+                    <Space className={styles.noResultsText} direction="vertical">
+                        {get(dictionary, 'messages.errorNoData', 'No values found for this request')}
+                    </Space>
+                ) : (
+                    <>
+                        <ScrollContent
+                            className={`${styles.checkboxFiltersContent} ${
+                                filteredFilters.length > maxShowing && styles.withMargin
+                            }`}
+                        >
+                            {bumpedFilters
+                                .filter((f) => !noDataInputOption || f.id !== ArrangerValues.missing)
+                                .slice(0, isShowingMore ? Infinity : maxShowing)
+                                .map((filter, i) => (
+                                    <InternalCheckBox
+                                        key={filter.id}
+                                        filter={filter}
+                                        filterGroup={filterGroup}
+                                        getMappedName={getMappedName}
+                                        handleOnChange={handleOnChange}
+                                        index={i}
+                                        localSelectedFilters={localselectedFilters}
+                                        setLocalSelectedFilters={setLocalSelectedFilters}
+                                    />
+                                ))}
+                        </ScrollContent>
+                        {noDataFilter && (
+                            <InternalCheckBox
+                                filter={noDataFilter}
+                                filterGroup={filterGroup}
+                                getMappedName={getMappedName}
+                                handleOnChange={handleOnChange}
+                                localSelectedFilters={localselectedFilters}
+                                setLocalSelectedFilters={setLocalSelectedFilters}
+                            />
+                        )}
+                        {showMoreReadOnly ? (
+                            <span className={cx(styles.filtersTypesFooter, styles.readOnly)}>
+                                <>{`${bumpedFilters.length} `}</>
+                                <>{get(dictionary, 'actions.terms', 'terms')}</>
+                            </span>
+                        ) : (
+                            bumpedFilters.length > maxShowing && (
+                                <Button
+                                    className={styles.filtersTypesFooter}
+                                    onClick={() => setShowingMore(!isShowingMore)}
+                                    onKeyPress={() => setShowingMore(!isShowingMore)}
+                                    tabIndex={0}
+                                    type="link"
+                                >
+                                    {isShowingMore
+                                        ? get(dictionary, 'actions.less', 'Less')
+                                        : bumpedFilters.length - maxShowing && (
+                                              <>
+                                                  <>{`${bumpedFilters.length - maxShowing} `}</>
+                                                  <>{get(dictionary, 'actions.more', 'More')}</>
+                                              </>
+                                          )}
+                                </Button>
+                            )
+                        )}
+                    </>
+                )}
+            </StackLayout>
 
             {withFooter && (
                 <StackLayout className={styles.fuiCbfActions} horizontal>
@@ -309,7 +311,7 @@ const CheckboxFilter = ({
                     </Button>
                     <Dropdown.Button
                         className={styles.fuiCbfActionsApply}
-                        disabled={isEmpty(filteredFilters)}
+                        disabled={isEmpty(bumpedFilters)}
                         onClick={() => handleOnApply(TermOperators.in)}
                         overlay={
                             <Menu
