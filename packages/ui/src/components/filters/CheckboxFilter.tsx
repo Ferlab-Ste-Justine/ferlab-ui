@@ -95,7 +95,6 @@ const CheckboxFilter = ({
     const withFooter = get(filterGroup.config, 'withFooter', false);
     const showMoreReadOnly = get(filterGroup.config, 'showMoreReadOnly', false);
     const showSelectAll = get(filterGroup.config, 'showSelectAll', true);
-    const extraFilterDictionary = get(filterGroup.config, 'extraFilterDictionary', null);
 
     const getMappedName = (filter: IFilter) => {
         if (filter.id === ArrangerValues.missing) {
@@ -161,14 +160,18 @@ const CheckboxFilter = ({
     useEffect(() => {
         if (!isEqual(localselectedFilters, selectedFilters)) {
             setLocalSelectedFilters(selectedFilters);
-            setIncludeExtraValues(hasExtraFilterSelected(selectedFilters, filterGroup));
+
+            if (hasExtraFilterSelected(selectedFilters, filterGroup)) {
+                setIncludeExtraValues(true);
+            }
         }
     }, [selectedFilters]);
 
     const noDataFilter = noDataInputOption && filteredFilters.find((f) => f.id === ArrangerValues.missing);
 
     const bumpedFilters = bumpCheckedFilterFirst();
-    const showActionBar = isEmpty(bumpedFilters) ? !!extraFilterDictionary : showSelectAll || !!extraFilterDictionary;
+    const showDictionaryOption = formatExtraFilters(filteredFilters, filterGroup).length > 0
+    const showActionBar = isEmpty(bumpedFilters) ? showDictionaryOption : showSelectAll || showDictionaryOption;
 
     return (
         <Fragment>
@@ -215,7 +218,7 @@ const CheckboxFilter = ({
                                 </Button>
                             </StackLayout>
                         )}
-                        {extraFilterDictionary && (
+                        {showDictionaryOption && (
                             <StackLayout className={styles.checkboxDictAction}>
                                 <Space>
                                     <Text>{get(dictionary, 'actions.dictionary', 'Dictionary')}</Text>
