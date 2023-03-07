@@ -1,3 +1,9 @@
+### 5.2.2 2023-03-06
+- fix: CLIN-1663 500 error when bad formatted json
+
+### 5.2.1 2023-03-06
+- fix: CLIN-1663 500 error when bad formatted json
+
 ### 5.1.1 2023-02-27
 - fix: SKFP-628 Remove brackets around values in query pill with remote component
 
@@ -5,7 +11,7 @@
 - fix: FLUI-33 protable dropdown uses index to sort entries
 
 ### 4.15.12 0 2032-02-21
-- fix: SKFP-605 Adjust MatchTableItem interface to handle case insensitive upload searches 
+- fix: SKFP-605 Adjust MatchTableItem interface to handle case insensitive upload searches
 
 ### 4.15.11 0 2032-02-21
 - fix: FLUI-33 correctly reload userapi saved column

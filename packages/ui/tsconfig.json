@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "baseUrl": "src",
         "incremental": true,
         "target": "es5",
         "module": "CommonJS",
@@ -13,7 +14,12 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "rootDir": "src",
+        "sourceMap": true,
         "forceConsistentCasingInFileNames": true
     },
-    "include": ["typings.d.ts", "src", "../data/src/sqon"]
+    "include": ["typings.d.ts", "src", "../data/src/sqon/**/*"],
+    "exclude": [
+        "src/**/*.spec.ts",
+        "src/**/*.test.ts"
+    ]
 }
