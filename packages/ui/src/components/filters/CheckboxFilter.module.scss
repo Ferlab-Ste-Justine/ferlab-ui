@@ -101,14 +101,14 @@
 }
 
 .filtersTypesFooter:hover,
-.checkboxFilterActions .checkboxFilterLinks:hover {
+.checkboxSelectActions .checkboxFilterLinks:hover {
   background: transparent;
   border: none;
   color: $checkbox-filter-links-hover;
   text-decoration: none;
 }
 .filtersTypesFooter:focus,
-.checkboxFilterActions .checkboxFilterLinks:focus {
+.checkboxSelectActions .checkboxFilterLinks:focus {
   background: transparent;
   border: none;
 }
@@ -129,31 +129,42 @@
   margin-bottom: 0;
 }
 
-.checkboxFilterActions {
+.actionBar {
   margin-bottom: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
 
-  .separator {
-    height: 1.2rem;
-    align-self: center;
-    background: $checkbox-filter-actions-separator-background;
-    margin: 0 0.5rem;
+  .checkboxDictAction {
+    margin-left: auto;
   }
 
-  .checkboxFilterLinks {
-    border: none;
-    color: $checkbox-filter-actions-separator-links;
-    padding: 0;
-    font-size: $checkbox-filter-link-font-size;
-    line-height: $checkbox-filter-link-line-height;
-    height: auto;
-
-    > * {
-      text-decoration: underline;
+  .checkboxSelectActions {
+    margin-right: auto;
+    
+    .separator {
+      height: 1.2rem;
+      align-self: center;
+      background: $checkbox-filter-actions-separator-background;
+      margin: 0 0.5rem;
     }
-
-    &:hover > * {
-      background: transparent;
-      text-decoration: none;
+  
+    .checkboxFilterLinks {
+      border: none;
+      color: $checkbox-filter-actions-separator-links;
+      padding: 0;
+      font-size: $checkbox-filter-link-font-size;
+      line-height: $checkbox-filter-link-line-height;
+      height: auto;
+  
+      > * {
+        text-decoration: underline;
+      }
+  
+      &:hover > * {
+        background: transparent;
+        text-decoration: none;
+      }
     }
   }
 }

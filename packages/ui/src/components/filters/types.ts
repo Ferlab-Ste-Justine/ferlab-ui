@@ -31,12 +31,13 @@ export interface IRangeOperatorConfig {
 }
 
 export interface IFilterCheckboxConfig {
-    nameMapping: {
+    nameMapping?: {
         [field: string]: string;
     };
     showMoreReadOnly?: boolean;
     showSelectAll?: boolean;
     withFooter?: boolean;
+    extraFilterDictionary?: string[]
 }
 
 export interface IFilterRangeConfig {
@@ -107,6 +108,7 @@ export interface IActions {
     less: ReactNode;
     more: ReactNode;
     none: ReactNode;
+    dictionary: ReactNode;
 }
 
 export interface ICheckBox {
