@@ -1,0 +1,30 @@
+name: Lint
+
+on:
+    pull_request:
+        branches:
+            - master
+
+jobs:
+  build_components:
+    name: Eslint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: use cache
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/deps.lock') }}
+      - name: Install Components dependencies
+        run: |
+          cd packages/ui
+          npm install
+
+      - name: Eslint on changed files
+        run: |
+          cd packages/ui
+          npm run lint:all $(git diff-index --name-only --diff-filter=d ${{ github.event.pull_request.base.sha }} ../../packages/ui | grep -E '\.ts$|\.tsx$|\.js$|\.jsx$' | xargs | sed 's/packages\/ui\///g')
