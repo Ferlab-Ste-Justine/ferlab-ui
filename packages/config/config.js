@@ -10,16 +10,6 @@ const templateFile = require(templatePackageJsonFile);
 const packageJsonFile = `${process.cwd()}/package.json`;
 const file = require(packageJsonFile);
 
-const copyEslintFile = () => {
-    const esconfigSource = `${__dirname}/templates/.eslintrc.json`;
-    const esconfigTarget = `${process.cwd()}/.eslintrc.json`;
-
-    fs.copyFile(esconfigSource, esconfigTarget, err => {
-        err ? console.log('ERROR: ', err)
-            : console.log(`SUCCESS: ~${esconfigTarget.replace(os.homedir(), '')} is now updated`);
-    })
-}
-
 const copyCommitLintFile = () => {
     const source = `${__dirname}/templates/commitlint.config.js`;
     const target = `${process.cwd()}/commitlint.config.js`;
@@ -58,8 +48,24 @@ const updatePackageJson = () => {
     })
 }
 
+const args = process.argv;
 
-updatePackageJson();
-copyEslintFile();
-copyCommitLintFile();
-huskyConfig();
+console.log('args : ', args);
+
+switch (args[2]) {
+    case 'commitlint':
+        copyEslintFile();
+        copyCommitLintFile();
+        break;
+    case 'husky':
+        huskyConfig();
+        break;
+    case 'updateDep':
+        updatePackageJson()
+        break;
+    default:
+        console.log('= ======================== =');
+        console.log('Options are : [lint, husky, updateDep]');
+        console.log('eg. npx @ferlab/config lint');
+}
+
