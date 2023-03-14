@@ -99,8 +99,6 @@ const FilterContainer = ({
         setIsSearchVisible(visible);
     };
 
-    const hasSearchEnabled = () => filterGroup.type === VisualType.Checkbox && filters.length > maxShowing;
-
     return (
         <div className={cx(styles.filterContainer, className)}>
             <Collapse
@@ -117,7 +115,7 @@ const FilterContainer = ({
                 <CollapsePanel
                     className={styles.filterContainerContent}
                     extra={
-                        hasSearchEnabled() && collapseOpen
+                        collapseOpen
                             ? [
                                   <SearchOutlined
                                       className={`search-icon ${styles.fuiSearchIcon}`}

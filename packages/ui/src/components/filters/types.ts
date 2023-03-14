@@ -37,7 +37,8 @@ export interface IFilterCheckboxConfig {
     showMoreReadOnly?: boolean;
     showSelectAll?: boolean;
     withFooter?: boolean;
-    extraFilterDictionary?: string[]
+    extraFilterDictionary?: string[];
+    facetTranslate?: (value: string) => string;
 }
 
 export interface IFilterRangeConfig {
