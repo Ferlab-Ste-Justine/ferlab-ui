@@ -54,3 +54,31 @@ export const AnchorMenuStory = () => (
         </div>
     </>
 );
+
+const hiddenLinks: IAnchorLink[] = [
+    { href: '#Blank1', title: 'Blank1withVeryVeryVeryVeryVeryVeryVeryVeryLongText' },
+    { href: '#Blank2', title: 'Blank2' },
+    { href: '#Blank3', title: 'Blank3' },
+    { href: '#Blank4', title: 'Blank4', hidden: true },
+    { href: '#Blank5', title: 'Blank5', hidden: true },
+]
+
+
+export const AnchorMenuWithHiddenValueStory = () => (
+    <>
+        <h3>Anchor Menu With link 4 and 5 Hidden Story</h3>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div id={scrollContainerId} style={{ overflow: 'auto' }}>
+                {
+                    hiddenLinks.map(({ href, title }, index) =>
+                        <Blank key={index} id={href.replace('#', '')} title={title}  />)
+                }
+            </div>
+            <AnchorMenu
+                links={hiddenLinks}
+                scrollContainerId={scrollContainerId}
+            />
+        </div>
+    </>
+);
+
