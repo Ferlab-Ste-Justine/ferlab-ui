@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { InfoCircleOutlined, SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 import cx from 'classnames';
 
@@ -15,7 +15,6 @@ import {
     onChangeType,
     onIsOpenChange,
     onSearchVisibleChange,
-    VisualType,
 } from './types';
 
 import styles from './FilterContainer.module.scss';

@@ -250,12 +250,12 @@ const CheckboxFilter = ({
                                 <Space>
                                     <Text>{get(dictionary, 'actions.dictionary', 'Dictionary')}</Text>
                                     <Switch
-                                        size="small"
                                         checked={includeExtraValues}
                                         onChange={(checked) => {
                                             setIncludeExtraValues(checked);
                                             setShowingMore(checked);
                                         }}
+                                        size="small"
                                     />
                                 </Space>
                             </StackLayout>
@@ -278,12 +278,12 @@ const CheckboxFilter = ({
                                 .slice(0, isShowingMore ? Infinity : maxShowing)
                                 .map((filter, i) => (
                                     <InternalCheckBox
-                                        key={filter.id}
                                         filter={filter}
                                         filterGroup={filterGroup}
                                         getMappedName={getMappedName}
                                         handleOnChange={handleOnChange}
                                         index={i}
+                                        key={filter.id}
                                         localSelectedFilters={localselectedFilters}
                                         setLocalSelectedFilters={setLocalSelectedFilters}
                                     />
