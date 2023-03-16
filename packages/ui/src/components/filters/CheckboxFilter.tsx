@@ -7,13 +7,15 @@ import isEqual from 'lodash/isEqual';
 
 import { ArrangerValues } from '../../data/arranger/formatting';
 import { TermOperators } from '../../data/sqon/operators';
+import { formatExtraFilters, hasExtraFilterSelected } from '../../data/sqon/utils';
 import ScrollContent from '../../layout/ScrollContent';
 import StackLayout from '../../layout/StackLayout';
 import { numberFormat } from '../../utils/numberUtils';
 import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
+
 import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from './types';
+
 import styles from './CheckboxFilter.module.scss';
-import { formatExtraFilters, hasExtraFilterSelected } from '../../data/sqon/utils';
 
 export type TermFilterProps = {
     dictionary?: IDictionary | Record<string, never>;
