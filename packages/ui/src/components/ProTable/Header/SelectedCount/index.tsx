@@ -24,33 +24,37 @@ export const SelectedCount = ({
     dictionnary = {},
     onSelectAll = () => {},
     onClear = () => {},
-}: Props): React.ReactElement => (
-    <Space className={className} size={5}>
-        <Typography.Text>
-            <span>
-                <strong>{selectedRowCount}</strong>{' '}
-                {selectedRowCount > 1
-                    ? dictionnary.itemCount?.selectedPlural || 'items selected'
-                    : dictionnary.itemCount?.selected || 'item selected'}
-            </span>
-        </Typography.Text>
-        {selectedAllPage && (
-            <Button className={styles.ProTableHeaderSelectAllBtn} onClick={onSelectAll} size="small" type="link">
-                {dictionnary.itemCount?.selectAllResults || 'Select all results'}
-            </Button>
-        )}
-        {selectedAllResults || (!selectedAllResults && selectedRowCount > 0 && !selectedAllPage) ? (
-            <Button
-                className={styles.ProTableHeaderClearSelectedBtn}
-                icon={<CloseOutlined />}
-                onClick={onClear}
-                size="small"
-                type="link"
-            >
-                {dictionnary.itemCount?.clear || 'Clear'}
-            </Button>
-        ) : (
-            <></>
-        )}
-    </Space>
-);
+}: Props): React.ReactElement => {
+    const formatNumber = () =>
+        dictionnary.numberFormat ? dictionnary.numberFormat(selectedRowCount) : selectedRowCount;
+    return (
+        <Space className={className} size={5}>
+            <Typography.Text>
+                <span>
+                    <strong>{formatNumber()}</strong>{' '}
+                    {selectedRowCount > 1
+                        ? dictionnary.itemCount?.selectedPlural || 'items selected'
+                        : dictionnary.itemCount?.selected || 'item selected'}
+                </span>
+            </Typography.Text>
+            {selectedAllPage && (
+                <Button className={styles.ProTableHeaderSelectAllBtn} onClick={onSelectAll} size="small" type="link">
+                    {dictionnary.itemCount?.selectAllResults || 'Select all results'}
+                </Button>
+            )}
+            {selectedAllResults || (!selectedAllResults && selectedRowCount > 0 && !selectedAllPage) ? (
+                <Button
+                    className={styles.ProTableHeaderClearSelectedBtn}
+                    icon={<CloseOutlined />}
+                    onClick={onClear}
+                    size="small"
+                    type="link"
+                >
+                    {dictionnary.itemCount?.clear || 'Clear'}
+                </Button>
+            ) : (
+                <></>
+            )}
+        </Space>
+    );
+};
