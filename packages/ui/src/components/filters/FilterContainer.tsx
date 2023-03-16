@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { InfoCircleOutlined, SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 import cx from 'classnames';
 
@@ -8,15 +8,7 @@ import Collapse, { CollapsePanel, TCollapseProps } from '../Collapse';
 
 import CheckedIcon from './icons/CheckedIcon';
 import FilterSelector from './FilterSelector';
-import {
-    IDictionary,
-    IFilter,
-    IFilterGroup,
-    onChangeType,
-    onIsOpenChange,
-    onSearchVisibleChange,
-    VisualType,
-} from './types';
+import { IDictionary, IFilter, IFilterGroup, onChangeType, onIsOpenChange, onSearchVisibleChange } from './types';
 
 import styles from './FilterContainer.module.scss';
 
@@ -99,8 +91,6 @@ const FilterContainer = ({
         setIsSearchVisible(visible);
     };
 
-    const hasSearchEnabled = () => filterGroup.type === VisualType.Checkbox && filters.length > maxShowing;
-
     return (
         <div className={cx(styles.filterContainer, className)}>
             <Collapse
@@ -117,7 +107,7 @@ const FilterContainer = ({
                 <CollapsePanel
                     className={styles.filterContainerContent}
                     extra={
-                        hasSearchEnabled() && collapseOpen
+                        collapseOpen
                             ? [
                                   <SearchOutlined
                                       className={`search-icon ${styles.fuiSearchIcon}`}

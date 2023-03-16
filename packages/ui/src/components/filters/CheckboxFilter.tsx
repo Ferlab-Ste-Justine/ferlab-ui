@@ -7,13 +7,15 @@ import isEqual from 'lodash/isEqual';
 
 import { ArrangerValues } from '../../data/arranger/formatting';
 import { TermOperators } from '../../data/sqon/operators';
+import { formatExtraFilters, hasExtraFilterSelected } from '../../data/sqon/utils';
 import ScrollContent from '../../layout/ScrollContent';
 import StackLayout from '../../layout/StackLayout';
 import { numberFormat } from '../../utils/numberUtils';
 import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
+
 import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from './types';
+
 import styles from './CheckboxFilter.module.scss';
-import { formatExtraFilters, hasExtraFilterSelected } from '../../data/sqon/utils';
 
 export type TermFilterProps = {
     dictionary?: IDictionary | Record<string, never>;
@@ -101,11 +103,23 @@ const CheckboxFilter = ({
             return get(dictionary, 'checkBox.noData', 'No Data');
         }
 
-        return typeof filter.name === 'string'
-            ? removeUnderscoreAndCapitalize(
-                  (filterGroup.config?.nameMapping && filterGroup.config?.nameMapping[filter.id]) || filter.name,
-              )
-            : filter.name;
+        if (typeof filter.name === 'string') {
+            let name = '';
+
+            if (filterGroup.config?.facetTranslate) {
+                name = filterGroup.config?.facetTranslate(filter.id);
+            }
+
+            if (name === filter.id) {
+                return removeUnderscoreAndCapitalize(
+                    (filterGroup.config?.nameMapping && filterGroup.config?.nameMapping[filter.id]) || filter.name,
+                );
+            }
+
+            return name;
+        }
+
+        return filter.name;
     };
 
     const handleOnChange = (newFilter: IFilter[]) => {
@@ -122,16 +136,32 @@ const CheckboxFilter = ({
         }
 
         const filterIdsToBump = selectedFilters.map((value: IFilter) => value.id);
-        const cleanedFilteredFilters = filteredFilters.filter((value: IFilter) => !filterIdsToBump.includes(value.id));
+        const cleanedFilteredFilters = filters.filter((value: IFilter) => !filterIdsToBump.includes(value.id));
 
         const currentFilterList = [...selectedFilters, ...cleanedFilteredFilters];
 
         if (includeExtraValues) {
-            return [...currentFilterList, ...formatExtraFilters(currentFilterList, filterGroup)];
+            return [...currentFilterList, ...getSortedExtraFilters(currentFilterList)];
         }
 
         return currentFilterList;
     };
+
+    const getSortedExtraFilters = (currentFilters: IFilter<any>[]) =>
+        formatExtraFilters(currentFilters, filterGroup)
+            .map((filter) => ({
+                ...filter,
+                name: getMappedName(filter),
+            }))
+            .sort((a, b) => {
+                if (a.id === ArrangerValues.missing) {
+                    return 1;
+                } else if (b.id === ArrangerValues.missing) {
+                    return -1;
+                } else {
+                    return a.name.localeCompare(b.name);
+                }
+            });
 
     const handleOnApply = (operator: TermOperators = TermOperators.in) => {
         onChange(
@@ -147,7 +177,7 @@ const CheckboxFilter = ({
     };
 
     useEffect(() => {
-        const newFilters = filters
+        const newFilters = bumpCheckedFilterFirst()
             .filter((f) => !isEmpty(f.data))
             .filter(
                 ({ data, name }) =>
@@ -168,7 +198,7 @@ const CheckboxFilter = ({
     }, [selectedFilters]);
 
     const bumpedFilters = bumpCheckedFilterFirst();
-    const showDictionaryOption = filteredFilters.length > 0 && formatExtraFilters(filteredFilters, filterGroup).length > 0;
+    const showDictionaryOption = filterGroup.config?.extraFilterDictionary;
     const showActionBar = isEmpty(bumpedFilters) ? showDictionaryOption : showSelectAll || showDictionaryOption;
     const noDataFilter = noDataInputOption && filteredFilters.find((f) => f.id === ArrangerValues.missing);
 
@@ -222,12 +252,12 @@ const CheckboxFilter = ({
                                 <Space>
                                     <Text>{get(dictionary, 'actions.dictionary', 'Dictionary')}</Text>
                                     <Switch
-                                        size="small"
                                         checked={includeExtraValues}
                                         onChange={(checked) => {
                                             setIncludeExtraValues(checked);
                                             setShowingMore(checked);
                                         }}
+                                        size="small"
                                     />
                                 </Space>
                             </StackLayout>
@@ -250,12 +280,12 @@ const CheckboxFilter = ({
                                 .slice(0, isShowingMore ? Infinity : maxShowing)
                                 .map((filter, i) => (
                                     <InternalCheckBox
-                                        key={filter.id}
                                         filter={filter}
                                         filterGroup={filterGroup}
                                         getMappedName={getMappedName}
                                         handleOnChange={handleOnChange}
                                         index={i}
+                                        key={filter.id}
                                         localSelectedFilters={localselectedFilters}
                                         setLocalSelectedFilters={setLocalSelectedFilters}
                                     />
