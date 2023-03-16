@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Card, Space, Typography } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 
@@ -47,16 +47,17 @@ const EntityTable = ({
     title,
     emptyMessage = 'No data available',
 }: IEntityTable): React.ReactElement => {
-    const tableRef = useRef<HTMLDivElement>(null);
     const [scroll, setScroll] = useState<{ y: number } | undefined>(undefined);
 
-    useEffect(() => {
-        const height = tableRef.current?.clientHeight ?? 0;
-
-        if (height > 400) {
-            setScroll({ y: 400 });
-        }
-    }, [tableRef, loading, data]);
+    const tableRef = useCallback(
+        (node) => {
+            const height = node?.clientHeight ?? 0;
+            if (height > 400) {
+                setScroll({ y: 400 });
+            }
+        },
+        [loading, data],
+    );
 
     return (
         <div className={styles.container} id={id}>
