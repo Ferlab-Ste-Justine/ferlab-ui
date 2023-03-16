@@ -22,16 +22,15 @@ export const SelectedCount = ({
     selectedAllResults = false,
     selectedRowCount,
     dictionnary = {},
-    onSelectAll = () => {},
-    onClear = () => {},
+    onSelectAll = () => undefined,
+    onClear = () => undefined,
 }: Props): React.ReactElement => {
-    const formatNumber = () =>
-        dictionnary.numberFormat ? dictionnary.numberFormat(selectedRowCount) : selectedRowCount;
+    const rowCount = dictionnary.numberFormat ? dictionnary.numberFormat(selectedRowCount) : selectedRowCount;
     return (
         <Space className={className} size={5}>
             <Typography.Text>
                 <span>
-                    <strong>{formatNumber()}</strong>{' '}
+                    <strong>{rowCount}</strong>{' '}
                     {selectedRowCount > 1
                         ? dictionnary.itemCount?.selectedPlural || 'items selected'
                         : dictionnary.itemCount?.selected || 'item selected'}
