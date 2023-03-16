@@ -8,14 +8,7 @@ import Collapse, { CollapsePanel, TCollapseProps } from '../Collapse';
 
 import CheckedIcon from './icons/CheckedIcon';
 import FilterSelector from './FilterSelector';
-import {
-    IDictionary,
-    IFilter,
-    IFilterGroup,
-    onChangeType,
-    onIsOpenChange,
-    onSearchVisibleChange,
-} from './types';
+import { IDictionary, IFilter, IFilterGroup, onChangeType, onIsOpenChange, onSearchVisibleChange } from './types';
 
 import styles from './FilterContainer.module.scss';
 
