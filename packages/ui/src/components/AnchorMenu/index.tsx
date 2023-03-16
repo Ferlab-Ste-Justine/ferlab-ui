@@ -8,6 +8,7 @@ const { Link } = Anchor;
 export interface IAnchorLink {
     href: string;
     title: string;
+    hidden?: boolean;
 }
 
 export interface IAnchorMenuProps extends AnchorProps {
@@ -38,8 +39,10 @@ const AnchorMenu = ({
         e.preventDefault();
     };
 
+    const filteredLinks = links.filter((link) => !link.hidden);
+
     /** by default use first href link */
-    const _getCurrentAnchor = (activeLink: string) => activeLink || (links[0] && links[0].href);
+    const _getCurrentAnchor = (activeLink: string) => activeLink || (filteredLinks[0] && filteredLinks[0].href);
     const _getContainer = scrollContainer ? () => scrollContainer : undefined;
 
     /** all props are overridable by new props */
@@ -57,7 +60,7 @@ const AnchorMenu = ({
             showInkInFixed={showInkInFixed}
             targetOffset={targetOffset}
         >
-            {links.map(({ href, title }: IAnchorLink, index: number) => (
+            {filteredLinks.map(({ href, title }: IAnchorLink, index: number) => (
                 <Link href={href} key={index} title={title} />
             ))}
         </Anchor>
