@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "5.4.4",
+    "version": "5.4.5",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -21,7 +21,8 @@
     ],
     "scripts": {
         "fix-linter": "eslint --fix --rule 'no-console: 2'",
-        "build": "npm-run-all build:es build:esnext && tscp",
+        "build": "npm-run-all build:es build:esnext && tsc && tscp",
+        "build:core": "tsc && tscp",
         "build:es": "tsc --declaration --sourceMap --outDir lib/es",
         "build:esnext": "tsc --declaration --declarationMap",
         "build:scss": "sass ./themes:./lib/esnext",
