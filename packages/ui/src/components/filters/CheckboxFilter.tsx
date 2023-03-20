@@ -104,7 +104,7 @@ const CheckboxFilter = ({
         }
 
         if (typeof filter.name === 'string') {
-            let name = '';
+            let name = filter.name as string;
 
             if (filterGroup.config?.facetTranslate) {
                 name = filterGroup.config?.facetTranslate(filter.id);
