@@ -138,7 +138,7 @@ const CheckboxFilter = ({
                     filterGroup,
                 }),
             }))
-            .sort((a: any, b: any) => {
+            .sort((a, b) => {
                 if (a.id === ArrangerValues.missing) {
                     return 1;
                 } else if (b.id === ArrangerValues.missing) {
@@ -183,7 +183,8 @@ const CheckboxFilter = ({
     }, [selectedFilters]);
 
     const bumpedFilters = bumpCheckedFilterFirst();
-    const showDictionaryOption = filterGroup.config?.extraFilterDictionary;
+    const showDictionaryOption =
+        filterGroup.config?.extraFilterDictionary && formatExtraFilters(filters, filterGroup).length > 0;
     const showActionBar = isEmpty(bumpedFilters) ? showDictionaryOption : showSelectAll || showDictionaryOption;
     const noDataFilter = noDataInputOption && filteredFilters.find((f) => f.id === ArrangerValues.missing);
 

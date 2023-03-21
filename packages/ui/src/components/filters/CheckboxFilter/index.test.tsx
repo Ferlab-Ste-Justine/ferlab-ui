@@ -32,20 +32,40 @@ const filterGroup: IFilterGroup<IFilterCheckboxConfig> = {
     type: VisualType.Checkbox,
 };
 
+const defaultProps: TermFilterProps = {
+    filterGroup,
+    filters,
+    hasSearchInput: false,
+    maxShowing: 5,
+    onChange: () => null,
+};
+
 describe('CheckboxFilter', () => {
     test('make sure Checkbox Filter is correctly rendered', () => {
-        const props: TermFilterProps = {
-            filterGroup,
-            filters,
-            hasSearchInput: false,
-            maxShowing: 5,
-            onChange: () => null,
+        render(<CheckboxFilter {...defaultProps} />);
+
+        expect(screen.queryByText(filters[0].name as string)).toBeTruthy();
+        expect(screen.queryByText(filters[1].name as string)).toBeTruthy();
+    });
+
+    test('make sure dictionary switch visible if extra filters with 0 results', () => {
+        defaultProps.filterGroup.config = {
+            extraFilterDictionary: ['id_three'],
         };
 
-        render(<CheckboxFilter {...props} />);
+        render(<CheckboxFilter {...defaultProps} />);
 
-        expect(screen.getByText(filters[0].name as string)).toBeTruthy();
-        expect(screen.getByText(filters[1].name as string)).toBeTruthy();
+        expect(screen.queryByText('Dictionary')).toBeTruthy();
+    });
+
+    test('make sure dictionary switch is not visible if no extra filter with 0 results', () => {
+        defaultProps.filterGroup.config = {
+            extraFilterDictionary: [filters[0].id],
+        };
+
+        render(<CheckboxFilter {...defaultProps} />);
+
+        expect(screen.queryByText('Dictionary')).toBeNull();
     });
 
     test('make sure get mapped function returns a value from nameMapping', () => {
