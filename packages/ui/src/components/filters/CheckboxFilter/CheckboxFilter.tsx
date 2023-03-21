@@ -5,15 +5,15 @@ import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 
-import { ArrangerValues } from '../../data/arranger/formatting';
-import { TermOperators } from '../../data/sqon/operators';
-import { formatExtraFilters, hasExtraFilterSelected } from '../../data/sqon/utils';
-import ScrollContent from '../../layout/ScrollContent';
-import StackLayout from '../../layout/StackLayout';
-import { numberFormat } from '../../utils/numberUtils';
-import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
+import { ArrangerValues } from '../../../data/arranger/formatting';
+import { TermOperators } from '../../../data/sqon/operators';
+import { formatExtraFilters, hasExtraFilterSelected } from '../../../data/sqon/utils';
+import ScrollContent from '../../../layout/ScrollContent';
+import StackLayout from '../../../layout/StackLayout';
+import { numberFormat } from '../../../utils/numberUtils';
+import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from '../types';
 
-import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from './types';
+import { getMappedName, TGetMappedNameParams } from './CheckboxFilter.utils';
 
 import styles from './CheckboxFilter.module.scss';
 
@@ -31,7 +31,7 @@ export type TermFilterProps = {
 type InternalCheckBoxProps = {
     filter: IFilter;
     filterGroup: IFilterGroup<IFilterCheckboxConfig>;
-    getMappedName: (filter: IFilter) => string;
+    getMappedName: (params: TGetMappedNameParams) => string;
     handleOnChange: (newFilter: IFilter[]) => void;
     localSelectedFilters: IFilter[];
     setLocalSelectedFilters: (newFilter: IFilter[]) => void;
@@ -73,7 +73,12 @@ const InternalCheckBox = ({
             }}
             type="checkbox"
         >
-            <Text>{getMappedName(filter)}</Text>
+            <Text>
+                {getMappedName({
+                    filter,
+                    filterGroup,
+                })}
+            </Text>
         </Checkbox>
         <Tag className={styles.tag}>{numberFormat(filter.data.count)}</Tag>
     </StackLayout>
@@ -88,7 +93,7 @@ const CheckboxFilter = ({
     onChange,
     selectedFilters = [],
     noDataInputOption = false,
-}: TermFilterProps) => {
+}: TermFilterProps): JSX.Element => {
     const [search, setSearch] = useState('');
     const [includeExtraValues, setIncludeExtraValues] = useState(false);
     const [isShowingMore, setShowingMore] = useState(false);
@@ -97,30 +102,6 @@ const CheckboxFilter = ({
     const withFooter = get(filterGroup.config, 'withFooter', false);
     const showMoreReadOnly = get(filterGroup.config, 'showMoreReadOnly', false);
     const showSelectAll = get(filterGroup.config, 'showSelectAll', true);
-
-    const getMappedName = (filter: IFilter) => {
-        if (filter.id === ArrangerValues.missing) {
-            return get(dictionary, 'checkBox.noData', 'No Data');
-        }
-
-        if (typeof filter.name === 'string') {
-            let name = '';
-
-            if (filterGroup.config?.facetTranslate) {
-                name = filterGroup.config?.facetTranslate(filter.id);
-            }
-
-            if (name === filter.id) {
-                return removeUnderscoreAndCapitalize(
-                    (filterGroup.config?.nameMapping && filterGroup.config?.nameMapping[filter.id]) || filter.name,
-                );
-            }
-
-            return name;
-        }
-
-        return filter.name;
-    };
 
     const handleOnChange = (newFilter: IFilter[]) => {
         if (withFooter) {
@@ -151,7 +132,11 @@ const CheckboxFilter = ({
         formatExtraFilters(currentFilters, filterGroup)
             .map((filter) => ({
                 ...filter,
-                name: getMappedName(filter),
+                name: getMappedName({
+                    dictionary,
+                    filter,
+                    filterGroup,
+                }),
             }))
             .sort((a, b) => {
                 if (a.id === ArrangerValues.missing) {
@@ -198,7 +183,8 @@ const CheckboxFilter = ({
     }, [selectedFilters]);
 
     const bumpedFilters = bumpCheckedFilterFirst();
-    const showDictionaryOption = filterGroup.config?.extraFilterDictionary;
+    const showDictionaryOption =
+        filterGroup.config?.extraFilterDictionary && formatExtraFilters(filters, filterGroup).length > 0;
     const showActionBar = isEmpty(bumpedFilters) ? showDictionaryOption : showSelectAll || showDictionaryOption;
     const noDataFilter = noDataInputOption && filteredFilters.find((f) => f.id === ArrangerValues.missing);
 

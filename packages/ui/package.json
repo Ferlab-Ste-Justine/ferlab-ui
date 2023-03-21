@@ -30,7 +30,7 @@
         "lint:all": "eslint",
         "lint:fix": "npm run lint -- --fix",
         "start": "tsc -w --declaration && tscp -w --declaration",
-        "test": "jest",
+        "test": "jest ./src",
         "test:watch": "jest --watch",
         "test:github": "jest --coverage --watchAll=false --no-watchma  --coverageReporters=\"text-summary\"",
         "coverage": "jest --watchAll=false --coverage --coverageReporters=\"json-summary\"",
