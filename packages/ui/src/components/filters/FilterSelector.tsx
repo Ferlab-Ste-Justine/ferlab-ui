@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CheckboxFilter from './CheckboxFilter';
+import { CheckboxFilter } from './CheckboxFilter';
 import RangeFilter from './RangeFilter';
 import TextInputFilter from './TextInputFilter';
 import ToggleFilter from './ToggleFilter';
@@ -26,7 +26,7 @@ const FilterSelector = ({
     onChange,
     searchInputVisible,
     selectedFilters,
-}: FilterSelectorProps) => {
+}: FilterSelectorProps): JSX.Element => {
     const commonProps = {
         dictionary,
         filterGroup,
