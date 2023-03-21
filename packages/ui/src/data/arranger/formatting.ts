@@ -1,13 +1,13 @@
 export const ArrangerValues = {
+    false: '0',
     missing: '__missing__',
     noData: 'No Data',
     true: '1',
-    false: '0',
 };
 
 export const AggregateValues = {
-    true: 'true',
     false: 'false',
+    true: 'true',
 };
 
 export const keyEnhance = (key: string, s: string = ArrangerValues.noData): string => {
