@@ -443,7 +443,7 @@ export const generateQuery = ({
     newFilters,
     operator = BooleanOperators.and,
 }: {
-    newFilters: IValueFilter[] | IWildCardValueFilter[];
+    newFilters: IValueFilter[] | IWildCardValueFilter[] | TSqonContent;
     filters?: ISyntheticSqon;
     operator?: BooleanOperators | FilterOperators;
 }): ISyntheticSqon => {
@@ -468,16 +468,31 @@ export const generateValueFilter = ({
     index = '',
     operator = TermOperators.in,
     overrideValuesName,
+    rangeFilterNoData = false,
 }: {
     field: string;
     value: string[];
     index?: string;
     operator?: TermOperators | string;
     overrideValuesName?: string;
-}) => ({
-    content: { field, index, overrideValuesName, value },
-    op: operator,
-});
+    rangeFilterNoData?: boolean;
+}) => {
+    const basicFilter = {
+        content: { field, index, overrideValuesName, value },
+        op: operator,
+    };
+    const noDataFilterContent = {
+        content: { field, index, value: [ArrangerValues.missing] },
+        op: RangeOperators.in,
+    };
+    return !rangeFilterNoData
+        ? basicFilter
+        : {
+              content: [basicFilter, noDataFilterContent],
+              op: BooleanOperators.or,
+              skipBooleanOperatorCheck: true,
+          };
+};
 
 export const generateWildCardValueFilter = ({
     fields,
@@ -775,11 +790,11 @@ export const hasExtraFilterSelected = (
 
 export const getEmptyCountFilter = (key: string) => ({
     data: {
-        key,
         count: 0,
+        key,
     },
-    name: key,
     id: key,
+    name: key,
 });
 
 const getSelectedFiltersOther = (filters: IFilter[], filterGroup: IFilterGroup, selectedFilters: ISyntheticSqon) => {
