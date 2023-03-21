@@ -1,9 +1,11 @@
 import React from 'react';
-import { IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, VisualType } from '../types';
-import CheckboxFilter, { TermFilterProps } from './CheckboxFilter';
 import { render, screen } from '@testing-library/react';
-import { getMappedName } from './CheckboxFilter.utils';
 import { capitalize } from 'lodash';
+
+import { IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, VisualType } from '../types';
+
+import CheckboxFilter, { TermFilterProps } from './CheckboxFilter';
+import { getMappedName } from './CheckboxFilter.utils';
 
 const filters: IFilter<IFilterCount>[] = [
     {
