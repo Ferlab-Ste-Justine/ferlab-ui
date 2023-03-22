@@ -3,7 +3,7 @@
         "declaration": true,
         "incremental": true,
         "target": "ES2017",
-        "module": "esnext",
+        "module": "CommonJS",
         "lib": ["es2021", "dom"],
         "allowJs": false,
         "jsx": "react",
