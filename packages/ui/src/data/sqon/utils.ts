@@ -485,13 +485,13 @@ export const generateValueFilter = ({
         content: { field, index, value: [ArrangerValues.missing] },
         op: RangeOperators.in,
     };
-    return !rangeFilterNoData
-        ? basicFilter
-        : {
-              content: [basicFilter, noDataFilterContent],
-              op: BooleanOperators.or,
-              skipBooleanOperatorCheck: true,
-          };
+
+    const noDataFilter = {
+        content: [basicFilter, noDataFilterContent],
+        op: BooleanOperators.or,
+        skipBooleanOperatorCheck: true,
+    };
+    return !rangeFilterNoData ? basicFilter : noDataFilter;
 };
 
 export const generateWildCardValueFilter = ({
