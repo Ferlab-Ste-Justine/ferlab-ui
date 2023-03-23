@@ -113,12 +113,7 @@ export const WithNoDataCheckbox = TermFilterStory.bind({});
 WithNoDataCheckbox.args = {
     title: 'CheckboxFilter No Data checkbox',
     maxShowing: 6,
-    filterGroup: {
-        ...filterGroup,
-        config: {
-            extraFilterDictionary: ['extra_filter_1', 'extra_filter_2', '__missing__'],
-        },
-    },
+    filterGroup,
     onChangeType: onChangeTypeStory(filterGroup, filters),
     hasSearchInput: true,
     filters: filtersWithNoData,
