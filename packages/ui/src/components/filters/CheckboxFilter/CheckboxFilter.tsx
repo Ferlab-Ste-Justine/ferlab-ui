@@ -119,7 +119,7 @@ const CheckboxFilter = ({
         const filterIdsToBump = selectedFilters.map((value: IFilter) => value.id);
         const cleanedFilteredFilters = filters.filter((value: IFilter) => !filterIdsToBump.includes(value.id));
 
-        const currentFilterList = [...selectedFilters, ...cleanedFilteredFilters];
+        const currentFilterList = excludeNoDataFilter([...selectedFilters, ...cleanedFilteredFilters]);
 
         if (includeExtraValues) {
             return [...currentFilterList, ...getSortedExtraFilters(currentFilterList)];
@@ -128,8 +128,13 @@ const CheckboxFilter = ({
         return currentFilterList;
     };
 
+    const getNoDataFilter = (filters: IFilter<any>[]) => filters.find((filter) => filter.id === ArrangerValues.missing);
+
+    const excludeNoDataFilter = (filters: IFilter<any>[]) =>
+        filters.filter((filter) => filter.id !== ArrangerValues.missing);
+
     const getSortedExtraFilters = (currentFilters: IFilter<any>[]) =>
-        formatExtraFilters(currentFilters, filterGroup)
+        excludeNoDataFilter(formatExtraFilters(currentFilters, filterGroup))
             .map((filter) => ({
                 ...filter,
                 name: getMappedName({
@@ -138,15 +143,7 @@ const CheckboxFilter = ({
                     filterGroup,
                 }),
             }))
-            .sort((a, b) => {
-                if (a.id === ArrangerValues.missing) {
-                    return 1;
-                } else if (b.id === ArrangerValues.missing) {
-                    return -1;
-                } else {
-                    return a.name.localeCompare(b.name);
-                }
-            });
+            .sort((a, b) => a.name.localeCompare(b.name));
 
     const handleOnApply = (operator: TermOperators = TermOperators.in) => {
         onChange(
@@ -183,10 +180,11 @@ const CheckboxFilter = ({
     }, [selectedFilters]);
 
     const bumpedFilters = bumpCheckedFilterFirst();
+    const extraFilters = formatExtraFilters(filters, filterGroup);
     const showDictionaryOption =
-        filterGroup.config?.extraFilterDictionary && formatExtraFilters(filters, filterGroup).length > 0;
+        filterGroup.config?.extraFilterDictionary && excludeNoDataFilter(extraFilters).length > 0;
     const showActionBar = isEmpty(bumpedFilters) ? showDictionaryOption : showSelectAll || showDictionaryOption;
-    const noDataFilter = noDataInputOption && filteredFilters.find((f) => f.id === ArrangerValues.missing);
+    const noDataFilter = getNoDataFilter(bumpedFilters) || getNoDataFilter(extraFilters);
 
     return (
         <Fragment>
@@ -256,11 +254,7 @@ const CheckboxFilter = ({
                     </Space>
                 ) : (
                     <>
-                        <ScrollContent
-                            className={`${styles.checkboxFiltersContent} ${
-                                filteredFilters.length > maxShowing && styles.withMargin
-                            }`}
-                        >
+                        <ScrollContent className={`${styles.checkboxFiltersContent} ${styles.withMargin}`}>
                             {bumpedFilters
                                 .filter((f) => !noDataInputOption || f.id !== ArrangerValues.missing)
                                 .slice(0, isShowingMore ? Infinity : maxShowing)

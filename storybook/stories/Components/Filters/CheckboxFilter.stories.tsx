@@ -71,7 +71,7 @@ WithDictionary.args = {
     filterGroup: {
         ...filterGroup,
         config: {
-            extraFilterDictionary: ['extra_filter_1', 'extra_filter_2'],
+            extraFilterDictionary: ['extra_filter_1', 'extra_filter_2', '__missing__'],
         },
     },
     onChangeType: onChangeTypeStory(filterGroup, filters),
@@ -113,7 +113,12 @@ export const WithNoDataCheckbox = TermFilterStory.bind({});
 WithNoDataCheckbox.args = {
     title: 'CheckboxFilter No Data checkbox',
     maxShowing: 6,
-    filterGroup: filterGroup,
+    filterGroup: {
+        ...filterGroup,
+        config: {
+            extraFilterDictionary: ['extra_filter_1', 'extra_filter_2', '__missing__'],
+        },
+    },
     onChangeType: onChangeTypeStory(filterGroup, filters),
     hasSearchInput: true,
     filters: filtersWithNoData,
