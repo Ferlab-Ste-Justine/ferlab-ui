@@ -22,7 +22,6 @@ const FilterSelector = ({
     filterGroup,
     filters,
     maxShowing,
-    noDataInputOption = false,
     onChange,
     searchInputVisible,
     selectedFilters,
@@ -48,7 +47,6 @@ const FilterSelector = ({
                     filters={filters}
                     hasSearchInput={searchInputVisible}
                     maxShowing={maxShowing}
-                    noDataInputOption={noDataInputOption}
                 />
             );
     }

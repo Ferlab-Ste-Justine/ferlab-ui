@@ -153,5 +153,4 @@ WithNoDataCheckbox.args = {
     },
     filters: rangeFilters,
     onChange: () => undefined,
-    noDataInputOption: true,
 };
