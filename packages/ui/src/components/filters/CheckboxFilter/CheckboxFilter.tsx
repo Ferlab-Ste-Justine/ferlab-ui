@@ -25,7 +25,6 @@ export type TermFilterProps = {
     maxShowing: number;
     hasSearchInput: boolean;
     filters: IFilter<IFilterCount>[];
-    noDataInputOption?: boolean;
 };
 
 type InternalCheckBoxProps = {
@@ -92,7 +91,6 @@ const CheckboxFilter = ({
     maxShowing,
     onChange,
     selectedFilters = [],
-    noDataInputOption = false,
 }: TermFilterProps): JSX.Element => {
     const [search, setSearch] = useState('');
     const [includeExtraValues, setIncludeExtraValues] = useState(false);
@@ -183,10 +181,9 @@ const CheckboxFilter = ({
     }, [selectedFilters]);
 
     const bumpedFilters = bumpCheckedFilterFirst();
-    const showDictionaryOption =
-        filterGroup.config?.extraFilterDictionary && formatExtraFilters(filters, filterGroup).length > 0;
+    const extraFilters = formatExtraFilters(filters, filterGroup);
+    const showDictionaryOption = filterGroup.config?.extraFilterDictionary && extraFilters.length > 0;
     const showActionBar = isEmpty(bumpedFilters) ? showDictionaryOption : showSelectAll || showDictionaryOption;
-    const noDataFilter = noDataInputOption && filteredFilters.find((f) => f.id === ArrangerValues.missing);
 
     return (
         <Fragment>
@@ -256,37 +253,20 @@ const CheckboxFilter = ({
                     </Space>
                 ) : (
                     <>
-                        <ScrollContent
-                            className={`${styles.checkboxFiltersContent} ${
-                                filteredFilters.length > maxShowing && styles.withMargin
-                            }`}
-                        >
-                            {bumpedFilters
-                                .filter((f) => !noDataInputOption || f.id !== ArrangerValues.missing)
-                                .slice(0, isShowingMore ? Infinity : maxShowing)
-                                .map((filter, i) => (
-                                    <InternalCheckBox
-                                        filter={filter}
-                                        filterGroup={filterGroup}
-                                        getMappedName={getMappedName}
-                                        handleOnChange={handleOnChange}
-                                        index={i}
-                                        key={filter.id}
-                                        localSelectedFilters={localselectedFilters}
-                                        setLocalSelectedFilters={setLocalSelectedFilters}
-                                    />
-                                ))}
+                        <ScrollContent className={`${styles.checkboxFiltersContent} ${styles.withMargin}`}>
+                            {bumpedFilters.slice(0, isShowingMore ? Infinity : maxShowing).map((filter, i) => (
+                                <InternalCheckBox
+                                    filter={filter}
+                                    filterGroup={filterGroup}
+                                    getMappedName={getMappedName}
+                                    handleOnChange={handleOnChange}
+                                    index={i}
+                                    key={filter.id}
+                                    localSelectedFilters={localselectedFilters}
+                                    setLocalSelectedFilters={setLocalSelectedFilters}
+                                />
+                            ))}
                         </ScrollContent>
-                        {noDataFilter && (
-                            <InternalCheckBox
-                                filter={noDataFilter}
-                                filterGroup={filterGroup}
-                                getMappedName={getMappedName}
-                                handleOnChange={handleOnChange}
-                                localSelectedFilters={localselectedFilters}
-                                setLocalSelectedFilters={setLocalSelectedFilters}
-                            />
-                        )}
                         {showMoreReadOnly ? (
                             <span className={cx(styles.filtersTypesFooter, styles.readOnly)}>
                                 <>{`${bumpedFilters.length} `}</>

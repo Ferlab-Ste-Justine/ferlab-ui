@@ -76,7 +76,7 @@ WithDictionary.args = {
     },
     onChangeType: onChangeTypeStory(filterGroup, filters),
     hasSearchInput: true,
-    filters: filters,
+    filters: filtersWithNoData,
 };
 
 export const WithMore = TermFilterStory.bind({});
@@ -117,7 +117,6 @@ WithNoDataCheckbox.args = {
     onChangeType: onChangeTypeStory(filterGroup, filters),
     hasSearchInput: true,
     filters: filtersWithNoData,
-    noDataInputOption: true,
 };
 
 export const WithBigCount = TermFilterStory.bind({});
