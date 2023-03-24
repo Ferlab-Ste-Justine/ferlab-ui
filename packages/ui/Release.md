@@ -1,3 +1,5 @@
+### 5.5.3 2023-03-24
+- fix: FLUI-0000 support react 18.x.x
 ### 5.2.2 2023-03-06
 - fix: CLIN-1663 500 error when bad formatted json
 
