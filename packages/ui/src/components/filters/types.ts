@@ -24,8 +24,8 @@ export interface IFilterText {
 }
 
 export interface IRangeOperatorConfig {
-    operator: RangeOperators;
-    name: ReactNode;
+    value: RangeOperators;
+    label: ReactNode;
     disableMin?: boolean;
     disableMax?: boolean;
 }
@@ -127,6 +127,9 @@ export interface IRange {
     unit?: ReactNode;
     is?: ReactNode;
     noData: ReactNode;
+    from: ReactNode;
+    to: ReactNode;
+    actualInterval: ReactNode;
 }
 
 export interface IOperators {
