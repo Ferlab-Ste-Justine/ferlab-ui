@@ -8,7 +8,15 @@ import Collapse, { CollapsePanel, TCollapseProps } from '../Collapse';
 
 import CheckedIcon from './icons/CheckedIcon';
 import FilterSelector from './FilterSelector';
-import { IDictionary, IFilter, IFilterGroup, onChangeType, onIsOpenChange, onSearchVisibleChange } from './types';
+import {
+    IDictionary,
+    IFilter,
+    IFilterGroup,
+    onChangeType,
+    onIsOpenChange,
+    onSearchVisibleChange,
+    VisualType,
+} from './types';
 
 import styles from './FilterContainer.module.scss';
 
@@ -107,7 +115,7 @@ const FilterContainer = ({
                 <CollapsePanel
                     className={styles.filterContainerContent}
                     extra={
-                        collapseOpen
+                        collapseOpen && filterGroup.type === VisualType.Checkbox
                             ? [
                                   <SearchOutlined
                                       className={`search-icon ${styles.fuiSearchIcon}`}

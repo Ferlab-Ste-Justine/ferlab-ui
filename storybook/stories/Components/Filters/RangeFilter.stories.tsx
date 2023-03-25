@@ -51,12 +51,6 @@ Basic.args = {
         type: VisualType.Range,
         field: 'this.field',
         config: {
-            rangeTypes: [
-                {
-                    key: 'this.field',
-                    name: 'Years',
-                },
-            ],
             step: 0.00001,
             min: 0.000029,
             max: 0.99999,
