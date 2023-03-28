@@ -118,11 +118,6 @@ type config = {
     noDataSelected?: boolean;
 };
 
-interface IValueWithLabel {
-    value: RangeOperators;
-    label: ReactNode;
-}
-
 const getConfig = (selectedFilters: IFilter[] | undefined): config => {
     if (!selectedFilters || selectedFilters?.length === 0) {
         return {
@@ -257,91 +252,83 @@ const RangeFilter = ({
 
     return (
         <StackLayout className={styles.fuiRfContainer} vertical>
-            {isNull(filterGroup.config?.min) && isNull(filterGroup.config?.min) ? (
-                <Space className={styles.noResultsText} direction="vertical">
-                    {get(dictionary, 'messages.errorNoData', 'No values found for this request')}
-                </Space>
-            ) : (
-                <Space direction="vertical" size="small">
-                    <StackLayout className={styles.fuiRfRangeOperator} vertical>
-                        <Select
-                            className={styles.fuiRfRangeOperatorSelect}
-                            onChange={onOperatorChanged}
-                            options={range.operators || defaultOperators}
-                            value={operator}
-                        />
-                    </StackLayout>
-
-                    <StackLayout className={cx(styles.fuiRfGroupedValues, styles.fuiRfRangeOperator)} horizontal>
-                        {isMinEnabled && (
-                            <StackLayout className={styles.fuiRfRangeInputContainer} vertical>
-                                {isBetweenOperator && (
-                                    <span className={styles.fuiRfSectionTitle}>
-                                        {get(dictionary, 'range.from', 'From')}
-                                    </span>
-                                )}
-                                <InputNumber
-                                    className={styles.rangeInput}
-                                    id={`from-${dotField}`}
-                                    key={`from-${dotField}`}
-                                    onChange={onMinChanged}
-                                    step={range.step || DEFAULT_STEP}
-                                    title={get(dictionary, 'range.min', 'min')}
-                                    type="number"
-                                    value={min}
-                                />
-                            </StackLayout>
-                        )}
-                        {isMaxEnabled && (
-                            <StackLayout className={styles.fuiRfRangeInputContainer} vertical>
-                                {isBetweenOperator && (
-                                    <span className={styles.fuiRfSectionTitle}>
-                                        {get(dictionary, 'range.to', 'To')}
-                                    </span>
-                                )}
-                                <InputNumber
-                                    className={styles.rangeInput}
-                                    id={`to-${dotField}`}
-                                    key={`to-${dotField}`}
-                                    onChange={onMaxChanged}
-                                    step={range.step || DEFAULT_STEP}
-                                    title={get(dictionary, 'range.max', 'max')}
-                                    type="number"
-                                    value={max}
-                                />
-                            </StackLayout>
-                        )}
-                    </StackLayout>
+            <Space direction="vertical" size="small">
+                <StackLayout className={styles.fuiRfRangeOperator} vertical>
+                    <Select
+                        className={styles.fuiRfRangeOperatorSelect}
+                        onChange={onOperatorChanged}
+                        options={range.operators || defaultOperators}
+                        value={operator}
+                    />
+                </StackLayout>
+                <StackLayout className={cx(styles.fuiRfGroupedValues, styles.fuiRfRangeOperator)} horizontal>
+                    {isMinEnabled && (
+                        <StackLayout className={styles.fuiRfRangeInputContainer} vertical>
+                            {isBetweenOperator && (
+                                <span className={styles.fuiRfSectionTitle}>
+                                    {get(dictionary, 'range.from', 'From')}
+                                </span>
+                            )}
+                            <InputNumber
+                                className={styles.rangeInput}
+                                id={`from-${dotField}`}
+                                key={`from-${dotField}`}
+                                onChange={onMinChanged}
+                                step={range.step || DEFAULT_STEP}
+                                title={get(dictionary, 'range.min', 'min')}
+                                type="number"
+                                value={min}
+                            />
+                        </StackLayout>
+                    )}
+                    {isMaxEnabled && (
+                        <StackLayout className={styles.fuiRfRangeInputContainer} vertical>
+                            {isBetweenOperator && (
+                                <span className={styles.fuiRfSectionTitle}>{get(dictionary, 'range.to', 'To')}</span>
+                            )}
+                            <InputNumber
+                                className={styles.rangeInput}
+                                id={`to-${dotField}`}
+                                key={`to-${dotField}`}
+                                onChange={onMaxChanged}
+                                step={range.step || DEFAULT_STEP}
+                                title={get(dictionary, 'range.max', 'max')}
+                                type="number"
+                                value={max}
+                            />
+                        </StackLayout>
+                    )}
+                </StackLayout>
+                {hasConfigStep(filterGroup) && (
                     <Text className={styles.fuiRfRangeInterval} type="secondary">
-                        {get(dictionary, 'range.actualInterval', 'Actual interval')} : {range.min?.toFixed(5)} -{' '}
-                        {range.max?.toFixed(5)}
+                        {get(dictionary, 'range.actualInterval', 'Actual interval')} : {range.min?.toFixed(3)} -{' '}
+                        {range.max?.toFixed(3)}
                     </Text>
-                    {!!range?.rangeTypes?.length && (
-                        <StackLayout className={styles.fuiRfRangeTarget} vertical>
-                            <span className={styles.fuiRfSectionTitle}>{get(dictionary, 'range.unit', 'Unit')}</span>
-                            <Select
-                                className={styles.fuiRfRangeTargetSelect}
-                                onChange={onRangeTypeChanged}
-                                value={rangeType}
-                            >
-                                {range?.rangeTypes.map((u) => (
-                                    <Option key={u.key} value={u.key}>
-                                        {u.name}
-                                    </Option>
-                                ))}
-                            </Select>
-                        </StackLayout>
-                    )}
-                    {noDataInputOption && (
-                        <StackLayout vertical>
-                            <Checkbox checked={checkNoData} onChange={onNoDataChanged}>
-                                {get(dictionary, 'range.noData', 'No Data')}
-                            </Checkbox>
-                        </StackLayout>
-                    )}
-                </Space>
-            )}
-
+                )}
+                {!!range?.rangeTypes?.length && (
+                    <StackLayout className={styles.fuiRfRangeTarget} vertical>
+                        <span className={styles.fuiRfSectionTitle}>{get(dictionary, 'range.unit', 'Unit')}</span>
+                        <Select
+                            className={styles.fuiRfRangeTargetSelect}
+                            onChange={onRangeTypeChanged}
+                            value={rangeType}
+                        >
+                            {range?.rangeTypes.map((u) => (
+                                <Option key={u.key} value={u.key}>
+                                    {u.name}
+                                </Option>
+                            ))}
+                        </Select>
+                    </StackLayout>
+                )}
+                {noDataInputOption && (
+                    <StackLayout vertical>
+                        <Checkbox checked={checkNoData} onChange={onNoDataChanged}>
+                            {get(dictionary, 'range.noData', 'No Data')}
+                        </Checkbox>
+                    </StackLayout>
+                )}
+            </Space>
             <StackLayout className={styles.fuiRfActions} horizontal>
                 <Button
                     className={styles.fuiRfActionsClear}
@@ -385,5 +372,9 @@ const RangeFilter = ({
         </StackLayout>
     );
 };
+
+const hasConfigStep = (filterGroup: IFilterGroup<IFilterRangeConfig>) =>
+    (filterGroup.config?.min === 0 || filterGroup.config?.min) &&
+    (filterGroup.config?.max === 0 || filterGroup.config?.max);
 
 export default RangeFilter;
