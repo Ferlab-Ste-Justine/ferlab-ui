@@ -16,6 +16,7 @@ const Pagination = ({
     current,
     defaultViewPerQuery,
     dictionary,
+    loading,
     onChange,
     onPageChange,
     onShowSizeChange,
@@ -28,7 +29,8 @@ const Pagination = ({
     const isDisabled =
         queryConfig.searchAfter === undefined ||
         total === 0 ||
-        queryConfig.firstPageFlag?.toString() === searchAfter?.tail?.toString();
+        queryConfig.firstPageFlag?.toString() === searchAfter?.tail?.toString() ||
+        loading;
 
     return (
         <Space className={styles.pagination}>
@@ -37,10 +39,13 @@ const Pagination = ({
                 onSelect={(viewPerQuery: PaginationViewPerQuery) => {
                     setQueryConfig({
                         ...queryConfig,
+                        firstPageFlag: undefined,
+                        operations: undefined,
+                        searchAfter: undefined,
                         size: viewPerQuery,
                         sort: queryConfig.operations?.previous ? reverseSortDirection(queryConfig) : queryConfig.sort,
                     });
-
+                    onChange(1, queryConfig.size);
                     onViewQueryChange?.(viewPerQuery);
                     onShowSizeChange();
                 }}
@@ -89,7 +94,7 @@ const Pagination = ({
                 {dictionary?.pagination?.previous || 'Prev.'}
             </Button>
             <Button
-                disabled={total === 0 || total < queryConfig.size}
+                disabled={total === 0 || total < queryConfig.size || loading}
                 onClick={() => {
                     setQueryConfig({
                         ...queryConfig,

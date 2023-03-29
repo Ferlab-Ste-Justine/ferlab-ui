@@ -82,8 +82,8 @@ export const generateColumnState = <RecordType,>(
     };
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const ProTable = <RecordType extends object & { key: string } = any>({
-    tableId,
     columns,
     pagination,
     wrapperClassName = '',
@@ -99,19 +99,29 @@ const ProTable = <RecordType extends object & { key: string } = any>({
             total: 0,
         },
         marginBtm: 12,
-        onClearSelection: () => {},
-        onColumnSortChange: () => {},
-        onSelectAllResultsChange: () => {},
-        onSelectedRowsChange: () => {},
-        onTableExportClick: () => {},
+        onClearSelection: () => {
+            // optional function when omit
+        },
+        onColumnSortChange: () => {
+            // optional function when omit
+        },
+        onSelectAllResultsChange: () => {
+            // optional function when omit
+        },
+        onSelectedRowsChange: () => {
+            // optional function when omit
+        },
+        onTableExportClick: () => {
+            // optional function when omit
+        },
     },
     initialSelectedKey = [],
     enableRowSelection = false,
     initialColumnState,
     dictionary = {},
     summaryColumns,
-    onSelectionChange,
     tableRef,
+    loading,
     ...tableProps
 }: TProTableProps<RecordType>): React.ReactElement => {
     //    const columnState = generateColumnState(initialColumnState!, columns);
@@ -123,7 +133,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>(initialSelectedKey);
 
     useEffect(() => {
-        const orderedColumns = generateColumnState(initialColumnState!, columns);
+        const orderedColumns = generateColumnState(initialColumnState ?? [], columns);
         setLeftColumnsState(orderedColumns.left);
         setColumnsState(orderedColumns.dynamic);
         setRightColumnsState(orderedColumns.right);
@@ -233,6 +243,9 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         return { ...column, title };
     };
 
+    const isProColumnsType = (c: ProColumnTypes<RecordType> | undefined): c is ProColumnTypes<RecordType> =>
+        !isEmpty(c);
+
     const tablePropsExtra: TPropsTablePropsExtra = {};
     if (summaryColumns) {
         tablePropsExtra.summary = () => (
@@ -258,7 +271,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                 className={tableHeaderClassName}
                 dictionary={dictionary}
                 extra={getExtraConfig()}
-                extraSpacing={headerConfig.extraSpacing!}
+                extraSpacing={headerConfig.extraSpacing}
                 hideItemsCount={headerConfig.hideItemsCount}
                 onClearSelection={() => {
                     if (headerConfig.onClearSelection) {
@@ -288,8 +301,8 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                         ?.concat(columnsState, rightColumnsState)
                         .filter(({ visible }) => visible)
                         .sort((a, b) => a.index - b.index)
-                        .map(({ key }) => columns.find((column) => column.key === key)!)
-                        .filter((column) => !isEmpty(column))
+                        .map(({ key }) => columns.find((column) => column.key === key))
+                        .filter(isProColumnsType)
                         .map(generateColumnTitle)}
                     locale={{
                         emptyText: (
@@ -332,6 +345,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                                       handleOnSelectRowsChange(selectedRowKeys, selectedRows);
 
                                       if (tableProps.rowSelection?.onChange) {
+                                          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                           // @ts-ignore
                                           tableProps.rowSelection.onChange(selectedRowKeys, selectedRows);
                                       }
@@ -358,6 +372,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                 <Pagination
                     {...(pagination as IPaginationProps)}
                     dictionary={dictionary}
+                    loading={loading ? true : false}
                     onPageChange={() => {
                         if (selectedAllResults) {
                             handleOnSelectRowsChange([], []);
@@ -367,7 +382,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                     onShowSizeChange={() => {
                         handleOnSelectRowsChange([], []);
                     }}
-                    total={tableProps.dataSource?.length || headerConfig.itemCount?.total || 0}
+                    total={headerConfig.itemCount?.total || 0}
                 />
             )}
         </Space>

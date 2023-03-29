@@ -30,6 +30,7 @@ export const ItemsCount = ({
     const to = from + (isLastPage && hasLessThanPageSize ? total % size : size) - 1;
 
     const formatNumber = () => (dictionnary.numberFormat ? dictionnary.numberFormat(total) : total);
+
     return (
         <Space className={className}>
             {(to < size && page === 1) || total === 0 ? (
