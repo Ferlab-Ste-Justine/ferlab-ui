@@ -12,6 +12,7 @@ export enum PaginationDirection {
 }
 
 export interface IPaginationProps {
+    loading: boolean;
     current: number;
     setQueryConfig: TQueryConfigCb;
     queryConfig: IQueryConfig;
