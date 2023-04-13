@@ -4,7 +4,7 @@
         "incremental": true,
         "target": "ES2017",
         "module": "CommonJS",
-        "lib": ["es2021", "dom"],
+        "lib": ["es2021", "ES2021.String", "dom"],
         "allowJs": false,
         "jsx": "react",
         "outDir": "./core",

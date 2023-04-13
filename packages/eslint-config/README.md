@@ -7,6 +7,9 @@ For more information https://docs.npmjs.com/creating-node-js-modules
 
 ## Installation
 
+#### Peer dependencies
+> npm install eslint eslint-config-airbnb eslint-config-airbnb-typescript eslint-config-prettier eslint-config-react-app eslint-plugin-import eslint-plugin-jest eslint-plugin-prefer-arrow eslint-plugin-prettier eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-simple-import-sort eslint-plugin-sort-destructure-keys eslint-plugin-sort-keys-fix
+
 > npm install -D @ferlab/eslint-config
 
 Modify the main .eslintrc.js configuration file
