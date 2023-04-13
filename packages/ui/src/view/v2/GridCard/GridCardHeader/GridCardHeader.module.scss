@@ -1,0 +1,30 @@
+@import "theme.template";
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px !important;
+  font-weight: 600;
+
+  .dragHandle {
+    font-size: 12px;
+    color: $body-2;
+    outline: none;
+    margin-left: 8px;
+  }
+
+  .infoPopover {
+    margin-left: 5px;
+  }
+
+  .infoIcon {
+    color: $body-2;
+    font-size: 12px;
+  }
+}
+
+.infoPopoverOverlay {
+  max-width: 350px;
+}
+
