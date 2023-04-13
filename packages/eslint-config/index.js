@@ -7,12 +7,12 @@ module.exports = {
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:react/recommended",
+        // "plugin:react/recommended",
         "plugin:prettier/recommended",
         "prettier"
       ],
       "parser": "@typescript-eslint/parser",
-      "plugins": [ "@typescript-eslint", "jest", "react", "react-hooks", "simple-import-sort" ],
+      "plugins": [ "@typescript-eslint", "jest", "import", "react-hooks", "simple-import-sort" ],
       "parserOptions": {
         "ecmaVersion": 6,
         "sourceType": "module",
@@ -34,7 +34,7 @@ module.exports = {
         "arrow-body-style": ["error", "as-needed"],
         "complexity": ["warn", 16],
         "template-curly-spacing": "off",
-        "indent": ["warn", 2],
+        "indent": [0],
         "default-case": 0,
         "max-len": [
           "error",
@@ -44,11 +44,9 @@ module.exports = {
           }
         ],
         "no-console": ["error", { "allow": ["warn", "error"] }],
-        "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": "error",
         "prefer-spread": "error",
         "prettier/prettier": ["error"],
-        "react/prop-types": 1,
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         "react/react-in-jsx-scope": "off",
