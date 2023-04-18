@@ -15,9 +15,9 @@ export type IExternalLinkProps = Omit<
 >;
 
 const ExternalLink = (props: IExternalLinkProps) => (
-    <a {...props} className={cx(styles.fuiExternalLink, props.className)} rel="noreferrer" target="_blank">
+    <a {...props} className={props.className} rel="noreferrer" target="_blank">
         <Space size={5.75}>
-            {props.children}
+            <span className={styles.fuiExternalLink}>{props.children}</span>
             {props.hasIcon && <ExternalLinkIcon height="14" width="14" />}
         </Space>
     </a>
