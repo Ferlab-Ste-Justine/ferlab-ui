@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta } from '@storybook/react/types-6-0';
-import UserAvatar from '@ferlab/ui/components/UserAvatar';
+import UserAvatar, { IUserAvatarProps } from '@ferlab/ui/components/UserAvatar';
 
 export default {
     title: "@ferlab/Components/UserAvatar",
@@ -43,21 +43,33 @@ export default {
     },
 } as Meta
 
-export const UserAvatarStory = () => (
+export const UserAvatarStory = ({
+    alt = 'UserAvatar',
+    circle = true,
+    className = undefined,
+    height = undefined,
+    size = undefined,
+    src = undefined,
+    style = undefined,
+    userName = 'John Doe',
+    width = undefined,
+    icon = undefined,
+    gap = 4,
+}: IUserAvatarProps) => (
     <>
         <h3>UserAvatar Story</h3>
         <UserAvatar
-            alt={'UserAvatar'}
-            circle
-            className={undefined}
-            height={undefined}
-            size={24}
-            src={undefined}
-            style={undefined}
-            userName='John Doe'
-            width={undefined}
-            icon={undefined}
-            gap={4}
+            alt={alt}
+            circle={circle}
+            className={className}
+            height={height}
+            size={size}
+            src={src}
+            style={style}
+            userName={userName}
+            width={width}
+            icon={icon}
+            gap={gap}
         />
     </>
 );
