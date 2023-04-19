@@ -48,7 +48,7 @@ const UserAvatar = ({
     userName = '',
     width = 100,
     icon,
-    gap = 1,
+    gap = 4,
 }: IUserAvatarProps): React.ReactElement => {
     if (src) {
         return (
