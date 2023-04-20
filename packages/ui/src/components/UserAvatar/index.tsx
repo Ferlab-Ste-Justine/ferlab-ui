@@ -5,7 +5,7 @@ import { AvatarSize } from 'antd/lib/avatar/SizeContext';
 
 const getStringColor = (string: string): string => {
     let hash = 0;
-    if (string.length > 0) {
+    if (string.length) {
         for (let i = 0; i < string.length; i += 1) {
             hash = string.charCodeAt(i) + ((hash << 5) - hash);
             hash &= hash;
@@ -17,7 +17,7 @@ const getStringColor = (string: string): string => {
 const getInitials = (name = ''): string => {
     const initials = name.trim().split(/\s+/gu) || [];
     let output = [...(initials.shift() || '')][0];
-    if (initials.length > 0) {
+    if (initials.length) {
         output += [...(initials.pop() || '')][0];
     }
     return output?.toUpperCase();
@@ -66,6 +66,7 @@ const UserAvatar = ({
         <Avatar
             alt={alt}
             className={className}
+            data-testid={alt}
             gap={gap}
             icon={icon}
             shape={circle ? 'circle' : 'square'}
