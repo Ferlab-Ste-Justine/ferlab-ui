@@ -3,7 +3,7 @@ import { Spin } from 'antd';
 import Card, { CardProps } from 'antd/lib/card';
 import cx from 'classnames';
 
-import ConditionalWrapper from '../../components/utils/ConditionalWrapper';
+import ConditionalWrapper from '../../../components/utils/ConditionalWrapper';
 
 import styles from './Gridcard.module.scss';
 
@@ -11,6 +11,7 @@ type OwnProps = CardProps & {
     footer?: React.ReactNode;
     content: React.ReactNode;
     theme?: 'shade' | 'light';
+    resizable?: boolean;
     loadingType?: 'skeleton' | 'spinner';
     wrapperClassName?: string;
     contentClassName?: string;
@@ -25,6 +26,7 @@ const GridCard = ({
     contentClassName = '',
     footer,
     loadingType = 'skeleton',
+    resizable,
     theme = 'light',
     wrapperClassName = '',
     ...rest
@@ -38,6 +40,9 @@ const GridCard = ({
                 className,
                 theme == 'light' ? styles.light : styles.shade,
                 getWrapperClass(footer, rest.title),
+                {
+                    [styles.resizableCard]: resizable,
+                },
             )}
             loading={loadingType === 'skeleton' ? rest.loading : false}
         >

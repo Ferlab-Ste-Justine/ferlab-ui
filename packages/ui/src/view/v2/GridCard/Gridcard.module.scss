@@ -37,6 +37,17 @@ $padding-side-and-bottom: 24px;
       }
     }
 
+    &.resizableCard {
+      padding: 0;
+
+      div[class$="-head"] {
+        div[class$="-head-title"] {
+          padding-bottom: 0;
+          padding: 8px 0
+        }
+      }
+    }
+
     &.withHeaderOnly {
       padding-bottom: 24px;
       div[class$="-body"] {
