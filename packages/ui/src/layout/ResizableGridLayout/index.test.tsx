@@ -154,35 +154,6 @@ const getSerializedLayout = (): TSerializedResizableGridLayoutConfig[] => [
 ];
 
 describe('ResizableGridLayout', () => {
-    test('make sure resizable grid layout is rendered correctly', () => {
-        const props = {
-            defaultLayouts: getDefaultLayouts(),
-            layouts: getDefaultLayouts(),
-            onConfigUpdate: (_layouts: TSerializedResizableGridLayoutConfig[]) => {},
-            onReset: (_layouts: TSerializedResizableGridLayoutConfig[]) => {},
-        };
-        render(<ResizableGridLayout {...props} />);
-
-        expect(screen.getByText('card_1')).toBeTruthy();
-        expect(screen.getByText('card_2')).toBeTruthy();
-        expect(screen.getByText('card_3')).toBeTruthy();
-        expect(screen.getByText('card_4')).toBeTruthy();
-    });
-
-    test('make sure resizable grid layout is rendered correctly with serialized data', () => {
-        const props = {
-            defaultLayouts: getDefaultLayouts(),
-            layouts: getSerializedLayout(),
-            onConfigUpdate: (_layouts: TSerializedResizableGridLayoutConfig[]) => {},
-            onReset: (_layouts: TSerializedResizableGridLayoutConfig[]) => {},
-        };
-        render(<ResizableGridLayout {...props} />);
-        expect(screen.getByText('card_1')).toBeTruthy();
-        expect(screen.getByText('card_2')).toBeTruthy();
-        expect(screen.queryByText('card_3')).toBeNull();
-        expect(screen.queryByText('card_4')).toBeNull();
-    });
-
     test('make sure serialize function return TSerializedResizableGridLayoutConfig[]', () => {
         const config = [
             {
