@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Layout, Layouts, Responsive, ResponsiveProps, WidthProvider } from 'react-grid-layout';
+import { Layout, Layouts, Responsive as ResponsiveGridLayout, ResponsiveProps } from 'react-grid-layout';
+import { SizeMe } from 'react-sizeme';
 import { Space } from 'antd';
 
 import ResizableItemSelector from './ResizableItemSelector';
-
-const ResponsiveGridLayout = WidthProvider(Responsive);
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -186,35 +185,42 @@ const ResizableGridLayout = ({
                 />
             </div>
 
-            <ResponsiveGridLayout
-                breakpoints={BREAKPOINTS}
-                className="layout"
-                cols={{ lg: 16, md: 12, sm: 10, xs: 6, xxs: 4 }}
-                compactType="horizontal"
-                layouts={responsiveDefaultLayouts}
-                margin={[12, 12]}
-                maxRows={10}
-                onBreakpointChange={(newBreakpoint: string, newCols: number) => {
-                    setCurrentBreakpoint(newBreakpoint);
-                }}
-                onLayoutChange={(currentLayout, allLayouts) => {
-                    onConfigUpdate(serializeLayoutsToConfig(allLayouts, configs));
-                }}
-                rowHeight={98}
-                verticalCompact
-                {...props}
-            >
-                {configs.map((layout) => {
-                    if (layout.hidden) {
-                        return;
-                    }
-                    return (
-                        <div data-grid={layout[currentBreakpoint as keyof IResizableGridLayoutConfig]} key={layout.id}>
-                            {layout.component}
-                        </div>
-                    );
-                })}
-            </ResponsiveGridLayout>
+            <SizeMe>
+                {({ size }) => (
+                    <ResponsiveGridLayout
+                        breakpoints={BREAKPOINTS}
+                        className="layout"
+                        cols={{ lg: 16, md: 12, sm: 10, xs: 6, xxs: 4 }}
+                        containerPadding={[0, 0]}
+                        layouts={responsiveDefaultLayouts}
+                        margin={[12, 12]}
+                        maxRows={10}
+                        onBreakpointChange={(newBreakpoint: string, newCols: number) => {
+                            setCurrentBreakpoint(newBreakpoint);
+                        }}
+                        onLayoutChange={(currentLayout, allLayouts) => {
+                            onConfigUpdate(serializeLayoutsToConfig(allLayouts, configs));
+                        }}
+                        rowHeight={98}
+                        width={size.width !== null ? size.width : 1280}
+                        {...props}
+                    >
+                        {configs.map((layout) => {
+                            if (layout.hidden) {
+                                return;
+                            }
+                            return (
+                                <div
+                                    data-grid={layout[currentBreakpoint as keyof IResizableGridLayoutConfig]}
+                                    key={layout.id}
+                                >
+                                    {layout.component}
+                                </div>
+                            );
+                        })}
+                    </ResponsiveGridLayout>
+                )}
+            </SizeMe>
         </Space>
     );
 };
