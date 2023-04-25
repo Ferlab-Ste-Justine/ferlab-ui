@@ -41,6 +41,7 @@ $padding-side-and-bottom: 24px;
       padding: 0;
 
       div[class$="-head"] {
+        cursor: move;
         div[class$="-head-title"] {
           padding: 2px 0;
         }

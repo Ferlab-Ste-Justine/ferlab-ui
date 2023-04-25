@@ -12,6 +12,7 @@ type TResizableItem = {
 
 type TResizableItemSelector = {
     items: TResizableItem[];
+    defaultItems: TResizableItem[];
     onReset: () => void;
     onChange: (id: string, checkbox: boolean) => void;
     dictionary?: {
@@ -19,7 +20,13 @@ type TResizableItemSelector = {
     };
 };
 
-const ResizableItemSelector = ({ dictionary, items, onChange, onReset }: TResizableItemSelector): JSX.Element => (
+const ResizableItemSelector = ({
+    defaultItems,
+    dictionary,
+    items,
+    onChange,
+    onReset,
+}: TResizableItemSelector): JSX.Element => (
     <Popover
         align={{ offset: [-9, 0] }}
         content={
@@ -39,7 +46,13 @@ const ResizableItemSelector = ({ dictionary, items, onChange, onReset }: TResiza
                         ))}
                     </Space>
                     <div className={styles.resetWrapper}>
-                        <Button className={styles.reset} onClick={onReset} size="small" type="link">
+                        <Button
+                            className={styles.reset}
+                            disabled={JSON.stringify(items) === JSON.stringify(defaultItems)}
+                            onClick={onReset}
+                            size="small"
+                            type="link"
+                        >
                             {dictionary?.columnSelector?.reset || 'Reset'}
                         </Button>
                     </div>
@@ -50,7 +63,7 @@ const ResizableItemSelector = ({ dictionary, items, onChange, onReset }: TResiza
         placement="bottomLeft"
         trigger="click"
     >
-        <Tooltip title={dictionary?.columnSelector?.tooltips?.columns || 'Columns'}>
+        <Tooltip title={dictionary?.chartsSelector?.tooltips?.charts || 'Charts'}>
             <Button icon={<SettingOutlined />} size="small" type="text"></Button>
         </Tooltip>
     </Popover>
