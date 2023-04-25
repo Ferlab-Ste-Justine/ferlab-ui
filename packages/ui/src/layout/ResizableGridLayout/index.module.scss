@@ -1,3 +1,5 @@
+@import "theme.template";
+
 .wrapper {
   width: 100%;
 
@@ -11,5 +13,16 @@
   .grid {
     width: 100%;
     height: 100%;
+  }
+}
+
+:global(.react-grid-item > .react-resizable-handle ) {
+  width: 16px;
+  height: 16px;
+
+  &::after {
+    border-color: $grid-layout-resize-color;
+    width: 8px;
+    height: 8px;
   }
 }

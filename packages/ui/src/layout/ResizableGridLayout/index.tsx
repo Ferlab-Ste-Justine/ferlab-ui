@@ -172,11 +172,17 @@ const ResizableGridLayout = ({
         label: title,
         value: hidden === undefined ? true : !hidden,
     }));
+    const defaultResizableItemsList = defaultLayouts.map(({ hidden, id, title }) => ({
+        id,
+        label: title,
+        value: hidden === undefined ? true : !hidden,
+    }));
 
     return (
         <Space className={styles.wrapper} direction="vertical">
             <div className={styles.graphSelector}>
                 <ResizableItemSelector
+                    defaultItems={defaultResizableItemsList}
                     items={resizableItemsList}
                     onChange={(targetId, checked) => {
                         onConfigUpdate(serialize(updateConfig(configs, targetId, 'hidden', !checked)));
@@ -192,6 +198,7 @@ const ResizableGridLayout = ({
                         className="layout"
                         cols={{ lg: 16, md: 12, sm: 10, xs: 6, xxs: 4 }}
                         containerPadding={[0, 0]}
+                        draggableHandle=".ant-card-head"
                         layouts={responsiveDefaultLayouts}
                         margin={[12, 12]}
                         maxRows={10}
