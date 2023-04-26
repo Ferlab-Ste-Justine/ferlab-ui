@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 
 import GridCard, { GridCardHeader } from '../../view/v2/GridCard';
 
-import ResizableGridLayout, {
+import {
     deserialize,
     hasLayout,
-    IResizableGridLayoutConfig,
+    isPrisitine,
     serialize,
     serializeConfigToLayouts,
     serializeLayoutsToConfig,
-    TSerializedResizableGridLayoutConfig,
     updateConfig,
 } from '.';
 
@@ -35,123 +33,6 @@ const GridCardItem = ({ id }: { id: string }) => (
         title={<GridCardHeader id={id} title={`GridCard Header ${id}`} withHandle />}
     />
 );
-
-const getDefaultLayouts = (): IResizableGridLayoutConfig[] => [
-    {
-        base: {
-            h: 3,
-            minH: 3,
-            minW: 3,
-            w: 6,
-            x: 0,
-            y: 0,
-        },
-        component: <GridCardItem id="card_1" />,
-        id: 'card_1',
-        title: 'Card 1',
-    },
-    {
-        base: {
-            h: 3,
-            minH: 3,
-            minW: 3,
-            w: 5,
-            x: 6,
-            y: 0,
-        },
-        component: <GridCardItem id="card_2" />,
-        id: 'card_2',
-        title: 'Card 2',
-    },
-    {
-        base: {
-            h: 4,
-            minH: 3,
-            minW: 3,
-            w: 6,
-            x: 0,
-            y: 3,
-        },
-        component: <GridCardItem id="card_3" />,
-        id: 'card_3',
-        title: 'Card 3',
-    },
-    {
-        base: {
-            h: 4,
-            minH: 3,
-            minW: 3,
-            w: 5,
-            x: 7,
-            y: 3,
-        },
-        component: <GridCardItem id="card_4" />,
-        id: 'card_4',
-        title: 'Card 4',
-    },
-];
-
-// card_3, card_4 are hidden
-const getSerializedLayout = (): TSerializedResizableGridLayoutConfig[] => [
-    {
-        base: {
-            h: 4,
-            minH: 4,
-            minW: 4,
-            w: 4,
-            x: 4,
-            y: 0,
-        },
-        id: 'card_1',
-        md: {
-            h: 4,
-            minH: 4,
-            minW: 4,
-            w: 4,
-            x: 0,
-            y: 0,
-        },
-        title: 'Card 1',
-    },
-    {
-        base: {
-            h: 4,
-            minH: 4,
-            minW: 4,
-            w: 8,
-            x: 8,
-            y: 0,
-        },
-        id: 'card_2',
-        title: 'Card 2',
-    },
-    {
-        base: {
-            h: 4,
-            minH: 3,
-            minW: 3,
-            w: 6,
-            x: 0,
-            y: 4,
-        },
-        hidden: true,
-        id: 'card_3',
-        title: 'Card 3',
-    },
-    {
-        base: {
-            h: 4,
-            minH: 3,
-            minW: 3,
-            w: 5,
-            x: 6,
-            y: 4,
-        },
-        hidden: true,
-        id: 'card_4',
-        title: 'Card 4',
-    },
-];
 
 describe('ResizableGridLayout', () => {
     test('make sure serialize function return TSerializedResizableGridLayoutConfig[]', () => {
@@ -555,5 +436,75 @@ describe('ResizableGridLayout', () => {
                 title: 'Card 1',
             },
         ]);
+    });
+
+    test('isPristine can compare two IResizableGridLayoutConfig', () => {
+        const defaultConfigs = [
+            {
+                base: {
+                    h: 3,
+                    minh: 3,
+                    minw: 3,
+                    w: 6,
+                    x: 0,
+                    y: 0,
+                },
+                component: <GridCardItem id="card_1" />,
+                id: 'card_1',
+                md: {
+                    h: 4,
+                    w: 6,
+                    x: 6,
+                },
+                title: 'card 1',
+            },
+        ];
+
+        const configs = [
+            {
+                base: {
+                    h: 3,
+                    minh: 3,
+                    minw: 3,
+                    w: 6,
+                    x: 0,
+                    y: 0,
+                },
+                component: <GridCardItem id="card_1" />,
+                id: 'card_1',
+                md: {
+                    h: 4,
+                    moved: false, // default value added by RCL
+                    static: false, // default value added by RCL
+                    w: 6,
+                    x: 6,
+                },
+                title: 'card 1',
+            },
+        ];
+
+        const configs2 = [
+            {
+                base: {
+                    h: 3,
+                    minh: 3,
+                    minw: 3,
+                    w: 6,
+                    x: 0,
+                    y: 0,
+                },
+                component: <GridCardItem id="card_1" />,
+                id: 'card_1',
+                md: {
+                    h: 5, // changed
+                    w: 6,
+                    x: 10, // changed
+                },
+                title: 'card 1',
+            },
+        ];
+
+        expect(isPrisitine(defaultConfigs, configs)).toBeTruthy();
+        expect(isPrisitine(defaultConfigs, configs2)).toBeFalsy();
     });
 });

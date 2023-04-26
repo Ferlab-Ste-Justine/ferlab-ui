@@ -12,7 +12,7 @@ type TResizableItem = {
 
 type TResizableItemSelector = {
     items: TResizableItem[];
-    defaultItems: TResizableItem[];
+    isPristine: boolean;
     onReset: () => void;
     onChange: (id: string, checkbox: boolean) => void;
     dictionary?: {
@@ -21,8 +21,8 @@ type TResizableItemSelector = {
 };
 
 const ResizableItemSelector = ({
-    defaultItems,
     dictionary,
+    isPristine,
     items,
     onChange,
     onReset,
@@ -48,7 +48,7 @@ const ResizableItemSelector = ({
                     <div className={styles.resetWrapper}>
                         <Button
                             className={styles.reset}
-                            disabled={JSON.stringify(items) === JSON.stringify(defaultItems)}
+                            disabled={isPristine}
                             onClick={onReset}
                             size="small"
                             type="link"
