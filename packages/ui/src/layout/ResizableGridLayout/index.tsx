@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Layout, Layouts, Responsive as ResponsiveGridLayout, ResponsiveProps } from 'react-grid-layout';
 import { SizeMe } from 'react-sizeme';
 import { Space } from 'antd';
+import { isEqual, xorWith } from 'lodash';
 
 import ResizableItemSelector from './ResizableItemSelector';
 
@@ -157,6 +158,62 @@ export const updateConfig = (
         return config;
     });
 
+/**
+ * flatten breakpoint config to be compared in pristine
+ * @param layoutConfig
+ * @returns
+ */
+export const flattenBreakpoint = (layoutConfig: IResizableGridLayoutConfig): IResizableGridLayoutConfig => {
+    const configWithBreakpoints: { [p: string]: any } = {};
+    for (const breakpoint in BREAKPOINTS) {
+        configWithBreakpoints[breakpoint] = {
+            ...layoutConfig.base,
+            ...(layoutConfig[breakpoint as keyof IResizableGridLayoutConfig] as ILayoutItemConfig),
+            i: layoutConfig.id,
+        };
+
+        delete configWithBreakpoints[breakpoint].static;
+        delete configWithBreakpoints[breakpoint].moved;
+    }
+
+    return configWithBreakpoints as IResizableGridLayoutConfig;
+};
+
+/**
+ * Compare default and user config
+ * @param defaultConfigs
+ * @param configs
+ * @returns
+ */
+export const isPrisitine = (
+    defaultConfigs: IResizableGridLayoutConfig[],
+    configs: IResizableGridLayoutConfig[],
+): boolean => {
+    const serializeDefaultConfigs = serialize(
+        defaultConfigs.map((config) => ({ ...config, ...flattenBreakpoint(config) })),
+    );
+    const serializeConfigs = serialize(configs.map((config) => ({ ...config, ...flattenBreakpoint(config) })));
+
+    for (const index in serializeDefaultConfigs) {
+        const defaultConfig = serializeDefaultConfigs[index];
+        const config = serializeConfigs[index];
+
+        if (!defaultConfig.hidden && config.hidden) {
+            return false;
+        }
+
+        for (const breakpoint in defaultConfig) {
+            const defaultBreakpointConfig = defaultConfig[breakpoint as keyof TSerializedResizableGridLayoutConfig];
+            const breakpointConfig = config[breakpoint as keyof TSerializedResizableGridLayoutConfig];
+            if (!isEqual(defaultBreakpointConfig, breakpointConfig)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+};
+
 const ResizableGridLayout = ({
     defaultLayouts,
     layouts,
@@ -172,17 +229,12 @@ const ResizableGridLayout = ({
         label: title,
         value: hidden === undefined ? true : !hidden,
     }));
-    const defaultResizableItemsList = defaultLayouts.map(({ hidden, id, title }) => ({
-        id,
-        label: title,
-        value: hidden === undefined ? true : !hidden,
-    }));
 
     return (
         <Space className={styles.wrapper} direction="vertical">
             <div className={styles.graphSelector}>
                 <ResizableItemSelector
-                    defaultItems={defaultResizableItemsList}
+                    isPristine={isPrisitine(defaultLayouts, configs)}
                     items={resizableItemsList}
                     onChange={(targetId, checked) => {
                         onConfigUpdate(serialize(updateConfig(configs, targetId, 'hidden', !checked)));
