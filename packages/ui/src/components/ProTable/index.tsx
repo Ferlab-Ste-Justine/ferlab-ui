@@ -304,6 +304,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                         .map(({ key }) => columns.find((column) => column.key === key))
                         .filter(isProColumnsType)
                         .map(generateColumnTitle)}
+                    loading={loading}
                     locale={{
                         emptyText: (
                             <Empty description={dictionary.table?.emptyText || 'No available data'} size="mini" />
