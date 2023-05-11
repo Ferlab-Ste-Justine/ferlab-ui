@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Card, Space, Typography } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 
@@ -13,6 +13,7 @@ export interface IEntityTableMultiple {
     id: string;
     header: React.ReactNode;
     title?: string;
+    titleExtra?: ReactNode[];
     loading: boolean;
     direction?: 'horizontal' | 'vertical';
     tables: {
@@ -34,6 +35,7 @@ const EntityTableMultiple = ({
     loading,
     tables = [],
     title,
+    titleExtra,
 }: IEntityTableMultiple): React.ReactElement => (
     <div className={styles.container} id={id}>
         {title && (
@@ -42,7 +44,7 @@ const EntityTableMultiple = ({
             </Title>
         )}
         <Collapse arrowIcon="caretFilled" className={styles.collapse} defaultActiveKey={['1']}>
-            <CollapsePanel className={styles.panel} header={header} key="1">
+            <CollapsePanel className={styles.panel} extra={titleExtra} header={header} key="1">
                 <Card className={styles.card} loading={loading}>
                     <Space align="start" className={styles.content} direction={direction} size={12}>
                         {tables.map(

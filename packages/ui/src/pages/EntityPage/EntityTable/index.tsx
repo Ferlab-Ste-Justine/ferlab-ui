@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { ReactNode, useCallback, useState } from 'react';
 import { Card, Space, Typography } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 
@@ -28,6 +28,7 @@ export interface IEntityTable {
     loading: boolean;
     size?: SizeType;
     title?: string;
+    titleExtra?: ReactNode[];
     summaryColumns?: TProTableSummary[];
     emptyMessage?: string;
 }
@@ -45,6 +46,7 @@ const EntityTable = ({
     size = 'small',
     summaryColumns = [],
     title,
+    titleExtra,
     emptyMessage = 'No data available',
 }: IEntityTable): React.ReactElement => {
     const [scroll, setScroll] = useState<{ y: number } | undefined>(undefined);
@@ -67,7 +69,7 @@ const EntityTable = ({
                 </Title>
             )}
             <Collapse arrowIcon="caretFilled" className={styles.collapse} defaultActiveKey={['1']}>
-                <CollapsePanel className={styles.panel} header={header} key="1">
+                <CollapsePanel className={styles.panel} extra={titleExtra} header={header} key="1">
                     <Card className={styles.card} loading={loading}>
                         {!loading && data.length ? (
                             <ProTable

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Card, Descriptions, Space, Typography } from 'antd';
 
 import { TABLE_EMPTY_PLACE_HOLDER } from '../../../common/constants';
@@ -13,6 +13,7 @@ export interface IEntityDescriptions {
     descriptions: IEntityDescriptionsItem[];
     loading: boolean;
     title?: string;
+    titleExtra?: ReactNode[];
     header: string;
     subheader?: React.ReactNode;
 }
@@ -30,6 +31,7 @@ const EntityDescriptions: React.FC<IEntityDescriptions> = ({
     loading,
     subheader,
     title,
+    titleExtra,
 }) => (
     <div className={styles.container} id={id}>
         {title && (
@@ -38,7 +40,7 @@ const EntityDescriptions: React.FC<IEntityDescriptions> = ({
             </Title>
         )}
         <Collapse arrowIcon="caretFilled" className={styles.collapse} defaultActiveKey={['1']}>
-            <CollapsePanel className={styles.panel} header={header} key="1">
+            <CollapsePanel className={styles.panel} extra={titleExtra} header={header} key="1">
                 <Card className={styles.card} loading={loading}>
                     <Space className={styles.content} direction="vertical" size={0}>
                         {subheader}

@@ -1,0 +1,14 @@
+@import "theme.template";
+
+.link {
+  font-size: 12px;
+
+  .content {
+    text-decoration: underline;
+  }
+}
+
+.icon {
+  color: $link-base-color;
+  font-size: 14px;
+}

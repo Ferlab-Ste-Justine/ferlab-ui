@@ -24,7 +24,7 @@ const Collapse = ({
     size = 'default',
     theme = 'light',
     ...rest
-}: TCollapseProps) => (
+}: TCollapseProps): JSX.Element => (
     <AntCollapse
         {...rest}
         bordered={isUndefined(rest.bordered) ? !headerBorderOnly : rest.bordered && !headerBorderOnly}
@@ -53,7 +53,7 @@ const Collapse = ({
     />
 );
 
-export const CollapsePanel = (props: TCollapsePanelProps) => (
+export const CollapsePanel = (props: TCollapsePanelProps): JSX.Element => (
     <AntCollapse.Panel {...props} className={cx(styles.fuiCollapsePanel, props.className)}>
         {props.children}
     </AntCollapse.Panel>

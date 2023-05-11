@@ -25,6 +25,7 @@ const EntityExpandableTableMultiple = ({
     loading,
     tables = [],
     title,
+    titleExtra,
 }: IEntityExpandableTableMultiple): React.ReactElement => (
     <div className={styles.container} id={id}>
         {title && (
@@ -33,7 +34,7 @@ const EntityExpandableTableMultiple = ({
             </Title>
         )}
         <Collapse arrowIcon="caretFilled" className={styles.collapse} defaultActiveKey={['1']}>
-            <CollapsePanel className={styles.panel} header={header} key="1">
+            <CollapsePanel className={styles.panel} extra={titleExtra} header={header} key="1">
                 <Card className={styles.card} loading={loading}>
                     <Space align="start" className={styles.content} direction={direction} size={12}>
                         {tables.length > 0 ? (
