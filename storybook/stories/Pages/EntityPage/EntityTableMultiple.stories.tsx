@@ -35,6 +35,9 @@ export const BasicTableMultiple = EntityTableMultipleStory.bind({});
 BasicTableMultiple.args = {
     id: "ID",
     title: "Title",
+    titleExtra: [
+        <span>View in data exploration</span>,
+    ],
     header: <>Header</>,
     loading: false,
     tables: [

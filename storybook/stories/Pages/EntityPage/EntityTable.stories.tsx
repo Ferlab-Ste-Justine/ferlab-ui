@@ -94,6 +94,9 @@ BasicEntityTable.args = {
     loading: false,
     size: "small",
     title: "Title",
+    titleExtra: [
+        <span>View in data exploration</span>,
+    ],
     emptyMessage: "No data available",
 };
 

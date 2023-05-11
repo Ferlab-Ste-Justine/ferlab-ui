@@ -11,6 +11,7 @@ import EntityPublicCohortTable from './EntityPublicCohortTable';
 import EntitySummary from './EntitySummary';
 import EntityTable, { IEntityTable } from './EntityTable';
 import EntityTableMultiple, { IEntityTableMultiple } from './EntityTableMultiple';
+import EntityTableRedirectLink from './EntityTableRedirectLink';
 import EntityTitle, { IEntityTitle } from './EntityTitle';
 
 export {
@@ -24,6 +25,7 @@ export {
     EntitySummary,
     EntityTable,
     EntityTableMultiple,
+    EntityTableRedirectLink,
     EntityTitle,
     HpoConditionCell,
     IEntityDescriptions,
