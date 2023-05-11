@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Layout, Layouts, Responsive as ResponsiveGridLayout, ResponsiveProps } from 'react-grid-layout';
 import { SizeMe } from 'react-sizeme';
 import { Space } from 'antd';
-import { isEqual, xorWith } from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 import ResizableItemSelector from './ResizableItemSelector';
 

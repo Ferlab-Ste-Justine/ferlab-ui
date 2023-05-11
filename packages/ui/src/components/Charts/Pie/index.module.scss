@@ -1,0 +1,24 @@
+@import "theme.template";
+
+.pieChartWrapper {
+  height: 100%;
+  position: relative;;
+  width: 100%;
+  text-align: center;
+
+  .pieChartContent {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  *[class$="-typography"] {
+    margin: 0;
+  }
+
+  .title {
+    font-size: 12px;
+    color: $chart-title-color;
+  }
+}
+

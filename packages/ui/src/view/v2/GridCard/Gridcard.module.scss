@@ -38,13 +38,17 @@ $padding-side-and-bottom: 24px;
     }
 
     &.resizableCard {
-      padding: 0;
+      padding: 0 !important;
+      padding-bottom: 16px !important;
 
       div[class$="-head"] {
         cursor: move;
         div[class$="-head-title"] {
           padding: 2px 0;
         }
+      }
+      div[class$="-body"] {
+        padding: 16px !important;
       }
     }
 
