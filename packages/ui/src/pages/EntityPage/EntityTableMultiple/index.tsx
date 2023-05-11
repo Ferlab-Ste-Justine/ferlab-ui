@@ -26,6 +26,7 @@ export interface IEntityTableMultiple {
         initialColumnState?: TColumnStates;
         size?: SizeType;
     }[];
+    total?: number;
 }
 
 const EntityTableMultiple = ({
@@ -36,6 +37,7 @@ const EntityTableMultiple = ({
     tables = [],
     title,
     titleExtra,
+    total = 0,
 }: IEntityTableMultiple): React.ReactElement => (
     <div className={styles.container} id={id}>
         {title && (
@@ -44,7 +46,16 @@ const EntityTableMultiple = ({
             </Title>
         )}
         <Collapse arrowIcon="caretFilled" className={styles.collapse} defaultActiveKey={['1']}>
-            <CollapsePanel className={styles.panel} extra={titleExtra} header={header} key="1">
+            <CollapsePanel
+                className={styles.panel}
+                extra={titleExtra}
+                header={
+                    <Space size={2}>
+                        {header} {total > 0 && <span>({total})</span>}
+                    </Space>
+                }
+                key="1"
+            >
                 <Card className={styles.card} loading={loading}>
                     <Space align="start" className={styles.content} direction={direction} size={12}>
                         {tables.map(

@@ -29,6 +29,7 @@ export interface IEntityTable {
     size?: SizeType;
     title?: string;
     titleExtra?: ReactNode[];
+    total?: number;
     summaryColumns?: TProTableSummary[];
     emptyMessage?: string;
 }
@@ -47,6 +48,7 @@ const EntityTable = ({
     summaryColumns = [],
     title,
     titleExtra,
+    total = 0,
     emptyMessage = 'No data available',
 }: IEntityTable): React.ReactElement => {
     const [scroll, setScroll] = useState<{ y: number } | undefined>(undefined);
@@ -69,7 +71,16 @@ const EntityTable = ({
                 </Title>
             )}
             <Collapse arrowIcon="caretFilled" className={styles.collapse} defaultActiveKey={['1']}>
-                <CollapsePanel className={styles.panel} extra={titleExtra} header={header} key="1">
+                <CollapsePanel
+                    className={styles.panel}
+                    extra={titleExtra}
+                    header={
+                        <Space size={2}>
+                            {header} {total > 0 && <span>({total})</span>}
+                        </Space>
+                    }
+                    key="1"
+                >
                     <Card className={styles.card} loading={loading}>
                         {!loading && data.length ? (
                             <ProTable
