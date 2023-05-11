@@ -17,23 +17,12 @@ export type TAssignmentsSelect = {
 
 const getPractitionnerName = (name: TPractitionnerName) => `${name[0].given.join(' ')} ${name[0].family}`;
 
-export const AssignmentsSelect = ({
-    assignedPractionnerRoles,
-    handleSelect,
-    options,
-    visibleOptions = false,
-}: TAssignmentsSelect) => {
-    const alreadySelectedOption = options.filter((r) => assignedPractionnerRoles?.includes(r.practitionerRoles_Id));
-    const [selectedItems, setSelectedItems] = useState<TPractitionnerInfo[]>(alreadySelectedOption);
-    const filteredOptions = options.filter(
-        ({ practitionerRoles_Id: id1 }) => !selectedItems.some(({ practitionerRoles_Id: id2 }) => id2 === id1),
-    );
-    const selectedOptions = selectedItems.reduce(
-        (acc: { value: string }[], curr: TPractitionnerInfo) => [...acc, { value: curr.practitionerRoles_Id }],
-        [],
-    );
-
-    const tagRender = (props: CustomTagProps) => {
+const tagRender =
+    (
+        selectedItems: TPractitionnerInfo[],
+        setSelectedItems: React.Dispatch<React.SetStateAction<TPractitionnerInfo[]>>,
+    ) =>
+    (props: CustomTagProps) => {
         const { value } = props;
         const practitionerInfo = selectedItems.find((s) => s.practitionerRoles_Id === value);
         const handleClose = () => {
@@ -50,6 +39,22 @@ export const AssignmentsSelect = ({
         );
     };
 
+export const AssignmentsSelect = ({
+    assignedPractionnerRoles,
+    handleSelect,
+    options,
+    visibleOptions = false,
+}: TAssignmentsSelect) => {
+    const alreadySelectedOption = options.filter((r) => assignedPractionnerRoles?.includes(r.practitionerRoles_Id));
+    const [selectedItems, setSelectedItems] = useState<TPractitionnerInfo[]>(alreadySelectedOption);
+    const filteredOptions = options.filter(
+        ({ practitionerRoles_Id: id1 }) => !selectedItems.some(({ practitionerRoles_Id: id2 }) => id2 === id1),
+    );
+    const selectedOptions = selectedItems.reduce(
+        (acc: { value: string }[], curr: TPractitionnerInfo) => [...acc, { value: curr.practitionerRoles_Id }],
+        [],
+    );
+
     useEffect(() => {
         handleSelect(
             selectedItems.reduce((acc: string[], curr: TPractitionnerInfo) => [...acc, curr.practitionerRoles_Id], []),
@@ -65,7 +70,7 @@ export const AssignmentsSelect = ({
                 options={selectedOptions}
                 placeholder="Recherche"
                 style={{ width: '100%' }}
-                tagRender={tagRender}
+                tagRender={tagRender(selectedItems, setSelectedItems)}
                 value={selectedOptions}
             />
             {visibleOptions && (
