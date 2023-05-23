@@ -261,7 +261,7 @@ const ResizableGridLayout = ({
                             onConfigUpdate(serializeLayoutsToConfig(allLayouts, configs));
                         }}
                         rowHeight={98}
-                        width={size.width !== null ? size.width : 1280}
+                        width={size.width && size.width !== null ? size.width : 1280}
                         {...props}
                     >
                         {configs.map((layout) => {

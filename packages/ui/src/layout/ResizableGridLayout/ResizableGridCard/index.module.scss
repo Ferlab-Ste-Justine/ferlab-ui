@@ -1,0 +1,16 @@
+@import "theme.template";
+
+.resizableCard {
+  height: 100%;
+  width: 100%;
+
+  .dropdownMenu {
+    :global(.ant-btn-text) {
+      color: $chart-title-color !important;
+    }
+  }
+}
+
+.modalContentWrapper {
+  position: relative;
+}
