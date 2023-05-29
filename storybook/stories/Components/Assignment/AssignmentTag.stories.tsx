@@ -66,4 +66,13 @@ NoBackground.args = {
     background: false,
 };
 
+export const UnAssignTag = AssignmentsTagPropsStory.bind({});
+UnAssignTag.args = {
+    storyTitle: 'Assignment Tag',
+    email: 'email@ferlab.bio',
+    name: 'Prenom Nom',
+    organization: 'LDM-01',
+    unAssign: true
+};
+
 
