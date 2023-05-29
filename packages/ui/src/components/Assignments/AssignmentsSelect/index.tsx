@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Select } from 'antd';
-import { get } from 'lodash';
 import type { CustomTagProps } from 'rc-select/lib/BaseSelect';
 
 import ScrollContent from '../../../layout/ScrollContent';
@@ -117,7 +116,7 @@ export const AssignmentsSelect = ({
                 mode="multiple"
                 onSearch={(e) => setSearchValue(e)}
                 options={allOption}
-                placeholder={get(dictionary, 'select.searchPlaceholder', 'Search')}
+                placeholder={dictionary?.select?.searchPlaceholder || 'Search'}
                 searchValue={searchValue}
                 style={{ width: '100%' }}
                 tagRender={tagRender(selectedItems, setSelectedItems)}
@@ -135,7 +134,7 @@ export const AssignmentsSelect = ({
                         size="small"
                         type="link"
                     >
-                        {get(dictionary, 'actions.clear', 'No assignment')}
+                        {dictionary?.actions?.clear || 'No assignment'}
                     </Button>
                     <ScrollContent className={styles.optionsList}>
                         {renderOptions(
