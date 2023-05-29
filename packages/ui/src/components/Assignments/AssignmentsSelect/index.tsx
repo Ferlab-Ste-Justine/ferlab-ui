@@ -4,7 +4,8 @@ import type { CustomTagProps } from 'rc-select/lib/BaseSelect';
 
 import ScrollContent from '../../../layout/ScrollContent';
 import AssignmentsTag from '../AssignmentsTag';
-import { TPractitionnerInfo, TPractitionnerName } from '../types';
+import { IDictionary, TPractitionnerInfo } from '../types';
+import { getPractitionnerName } from '../utils';
 
 import styles from './index.module.scss';
 
@@ -13,9 +14,8 @@ export type TAssignmentsSelect = {
     visibleOptions?: boolean;
     handleSelect: (practitionerRoles_ids: string[]) => void;
     assignedPractionnerRoles: string[];
+    dictionary?: IDictionary | Record<string, never>;
 };
-
-const getPractitionnerName = (name: TPractitionnerName) => `${name[0].given.join(' ')} ${name[0].family}`;
 
 const tagRender =
     (
@@ -39,19 +39,57 @@ const tagRender =
         );
     };
 
+const renderOptions = (
+    options: TPractitionnerInfo[],
+    setSearchValue: React.Dispatch<React.SetStateAction<string | undefined>>,
+    selectedItems: TPractitionnerInfo[],
+    setSelectedItems: React.Dispatch<React.SetStateAction<TPractitionnerInfo[]>>,
+) =>
+    options?.map((value: TPractitionnerInfo) => (
+        <Button
+            key={value.practitionerRoles_Id}
+            onClick={() => {
+                setSelectedItems([...selectedItems, value]);
+                setSearchValue(undefined);
+            }}
+            type="text"
+        >
+            <AssignmentsTag
+                background={false}
+                email={value.email ? value.email : ''}
+                name={getPractitionnerName(value.name)}
+                organization={value.ldm}
+            />
+        </Button>
+    ));
+
 export const AssignmentsSelect = ({
     assignedPractionnerRoles,
+    dictionary,
     handleSelect,
     options,
     visibleOptions = false,
 }: TAssignmentsSelect) => {
     const alreadySelectedOption = options.filter((r) => assignedPractionnerRoles?.includes(r.practitionerRoles_Id));
     const [selectedItems, setSelectedItems] = useState<TPractitionnerInfo[]>(alreadySelectedOption);
-    const filteredOptions = options.filter(
+    const [searchValue, setSearchValue] = useState<string | undefined>();
+    const filteredSelectedOptions = options.filter(
         ({ practitionerRoles_Id: id1 }) => !selectedItems.some(({ practitionerRoles_Id: id2 }) => id2 === id1),
     );
+    const [filteredAutocompleteOption, setFilteredAutocompleteOption] = useState<TPractitionnerInfo[]>([]);
+
     const selectedOptions = selectedItems.reduce(
-        (acc: { value: string }[], curr: TPractitionnerInfo) => [...acc, { value: curr.practitionerRoles_Id }],
+        (acc: { value: string; label: string }[], curr: TPractitionnerInfo) => [
+            ...acc,
+            { label: getPractitionnerName(curr.name), value: curr.practitionerRoles_Id },
+        ],
+        [],
+    );
+    const allOption = options.reduce(
+        (acc: { value: string; label: string }[], curr: TPractitionnerInfo) => [
+            ...acc,
+            { label: getPractitionnerName(curr.name), value: curr.practitionerRoles_Id },
+        ],
         [],
     );
 
@@ -61,14 +99,25 @@ export const AssignmentsSelect = ({
         );
     }, [selectedItems]);
 
+    useEffect(() => {
+        searchValue && searchValue !== ''
+            ? setFilteredAutocompleteOption(
+                  filteredSelectedOptions.filter((o) =>
+                      getPractitionnerName(o.name).toLowerCase().includes(searchValue.toLowerCase()),
+                  ),
+              )
+            : setFilteredAutocompleteOption([]);
+    }, [searchValue]);
+
     return (
         <>
             <Select
                 className={styles.selectInput}
                 mode="multiple"
-                open={false}
-                options={selectedOptions}
-                placeholder="Recherche"
+                onSearch={(e) => setSearchValue(e)}
+                options={allOption}
+                placeholder={dictionary?.select?.searchPlaceholder || 'Search'}
+                searchValue={searchValue}
                 style={{ width: '100%' }}
                 tagRender={tagRender(selectedItems, setSelectedItems)}
                 value={selectedOptions}
@@ -80,29 +129,22 @@ export const AssignmentsSelect = ({
                         disabled={selectedOptions.length === 0 ? true : false}
                         onClick={() => {
                             setSelectedItems([]);
+                            setSearchValue(undefined);
                         }}
                         size="small"
                         type="link"
                     >
-                        Aucune Assignation
+                        {dictionary?.actions?.clear || 'No assignment'}
                     </Button>
                     <ScrollContent className={styles.optionsList}>
-                        {filteredOptions?.map((value: TPractitionnerInfo) => (
-                            <Button
-                                key={value.practitionerRoles_Id}
-                                onClick={() => {
-                                    setSelectedItems([...selectedItems, value]);
-                                }}
-                                type="text"
-                            >
-                                <AssignmentsTag
-                                    background={false}
-                                    email={value.email ? value.email : ''}
-                                    name={getPractitionnerName(value.name)}
-                                    organization={value.ldm}
-                                />
-                            </Button>
-                        ))}
+                        {renderOptions(
+                            filteredAutocompleteOption.length === 0
+                                ? filteredSelectedOptions
+                                : filteredAutocompleteOption,
+                            setSearchValue,
+                            selectedItems,
+                            setSelectedItems,
+                        )}
                     </ScrollContent>
                 </div>
             )}

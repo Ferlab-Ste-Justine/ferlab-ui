@@ -27,3 +27,7 @@
         text-align: left;
     }
 }
+
+:global(.ant-select-dropdown){
+    display: none;
+}

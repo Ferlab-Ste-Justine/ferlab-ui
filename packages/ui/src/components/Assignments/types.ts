@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export type TPractitionnerInfo = {
     practitionerRoles_Id: string;
     name: TPractitionnerName;
@@ -11,3 +13,16 @@ export type TPractitionnerName = [
         given: string[];
     },
 ];
+
+export interface IDictionary {
+    actions?: IActions;
+    select?: ISelectBox;
+}
+
+export interface IActions {
+    clear: ReactNode;
+}
+
+export interface ISelectBox {
+    searchPlaceholder: ReactNode;
+}
