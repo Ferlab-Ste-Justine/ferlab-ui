@@ -4,7 +4,7 @@ import type { CustomTagProps } from 'rc-select/lib/BaseSelect';
 
 import ScrollContent from '../../../layout/ScrollContent';
 import AssignmentsTag from '../AssignmentsTag';
-import { IDictionary, TPractitionnerInfo } from '../types';
+import { IAssignmentsDictionary, TPractitionnerInfo } from '../types';
 import { getPractitionnerName } from '../utils';
 
 import styles from './index.module.scss';
@@ -14,7 +14,7 @@ export type TAssignmentsSelect = {
     visibleOptions?: boolean;
     handleSelect: (practitionerRoles_ids: string[]) => void;
     assignedPractionnerRoles: string[];
-    dictionary?: IDictionary | Record<string, never>;
+    dictionary?: IAssignmentsDictionary | Record<string, never>;
 };
 
 const tagRender =
@@ -116,7 +116,7 @@ export const AssignmentsSelect = ({
                 mode="multiple"
                 onSearch={(e) => setSearchValue(e)}
                 options={allOption}
-                placeholder={dictionary?.select?.searchPlaceholder || 'Search'}
+                placeholder={dictionary?.select?.textInfo?.searchPlaceholder || 'Search'}
                 searchValue={searchValue}
                 style={{ width: '100%' }}
                 tagRender={tagRender(selectedItems, setSelectedItems)}
@@ -134,7 +134,7 @@ export const AssignmentsSelect = ({
                         size="small"
                         type="link"
                     >
-                        {dictionary?.actions?.clear || 'No assignment'}
+                        {dictionary?.select?.actions?.clear || 'No assignment'}
                     </Button>
                     <ScrollContent className={styles.optionsList}>
                         {renderOptions(

@@ -14,15 +14,28 @@ export type TPractitionnerName = [
     },
 ];
 
-export interface IDictionary {
+export interface IAssignmentsDictionary {
+    select?: {
+        actions?: IActions;
+        textInfo?: ITextInfo;
+    };
+    filter?: {
+        actions?: IActions;
+        textInfo?: ITextInfo;
+    };
+}
+
+export interface IFilterDictionary {
     actions?: IActions;
-    select?: ISelectBox;
+    textInfo?: ITextInfo;
 }
 
 export interface IActions {
-    clear: ReactNode;
+    clear?: ReactNode;
+    reset?: ReactNode;
+    filter?: ReactNode;
 }
 
-export interface ISelectBox {
-    searchPlaceholder: ReactNode;
+export interface ITextInfo {
+    searchPlaceholder?: ReactNode;
 }

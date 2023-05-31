@@ -1,0 +1,24 @@
+@import "theme.template";
+
+
+.assignmentContainer{
+    width: 300px;
+}
+.checkBoxContainer{
+    margin: 8px 0 8px 0;
+    max-height: 160px;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.filterFooter{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border-top: 1px solid $gray-4;
+    padding: 8px 0 8px 0;
+}
+
+.resetButton{
+    padding: 0;
+}

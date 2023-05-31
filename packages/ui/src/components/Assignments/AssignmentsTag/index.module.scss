@@ -11,3 +11,15 @@
 .noBackground{
     background-color: inherit;
 }
+
+.unAssignAvatar {
+    background-color: $gray-2;
+    border: 1px dashed $gray-6;
+    color: $gray-6;
+    &:hover {
+      &:not(.disabledAssignmentsPopOver) {
+        border: 1px dashed $gray-8;
+        color: $gray-8;
+      }
+    }
+  }
