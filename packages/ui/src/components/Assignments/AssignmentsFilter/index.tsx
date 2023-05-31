@@ -44,7 +44,7 @@ const AssignmentsFilter = ({
     const [filteredOption, setFilteredOption] = useState<TPractitionnerInfo[]>([]);
     const [selectedOption, setSelectedOption] = useState<React.Key[]>(selectedKeys ? selectedKeys : []);
     useEffect(() => {
-        searchValue && searchValue !== ''
+        searchValue
             ? setFilteredOption(
                   options.filter((o) => getPractitionnerName(o.name).toLowerCase().includes(searchValue.toLowerCase())),
               )
