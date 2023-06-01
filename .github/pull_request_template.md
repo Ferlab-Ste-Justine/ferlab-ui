@@ -1,24 +1,32 @@
-# [BUG | FEATURE | DOC] [TITLE]
+# FIX | FEAT | REFACTOR | PERF | DOCS : TITLE
 
-- closes #3242
+- closes #TICKET_NUMBER
 
 ## Description
 
+[JIRA LINK]
+
 Acceptance Criterias
 
-## Validation de Qualité
+## Validation
 
-
-- [ ] Validation du design avec design figma (dev)
-- [ ] QA - Validation des critère de succès (via screenshot)
-- [ ] Design/UI - Validation du respect du design/theme
+- [ ] Storybook add or modified
+- [ ] version Update in package.json and Release.md
+- [ ] Code Approved
+- [ ] QA Done
+- [ ] Design/UI Approved from design
 
 ## Screenshot
 ### Before
 
 ### After
 
+## QA
+
+Steps to validate
+Url (storybook, ...)
+...
 
 ## Mention
-@luclemo @kstonge
 
+@kstonge @luclemo

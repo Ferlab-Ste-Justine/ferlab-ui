@@ -62,34 +62,35 @@ npm start
 
 ### Publish new release
 
-On your PR, make sure to increment the version in packge.json
+#### Merging new changes
 
-To publish a new release once a PR as been validated and merged
+1. update the version of the package in package.json (https://semver.org)
+2. Update the `Release.md` file with the changes
+3. Add or modify storybook that matches your changes
+4. Create a PR
 
+#### Publish
 1. Try to install the package to make sure everything work corretly
-   
+
    > cd [test dir] && npm i [full_path]/ferlab-ui/packages/ui
 2. Delete core folder to remove deleted files
-   
+
    > rm -rf core/
 3. Prepare the package
-   
+
    > npm run build
 4. Push the new version
 5. Create a tag to the new version `git tag ui@[semantic version]`
    e.g.
-   
+
    > git tag ui@4.4.1
    > git push --tags
 6. Login to npm
-   
+
    > npm login
 7. Push the new version
-   
+
    > npm publish
-
-## Styles and themes
-
 
 
 ## Development
@@ -97,7 +98,7 @@ To publish a new release once a PR as been validated and merged
 Run `npx tscp -w` to live-watch sass file.
 
 
-
+## Styles and themes
 ### Strategy
 
 1. Use .less to customize colors and ant design components
