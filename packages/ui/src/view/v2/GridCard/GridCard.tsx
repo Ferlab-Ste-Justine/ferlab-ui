@@ -7,7 +7,7 @@ import ConditionalWrapper from '../../../components/utils/ConditionalWrapper';
 
 import styles from './Gridcard.module.scss';
 
-type OwnProps = CardProps & {
+export type TGridCard = CardProps & {
     footer?: React.ReactNode;
     content: React.ReactNode;
     theme?: 'shade' | 'light';
@@ -30,7 +30,7 @@ const GridCard = ({
     theme = 'light',
     wrapperClassName = '',
     ...rest
-}: Omit<OwnProps, 'actions'>) => (
+}: Omit<TGridCard, 'actions'>) => (
     <div className={cx(wrapperClassName, styles.fuiCardWrapper)}>
         <Card
             {...rest}

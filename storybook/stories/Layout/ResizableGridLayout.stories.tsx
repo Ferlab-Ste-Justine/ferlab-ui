@@ -1,25 +1,102 @@
-import ResizableGridLayout, {TSerializedResizableGridLayoutConfig, IResizableGridLayoutConfig} from '@ferlab/ui/layout/ResizableGridLayout';
-import GridCard, { GridCardHeader } from '@ferlab/ui/view/v2/GridCard';
-import { Meta } from "@storybook/react/types-6-0";
 import React from "react";
+import ResizableGridLayout, {TSerializedResizableGridLayoutConfig, IResizableGridLayoutConfig} from '@ferlab/ui/layout/ResizableGridLayout';
+import { Meta } from "@storybook/react/types-6-0";
+import ResizableGridCard from '@ferlab/ui/layout/ResizableGridLayout/ResizableGridCard';
+import BarChart from "@ferlab/ui/components/Charts/Bar";
+import PieChart from "@ferlab/ui/components/Charts/Pie";
+import { aggregationToChartData } from '@ferlab/ui/layout/ResizableGridLayout/utils';
 
-import styles from './ResizableGridLayout.module.scss';
 
-const GridCardItem = ({ id }: { id: string }) => (
-    <GridCard 
-        wrapperClassName={styles.wrapper}
-        theme="shade" 
-        resizable
-        title={
-                <GridCardHeader
-                id={id}
-                title={`GridCard Header ${id}`}
-                withHandle
-                />
-        }
-        content={<div style={{height: "100%", width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>{id}</div>} 
-    />
-);
+const GridCardItem = ({ type }: { type: string }) => {
+    var buckets = [];
+    var total =  Math.floor(Math.random() * 10) + 1;
+    for (let i = 0; i < total; i++) {
+        buckets.push({
+            key: `random id_${i}`,
+            doc_count: Math.floor(Math.random() * 100)+ 1
+        })
+    }
+
+    const data = aggregationToChartData(buckets, total);
+
+    return (
+        <ResizableGridCard
+            theme="shade"
+            loading={false}
+            loadingType="spinner"
+            headerTitle={"header title"}
+            tsvSettings={{
+                data: [data],
+            }}
+            modalContent={
+                <>
+                    {type == 'bar'? (
+                        <BarChart
+                        data={data}
+                        axisLeft={{
+                            legend: 'Data Types',
+                            legendPosition: 'middle',
+                            legendOffset: -128,
+                        }}
+                        tooltipLabel={(node: any) => node.data.id}
+                        axisBottom={{
+                            legend: '# of participants',
+                            legendPosition: 'middle',
+                            legendOffset: 35,
+                        }}
+                        margin={{
+                            bottom: 45,
+                            left: 140,
+                            right: 12,
+                            top: 12,
+                        }}
+                        layout="horizontal"
+                        />
+                    ): (
+                        <PieChart
+                            data={data}
+                        />
+                    )}
+                </>
+            }
+            content={
+                <div style={{height: '100%', 'width': '100%'}}>
+                        <>
+                            {type == 'bar'? (
+                                <BarChart
+                                data={data}
+                                axisLeft={{
+                                    legend: 'Data Types',
+                                    legendPosition: 'middle',
+                                    legendOffset: -128,
+                                }}
+                                tooltipLabel={(node: any) => node.data.id}
+                                axisBottom={{
+                                    legend: '# of participants',
+                                    legendPosition: 'middle',
+                                    legendOffset: 35,
+                                }}
+                                margin={{
+                                    bottom: 45,
+                                    left: 140,
+                                    right: 12,
+                                    top: 12,
+                                }}
+                                layout="horizontal"
+                                />
+                            ): (
+                                <PieChart
+                                    data={data}
+                                />
+                            )}
+                        </>
+                </div>
+            }
+        />
+    );
+
+}
+
 const getDefaultLayouts = (): IResizableGridLayoutConfig[] => [
     {
         base: {
@@ -30,7 +107,7 @@ const getDefaultLayouts = (): IResizableGridLayoutConfig[] => [
             x: 0,
             y: 0,
         },
-        component: <GridCardItem id="card_1" />,
+        component: <GridCardItem type="bar" />,
         id: 'card_1',
         title: 'Card 1',
     },
@@ -43,7 +120,7 @@ const getDefaultLayouts = (): IResizableGridLayoutConfig[] => [
             x: 6,
             y: 0,
         },
-        component: <GridCardItem id="card_2" />,
+        component: <GridCardItem type="pie" />,
         id: 'card_2',
         title: 'Card 2',
     },
@@ -56,7 +133,7 @@ const getDefaultLayouts = (): IResizableGridLayoutConfig[] => [
             x: 0,
             y: 3,
         },
-        component: <GridCardItem id="card_3" />,
+        component: <GridCardItem type="bar" />,
         id: 'card_3',
         title: 'Card 3',
     },
@@ -69,7 +146,7 @@ const getDefaultLayouts = (): IResizableGridLayoutConfig[] => [
             x: 7,
             y: 3,
         },
-        component: <GridCardItem id="card_4" />,
+        component: <GridCardItem type="pie" />,
         id: 'card_4',
         title: 'Card 4',
     },

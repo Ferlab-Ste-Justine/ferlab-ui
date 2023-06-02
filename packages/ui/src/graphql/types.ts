@@ -1,5 +1,3 @@
-import { SortOrder } from 'antd/lib/table/interface';
-
 import { TExtendedMapping } from '../components/filters/types';
 import { ISyntheticSqon } from '../data/sqon/types';
 

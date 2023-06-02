@@ -1,6 +1,6 @@
 import React from 'react';
 import { SettingOutlined } from '@ant-design/icons';
-import { Button, Checkbox, List, Popover, Space, Tooltip } from 'antd';
+import { Button, Checkbox, Popover, Space, Tooltip } from 'antd';
 
 import styles from './index.module.scss';
 

@@ -43,6 +43,8 @@ export const numberFormat = (num: number, digits = 0) => {
     }
 };
 
+export const numberWithCommas = (number: number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
 export const toExponentialNotation = (numberCandidate?: number, fractionDigits = 2): string =>
     numberCandidate ? numberCandidate.toExponential(fractionDigits) : '';
 
