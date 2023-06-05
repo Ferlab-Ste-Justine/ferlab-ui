@@ -2,12 +2,19 @@
     width: 100%;
 }
 
+.selectedOption {
+    padding: 4px 12px;
+    .noAssignments {
+        margin-top: 0px;
+    }
+}
+
 .noAssignments {
     font-size: 12px;
     line-height: 20px;
     padding: 0;
     margin-top: 8px;
-    span{
+    span {
         text-decoration: underline;
     }
 }
@@ -28,6 +35,6 @@
     }
 }
 
-:global(.ant-select-dropdown){
+/* :global(.ant-select-dropdown){
     display: none;
-}
+} */

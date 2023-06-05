@@ -35,10 +35,53 @@ const AssignmentsSelectPropsStory = ({
             handleSelect={handleSelect}
             options={options}
             assignedPractionnerRoles={assignedPractionnerRoles}
-            visibleOptions={true}
+            {...props}
         />
     </>
 );
+
+export const Default = AssignmentsSelectPropsStory.bind({});
+Default.args = {
+    storyTitle: 'Assignment Select',
+    options: [
+        {
+            practitionerRoles_Id: 'PR01',
+            name: [
+                {
+                    family: 'Family01',
+                    given: ['given01'],
+                },
+            ],
+            email: 'email1@ferlab.bio',
+            ldm: 'LDM-01',
+        },
+        {
+            practitionerRoles_Id: 'PR02',
+            name: [
+                {
+                    family: 'Family02',
+                    given: ['given02'],
+                },
+            ],
+            email: 'email2@ferlab.bio',
+            ldm: 'LDM-01',
+        },
+        {
+            practitionerRoles_Id: 'PR03',
+            name: [
+                {
+                    family: 'Family03',
+                    given: ['given03'],
+                },
+            ],
+            email: 'email3@ferlab.bio',
+            ldm: 'LDM-03',
+        },
+    ],
+    handleSelect: ([]) => {},
+    assignedPractionnerRoles: [],
+};
+
 
 export const VisibleOption = AssignmentsSelectPropsStory.bind({});
 VisibleOption.args = {
@@ -79,5 +122,6 @@ VisibleOption.args = {
         },
     ],
     handleSelect: ([]) => {},
+    visibleOptions: true,
     assignedPractionnerRoles: [],
 };

@@ -16,7 +16,6 @@ export type TAssignmentsFilter = {
     confirm?: (param?: FilterConfirmProps) => void;
     selectedKeys?: React.Key[];
     setSelectedKeys?: (selectedKeys: React.Key[]) => void;
-    clearFilters?: (() => void) | undefined;
 };
 
 export const getPractitionnerName = (name: TPractitionnerName): string =>
@@ -32,14 +31,7 @@ const handleSelect = (
         : setSelectedKeys([value, ...selectedKeys]);
 };
 
-const AssignmentsFilter = ({
-    clearFilters,
-    confirm,
-    dictionary,
-    options,
-    selectedKeys,
-    setSelectedKeys,
-}: TAssignmentsFilter) => {
+const AssignmentsFilter = ({ confirm, dictionary, options, selectedKeys, setSelectedKeys }: TAssignmentsFilter) => {
     const [searchValue, setSearchValue] = useState<string | undefined>();
     const [filteredOption, setFilteredOption] = useState<TPractitionnerInfo[]>([]);
     const [selectedOption, setSelectedOption] = useState<React.Key[]>(selectedKeys ? selectedKeys : []);
