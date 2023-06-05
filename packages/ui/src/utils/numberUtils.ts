@@ -23,11 +23,13 @@ export const getDefaultDigits = (num: number) => {
 export const numberFormat = (num: number, digits = 0) => {
     if (!num) return 0;
 
+    const locale = localStorage.getItem('locale') === 'fr' ? 'fr-CA' : 'en-US';
+
     let index: number;
     digits = digits ? digits : getDefaultDigits(num);
 
     if (BLACK_LIST_LENGTH.includes(num.toString().length)) {
-        return num.toLocaleString();
+        return num.toLocaleString(locale);
     } else {
         VALUE_SYMBOLE_LIST.forEach((si: any, i) => {
             if (num >= si.value) {

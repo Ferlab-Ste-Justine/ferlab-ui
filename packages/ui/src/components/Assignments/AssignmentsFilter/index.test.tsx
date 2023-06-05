@@ -44,7 +44,7 @@ const options: TPractitionnerInfo[] = [
 
 describe('Assignation Filter', () => {
     test('make sure Checkbox Filter is correctly rendered', () => {
-        render(<AssignmentsFilter clearFilters={undefined} options={options} />);
+        render(<AssignmentsFilter options={options} />);
 
         expect(screen.queryByText(getPractitionnerName(options[0].name))).toBeTruthy();
         expect(screen.queryByText(getPractitionnerName(options[1].name))).toBeTruthy();

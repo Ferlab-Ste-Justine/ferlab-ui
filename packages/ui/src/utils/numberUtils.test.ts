@@ -33,10 +33,34 @@ describe(`${numberFormat.name}()`, () => {
         expect(numberFormat(0)).toBe(0);
     });
 
-    it('should return the localized string if num is in BLACK_LIST_LENGTH', () => {
+    it('should return the english localized string if num is in BLACK_LIST_LENGTH and locale is en', () => {
+        localStorage.setItem('locale', 'en');
         expect(numberFormat(1)).toBe('1');
         expect(numberFormat(10)).toBe('10');
         expect(numberFormat(100)).toBe('100');
+        expect(numberFormat(1000)).toBe('1,000');
+    });
+
+    it('should return the french localized string if num is in BLACK_LIST_LENGTH and locale is fr', () => {
+        localStorage.setItem('locale', 'fr');
+        expect(numberFormat(1)).toBe('1');
+        expect(numberFormat(10)).toBe('10');
+        expect(numberFormat(100)).toBe('100');
+        expect(numberFormat(1000)).toEqual('1\xa0000');
+    });
+
+    it('should return the default localized string if num is in BLACK_LIST_LENGTH and locale is not defined', () => {
+        localStorage.setItem('locale', undefined as never);
+        expect(numberFormat(1000)).toBe('1,000');
+    });
+
+    it('should return the default localized string if num is in BLACK_LIST_LENGTH and locale is null', () => {
+        localStorage.setItem('locale', null as never);
+        expect(numberFormat(1000)).toBe('1,000');
+    });
+
+    it('should return the default localized string if num is in BLACK_LIST_LENGTH and locale is an empty string', () => {
+        localStorage.setItem('locale', '');
         expect(numberFormat(1000)).toBe('1,000');
     });
 
