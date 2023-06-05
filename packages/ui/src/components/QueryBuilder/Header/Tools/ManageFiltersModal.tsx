@@ -73,8 +73,8 @@ const ManageFiltersModal = ({ onDeleteFilter, onUpdateFilter, onVisibleChange, s
                 okText={dictionary.queryBuilderHeader?.manageFilters?.okText || 'Close'}
                 onCancel={onDismiss}
                 onOk={onDismiss}
+                open={visible}
                 title={dictionary.queryBuilderHeader?.manageFilters?.modalTitle || 'Manage filters'}
-                visible={visible}
                 width={600}
             >
                 <List
@@ -85,7 +85,7 @@ const ManageFiltersModal = ({ onDeleteFilter, onUpdateFilter, onVisibleChange, s
                 />
             </Modal>
             <EditFilterModal
-                initialTitleValue={selectedFilter?.title!}
+                initialTitleValue={selectedFilter?.title || ''}
                 isNewFilter={false}
                 okDisabled={false}
                 onCancel={() => setEditModalVisible(false)}

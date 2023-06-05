@@ -75,7 +75,7 @@
         "webpack-cli": "^3.3.12"
     },
     "peerDependencies": {
-        "antd": "^4.20.0",
+        "antd": "^4.24.10",
         "date-fns": "^2.29.3",
         "react": "^17.0.2 || ^18.0.0",
         "react-dom": "^17.0.2 || ^18.0.0"
@@ -102,8 +102,7 @@
         "react-icons": "^4.2.0",
         "react-sizeme": "^3.0.2",
         "simplebar-react": "^2.4.3",
-        "uuid": "^8.3.2",
-        "xss": "^1.0.9"
+        "uuid": "^8.3.2"
     },
     "bugs": {
         "url": "https://github.com/Ferlab-Ste-Justine/ferlab-ui/issues"

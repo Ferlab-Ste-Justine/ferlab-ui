@@ -201,8 +201,8 @@ const ResizableGridCard = ({
                 onOk={() => {
                     setHasStartedDownload(true);
                 }}
+                open={isModalVisible}
                 title={`${dictionary?.download?.preview ?? 'Download preview - '}${headerTitle}.${action}`}
-                visible={isModalVisible}
                 width={modalSettings.width}
             >
                 <div className={styles.modalContentWrapper} id={graphId} style={{ height: modalSettings.height }}>
