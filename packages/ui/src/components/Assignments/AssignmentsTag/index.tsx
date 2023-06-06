@@ -1,7 +1,8 @@
 import React from 'react';
 import { Space, Tag, Typography } from 'antd';
 
-import Gravatar from '../../Gravatar';
+import UserAvatar from '../../UserAvatar';
+import { IAssignmentsDictionary } from '../types';
 
 import { UnAssignAvatar } from './UnsassignAvatar';
 
@@ -15,11 +16,13 @@ export type TAssignmentsTag = {
     closable?: boolean;
     handleClose?: () => void;
     unAssign?: boolean;
+    dictionary?: IAssignmentsDictionary | Record<string, never>;
 };
 
 export const AssignmentsTag = ({
     background = true,
     closable = false,
+    dictionary,
     email,
     handleClose,
     name,
@@ -38,12 +41,12 @@ export const AssignmentsTag = ({
                     <>
                         <UnAssignAvatar />
                         <Space size={4}>
-                            <Text strong>Non Assigner</Text>
+                            <Text strong>{dictionary?.select?.textInfo?.notAssigned || 'Not assigned'}</Text>
                         </Space>
                     </>
                 ) : (
                     <>
-                        <Gravatar circle email={email ? email : ''} size={24} />
+                        <UserAvatar size={24} userName={name} />
                         <Space size={4}>
                             <Text strong>{name}</Text>
                             <Text type="secondary">{organization}</Text>
