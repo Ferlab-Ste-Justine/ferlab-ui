@@ -38,4 +38,5 @@ export interface IActions {
 
 export interface ITextInfo {
     searchPlaceholder?: ReactNode;
+    notAssigned?: ReactNode;
 }

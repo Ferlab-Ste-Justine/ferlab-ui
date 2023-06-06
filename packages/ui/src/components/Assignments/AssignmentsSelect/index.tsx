@@ -98,7 +98,7 @@ export const AssignmentsSelect = ({
     const [openDropdown, setOpenDropdown] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string | undefined>();
     const filteredSelectedOptions = options.filter(
-        ({ practitionerRoles_Id: id1 }) => !selectedItems.some(({ practitionerRoles_Id: id2 }) => id2 === id1),
+        ({ practitionerRoles_Id: id1 }) => !alreadySelectedOption.some(({ practitionerRoles_Id: id2 }) => id2 === id1),
     );
     const [filteredAutocompleteOption, setFilteredAutocompleteOption] = useState<TPractitionnerInfo[]>([]);
 
