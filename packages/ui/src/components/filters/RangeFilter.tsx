@@ -1,8 +1,7 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, InputNumber, Select, Space, Typography } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import cx from 'classnames';
-import { isNull } from 'lodash';
 import get from 'lodash/get';
 
 import { RangeOperators } from '../../data/sqon/operators';
@@ -228,13 +227,11 @@ const RangeFilter = ({
         }));
     };
 
-    const onMinChanged = (value: string | number | undefined) => {
-        const min = typeof value === 'string' ? parseFloat(value) : value;
+    const onMinChanged = (min: number | null) => {
         setRangeFilter((prevState) => ({ ...prevState, min: !!min || min === 0 ? min : undefined }));
     };
 
-    const onMaxChanged = (value: string | number | undefined) => {
-        const max = typeof value === 'string' ? parseFloat(value) : value;
+    const onMaxChanged = (max: number | null) => {
         setRangeFilter((prevState) => ({ ...prevState, max: !!max || max === 0 ? max : undefined }));
     };
 
@@ -276,7 +273,6 @@ const RangeFilter = ({
                                 onChange={onMinChanged}
                                 step={range.step || DEFAULT_STEP}
                                 title={get(dictionary, 'range.min', 'min')}
-                                type="number"
                                 value={min}
                             />
                         </StackLayout>
@@ -293,7 +289,6 @@ const RangeFilter = ({
                                 onChange={onMaxChanged}
                                 step={range.step || DEFAULT_STEP}
                                 title={get(dictionary, 'range.max', 'max')}
-                                type="number"
                                 value={max}
                             />
                         </StackLayout>

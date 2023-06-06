@@ -121,8 +121,8 @@ const UploadModal = ({
                 setValue('');
                 onUpload(match ?? []);
             }}
+            open={visible}
             title={dictionary.modalTitle}
-            visible={visible}
             width={width}
             wrapClassName={styles.fuiUploadIdsModalWrapper}
         >

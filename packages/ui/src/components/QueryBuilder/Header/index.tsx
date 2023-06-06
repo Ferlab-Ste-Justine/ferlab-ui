@@ -40,7 +40,7 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
             favorite: savedFilter?.favorite || false,
             id: savedFilter?.id || v4(),
             queries: queriesState.queries,
-            title: savedFilter?.title! || headerConfig.defaultTitle!,
+            title: savedFilter?.title || headerConfig.defaultTitle || '',
         };
 
         if (headerConfig?.onSaveFilter) {
@@ -98,7 +98,7 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
                         ...query,
                         id: v4(),
                     }));
-                    const title = `${selectedSavedFilter?.title!} ${
+                    const title = `${selectedSavedFilter?.title || ''} ${
                         dictionary.queryBuilderHeader?.duplicateFilterTitleSuffix || 'COPY'
                     }`;
                     setSavedFilterTitle(title);
@@ -241,7 +241,7 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
                 </CollapsePanel>
             </Collapse>
             <EditFilterModal
-                initialTitleValue={savedFilterTitle || selectedSavedFilter?.title!}
+                initialTitleValue={savedFilterTitle || selectedSavedFilter?.title || ''}
                 isNewFilter={isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!)}
                 okDisabled={!localSavedFilters}
                 onCancel={() => setEditModalVisible(false)}

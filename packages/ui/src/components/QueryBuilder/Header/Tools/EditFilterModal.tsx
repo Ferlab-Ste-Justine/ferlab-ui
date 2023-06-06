@@ -43,12 +43,12 @@ const EditFilterModal = ({ initialTitleValue, isNewFilter, okDisabled, onCancel,
                 onCancel();
             }}
             onOk={() => editForm.submit()}
+            open={visible}
             title={
                 isNewFilter
                     ? dictionary.queryBuilderHeader?.modal?.saveThisFilter || 'Save this filter'
                     : dictionary.queryBuilderHeader?.modal?.edit?.title || 'Edit filter'
             }
-            visible={visible}
         >
             <Form
                 fields={[
