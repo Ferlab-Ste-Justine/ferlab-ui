@@ -21,6 +21,7 @@ const tagRender =
     (
         selectedItems: TPractitionnerInfo[],
         setSelectedItems: React.Dispatch<React.SetStateAction<TPractitionnerInfo[]>>,
+        dictionary?: IAssignmentsDictionary | Record<string, never>,
     ) =>
     (props: CustomTagProps) => {
         const { value } = props;
@@ -29,7 +30,7 @@ const tagRender =
             setSelectedItems(selectedItems.filter((s) => s.practitionerRoles_Id !== value));
         };
         return value === 'noAssign' ? (
-            <AssignmentsTag background={false} unAssign={true} />
+            <AssignmentsTag background={false} dictionary={dictionary} unAssign={true} />
         ) : (
             <AssignmentsTag
                 closable
@@ -55,8 +56,6 @@ const renderOptions = (
     setSearchValue: React.Dispatch<React.SetStateAction<string | undefined>>,
     selectedItems: TPractitionnerInfo[],
     setSelectedItems: React.Dispatch<React.SetStateAction<TPractitionnerInfo[]>>,
-    handleSelect: (practitionerRoles_ids: string[]) => void,
-    assignedPractionnerRoles: string[],
 ) =>
     options?.map((value: TPractitionnerInfo) => (
         <Button
@@ -162,8 +161,6 @@ export const AssignmentsSelect = ({
                     setSearchValue,
                     selectedItems,
                     setSelectedItems,
-                    handleSelect,
-                    assignedPractionnerRoles,
                 )}
             </ScrollContent>
         </div>
@@ -183,7 +180,7 @@ export const AssignmentsSelect = ({
                 placeholder={dictionary?.select?.textInfo?.searchPlaceholder || 'Search'}
                 searchValue={searchValue}
                 style={{ width: '100%' }}
-                tagRender={tagRender(selectedItems, setSelectedItems)}
+                tagRender={tagRender(selectedItems, setSelectedItems, dictionary)}
                 value={selectedOptions.length > 0 || visibleOptions ? selectedOptions : noAssignValue}
             />
             {visibleOptions && dropdownContent()}

@@ -77,7 +77,7 @@ const AssignmentsFilter = ({ confirm, dictionary, options, selectedKeys, setSele
                                 type="checkbox"
                                 value={'noAssign'}
                             >
-                                <AssignmentsTag background={false} unAssign={true} />
+                                <AssignmentsTag background={false} dictionary={dictionary} unAssign={true} />
                             </Checkbox>
                         )}
                         {filteredOption?.map((value: TPractitionnerInfo) => (
