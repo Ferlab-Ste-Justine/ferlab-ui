@@ -48,6 +48,7 @@ export interface IFilterRangeConfig {
     operators?: IRangeOperatorConfig[];
     rangeTypes?: IFilterRangeTypes[];
     defaultOperator?: RangeOperators;
+    noDataInputOption?: boolean;
 }
 
 export interface IFilterTextInputConfig {

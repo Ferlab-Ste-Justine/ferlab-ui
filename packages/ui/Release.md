@@ -1,3 +1,6 @@
+### 7.9.3 2023-06-08
+- feat: CLIN-1991 move noDataInputOption for rangeFilter into config props
+ 
 ### 7.9.0 2023-06-05
 - feat: FLUI-67 update antd@4.24.10
  

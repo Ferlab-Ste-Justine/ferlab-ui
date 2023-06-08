@@ -142,6 +142,23 @@ WithNoDataCheckbox.args = {
         config: {
             min: 1,
             max: 2,
+            noDataInputOption: true
+        },
+        title: 'title_filter_group',
+    },
+    filters: rangeFilters,
+    onChange: () => undefined,
+};
+export const WithoutNoDataCheckbox = RangeFilterStory.bind({});
+WithoutNoDataCheckbox.args = {
+    title: 'RangeFilter Without No Data Checkbox',
+    filterGroup: {
+        type: VisualType.Range,
+        field: 'this.field',
+        config: {
+            min: 1,
+            max: 2,
+            noDataInputOption: false
         },
         title: 'title_filter_group',
     },
