@@ -1,8 +1,14 @@
+### 7.9.4 2023-06-09
+- fix: FLUI-65 format number in items count
+
 ### 7.9.3 2023-06-08
 - feat: CLIN-1991 move noDataInputOption for rangeFilter into config props
  
 ### 7.9.0 2023-06-05
 - feat: FLUI-67 update antd@4.24.10
+
+### 7.7.0 2023-06-05
+- feat: FLUI-65 add locale to numberFormat
  
 ### 6.1.0 2023-04-19
 - feat: CQDG-215 create UserAvatar with auto color by user's name
