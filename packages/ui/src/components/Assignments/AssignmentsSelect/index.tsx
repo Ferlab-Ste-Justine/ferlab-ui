@@ -59,6 +59,7 @@ const renderOptions = (
 ) =>
     options?.map((value: TPractitionnerInfo) => (
         <Button
+            className={styles.assignmentOption}
             key={value.practitionerRoles_Id}
             onClick={() => {
                 setSelectedItems([...selectedItems, value]);

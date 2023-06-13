@@ -46,8 +46,8 @@ export const AssignmentsTag = ({
                     </>
                 ) : (
                     <>
-                        <UserAvatar size={24} userName={name} />
-                        <Space size={4}>
+                        <UserAvatar className={styles.userAvatar} size={24} userName={name} />
+                        <Space className={styles.userInfo} size={4}>
                             <Text strong>{name}</Text>
                             <Text type="secondary">{organization}</Text>
                         </Space>
