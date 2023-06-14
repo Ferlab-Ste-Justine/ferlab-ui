@@ -15,6 +15,7 @@ export type TAssignmentsSelect = {
     handleSelect: (practitionerRoles_ids: string[]) => void;
     assignedPractionnerRoles: string[];
     dictionary?: IAssignmentsDictionary | Record<string, never>;
+    loading?: boolean;
 };
 
 const tagRender =
@@ -80,6 +81,7 @@ export const AssignmentsSelect = ({
     assignedPractionnerRoles,
     dictionary,
     handleSelect,
+    loading,
     options,
     visibleOptions = false,
 }: TAssignmentsSelect) => {
@@ -172,6 +174,7 @@ export const AssignmentsSelect = ({
                 className={styles.selectInput}
                 dropdownRender={dropdownContent}
                 dropdownStyle={{ display: visibleOptions ? 'none' : 'undefined' }}
+                loading={loading}
                 mode="multiple"
                 onDropdownVisibleChange={(open) => {
                     setOpenDropdown(open);
