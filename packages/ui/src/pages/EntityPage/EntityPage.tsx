@@ -16,17 +16,16 @@ export interface IEntityPage {
     children: React.ReactNode;
 }
 
-const EntityPage: React.FC<IEntityPage> = ({ children, data, emptyText, links, loading, pageId }) => {
-    const [scrollContainerId, setScrollContainerId] = useState<string>('');
+const EntityPage: React.FC<IEntityPage> = ({ children, data, emptyText, links, loading, pageId = '' }) => {
+    const [scrollContainerId, setScrollContainerId] = useState<string>(pageId);
     const simplebarContent = document.getElementsByClassName('simplebar-content-wrapper');
 
     useEffect(() => {
-        if (simplebarContent.length) {
-            const scrollContainerId = pageId;
-            setScrollContainerId(scrollContainerId);
-            simplebarContent[simplebarContent.length - 1].setAttribute('id', scrollContainerId);
+        if (pageId && simplebarContent?.length) {
+            setScrollContainerId(pageId);
+            simplebarContent[simplebarContent.length - 1].setAttribute('id', pageId);
         }
-    }, [scrollContainerId, simplebarContent, pageId]);
+    }, [simplebarContent, pageId]);
 
     if (!data && !loading) {
         return <Empty description={emptyText} imageType="row" size="large" />;
@@ -35,7 +34,12 @@ const EntityPage: React.FC<IEntityPage> = ({ children, data, emptyText, links, l
     return (
         <div className={styles.entityPageContainer}>
             <ScrollContent className={styles.scrollContent}>{children}</ScrollContent>
-            <AnchorMenu className={styles.anchorMenu} links={links} scrollContainerId={scrollContainerId} />
+            <AnchorMenu
+                className={styles.anchorMenu}
+                links={links}
+                preventUrlHash={false}
+                scrollContainerId={scrollContainerId}
+            />
         </div>
     );
 };
