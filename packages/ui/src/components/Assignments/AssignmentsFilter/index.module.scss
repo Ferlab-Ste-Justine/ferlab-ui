@@ -9,6 +9,12 @@
     max-height: 190px;
     width: 100%;
     overflow-y: auto;
+    :global(.ant-checkbox-wrapper){
+        align-items: start;
+        :global(.ant-checkbox){
+            margin-top: 2px;
+        }
+    }
 }
 
 .filterFooter{
@@ -21,4 +27,8 @@
 
 .resetButton{
     padding: 0;
+}
+
+.tagContainer{
+    height: 24px;
 }

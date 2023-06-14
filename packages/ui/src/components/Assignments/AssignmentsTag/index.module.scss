@@ -1,14 +1,13 @@
-@import "theme.template";
+@import 'theme.template';
 
-.assignmentsTag{
+.assignmentsTag {
     background-color: $gray-3;
     border-radius: 100px;
     margin: 0;
     padding: 0 8px 0 0;
-    
 }
 
-.noBackground{
+.noBackground {
     background-color: inherit;
 }
 
@@ -16,10 +15,24 @@
     background-color: $gray-2;
     border: 1px dashed $gray-6;
     color: $gray-6;
-    &:hover {
-      &:not(.disabledAssignmentsPopOver) {
-        border: 1px dashed $gray-8;
-        color: $gray-8;
-      }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span{
+        font-size: 14px;
     }
-  }
+    &:hover {
+        &:not(.disabledAssignmentsPopOver) {
+            border: 1px dashed $gray-8;
+            color: $gray-8;
+        }
+    }
+}
+
+.userAvatar{
+    font-size: 12px !important;
+}
+
+.userInfo{
+    font-size: 12px;
+}
