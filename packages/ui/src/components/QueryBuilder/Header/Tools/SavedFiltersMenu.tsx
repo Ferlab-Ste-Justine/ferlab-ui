@@ -32,7 +32,7 @@ const SavedFiltersMenu = ({
     const { dictionary } = useContext(QueryBuilderContext);
     const [manageFiltersVisible, setManageFiltersVisible] = useState(false);
 
-    const confirmUnsavedChangeForExistingFilter = (onOkCallback: any) => {
+    const confirmUnsavedChangeForExistingFilter = (onOkCallback: TOnSavedFilterChange) => {
         Modal.confirm({
             cancelText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.openSavedFilter?.cancelText || 'Cancel',
             content:
@@ -40,7 +40,7 @@ const SavedFiltersMenu = ({
                 'You are about to open a saved filter; all modifications will be lost.',
             icon: <ExclamationCircleOutlined />,
             okText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.openSavedFilter?.okText || 'Continue',
-            onOk: () => onOkCallback(),
+            onOk: onOkCallback,
             title: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.title || 'Unsaved changes',
         });
     };
