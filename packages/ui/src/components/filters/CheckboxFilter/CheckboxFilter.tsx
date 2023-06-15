@@ -309,26 +309,24 @@ const CheckboxFilter = ({
                     <Dropdown.Button
                         className={styles.fuiCbfActionsApply}
                         disabled={isEmpty(bumpedFilters)}
+                        menu={{
+                            items: [
+                                {
+                                    key: TermOperators.in,
+                                    label: get(dictionary, 'operators.anyOf', 'Any of'),
+                                },
+                                {
+                                    key: TermOperators.all,
+                                    label: get(dictionary, 'operators.allOf', 'All of'),
+                                },
+                                {
+                                    key: TermOperators['some-not-in'],
+                                    label: get(dictionary, 'operators.noneOf', 'None of'),
+                                },
+                            ],
+                            onClick: (e) => handleOnApply(e.key as TermOperators),
+                        }}
                         onClick={() => handleOnApply(TermOperators.in)}
-                        overlay={
-                            <Menu
-                                items={[
-                                    {
-                                        key: TermOperators.in,
-                                        label: get(dictionary, 'operators.anyOf', 'Any of'),
-                                    },
-                                    {
-                                        key: TermOperators.all,
-                                        label: get(dictionary, 'operators.allOf', 'All of'),
-                                    },
-                                    {
-                                        key: TermOperators['some-not-in'],
-                                        label: get(dictionary, 'operators.noneOf', 'None of'),
-                                    },
-                                ]}
-                                onClick={(e) => handleOnApply(e.key as TermOperators)}
-                            />
-                        }
                         size="small"
                         type="primary"
                     >

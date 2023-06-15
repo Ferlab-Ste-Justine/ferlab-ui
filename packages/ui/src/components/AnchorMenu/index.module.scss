@@ -4,14 +4,18 @@
   max-width: 180px;
   margin: 24px;
 
-  *[class$="-anchor-ink-ball visible"] {
-    display: none;
-  }
-
   *[class$="-anchor-ink"] {
     z-index: -9;
     top: inherit;
     left: inherit;
+  }
+
+  *[class$="-anchor-ink-ball"] {
+    display: none;
+  }
+
+  *[class$="-anchor-ink-ball-visible"] {
+    display: none;
   }
 
   *[class$="-anchor-link"] {

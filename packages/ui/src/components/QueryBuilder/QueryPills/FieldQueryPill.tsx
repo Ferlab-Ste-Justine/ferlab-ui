@@ -103,6 +103,7 @@ const FieldQueryPill = ({ isBarActive, onRemove, valueFilter }: IFieldQueryPillP
                             }
                             setFilterDropdownVisible(visible);
                         }}
+                        open={filterDropdownVisible}
                         overlay={
                             <div
                                 onClick={(e: any) => {
@@ -120,7 +121,6 @@ const FieldQueryPill = ({ isBarActive, onRemove, valueFilter }: IFieldQueryPillP
                         }
                         overlayClassName={styles.filtersDropdown}
                         trigger={['click']}
-                        visible={filterDropdownVisible}
                     >
                         {children}
                     </Dropdown>

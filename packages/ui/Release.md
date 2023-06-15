@@ -1,3 +1,6 @@
+### 7.9.7 2023-06-15
+- fix: FLUI-67 72 updates antd preventUrlHash default false AnchorMenu
+
 ### 7.9.4 2023-06-09
 - fix: FLUI-65 format number in items count
 
