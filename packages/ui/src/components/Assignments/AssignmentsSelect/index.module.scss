@@ -1,7 +1,14 @@
+@import "theme.template";
+
+
 .selectInput {
     width: 100%;
     :global(.ant-select-selection-overflow){
         gap: 4px 4px;
+    }
+    :global(.anticon-loading){
+        color: $blue-8;
+        font-size: 16px;
     }
 }
 :global(.ant-select-multiple .ant-select-selector){
