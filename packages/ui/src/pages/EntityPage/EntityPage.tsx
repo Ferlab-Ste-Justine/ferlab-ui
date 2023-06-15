@@ -14,9 +14,18 @@ export interface IEntityPage {
     loading: boolean;
     emptyText?: string;
     children: React.ReactNode;
+    preventUrlHash?: boolean;
 }
 
-const EntityPage: React.FC<IEntityPage> = ({ children, data, emptyText, links, loading, pageId = '' }) => {
+const EntityPage: React.FC<IEntityPage> = ({
+    children,
+    data,
+    emptyText,
+    links,
+    loading,
+    pageId = '',
+    preventUrlHash = false,
+}) => {
     const [scrollContainerId, setScrollContainerId] = useState<string>(pageId);
     const simplebarContent = document.getElementsByClassName('simplebar-content-wrapper');
 
@@ -37,7 +46,7 @@ const EntityPage: React.FC<IEntityPage> = ({ children, data, emptyText, links, l
             <AnchorMenu
                 className={styles.anchorMenu}
                 links={links}
-                preventUrlHash={false}
+                preventUrlHash={preventUrlHash}
                 scrollContainerId={scrollContainerId}
             />
         </div>
