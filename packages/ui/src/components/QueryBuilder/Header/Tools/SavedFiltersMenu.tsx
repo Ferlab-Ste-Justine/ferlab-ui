@@ -1,6 +1,6 @@
 import React, { Fragment, ReactNode, useContext, useState } from 'react';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { Dropdown, Menu, Modal } from 'antd';
+import { Dropdown, Modal } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 
 import { QueryBuilderContext } from '../../context';
@@ -32,7 +32,7 @@ const SavedFiltersMenu = ({
     const { dictionary } = useContext(QueryBuilderContext);
     const [manageFiltersVisible, setManageFiltersVisible] = useState(false);
 
-    const confirmUnsavedChangeForExistingFilter = (onOkCallback: Function) => {
+    const confirmUnsavedChangeForExistingFilter = (onOkCallback: any) => {
         Modal.confirm({
             cancelText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.openSavedFilter?.cancelText || 'Cancel',
             content:
@@ -80,13 +80,11 @@ const SavedFiltersMenu = ({
         <Fragment>
             <Dropdown
                 disabled={savedFilters.length == 0}
-                overlay={
-                    <Menu
-                        items={getMenuItems()}
-                        onClick={(e) => e.domEvent.stopPropagation()}
-                        selectedKeys={selectedKey ? [selectedKey] : []}
-                    />
-                }
+                menu={{
+                    items: getMenuItems(),
+                    onClick: (e) => e.domEvent.stopPropagation(),
+                    selectedKeys: selectedKey ? [selectedKey] : [],
+                }}
                 overlayClassName={styles.fuiQBHTSavedFiltersMenu}
                 trigger={['click']}
             >

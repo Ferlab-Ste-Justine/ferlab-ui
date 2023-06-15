@@ -125,13 +125,7 @@ const ResizableGridCard = ({
                 className={styles.dropdownMenu}
                 icon={<DownloadOutlined height={11} width={11} />}
                 key="dropdown-menu"
-                overlay={
-                    <Menu
-                        items={menuItems}
-                        key="resizable-card-menu"
-                        onClick={(e) => onMenuClick(e.key as DownloadKey)}
-                    />
-                }
+                menu={{ items: menuItems, onClick: (e) => onMenuClick(e.key as DownloadKey) }}
                 size="small"
                 type="text"
             />,

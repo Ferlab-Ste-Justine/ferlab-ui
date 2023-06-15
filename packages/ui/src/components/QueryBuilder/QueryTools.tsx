@@ -1,7 +1,7 @@
 import React from 'react';
 import { useContext } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { Button, Dropdown, Menu, Modal, Space, Switch } from 'antd';
+import { Button, Dropdown, Modal, Space, Switch } from 'antd';
 
 import { BooleanOperators } from '../../data/sqon/operators';
 
@@ -50,23 +50,21 @@ const QueryTools = ({ addNewQuery, onCombineClick, onDeleteAll, queryCount, setS
                     <Dropdown.Button
                         className={styles.button}
                         disabled={!canCombine}
+                        menu={{
+                            items: [
+                                {
+                                    key: BooleanOperators.and,
+                                    label: <AndOperator dictionary={dictionary} />,
+                                    onClick: () => onCombineClick(BooleanOperators.and),
+                                },
+                                {
+                                    key: BooleanOperators.or,
+                                    label: <OrOperator dictionary={dictionary} />,
+                                    onClick: () => onCombineClick(BooleanOperators.or),
+                                },
+                            ],
+                        }}
                         onClick={() => onCombineClick(BooleanOperators.and)}
-                        overlay={
-                            <Menu
-                                items={[
-                                    {
-                                        key: BooleanOperators.and,
-                                        label: <AndOperator dictionary={dictionary} />,
-                                        onClick: () => onCombineClick(BooleanOperators.and),
-                                    },
-                                    {
-                                        key: BooleanOperators.or,
-                                        label: <OrOperator dictionary={dictionary} />,
-                                        onClick: () => onCombineClick(BooleanOperators.or),
-                                    },
-                                ]}
-                            />
-                        }
                         size="small"
                         trigger={['click']}
                         type="primary"
