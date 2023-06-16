@@ -1,4 +1,5 @@
 .ant-space-compact-block {
   display: inline-flex;
-  width: inherit;
+  width: unset;
+  max-width: 100%
 }
