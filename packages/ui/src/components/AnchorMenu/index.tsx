@@ -14,7 +14,6 @@ export interface IAnchorLink {
 export interface IAnchorMenuProps extends AnchorProps {
     className?: string;
     scrollContainerId: string;
-    preventUrlHash?: boolean;
     links: IAnchorLink[];
 }
 
@@ -28,16 +27,11 @@ const AnchorMenu = ({
     offsetTop,
     onChange,
     prefixCls,
-    preventUrlHash = true,
     scrollContainerId,
     showInkInFixed,
     targetOffset,
 }: IAnchorMenuProps) => {
     const scrollContainer = document.getElementById(scrollContainerId);
-
-    const handlePreventUrlHash = (e: React.MouseEvent<HTMLElement>) => {
-        e.preventDefault();
-    };
 
     const filteredLinks = links.filter((link) => !link.hidden);
 
@@ -55,7 +49,6 @@ const AnchorMenu = ({
             getCurrentAnchor={getCurrentAnchor || _getCurrentAnchor}
             offsetTop={offsetTop}
             onChange={onChange}
-            onClick={preventUrlHash ? handlePreventUrlHash : undefined}
             prefixCls={prefixCls}
             showInkInFixed={showInkInFixed}
             targetOffset={targetOffset}
