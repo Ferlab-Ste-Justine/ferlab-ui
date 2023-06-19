@@ -1,3 +1,6 @@
+### 7.9.9 2023-06-19
+- fix: FLUI-74 remove preventUrlHash on anchor menu
+
 ### 7.9.8 2023-06-16
 - fix: FLUI-72 fixed breaking css change from antd update 
 
