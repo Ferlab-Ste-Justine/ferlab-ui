@@ -1,0 +1,26 @@
+name: Publish Package to npmjs
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.16.1'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install Dependencies
+      - run: |
+          cd packages/ui
+          npm i
+          rm -rf ./core ./lib
+          npm run build
+          
+      - name: Create and publish package 
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
