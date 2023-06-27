@@ -68,6 +68,7 @@ export interface IFilterGroup<T extends TFilterGroupConfig = any> {
     title: ReactNode;
     type: VisualType;
     headerTooltip?: string;
+    noDataInputOption?: boolean;
 }
 
 export interface IFilterCount {
