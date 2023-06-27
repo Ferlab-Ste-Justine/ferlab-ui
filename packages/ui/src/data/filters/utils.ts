@@ -194,20 +194,31 @@ export const createQueryParams = (queryParams: IQueryParams): string => {
     return `?${qs.stringify(query)}`;
 };
 
-export const getFilterGroup = (
-    extendedMapping: TExtendedMapping | undefined,
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    aggregation: any,
-    rangeTypes: string[],
-    filterFooter: boolean,
-    headerTooltip?: boolean,
-    dictionary?: IFacetDictionary,
-): IFilterGroup => {
+interface IGetFilterGroup {
+    extendedMapping: TExtendedMapping | undefined;
+    aggregation: any;
+    rangeTypes: string[];
+    filterFooter: boolean;
+    headerTooltip?: boolean;
+    dictionary?: IFacetDictionary;
+    noDataInputOption?: boolean;
+}
+
+export const getFilterGroup = ({
+    aggregation,
+    dictionary,
+    extendedMapping,
+    filterFooter,
+    headerTooltip,
+    noDataInputOption = true,
+    rangeTypes,
+}: IGetFilterGroup): IFilterGroup => {
     if (isRangeAgg(aggregation)) {
         return {
             config: {
                 max: aggregation.stats.max,
                 min: aggregation.stats.min,
+                noDataInputOption: noDataInputOption,
                 rangeTypes: rangeTypes.map((r) => ({
                     key: r,
                     name: r,
