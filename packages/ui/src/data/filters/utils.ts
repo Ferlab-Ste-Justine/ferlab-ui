@@ -9,10 +9,12 @@ import { createSQONFromFilters, isReference } from '../sqon/utils';
 
 import { isRangeAgg } from './Range';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getQueryParams = (search: string | null = null) =>
     search ? qs.parse(search) : qs.parse(window.location.search);
 
 /** @deprecated */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const updateFilters = (history: any, filterGroup: IFilterGroup, selected: IFilter[], index?: string): void =>
     updateQueryFilters(history, filterGroup.field, createSQONFromFilters(filterGroup, selected, index));
 
@@ -27,6 +29,7 @@ export const getFilterType = (fieldType: string): VisualType => {
 
 /** @deprecated */
 export const updateQueryFilters = (
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     history: any,
     field: string,
     filters: TSyntheticSqonContent,
@@ -34,7 +37,7 @@ export const updateQueryFilters = (
 ): void => {
     const currentFilter = getFiltersQuery();
 
-    let newFilters: ISyntheticSqon | object = { content: filters, op: operator };
+    let newFilters: ISyntheticSqon | Record<string, unknown> = { content: filters, op: operator };
 
     if (!isEmpty(currentFilter)) {
         const results = getFilterWithNoSelection(currentFilter, field);
@@ -45,7 +48,7 @@ export const updateQueryFilters = (
         if (isEmpty(filterWithoutSelection.content) && isEmpty(filters)) {
             newFilters = {};
         } else {
-            if (fieldIndex >= 0) {
+            if (typeof fieldIndex === 'number' && fieldIndex >= 0) {
                 filterWithoutSelection.content.splice(fieldIndex as number, 0, ...filters);
             } else {
                 filterWithoutSelection.content = [...filterWithoutSelection.content, ...filters];
@@ -84,6 +87,7 @@ const getFilterWithNoSelection = (filters: ISyntheticSqon, field: string) => {
     ];
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const updateQueryParam = (history: any, key: string, value: any): void => {
     const query = getQueryParams();
 
@@ -119,16 +123,24 @@ interface IValues<T> {
 
 export const readQueryParam = <T = ''>(key: string, options: IValues<T>, search: any = null): any => {
     const query = getQueryParams(search);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return get<any, any, T>(query, key, options.defaultValue)!;
 };
 
+interface IUsefilters {
+    filters: {
+        content: never[];
+        op: BooleanOperators;
+    };
+}
 /** @deprecated */
-export const useFilters = (filterKey = 'filters') => {
+export const useFilters = (filterKey = 'filters'): IUsefilters => {
     let filters = { filters: { content: [], op: BooleanOperators.and } };
     const searchParams = new URLSearchParams(window.location.search);
 
     if (searchParams.has(filterKey) && searchParams.get(filterKey)) {
         try {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const filterData = JSON.parse(searchParams.get(filterKey)!);
             if (typeof filterData == 'object') {
                 filters = { filters: filterData };
@@ -149,6 +161,7 @@ export const getQueryBuilderCache = (type: string): any => {
 
     try {
         // To support old query builder cache format
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const qbCache = JSON.parse(items!);
         const state = qbCache.state || [];
         return {
@@ -173,6 +186,7 @@ export const getQueryBuilderCache = (type: string): any => {
 };
 
 /** @deprecated */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const setQueryBuilderCache = (type: string, items: any): void => {
     localStorage.setItem(`query-builder-cache-${type}`, JSON.stringify(items));
 };
