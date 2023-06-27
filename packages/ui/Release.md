@@ -1,3 +1,6 @@
+### 7.9.10 2023-06-27
+- feat: FLUI-76 add no data option for range filter
+
 ### 7.9.9 2023-06-19
 - fix: FLUI-74 remove preventUrlHash on anchor menu
 
