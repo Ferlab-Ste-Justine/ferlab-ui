@@ -3,7 +3,7 @@ on:
   release:
     types: [published]
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -12,15 +12,11 @@ jobs:
         with:
           node-version: '18.16.1'
           registry-url: 'https://registry.npmjs.org'
-      - name: Install Dependencies
       - run: |
           cd packages/ui
-          npm i
-          rm -rf ./core ./lib
+          npm ci
+          rm -rf ./core .lib
           npm run build
-          
-      - name: Create and publish package 
-      - run: npm ci
-      - run: npm publish
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
