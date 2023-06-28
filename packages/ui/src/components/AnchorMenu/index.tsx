@@ -1,5 +1,6 @@
 import React from 'react';
-import { Anchor, AnchorProps } from 'antd';
+import Anchor, { AnchorProps } from 'antd/lib/anchor';
+import { AnchorContainer } from 'antd/lib/anchor/Anchor';
 
 import styles from './index.module.scss';
 
@@ -19,9 +20,9 @@ export interface IAnchorMenuProps extends AnchorProps {
 
 const AnchorMenu = ({
     affix,
-    getContainer,
     bounds,
     className,
+    getContainer,
     getCurrentAnchor,
     links = [],
     offsetTop,
@@ -33,20 +34,23 @@ const AnchorMenu = ({
 }: IAnchorMenuProps) => {
     const scrollContainer = document.getElementById(scrollContainerId);
 
+    const simplebarContent = document.getElementsByClassName('simplebar-content-wrapper');
+
     const filteredLinks = links.filter((link) => !link.hidden);
 
     /** by default use first href link */
     const _getCurrentAnchor = (activeLink: string) => activeLink || (filteredLinks[0] && filteredLinks[0].href);
-    const _getContainer = scrollContainer ? () => scrollContainer : undefined;
+    const _getContainer = simplebarContent
+        ? () => simplebarContent[simplebarContent.length - 1] as AnchorContainer
+        : undefined;
 
     /** all props are overridable by new props */
     return (
         <Anchor
             affix={affix}
-            bounds={bounds}
+            bounds={50}
             className={`${styles.anchorMenu} ${className}`}
             getContainer={getContainer || _getContainer}
-            getCurrentAnchor={getCurrentAnchor || _getCurrentAnchor}
             offsetTop={offsetTop}
             onChange={onChange}
             prefixCls={prefixCls}

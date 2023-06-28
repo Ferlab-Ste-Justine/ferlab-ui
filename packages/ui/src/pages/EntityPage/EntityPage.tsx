@@ -14,19 +14,19 @@ export interface IEntityPage {
     loading: boolean;
     emptyText?: string;
     children: React.ReactNode;
-    preventUrlHash?: boolean;
 }
 
-const EntityPage: React.FC<IEntityPage> = ({ children, data, emptyText, links, loading, pageId = '' }) => {
-    const [scrollContainerId, setScrollContainerId] = useState<string>(pageId);
+const EntityPage: React.FC<IEntityPage> = ({ children, data, emptyText, links, loading, pageId }) => {
+    const [scrollContainerId, setScrollContainerId] = useState<string>('');
     const simplebarContent = document.getElementsByClassName('simplebar-content-wrapper');
 
     useEffect(() => {
-        if (pageId && simplebarContent?.length) {
-            setScrollContainerId(pageId);
-            simplebarContent[simplebarContent.length - 1].setAttribute('id', pageId);
+        if (simplebarContent.length) {
+            const scrollContainerId = pageId;
+            setScrollContainerId(scrollContainerId);
+            simplebarContent[simplebarContent.length - 1].setAttribute('id', scrollContainerId);
         }
-    }, [simplebarContent, pageId]);
+    }, [scrollContainerId, simplebarContent, pageId]);
 
     if (!data && !loading) {
         return <Empty description={emptyText} imageType="row" size="large" />;
