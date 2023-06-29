@@ -17,6 +17,7 @@ jobs:
           cd packages/ui
           current_version=ui@`cat package.json | jq -r '.version'`
           git tag $current_version
+          re=='(-rc\d+)'
           rc_release=`echo $current_version| grep -E $re`
           npm ci
           rm -rf ./core .lib
