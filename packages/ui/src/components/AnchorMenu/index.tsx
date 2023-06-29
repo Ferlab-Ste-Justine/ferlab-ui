@@ -6,6 +6,8 @@ import styles from './index.module.scss';
 
 const { Link } = Anchor;
 
+const DEFAULT_BOUND = 50;
+
 export interface IAnchorLink {
     href: string;
     title: string;
@@ -19,43 +21,29 @@ export interface IAnchorMenuProps extends AnchorProps {
 }
 
 const AnchorMenu = ({
-    affix,
-    bounds,
+    bounds = DEFAULT_BOUND,
     className,
     getContainer,
-    getCurrentAnchor,
     links = [],
-    offsetTop,
-    onChange,
-    prefixCls,
     scrollContainerId,
-    showInkInFixed,
-    targetOffset,
-}: IAnchorMenuProps) => {
+    ...rest
+}: IAnchorMenuProps): JSX.Element => {
     const scrollContainer = document.getElementById(scrollContainerId);
-
     const simplebarContent = document.getElementsByClassName('simplebar-content-wrapper');
 
     const filteredLinks = links.filter((link) => !link.hidden);
 
-    /** by default use first href link */
-    const _getCurrentAnchor = (activeLink: string) => activeLink || (filteredLinks[0] && filteredLinks[0].href);
     const _getContainer = simplebarContent
         ? () => simplebarContent[simplebarContent.length - 1] as AnchorContainer
         : undefined;
+    // const _getContainer = scrollContainer ? () => scrollContainer : undefined;
 
-    /** all props are overridable by new props */
     return (
         <Anchor
-            affix={affix}
-            bounds={50}
+            bounds={bounds}
             className={`${styles.anchorMenu} ${className}`}
             getContainer={getContainer || _getContainer}
-            offsetTop={offsetTop}
-            onChange={onChange}
-            prefixCls={prefixCls}
-            showInkInFixed={showInkInFixed}
-            targetOffset={targetOffset}
+            {...rest}
         >
             {filteredLinks.map(({ href, title }: IAnchorLink, index: number) => (
                 <Link href={href} key={index} title={title} />
