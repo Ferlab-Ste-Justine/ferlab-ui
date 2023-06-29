@@ -158,6 +158,10 @@ const RangeFilter = ({
         filterGroup.config?.defaultOperator || RangeOperators['<'],
     );
     const operatorsList = range?.operators?.length ? range?.operators : defaultOperators;
+    const intervalDecimal =
+        filterGroup.config?.intervalDecimal || filterGroup.config?.intervalDecimal === 0
+            ? filterGroup.config.intervalDecimal
+            : 3;
 
     const {
         selectedMax = undefined,
@@ -295,8 +299,8 @@ const RangeFilter = ({
                 </StackLayout>
                 {hasConfigStep(filterGroup) && (
                     <Text className={styles.fuiRfRangeInterval} type="secondary">
-                        {get(dictionary, 'range.actualInterval', 'Actual interval')} : {range.min?.toFixed(3)} -{' '}
-                        {range.max?.toFixed(3)}
+                        {get(dictionary, 'range.actualInterval', 'Actual interval')} :{' '}
+                        {range.min?.toFixed(intervalDecimal)} - {range.max?.toFixed(intervalDecimal)}
                     </Text>
                 )}
                 {!!range?.rangeTypes?.length && (

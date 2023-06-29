@@ -216,6 +216,7 @@ interface IGetFilterGroup {
     headerTooltip?: boolean;
     dictionary?: IFacetDictionary;
     noDataInputOption?: boolean;
+    intervalDecimal?: number;
 }
 
 export const getFilterGroup = ({
@@ -224,12 +225,14 @@ export const getFilterGroup = ({
     extendedMapping,
     filterFooter,
     headerTooltip,
+    intervalDecimal,
     noDataInputOption = true,
     rangeTypes,
 }: IGetFilterGroup): IFilterGroup => {
     if (isRangeAgg(aggregation)) {
         return {
             config: {
+                intervalDecimal,
                 max: aggregation.stats.max,
                 min: aggregation.stats.min,
                 noDataInputOption: noDataInputOption,
