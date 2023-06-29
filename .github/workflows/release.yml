@@ -24,7 +24,7 @@ jobs:
       - run: |
           cd packages/ui
           current_version=ui@$(node -p -e "require('./package.json').version")
-          re=='(-rc\d+)'
+          re='(-rc\d+)'
           rc_release=`echo $current_version| grep -E $re`
           npm ci
           rm -rf ./core .lib
