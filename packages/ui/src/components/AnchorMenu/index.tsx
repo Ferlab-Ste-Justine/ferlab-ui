@@ -1,9 +1,12 @@
 import React from 'react';
-import { Anchor, AnchorProps } from 'antd';
+import Anchor, { AnchorProps } from 'antd/lib/anchor';
+import { AnchorContainer } from 'antd/lib/anchor/Anchor';
 
 import styles from './index.module.scss';
 
 const { Link } = Anchor;
+
+const DEFAULT_BOUND = 50;
 
 export interface IAnchorLink {
     href: string;
@@ -17,42 +20,26 @@ export interface IAnchorMenuProps extends AnchorProps {
     links: IAnchorLink[];
 }
 
+/**
+ * Since antd 4.24.11 we can't set active link. We need a little workaround with bounds props
+ * we can't cache the scroll container html element, antd need to query it everytime on the scroll event
+ * Adding an active link will broke the scroll event
+ * TODO rewrite to antd 5.0
+ */
 const AnchorMenu = ({
-    affix,
-    getContainer,
-    bounds,
+    bounds = DEFAULT_BOUND,
     className,
-    getCurrentAnchor,
     links = [],
-    offsetTop,
-    onChange,
-    prefixCls,
     scrollContainerId,
-    showInkInFixed,
-    targetOffset,
-}: IAnchorMenuProps) => {
-    const scrollContainer = document.getElementById(scrollContainerId);
-
+    ...rest
+}: IAnchorMenuProps): JSX.Element => {
     const filteredLinks = links.filter((link) => !link.hidden);
 
-    /** by default use first href link */
-    const _getCurrentAnchor = (activeLink: string) => activeLink || (filteredLinks[0] && filteredLinks[0].href);
-    const _getContainer = scrollContainer ? () => scrollContainer : undefined;
+    const _getContainer = () =>
+        document.querySelector(`#${scrollContainerId} .simplebar-content-wrapper:last-child`) as AnchorContainer;
 
-    /** all props are overridable by new props */
     return (
-        <Anchor
-            affix={affix}
-            bounds={bounds}
-            className={`${styles.anchorMenu} ${className}`}
-            getContainer={getContainer || _getContainer}
-            getCurrentAnchor={getCurrentAnchor || _getCurrentAnchor}
-            offsetTop={offsetTop}
-            onChange={onChange}
-            prefixCls={prefixCls}
-            showInkInFixed={showInkInFixed}
-            targetOffset={targetOffset}
-        >
+        <Anchor bounds={bounds} className={`${styles.anchorMenu} ${className}`} getContainer={_getContainer} {...rest}>
             {filteredLinks.map(({ href, title }: IAnchorLink, index: number) => (
                 <Link href={href} key={index} title={title} />
             ))}

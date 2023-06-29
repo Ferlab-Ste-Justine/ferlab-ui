@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import AnchorMenu from '../../components/AnchorMenu';
 import { IAnchorLink } from '../../components/AnchorMenu';
@@ -8,34 +8,24 @@ import ScrollContent from '../../layout/ScrollContent';
 import styles from './EntityPage.module.scss';
 
 export interface IEntityPage {
-    pageId: string;
-    links: IAnchorLink[];
-    data?: any;
-    loading: boolean;
-    emptyText?: string;
     children: React.ReactNode;
-    preventUrlHash?: boolean;
+    links: IAnchorLink[];
+    loading: boolean;
+    pageId: string;
+    bounds?: number;
+    data?: any;
+    emptyText?: string;
 }
 
-const EntityPage: React.FC<IEntityPage> = ({ children, data, emptyText, links, loading, pageId = '' }) => {
-    const [scrollContainerId, setScrollContainerId] = useState<string>(pageId);
-    const simplebarContent = document.getElementsByClassName('simplebar-content-wrapper');
-
-    useEffect(() => {
-        if (pageId && simplebarContent?.length) {
-            setScrollContainerId(pageId);
-            simplebarContent[simplebarContent.length - 1].setAttribute('id', pageId);
-        }
-    }, [simplebarContent, pageId]);
-
+const EntityPage: React.FC<IEntityPage> = ({ bounds, children, data, emptyText, links, loading, pageId }) => {
     if (!data && !loading) {
         return <Empty description={emptyText} imageType="row" size="large" />;
     }
 
     return (
-        <div className={styles.entityPageContainer}>
+        <div className={styles.entityPageContainer} id={pageId}>
             <ScrollContent className={styles.scrollContent}>{children}</ScrollContent>
-            <AnchorMenu className={styles.anchorMenu} links={links} scrollContainerId={scrollContainerId} />
+            <AnchorMenu bounds={bounds} className={styles.anchorMenu} links={links} scrollContainerId={pageId} />
         </div>
     );
 };
