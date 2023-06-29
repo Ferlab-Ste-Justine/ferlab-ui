@@ -1,3 +1,6 @@
+### 7.9.11 2023-06-29
+- feat: FLUI-77 add interval decimal in RangeFilter
+
 ### 7.9.10 2023-06-27
 - feat: FLUI-76 add no data option for range filter
 

@@ -49,6 +49,7 @@ export interface IFilterRangeConfig {
     rangeTypes?: IFilterRangeTypes[];
     defaultOperator?: RangeOperators;
     noDataInputOption?: boolean;
+    intervalDecimal?: number;
 }
 
 export interface IFilterTextInputConfig {
