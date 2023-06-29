@@ -1,5 +1,8 @@
+### 7.9.13 2023-06-29
+- fix: FLUI-74/SJIP-511 anchor menu higlight follow scroll
+
 ### 7.9.12 2023-06-29
-- feat: FLUI-74/SJIP-511 anchor menu higlight follow scroll
+- fix: SKFP-698 resizable grid fix file name and typo
 
 ### 7.9.11 2023-06-29
 - feat: FLUI-77 add interval decimal in RangeFilter
