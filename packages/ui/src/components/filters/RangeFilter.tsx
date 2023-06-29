@@ -12,6 +12,7 @@ import GreaterThanOperatorIcon from './icons/GreaterThanOperatorIcon';
 import GreaterThanOrEqualOperatorIcon from './icons/GreaterThanOrEqualOperatorIcon';
 import LessThanOperatorIcon from './icons/LessThanOperatorIcon';
 import LessThanOrEqualOperatorIcon from './icons/LessThanOrEqualOperatorIcon';
+import { INTERVAL_DECIMAL } from './constants';
 import {
     IDictionary,
     IFilter,
@@ -161,7 +162,7 @@ const RangeFilter = ({
     const intervalDecimal =
         filterGroup.config?.intervalDecimal || filterGroup.config?.intervalDecimal === 0
             ? filterGroup.config.intervalDecimal
-            : 3;
+            : INTERVAL_DECIMAL;
 
     const {
         selectedMax = undefined,
