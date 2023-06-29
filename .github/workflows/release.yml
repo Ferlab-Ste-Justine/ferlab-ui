@@ -21,14 +21,21 @@ jobs:
         with:
           node-version: '18.16.1'
           registry-url: 'https://registry.npmjs.org'
-      - run: |
-          cd packages/ui
-          current_version=ui@$(node -p -e "require('./package.json').version")
-          re='(-rc\d+)'
-          rc_release=`echo $current_version| grep -E $re`
-          npm ci
-          rm -rf ./core .lib
-          npm run build
-          [[ $rc_release ]] && npm publish --tag rc || npm publish
+      - name: Install Dependencies
+        run: |
+            npm ci
+            rm -rf ./core .lib
+            npm run build
+        working-directory: packages/ui
+      - name: Publish to NPM
+        run: |
+            current_version=ui@$(node -p -e "require('./package.json').version")
+            echo $current_version
+            re='(-rc\d+)'
+            echo $re
+            rc_release=`echo $current_version| grep -E $re`
+            echo $rc_release
+            echo "::debug:: `[[ $rc_release ]] && npm publish --tag rc || npm publish`"
+        working-directory: packages/ui
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
