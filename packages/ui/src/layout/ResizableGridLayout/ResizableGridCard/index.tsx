@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DownloadOutlined } from '@ant-design/icons';
-import { Dropdown, Menu, Modal } from 'antd';
+import { Dropdown, Modal } from 'antd';
 import d3ToPng from 'd3-svg-to-png';
 import { format } from 'date-fns';
 import { v4 } from 'uuid';
@@ -50,6 +50,11 @@ enum DownloadKey {
     tsv = 'tsv',
 }
 
+enum DownloadType {
+    data = 'data',
+    chart = 'chart',
+}
+
 const EXPORT_SETTINGS = {
     background: 'white',
     quality: 0.92,
@@ -58,11 +63,12 @@ const EXPORT_SETTINGS = {
 const DOWNLOAD_DELAY = 250;
 const DEFAULT_TSV_HEADERS = ['Value', 'Count', 'Frequency'];
 const DEFAULT_TSV_CONTENT_MAP = ['label', 'value', 'frequency'];
-const DEFAULT_FILENAME_TEMPLATE = '%name-chart-%date.%extension';
+const DEFAULT_FILENAME_TEMPLATE = '%name-$type-%date%extension';
 const DEFAULT_FILENAME_DATE_FORMAT = 'yyyy-MM-dd';
 
-const chartFileNameFormatter = (
+const fileNameFormatter = (
     fileNameTemplate: string,
+    type: DownloadType,
     dateFormat: string,
     name: string,
     extension: string,
@@ -70,6 +76,7 @@ const chartFileNameFormatter = (
     const formattedDate = format(new Date(), dateFormat);
     return fileNameTemplate
         .replace('%name', name.toLowerCase().replace(/ /g, ''))
+        .replace('%type', type)
         .replace('%date', formattedDate)
         .replace('%extension', extension);
 };
@@ -143,7 +150,7 @@ const ResizableGridCard = ({
                 // d3ToPng only works with string query, not element
                 d3ToPng(
                     `#${graphId} div:nth-child(${index + 1}) svg`,
-                    chartFileNameFormatter(fileNameTemplate, fileNameDateFormat, headerTitle, action),
+                    fileNameFormatter(fileNameTemplate, DownloadType.chart, fileNameDateFormat, headerTitle, ''),
                     { ...EXPORT_SETTINGS, format: action },
                 ).then((_) => {
                     setHasStartedDownload(false);
@@ -175,7 +182,13 @@ const ResizableGridCard = ({
                 hiddenElement.href = 'data:text/tab-separated-values;charset=utf-8,' + encodeURI(tsvContent);
                 hiddenElement.target = '_blank';
 
-                hiddenElement.download = chartFileNameFormatter(fileNameTemplate, fileNameDateFormat, headerTitle, e);
+                hiddenElement.download = fileNameFormatter(
+                    fileNameTemplate,
+                    DownloadType.data,
+                    fileNameDateFormat,
+                    headerTitle,
+                    `.${DownloadKey.tsv}`,
+                );
                 hiddenElement.click();
             });
 
