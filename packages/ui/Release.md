@@ -1,3 +1,6 @@
+### 7.9.12 2023-06-29
+- feat: FLUI-74/SJIP-511 anchor menu higlight follow scroll
+
 ### 7.9.11 2023-06-29
 - feat: FLUI-77 add interval decimal in RangeFilter
 
