@@ -31,10 +31,11 @@ jobs:
         run: |
             current_version=ui@$(node -p -e "require('./package.json').version")
             echo $current_version
-            re='(-rc\d+)'
+            re="(-rc\d+)"
             echo $re
-            rc_release=`echo $current_version| grep -E $re`
-            echo $rc_release
+            nodescript="const reg = /(-rc\d+)/g; '$current_version'.match(reg)[0];"
+            rc_release=$(node -p -e "$nodescript")
+            echo "::debug:: $rc_release"
             echo "::debug:: `[[ $rc_release ]] && npm publish --tag rc || npm publish`"
         working-directory: packages/ui
         env:
