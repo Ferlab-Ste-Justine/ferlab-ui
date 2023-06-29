@@ -4,19 +4,26 @@ on:
     branches:
       - master
 jobs:
-  publish:
+  create-tag:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # Setup .npmrc file to publish to npm
+      - run: |
+          cd packages/ui
+          current_version=ui@$(node -p -e "require('./package.json').version")
+          git tag $current_version
+
+  publish-to-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '18.16.1'
           registry-url: 'https://registry.npmjs.org'
       - run: |
           cd packages/ui
-          current_version=ui@`cat package.json | jq -r '.version'`
-          git tag $current_version
+          current_version=ui@$(node -p -e "require('./package.json').version")
           re=='(-rc\d+)'
           rc_release=`echo $current_version| grep -E $re`
           npm ci
@@ -25,4 +32,3 @@ jobs:
           [[ $rc_release ]] && npm publish --tag rc || npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
