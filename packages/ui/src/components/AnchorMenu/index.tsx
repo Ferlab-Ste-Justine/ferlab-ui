@@ -20,31 +20,26 @@ export interface IAnchorMenuProps extends AnchorProps {
     links: IAnchorLink[];
 }
 
+/**
+ * Since antd 4.24.11 we can't set active link. We need a little workaround with bounds props
+ * we can't cache the scroll container html element, antd need to query it everytime on the scroll event
+ * Adding an active link will broke the scroll event
+ * TODO rewrite to antd 5.0
+ */
 const AnchorMenu = ({
     bounds = DEFAULT_BOUND,
     className,
-    getContainer,
     links = [],
     scrollContainerId,
     ...rest
 }: IAnchorMenuProps): JSX.Element => {
-    const scrollContainer = document.getElementById(scrollContainerId);
-    const simplebarContent = document.getElementsByClassName('simplebar-content-wrapper');
-
     const filteredLinks = links.filter((link) => !link.hidden);
 
-    const _getContainer = simplebarContent
-        ? () => simplebarContent[simplebarContent.length - 1] as AnchorContainer
-        : undefined;
-    // const _getContainer = scrollContainer ? () => scrollContainer : undefined;
+    const _getContainer = () =>
+        document.querySelector(`#${scrollContainerId} .simplebar-content-wrapper:last-child`) as AnchorContainer;
 
     return (
-        <Anchor
-            bounds={bounds}
-            className={`${styles.anchorMenu} ${className}`}
-            getContainer={getContainer || _getContainer}
-            {...rest}
-        >
+        <Anchor bounds={bounds} className={`${styles.anchorMenu} ${className}`} getContainer={_getContainer} {...rest}>
             {filteredLinks.map(({ href, title }: IAnchorLink, index: number) => (
                 <Link href={href} key={index} title={title} />
             ))}
