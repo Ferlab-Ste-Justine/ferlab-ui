@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Layouts, Responsive as ResponsiveGridLayout, ResponsiveProps } from 'react-grid-layout';
 import { SizeMe } from 'react-sizeme';
 import { Space } from 'antd';
@@ -9,6 +9,11 @@ import ResizableItemSelector from './ResizableItemSelector';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import styles from './index.module.scss';
+
+type TOptionalBaseType = {
+    static?: boolean;
+    isResizable?: boolean;
+};
 
 interface ILayoutItemConfig extends Omit<Layout, 'i' | 'y' | 'minH'> {
     y?: number;
@@ -53,15 +58,30 @@ export const serialize = (config: IResizableGridLayoutConfig[]): TSerializedResi
         return itemToSave;
     });
 
+/**
+ * Compare and merge defaultConfig and the current saved config
+ * Non user data from base are override by config.base
+ * @param configs
+ * @param serializedConfigs
+ * @returns
+ */
 export const deserialize = (
     configs: IResizableGridLayoutConfig[],
     serializedConfigs?: TSerializedResizableGridLayoutConfig[],
 ): IResizableGridLayoutConfig[] =>
     configs.map((config) => {
         const serializedConfig = (serializedConfigs ?? []).find((item) => item.id == config.id);
+        const optionalBaseValues = generateOptionalBaseConfig(config.base);
+
         return {
             ...config,
             ...serializedConfig,
+            base: {
+                ...serializedConfig?.base,
+                minH: config.base.minH,
+                minW: config.base.minW,
+                ...optionalBaseValues,
+            },
         };
     }) as IResizableGridLayoutConfig[];
 
@@ -73,11 +93,18 @@ export const deserialize = (
 export const serializeConfigToLayouts = (configs: IResizableGridLayoutConfig[]): Layouts => {
     const responsiveLayouts: { [p: string]: any } = {};
     for (const breakpoint in BREAKPOINTS) {
-        responsiveLayouts[breakpoint] = configs.map((layout) => ({
-            ...layout.base,
-            ...(layout[breakpoint as keyof IResizableGridLayoutConfig] as ILayoutItemConfig),
-            i: layout.id,
-        }));
+        responsiveLayouts[breakpoint] = configs.map((layout) => {
+            const optionalBaseValues = generateOptionalBaseConfig(layout.base);
+
+            return {
+                ...layout.base,
+                ...(layout[breakpoint as keyof IResizableGridLayoutConfig] as ILayoutItemConfig),
+                i: layout.id,
+                minH: layout.base.minH,
+                minW: layout.base.minW,
+                ...optionalBaseValues,
+            };
+        });
     }
 
     return responsiveLayouts;
@@ -181,6 +208,13 @@ export const flattenBreakpoint = (layoutConfig: IResizableGridLayoutConfig): IRe
 
 /**
  * Compare default and user config
+ *
+ * Warning: When resize the browser, y data can`t change a lot. Print the difference in the breakpoint to
+ * fix the default layout in this case
+ * if (!isEqual(defaultBreakpointConfig, breakpointConfig))
+ *  console.log('breakpoint', breakpoint); //TODO: to remove
+ *  console.log('defaultBreakpointConfig', defaultBreakpointConfig); //TODO: to remove
+ *  console.log('breakpointConfig', breakpointConfig); //TODO: to remove
  * @param defaultConfigs
  * @param configs
  * @returns
@@ -203,6 +237,9 @@ export const isPrisitine = (
         }
 
         for (const breakpoint in defaultConfig) {
+            if (breakpoint === 'base') {
+                continue;
+            }
             const defaultBreakpointConfig = defaultConfig[breakpoint as keyof TSerializedResizableGridLayoutConfig];
             const breakpointConfig = config[breakpoint as keyof TSerializedResizableGridLayoutConfig];
             if (!isEqual(defaultBreakpointConfig, breakpointConfig)) {
@@ -212,6 +249,20 @@ export const isPrisitine = (
     }
 
     return true;
+};
+
+export const generateOptionalBaseConfig = (base: ILayoutItemConfig): TOptionalBaseType => {
+    const optionalBaseValues: TOptionalBaseType = {};
+
+    if (base.isResizable !== undefined) {
+        optionalBaseValues['isResizable'] = base.isResizable;
+    }
+
+    if (base.static !== undefined) {
+        optionalBaseValues['static'] = base.static;
+    }
+
+    return optionalBaseValues;
 };
 
 const ResizableGridLayout = ({
