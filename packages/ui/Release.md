@@ -1,4 +1,8 @@
-### 7.9.15 2023-07-06
+### 7.11.0 2023-07-06
+- fix: SKFP-672 the user doesn't need to reset if a card is now resizable or static
+- feat: add close button to resizable card header
+
+### 7.10.0 2023-07-06
 - fix: FLUI-79 update sqon to add pivot props when a field is nested
 
 ### 7.9.14 2023-07-06

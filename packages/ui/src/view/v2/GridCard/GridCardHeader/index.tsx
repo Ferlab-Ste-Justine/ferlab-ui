@@ -12,13 +12,14 @@ interface OwnProps {
     id: string;
     title: string;
     infoPopover?: PopoverProps;
+    extraClassName?: string;
     extra?: ReactNode[];
     withHandle?: boolean;
 }
 
 const { Title } = Typography;
 
-const GridCardHeader = ({ id, title, extra = [], withHandle = false, infoPopover }: OwnProps) => (
+const GridCardHeader = ({ id, title, extraClassName = '', extra = [], withHandle = false, infoPopover }: OwnProps) => (
     <Title className={styles.cardHeader} level={4}>
         <Space align="center" className={styles.title} direction="horizontal" size={5}>
             {withHandle && (
@@ -37,7 +38,7 @@ const GridCardHeader = ({ id, title, extra = [], withHandle = false, infoPopover
                 </Popover>
             )}
         </Space>
-        <div className={styles.extra}>{extra}</div>
+        <div className={extraClassName}>{extra}</div>
     </Title>
 );
 

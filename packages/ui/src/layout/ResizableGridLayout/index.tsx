@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { Layout, Layouts, Responsive as ResponsiveGridLayout, ResponsiveProps } from 'react-grid-layout';
 import { SizeMe } from 'react-sizeme';
 import { Space } from 'antd';
@@ -9,6 +9,14 @@ import ResizableItemSelector from './ResizableItemSelector';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import styles from './index.module.scss';
+
+type TResizableGridLayoutContext = {
+    [key: string]: {
+        onCardRemoveConfigUpdate: (targetId: string) => void;
+    };
+};
+
+export const ResizableGridLayoutContext = createContext<TResizableGridLayoutContext>({});
 
 type TOptionalBaseType = {
     static?: boolean;
@@ -37,12 +45,14 @@ export interface IResizableGridLayoutConfig {
 export type TSerializedResizableGridLayoutConfig = Omit<IResizableGridLayoutConfig, 'component'>;
 
 interface IResizableGridLayout extends Omit<ResponsiveProps, 'layouts'> {
+    uid: string;
     onConfigUpdate: (layouts: TSerializedResizableGridLayoutConfig[]) => void;
     defaultLayouts: IResizableGridLayoutConfig[];
     layouts?: TSerializedResizableGridLayoutConfig[];
     onReset: (layouts: TSerializedResizableGridLayoutConfig[]) => void;
 }
 
+const BASE_FLAG = 'base';
 const BREAKPOINTS = { lg: 1748, md: 1308, sm: 1088, xs: 648, xxs: 0 };
 
 /**
@@ -209,7 +219,7 @@ export const flattenBreakpoint = (layoutConfig: IResizableGridLayoutConfig): IRe
 /**
  * Compare default and user config
  *
- * Warning: When resize the browser, y data can`t change a lot. Print the difference in the breakpoint to
+ * Warning: When resize the browser, data can't change a lot. Print the difference in the breakpoint to
  * fix the default layout in this case
  * if (!isEqual(defaultBreakpointConfig, breakpointConfig))
  *  console.log('breakpoint', breakpoint); //TODO: to remove
@@ -237,7 +247,7 @@ export const isPrisitine = (
         }
 
         for (const breakpoint in defaultConfig) {
-            if (breakpoint === 'base') {
+            if (breakpoint === BASE_FLAG) {
                 continue;
             }
             const defaultBreakpointConfig = defaultConfig[breakpoint as keyof TSerializedResizableGridLayoutConfig];
@@ -251,6 +261,11 @@ export const isPrisitine = (
     return true;
 };
 
+/**
+ * Manage optional base params
+ * @param base
+ * @returns
+ */
 export const generateOptionalBaseConfig = (base: ILayoutItemConfig): TOptionalBaseType => {
     const optionalBaseValues: TOptionalBaseType = {};
 
@@ -270,6 +285,7 @@ const ResizableGridLayout = ({
     layouts,
     onConfigUpdate,
     onReset,
+    uid,
     ...props
 }: IResizableGridLayout): JSX.Element => {
     const [currentBreakpoint, setCurrentBreakpoint] = useState<string>('lg');
@@ -294,43 +310,53 @@ const ResizableGridLayout = ({
                 />
             </div>
 
-            <SizeMe>
-                {({ size }) => (
-                    <ResponsiveGridLayout
-                        breakpoints={BREAKPOINTS}
-                        className="layout"
-                        cols={{ lg: 16, md: 12, sm: 10, xs: 6, xxs: 4 }}
-                        containerPadding={[0, 0]}
-                        draggableHandle=".ant-card-head"
-                        layouts={responsiveDefaultLayouts}
-                        margin={[12, 12]}
-                        maxRows={10}
-                        onBreakpointChange={(newBreakpoint: string, newCols: number) => {
-                            setCurrentBreakpoint(newBreakpoint);
-                        }}
-                        onLayoutChange={(currentLayout, allLayouts) => {
-                            onConfigUpdate(serializeLayoutsToConfig(allLayouts, configs));
-                        }}
-                        rowHeight={98}
-                        width={size.width && size.width !== null ? size.width : 1280}
-                        {...props}
-                    >
-                        {configs.map((layout) => {
-                            if (layout.hidden) {
-                                return;
-                            }
-                            return (
-                                <div
-                                    data-grid={layout[currentBreakpoint as keyof IResizableGridLayoutConfig]}
-                                    key={layout.id}
-                                >
-                                    {layout.component}
-                                </div>
-                            );
-                        })}
-                    </ResponsiveGridLayout>
-                )}
-            </SizeMe>
+            <ResizableGridLayoutContext.Provider
+                value={{
+                    [uid]: {
+                        onCardRemoveConfigUpdate: (targetId: string) => {
+                            onConfigUpdate(serialize(updateConfig(configs, targetId, 'hidden', true)));
+                        },
+                    },
+                }}
+            >
+                <SizeMe>
+                    {({ size }) => (
+                        <ResponsiveGridLayout
+                            breakpoints={BREAKPOINTS}
+                            className="layout"
+                            cols={{ lg: 16, md: 12, sm: 10, xs: 6, xxs: 4 }}
+                            containerPadding={[0, 0]}
+                            draggableHandle=".ant-card-head"
+                            layouts={responsiveDefaultLayouts}
+                            margin={[12, 12]}
+                            maxRows={10}
+                            onBreakpointChange={(newBreakpoint: string, newCols: number) => {
+                                setCurrentBreakpoint(newBreakpoint);
+                            }}
+                            onLayoutChange={(currentLayout, allLayouts) => {
+                                onConfigUpdate(serializeLayoutsToConfig(allLayouts, configs));
+                            }}
+                            rowHeight={98}
+                            width={size.width && size.width !== null ? size.width : 1280}
+                            {...props}
+                        >
+                            {configs.map((layout) => {
+                                if (layout.hidden) {
+                                    return;
+                                }
+                                return (
+                                    <div
+                                        data-grid={layout[currentBreakpoint as keyof IResizableGridLayoutConfig]}
+                                        key={layout.id}
+                                    >
+                                        {layout.component}
+                                    </div>
+                                );
+                            })}
+                        </ResponsiveGridLayout>
+                    )}
+                </SizeMe>
+            </ResizableGridLayoutContext.Provider>
         </Space>
     );
 };

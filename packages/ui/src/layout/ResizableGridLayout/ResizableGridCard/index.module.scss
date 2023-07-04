@@ -4,8 +4,26 @@
   height: 100%;
   width: 100%;
 
-  .dropdownMenu {
-    :global(.ant-btn-text) {
+  .extra {
+    display: flex;
+    padding-right: 8px;
+
+    .dropdownMenu {
+      :global(.ant-btn-compact-first-item) {
+        display: none;
+      }
+
+      :global(.ant-btn-compact-last-item) {
+        width: 20px;
+      }
+
+      :global(.ant-btn-text) {
+        color: $chart-title-color !important;
+      }
+    }
+
+    .button {
+      width: 20px;
       color: $chart-title-color !important;
     }
   }
