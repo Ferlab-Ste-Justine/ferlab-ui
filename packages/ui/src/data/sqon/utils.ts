@@ -1,4 +1,4 @@
-import { cloneDeep, isEmpty, isUndefined, merge, union } from 'lodash';
+import { cloneDeep, isEmpty, isUndefined, merge, union, uniq } from 'lodash';
 import { v4 } from 'uuid';
 
 import {
@@ -11,6 +11,7 @@ import {
     VisualType,
 } from '../../components/filters/types';
 import { getActiveQuery } from '../../components/QueryBuilder/utils/useQueryBuilderState';
+import { IExtendedMappingResults } from '../../graphql/types';
 import { ArrangerValues } from '../arranger/formatting';
 import { getSelectedFiltersForRange } from '../filters/Range';
 
@@ -142,7 +143,7 @@ export const getDefaultSyntheticSqon = (id: string = v4()): ISyntheticSqon => ({
 export const resolveSyntheticSqon = (
     sqonsList: ISyntheticSqon[],
     syntheticSqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue,
-    pivot?: string,
+    extendedMapping?: IExtendedMappingResults,
 ): ISqonGroupFilter => {
     const getNewContent = (
         syntheticSqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue,
@@ -151,13 +152,15 @@ export const resolveSyntheticSqon = (
             .map((c: TSyntheticSqonContentValue) => (isReference(c) ? sqonsList[c as number] : c))
             .map((c: ISyntheticSqon | TSyntheticSqonContentValue) => resolveSyntheticSqon(sqonsList, c));
 
+    const pivots = findNestedSqonFields(sqonsList, extendedMapping);
+
     if (isBooleanOperator(syntheticSqon)) {
         return Object.assign(
             {
                 content: getNewContent(syntheticSqon),
                 op: (syntheticSqon as ISqonGroupFilter).op,
             },
-            pivot ? { pivot: pivot } : null,
+            pivots.length ? { pivot: pivots[0] } : null,
         );
     }
 
@@ -166,7 +169,7 @@ export const resolveSyntheticSqon = (
             content: (syntheticSqon as ISqonGroupFilter).content as TSqonContent,
             op: (syntheticSqon as ISqonGroupFilter).op,
         },
-        pivot ? { pivot: pivot } : null,
+        pivots.length ? { pivot: pivots[0] } : null,
     );
 };
 
@@ -821,4 +824,53 @@ export const isFilterSelected = (filters: ISyntheticSqon, filterGroup: IFilterGr
             false,
         );
     }
+};
+
+/**
+ * find if a sqon is part of on a nested field
+ * @param sqonsList
+ * @param extendedMapping
+ * @returns
+ */
+export const findNestedSqonFields = (
+    sqonsList: ISyntheticSqon[],
+    extendedMapping?: IExtendedMappingResults,
+): string[] => {
+    if (!extendedMapping) {
+        return [];
+    }
+
+    const nestedFields: string[] = [];
+    extendedMapping.data.forEach(({ field, type }) => {
+        if (type === 'nested') {
+            nestedFields.push(field);
+        }
+    });
+
+    const pivots: string[] = [];
+
+    sqonsList.forEach((sqon) => {
+        if (!sqon.content) {
+            return;
+        }
+
+        sqon.content.forEach((sqonContent) => {
+            const { content } = sqonContent as IValueFilter;
+            if (content) {
+                const { field } = content as IValueContent;
+
+                if (!field) {
+                    return;
+                }
+
+                const result = nestedFields.filter((nestedField) => field.startsWith(`${nestedField}.`));
+
+                if (result.length > 0) {
+                    pivots.push(result[0]);
+                }
+            }
+        });
+    });
+
+    return uniq(pivots);
 };

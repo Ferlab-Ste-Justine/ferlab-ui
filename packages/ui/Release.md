@@ -1,3 +1,6 @@
+### 7.9.15 2023-07-06
+- fix: FLUI-79 update sqon to add pivot props when a field is nested
+
 ### 7.9.14 2023-07-06
 - fix: CLIN-2050 updated GridCard props type
 
@@ -255,4 +258,3 @@
 
 - fix: Reformat generated code to use @ferlab/ui/core/X instead of .../lib/esnext/X
 - feat: Add StackLayout
-
