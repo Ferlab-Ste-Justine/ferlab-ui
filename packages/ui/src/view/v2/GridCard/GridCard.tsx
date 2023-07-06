@@ -7,7 +7,7 @@ import ConditionalWrapper from '../../../components/utils/ConditionalWrapper';
 
 import styles from './Gridcard.module.scss';
 
-export type TGridCard = CardProps & {
+export type TGridCard = Omit<CardProps, 'content'> & {
     footer?: React.ReactNode;
     content: React.ReactNode;
     theme?: 'shade' | 'light';
