@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { DownloadOutlined } from '@ant-design/icons';
-import { Dropdown, Modal } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
+import { CloseOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Modal } from 'antd';
 import d3ToPng from 'd3-svg-to-png';
 import { format } from 'date-fns';
 import { v4 } from 'uuid';
 
 import { GridCardHeader } from '../../../view/v2/GridCard';
 import GridCard, { TGridCard } from '../../../view/v2/GridCard/GridCard';
+import { ResizableGridLayoutContext } from '..';
 
 import styles from './index.module.scss';
 
@@ -29,6 +30,7 @@ type TDownloadSettings = {
 };
 
 type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
+    gridUID: string;
     headerTitle: string;
     dictionary?: TDictionary;
     modalContent: React.ReactNode;
@@ -42,6 +44,7 @@ type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
         data: any[];
     };
     downloadSettings?: TDownloadSettings;
+    onRemoveClick?: () => void;
 };
 
 enum DownloadKey {
@@ -60,6 +63,7 @@ const EXPORT_SETTINGS = {
     quality: 0.92,
     scale: 1,
 };
+
 const DOWNLOAD_DELAY = 250;
 const DEFAULT_TSV_HEADERS = ['Value', 'Count', 'Frequency'];
 const DEFAULT_TSV_CONTENT_MAP = ['label', 'value', 'frequency'];
@@ -109,6 +113,8 @@ const populateMenuItems = (settings: TDownloadSettings, dictionary?: TDictionary
 };
 
 const ResizableGridCard = ({
+    gridUID,
+    id,
     dictionary,
     headerTitle,
     modalContent,
@@ -117,6 +123,7 @@ const ResizableGridCard = ({
     tsvSettings,
     ...rest
 }: TResizableGridCard): JSX.Element => {
+    const context = useContext(ResizableGridLayoutContext);
     const graphId = `graph-${v4()}`;
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [action, setAction] = useState<DownloadKey>(DownloadKey.tsv);
@@ -125,7 +132,21 @@ const ResizableGridCard = ({
     const fileNameTemplate = dictionary?.download?.fileNameTemplate ?? DEFAULT_FILENAME_TEMPLATE;
     const fileNameDateFormat = dictionary?.download?.fileNameDateFormat ?? DEFAULT_FILENAME_DATE_FORMAT;
     const menuItems = populateMenuItems(downloadSettings, dictionary);
-    const extra = [];
+    const extra = [
+        <Button
+            className={styles.button}
+            icon={<CloseOutlined height={11} width={11} />}
+            key="remove-button"
+            onClick={() => {
+                if (id) {
+                    context[gridUID].onCardRemoveConfigUpdate(id);
+                }
+            }}
+            size="small"
+            type="text"
+        />,
+    ];
+
     if (menuItems.length > 0) {
         extra.push(
             <Dropdown.Button
@@ -220,7 +241,15 @@ const ResizableGridCard = ({
                 contentClassName={styles.resizableCard}
                 loadingType="spinner"
                 resizable
-                title={<GridCardHeader extra={extra} id={headerTitle} title={headerTitle} withHandle />}
+                title={
+                    <GridCardHeader
+                        extra={extra}
+                        extraClassName={styles.extra}
+                        id={headerTitle}
+                        title={headerTitle}
+                        withHandle
+                    />
+                }
                 wrapperClassName={styles.resizableCard}
                 {...rest}
             />
