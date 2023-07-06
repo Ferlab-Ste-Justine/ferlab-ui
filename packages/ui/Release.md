@@ -1,3 +1,6 @@
+### 7.9.14 2023-07-06
+- fix: CLIN-2050 updated GridCard props type
+
 ### 7.9.13 2023-06-29
 - fix: FLUI-74/SJIP-511 anchor menu higlight follow scroll
 
