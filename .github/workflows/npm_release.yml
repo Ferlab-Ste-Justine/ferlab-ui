@@ -1,0 +1,54 @@
+name: Publish Package to npmjs
+on:
+  push:
+    branches:
+      - master
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          cd packages/ui
+          current_version=ui@$(node -p -e "require('./package.json').version")
+          # exit if tag already exists
+          if [[ $(git tag -l "$current_version") ]]; then
+            echo "Skipping tag creation for RC release"
+            exit 0
+          fi
+          echo "creating tag $current_version"
+          git tag $current_version
+          git push --tags
+
+  publish-to-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.16.1'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install Dependencies
+        run: |
+            npm ci
+            rm -rf ./core .lib
+            npm run build
+        working-directory: packages/ui
+      - name: Publish to NPM
+        run: |
+            current_version=ui@$(node -p -e "require('./package.json').version")
+            # exit if tag already exists
+            [[ $(git tag -l "$current_version") ]] && exit 0
+            re="(-rc\d+)"
+            nodescript="const reg = /(-rc\d+)/g; const m = '$current_version'.match(reg); m ? m[0] : '';"
+            rc_release=$(node -p -e "$nodescript")
+            if [[ $rc_release ]]; then
+              echo "Publishing RC release $current_version"
+              npm publish --tag rc
+            else
+              echo "Publishing stable release $current_version"
+              npm publish
+            fi
+        working-directory: packages/ui
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
