@@ -1,17 +1,16 @@
-@import "theme.template";
-
+@import 'theme.template';
 
 .selectInput {
     width: 100%;
-    :global(.ant-select-selection-overflow){
+    :global(.ant-select-selection-overflow) {
         gap: 4px 4px;
     }
-    :global(.anticon-loading){
+    :global(.anticon-loading) {
         color: $blue-8;
         font-size: 16px;
     }
 }
-:global(.ant-select-multiple .ant-select-selector){
+:global(.ant-select-multiple .ant-select-selector) {
     padding: 2px;
 }
 
@@ -22,10 +21,10 @@
     }
 }
 
-.assignmentOption{
+.assignmentOption {
     &:focus {
         background: none;
-      }
+    }
 }
 
 .noAssignments {
@@ -35,6 +34,14 @@
     margin: 8px 0 2px 0;
     span {
         text-decoration: underline;
+    }
+    &:hover:not([disabled]) {
+        color: $blue-8;
+        span  {
+            color: $blue-8;
+            background: transparent;
+            text-decoration: none;
+        }
     }
 }
 

@@ -1,3 +1,6 @@
+### 7.11.1 2023-07-10
+- fix: CLIN-1763 assignement style + functionality 
+
 ### 7.11.0 2023-07-06
 - fix: SKFP-672 the user doesn't need to reset if a card is now resizable or static
 - feat: add close button to resizable card header

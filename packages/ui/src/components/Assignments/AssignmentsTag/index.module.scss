@@ -5,6 +5,12 @@
     border-radius: 100px;
     margin: 0;
     padding: 0 8px 0 0;
+    :global(.ant-tag-close-icon){
+        color: $gray-6;
+        &:hover{
+            color: $gray-8;
+        }
+    }
 }
 
 .noBackground {
@@ -15,9 +21,6 @@
     background-color: $gray-2;
     border: 1px dashed $gray-6;
     color: $gray-6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     span{
         font-size: 14px;
     }

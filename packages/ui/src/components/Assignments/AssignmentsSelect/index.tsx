@@ -102,7 +102,7 @@ export const AssignmentsSelect = ({
     const filteredSelectedOptions = options.filter(
         ({ practitionerRoles_Id: id1 }) => !alreadySelectedOption.some(({ practitionerRoles_Id: id2 }) => id2 === id1),
     );
-    const [filteredAutocompleteOption, setFilteredAutocompleteOption] = useState<TPractitionnerInfo[]>([]);
+    const [filteredAutocompleteOption, setFilteredAutocompleteOption] = useState<TPractitionnerInfo[] | null>(null);
 
     const allOption = options.reduce(
         (acc: { value: string; label: string }[], curr: TPractitionnerInfo) => [
@@ -141,7 +141,7 @@ export const AssignmentsSelect = ({
                       getPractitionnerName(o.name).toLowerCase().includes(searchValue.toLowerCase()),
                   ),
               )
-            : setFilteredAutocompleteOption([]);
+            : setFilteredAutocompleteOption(null);
     }, [searchValue]);
 
     const dropdownContent = () => (
@@ -160,7 +160,7 @@ export const AssignmentsSelect = ({
             </Button>
             <ScrollContent className={styles.optionsList}>
                 {renderOptions(
-                    filteredAutocompleteOption.length === 0 ? filteredSelectedOptions : filteredAutocompleteOption,
+                    filteredAutocompleteOption === null ? filteredSelectedOptions : filteredAutocompleteOption,
                     setSearchValue,
                     selectedItems,
                     setSelectedItems,
@@ -176,6 +176,13 @@ export const AssignmentsSelect = ({
                 dropdownStyle={{ display: visibleOptions ? 'none' : 'undefined' }}
                 loading={loading}
                 mode="multiple"
+                onChange={(e) => {
+                    if (Array.isArray(e)) {
+                        const newIdList = e.map((id) => (id.value ? id.value : id));
+                        const newSelectedItem = options.filter((r) => newIdList.includes(r.practitionerRoles_Id));
+                        setSelectedItems(newSelectedItem);
+                    }
+                }}
                 onDropdownVisibleChange={(open) => {
                     setOpenDropdown(open);
                 }}

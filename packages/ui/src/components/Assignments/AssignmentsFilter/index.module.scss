@@ -26,7 +26,11 @@
 }
 
 .resetButton{
-    padding: 0;
+    color: $blue-8;
+    &:hover{
+        color: $blue-8;
+        background-color: $gray-3; 
+    }
 }
 
 .tagContainer{
