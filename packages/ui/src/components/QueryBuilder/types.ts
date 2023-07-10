@@ -36,11 +36,17 @@ export interface IQueriesState {
     queries: ISyntheticSqon[];
 }
 
+export enum SavedFilterTypeEnum {
+    Filter = 'filter',
+    Custom_pill = 'pill',
+}
+
 export interface ISavedFilter {
     id: string;
     title: string;
     favorite: boolean;
     queries: ISyntheticSqon[];
+    type?: SavedFilterTypeEnum;
 }
 
 export interface IQueryBuilderHeaderConfigOptions {
