@@ -19,6 +19,11 @@ export type TAssignmentsTag = {
     dictionary?: IAssignmentsDictionary | Record<string, never>;
 };
 
+const onPreventMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+};
+
 export const AssignmentsTag = ({
     background = true,
     closable = false,
@@ -35,6 +40,7 @@ export const AssignmentsTag = ({
             className={background ? `${styles.assignmentsTag}` : `${styles.assignmentsTag} ${styles.noBackground}`}
             closable={closable && true}
             onClose={handleClose}
+            onMouseDown={onPreventMouseDown}
         >
             <Space size={8}>
                 {unAssign ? (
