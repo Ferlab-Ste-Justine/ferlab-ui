@@ -1,3 +1,6 @@
+### 7.11.2 2023-07-10
+- feat: CLIN-2049 and CLIN-2062 add cusom pill sidebar
+
 ### 7.11.1 2023-07-10
 - fix: CLIN-1763 assignement style + functionality 
 
