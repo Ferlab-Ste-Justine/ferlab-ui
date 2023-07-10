@@ -21,12 +21,12 @@ interface IQueriesSidebarDictionary {
     title: string;
 }
 
-interface IQueriesSidebar {
+export interface IQueriesSidebarProps {
     customPills: ISavedFilter[];
     dictionary: IQueriesSidebarDictionary;
 }
 
-const QueriesSidebar = ({ customPills = [], dictionary }: IQueriesSidebar): JSX.Element => {
+const QueriesSidebar = ({ customPills = [], dictionary }: IQueriesSidebarProps): JSX.Element => {
     if (!customPills.length) {
         return (
             <div className={styles.emptyQueriesSidebarWrapper}>
