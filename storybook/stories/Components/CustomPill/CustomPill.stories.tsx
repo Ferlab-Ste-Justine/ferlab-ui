@@ -31,7 +31,7 @@ const customPillOne: ISavedFilter = {
         },
     ],
     title: 'Custom Pill 1 or maybe another name for this pill',
-    type: SavedFilterTypeEnum.Custom_pill,
+    type: SavedFilterTypeEnum.Query,
 };
 
 const customPillTwo: ISavedFilter = {
@@ -62,7 +62,7 @@ const customPillTwo: ISavedFilter = {
         },
     ],
     title: 'Custom Pill 2',
-    type: SavedFilterTypeEnum.Custom_pill,
+    type: SavedFilterTypeEnum.Query,
 };
 
 export default {
