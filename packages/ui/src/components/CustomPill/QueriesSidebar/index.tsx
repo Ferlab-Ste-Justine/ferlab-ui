@@ -24,9 +24,20 @@ interface IQueriesSidebarDictionary {
 export interface IQueriesSidebarProps {
     customPills: ISavedFilter[];
     dictionary: IQueriesSidebarDictionary;
+    addPillToQuery: (queryPillId: string) => void;
+    editPill: (queryPillId: string) => void;
+    duplicatePill: (queryPillId: string) => void;
+    deletePill: (queryPillId: string) => void;
 }
 
-const QueriesSidebar = ({ customPills = [], dictionary }: IQueriesSidebarProps): JSX.Element => {
+const QueriesSidebar = ({
+    customPills = [],
+    dictionary,
+    addPillToQuery,
+    deletePill,
+    duplicatePill,
+    editPill,
+}: IQueriesSidebarProps): JSX.Element => {
     if (!customPills.length) {
         return (
             <div className={styles.emptyQueriesSidebarWrapper}>
@@ -67,7 +78,14 @@ const QueriesSidebar = ({ customPills = [], dictionary }: IQueriesSidebarProps):
             </span>
             <div className={styles.pillsWrapper}>
                 {sortedPills.map((pill) => (
-                    <QueryPill key={pill.id} queryPill={pill} />
+                    <QueryPill
+                        addPillToQuery={addPillToQuery}
+                        deletePill={deletePill}
+                        duplicatePill={duplicatePill}
+                        editPill={editPill}
+                        key={pill.id}
+                        queryPill={pill}
+                    />
                 ))}
             </div>
         </div>
