@@ -38,7 +38,7 @@ export interface IQueriesState {
 
 export enum SavedFilterTypeEnum {
     Filter = 'filter',
-    Custom_pill = 'pill',
+    Query = 'query',
 }
 
 export interface ISavedFilter {
