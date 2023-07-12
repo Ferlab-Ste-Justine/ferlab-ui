@@ -46,7 +46,7 @@ export interface ISavedFilter {
     title: string;
     favorite: boolean;
     queries: ISyntheticSqon[];
-    type?: SavedFilterTypeEnum;
+    type?: string;
 }
 
 export interface IQueryBuilderHeaderConfigOptions {
