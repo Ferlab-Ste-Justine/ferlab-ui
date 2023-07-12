@@ -65,7 +65,7 @@ const QueryBar = ({
     query,
     remoteComponentMapping,
     selectionDisabled = false,
-}: IQueryBarProps) => {
+}: IQueryBarProps): JSX.Element => {
     const { dictionary, noQueries, queryBuilderId } = useContext(QueryBuilderContext);
     const previousQuery = useRef<ISqonGroupFilter | null>(null);
     const [total, setTotal] = useState(0);

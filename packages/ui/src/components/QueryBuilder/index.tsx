@@ -86,7 +86,7 @@ const QueryBuilder = ({
     fetchQueryCount,
     getResolvedQueryForCount,
     remoteComponentMapping,
-}: IQueryBuilderProps) => {
+}: IQueryBuilderProps): JSX.Element => {
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
     const { state: queryBuilderState } = useQueryBuilderState(id);
     const [queriesState, setQueriesState] = useState<IQueriesState>({
