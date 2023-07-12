@@ -24,6 +24,8 @@ export type TValueOp = FieldOperators | string;
 export interface IValueFilter {
     content: IValueContent;
     op: TValueOp;
+    id?: string;
+    title?: string;
 }
 export interface IWildCardValueFilter extends Omit<IValueFilter, 'content'> {
     content: IWildCardValueContent;
