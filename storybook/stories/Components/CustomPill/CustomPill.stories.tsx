@@ -103,6 +103,7 @@ WithoutPill.args = {
         learnMore: 'En savoir plus',
         title: 'Mes requetes',
     },
+    learnMoreLink: 'http://www.google.com',
 };
 
 export const WithPills = QueriesSidebarStory.bind({});
@@ -115,4 +116,19 @@ WithPills.args = {
         learnMore: 'En savoir plus',
         title: 'Mes requetes',
     },
+};
+
+export const WithGetError = QueriesSidebarStory.bind({});
+WithGetError.args = {
+    title: 'Custom pill sidebar with error',
+    customPills: [],
+    dictionary: {
+        emptyText:
+            'Vous pouvez créer des requêtes personnalisées en ajoutant des critères à la barre de requêtes et en cliquant sur le bouton sauvegarder.',
+        learnMore: 'En savoir plus',
+        title: 'Mes requetes',
+        errorText:
+            "Nous n'avons pas pu afficher vos requêtes personnalisées. Veuillez rafraîchir l'application et réessayer.",
+    },
+    hasError: true,
 };

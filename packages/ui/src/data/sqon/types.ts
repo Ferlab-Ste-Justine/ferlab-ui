@@ -46,6 +46,7 @@ export interface ISyntheticSqon {
     op: TSqonGroupOp;
     content: TSyntheticSqonContent;
     id?: string;
+    title?: string;
     /**
      * @deprecated The params should not be used anymore
      */
