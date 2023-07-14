@@ -21,6 +21,7 @@ const GridCardItem = ({ type }: { type: string }) => {
 
     return (
         <ResizableGridCard
+            gridUID="storybook"
             theme="shade"
             loading={false}
             loadingType="spinner"
@@ -109,7 +110,7 @@ const getDefaultLayouts = (): IResizableGridLayoutConfig[] => [
         },
         component: <GridCardItem type="bar" />,
         id: 'card_1',
-        title: 'Card 1',
+        title: 'Card 1 to be truncable when activated by card resize',
     },
     {
         base: {
@@ -230,6 +231,7 @@ export const ResizableGridStory = () => (
         <h3>Resizable Grid Story</h3>
         <div>
             <ResizableGridLayout 
+              uid="ResizableGridStory"
               defaultLayouts={getDefaultLayouts()}
               layouts={getDefaultLayouts()}
               onReset={(layouts: TSerializedResizableGridLayoutConfig[]) => {
@@ -249,6 +251,7 @@ export const ResizableGridWithUserConfigStory = () => (
         <h3>Resizable Grid Story</h3>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <ResizableGridLayout 
+              uid="ResizableGridWithUserConfigStory"
               defaultLayouts={getDefaultLayouts()}
               layouts={getSerializedLayout()}
               onReset={(layouts: TSerializedResizableGridLayoutConfig[]) => {
