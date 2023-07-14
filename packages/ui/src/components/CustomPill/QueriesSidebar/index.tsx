@@ -5,6 +5,7 @@ import {
     FundOutlined,
     InfoCircleOutlined,
     PieChartOutlined,
+    WarningFilled,
 } from '@ant-design/icons';
 import { Tooltip, Typography } from 'antd';
 
@@ -17,13 +18,16 @@ import styles from './index.module.scss';
 
 interface IQueriesSidebarDictionary {
     emptyText: string;
+    errorText: string;
     learnMore: string;
     title: string;
 }
 
 export interface IQueriesSidebarProps {
     customPills: ISavedFilter[];
+    hasError: boolean;
     dictionary: IQueriesSidebarDictionary;
+    learnMoreLink?: string;
     addPillToQuery: (queryPillId: string) => void;
     editPill: (queryPillId: string) => void;
     duplicatePill: (queryPillId: string) => void;
@@ -32,13 +36,15 @@ export interface IQueriesSidebarProps {
 
 const QueriesSidebar = ({
     customPills = [],
+    hasError = false,
     dictionary,
+    learnMoreLink,
     addPillToQuery,
     deletePill,
     duplicatePill,
     editPill,
 }: IQueriesSidebarProps): JSX.Element => {
-    if (!customPills.length) {
+    if (!customPills.length || hasError) {
         return (
             <div className={styles.emptyQueriesSidebarWrapper}>
                 <div className={styles.iconsWrapper}>
@@ -47,12 +53,24 @@ const QueriesSidebar = ({
                     <FundOutlined className={styles.icon} />
                     <DotChartOutlined className={styles.icon} />
                 </div>
-                <div className={styles.emptyText}>{dictionary.emptyText}</div>
+                {hasError && (
+                    <div className={styles.errorText}>
+                        <WarningFilled className={styles.errorIcon} />
+                        {dictionary.errorText}
+                    </div>
+                )}
 
                 {/* TODO change href when we will have it */}
-                <ExternalLink className={styles.link} hasIcon={true} href={'http://www.google.fr'}>
-                    {dictionary.learnMore}
-                </ExternalLink>
+                {!hasError && (
+                    <>
+                        <div className={styles.emptyText}>{dictionary.emptyText}</div>
+                        {learnMoreLink && (
+                            <ExternalLink className={styles.link} hasIcon={true} href={learnMoreLink}>
+                                {dictionary.learnMore}
+                            </ExternalLink>
+                        )}
+                    </>
+                )}
             </div>
         );
     }
