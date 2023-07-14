@@ -5,6 +5,11 @@
   align-items: center;
   justify-content: space-between;
   font-size: 12px !important;
+  width: 100%;
+
+  .cardHeadererContent {
+    overflow: hidden;
+  }
 
   .dragHandle {
     font-size: 12px;
@@ -21,9 +26,16 @@
     color: $body-2;
     font-size: 12px;
   }
+
+  .titleContainer {
+    overflow: hidden;
+    width: 100%;
+  }
 }
 
 .infoPopoverOverlay {
   max-width: 350px;
 }
+
+
 
