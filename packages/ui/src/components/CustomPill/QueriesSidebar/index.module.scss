@@ -18,6 +18,22 @@
         }
     }
 
+    .errorText {
+        display: flex;
+        flex-direction: row;
+        border: 1px solid $red-3;
+        border-radius: 2px;
+        background-color: $red-1;
+        padding: 9px 16px;
+        letter-spacing: 0.25px;
+
+        .errorIcon {
+            color: $red-7;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+    }
+
     .emptyText {
         text-align: center;
         letter-spacing: 0.25px;
