@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CloseOutlined, DownloadOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Modal } from 'antd';
+import { Button, Dropdown, Modal, Tooltip } from 'antd';
 import d3ToPng from 'd3-svg-to-png';
 import { format } from 'date-fns';
 import { v4 } from 'uuid';
@@ -20,6 +20,7 @@ type TDictionary = {
         data?: string;
         svg?: string;
         png?: string;
+        removeChart?: string;
     };
 };
 
@@ -64,6 +65,7 @@ const EXPORT_SETTINGS = {
     scale: 1,
 };
 
+const CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH = 75;
 const DOWNLOAD_DELAY = 250;
 const DEFAULT_TSV_HEADERS = ['Value', 'Count', 'Frequency'];
 const DEFAULT_TSV_CONTENT_MAP = ['label', 'value', 'frequency'];
@@ -133,18 +135,20 @@ const ResizableGridCard = ({
     const fileNameDateFormat = dictionary?.download?.fileNameDateFormat ?? DEFAULT_FILENAME_DATE_FORMAT;
     const menuItems = populateMenuItems(downloadSettings, dictionary);
     const extra = [
-        <Button
-            className={styles.button}
-            icon={<CloseOutlined height={11} width={11} />}
-            key="remove-button"
-            onClick={() => {
-                if (id) {
-                    context[gridUID].onCardRemoveConfigUpdate(id);
-                }
-            }}
-            size="small"
-            type="text"
-        />,
+        <Tooltip title={`${dictionary?.download?.removeChart ?? 'Remove chart'}`}>
+            <Button
+                className={styles.button}
+                icon={<CloseOutlined height={11} width={11} />}
+                key="remove-button"
+                onClick={() => {
+                    if (id) {
+                        context[gridUID].onCardRemoveConfigUpdate(id);
+                    }
+                }}
+                size="small"
+                type="text"
+            />
+        </Tooltip>,
     ];
 
     if (menuItems.length > 0) {
@@ -247,6 +251,7 @@ const ResizableGridCard = ({
                         extraClassName={styles.extra}
                         id={headerTitle}
                         title={headerTitle}
+                        titleTruncateThresholdWidth={CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH}
                         withHandle
                     />
                 }
