@@ -92,6 +92,11 @@ interface IActions {
     new?: React.ReactNode;
     duplicate?: React.ReactNode;
     changeOperatorTo?: React.ReactNode;
+    saveCustomPill?: IPopupConfirmDictionary & {
+        input: IInputDictionary & {
+            maximumLength: React.ReactNode;
+        };
+    };
 }
 
 interface IClearTranslation {
