@@ -86,7 +86,27 @@ antd sometimes has breaking changes in non-breaking realease. To reduce the risk
 3. Add or modify storybook that matches your changes
 4. Create a PR
 
-#### Publish
+#### Publish to npm
+
+**Description:** This section outlines the process of publishing a package to npm. The publication is automatically triggered when a branch is merged into the `master` branch. If the package version already exists, the publish process will be skipped to avoid conflicts.
+
+**Steps:**
+1. Update the `package.json` version to the desired version for the release. <!-- Comment: Specify the new version number in the format X.Y.Z -->
+2. Create a pull request (PR) for the changes. <!-- Comment: Make sure the changes are reviewed and tested before merging -->
+3. After reviewing the changes, merge the PR into the `master` branch. <!-- Comment: Use the "Merge pull request" button in the PR once approved -->
+4. Ensure that the GitHub actions have completed successfully before proceeding. <!-- Comment: Check the Actions tab to verify the successful completion -->
+
+#### Publish a Release Candidate (RC)
+
+**Description:** The purpose of a Release Candidate (RC) is to thoroughly test changes before merging them into the main branch. It allows specific changes to be tested in a feature branch before becoming part of the official release.
+
+**Steps:**
+1. A feature branch will be automatically created when a pull request is initiated. <!-- Comment: Ensure you start your work in a feature branch before creating a PR -->
+2. In the feature branch, add a `package.json` version with a suffix `-rc[number]`, such as `8.5.6-rc2`, to indicate that it is a Release Candidate. <!-- Comment: Example version format for RC -->
+3. Mark the PR as 'NOT READY TO MERGE' to indicate that it should not be merged into the `master` branch. <!-- Comment: Use the GitHub UI to add this label to the RC PR -->
+4. The RC PR should be tested and validated, but it should not be merged into the `master` branch. Its purpose is to ensure thorough testing before proceeding with the official release. <!-- Comment: Only merge the RC branch after it has been thoroughly tested -->
+
+#### Publish to npm Manually (in case of error with auto publish)
 1. Try to install the package to make sure everything work corretly
 
    > cd [test dir] && npm i [full_path]/ferlab-ui/packages/ui
