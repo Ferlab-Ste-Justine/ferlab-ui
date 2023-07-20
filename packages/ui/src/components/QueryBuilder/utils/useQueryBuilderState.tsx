@@ -56,7 +56,7 @@ export const addQuery = ({
                   }
                   return cQuery;
               })
-            : [...qbState?.state!, query],
+            : [...queries, query],
     });
 };
 
@@ -166,9 +166,11 @@ export const updateActiveQueryField = ({
 
 const updateQuery = ({ query, queryBuilderId }: { queryBuilderId: string; query: ISyntheticSqon }) => {
     const qbState = getQueryBuilderState(queryBuilderId);
-    const queryToUpdate = qbState?.state?.find(({ id }) => id === query.id)!;
-    queryToUpdate.content = query.content;
-    queryToUpdate.op = query.op;
+    const queryToUpdate = qbState?.state?.find(({ id }) => id === query.id);
+    if (queryToUpdate) {
+        queryToUpdate.content = query.content;
+        queryToUpdate.op = query.op;
+    }
 
     setQueryBuilderState(queryBuilderId, qbState!);
 };
