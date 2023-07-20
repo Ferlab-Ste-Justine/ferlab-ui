@@ -1,3 +1,6 @@
+### 7.12.0 2023-07-19
+- feat: CLIN-1767 add update query for filter by table
+
 ### 7.11.1 2023-07-10
 - fix: CLIN-1763 assignement style + functionality 
 - feat: SKFP-675 add truncable title on card header, fix resizable card tooltip

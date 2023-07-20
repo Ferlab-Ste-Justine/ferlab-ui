@@ -6,8 +6,10 @@ import { BooleanOperators, RangeOperators, TermOperators } from '../../../data/s
 import { IRemoteComponent, TSqonGroupOp } from '../../../data/sqon/types';
 import { ISyntheticSqon, MERGE_VALUES_STRATEGIES } from '../../../data/sqon/types';
 import {
+    createInlineFilters,
     deepMergeFieldInActiveQuery,
     getDefaultSyntheticSqon,
+    getUpdatedActiveQuery,
     getUpdatedActiveQueryByFilterGroup,
     removeFieldFromActiveQuery,
 } from '../../../data/sqon/utils';
@@ -54,7 +56,7 @@ export const addQuery = ({
                   }
                   return cQuery;
               })
-            : [...qbState?.state!, query],
+            : [...queries, query],
     });
 };
 
@@ -164,12 +166,35 @@ export const updateActiveQueryField = ({
 
 const updateQuery = ({ query, queryBuilderId }: { queryBuilderId: string; query: ISyntheticSqon }) => {
     const qbState = getQueryBuilderState(queryBuilderId);
-    const queryToUpdate = qbState?.state?.find(({ id }) => id === query.id)!;
-    queryToUpdate.content = query.content;
-    queryToUpdate.op = query.op;
+    const queryToUpdate = qbState?.state?.find(({ id }) => id === query.id);
+    if (queryToUpdate) {
+        queryToUpdate.content = query.content;
+        queryToUpdate.op = query.op;
+    }
 
     setQueryBuilderState(queryBuilderId, qbState!);
 };
+
+export const updateQueryByTableFilter = ({
+    field,
+    queryBuilderId,
+    selectedFilters,
+}: {
+    queryBuilderId: string;
+    field: string;
+    selectedFilters: IFilter[];
+}): void =>
+    updateQuery({
+        query:
+            selectedFilters.length > 0
+                ? getUpdatedActiveQuery({
+                      field,
+                      queryBuilderId: queryBuilderId,
+                      sqonContent: createInlineFilters(field, selectedFilters),
+                  })
+                : removeFieldFromActiveQuery(queryBuilderId, field),
+        queryBuilderId: queryBuilderId,
+    });
 
 /**
  * Update the state of a given QueryBuilder.
