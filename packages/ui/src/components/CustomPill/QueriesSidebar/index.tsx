@@ -16,11 +16,25 @@ import QueryPill from './QueryPill';
 
 import styles from './index.module.scss';
 
-interface IQueriesSidebarDictionary {
+export interface IQueriesSidebarDictionary {
     emptyText: string;
     errorText: string;
     learnMore: string;
     title: string;
+    deleteCustomPill: {
+        modal: {
+            title: string;
+            okText: string;
+            cancelText: string;
+            message: string;
+            existingFilters: string;
+            errorMessage: string;
+        };
+        notification: {
+            error: { description: string; message: string };
+            success: string;
+        };
+    };
 }
 
 export interface IQueriesSidebarProps {
@@ -28,10 +42,11 @@ export interface IQueriesSidebarProps {
     hasError: boolean;
     dictionary: IQueriesSidebarDictionary;
     learnMoreLink?: string;
-    addPillToQuery: (queryPillId: string) => void;
-    editPill: (queryPillId: string) => void;
-    duplicatePill: (queryPillId: string) => void;
-    deletePill: (queryPillId: string) => void;
+    addPillToQuery: (id: string) => void;
+    editPill: (id: string) => void;
+    duplicatePill: (id: string) => void;
+    deletePill: (id: string) => any;
+    getFiltersByPill: (id: string) => any;
 }
 
 const QueriesSidebar = ({
@@ -43,6 +58,7 @@ const QueriesSidebar = ({
     deletePill,
     duplicatePill,
     editPill,
+    getFiltersByPill,
 }: IQueriesSidebarProps): JSX.Element => {
     if (!customPills.length || hasError) {
         return (
@@ -75,7 +91,9 @@ const QueriesSidebar = ({
         );
     }
 
-    const sortedPills = customPills.sort((a, b) => (a.title < b.title ? -1 : a.title > b.title ? 1 : 0));
+    const sortedPills = customPills.sort((a, b) =>
+        a.title.localeCompare(b.title, undefined, { ignorePunctuation: true, sensitivity: 'base' }),
+    );
 
     return (
         <div className={styles.queriesSidebarWrapper}>
@@ -99,8 +117,10 @@ const QueriesSidebar = ({
                     <QueryPill
                         addPillToQuery={addPillToQuery}
                         deletePill={deletePill}
+                        dictionary={dictionary}
                         duplicatePill={duplicatePill}
                         editPill={editPill}
+                        getFiltersByPill={getFiltersByPill}
                         key={pill.id}
                         queryPill={pill}
                     />
