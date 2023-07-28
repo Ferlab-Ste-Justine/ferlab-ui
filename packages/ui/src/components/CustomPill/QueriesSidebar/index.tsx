@@ -7,7 +7,7 @@ import {
     PieChartOutlined,
     WarningFilled,
 } from '@ant-design/icons';
-import { Tooltip, Typography } from 'antd';
+import { Spin, Tooltip, Typography } from 'antd';
 
 import ExternalLink from '../../ExternalLink';
 import { ISavedFilter } from '../../QueryBuilder/types';
@@ -41,6 +41,7 @@ export interface IQueriesSidebarProps {
     customPills: ISavedFilter[];
     hasError: boolean;
     dictionary: IQueriesSidebarDictionary;
+    isLoading: boolean;
     learnMoreLink?: string;
     addPillToQuery: (id: string) => void;
     editPill: (id: string) => void;
@@ -52,6 +53,7 @@ export interface IQueriesSidebarProps {
 const QueriesSidebar = ({
     customPills = [],
     hasError = false,
+    isLoading = false,
     dictionary,
     learnMoreLink,
     addPillToQuery,
@@ -60,6 +62,9 @@ const QueriesSidebar = ({
     editPill,
     getFiltersByPill,
 }: IQueriesSidebarProps): JSX.Element => {
+    if (isLoading) {
+        return <Spin spinning={isLoading}></Spin>;
+    }
     if (!customPills.length || hasError) {
         return (
             <div className={styles.emptyQueriesSidebarWrapper}>
@@ -91,7 +96,7 @@ const QueriesSidebar = ({
         );
     }
 
-    const sortedPills = customPills.sort((a, b) =>
+    const sortedPills = structuredClone(customPills).sort((a, b) =>
         a.title.localeCompare(b.title, undefined, { ignorePunctuation: true, sensitivity: 'base' }),
     );
 
