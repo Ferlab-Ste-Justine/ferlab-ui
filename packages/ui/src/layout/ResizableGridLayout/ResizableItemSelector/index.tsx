@@ -16,7 +16,10 @@ type TResizableItemSelector = {
     onReset: () => void;
     onChange: (id: string, checkbox: boolean) => void;
     dictionary?: {
-        [p: string]: any;
+        columnSelector?: {
+            reset?: string;
+            tooltip?: string;
+        };
     };
 };
 
@@ -63,7 +66,7 @@ const ResizableItemSelector = ({
         placement="bottomLeft"
         trigger="click"
     >
-        <Tooltip title={dictionary?.chartsSelector?.tooltips?.charts || 'Charts'}>
+        <Tooltip title={dictionary?.columnSelector?.tooltip || 'Charts'}>
             <Button icon={<SettingOutlined />} size="small" type="text"></Button>
         </Tooltip>
     </Popover>
