@@ -262,9 +262,9 @@ const QueryBar = ({
                                 },
                                 customPillConfig.tag || '',
                             )
-                            .then((response: ISaveCustomPillResponse) => {
-                                if (response.hasError) {
-                                    setOnSaveCustomPillResponse(response);
+                            .then((response: any) => {
+                                if (response.error) {
+                                    setOnSaveCustomPillResponse({ hasError: true, message: response.error.message });
                                     openErrorNotification({
                                         api,
                                         description:
@@ -275,13 +275,13 @@ const QueryBar = ({
                                             'Failed to create query',
                                     });
                                 } else {
-                                    if (response?.data?.queries?.[0]) {
+                                    if (response?.payload?.queries?.[0]) {
                                         const newContent = [
                                             {
-                                                content: response.data.queries[0].content,
-                                                id: response.data.id,
+                                                content: response.payload.queries[0].content,
+                                                id: response.payload.id,
                                                 op: 'and',
-                                                title: response.data.title,
+                                                title: response.payload.title,
                                             },
                                         ];
                                         const newQuery = { ...query, content: newContent };
