@@ -1,3 +1,6 @@
+### 7.12.1 2023-07-28
+- feat: CQDG-32 add dictionary field to ResizableItemSelector
+
 ### 7.12.0 2023-07-19
 - feat: CLIN-1767 add update query for filter by table
 

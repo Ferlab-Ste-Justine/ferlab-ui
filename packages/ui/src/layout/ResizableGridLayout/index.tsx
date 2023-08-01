@@ -50,6 +50,12 @@ interface IResizableGridLayout extends Omit<ResponsiveProps, 'layouts'> {
     defaultLayouts: IResizableGridLayoutConfig[];
     layouts?: TSerializedResizableGridLayoutConfig[];
     onReset: (layouts: TSerializedResizableGridLayoutConfig[]) => void;
+    dictionary?: {
+        columnSelector?: {
+            reset?: string;
+            tooltip?: string;
+        };
+    };
 }
 
 const BASE_FLAG = 'base';
@@ -282,6 +288,7 @@ export const generateOptionalBaseConfig = (base: ILayoutItemConfig): TOptionalBa
 
 const ResizableGridLayout = ({
     defaultLayouts,
+    dictionary,
     layouts,
     onConfigUpdate,
     onReset,
@@ -301,6 +308,7 @@ const ResizableGridLayout = ({
         <Space className={styles.wrapper} direction="vertical">
             <div className={styles.graphSelector}>
                 <ResizableItemSelector
+                    dictionary={dictionary}
                     isPristine={isPrisitine(defaultLayouts, configs)}
                     items={resizableItemsList}
                     onChange={(targetId, checked) => {
