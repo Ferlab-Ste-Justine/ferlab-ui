@@ -20,7 +20,7 @@ interface IQueryPill {
     dictionary: IQueriesSidebarDictionary;
     addPillToQuery: (id: string) => void;
     editPill: (id: string) => void;
-    duplicatePill: (id: string) => void;
+    duplicatePill: (queryPill: ISavedFilter) => any;
     deletePill: (id: string) => any;
     getFiltersByPill: (id: string) => any;
 }
@@ -53,7 +53,16 @@ const QueryPill = ({
                 <Button
                     className={styles.queryPillEditionButton}
                     icon={<CopyOutlined />}
-                    onClick={() => duplicatePill(queryPill.id)}
+                    onClick={async () => {
+                        const { error } = await duplicatePill(queryPill);
+                        if (error) {
+                            openErrorNotification({
+                                api,
+                                description: dictionary.duplicateCustomPill.notification.error.description,
+                                message: dictionary.duplicateCustomPill.notification.error.message,
+                            });
+                        }
+                    }}
                     size="small"
                 />
                 <Button
@@ -103,7 +112,6 @@ const QueryPill = ({
                                         message: dictionary.deleteCustomPill.notification.error.message,
                                     });
                                 } else {
-                                    //refesh list dans la sidebar
                                     openSuccessNotification({
                                         api,
                                         message: dictionary.deleteCustomPill.notification.success,
