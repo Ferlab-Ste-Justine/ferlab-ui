@@ -119,7 +119,7 @@ export const isRangeFilter = (query: IValueFilter): boolean =>
  *
  * @param {Boolean}
  */
-export const isCustomPill = (query: IValueFilter): boolean => (query.title ? true : false);
+export const isCustomPill = (query: IValueFilter): boolean => !!query.title;
 
 /**
  * Generates an empty synthetic sqon

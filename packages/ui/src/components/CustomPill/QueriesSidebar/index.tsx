@@ -35,6 +35,11 @@ export interface IQueriesSidebarDictionary {
             success: string;
         };
     };
+    duplicateCustomPill: {
+        notification: {
+            error: { description: string; message: string };
+        };
+    };
 }
 
 export interface IQueriesSidebarProps {
@@ -45,7 +50,7 @@ export interface IQueriesSidebarProps {
     learnMoreLink?: string;
     addPillToQuery: (id: string) => void;
     editPill: (id: string) => void;
-    duplicatePill: (id: string) => void;
+    duplicatePill: (queryPill: ISavedFilter) => any;
     deletePill: (id: string) => any;
     getFiltersByPill: (id: string) => any;
 }
