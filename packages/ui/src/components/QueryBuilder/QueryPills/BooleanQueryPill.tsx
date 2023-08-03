@@ -62,9 +62,7 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps): JSX.Element => (
                         onEdit={() => {
                             console.log('edit pill');
                         }}
-                        onRemove={() => {
-                            console.log('remove pill');
-                        }}
+                        onRemove={() => props.onRemoveFacet((f as IValueFilter).content.field, props.query)}
                         valueFilter={f as IValueFilter}
                     />
                 ) : isBooleanOperator(f) ? (
