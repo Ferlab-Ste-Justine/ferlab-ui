@@ -47,8 +47,8 @@ export interface IQueriesSidebarProps {
     hasError: boolean;
     dictionary: IQueriesSidebarDictionary;
     isLoading: boolean;
+    queryBuilderId: string;
     learnMoreLink?: string;
-    addPillToQuery: (id: string) => void;
     editPill: (id: string) => void;
     duplicatePill: (queryPill: ISavedFilter) => any;
     deletePill: (id: string) => any;
@@ -60,8 +60,8 @@ const QueriesSidebar = ({
     hasError = false,
     isLoading = false,
     dictionary,
+    queryBuilderId,
     learnMoreLink,
-    addPillToQuery,
     deletePill,
     duplicatePill,
     editPill,
@@ -125,13 +125,13 @@ const QueriesSidebar = ({
             <div className={styles.pillsWrapper}>
                 {sortedPills.map((pill) => (
                     <QueryPill
-                        addPillToQuery={addPillToQuery}
                         deletePill={deletePill}
                         dictionary={dictionary}
                         duplicatePill={duplicatePill}
                         editPill={editPill}
                         getFiltersByPill={getFiltersByPill}
                         key={pill.id}
+                        queryBuilderId={queryBuilderId}
                         queryPill={pill}
                     />
                 ))}
