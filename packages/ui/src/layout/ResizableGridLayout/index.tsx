@@ -77,6 +77,7 @@ export const serialize = (config: IResizableGridLayoutConfig[]): TSerializedResi
 /**
  * Compare and merge defaultConfig and the current saved config
  * Non user data from base are override by config.base
+ * title is override by config.title to handle translation
  * @param configs
  * @param serializedConfigs
  * @returns
@@ -98,6 +99,7 @@ export const deserialize = (
                 minW: config.base.minW,
                 ...optionalBaseValues,
             },
+            title: config.title,
         };
     }) as IResizableGridLayoutConfig[];
 

@@ -1,3 +1,6 @@
+### 7.12.2 2023-08-07
+- feat: CQDG-32 update title field translation from defaultLayouts in ResizableGridLayout
+
 ### 7.12.1 2023-07-28
 - feat: CQDG-32 add dictionary field to ResizableItemSelector
 
