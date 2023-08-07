@@ -10,6 +10,7 @@ import { Button, Modal, notification, Spin, Typography } from 'antd';
 
 import { openErrorNotification, openSuccessNotification } from '../../../utils/notificationUtils';
 import { ISavedFilter } from '../../QueryBuilder/types';
+import { addPillToQueryBuilder, removePillFromQueryBuilder } from '../../QueryBuilder/utils/useQueryBuilderState';
 
 import { IQueriesSidebarDictionary } from './index';
 
@@ -18,7 +19,7 @@ import styles from './index.module.scss';
 interface IQueryPill {
     queryPill: ISavedFilter;
     dictionary: IQueriesSidebarDictionary;
-    addPillToQuery: (id: string) => void;
+    queryBuilderId: string;
     editPill: (id: string) => void;
     duplicatePill: (queryPill: ISavedFilter) => any;
     deletePill: (id: string) => any;
@@ -26,12 +27,12 @@ interface IQueryPill {
 }
 
 const QueryPill = ({
-    addPillToQuery,
     deletePill,
     dictionary,
     duplicatePill,
     editPill,
     getFiltersByPill,
+    queryBuilderId,
     queryPill,
 }: IQueryPill): JSX.Element => {
     const [isLoadingFilters, setIsLoadingFilters] = useState<boolean>(false);
@@ -40,7 +41,15 @@ const QueryPill = ({
     return (
         <div className={styles.queryPillWrapper}>
             {contextHolder}
-            <Button className={styles.queryPill} onClick={() => addPillToQuery(queryPill.id)}>
+            <Button
+                className={styles.queryPill}
+                onClick={() =>
+                    addPillToQueryBuilder(
+                        { content: queryPill.queries, id: queryPill.id, op: 'and', title: queryPill.title },
+                        queryBuilderId,
+                    )
+                }
+            >
                 <Typography.Text ellipsis={{ tooltip: queryPill.title }}>{queryPill.title}</Typography.Text>
             </Button>
             <div className={styles.queryPillEditionWrapper}>
@@ -112,6 +121,7 @@ const QueryPill = ({
                                         message: dictionary.deleteCustomPill.notification.error.message,
                                     });
                                 } else {
+                                    removePillFromQueryBuilder(queryPill.id, queryBuilderId);
                                     openSuccessNotification({
                                         api,
                                         message: dictionary.deleteCustomPill.notification.success,
