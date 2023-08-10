@@ -18,12 +18,13 @@ import ConditionalWrapper from '../utils/ConditionalWrapper';
 
 import { isQueryStateEqual } from './utils/helper';
 import useQueryBuilderState, { setQueryBuilderState } from './utils/useQueryBuilderState';
-import { defaultFacetFilterConfig, defaultHeaderConfig, QueryBuilderContext } from './context';
+import { defaultCustomPillConfig, defaultFacetFilterConfig, defaultHeaderConfig, QueryBuilderContext } from './context';
 import QueryBuilderHeader from './Header';
 import QueryBar from './QueryBar';
 import QueryTools from './QueryTools';
 import {
     ArrayTenOrMore,
+    ICustomPillConfig,
     IDictionary,
     IFacetFilterConfig,
     IFetchQueryCount,
@@ -48,6 +49,7 @@ export interface IQueryBuilderProps {
     referenceColors?: ArrayTenOrMore<string>;
     headerConfig?: IQueryBuilderHeaderConfig;
     facetFilterConfig?: IFacetFilterConfig;
+    customPillConfig?: ICustomPillConfig;
     fetchQueryCount: IFetchQueryCount;
     getResolvedQueryForCount: IGetResolvedQueryForCount;
     remoteComponentMapping?: (props: IRemoteComponent) => void;
@@ -83,10 +85,11 @@ const QueryBuilder = ({
     ],
     headerConfig = defaultHeaderConfig,
     facetFilterConfig = defaultFacetFilterConfig,
+    customPillConfig = defaultCustomPillConfig,
     fetchQueryCount,
     getResolvedQueryForCount,
     remoteComponentMapping,
-}: IQueryBuilderProps) => {
+}: IQueryBuilderProps): JSX.Element => {
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
     const { state: queryBuilderState } = useQueryBuilderState(id);
     const [queriesState, setQueriesState] = useState<IQueriesState>({
@@ -309,6 +312,7 @@ const QueryBuilder = ({
         <QueryBuilderContext.Provider
             value={{
                 canCombine,
+                customPillConfig,
                 dictionary,
                 enableCombine,
                 enableShowHideLabels,
@@ -405,6 +409,7 @@ const QueryBuilder = ({
                                     !enableCombine ||
                                     queriesState.queries[i].content.length === 0
                                 }
+                                updateQueryById={updateQueryById}
                             />
                         ))}
                     </div>
