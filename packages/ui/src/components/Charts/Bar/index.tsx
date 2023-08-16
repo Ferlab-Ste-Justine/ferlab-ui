@@ -2,7 +2,7 @@ import React from 'react';
 import { BarDatum, BarSvgProps, ResponsiveBar } from '@nivo/bar';
 import { Typography } from 'antd';
 
-import { numberWithCommas } from '../../../utils/numberUtils';
+import { numberFormat } from '../../../utils/numberUtils';
 
 import styles from './index.module.scss';
 
@@ -16,7 +16,7 @@ const BarChart = ({
     margin = { bottom: 12, left: 24, right: 24, top: 12 },
     onMouseEnter,
     enableLabel = true,
-    valueFormat = (value) => numberWithCommas(value ?? 0),
+    valueFormat = (value) => `${numberFormat(value ?? 0)}`,
     colorBy = 'indexValue',
     title,
     ...rest
