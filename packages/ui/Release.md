@@ -1,3 +1,6 @@
+### 7.12.3 2023-08-16
+- feat: CQDG-280 update numberWithCommas by numberFormat in BarChart
+
 ### 7.12.2 2023-08-07
 - feat: CQDG-32 update title field translation from defaultLayouts in ResizableGridLayout
 
