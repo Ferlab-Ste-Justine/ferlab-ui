@@ -320,7 +320,7 @@ const CheckboxFilter = ({
                                     label: get(dictionary, 'operators.allOf', 'All of'),
                                 },
                                 {
-                                    key: TermOperators['some-not-in'],
+                                    key: TermOperators['not-in'],
                                     label: get(dictionary, 'operators.noneOf', 'None of'),
                                 },
                             ],
