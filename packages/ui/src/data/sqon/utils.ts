@@ -752,14 +752,14 @@ export const createInlineFilters = (
             const filterValues = arrayFilters.filter((item) => item !== ArrangerValues.missing);
             const noDataFilterContent = {
                 content: { field, index, value: [ArrangerValues.missing] },
-                op: operator,
+                op: filterValues.length > 1 && operator === TermOperators.all ? TermOperators.in : operator,
             };
             return [
                 {
                     content: [
                         {
                             content: { field, index, value: filterValues },
-                            op: operator,
+                            op: filterValues.length > 1 && operator === TermOperators.all ? TermOperators.in : operator,
                         },
                         noDataFilterContent,
                     ],
