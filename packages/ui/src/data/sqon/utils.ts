@@ -739,17 +739,45 @@ export const createRangeFilter = (field: string, filters: IFilter<IFilterRange>[
         ? []
         : (filters.map((f) => tsqonFromRangeFilter(field, f, index)).filter((f) => f !== null) as TSqonContent);
 
-export const createInlineFilters = (field: string, filters: IFilter<IFilterCount>[], index?: string): TSqonContent => {
+export const createInlineFilters = (
+    field: string,
+    filters: IFilter<IFilterCount>[],
+    index?: string,
+): TSqonContent | any => {
     const arrayFilters = filters.map((v) => v.data.key);
     const operator = isEmpty(filters) ? TermOperators.in : filters[0].data.operator || TermOperators.in;
-    return arrayFilters.length > 0
-        ? [
-              {
-                  content: { field, index, value: arrayFilters },
-                  op: operator,
-              },
-          ]
-        : [];
+
+    if (arrayFilters.length > 0) {
+        if (arrayFilters.includes(ArrangerValues.missing)) {
+            const filterValues = arrayFilters.filter((item) => item !== ArrangerValues.missing);
+            const noDataFilterContent = {
+                content: { field, index, value: [ArrangerValues.missing] },
+                op: operator,
+            };
+            return [
+                {
+                    content: [
+                        {
+                            content: { field, index, value: filterValues },
+                            op: operator,
+                        },
+                        noDataFilterContent,
+                    ],
+                    op: operator === TermOperators.in ? BooleanOperators.or : BooleanOperators.and,
+                    skipBooleanOperatorCheck: true,
+                },
+            ];
+        } else {
+            return [
+                {
+                    content: { field, index, value: arrayFilters },
+                    op: operator,
+                },
+            ];
+        }
+    } else {
+        return [];
+    }
 };
 
 export const getSelectedFilters = ({
