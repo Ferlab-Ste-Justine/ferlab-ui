@@ -494,6 +494,7 @@ export const generateValueFilter = ({
         op: BooleanOperators.or,
         skipBooleanOperatorCheck: true,
     };
+    console.log('je passe ici a place');
     return !rangeFilterNoData ? basicFilter : noDataFilter;
 };
 
@@ -647,6 +648,7 @@ export const createSQONFromFilters = (
     selectedFilters: IFilter[],
     index?: string,
 ): TSyntheticSqonContent => {
+    console.log('halleluha');
     switch (filterGroup.type) {
         case VisualType.Range:
             return createRangeFilter(filterGroup.field, selectedFilters, index);
@@ -752,14 +754,14 @@ export const createInlineFilters = (
             const filterValues = arrayFilters.filter((item) => item !== ArrangerValues.missing);
             const noDataFilterContent = {
                 content: { field, index, value: [ArrangerValues.missing] },
-                op: operator,
+                op: filterValues.length > 1 && operator === TermOperators.all ? TermOperators.in : operator,
             };
             return [
                 {
                     content: [
                         {
                             content: { field, index, value: filterValues },
-                            op: operator,
+                            op: filterValues.length > 1 && operator === TermOperators.all ? TermOperators.in : operator,
                         },
                         noDataFilterContent,
                     ],
