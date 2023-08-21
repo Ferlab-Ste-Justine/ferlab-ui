@@ -1,7 +1,7 @@
 import React from 'react';
 import { cloneDeep } from 'lodash';
 
-import { TermOperators } from '../../../data/sqon/operators';
+import { BooleanOperators, TermOperators } from '../../../data/sqon/operators';
 import { ISqonGroupFilter, IValueFilter } from '../../../data/sqon/types';
 
 import FieldQueryPill from './FieldQueryPill';
@@ -21,7 +21,11 @@ const IsolatedBooleanQueryPill = ({ contentValue, isBarActive, onRemove }: IIsol
             newQueryDict[f.content.field].content.value = newQueryDict[f.content.field].content.value.concat(
                 f.content.value,
             );
-            if (contentValue.skipBooleanOperatorCheck && f.op === TermOperators.in) {
+            if (
+                contentValue.skipBooleanOperatorCheck &&
+                f.op === TermOperators.in &&
+                contentValue.op === BooleanOperators.and
+            ) {
                 newQueryDict[f.content.field].op = TermOperators.all;
             }
         } else {
