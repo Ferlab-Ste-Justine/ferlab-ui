@@ -746,23 +746,20 @@ export const createInlineFilters = (
 ): TSqonContent | any => {
     const arrayFilters = filters.map((v) => v.data.key);
     const operator = isEmpty(filters) ? TermOperators.in : filters[0].data.operator || TermOperators.in;
-
     if (arrayFilters.length > 0) {
         if (arrayFilters.includes(ArrangerValues.missing)) {
             const filterValues = arrayFilters.filter((item) => item !== ArrangerValues.missing);
+            const op = filterValues.length === 1 && operator === TermOperators.all ? TermOperators.in : operator;
             const noDataFilterContent = {
                 content: { field, index, value: [ArrangerValues.missing] },
-                op: filterValues.length === 1 && operator === TermOperators.all ? TermOperators.in : operator,
+                op,
             };
             return [
                 {
                     content: [
                         {
                             content: { field, index, value: filterValues },
-                            op:
-                                filterValues.length === 1 && operator === TermOperators.all
-                                    ? TermOperators.in
-                                    : operator,
+                            op,
                         },
                         noDataFilterContent,
                     ],

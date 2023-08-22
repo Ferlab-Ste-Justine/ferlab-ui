@@ -1,3 +1,6 @@
+### 7.12.4 2023-08-22
+- feat: CLIN-1913 handle skipbooleancheck on terms filter
+
 ### 7.12.3 2023-08-16
 - feat: CQDG-280 update numberWithCommas by numberFormat in BarChart
 
