@@ -25,14 +25,16 @@ const CountCard = ({ dictionnary, file_count = 0, participant_count = 0 }: ICoun
         <div className={styles.rowCountCard}>
             <UserOutlined className={styles.icon} />
             <div className={styles.alignBaseline}>
-                <span className={styles.count}>{participant_count ? numberFormat(participant_count) : '-'}</span>
+                <span className={styles.count}>
+                    {participant_count ? numberFormat(participant_count) : TABLE_EMPTY_PLACE_HOLDER}
+                </span>
                 <span className={styles.name}>{dictionnary?.participants || 'Participants'}</span>
             </div>
         </div>
         <div className={styles.rowCountCard}>
             <FileTextOutlined className={styles.icon} />
             <div className={styles.alignBaseline}>
-                <span className={styles.count}>{file_count ? numberFormat(file_count) : '-'}</span>
+                <span className={styles.count}>{file_count ? numberFormat(file_count) : TABLE_EMPTY_PLACE_HOLDER}</span>
                 <span className={styles.name}>{dictionnary?.files || 'Files'}</span>
             </div>
         </div>
