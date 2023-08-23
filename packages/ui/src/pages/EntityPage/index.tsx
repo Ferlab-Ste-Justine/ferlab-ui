@@ -4,6 +4,7 @@ import HpoConditionCell from './EntityConditionsCell/HpoConditionCell';
 import OmimConditionCell from './EntityConditionsCell/OmimConditionCell';
 import OrphanetConditionCell from './EntityConditionsCell/OrphanetConditionCell';
 import EntityGeneConsequenceSubtitle from './EntityGeneConsequence/EntityGeneConsequenceSubtitle';
+import EntityDataset from './EntityDataset';
 import EntityDescriptions, { IEntityDescriptions, IEntityDescriptionsItem } from './EntityDescriptions';
 import EntityExpandableTableMultiple from './EntityExpandableTableMultiple';
 import EntityGeneConsequences from './EntityGeneConsequence';
@@ -17,6 +18,7 @@ import EntityTitle, { IEntityTitle } from './EntityTitle';
 export {
     CosmicConditionCell,
     DddConditionCell,
+    EntityDataset,
     EntityDescriptions,
     EntityExpandableTableMultiple,
     EntityGeneConsequences,

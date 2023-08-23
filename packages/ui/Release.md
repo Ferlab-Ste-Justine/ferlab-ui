@@ -1,3 +1,6 @@
+### 7.13.0 2023-08-22
+- feat: CQDG-305 implement EntityDataset for Entity Study page
+
 ### 7.12.4 2023-08-22
 - feat: CLIN-1913 handle skipbooleancheck on terms filter
 
