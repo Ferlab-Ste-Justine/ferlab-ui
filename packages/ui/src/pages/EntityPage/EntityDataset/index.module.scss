@@ -17,7 +17,7 @@
         }
 
         *[class$='-descriptions-item-label'] {
-          width: 40%;
+          width: 30%;
         }
 
         .subTitle {
@@ -42,16 +42,14 @@
   height: 100%;
 
   .descriptionsCard {
-    width: 80%;
     margin-right: 24px;
+    flex: 6;
   }
 
   .countCardContainer {
-    width: 20%;
-    padding: 8px 16px;
+    padding: 24px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex: 0 1 220px;
   }
 }
 
@@ -59,7 +57,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 8px 0 16px 0;
+  padding: 0 0 12px 0;
 
   .alignBaseline {
     display: flex;
