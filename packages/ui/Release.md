@@ -1,3 +1,6 @@
+### 7.13.2 2023-08-22
+- feat: CQDG-280 replace numberWithCommas by numberFormat in PieChart
+
 ### 7.13.0 2023-08-22
 - feat: CQDG-305 implement EntityDataset for Entity Study page
 
