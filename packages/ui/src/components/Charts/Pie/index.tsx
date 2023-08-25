@@ -3,7 +3,7 @@ import { DefaultRawDatum, PieSvgProps, ResponsivePie } from '@nivo/pie';
 import { BasicTooltip } from '@nivo/tooltip';
 import { Typography } from 'antd';
 
-import { numberWithCommas } from '../../../utils/numberUtils';
+import { numberFormat } from '../../../utils/numberUtils';
 
 import styles from './index.module.scss';
 
@@ -24,7 +24,7 @@ const { Title } = Typography;
 const PieChart = ({
     margin = { bottom: 16, left: 24, right: 24, top: 16 },
     onMouseEnter,
-    valueFormat: valueFormat = (value) => numberWithCommas(value ?? 0),
+    valueFormat = (value) => `${numberFormat(value ?? 0)}`,
     title,
     ...rest
 }: TPieChart): JSX.Element => (
@@ -44,7 +44,7 @@ const PieChart = ({
                     <BasicTooltip
                         color={value.datum.color}
                         id={value.datum.id.toString()}
-                        value={numberWithCommas(value.datum.value)}
+                        value={numberFormat(value.datum.value)}
                     />
                 )}
                 valueFormat={valueFormat}
