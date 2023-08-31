@@ -1,3 +1,6 @@
+### 7.13.3 2023-08-31
+- feat: SJIP-570 Add share action to list item
+
 ### 7.13.2 2023-08-22
 - feat: CQDG-280 replace numberWithCommas by numberFormat in PieChart
 

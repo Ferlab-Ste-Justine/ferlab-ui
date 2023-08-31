@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { DeleteFilled, EditFilled } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Button, List, Typography } from 'antd';
 import cx from 'classnames';
 
@@ -11,6 +11,7 @@ export type TListItemWithActionsProps = {
     onEdit: () => void;
     onDelete: () => void;
     onClick?: (e: any) => void;
+    onShare?: () => void;
     extra?: ReactNode;
     className?: string;
     title: ReactNode;
@@ -27,14 +28,25 @@ const ListItemWithActions = ({
     onClick,
     onDelete,
     onEdit,
+    onShare,
     title,
     titleClassName,
-}: TListItemWithActionsProps) => (
+}: TListItemWithActionsProps): JSX.Element => (
     <List.Item
         actions={[
+            onShare && (
+                <Button
+                    className={styles.actionBtn}
+                    icon={<ShareAltOutlined />}
+                    key="share"
+                    onClick={onShare}
+                    size="small"
+                    type="text"
+                />
+            ),
             <Button
                 className={styles.actionBtn}
-                icon={<EditFilled />}
+                icon={<EditOutlined />}
                 key="edit"
                 onClick={onEdit}
                 size="small"
@@ -42,7 +54,7 @@ const ListItemWithActions = ({
             />,
             <Button
                 className={styles.actionBtn}
-                icon={<DeleteFilled />}
+                icon={<DeleteOutlined />}
                 key="delete"
                 onClick={onDelete}
                 size="small"
