@@ -9,50 +9,36 @@ import {
 } from '@ant-design/icons';
 import { Spin, Tooltip, Typography } from 'antd';
 
+import { IRemoteComponent } from '../../../data/sqon/types';
 import ExternalLink from '../../ExternalLink';
-import { ISavedFilter } from '../../QueryBuilder/types';
+import { defaultFacetFilterConfig, QueryCommonContext } from '../../QueryBuilder/context';
+import { IDictionary, IFacetFilterConfig, ISavedFilter } from '../../QueryBuilder/types';
+import { ISidebarMenuItem } from '../../SidebarMenu';
 
 import QueryPill from './QueryPill';
+import { IQueriesSidebarDictionary } from './types';
 
 import styles from './index.module.scss';
 
-export interface IQueriesSidebarDictionary {
-    emptyText: string;
-    errorText: string;
-    learnMore: string;
-    title: string;
-    deleteCustomPill: {
-        modal: {
-            title: string;
-            okText: string;
-            cancelText: string;
-            message: string;
-            existingFilters: string;
-            errorMessage: string;
-        };
-        notification: {
-            error: { description: string; message: string };
-            success: string;
-        };
-    };
-    duplicateCustomPill: {
-        notification: {
-            error: { description: string; message: string };
-        };
-    };
-}
-
 export interface IQueriesSidebarProps {
     customPills: ISavedFilter[];
-    hasError: boolean;
     dictionary: IQueriesSidebarDictionary;
+    editMenuItems: ISidebarMenuItem[];
+    hasError: boolean;
     isLoading: boolean;
     queryBuilderId: string;
+    queryDictionary: IDictionary;
+    queryEditionQBId: string;
+    tag: string;
+    facetFilterConfig?: IFacetFilterConfig;
     learnMoreLink?: string;
-    editPill: (id: string) => void;
-    duplicatePill: (queryPill: ISavedFilter) => any;
+    showLabels?: boolean;
     deletePill: (id: string) => any;
+    duplicatePill: (queryPill: ISavedFilter) => any;
+    editPill: (queryPill: ISavedFilter, tag: string, queryBuilderId: string) => void;
     getFiltersByPill: (id: string) => any;
+    validateName: (title: string, tag: string) => any;
+    remoteComponentMapping?: (props: IRemoteComponent) => void;
 }
 
 const QueriesSidebar = ({
@@ -60,12 +46,20 @@ const QueriesSidebar = ({
     hasError = false,
     isLoading = false,
     dictionary,
+    editMenuItems,
     queryBuilderId,
+    queryDictionary,
+    queryEditionQBId,
     learnMoreLink,
+    showLabels = true,
+    facetFilterConfig = defaultFacetFilterConfig,
+    tag,
     deletePill,
     duplicatePill,
     editPill,
     getFiltersByPill,
+    remoteComponentMapping,
+    validateName,
 }: IQueriesSidebarProps): JSX.Element => {
     if (isLoading) {
         return <Spin spinning={isLoading}></Spin>;
@@ -106,37 +100,45 @@ const QueriesSidebar = ({
     );
 
     return (
-        <div className={styles.queriesSidebarWrapper}>
-            <span className={styles.titleWrapper}>
-                <Typography.Text className={styles.title} strong>
-                    {dictionary.title}
-                </Typography.Text>
-                {dictionary.emptyText && (
-                    <Tooltip
-                        align={{ offset: [-24, 0] }}
-                        arrowPointAtCenter
-                        placement="topLeft"
-                        title={dictionary.emptyText}
-                    >
-                        <InfoCircleOutlined className={styles.tooltipIcon} />
-                    </Tooltip>
-                )}
-            </span>
-            <div className={styles.pillsWrapper}>
-                {sortedPills.map((pill) => (
-                    <QueryPill
-                        deletePill={deletePill}
-                        dictionary={dictionary}
-                        duplicatePill={duplicatePill}
-                        editPill={editPill}
-                        getFiltersByPill={getFiltersByPill}
-                        key={pill.id}
-                        queryBuilderId={queryBuilderId}
-                        queryPill={pill}
-                    />
-                ))}
+        <QueryCommonContext.Provider
+            value={{ dictionary: { ...queryDictionary, queriesSidebar: dictionary }, facetFilterConfig, showLabels }}
+        >
+            <div className={styles.queriesSidebarWrapper}>
+                <span className={styles.titleWrapper}>
+                    <Typography.Text className={styles.title} strong>
+                        {dictionary.title}
+                    </Typography.Text>
+                    {dictionary.emptyText && (
+                        <Tooltip
+                            align={{ offset: [-24, 0] }}
+                            arrowPointAtCenter
+                            placement="topLeft"
+                            title={dictionary.emptyText}
+                        >
+                            <InfoCircleOutlined className={styles.tooltipIcon} />
+                        </Tooltip>
+                    )}
+                </span>
+                <div className={styles.pillsWrapper}>
+                    {sortedPills.map((pill) => (
+                        <QueryPill
+                            deletePill={deletePill}
+                            duplicatePill={duplicatePill}
+                            editMenuItems={editMenuItems}
+                            editPill={editPill}
+                            getFiltersByPill={getFiltersByPill}
+                            key={pill.id}
+                            queryBuilderId={queryBuilderId}
+                            queryEditionQBId={queryEditionQBId}
+                            queryPill={pill}
+                            remoteComponentMapping={remoteComponentMapping}
+                            tag={tag}
+                            validateName={validateName}
+                        />
+                    ))}
+                </div>
             </div>
-        </div>
+        </QueryCommonContext.Provider>
     );
 };
 

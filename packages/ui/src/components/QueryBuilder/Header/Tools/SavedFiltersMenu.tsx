@@ -3,7 +3,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Dropdown, Modal } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 
-import { QueryBuilderContext } from '../../context';
+import { QueryCommonContext } from '../../context';
 import { ISavedFilter, TOnSavedFilterChange } from '../../types';
 
 import ManageFiltersModal from './ManageFiltersModal';
@@ -28,8 +28,8 @@ const SavedFiltersMenu = ({
     onSavedFilterChange,
     onDeleteFilter,
     onUpdateFilter,
-}: OwnProps) => {
-    const { dictionary } = useContext(QueryBuilderContext);
+}: OwnProps): JSX.Element => {
+    const { dictionary } = useContext(QueryCommonContext);
     const [manageFiltersVisible, setManageFiltersVisible] = useState(false);
 
     const confirmUnsavedChangeForExistingFilter = (onOkCallback: TOnSavedFilterChange) => {
