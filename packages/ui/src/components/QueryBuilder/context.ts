@@ -11,19 +11,22 @@ import {
 
 export type TQueryBuilderContextType = {
     queryBuilderId: string;
-    dictionary: IDictionary;
     queriesState: IQueriesState;
     selectedSavedFilter: ISavedFilter | null;
     headerConfig: IQueryBuilderHeaderConfig;
-    facetFilterConfig: IFacetFilterConfig;
     noQueries: boolean;
-    showLabels: boolean;
     canCombine: boolean;
     enableCombine: boolean;
     enableShowHideLabels: boolean;
     enableSingleQuery: boolean;
     hasEmptyQuery: boolean;
     customPillConfig: ICustomPillConfig;
+};
+
+export type TQueryCommonContext = {
+    dictionary: IDictionary;
+    facetFilterConfig: IFacetFilterConfig;
+    showLabels: boolean;
 };
 
 export const defaultHeaderConfig = {
@@ -59,11 +62,9 @@ export const defaultCustomPillConfig: ICustomPillConfig = {
 export const QueryBuilderContext = createContext<TQueryBuilderContextType>({
     canCombine: false,
     customPillConfig: defaultCustomPillConfig,
-    dictionary: {},
     enableCombine: false,
     enableShowHideLabels: false,
     enableSingleQuery: false,
-    facetFilterConfig: defaultFacetFilterConfig,
     hasEmptyQuery: false,
     headerConfig: defaultHeaderConfig,
     noQueries: false,
@@ -73,5 +74,10 @@ export const QueryBuilderContext = createContext<TQueryBuilderContextType>({
     },
     queryBuilderId: '',
     selectedSavedFilter: null,
+});
+
+export const QueryCommonContext = createContext<TQueryCommonContext>({
+    dictionary: {},
+    facetFilterConfig: defaultFacetFilterConfig,
     showLabels: false,
 });

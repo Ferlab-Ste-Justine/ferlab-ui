@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     CopyOutlined,
     DeleteOutlined,
@@ -8,35 +8,48 @@ import {
 } from '@ant-design/icons';
 import { Button, Modal, notification, Spin, Typography } from 'antd';
 
+import { IRemoteComponent } from '../../../data/sqon/types';
 import { openErrorNotification, openSuccessNotification } from '../../../utils/notificationUtils';
+import { QueryCommonContext } from '../../QueryBuilder/context';
 import { ISavedFilter } from '../../QueryBuilder/types';
 import { addPillToQueryBuilder, removePillFromQueryBuilder } from '../../QueryBuilder/utils/useQueryBuilderState';
+import { ISidebarMenuItem } from '../../SidebarMenu';
 
-import { IQueriesSidebarDictionary } from './index';
+import EditCustomPillModal from './EditCustomPillModal';
 
 import styles from './index.module.scss';
 
 interface IQueryPill {
     queryPill: ISavedFilter;
-    dictionary: IQueriesSidebarDictionary;
     queryBuilderId: string;
-    editPill: (id: string) => void;
+    editMenuItems: ISidebarMenuItem[];
+    queryEditionQBId: string;
+    tag: string;
+    editPill: (queryPill: ISavedFilter, tag: string, queryBuilderId: string) => any;
     duplicatePill: (queryPill: ISavedFilter) => any;
     deletePill: (id: string) => any;
     getFiltersByPill: (id: string) => any;
+    validateName: (title: string, tag: string) => any;
+    remoteComponentMapping?: (props: IRemoteComponent) => void;
 }
 
 const QueryPill = ({
     deletePill,
-    dictionary,
     duplicatePill,
+    editMenuItems,
     editPill,
     getFiltersByPill,
     queryBuilderId,
+    queryEditionQBId,
     queryPill,
+    remoteComponentMapping,
+    tag,
+    validateName,
 }: IQueryPill): JSX.Element => {
+    const { dictionary } = useContext(QueryCommonContext);
     const [isLoadingFilters, setIsLoadingFilters] = useState<boolean>(false);
     const [api, contextHolder] = notification.useNotification();
+    const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
 
     return (
         <div className={styles.queryPillWrapper}>
@@ -56,7 +69,7 @@ const QueryPill = ({
                 <Button
                     className={styles.queryPillEditionButton}
                     icon={<EditOutlined />}
-                    onClick={() => editPill(queryPill.id)}
+                    onClick={() => setIsOpenEditModal(true)}
                     size="small"
                 />
                 <Button
@@ -67,8 +80,12 @@ const QueryPill = ({
                         if (error) {
                             openErrorNotification({
                                 api,
-                                description: dictionary.duplicateCustomPill.notification.error.description,
-                                message: dictionary.duplicateCustomPill.notification.error.message,
+                                description:
+                                    dictionary.queriesSidebar?.duplicateCustomPill?.notification?.error?.description ||
+                                    'An error has occurred and we were unable to duplicate your query. Please try again.',
+                                message:
+                                    dictionary.queriesSidebar?.duplicateCustomPill?.notification?.error?.message ||
+                                    'Failed to duplicate query',
                             });
                         }
                     }}
@@ -81,22 +98,28 @@ const QueryPill = ({
                         setIsLoadingFilters(true);
                         const { data, error } = await getFiltersByPill(queryPill.id);
                         Modal.confirm({
-                            cancelText: dictionary.deleteCustomPill.modal.cancelText,
+                            cancelText: dictionary.queriesSidebar?.deleteCustomPill?.modal?.cancelText || 'Cancel',
                             className: styles.deleteCustomPillModal,
                             content: (
                                 <Spin spinning={isLoadingFilters}>
                                     <Typography.Text>
-                                        {dictionary.deleteCustomPill.modal.message.replace('{title}', queryPill.title)}
+                                        {dictionary.queriesSidebar?.deleteCustomPill?.modal?.message.replace(
+                                            '{title}',
+                                            queryPill.title,
+                                        ) ||
+                                            'You are about to delete the custom query "{title}", which may affect your results.'}
                                     </Typography.Text>
                                     {(data?.length > 0 || error) && (
                                         <div className={styles.existingFilters}>
                                             <Typography.Text strong>
-                                                {dictionary.deleteCustomPill.modal.existingFilters}
+                                                {dictionary.queriesSidebar?.deleteCustomPill?.modal?.existingFilters ||
+                                                    'Affected saved filters:'}
                                             </Typography.Text>
                                             {error && (
                                                 <div className={styles.error}>
                                                     <WarningFilled className={styles.errorIcon} />
-                                                    {dictionary.deleteCustomPill.modal.errorMessage}
+                                                    {dictionary.queriesSidebar?.deleteCustomPill?.modal?.errorMessage ||
+                                                        'We are currently unable to fetch your list of filters.'}
                                                 </div>
                                             )}
                                             {!error && (
@@ -111,30 +134,52 @@ const QueryPill = ({
                                 </Spin>
                             ),
                             icon: <ExclamationCircleOutlined className={styles.icon} />,
-                            okText: dictionary.deleteCustomPill.modal.okText,
+                            okText: dictionary.queriesSidebar?.deleteCustomPill?.modal?.okText || 'Delete',
                             onOk: async () => {
                                 const { error } = await deletePill(queryPill.id);
                                 if (error) {
                                     openErrorNotification({
                                         api,
-                                        description: dictionary.deleteCustomPill.notification.error.description,
-                                        message: dictionary.deleteCustomPill.notification.error.message,
+                                        description:
+                                            dictionary.queriesSidebar?.deleteCustomPill?.notification?.error
+                                                ?.description ||
+                                            'An error has occurred and we were unable to delete your query. Please try again.',
+                                        message:
+                                            dictionary.queriesSidebar?.deleteCustomPill?.notification?.error?.message ||
+                                            'Failed to delete query',
                                     });
                                 } else {
                                     removePillFromQueryBuilder(queryPill.id, queryBuilderId);
                                     openSuccessNotification({
                                         api,
-                                        message: dictionary.deleteCustomPill.notification.success,
+                                        message:
+                                            dictionary.queriesSidebar?.deleteCustomPill?.notification?.success ||
+                                            'Query successfully deleted',
                                     });
                                 }
                             },
-                            title: dictionary.deleteCustomPill.modal.title,
+                            title: dictionary.queriesSidebar?.deleteCustomPill?.modal?.title || 'Delete this query?',
                         });
                         setIsLoadingFilters(false);
                     }}
                     size="small"
                 />
             </div>
+            {isOpenEditModal && (
+                <EditCustomPillModal
+                    editPill={editPill}
+                    getFiltersByPill={getFiltersByPill}
+                    menuItems={editMenuItems}
+                    onCancel={() => setIsOpenEditModal(false)}
+                    open={isOpenEditModal}
+                    queryBuilderId={queryBuilderId}
+                    queryEditionQBId={queryEditionQBId}
+                    queryPill={queryPill}
+                    remoteComponentMapping={remoteComponentMapping}
+                    tag={tag}
+                    validateName={validateName}
+                />
+            )}
         </div>
     );
 };
