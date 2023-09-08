@@ -14,7 +14,7 @@ import ConditionalWrapper from '../utils/ConditionalWrapper';
 
 import IntersectionOperator from './icons/IntersectionOperator';
 import UnionOperator from './icons/UnionOperator';
-import { QueryBuilderContext } from './context';
+import { QueryCommonContext } from './context';
 
 import styles from './QueryValues.module.scss';
 
@@ -24,8 +24,8 @@ interface IQueryValuesProps {
     onClick?: (e: any) => void;
 }
 
-const QueryValues = ({ isElement = false, onClick, valueFilter }: IQueryValuesProps) => {
-    const { dictionary } = useContext(QueryBuilderContext);
+const QueryValues = ({ isElement = false, onClick, valueFilter }: IQueryValuesProps): JSX.Element => {
+    const { dictionary } = useContext(QueryCommonContext);
     const hasMoreValues = valueFilter.content.value.length > 3;
     const [expanded, setExpanded] = useState(false);
     const [values, setValues] = useState(
