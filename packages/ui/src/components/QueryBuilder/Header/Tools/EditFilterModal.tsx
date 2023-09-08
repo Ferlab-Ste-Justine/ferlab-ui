@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react';
 import { WarningFilled } from '@ant-design/icons';
 import { Form, Input, Modal } from 'antd';
 
-import { QueryBuilderContext } from '../../context';
+import { QueryBuilderContext, QueryCommonContext } from '../../context';
 
 import styles from './QueryBuilderHeaderTools.module.scss';
 
@@ -17,8 +17,16 @@ interface OwnProps {
 
 const DEFAULT_TITLE_MAX_LENGTH = 50;
 
-const EditFilterModal = ({ initialTitleValue, isNewFilter, okDisabled, onCancel, onSubmit, visible }: OwnProps) => {
-    const { dictionary, headerConfig } = useContext(QueryBuilderContext);
+const EditFilterModal = ({
+    initialTitleValue,
+    isNewFilter,
+    okDisabled,
+    onCancel,
+    onSubmit,
+    visible,
+}: OwnProps): JSX.Element => {
+    const { headerConfig } = useContext(QueryBuilderContext);
+    const { dictionary } = useContext(QueryCommonContext);
     const [editForm] = Form.useForm();
 
     const callbackRef = useCallback(
