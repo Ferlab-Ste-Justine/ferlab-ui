@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react';
 import { WarningFilled } from '@ant-design/icons';
 import { Form, Input, Modal, Spin, Typography } from 'antd';
 
-import { QueryBuilderContext } from '../../context';
+import { QueryBuilderContext, QueryCommonContext } from '../../context';
 import { ISaveCustomPillResponse } from '../../types';
 
 import styles from './QueryBuilderHeaderTools.module.scss';
@@ -26,7 +26,8 @@ const SaveCustomPillModal = ({
     saveCustomPillResponse,
     visible,
 }: OwnProps): JSX.Element => {
-    const { customPillConfig, dictionary } = useContext(QueryBuilderContext);
+    const { customPillConfig } = useContext(QueryBuilderContext);
+    const { dictionary } = useContext(QueryCommonContext);
     const [editForm] = Form.useForm();
 
     const callbackRef = useCallback(
@@ -114,11 +115,10 @@ const SaveCustomPillModal = ({
                         )}
                     </Form.Item>
                 </Form>
-                {dictionary.actions?.saveCustomPill?.modal?.message && (
-                    <Typography.Text className={styles.message}>
-                        {dictionary.actions.saveCustomPill.modal.message}
-                    </Typography.Text>
-                )}
+                <Typography.Text className={styles.message}>
+                    {dictionary.actions?.saveCustomPill?.modal?.message ||
+                        'You will find your saved queries in the sidebar under "Queries".'}
+                </Typography.Text>
             </Spin>
         </Modal>
     );

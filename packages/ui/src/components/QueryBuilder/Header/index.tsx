@@ -7,7 +7,7 @@ import { v4 } from 'uuid';
 
 import { getDefaultSyntheticSqon } from '../../../data/sqon/utils';
 import Collapse, { CollapsePanel } from '../../Collapse';
-import { QueryBuilderContext } from '../context';
+import { QueryBuilderContext, QueryCommonContext } from '../context';
 import { ISavedFilter, TOnSavedFilterChange } from '../types';
 import { setQueryBuilderState } from '../utils/useQueryBuilderState';
 
@@ -32,8 +32,8 @@ const QueryBuilderHeader = ({
     onSavedFilterChange,
     resetQueriesState,
 }: IQueryBuilderHeaderProps): JSX.Element => {
-    const { dictionary, headerConfig, queriesState, queryBuilderId, selectedSavedFilter } =
-        useContext(QueryBuilderContext);
+    const { headerConfig, queriesState, queryBuilderId, selectedSavedFilter } = useContext(QueryBuilderContext);
+    const { dictionary } = useContext(QueryCommonContext);
     const [savedFilterTitle, setSavedFilterTitle] = useState('');
     const [isEditModalVisible, setEditModalVisible] = useState(false);
     const [localSelectedSavedFilter, setLocalSelectedSavedFilter] = useState<ISavedFilter | null>(selectedSavedFilter);
