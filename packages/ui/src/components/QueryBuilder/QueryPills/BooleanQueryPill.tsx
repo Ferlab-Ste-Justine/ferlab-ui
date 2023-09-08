@@ -9,10 +9,18 @@ import {
     IValueFilter,
     TSqonGroupOp,
 } from '../../../data/sqon/types';
-import { isBooleanOperator, isReference, isRemoteComponent, isSet, isUploadedList } from '../../../data/sqon/utils';
+import {
+    isBooleanOperator,
+    isCustomPill,
+    isReference,
+    isRemoteComponent,
+    isSet,
+    isUploadedList,
+} from '../../../data/sqon/utils';
 import Combiner from '../Combiner';
 import { TCallbackRemoveAction, TCallbackRemoveReferenceAction } from '../types';
 
+import CustomPill from './CustomPill';
 import FieldQueryPill from './FieldQueryPill';
 import IsolatedBooleanQueryPill from './IsolatedBooleanQueryPill';
 import ReferenceQueryPill from './ReferenceQueryPill';
@@ -33,7 +41,7 @@ interface IBooleanQueryPillProps {
 
 const isNotEnd = (content: any[], index: number) => content.length - 1 > index;
 
-const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
+const BooleanQueryPill = (props: IBooleanQueryPillProps): JSX.Element => (
     <Fragment>
         {props.query.content.map((f: any, i: number) => (
             <Space key={i} size={0} style={{ padding: '2px 0px' }}>
@@ -47,6 +55,16 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
                                 props.query,
                             )
                         }
+                    />
+                ) : isCustomPill(f) ? (
+                    <CustomPill
+                        isBarActive={props.isActive}
+                        onEdit={() => {
+                            // TODO open edit modal
+                            console.log('edit pill');
+                        }}
+                        onRemove={() => props.onRemoveFacet((f as IValueFilter).content.field, props.query)}
+                        valueFilter={f as IValueFilter}
                     />
                 ) : isBooleanOperator(f) ? (
                     <BooleanQueryPill {...props} query={f} />

@@ -1,63 +1,74 @@
-@import "theme.template";
+@import 'theme.template';
 
 .queryBuilderHeaderTools {
-  .toolsContainer {
-    .queryBuilderHeaderActionIconBtn {
-      &:focus-visible {
-        border: 1px solid !important;
-      }
-
-      &:not(:disabled) {
-        color: $query-builder-header-tools-icon-color;
-
-        &.dirty {
-          color: $query-builder-header-tools-icon-color-dirty;
-
-          &:not(span) {
-            &:hover,
-            &:focus {
-              border: $query-builder-header-tools-icon-color-dirty;
-              color: $query-builder-header-tools-icon-color-dirty;
+    .toolsContainer {
+        .queryBuilderHeaderActionIconBtn {
+            &:focus-visible {
+                border: 1px solid !important;
             }
-          }
-        }
 
-        &:not(span) {
-          &:hover,
-          &:focus {
-            border: $query-builder-header-tools-icon-color-dirty;
-            color: $query-builder-header-tools-icon-color-dirty;
-          }
+            &:not(:disabled) {
+                color: $query-builder-header-tools-icon-color;
+
+                &.dirty {
+                    color: $query-builder-header-tools-icon-color-dirty;
+
+                    &:not(span) {
+                        &:hover,
+                        &:focus {
+                            border: $query-builder-header-tools-icon-color-dirty;
+                            color: $query-builder-header-tools-icon-color-dirty;
+                        }
+                    }
+                }
+
+                &:not(span) {
+                    &:hover,
+                    &:focus {
+                        border: $query-builder-header-tools-icon-color-dirty;
+                        color: $query-builder-header-tools-icon-color-dirty;
+                    }
+                }
+            }
         }
-      }
     }
-  }
 
-  .extra {
-    display: flex;
-    text-decoration: none;
+    .extra {
+        display: flex;
+        text-decoration: none;
 
-    .queryBuilderHeaderDdb {
-      .bContent {
-        .arrow {
-          font-size: 12px;
-          margin-left: 5px;
+        .queryBuilderHeaderDdb {
+            .bContent {
+                .arrow {
+                    font-size: 12px;
+                    margin-left: 5px;
+                }
+            }
         }
-      }
     }
-  }
 }
 
 .display-flex {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .fuiQBHTSavedFiltersMenu {
-  :global(.ant-dropdown-menu-title-content) {
-    max-width: 300px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
+    :global(.ant-dropdown-menu-title-content) {
+        max-width: 300px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+}
+
+.saveCustomPillModal {
+    .customPillForm {
+        margin-bottom: 24px;
+    }
+
+    .message {
+        color: $gray-8;
+        letter-spacing: 0.25px;
+    }
 }

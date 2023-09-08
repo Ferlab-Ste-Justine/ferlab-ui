@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ISqonGroupFilter, ISyntheticSqon, IValueFilter } from '../../data/sqon/types';
 import { TCollapseProps } from '../Collapse';
+import { IQueriesSidebarDictionary } from '../CustomPill/QueriesSidebar/types';
 
 export type ArrayTenOrMore<T> = {
     0: T;
@@ -22,6 +23,24 @@ export enum CombinerEnum {
     Or = 'or',
 }
 
+export const defaultReferenceColors: ArrayTenOrMore<string> = [
+    '#C31D7E',
+    '#328536',
+    '#AA00FF',
+    '#C2410C',
+    '#047ABE',
+    '#E5231F',
+    '#007D85',
+    '#C51162',
+    '#7B5A90',
+    '#B85C00',
+    '#722ED1',
+    '#4D7C0F',
+    '#9F1239',
+    '#2D7D9A',
+    '#847545',
+];
+
 export type IFetchQueryCount = (sqon: ISyntheticSqon, sqonList: ISyntheticSqon[]) => Promise<number>;
 
 export type IGetResolvedQueryForCount = (sqon: ISyntheticSqon, sqonList: ISyntheticSqon[]) => ISqonGroupFilter;
@@ -36,11 +55,17 @@ export interface IQueriesState {
     queries: ISyntheticSqon[];
 }
 
+export enum SavedFilterTypeEnum {
+    Filter = 'filter',
+    Query = 'query',
+}
+
 export interface ISavedFilter {
     id: string;
     title: string;
     favorite: boolean;
     queries: ISyntheticSqon[];
+    type?: string;
 }
 
 export interface IQueryBuilderHeaderConfigOptions {
@@ -75,6 +100,18 @@ export type TCallbackRemoveReferenceAction = (refIndex: number, query: ISyntheti
 export type TOnChange = (id: string, query: ISyntheticSqon | Record<string, never>) => void;
 export type TOnFacetClick = (filter: IValueFilter) => void;
 
+export interface ICustomPillConfig {
+    createCustomPill?: (query: ISavedFilter, tag: string) => any;
+    tag?: string;
+    maxNameCapSavedQuery?: number;
+}
+
+export interface ISaveCustomPillResponse {
+    data?: ISavedFilter;
+    hasError: boolean;
+    message?: string;
+}
+
 // Dictionnary Types
 
 interface IActions {
@@ -86,6 +123,7 @@ interface IActions {
     new?: React.ReactNode;
     duplicate?: React.ReactNode;
     changeOperatorTo?: React.ReactNode;
+    saveCustomPill?: ISaveTranslation;
 }
 
 interface IClearTranslation {
@@ -101,6 +139,29 @@ interface IDeleteTranslation {
     titleSelected?: React.ReactNode;
     cancel: React.ReactNode;
     confirm: React.ReactNode;
+}
+
+interface ISaveTranslation {
+    form?: {
+        error?: {
+            fieldRequired: React.ReactNode;
+        };
+    };
+    input: IInputDictionary & {
+        maximumLength: React.ReactNode;
+    };
+    modal: {
+        title: React.ReactNode;
+        okText: React.ReactNode;
+        cancelText: React.ReactNode;
+        message: React.ReactNode;
+        successNotification: React.ReactNode;
+        errorNotification: {
+            description: React.ReactNode;
+            message: React.ReactNode;
+        };
+    };
+    tooltip?: { enabled: React.ReactNode; disabled: React.ReactNode };
 }
 
 interface IFacetValueMapping {
@@ -203,4 +264,5 @@ export interface IDictionary {
     queryBuilderHeader?: IQueryBuilderHeaderDictionnary;
     actions?: IActions;
     query?: IQuery;
+    queriesSidebar?: IQueriesSidebarDictionary;
 }

@@ -35,7 +35,7 @@
         &:hover {
             opacity: 0.7;
         }
-        
+
         @include hoverFocus($query-pill-button-hover-color, $query-pill-button-focus-color, '&', none, none);
     }
 
@@ -52,7 +52,8 @@
     border: 1px solid #eaeaec;
     max-width: 500px;
 
-    section, > div {
+    section,
+    > div {
         background-color: white;
     }
 }
@@ -65,5 +66,56 @@
 
     > div {
         display: flex;
+    }
+}
+
+.customPillWrapper {
+    display: flex;
+    padding: 2px;
+    align-items: center;
+    border-radius: 2px;
+    background-color: $blue-6;
+
+    .titleWrapper {
+        display: flex;
+        align-items: center;
+        padding: 0 4px 0 8px;
+        border-radius: 2px;
+        background-color: white;
+
+        .title {
+            font-weight: $font-weight-bold;
+            font-size: 12px;
+            margin-right: 4px;
+        }
+
+        .edit {
+            border: none;
+            padding: 3px;
+            height: auto;
+            color: $gray-8;
+            &:hover {
+                opacity: 0.7;
+            }
+        }
+        .edit > span {
+            font-size: 14px;
+            padding: 0;
+        }
+    }
+
+    .close {
+        border: none;
+        padding: 3px;
+        height: auto;
+        display: flex;
+        align-items: center;
+        color: $query-pill-button-default-color;
+
+        &:hover {
+            opacity: 0.7;
+        }
+
+        @include hoverFocus($query-pill-button-hover-color, $query-pill-button-focus-color, '&', none, none);
     }
 }

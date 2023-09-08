@@ -115,6 +115,13 @@ export const isRangeFilter = (query: IValueFilter): boolean =>
     query.op === RangeOperators.in ? false : query.op in RangeOperators;
 
 /**
+ * Check if a query filter is a custom pill.
+ *
+ * @param {Boolean}
+ */
+export const isCustomPill = (query: IValueFilter): boolean => !!query.title;
+
+/**
  * Generates an empty synthetic sqon
  *
  * @param {ISyntheticSqon} syntheticSqon The empty synthetic sqon
