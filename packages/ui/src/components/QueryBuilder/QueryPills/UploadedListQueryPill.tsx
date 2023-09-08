@@ -4,7 +4,7 @@ import { Button } from 'antd';
 import cx from 'classnames';
 
 import { IValueFilter } from '../../../data/sqon/types';
-import { QueryBuilderContext } from '../context';
+import { QueryCommonContext } from '../context';
 import ElementOperator from '../icons/ElementOperator';
 import QueryValues from '../QueryValues';
 
@@ -17,7 +17,7 @@ export interface IUploadedListQueryPillProps {
 }
 
 const UploadedListQueryPill: React.FC<IUploadedListQueryPillProps> = ({ isBarActive, onRemove, valueFilter }) => {
-    const { dictionary, showLabels } = useContext(QueryBuilderContext);
+    const { dictionary, showLabels } = useContext(QueryCommonContext);
 
     return (
         <div className={cx(styles.queryPillContainer, { [styles.selected]: isBarActive })}>

@@ -5,7 +5,7 @@ import { TSqonGroupOp } from '../../data/sqon/types';
 
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
-import { QueryBuilderContext } from './context';
+import { QueryCommonContext } from './context';
 import { CombinerEnum } from './types';
 
 import styles from './Combiner.module.scss';
@@ -15,8 +15,8 @@ interface ICombinerProps {
     onChange: (type: TSqonGroupOp) => void;
 }
 
-const Combiner = ({ onChange, type }: ICombinerProps) => {
-    const { dictionary } = useContext(QueryBuilderContext);
+const Combiner = ({ onChange, type }: ICombinerProps): JSX.Element => {
+    const { dictionary } = useContext(QueryCommonContext);
 
     const isAndOperator = () => type === 'and';
 

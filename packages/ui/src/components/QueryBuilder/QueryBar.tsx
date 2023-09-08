@@ -21,7 +21,7 @@ import { numberFormat } from '../../utils/numberUtils';
 import SaveCustomPillModal from './Header/Tools/SaveCustomPillModal';
 import BooleanQueryPill from './QueryPills/BooleanQueryPill';
 import useQueryBuilderState from './utils/useQueryBuilderState';
-import { QueryBuilderContext } from './context';
+import { QueryBuilderContext, QueryCommonContext } from './context';
 import {
     IFetchQueryCount,
     IGetResolvedQueryForCount,
@@ -80,7 +80,8 @@ const QueryBar = ({
     selectionDisabled = false,
     updateQueryById,
 }: IQueryBarProps): JSX.Element => {
-    const { customPillConfig, dictionary, noQueries, queryBuilderId } = useContext(QueryBuilderContext);
+    const { customPillConfig, noQueries, queryBuilderId } = useContext(QueryBuilderContext);
+    const { dictionary } = useContext(QueryCommonContext);
     const previousQuery = useRef<ISqonGroupFilter | null>(null);
     const [total, setTotal] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
