@@ -7,7 +7,7 @@ import { FieldOperators } from '../../../data/sqon/operators';
 import { IValueFilter } from '../../../data/sqon/types';
 import { isBooleanFilter, isRangeFilter } from '../../../data/sqon/utils';
 import ConditionalWrapper from '../../utils/ConditionalWrapper';
-import { QueryBuilderContext } from '../context';
+import { QueryBuilderContext, QueryCommonContext } from '../context';
 import ElementOperator from '../icons/ElementOperator';
 import EqualOperator from '../icons/EqualOperator';
 import GreaterThanOperator from '../icons/GreaterThanOperator';
@@ -32,7 +32,7 @@ interface IOperatorProps {
 
 const APPLY_KEY = 'apply';
 
-export const Operator = ({ className = '', type }: IOperatorProps) => {
+export const Operator = ({ className = '', type }: IOperatorProps): JSX.Element => {
     switch (type) {
         case FieldOperators['>']:
             return <GreaterThanOperator className={className} />;
@@ -52,8 +52,8 @@ export const Operator = ({ className = '', type }: IOperatorProps) => {
     }
 };
 
-const FieldQueryPill = ({ isBarActive, onRemove, valueFilter }: IFieldQueryPillProps) => {
-    const { dictionary, facetFilterConfig, showLabels } = useContext(QueryBuilderContext);
+const FieldQueryPill = ({ isBarActive, onRemove, valueFilter }: IFieldQueryPillProps): JSX.Element => {
+    const { dictionary, facetFilterConfig, showLabels } = useContext(QueryCommonContext);
     const [tryOpenQueryPillFilter, setTryOpenQueryPillFilter] = useState(false);
     const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
     const [dropdownContent, setDropdownContent] = useState(facetFilterConfig.selectedFilterContent);

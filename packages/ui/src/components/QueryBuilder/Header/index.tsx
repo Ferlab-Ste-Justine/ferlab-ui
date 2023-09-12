@@ -7,7 +7,7 @@ import { v4 } from 'uuid';
 
 import { getDefaultSyntheticSqon } from '../../../data/sqon/utils';
 import Collapse, { CollapsePanel } from '../../Collapse';
-import { QueryBuilderContext } from '../context';
+import { QueryBuilderContext, QueryCommonContext } from '../context';
 import { ISavedFilter, TOnSavedFilterChange } from '../types';
 import { setQueryBuilderState } from '../utils/useQueryBuilderState';
 
@@ -27,9 +27,13 @@ interface IQueryBuilderHeaderProps {
 const { Title } = Typography;
 const tooltipAlign = { align: { offset: [0, 5] } };
 
-const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }: IQueryBuilderHeaderProps) => {
-    const { dictionary, headerConfig, queriesState, queryBuilderId, selectedSavedFilter } =
-        useContext(QueryBuilderContext);
+const QueryBuilderHeader = ({
+    children,
+    onSavedFilterChange,
+    resetQueriesState,
+}: IQueryBuilderHeaderProps): JSX.Element => {
+    const { headerConfig, queriesState, queryBuilderId, selectedSavedFilter } = useContext(QueryBuilderContext);
+    const { dictionary } = useContext(QueryCommonContext);
     const [savedFilterTitle, setSavedFilterTitle] = useState('');
     const [isEditModalVisible, setEditModalVisible] = useState(false);
     const [localSelectedSavedFilter, setLocalSelectedSavedFilter] = useState<ISavedFilter | null>(selectedSavedFilter);
