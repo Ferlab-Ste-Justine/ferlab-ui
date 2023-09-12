@@ -26,6 +26,7 @@ interface IQueryPill {
     queryEditionQBId: string;
     tag: string;
     editPill: (queryPill: ISavedFilter, tag: string, queryBuilderId: string) => any;
+    editCallback?: () => void;
     duplicatePill: (queryPill: ISavedFilter) => any;
     deletePill: (id: string) => any;
     getFiltersByPill: (id: string) => any;
@@ -36,6 +37,7 @@ interface IQueryPill {
 const QueryPill = ({
     deletePill,
     duplicatePill,
+    editCallback,
     editMenuItems,
     editPill,
     getFiltersByPill,
@@ -167,6 +169,7 @@ const QueryPill = ({
             </div>
             {isOpenEditModal && (
                 <EditCustomPillModal
+                    editCallback={editCallback}
                     editPill={editPill}
                     getFiltersByPill={getFiltersByPill}
                     menuItems={editMenuItems}
