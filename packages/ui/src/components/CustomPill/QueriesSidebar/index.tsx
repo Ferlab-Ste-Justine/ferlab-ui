@@ -39,6 +39,7 @@ export interface IQueriesSidebarProps {
     getFiltersByPill: (id: string) => any;
     validateName: (title: string, tag: string) => any;
     remoteComponentMapping?: (props: IRemoteComponent) => void;
+    editCallback?: () => void;
 }
 
 const QueriesSidebar = ({
@@ -56,6 +57,7 @@ const QueriesSidebar = ({
     tag,
     deletePill,
     duplicatePill,
+    editCallback,
     editPill,
     getFiltersByPill,
     remoteComponentMapping,
@@ -124,6 +126,7 @@ const QueriesSidebar = ({
                         <QueryPill
                             deletePill={deletePill}
                             duplicatePill={duplicatePill}
+                            editCallback={editCallback}
                             editMenuItems={editMenuItems}
                             editPill={editPill}
                             getFiltersByPill={getFiltersByPill}
