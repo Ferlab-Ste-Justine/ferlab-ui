@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { ISqonGroupFilter, ISyntheticSqon, IValueFilter } from '../../data/sqon/types';
+import { IRemoteComponent, ISqonGroupFilter, ISyntheticSqon, IValueFilter } from '../../data/sqon/types';
 import { TCollapseProps } from '../Collapse';
 import { IQueriesSidebarDictionary } from '../CustomPill/QueriesSidebar/types';
+import { ISidebarMenuItem } from '../SidebarMenu';
 
 export type ArrayTenOrMore<T> = {
     0: T;
@@ -101,9 +102,17 @@ export type TOnChange = (id: string, query: ISyntheticSqon | Record<string, neve
 export type TOnFacetClick = (filter: IValueFilter) => void;
 
 export interface ICustomPillConfig {
-    createCustomPill?: (query: ISavedFilter, tag: string) => any;
-    tag?: string;
+    createCustomPill: (query: ISavedFilter, tag: string) => any;
+    tag: string;
     maxNameCapSavedQuery?: number;
+    editCallback?: () => void;
+    editPill: (queryPill: ISavedFilter, tag: string, queryBuilderId: string) => any;
+    getFiltersByPill: (id: string) => any;
+    getPillById: (id: string) => any;
+    editMenuItems: ISidebarMenuItem[];
+    queryEditionQBId: string;
+    remoteComponentMapping?: (props: IRemoteComponent) => void;
+    validateName: (title: string, tag: string) => any;
 }
 
 export interface ISaveCustomPillResponse {
