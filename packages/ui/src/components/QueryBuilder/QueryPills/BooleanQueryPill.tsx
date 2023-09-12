@@ -59,10 +59,6 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps): JSX.Element => (
                 ) : isCustomPill(f) ? (
                     <CustomPill
                         isBarActive={props.isActive}
-                        onEdit={() => {
-                            // TODO open edit modal
-                            console.log('edit pill');
-                        }}
                         onRemove={() => props.onRemoveFacet((f as IValueFilter).content.field, props.query)}
                         valueFilter={f as IValueFilter}
                     />
