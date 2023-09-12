@@ -20,6 +20,7 @@ import SidebarMenu, { ISidebarMenuItem } from '../../SidebarMenu/index';
 import styles from './EditCustomPillModal.module.scss';
 
 interface EditCustomPillModalProps {
+    editCallback?: () => void;
     editPill: (queryPill: ISavedFilter, tag: string, queryBuilderId: string) => any;
     getFiltersByPill: (id: string) => any;
     menuItems: ISidebarMenuItem[];
@@ -35,6 +36,7 @@ interface EditCustomPillModalProps {
 }
 
 const EditCustomPillModal = ({
+    editCallback,
     editPill,
     getFiltersByPill,
     menuItems,
@@ -281,7 +283,7 @@ const EditCustomPillModal = ({
                                                 tag,
                                                 queryBuilderId,
                                             );
-
+                                            editCallback && editCallback();
                                             resetValuesOnClose();
                                             setIsLoading(false);
                                         },
