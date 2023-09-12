@@ -57,6 +57,13 @@ export const defaultFacetFilterConfig = {
 
 export const defaultCustomPillConfig: ICustomPillConfig = {
     createCustomPill: () => ({}),
+    editMenuItems: [],
+    editPill: () => ({}),
+    getFiltersByPill: () => ({}),
+    getPillById: () => undefined,
+    queryEditionQBId: '',
+    tag: '',
+    validateName: () => ({}),
 };
 
 export const QueryBuilderContext = createContext<TQueryBuilderContextType>({
