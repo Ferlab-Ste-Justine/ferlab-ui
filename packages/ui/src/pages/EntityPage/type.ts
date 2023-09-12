@@ -163,6 +163,7 @@ export interface IVariantStudyEntity {
     participant_ids: string[];
     participant_number: number;
     study_id: string;
+    study_code?: string;
     frequencies: IVariantStudyFrequencies;
 }
 
