@@ -65,7 +65,9 @@ const QueryPill = ({
                     )
                 }
             >
-                <Typography.Text ellipsis={{ tooltip: queryPill.title }}>{queryPill.title}</Typography.Text>
+                <Typography.Text className={styles.title} ellipsis={{ tooltip: queryPill.title }}>
+                    {queryPill.title}
+                </Typography.Text>
             </Button>
             <div className={styles.queryPillEditionWrapper}>
                 <Button
