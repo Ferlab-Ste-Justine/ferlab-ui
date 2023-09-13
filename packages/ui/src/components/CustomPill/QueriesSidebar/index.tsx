@@ -1,20 +1,13 @@
 import React from 'react';
-import {
-    BarChartOutlined,
-    DotChartOutlined,
-    FundOutlined,
-    InfoCircleOutlined,
-    PieChartOutlined,
-    WarningFilled,
-} from '@ant-design/icons';
-import { Spin, Tooltip, Typography } from 'antd';
+import { InfoCircleOutlined, WarningFilled } from '@ant-design/icons';
+import { Popover, Spin, Typography } from 'antd';
 
 import { IRemoteComponent } from '../../../data/sqon/types';
-import ExternalLink from '../../ExternalLink';
 import { defaultFacetFilterConfig, QueryCommonContext } from '../../QueryBuilder/context';
 import { IDictionary, IFacetFilterConfig, ISavedFilter } from '../../QueryBuilder/types';
 import { ISidebarMenuItem } from '../../SidebarMenu';
 
+import EmptyQueriesSidebar from './EmptyQueriesSidebar';
 import QueryPill from './QueryPill';
 import { IQueriesSidebarDictionary } from './types';
 
@@ -66,34 +59,13 @@ const QueriesSidebar = ({
     if (isLoading) {
         return <Spin spinning={isLoading}></Spin>;
     }
-    if (!customPills.length || hasError) {
+    if (!customPills.length && !hasError) {
         return (
-            <div className={styles.emptyQueriesSidebarWrapper}>
-                <div className={styles.iconsWrapper}>
-                    <BarChartOutlined className={styles.icon} />
-                    <PieChartOutlined className={styles.icon} />
-                    <FundOutlined className={styles.icon} />
-                    <DotChartOutlined className={styles.icon} />
-                </div>
-                {hasError && (
-                    <div className={styles.errorText}>
-                        <WarningFilled className={styles.errorIcon} />
-                        {dictionary.errorText}
-                    </div>
-                )}
-
-                {/* TODO change href when we will have it */}
-                {!hasError && (
-                    <>
-                        <div className={styles.emptyText}>{dictionary.emptyText}</div>
-                        {learnMoreLink && (
-                            <ExternalLink className={styles.link} hasIcon={true} href={learnMoreLink}>
-                                {dictionary.learnMore}
-                            </ExternalLink>
-                        )}
-                    </>
-                )}
-            </div>
+            <EmptyQueriesSidebar
+                emptyText={dictionary.emptyText}
+                learnMoreLink={learnMoreLink}
+                learnMoreText={dictionary.learnMore}
+            />
         );
     }
 
@@ -111,34 +83,46 @@ const QueriesSidebar = ({
                         {dictionary.title}
                     </Typography.Text>
                     {dictionary.emptyText && (
-                        <Tooltip
-                            align={{ offset: [-24, 0] }}
-                            arrowPointAtCenter
-                            placement="topLeft"
-                            title={dictionary.emptyText}
+                        <Popover
+                            content={
+                                <EmptyQueriesSidebar
+                                    emptyText={dictionary.emptyText}
+                                    learnMoreLink={learnMoreLink}
+                                    learnMoreText={dictionary.learnMore}
+                                />
+                            }
+                            overlayStyle={{ width: '350px' }}
+                            placement="left"
                         >
                             <InfoCircleOutlined className={styles.tooltipIcon} />
-                        </Tooltip>
+                        </Popover>
                     )}
                 </span>
                 <div className={styles.pillsWrapper}>
-                    {sortedPills.map((pill) => (
-                        <QueryPill
-                            deletePill={deletePill}
-                            duplicatePill={duplicatePill}
-                            editCallback={editCallback}
-                            editMenuItems={editMenuItems}
-                            editPill={editPill}
-                            getFiltersByPill={getFiltersByPill}
-                            key={pill.id}
-                            queryBuilderId={queryBuilderId}
-                            queryEditionQBId={queryEditionQBId}
-                            queryPill={pill}
-                            remoteComponentMapping={remoteComponentMapping}
-                            tag={tag}
-                            validateName={validateName}
-                        />
-                    ))}
+                    {hasError && (
+                        <div className={styles.errorText}>
+                            <WarningFilled className={styles.errorIcon} />
+                            {dictionary.errorText}
+                        </div>
+                    )}
+                    {!hasError &&
+                        sortedPills.map((pill) => (
+                            <QueryPill
+                                deletePill={deletePill}
+                                duplicatePill={duplicatePill}
+                                editCallback={editCallback}
+                                editMenuItems={editMenuItems}
+                                editPill={editPill}
+                                getFiltersByPill={getFiltersByPill}
+                                key={pill.id}
+                                queryBuilderId={queryBuilderId}
+                                queryEditionQBId={queryEditionQBId}
+                                queryPill={pill}
+                                remoteComponentMapping={remoteComponentMapping}
+                                tag={tag}
+                                validateName={validateName}
+                            />
+                        ))}
                 </div>
             </div>
         </QueryCommonContext.Provider>
