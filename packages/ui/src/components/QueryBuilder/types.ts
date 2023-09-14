@@ -153,7 +153,8 @@ interface IDeleteTranslation {
 interface ISaveTranslation {
     form?: {
         error?: {
-            fieldRequired: React.ReactNode;
+            fieldRequired: string;
+            nameAlreadyExists: string;
         };
     };
     input: IInputDictionary & {
@@ -164,11 +165,6 @@ interface ISaveTranslation {
         okText: React.ReactNode;
         cancelText: React.ReactNode;
         message: React.ReactNode;
-        successNotification: React.ReactNode;
-        errorNotification: {
-            description: React.ReactNode;
-            message: React.ReactNode;
-        };
     };
     tooltip?: { enabled: React.ReactNode; disabled: React.ReactNode };
 }

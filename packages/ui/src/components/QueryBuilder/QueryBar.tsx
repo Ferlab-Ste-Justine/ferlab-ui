@@ -15,7 +15,6 @@ import {
     TSyntheticSqonContentValue,
 } from '../../data/sqon/types';
 import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
-import { openErrorNotification, openSuccessNotification } from '../../utils/notificationUtils';
 import { numberFormat } from '../../utils/numberUtils';
 
 import SaveCustomPillModal from './Header/Tools/SaveCustomPillModal';
@@ -96,7 +95,6 @@ const QueryBar = ({
         message: '',
     });
     const [isSaveCustomPillDisabled, setIsSaveCustomPillDisabled] = useState<boolean>(false);
-    const [api, contextHolder] = notification.useNotification();
 
     useEffect(() => {
         setChecked(isSelected);
@@ -120,11 +118,11 @@ const QueryBar = ({
     }, [JSON.stringify(queryList), JSON.stringify(query)]);
 
     useEffect(() => {
-        query.content.map((queryPart: TSyntheticSqonContentValue) => {
-            if ((queryPart as IValueQuery).title || !(queryPart as IValueQuery).content)
-                setIsSaveCustomPillDisabled(true);
-            else setIsSaveCustomPillDisabled(false);
-        });
+        const hasCustomPill = query.content.filter(
+            (queryPart: TSyntheticSqonContentValue) =>
+                (queryPart as IValueQuery).title || !(queryPart as IValueQuery).content,
+        );
+        setIsSaveCustomPillDisabled(!!hasCustomPill.length);
     }, [query]);
 
     return (
@@ -241,69 +239,64 @@ const QueryBar = ({
                     </Space>
                 )}
             </div>
-            {contextHolder}
-            <SaveCustomPillModal
-                initialTitleValue={''}
-                isLoading={isSaveCustomPillLoading}
-                onCancel={() => {
-                    setIsSaveCustomPillModalVisible(false);
-                    setOnSaveCustomPillResponse({ hasError: false, message: undefined });
-                }}
-                onSubmit={async (title) => {
-                    setIsSaveCustomPillLoading(true);
-                    if (customPillConfig?.createCustomPill) {
-                        await customPillConfig
-                            .createCustomPill(
-                                {
-                                    favorite: false,
-                                    id: getUUID(),
-                                    queries: [query],
-                                    title,
-                                    type: SavedFilterTypeEnum.Query,
-                                },
-                                customPillConfig.tag || '',
-                            )
-                            .then((response: any) => {
-                                if (response.error) {
-                                    setOnSaveCustomPillResponse({ hasError: true, message: response.error.message });
-                                    openErrorNotification({
-                                        api,
-                                        description:
-                                            dictionary.actions?.saveCustomPill?.modal?.errorNotification?.description ||
-                                            'An error occurred and we were unable to save your query. Please try again.',
-                                        message:
-                                            dictionary.actions?.saveCustomPill?.modal?.errorNotification?.message ||
-                                            'Failed to create query',
-                                    });
-                                } else {
-                                    if (response?.payload?.queries?.[0]) {
-                                        const newContent = [
-                                            {
-                                                content: response.payload.queries[0].content,
-                                                id: response.payload.id,
-                                                op: 'and',
-                                                title: response.payload.title,
-                                            },
-                                        ];
-                                        const newQuery = { ...query, content: newContent };
-                                        updateQueryById(id, newQuery);
+            {isSaveCustomPillModalVisible && (
+                <SaveCustomPillModal
+                    isLoading={isSaveCustomPillLoading}
+                    onCancel={() => {
+                        setIsSaveCustomPillModalVisible(false);
+                        setOnSaveCustomPillResponse({ hasError: false, message: undefined });
+                    }}
+                    onSubmit={async (title) => {
+                        setIsSaveCustomPillLoading(true);
+                        if (customPillConfig?.createCustomPill) {
+                            await customPillConfig
+                                .createCustomPill(
+                                    {
+                                        favorite: false,
+                                        id: getUUID(),
+                                        queries: [query],
+                                        title,
+                                        type: SavedFilterTypeEnum.Query,
+                                    },
+                                    customPillConfig.tag || '',
+                                )
+                                .then((response: any) => {
+                                    if (response.error) {
+                                        if (response.error.message === '422') {
+                                            setOnSaveCustomPillResponse({
+                                                hasError: true,
+                                                message:
+                                                    dictionary.actions?.saveCustomPill?.form?.error
+                                                        ?.nameAlreadyExists || 'A query with this name already exists',
+                                            });
+                                        } else {
+                                            setOnSaveCustomPillResponse({ hasError: false, message: undefined });
+                                            setIsSaveCustomPillModalVisible(false);
+                                        }
+                                    } else {
+                                        if (response?.payload?.queries?.[0]) {
+                                            const newContent = [
+                                                {
+                                                    content: response.payload.queries[0].content,
+                                                    id: response.payload.id,
+                                                    op: 'and',
+                                                    title: response.payload.title,
+                                                },
+                                            ];
+                                            const newQuery = { ...query, content: newContent };
+                                            updateQueryById(id, newQuery);
+                                        }
+                                        setOnSaveCustomPillResponse({ hasError: false, message: undefined });
+                                        setIsSaveCustomPillModalVisible(false);
                                     }
-                                    setOnSaveCustomPillResponse({ hasError: false, message: undefined });
-                                    setIsSaveCustomPillModalVisible(false);
-                                    openSuccessNotification({
-                                        api,
-                                        message:
-                                            dictionary.actions?.saveCustomPill?.modal?.successNotification ||
-                                            'Custom query successfully created',
-                                    });
-                                }
-                                setIsSaveCustomPillLoading(false);
-                            });
-                    }
-                }}
-                saveCustomPillResponse={onSaveCustomPillResponse}
-                visible={isSaveCustomPillModalVisible}
-            />
+                                    setIsSaveCustomPillLoading(false);
+                                });
+                        }
+                    }}
+                    saveCustomPillResponse={onSaveCustomPillResponse}
+                    visible={isSaveCustomPillModalVisible}
+                />
+            )}
         </div>
     );
 };
