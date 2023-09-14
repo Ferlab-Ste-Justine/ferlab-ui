@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { WarningFilled } from '@ant-design/icons';
 import { Form, Input, Modal, Spin, Typography } from 'antd';
 
@@ -8,7 +8,6 @@ import { ISaveCustomPillResponse } from '../../types';
 import styles from './QueryBuilderHeaderTools.module.scss';
 
 interface OwnProps {
-    initialTitleValue: string;
     isLoading: boolean;
     saveCustomPillResponse: ISaveCustomPillResponse;
     visible: boolean;
@@ -19,7 +18,6 @@ interface OwnProps {
 const DEFAULT_TITLE_MAX_LENGTH = 50;
 
 const SaveCustomPillModal = ({
-    initialTitleValue,
     isLoading,
     onCancel,
     onSubmit,
@@ -29,6 +27,7 @@ const SaveCustomPillModal = ({
     const { customPillConfig } = useContext(QueryBuilderContext);
     const { dictionary } = useContext(QueryCommonContext);
     const [editForm] = Form.useForm();
+    const [title, setTitle] = useState<string>('');
 
     const callbackRef = useCallback(
         (inputElement) => {
@@ -45,6 +44,7 @@ const SaveCustomPillModal = ({
         <Modal
             cancelText={dictionary.actions?.saveCustomPill?.modal?.cancelText || 'Cancel'}
             className={styles.saveCustomPillModal}
+            okButtonProps={{ disabled: !title.length }}
             okText={dictionary.actions?.saveCustomPill?.modal?.okText || 'Save'}
             onCancel={() => {
                 editForm.resetFields();
@@ -60,12 +60,13 @@ const SaveCustomPillModal = ({
                     fields={[
                         {
                             name: ['title'],
-                            value: initialTitleValue,
+                            value: title,
                         },
                     ]}
                     form={editForm}
                     layout="vertical"
                     onFinish={(values) => onSubmit(values.title)}
+                    onValuesChange={(changedValues) => setTitle(changedValues?.title?.trim())}
                 >
                     <Form.Item noStyle shouldUpdate>
                         {() => (
