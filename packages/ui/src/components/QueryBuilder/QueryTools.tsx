@@ -7,7 +7,7 @@ import { BooleanOperators } from '../../data/sqon/operators';
 
 import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
-import { QueryBuilderContext } from './context';
+import { QueryBuilderContext, QueryCommonContext } from './context';
 
 import styles from './QueryTools.module.scss';
 
@@ -19,17 +19,17 @@ export interface IQueryToolsProps {
     setShowLabels: (value: boolean) => void;
 }
 
-const QueryTools = ({ addNewQuery, onCombineClick, onDeleteAll, queryCount, setShowLabels }: IQueryToolsProps) => {
-    const {
-        canCombine,
-        dictionary,
-        enableCombine,
-        enableShowHideLabels,
-        enableSingleQuery,
-        hasEmptyQuery,
-        noQueries,
-        showLabels,
-    } = useContext(QueryBuilderContext);
+const QueryTools = ({
+    addNewQuery,
+    onCombineClick,
+    onDeleteAll,
+    queryCount,
+    setShowLabels,
+}: IQueryToolsProps): JSX.Element => {
+    const { canCombine, enableCombine, enableShowHideLabels, enableSingleQuery, hasEmptyQuery, noQueries } =
+        useContext(QueryBuilderContext);
+
+    const { dictionary, showLabels } = useContext(QueryCommonContext);
 
     return (
         <Space className={styles.queryTools} direction="horizontal">

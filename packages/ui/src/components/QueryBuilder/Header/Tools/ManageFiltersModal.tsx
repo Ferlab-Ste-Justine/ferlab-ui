@@ -5,7 +5,7 @@ import enUS from 'date-fns/locale/en-US';
 import frCa from 'date-fns/locale/fr-CA';
 
 import ListItemWithActions from '../../../List/ListItemWithActions';
-import { QueryBuilderContext } from '../../context';
+import { QueryCommonContext } from '../../context';
 import { ISavedFilter } from '../../types';
 
 import EditFilterModal from './EditFilterModal';
@@ -21,8 +21,14 @@ interface OwnProps {
     onUpdateFilter: ((filter: ISavedFilter) => void) | undefined;
 }
 
-const ManageFiltersModal = ({ onDeleteFilter, onUpdateFilter, onVisibleChange, savedFilters, visible }: OwnProps) => {
-    const { dictionary } = useContext(QueryBuilderContext);
+const ManageFiltersModal = ({
+    onDeleteFilter,
+    onUpdateFilter,
+    onVisibleChange,
+    savedFilters,
+    visible,
+}: OwnProps): JSX.Element => {
+    const { dictionary } = useContext(QueryCommonContext);
     const { locale } = useContext(ConfigProvider.ConfigContext);
     const [isEditModalVisible, setEditModalVisible] = useState(false);
     const [selectedFilter, setSelectedFilter] = useState<ISavedFilter | undefined>(undefined);
