@@ -14,6 +14,7 @@ const iconSize = 11;
 
 const Pagination = ({
     current,
+    customPagination,
     defaultViewPerQuery,
     dictionary,
     loading,
@@ -49,7 +50,7 @@ const Pagination = ({
                     onViewQueryChange?.(viewPerQuery);
                     onShowSizeChange();
                 }}
-                options={getPaginationOptions(dictionary?.pagination?.view || '{value} / view')}
+                options={getPaginationOptions(dictionary?.pagination?.view || '{value} / view', customPagination)}
                 size="small"
             />
 

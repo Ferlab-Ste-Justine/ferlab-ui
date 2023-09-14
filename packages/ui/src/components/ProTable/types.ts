@@ -24,6 +24,7 @@ export interface IPaginationProps {
     onChange: (page: number, pageSize: number) => void;
     total: number;
     dictionary?: IProTableDictionary;
+    customPagination?: number[];
 }
 
 export interface IProTableDictionary {
