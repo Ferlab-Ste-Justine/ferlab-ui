@@ -17,11 +17,6 @@ export interface IQueriesSidebarDictionary {
             success: string;
         };
     };
-    duplicateCustomPill: {
-        notification: {
-            error: { description: string; message: string };
-        };
-    };
     editCustomPill: {
         title: string;
         cancelText: string;
