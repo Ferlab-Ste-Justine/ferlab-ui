@@ -79,20 +79,7 @@ const QueryPill = ({
                 <Button
                     className={styles.queryPillEditionButton}
                     icon={<CopyOutlined />}
-                    onClick={async () => {
-                        const { error } = await duplicatePill(queryPill);
-                        if (error) {
-                            openErrorNotification({
-                                api,
-                                description:
-                                    dictionary.queriesSidebar?.duplicateCustomPill?.notification?.error?.description ||
-                                    'An error has occurred and we were unable to duplicate your query. Please try again.',
-                                message:
-                                    dictionary.queriesSidebar?.duplicateCustomPill?.notification?.error?.message ||
-                                    'Failed to duplicate query',
-                            });
-                        }
-                    }}
+                    onClick={() => duplicatePill(queryPill)}
                     size="small"
                 />
                 <Button
