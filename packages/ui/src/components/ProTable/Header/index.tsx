@@ -1,5 +1,5 @@
 import React from 'react';
-import { Space } from 'antd';
+import { Divider, Space } from 'antd';
 
 import { IProTableDictionary } from '../types';
 
@@ -22,10 +22,12 @@ interface OwnProps {
     onSelectAllResults?: () => void;
     onClearSelection?: () => void;
     className?: string;
+    extraCountInfo?: React.ReactNode[];
 }
 
 const TableHeader = ({
     extra = [],
+    extraCountInfo = [],
     extraSpacing = 12,
     pageIndex,
     pageSize,
@@ -40,24 +42,33 @@ const TableHeader = ({
     className,
 }: OwnProps) => (
     <div className={className || styles.ProTableHeader}>
-        {selectedRowCount > 0 ? (
-            <SelectedCount
-                dictionnary={dictionary}
-                onClear={onClearSelection}
-                onSelectAll={onSelectAllResults}
-                selectedAllPage={selectedAllPage}
-                selectedAllResults={selectedAllResults}
-                selectedRowCount={selectedRowCount}
-            />
-        ) : (
-            <ItemsCount
-                dictionnary={dictionary}
-                hidden={hideItemsCount}
-                page={pageIndex}
-                size={pageSize}
-                total={total}
-            />
-        )}
+        <div>
+            {selectedRowCount > 0 ? (
+                <SelectedCount
+                    dictionnary={dictionary}
+                    onClear={onClearSelection}
+                    onSelectAll={onSelectAllResults}
+                    selectedAllPage={selectedAllPage}
+                    selectedAllResults={selectedAllResults}
+                    selectedRowCount={selectedRowCount}
+                />
+            ) : (
+                <ItemsCount
+                    dictionnary={dictionary}
+                    hidden={hideItemsCount}
+                    page={pageIndex}
+                    size={pageSize}
+                    total={total}
+                />
+            )}
+            {extraCountInfo &&
+                extraCountInfo.map((element, index) => (
+                    <div className={styles.extraCountInfo} key={index}>
+                        <Divider type="vertical" />
+                        <div>{element}</div>
+                    </div>
+                ))}
+        </div>
         <Space size={extraSpacing}>
             {extra.map((element, index) => (
                 <div key={index}>{element}</div>
