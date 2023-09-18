@@ -92,6 +92,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         enableColumnSort: false,
         enableTableExport: false,
         extra: [],
+        extraCountInfo: [],
         extraSpacing: 12,
         itemCount: {
             pageIndex: 1,
@@ -271,6 +272,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                 className={tableHeaderClassName}
                 dictionary={dictionary}
                 extra={getExtraConfig()}
+                extraCountInfo={headerConfig.extraCountInfo}
                 extraSpacing={headerConfig.extraSpacing}
                 hideItemsCount={headerConfig.hideItemsCount}
                 onClearSelection={() => {

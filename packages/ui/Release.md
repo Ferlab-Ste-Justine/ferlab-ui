@@ -1,4 +1,7 @@
 ### 7.13.5 2023-08-31
+- feat: CLIN-2207 Add extraCountInfo header proTable
+
+### 7.13.5 2023-08-31
 - feat: CLIN-2197 Add custom Pagination in proTable
 
 ### 7.13.3 2023-08-31

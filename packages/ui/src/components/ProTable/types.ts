@@ -104,6 +104,7 @@ export type THeaderConfig<RecordType> = {
     marginBtm?: number;
     extraSpacing?: number;
     extra?: ReactNode[];
+    extraCountInfo?: ReactNode[];
     enableTableExport?: boolean;
     enableColumnSort?: boolean;
     onSelectedRowsChange?: (selectedKeys: any[], selectedRows: RecordType[]) => void;
