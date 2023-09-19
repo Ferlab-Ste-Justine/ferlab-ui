@@ -56,6 +56,7 @@ const InternalCheckBox = ({
         <Checkbox
             checked={localSelectedFilters.some((f) => f.data.key === filter.data.key)}
             className={styles.fuiMcItemCheckbox}
+            data-cy={`Checkbox_${filterGroup.title}_${filter.data.key}`}
             id={`input-${filter.data.key}`}
             name={`input-${filter.id}`}
             onChange={(e) => {
@@ -236,6 +237,7 @@ const CheckboxFilter = ({
                                     <Text>{get(dictionary, 'actions.dictionary', 'Dictionary')}</Text>
                                     <Switch
                                         checked={includeExtraValues}
+                                        data-cy={`Button_Dict_${filterGroup.title}`}
                                         onChange={(checked) => {
                                             setIncludeExtraValues(checked);
                                             setShowingMore(checked);
@@ -330,7 +332,9 @@ const CheckboxFilter = ({
                         size="small"
                         type="primary"
                     >
-                        <span data-key="apply">{get(dictionary, 'actions.apply', 'Apply')}</span>
+                        <span data-cy={`Apply_${filterGroup.title}`} data-key="apply">
+                            {get(dictionary, 'actions.apply', 'Apply')}
+                        </span>
                     </Dropdown.Button>
                 </StackLayout>
             )}
