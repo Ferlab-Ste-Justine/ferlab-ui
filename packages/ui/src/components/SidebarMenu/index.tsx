@@ -98,6 +98,7 @@ const Sidebar = ({
         items.push(
             ...menuItems.map((menuItem) => ({
                 className: styles.sidebarMenuItem,
+                'data-cy': `SidebarMenuItem_${menuItem.title}`,
                 'data-key': menuItem.key,
                 icon: menuItem.icon,
                 key: menuItem.key,

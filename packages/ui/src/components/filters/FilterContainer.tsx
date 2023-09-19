@@ -28,7 +28,7 @@ type FilterContainerHeaderProps = {
 
 const FilterContainerHeader: React.FC<FilterContainerHeaderProps> = ({ hasFilters = false, title, tooltip }) => (
     <StackLayout className={styles.filtersContainerHeader}>
-        <div className={styles.titleContainer}>
+        <div className={styles.titleContainer} data-cy={`FilterContainer_${title}`}>
             {tooltip ? (
                 <Tooltip title={tooltip}>
                     <span

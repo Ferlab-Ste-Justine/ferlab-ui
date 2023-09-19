@@ -272,6 +272,7 @@ const RangeFilter = ({
                             )}
                             <InputNumber
                                 className={styles.rangeInput}
+                                data-cy={`InputNumber_Min_${filterGroup.title}`}
                                 id={`from-${dotField}`}
                                 key={`from-${dotField}`}
                                 onChange={onMinChanged}
@@ -288,6 +289,7 @@ const RangeFilter = ({
                             )}
                             <InputNumber
                                 className={styles.rangeInput}
+                                data-cy={`InputNumber_Max_${filterGroup.title}`}
                                 id={`to-${dotField}`}
                                 key={`to-${dotField}`}
                                 onChange={onMaxChanged}
@@ -322,7 +324,11 @@ const RangeFilter = ({
                 )}
                 {noDataInputOption && (
                     <StackLayout vertical>
-                        <Checkbox checked={checkNoData} onChange={onNoDataChanged}>
+                        <Checkbox
+                            checked={checkNoData}
+                            data-cy={`Checkbox_NoData_${filterGroup.title}`}
+                            onChange={onNoDataChanged}
+                        >
                             {get(dictionary, 'range.noData', 'No Data')}
                         </Checkbox>
                     </StackLayout>
@@ -348,6 +354,7 @@ const RangeFilter = ({
                 </Button>
                 <Button
                     className={styles.fuiRfActionsApply}
+                    data-cy={`Button_Apply_${filterGroup.title}`}
                     disabled={userCleared ? !userCleared : !hasChanged()}
                     onClick={() => {
                         onChange(filterGroup, [

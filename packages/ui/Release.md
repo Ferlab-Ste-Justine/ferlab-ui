@@ -1,4 +1,7 @@
-### 7.13.5 2023-08-31
+### 7.13.7 2023-09-19
+- feat: FLUI-85 Add data-cy on facets
+
+### 7.13.6 2023-08-31
 - feat: CLIN-2207 Add extraCountInfo header proTable
 
 ### 7.13.5 2023-08-31
