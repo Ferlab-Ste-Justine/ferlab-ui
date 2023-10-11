@@ -801,6 +801,12 @@ export const getSelectedFilters = ({
         return [];
     }
 
+    selectedFilters.content = selectedFilters.content
+        .map((filter) => {
+            if (!filter.hasOwnProperty('title')) return filter;
+        })
+        .filter((filter) => filter) as TSyntheticSqonContent;
+
     switch (filterGroup.type) {
         case VisualType.Range:
             return getSelectedFiltersForRange(filters, filterGroup, selectedFilters);

@@ -262,12 +262,19 @@ const QueryBar = ({
                                 )
                                 .then((response: any) => {
                                     if (response.error) {
-                                        if (response.error.message === '422') {
+                                        if (response.error.message === 'Already exists') {
                                             setOnSaveCustomPillResponse({
                                                 hasError: true,
                                                 message:
                                                     dictionary.actions?.saveCustomPill?.form?.error
                                                         ?.nameAlreadyExists || 'A query with this name already exists',
+                                            });
+                                        } else if (response.error.message === 'Invalid format') {
+                                            setOnSaveCustomPillResponse({
+                                                hasError: true,
+                                                message:
+                                                    dictionary.actions?.saveCustomPill?.form?.error?.invalidFormat ||
+                                                    'Invalid format, special character not authorized',
                                             });
                                         } else {
                                             setOnSaveCustomPillResponse({ hasError: false, message: undefined });
@@ -279,7 +286,7 @@ const QueryBar = ({
                                                 {
                                                     content: response.payload.queries[0].content,
                                                     id: response.payload.id,
-                                                    op: 'and',
+                                                    op: response.payload.queries[0].op,
                                                     title: response.payload.title,
                                                 },
                                             ];
