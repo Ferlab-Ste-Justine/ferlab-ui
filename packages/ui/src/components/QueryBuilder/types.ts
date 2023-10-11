@@ -155,6 +155,7 @@ interface ISaveTranslation {
         error?: {
             fieldRequired: string;
             nameAlreadyExists: string;
+            invalidFormat: string;
         };
     };
     input: IInputDictionary & {
