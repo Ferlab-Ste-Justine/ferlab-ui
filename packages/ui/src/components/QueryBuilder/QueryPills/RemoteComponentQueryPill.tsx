@@ -5,7 +5,7 @@ import cx from 'classnames';
 
 import { IRemoteComponent, IValueFilter } from '../../../data/sqon/types';
 import { isBooleanFilter, isRangeFilter } from '../../../data/sqon/utils';
-import { QueryBuilderContext } from '../context';
+import { QueryBuilderContext, QueryCommonContext } from '../context';
 import QueryValues from '../QueryValues';
 
 import { Operator } from './FieldQueryPill';
@@ -25,7 +25,7 @@ const RemoteComponentQueryPill = ({
     remoteComponentMapping,
     valueFilter,
 }: IRemoteComponentQueryPillProps): ReactElement => {
-    const { dictionary, showLabels } = useContext(QueryBuilderContext);
+    const { dictionary, showLabels } = useContext(QueryCommonContext);
     const [tryOpenQueryPillFilter, setTryOpenQueryPillFilter] = useState(false);
     const handleQueryPillClick = (isBarActive: boolean) => {
         if (remoteComponentMapping && valueFilter.content.remoteComponent) {
