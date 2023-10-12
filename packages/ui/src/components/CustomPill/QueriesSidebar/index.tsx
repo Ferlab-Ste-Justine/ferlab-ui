@@ -26,7 +26,7 @@ export interface IQueriesSidebarProps {
     facetFilterConfig?: IFacetFilterConfig;
     learnMoreLink?: string;
     showLabels?: boolean;
-    deletePill: (id: string) => any;
+    deletePill: (id: string, queryBuilderId: string) => any;
     duplicatePill: (queryPill: ISavedFilter) => any;
     editPill: (queryPill: ISavedFilter, tag: string, queryBuilderId: string) => void;
     getFiltersByPill: (id: string) => any;
