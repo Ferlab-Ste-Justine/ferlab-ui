@@ -6,13 +6,12 @@ import {
     ExclamationCircleOutlined,
     WarningFilled,
 } from '@ant-design/icons';
-import { Button, Modal, notification, Spin, Typography } from 'antd';
+import { Button, Modal, Spin, Typography } from 'antd';
 
 import { IRemoteComponent } from '../../../data/sqon/types';
-import { openErrorNotification, openSuccessNotification } from '../../../utils/notificationUtils';
 import { QueryCommonContext } from '../../QueryBuilder/context';
 import { ISavedFilter } from '../../QueryBuilder/types';
-import { addPillToQueryBuilder, removePillFromQueryBuilder } from '../../QueryBuilder/utils/useQueryBuilderState';
+import { addPillToQueryBuilder } from '../../QueryBuilder/utils/useQueryBuilderState';
 import { ISidebarMenuItem } from '../../SidebarMenu';
 
 import EditCustomPillModal from './EditCustomPillModal';
@@ -28,7 +27,7 @@ interface IQueryPill {
     editPill: (queryPill: ISavedFilter, tag: string, queryBuilderId: string) => any;
     editCallback?: () => void;
     duplicatePill: (queryPill: ISavedFilter) => any;
-    deletePill: (id: string) => any;
+    deletePill: (id: string, queryBuilderId: string) => any;
     getFiltersByPill: (id: string) => any;
     validateName: (title: string, tag: string) => any;
     remoteComponentMapping?: (props: IRemoteComponent) => void;
@@ -50,12 +49,10 @@ const QueryPill = ({
 }: IQueryPill): JSX.Element => {
     const { dictionary } = useContext(QueryCommonContext);
     const [isLoadingFilters, setIsLoadingFilters] = useState<boolean>(false);
-    const [api, contextHolder] = notification.useNotification();
     const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
 
     return (
         <div className={styles.queryPillWrapper}>
-            {contextHolder}
             <Button
                 className={styles.queryPill}
                 onClick={() =>
@@ -126,28 +123,8 @@ const QueryPill = ({
                             ),
                             icon: <ExclamationCircleOutlined className={styles.icon} />,
                             okText: dictionary.queriesSidebar?.deleteCustomPill?.modal?.okText || 'Delete',
-                            onOk: async () => {
-                                const { error } = await deletePill(queryPill.id);
-                                if (error) {
-                                    openErrorNotification({
-                                        api,
-                                        description:
-                                            dictionary.queriesSidebar?.deleteCustomPill?.notification?.error
-                                                ?.description ||
-                                            'An error has occurred and we were unable to delete your query. Please try again.',
-                                        message:
-                                            dictionary.queriesSidebar?.deleteCustomPill?.notification?.error?.message ||
-                                            'Failed to delete query',
-                                    });
-                                } else {
-                                    removePillFromQueryBuilder(queryPill.id, queryBuilderId);
-                                    openSuccessNotification({
-                                        api,
-                                        message:
-                                            dictionary.queriesSidebar?.deleteCustomPill?.notification?.success ||
-                                            'Query successfully deleted',
-                                    });
-                                }
+                            onOk: () => {
+                                deletePill(queryPill.id, queryBuilderId);
                             },
                             title: dictionary.queriesSidebar?.deleteCustomPill?.modal?.title || 'Delete this query?',
                         });
