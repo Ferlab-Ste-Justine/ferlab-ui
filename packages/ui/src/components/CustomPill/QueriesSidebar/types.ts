@@ -12,10 +12,6 @@ export interface IQueriesSidebarDictionary {
             existingFilters: string;
             errorMessage: string;
         };
-        notification: {
-            error: { description: string; message: string };
-            success: string;
-        };
     };
     editCustomPill: {
         title: string;
