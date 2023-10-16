@@ -220,6 +220,8 @@ const EditCustomPillModal = ({
                                                     dictionary.queriesSidebar?.editCustomPill?.nameAlreadyExist
                                                         ?.message || 'Name already in use',
                                             });
+                                            setIsLoading(false);
+                                            return;
                                         }
                                     }
                                     const { data, error } = await getFiltersByPill(queryPill.id);
