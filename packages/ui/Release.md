@@ -1,3 +1,6 @@
+### 7.13.8 2023-10-20
+- feat: CQDG-135 Add dictionnary in HpoConditionCell and getColumnTitleOrTooltip in ExpandableTable
+
 ### 7.13.7 2023-09-19
 - feat: FLUI-85 Add data-cy on facets
 
