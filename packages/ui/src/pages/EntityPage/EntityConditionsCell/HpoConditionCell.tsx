@@ -9,13 +9,18 @@ import { HpoCondition, HpoConditions } from '../type';
 
 interface OwnProps {
     conditions: HpoConditions;
+    dictionary?: {
+        'see.less': string;
+        'see.more': string;
+    };
 }
 
 const { Text } = Typography;
 
-const HpoConditionCell: React.FC<OwnProps> = ({ conditions }) => (
+const HpoConditionCell: React.FC<OwnProps> = ({ conditions, dictionary }) => (
     <ExpandableCell
         dataSource={conditions || []}
+        dictionnary={dictionary}
         renderItem={(hpoItem, id) => {
             const item = hpoItem as HpoCondition;
 
