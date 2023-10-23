@@ -1,3 +1,6 @@
+### 7.13.9 2023-10-23
+- feat: SJIP-574 Update list item action button style
+
 ### 7.13.8 2023-10-20
 - feat: CQDG-135 Add dictionnary in HpoConditionCell and getColumnTitleOrTooltip in ExpandableTable
 
