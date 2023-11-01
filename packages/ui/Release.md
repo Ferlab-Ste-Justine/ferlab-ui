@@ -1,3 +1,6 @@
+### 7.14.0 2023-11-01
+- feat: SKFP-850 Add consequences cell component
+
 ### 7.13.9 2023-10-23
 - feat: SJIP-574 Update list item action button style
 
