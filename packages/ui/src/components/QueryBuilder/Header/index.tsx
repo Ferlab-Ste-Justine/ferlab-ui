@@ -5,6 +5,7 @@ import { Button, Space, Tooltip, Typography } from 'antd';
 import cx from 'classnames';
 import { v4 } from 'uuid';
 
+import { ISyntheticSqon, IValueFilterQuery, IValueQuery, TSyntheticSqonContentValue } from '../../../data/sqon/types';
 import { getDefaultSyntheticSqon } from '../../../data/sqon/utils';
 import Collapse, { CollapsePanel } from '../../Collapse';
 import { QueryBuilderContext, QueryCommonContext } from '../context';
@@ -27,6 +28,19 @@ interface IQueryBuilderHeaderProps {
 const { Title } = Typography;
 const tooltipAlign = { align: { offset: [0, 5] } };
 
+const formatQueriesWithPill = (queries: ISyntheticSqon[]): ISyntheticSqon[] => {
+    const queriesCloned = structuredClone(queries);
+    const formattedQueries = queriesCloned.map((query: ISyntheticSqon) => {
+        const newContent = query.content.map((c: TSyntheticSqonContentValue) => {
+            if (c.hasOwnProperty('title') && (c as IValueQuery).id)
+                return { filterID: (c as IValueQuery).id } as IValueFilterQuery;
+            else return c;
+        });
+        return { ...query, content: newContent };
+    });
+    return formattedQueries;
+};
+
 const QueryBuilderHeader = ({
     children,
     onSavedFilterChange,
@@ -40,6 +54,8 @@ const QueryBuilderHeader = ({
     const [localSavedFilters, setLocalSavedFilters] = useState(headerConfig.savedFilters);
 
     const onSaveFilter = async (savedFilter: ISavedFilter) => {
+        const formattedQueries = formatQueriesWithPill(queriesState.queries);
+
         const newSavedFilter = {
             favorite: savedFilter?.favorite || false,
             id: savedFilter?.id || v4(),
@@ -48,7 +64,7 @@ const QueryBuilderHeader = ({
         };
 
         if (headerConfig?.onSaveFilter) {
-            const result = await headerConfig.onSaveFilter(newSavedFilter);
+            const result = await headerConfig.onSaveFilter({ ...newSavedFilter, queries: formattedQueries });
             if (result?.error) {
                 return;
             }
@@ -59,12 +75,17 @@ const QueryBuilderHeader = ({
     };
 
     const onUpdateFilter = async (savedFilter: ISavedFilter) => {
+        const formattedQueries = formatQueriesWithPill(queriesState.queries);
+
         const updatedSavedFilter = {
             ...savedFilter,
             queries: queriesState.queries,
         };
         if (headerConfig?.onUpdateFilter) {
-            const result = await headerConfig.onUpdateFilter(updatedSavedFilter);
+            const result = await headerConfig.onUpdateFilter({
+                ...savedFilter,
+                queries: formattedQueries,
+            });
             if (result?.error) {
                 return;
             }
