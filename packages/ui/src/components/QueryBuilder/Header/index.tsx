@@ -27,15 +27,18 @@ interface IQueryBuilderHeaderProps {
 const { Title } = Typography;
 const tooltipAlign = { align: { offset: [0, 5] } };
 
-const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }: IQueryBuilderHeaderProps) => {
+const QueryBuilderHeader = ({
+    children,
+    onSavedFilterChange,
+    resetQueriesState,
+}: IQueryBuilderHeaderProps): JSX.Element => {
     const { dictionary, headerConfig, queriesState, queryBuilderId, selectedSavedFilter } =
         useContext(QueryBuilderContext);
-    const [savedFilterTitle, setSavedFilterTitle] = useState('');
     const [isEditModalVisible, setEditModalVisible] = useState(false);
     const [localSelectedSavedFilter, setLocalSelectedSavedFilter] = useState<ISavedFilter | null>(selectedSavedFilter);
     const [localSavedFilters, setLocalSavedFilters] = useState(headerConfig.savedFilters);
 
-    const onSaveFilter = (savedFilter: ISavedFilter) => {
+    const onSaveFilter = async (savedFilter: ISavedFilter): Promise<any> => {
         const newSavedFilter = {
             favorite: savedFilter?.favorite || false,
             id: savedFilter?.id || v4(),
@@ -44,18 +47,20 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
         };
 
         if (headerConfig?.onSaveFilter) {
-            headerConfig.onSaveFilter(newSavedFilter);
+            const error = await headerConfig.onSaveFilter(newSavedFilter);
+            return error;
         }
         onSavedFilterChange(newSavedFilter);
     };
 
-    const onUpdateFilter = (savedFilter: ISavedFilter) => {
+    const onUpdateFilter = async (savedFilter: ISavedFilter): Promise<any> => {
         const updatedSavedFilter = {
             ...savedFilter,
             queries: queriesState.queries,
         };
         if (headerConfig?.onUpdateFilter) {
-            headerConfig.onUpdateFilter(updatedSavedFilter);
+            const error = await headerConfig.onUpdateFilter(updatedSavedFilter);
+            return error;
         }
         onSavedFilterChange(updatedSavedFilter);
     };
@@ -70,7 +75,6 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
     const onNewSavedFilter = () => {
         const defaultQueryId = v4();
         resetQueriesState(defaultQueryId);
-        setSavedFilterTitle(headerConfig.defaultTitle!);
         onSavedFilterChange({
             favorite: false,
             id: v4(),
@@ -101,7 +105,6 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
                     const title = `${selectedSavedFilter?.title || ''} ${
                         dictionary.queryBuilderHeader?.duplicateFilterTitleSuffix || 'COPY'
                     }`;
-                    setSavedFilterTitle(title);
                     onSavedFilterChange({
                         favorite: false,
                         id: v4(),
@@ -111,7 +114,6 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
                 }}
                 onNewSavedFilter={onNewSavedFilter}
                 onSavedFilterChange={(filter) => {
-                    setSavedFilterTitle(filter.title);
                     onSavedFilterChange(filter);
                 }}
                 savedFilters={localSavedFilters!}
@@ -240,26 +242,27 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
                     {children}
                 </CollapsePanel>
             </Collapse>
-            <EditFilterModal
-                initialTitleValue={savedFilterTitle || selectedSavedFilter?.title || ''}
-                isNewFilter={isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!)}
-                okDisabled={!localSavedFilters}
-                onCancel={() => setEditModalVisible(false)}
-                onSubmit={(title) => {
-                    setEditModalVisible(false);
-                    setSavedFilterTitle(title);
-                    const filterToSave = {
-                        ...selectedSavedFilter!,
-                        title,
-                    };
-                    if (isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!)) {
-                        onSaveFilter(filterToSave);
-                    } else {
-                        onUpdateFilter(filterToSave);
-                    }
-                }}
-                visible={isEditModalVisible}
-            />
+            {isEditModalVisible && (
+                <EditFilterModal
+                    initialTitleValue={selectedSavedFilter?.title || ''}
+                    isNewFilter={isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!)}
+                    okDisabled={!localSavedFilters}
+                    onCancel={() => setEditModalVisible(false)}
+                    onSubmit={(title) => {
+                        setEditModalVisible(false);
+                        const filterToSave = {
+                            ...selectedSavedFilter!,
+                            title,
+                        };
+                        if (isNewUnsavedFilter(selectedSavedFilter!, localSavedFilters!)) {
+                            onSaveFilter(filterToSave);
+                        } else {
+                            onUpdateFilter(filterToSave);
+                        }
+                    }}
+                    visible={isEditModalVisible}
+                />
+            )}
         </div>
     );
 };
