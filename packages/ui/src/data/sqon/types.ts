@@ -35,6 +35,10 @@ export interface IValueQuery {
     title?: string;
 }
 
+export interface IValueFilterQuery {
+    filterID: string;
+}
+
 export interface IWildCardValueFilter extends Omit<IValueFilter, 'content'> {
     content: IWildCardValueContent;
 }
@@ -48,7 +52,13 @@ export interface ISqonGroupFilter {
     content: TSqonContent;
 }
 
-export type TSyntheticSqonContentValue = ISqonGroupFilter | IValueFilter | IValueQuery | IWildCardValueFilter | number;
+export type TSyntheticSqonContentValue =
+    | ISqonGroupFilter
+    | IValueFilter
+    | IValueQuery
+    | IValueFilterQuery
+    | IWildCardValueFilter
+    | number;
 export type TSyntheticSqonContent = Array<TSyntheticSqonContentValue>;
 export interface ISyntheticSqon {
     op: TSqonGroupOp;
