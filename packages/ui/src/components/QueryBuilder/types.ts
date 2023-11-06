@@ -61,10 +61,10 @@ export interface IQueryBuilderHeaderConfig {
     selectedSavedFilter?: ISavedFilter | null;
     collapseProps?: Omit<TCollapseProps, 'defaultActiveKey'>;
     onSetAsFavorite?: (filter: ISavedFilter) => void;
-    onUpdateFilter?: (filter: ISavedFilter) => void;
+    onUpdateFilter?: (filter: ISavedFilter) => void | Promise<any>;
     onUpdateFilterModal?: (filter: ISavedFilter) => void;
     onShareFilter?: (filter: ISavedFilter) => void;
-    onSaveFilter?: (filter: ISavedFilter) => void;
+    onSaveFilter?: (filter: ISavedFilter) => void | Promise<any>;
     onDeleteFilter?: (filterId: string) => void;
     maxNameCapSavedQuery?: number;
 }
