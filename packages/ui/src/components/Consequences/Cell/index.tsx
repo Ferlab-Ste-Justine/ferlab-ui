@@ -12,7 +12,7 @@ import ModifierBadgeIcon from '../Icons/ModifierBadgeIcon';
 
 import style from './index.module.scss';
 
-const NO_GENE = 'NO_GENE';
+export const NO_GENE = 'NO_GENE';
 
 export enum Impact {
     High = 'HIGH',
@@ -55,17 +55,13 @@ const ConsequencesCell = ({ consequences, emptyText, symbol }: TConsequencesCell
         return <Empty align="left" description={emptyText} noPadding showImage={false} size="mini" />;
     }
 
-    if (symbol === NO_GENE) {
-        return <Empty align="left" description={emptyText} noPadding showImage={false} size="mini" />;
-    }
-
     return (
         <StackLayout center className={style.stackLayout} key={'1'}>
             {pickImpactBadge(picked.vep_impact)}
             <span className={style.detail} key="detail">
                 {removeUnderscoreAndCapitalize(picked.consequence[0])}
             </span>
-            {symbol && (
+            {symbol && symbol !== NO_GENE && (
                 <span className={style.symbol} key={toKebabCase(symbol)}>
                     <ExternalLink href={`https://useast.ensembl.org/Homo_sapiens/Gene/Summary?g=${symbol}`}>
                         {symbol}

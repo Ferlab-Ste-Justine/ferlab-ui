@@ -1,3 +1,6 @@
+### 7.14.2 2023-11-06
+- fix: SKFP-850 Add NO_GENE export on consequences cell component
+
 ### 7.14.1 2023-11-06
 - feat: SJIP-630 unique filter name
 
