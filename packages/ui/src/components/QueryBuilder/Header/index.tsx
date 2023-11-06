@@ -27,7 +27,11 @@ interface IQueryBuilderHeaderProps {
 const { Title } = Typography;
 const tooltipAlign = { align: { offset: [0, 5] } };
 
-const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }: IQueryBuilderHeaderProps) => {
+const QueryBuilderHeader = ({
+    children,
+    onSavedFilterChange,
+    resetQueriesState,
+}: IQueryBuilderHeaderProps): JSX.Element => {
     const { dictionary, headerConfig, queriesState, queryBuilderId, selectedSavedFilter } =
         useContext(QueryBuilderContext);
     const [savedFilterTitle, setSavedFilterTitle] = useState('');
@@ -35,7 +39,7 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
     const [localSelectedSavedFilter, setLocalSelectedSavedFilter] = useState<ISavedFilter | null>(selectedSavedFilter);
     const [localSavedFilters, setLocalSavedFilters] = useState(headerConfig.savedFilters);
 
-    const onSaveFilter = (savedFilter: ISavedFilter) => {
+    const onSaveFilter = async (savedFilter: ISavedFilter) => {
         const newSavedFilter = {
             favorite: savedFilter?.favorite || false,
             id: savedFilter?.id || v4(),
@@ -44,19 +48,28 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
         };
 
         if (headerConfig?.onSaveFilter) {
-            headerConfig.onSaveFilter(newSavedFilter);
+            const result = await headerConfig.onSaveFilter(newSavedFilter);
+            if (result?.error) {
+                return;
+            }
         }
+
+        setSavedFilterTitle(newSavedFilter.title);
         onSavedFilterChange(newSavedFilter);
     };
 
-    const onUpdateFilter = (savedFilter: ISavedFilter) => {
+    const onUpdateFilter = async (savedFilter: ISavedFilter) => {
         const updatedSavedFilter = {
             ...savedFilter,
             queries: queriesState.queries,
         };
         if (headerConfig?.onUpdateFilter) {
-            headerConfig.onUpdateFilter(updatedSavedFilter);
+            const result = await headerConfig.onUpdateFilter(updatedSavedFilter);
+            if (result?.error) {
+                return;
+            }
         }
+        setSavedFilterTitle(updatedSavedFilter.title);
         onSavedFilterChange(updatedSavedFilter);
     };
 
@@ -247,7 +260,6 @@ const QueryBuilderHeader = ({ children, onSavedFilterChange, resetQueriesState }
                 onCancel={() => setEditModalVisible(false)}
                 onSubmit={(title) => {
                     setEditModalVisible(false);
-                    setSavedFilterTitle(title);
                     const filterToSave = {
                         ...selectedSavedFilter!,
                         title,
