@@ -14,7 +14,7 @@ import { Button, Modal, Space, Tooltip } from 'antd';
 import cx from 'classnames';
 
 import ConditionalWrapper from '../../../utils/ConditionalWrapper';
-import { QueryBuilderContext } from '../../context';
+import { QueryBuilderContext, QueryCommonContext } from '../../context';
 import { IQueryBuilderHeaderConfig, ISavedFilter, TOnSavedFilterChange } from '../../types';
 import { hasQueries, hasUnsavedChanges, isNewUnsavedFilter } from '../utils';
 
@@ -39,13 +39,14 @@ const QueryBuilderHeaderTools = ({
     onSavedFilterChange,
     onNewSavedFilter,
     onDuplicateSavedFilter,
-}: IQueryBuilderHeaderProps) => {
-    const { dictionary, queriesState, selectedSavedFilter } = useContext(QueryBuilderContext);
+}: IQueryBuilderHeaderProps): JSX.Element => {
+    const { queriesState, selectedSavedFilter } = useContext(QueryBuilderContext);
+    const { dictionary } = useContext(QueryCommonContext);
     const [isDirty, setIsDirty] = useState(false);
     const [isNewFilter, setIsNewFilter] = useState(false);
     const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
 
-    const confirmUnsavedChangeForNewFilter = (onOkCallback: Function) =>
+    const confirmUnsavedChangeForNewFilter = (onOkCallback: () => unknown) =>
         Modal.confirm({
             cancelText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.createNewFilter?.cancelText || 'Cancel',
             content:

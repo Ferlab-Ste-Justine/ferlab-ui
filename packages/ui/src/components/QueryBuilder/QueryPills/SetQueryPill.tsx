@@ -5,7 +5,7 @@ import cx from 'classnames';
 import { capitalize } from 'lodash';
 
 import { IValueFilter } from '../../../data/sqon/types';
-import { QueryBuilderContext } from '../context';
+import { QueryCommonContext } from '../context';
 import ElementOperator from '../icons/ElementOperator';
 import QueryValues from '../QueryValues';
 
@@ -14,11 +14,11 @@ import styles from './QueryPill.module.scss';
 interface IReferenceQueryPillProps {
     isBarActive?: boolean;
     valueFilter: IValueFilter;
-    onRemove: Function;
+    onRemove: () => unknown;
 }
 
-const SetQueryPill = ({ isBarActive, onRemove, valueFilter }: IReferenceQueryPillProps) => {
-    const { dictionary } = useContext(QueryBuilderContext);
+const SetQueryPill = ({ isBarActive, onRemove, valueFilter }: IReferenceQueryPillProps): JSX.Element => {
+    const { dictionary } = useContext(QueryCommonContext);
 
     return (
         <div className={cx(styles.queryPillContainer, { [styles.selected]: isBarActive })}>
