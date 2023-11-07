@@ -56,9 +56,7 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps): JSX.Element => (
                             )
                         }
                     />
-                ) : // ) : isFilterWithPill(f) ? (
-                //     <></>
-                isCustomPill(f) ? (
+                ) : isCustomPill(f) ? (
                     <CustomPill
                         isBarActive={props.isActive}
                         onRemove={() => props.onRemoveFacet((f as IValueFilter).content.field, props.query)}
