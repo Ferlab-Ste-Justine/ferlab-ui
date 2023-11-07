@@ -81,6 +81,7 @@ const QueryBuilderHeader = ({
             ...savedFilter,
             queries: queriesState.queries,
         };
+
         if (headerConfig?.onUpdateFilter) {
             const result = await headerConfig.onUpdateFilter({
                 ...savedFilter,
@@ -90,6 +91,7 @@ const QueryBuilderHeader = ({
                 return;
             }
         }
+
         setSavedFilterTitle(updatedSavedFilter.title);
         onSavedFilterChange(updatedSavedFilter);
     };
