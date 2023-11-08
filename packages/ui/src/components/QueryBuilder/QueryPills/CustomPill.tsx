@@ -3,7 +3,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { EditOutlined } from '@ant-design/icons';
 import { Button, Typography } from 'antd';
 
-import { IValueFilter } from '../../../data/sqon/types';
+import { IValueQuery } from '../../../data/sqon/types';
 import EditCustomPillModal from '../../CustomPill/QueriesSidebar/EditCustomPillModal';
 import { QueryBuilderContext } from '../context';
 import { ISavedFilter } from '../types';
@@ -11,7 +11,7 @@ import { ISavedFilter } from '../types';
 import styles from './QueryPill.module.scss';
 
 interface ICustomPillProps {
-    valueFilter: IValueFilter;
+    valueFilter: IValueQuery;
     onRemove: () => void;
     isBarActive?: boolean;
 }

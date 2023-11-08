@@ -23,6 +23,7 @@ import {
     ISyntheticSqon,
     IValueContent,
     IValueFilter,
+    IValueQuery,
     IWildCardValueFilter,
     MERGE_OPERATOR_STRATEGIES,
     MERGE_VALUES_STRATEGIES,
@@ -119,20 +120,14 @@ export const isRangeFilter = (query: IValueFilter): boolean =>
  *
  * @param {IValueFilter} query
  */
-export const isCustomPill = (query: IValueFilter): boolean => {
-    console.log('query isCustomPill', query);
-    return !!query.title;
-};
+export const isCustomPill = (query: IValueFilter): boolean => !!query.title;
 
 /**
  * Check if a query filter is a custom pill.
  *
  * @param {IValueFilter} query
  */
-export const isFilterWithPill = (query: any): boolean => {
-    console.log('query isCustomPill', query);
-    return !!query.filterID;
-};
+export const isFilterWithPill = (query: any): boolean => !!query.filterID;
 
 /**
  * Generates an empty synthetic sqon
@@ -304,6 +299,20 @@ export const removeContentFromSqon = (
 
                   return skipBooleanOperatorCheck ? isValueContentToDelete : isValueFilterToDelete;
               });
+
+    return {
+        ...syntheticSqon,
+        content: contentCleaned,
+        op: syntheticSqon.op,
+    };
+};
+
+export const removeQueryFromSqon = (
+    id: string,
+    syntheticSqon: ISyntheticSqon | Record<string, never>,
+): ISyntheticSqon => {
+    const content = syntheticSqon.content as TSyntheticSqonContent;
+    const contentCleaned = content.filter((contentValue) => (contentValue as IValueQuery).id !== id);
 
     return {
         ...syntheticSqon,
