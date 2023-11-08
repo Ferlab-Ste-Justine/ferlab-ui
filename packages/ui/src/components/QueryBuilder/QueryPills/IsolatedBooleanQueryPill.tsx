@@ -12,7 +12,11 @@ interface IIsolatedBooleanQueryPillProps {
     contentValue: ISqonGroupFilter;
 }
 
-const IsolatedBooleanQueryPill = ({ contentValue, isBarActive, onRemove }: IIsolatedBooleanQueryPillProps) => {
+const IsolatedBooleanQueryPill = ({
+    contentValue,
+    isBarActive,
+    onRemove,
+}: IIsolatedBooleanQueryPillProps): JSX.Element => {
     const newQueryDict: { [content: string]: any } = {};
 
     contentValue.content.forEach((f: any) => {

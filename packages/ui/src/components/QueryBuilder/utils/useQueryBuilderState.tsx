@@ -3,7 +3,13 @@ import { isEmpty } from 'lodash';
 import { v4 } from 'uuid';
 
 import { BooleanOperators, RangeOperators, TermOperators } from '../../../data/sqon/operators';
-import { IRemoteComponent, TSqonGroupOp } from '../../../data/sqon/types';
+import {
+    IRemoteComponent,
+    IValueFilter,
+    IValueQuery,
+    TSqonGroupOp,
+    TSyntheticSqonContentValue,
+} from '../../../data/sqon/types';
 import { ISyntheticSqon, MERGE_VALUES_STRATEGIES } from '../../../data/sqon/types';
 import {
     createInlineFilters,
@@ -42,7 +48,7 @@ export const addQuery = ({
     queryBuilderId: string;
     query: ISyntheticSqon;
     setAsActive?: boolean;
-}) => {
+}): void => {
     const qbState = getQueryBuilderState(queryBuilderId);
     const queries = qbState?.state ?? [];
     const hasEmptyQuery = queries.find(({ content }) => isEmpty(content));
@@ -195,6 +201,22 @@ export const updateQueryByTableFilter = ({
                 : removeFieldFromActiveQuery(queryBuilderId, field),
         queryBuilderId: queryBuilderId,
     });
+
+export const removePillFromQueryBuilder = (pillId: string, queryBuilderId: string): void => {
+    const qbState = getQueryBuilderState(queryBuilderId);
+    const updatedState = qbState?.state?.map((sqon: ISyntheticSqon) => {
+        const newContent = sqon.content.map((sqonContent: TSyntheticSqonContentValue) => {
+            if ((sqonContent as IValueFilter).id !== pillId) return sqonContent;
+        });
+        return { ...sqon, content: newContent.filter((el) => el !== undefined) };
+    });
+    setQueryBuilderState(queryBuilderId, { ...qbState, state: updatedState as ISyntheticSqon[] });
+};
+
+export const addPillToQueryBuilder = (pill: IValueQuery, queryBuilderId: string): void => {
+    const activeQuery = getActiveQuery(queryBuilderId);
+    updateQuery({ query: { ...activeQuery, content: [...activeQuery.content, pill] }, queryBuilderId });
+};
 
 /**
  * Update the state of a given QueryBuilder.
