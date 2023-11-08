@@ -5,6 +5,7 @@ import d3ToPng from 'd3-svg-to-png';
 import { format } from 'date-fns';
 import { v4 } from 'uuid';
 
+import { toKebabCase } from '../../../utils/stringUtils';
 import { GridCardHeader } from '../../../view/v2/GridCard';
 import GridCard, { TGridCard } from '../../../view/v2/GridCard/GridCard';
 import { ResizableGridLayoutContext } from '..';
@@ -135,7 +136,7 @@ const ResizableGridCard = ({
     const fileNameDateFormat = dictionary?.download?.fileNameDateFormat ?? DEFAULT_FILENAME_DATE_FORMAT;
     const menuItems = populateMenuItems(downloadSettings, dictionary);
     const extra = [
-        <Tooltip title={`${dictionary?.download?.removeChart ?? 'Remove chart'}`}>
+        <Tooltip key="remove-button-tooltips" title={`${dictionary?.download?.removeChart ?? 'Remove chart'}`}>
             <Button
                 className={styles.button}
                 icon={<CloseOutlined height={11} width={11} />}
@@ -250,6 +251,7 @@ const ResizableGridCard = ({
                         extra={extra}
                         extraClassName={styles.extra}
                         id={headerTitle}
+                        key={toKebabCase(headerTitle)}
                         title={headerTitle}
                         titleTruncateThresholdWidth={CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH}
                         withHandle

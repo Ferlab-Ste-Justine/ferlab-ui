@@ -2,6 +2,7 @@ import React, { createContext, useState } from 'react';
 import { Layout, Layouts, Responsive as ResponsiveGridLayout, ResponsiveProps } from 'react-grid-layout';
 import { SizeMe } from 'react-sizeme';
 import { Space } from 'antd';
+import { debounce } from 'lodash';
 import isEqual from 'lodash/isEqual';
 
 import ResizableItemSelector from './ResizableItemSelector';
@@ -162,6 +163,43 @@ export const serializeLayoutsToConfig = (
 };
 
 /**
+ * Compare config
+ * @param layouts
+ * @param configs
+ * @returns boolean
+ */
+export const isLayoutConfigEqual = (layouts: Layouts, configs: IResizableGridLayoutConfig[]): boolean => {
+    const serializedConfigs = serialize(configs);
+    const serializedAllLayouts = serializeLayoutsToConfig(layouts, configs);
+
+    for (const config of serializedConfigs) {
+        for (const layout of serializedAllLayouts) {
+            if (layout.id == config.id) {
+                for (const breakpoint in BREAKPOINTS) {
+                    const configValue = config[
+                        breakpoint as keyof TSerializedResizableGridLayoutConfig
+                    ] as ILayoutItemConfig;
+
+                    const layoutValue = layout[
+                        breakpoint as keyof TSerializedResizableGridLayoutConfig
+                    ] as ILayoutItemConfig;
+
+                    for (const property in configValue) {
+                        if (
+                            configValue[property as keyof ILayoutItemConfig] !==
+                            layoutValue[property as keyof ILayoutItemConfig]
+                        ) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return true;
+};
+
+/**
  * Iterate over all react-grid layouts to return a specific
  * layout or undefined if the layout doesn't exist
  * @param layouts layouts used by react-grid-layout
@@ -227,8 +265,8 @@ export const flattenBreakpoint = (layoutConfig: IResizableGridLayoutConfig): IRe
 /**
  * Compare default and user config
  *
- * Warning: When resize the browser, data can't change a lot. Print the difference in the breakpoint to
- * fix the default layout in this case
+ * Warning: When resizing the browser, stay the same but on layout changed is still triggered.
+ * Use the breakpoint to print the difference in the breakpoint
  * if (!isEqual(defaultBreakpointConfig, breakpointConfig))
  *  console.log('breakpoint', breakpoint); //TODO: to remove
  *  console.log('defaultBreakpointConfig', defaultBreakpointConfig); //TODO: to remove
@@ -344,7 +382,11 @@ const ResizableGridLayout = ({
                                 setCurrentBreakpoint(newBreakpoint);
                             }}
                             onLayoutChange={(currentLayout, allLayouts) => {
-                                onConfigUpdate(serializeLayoutsToConfig(allLayouts, configs));
+                                if (isLayoutConfigEqual(allLayouts, configs)) {
+                                    return;
+                                }
+                                const serializedLayouts = serializeLayoutsToConfig(allLayouts, configs);
+                                onConfigUpdate(serializedLayouts);
                             }}
                             rowHeight={98}
                             width={size.width && size.width !== null ? size.width : 1280}
