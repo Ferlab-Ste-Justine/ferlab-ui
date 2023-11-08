@@ -12,6 +12,7 @@ import {
     isIndexReferencedInSqon,
     isNotEmptySqon,
     removeContentFromSqon,
+    removeQueryFromSqon,
     removeSqonAtIndex,
 } from '../../data/sqon/utils';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
@@ -378,6 +379,9 @@ const QueryBuilder = ({
                                     }
                                     onRemoveFacet={(field, query) => {
                                         updateQueryById(query.id!, removeContentFromSqon(field, query));
+                                    }}
+                                    onRemoveQuery={(id, query) => {
+                                        updateQueryById(query.id!, removeQueryFromSqon(id, query));
                                     }}
                                     onRemoveReference={(refIndex, query) => {
                                         updateQueryById(query.id!, removeContentFromSqon(refIndex, query));
