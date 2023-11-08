@@ -27,6 +27,7 @@ import {
     ISaveCustomPillResponse,
     SavedFilterTypeEnum,
     TCallbackRemoveAction,
+    TCallbackRemoveQueryAction,
     TCallbackRemoveReferenceAction,
     TOnChange,
 } from './types';
@@ -42,6 +43,7 @@ interface IQueryBarProps {
     selectionDisabled?: boolean;
     onRemoveFacet: TCallbackRemoveAction;
     onRemoveReference: TCallbackRemoveReferenceAction;
+    onRemoveQuery: TCallbackRemoveQueryAction;
     isActive?: boolean;
     isSelected?: boolean;
     isReferenced?: boolean;
@@ -72,6 +74,7 @@ const QueryBar = ({
     onDeleteQuery,
     onDuplicate,
     onRemoveFacet,
+    onRemoveQuery,
     onRemoveReference,
     onSelectBar,
     query,
@@ -171,6 +174,7 @@ const QueryBar = ({
                                     isActive={isActive}
                                     onCombineChange={onCombineChange}
                                     onRemoveFacet={onRemoveFacet}
+                                    onRemoveQuery={onRemoveQuery}
                                     onRemoveReference={onRemoveReference}
                                     parentQueryId={id}
                                     query={query}
