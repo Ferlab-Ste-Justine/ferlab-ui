@@ -133,11 +133,13 @@ describe('ResizableGridLayout', () => {
                     h: 10,
                     w: 10,
                     x: 10,
+                    y: 0,
                 },
                 sm: {
                     h: 10,
                     w: 10,
                     x: 10,
+                    y: 0,
                 },
                 title: 'Card 1',
             },
@@ -275,11 +277,13 @@ describe('ResizableGridLayout', () => {
                     h: 10,
                     w: 10,
                     x: 10,
+                    y: 0,
                 },
                 sm: {
                     h: 10,
                     w: 10,
                     x: 10,
+                    y: 0,
                 },
                 title: 'Card 1',
             },
@@ -456,6 +460,7 @@ describe('ResizableGridLayout', () => {
                     h: 4,
                     w: 6,
                     x: 6,
+                    y: 0,
                 },
                 title: 'card 1',
             },
@@ -479,6 +484,7 @@ describe('ResizableGridLayout', () => {
                     static: false, // default value added by RCL
                     w: 6,
                     x: 6,
+                    y: 0,
                 },
                 title: 'card 1',
             },
@@ -500,6 +506,7 @@ describe('ResizableGridLayout', () => {
                     h: 5, // changed
                     w: 6,
                     x: 10, // changed
+                    y: 0,
                 },
                 title: 'card 1',
             },
@@ -618,6 +625,7 @@ describe('ResizableGridLayout', () => {
                     static: false, // default value added by RCL
                     w: 6,
                     x: 6,
+                    y: 0,
                 },
                 title: 'card 1',
             },
