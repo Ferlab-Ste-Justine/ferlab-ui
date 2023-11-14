@@ -22,6 +22,7 @@ const FilterSelector = ({
     filterGroup,
     filters,
     maxShowing,
+    noDataInputOption,
     onChange,
     searchInputVisible,
     selectedFilters,
@@ -36,7 +37,7 @@ const FilterSelector = ({
         case VisualType.Toggle:
             return <ToggleFilter {...commonProps} filters={filters} />;
         case VisualType.Range:
-            return <RangeFilter {...commonProps} filters={filters} />;
+            return <RangeFilter {...commonProps} filters={filters} noDataOption={noDataInputOption} />;
         case VisualType.Text:
             return <TextInputFilter {...commonProps} filters={filters} />;
         case VisualType.Checkbox:
