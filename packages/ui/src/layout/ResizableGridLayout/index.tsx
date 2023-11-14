@@ -2,7 +2,6 @@ import React, { createContext, useState } from 'react';
 import { Layout, Layouts, Responsive as ResponsiveGridLayout, ResponsiveProps } from 'react-grid-layout';
 import { SizeMe } from 'react-sizeme';
 import { Space } from 'antd';
-import { debounce } from 'lodash';
 import isEqual from 'lodash/isEqual';
 
 import ResizableItemSelector from './ResizableItemSelector';
@@ -24,18 +23,19 @@ type TOptionalBaseType = {
     isResizable?: boolean;
 };
 
-interface ILayoutItemConfig extends Omit<Layout, 'i' | 'y' | 'minH'> {
-    y?: number;
+interface ILayoutItemConfig extends Omit<Layout, 'i' | 'minH' | 'minW'> {
     minH?: number;
-    minX?: number;
+    minW?: number;
 }
+
+type IBaseLayoutItemConfig = Omit<Layout, 'i'>;
 
 export interface IResizableGridLayoutConfig {
     component: React.ReactNode;
     id: string;
     title: string;
     hidden?: boolean;
-    base: ILayoutItemConfig;
+    base: IBaseLayoutItemConfig;
     lg?: ILayoutItemConfig;
     md?: ILayoutItemConfig;
     sm?: ILayoutItemConfig;
@@ -90,14 +90,11 @@ export const deserialize = (
     configs.map((config) => {
         const serializedConfig = (serializedConfigs ?? []).find((item) => item.id == config.id);
         const optionalBaseValues = generateOptionalBaseConfig(config.base);
-
         return {
             ...config,
             ...serializedConfig,
             base: {
-                ...serializedConfig?.base,
-                minH: config.base.minH,
-                minW: config.base.minW,
+                ...config.base,
                 ...optionalBaseValues,
             },
             title: config.title,
@@ -379,6 +376,9 @@ const ResizableGridLayout = ({
                             margin={[12, 12]}
                             maxRows={10}
                             onBreakpointChange={(newBreakpoint: string, newCols: number) => {
+                                if (newBreakpoint === currentBreakpoint) {
+                                    return;
+                                }
                                 setCurrentBreakpoint(newBreakpoint);
                             }}
                             onLayoutChange={(currentLayout, allLayouts) => {

@@ -1,3 +1,6 @@
+### 7.14.5 2023-11-08
+- fix: SKFP-852 fix unnecessary breakpoint change for grid-layout
+
 ### 7.14.4 2023-11-08
 - fix: SKFP-852 fix infinite loop on page summary
 
