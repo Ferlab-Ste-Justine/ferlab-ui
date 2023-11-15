@@ -1,21 +1,33 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useContext } from 'react';
-import { CopyOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Popconfirm, Space } from 'antd';
+import { CopyOutlined, DeleteOutlined, LoadingOutlined, SaveOutlined } from '@ant-design/icons';
+import { Button, Checkbox, notification, Popconfirm, Space, Tooltip } from 'antd';
 import cx from 'classnames';
 import { isEqual } from 'lodash';
+import { v4 as getUUID } from 'uuid';
 
-import { IRemoteComponent, ISqonGroupFilter, ISyntheticSqon, TSqonGroupOp } from '../../data/sqon/types';
+import {
+    IRemoteComponent,
+    ISqonGroupFilter,
+    ISyntheticSqon,
+    IValueQuery,
+    TSqonGroupOp,
+    TSyntheticSqonContentValue,
+} from '../../data/sqon/types';
 import { isBooleanOperator, isEmptySqon } from '../../data/sqon/utils';
 import { numberFormat } from '../../utils/numberUtils';
 
+import SaveCustomPillModal from './Header/Tools/SaveCustomPillModal';
 import BooleanQueryPill from './QueryPills/BooleanQueryPill';
 import useQueryBuilderState from './utils/useQueryBuilderState';
-import { QueryBuilderContext } from './context';
+import { QueryBuilderContext, QueryCommonContext } from './context';
 import {
     IFetchQueryCount,
     IGetResolvedQueryForCount,
+    ISaveCustomPillResponse,
+    SavedFilterTypeEnum,
     TCallbackRemoveAction,
+    TCallbackRemoveQueryAction,
     TCallbackRemoveReferenceAction,
     TOnChange,
 } from './types';
@@ -31,6 +43,7 @@ interface IQueryBarProps {
     selectionDisabled?: boolean;
     onRemoveFacet: TCallbackRemoveAction;
     onRemoveReference: TCallbackRemoveReferenceAction;
+    onRemoveQuery: TCallbackRemoveQueryAction;
     isActive?: boolean;
     isSelected?: boolean;
     isReferenced?: boolean;
@@ -43,6 +56,7 @@ interface IQueryBarProps {
     fetchQueryCount: IFetchQueryCount;
     getResolvedQueryForCount: IGetResolvedQueryForCount;
     remoteComponentMapping?: (props: IRemoteComponent) => void;
+    updateQueryById: (id: string, newQuery: ISyntheticSqon) => void;
 }
 const QueryBar = ({
     actionDisabled = false,
@@ -60,13 +74,16 @@ const QueryBar = ({
     onDeleteQuery,
     onDuplicate,
     onRemoveFacet,
+    onRemoveQuery,
     onRemoveReference,
     onSelectBar,
     query,
     remoteComponentMapping,
     selectionDisabled = false,
-}: IQueryBarProps) => {
-    const { dictionary, noQueries, queryBuilderId } = useContext(QueryBuilderContext);
+    updateQueryById,
+}: IQueryBarProps): JSX.Element => {
+    const { customPillConfig, noQueries, queryBuilderId } = useContext(QueryBuilderContext);
+    const { dictionary } = useContext(QueryCommonContext);
     const previousQuery = useRef<ISqonGroupFilter | null>(null);
     const [total, setTotal] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -74,6 +91,13 @@ const QueryBar = ({
     const referenceColor = getColorForReference(index);
     const { queryList } = useQueryBuilderState(queryBuilderId);
     const containerClassNames = cx(styles.queryBarContainer, { [styles.selected]: isActive });
+    const [isSaveCustomPillModalVisible, setIsSaveCustomPillModalVisible] = useState(false);
+    const [isSaveCustomPillLoading, setIsSaveCustomPillLoading] = useState<boolean>(false);
+    const [onSaveCustomPillResponse, setOnSaveCustomPillResponse] = useState<ISaveCustomPillResponse>({
+        hasError: false,
+        message: '',
+    });
+    const [isSaveCustomPillDisabled, setIsSaveCustomPillDisabled] = useState<boolean>(false);
 
     useEffect(() => {
         setChecked(isSelected);
@@ -95,6 +119,14 @@ const QueryBar = ({
             }
         }
     }, [JSON.stringify(queryList), JSON.stringify(query)]);
+
+    useEffect(() => {
+        const hasCustomPill = query.content.filter(
+            (queryPart: TSyntheticSqonContentValue) =>
+                (queryPart as IValueQuery).title || !(queryPart as IValueQuery).content,
+        );
+        setIsSaveCustomPillDisabled(!!hasCustomPill.length);
+    }, [query]);
 
     return (
         <div className={styles.queryBarWrapper}>
@@ -142,6 +174,7 @@ const QueryBar = ({
                                     isActive={isActive}
                                     onCombineChange={onCombineChange}
                                     onRemoveFacet={onRemoveFacet}
+                                    onRemoveQuery={onRemoveQuery}
                                     onRemoveReference={onRemoveReference}
                                     parentQueryId={id}
                                     query={query}
@@ -156,6 +189,26 @@ const QueryBar = ({
                 </Space>
                 {!actionDisabled && (
                     <Space className={styles.actions} size={4}>
+                        <Tooltip
+                            title={
+                                isSaveCustomPillDisabled
+                                    ? dictionary.actions?.saveCustomPill?.tooltip?.disabled ||
+                                      'Custom queries cannot include other custom queries'
+                                    : dictionary.actions?.saveCustomPill?.tooltip?.enabled || 'Save as a custom query'
+                            }
+                        >
+                            <Button
+                                className={`${styles.actionButton} ${styles.actionButtonWithTooltip}`}
+                                disabled={isSaveCustomPillDisabled}
+                                icon={<SaveOutlined />}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsSaveCustomPillModalVisible(true);
+                                }}
+                                size="small"
+                                type="text"
+                            />
+                        </Tooltip>
                         <Button
                             className={styles.actionButton}
                             icon={<CopyOutlined />}
@@ -190,6 +243,71 @@ const QueryBar = ({
                     </Space>
                 )}
             </div>
+            {isSaveCustomPillModalVisible && (
+                <SaveCustomPillModal
+                    isLoading={isSaveCustomPillLoading}
+                    onCancel={() => {
+                        setIsSaveCustomPillModalVisible(false);
+                        setOnSaveCustomPillResponse({ hasError: false, message: undefined });
+                    }}
+                    onSubmit={async (title) => {
+                        setIsSaveCustomPillLoading(true);
+                        if (customPillConfig?.createCustomPill) {
+                            await customPillConfig
+                                .createCustomPill(
+                                    {
+                                        favorite: false,
+                                        id: getUUID(),
+                                        queries: [query],
+                                        title,
+                                        type: SavedFilterTypeEnum.Query,
+                                    },
+                                    customPillConfig.tag || '',
+                                )
+                                .then((response: any) => {
+                                    if (response.error) {
+                                        if (response.error.message === 'Already exists') {
+                                            setOnSaveCustomPillResponse({
+                                                hasError: true,
+                                                message:
+                                                    dictionary.actions?.saveCustomPill?.form?.error
+                                                        ?.nameAlreadyExists || 'A query with this name already exists',
+                                            });
+                                        } else if (response.error.message === 'Invalid format') {
+                                            setOnSaveCustomPillResponse({
+                                                hasError: true,
+                                                message:
+                                                    dictionary.actions?.saveCustomPill?.form?.error?.invalidFormat ||
+                                                    'Invalid format, special character not authorized',
+                                            });
+                                        } else {
+                                            setOnSaveCustomPillResponse({ hasError: false, message: undefined });
+                                            setIsSaveCustomPillModalVisible(false);
+                                        }
+                                    } else {
+                                        if (response?.payload?.queries?.[0]) {
+                                            const newContent = [
+                                                {
+                                                    content: response.payload.queries[0].content,
+                                                    id: response.payload.id,
+                                                    op: response.payload.queries[0].op,
+                                                    title: response.payload.title,
+                                                },
+                                            ];
+                                            const newQuery = { ...query, content: newContent };
+                                            updateQueryById(id, newQuery);
+                                        }
+                                        setOnSaveCustomPillResponse({ hasError: false, message: undefined });
+                                        setIsSaveCustomPillModalVisible(false);
+                                    }
+                                    setIsSaveCustomPillLoading(false);
+                                });
+                        }
+                    }}
+                    saveCustomPillResponse={onSaveCustomPillResponse}
+                    visible={isSaveCustomPillModalVisible}
+                />
+            )}
         </div>
     );
 };

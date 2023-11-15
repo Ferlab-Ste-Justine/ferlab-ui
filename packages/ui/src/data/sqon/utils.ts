@@ -23,6 +23,7 @@ import {
     ISyntheticSqon,
     IValueContent,
     IValueFilter,
+    IValueQuery,
     IWildCardValueFilter,
     MERGE_OPERATOR_STRATEGIES,
     MERGE_VALUES_STRATEGIES,
@@ -86,33 +87,47 @@ export const isRemoteComponent = (value: IValueFilter): boolean => !!value.conte
  *
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
-export const isBooleanOperator = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue) =>
-    typeof sqon === 'object' && isNotEmptySqon(sqon) && sqon.op in BooleanOperators;
+export const isBooleanOperator = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue): boolean =>
+    typeof sqon === 'object' && isNotEmptySqon(sqon) && 'op' in sqon && sqon.op in BooleanOperators;
 
 /**
  * Check if a synthetic sqon is a field operator
  * Operator is either one of the following: '>', '<', 'between', '>=','<=', 'in', 'not-in' or 'all'
  *
- * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
+ * @param {ISyntheticSqon} sqon The synthetic sqon to check
  */
-export const isFieldOperator = (sqon: ISyntheticSqon | Record<string, never> | ISqonGroupFilter) =>
+export const isFieldOperator = (sqon: ISyntheticSqon | Record<string, never> | ISqonGroupFilter): boolean =>
     typeof sqon === 'object' && isNotEmptySqon(sqon) && sqon.op in FieldOperators;
 
 /**
  * Check if a query filter is a boolean one.
  *
- * @param {Boolean}
+ * @param {IValueFilter} query
  */
-export const isBooleanFilter = (query: IValueFilter) =>
+export const isBooleanFilter = (query: IValueFilter): boolean =>
     query.content.value.every((val) => ['false', 'true'].includes(val.toString().toLowerCase()));
 
 /**
  * Check if a query filter is a range one.
  *
- * @param {Boolean}
+ * @param {IValueFilter} query
  */
 export const isRangeFilter = (query: IValueFilter): boolean =>
     query.op === RangeOperators.in ? false : query.op in RangeOperators;
+
+/**
+ * Check if a query filter is a custom pill.
+ *
+ * @param {IValueFilter} query
+ */
+export const isCustomPill = (query: IValueFilter): boolean => !!query.title;
+
+/**
+ * Check if a query filter is a custom pill.
+ *
+ * @param {IValueFilter} query
+ */
+export const isFilterWithPill = (query: any): boolean => !!query.filterID;
 
 /**
  * Generates an empty synthetic sqon
@@ -284,6 +299,20 @@ export const removeContentFromSqon = (
 
                   return skipBooleanOperatorCheck ? isValueContentToDelete : isValueFilterToDelete;
               });
+
+    return {
+        ...syntheticSqon,
+        content: contentCleaned,
+        op: syntheticSqon.op,
+    };
+};
+
+export const removeQueryFromSqon = (
+    id: string,
+    syntheticSqon: ISyntheticSqon | Record<string, never>,
+): ISyntheticSqon => {
+    const content = syntheticSqon.content as TSyntheticSqonContent;
+    const contentCleaned = content.filter((contentValue) => (contentValue as IValueQuery).id !== id);
 
     return {
         ...syntheticSqon,
@@ -793,6 +822,12 @@ export const getSelectedFilters = ({
     if (isEmpty(selectedFilters)) {
         return [];
     }
+
+    selectedFilters.content = selectedFilters.content
+        .map((filter) => {
+            if (!filter.hasOwnProperty('title')) return filter;
+        })
+        .filter((filter) => filter) as TSyntheticSqonContent;
 
     switch (filterGroup.type) {
         case VisualType.Range:
