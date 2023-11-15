@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { Layout, Layouts, Responsive as ResponsiveGridLayout, ResponsiveProps } from 'react-grid-layout';
 import { SizeMe } from 'react-sizeme';
 import { Space } from 'antd';
@@ -332,7 +332,7 @@ const ResizableGridLayout = ({
     uid,
     ...props
 }: IResizableGridLayout): JSX.Element => {
-    const [currentBreakpoint, setCurrentBreakpoint] = useState<string>('lg');
+    const [currentBreakpoint, setCurrentBreakpoint] = useState<string>('md');
     const configs = deserialize(defaultLayouts, layouts);
     const responsiveDefaultLayouts = serializeConfigToLayouts(configs);
     const resizableItemsList = configs.map(({ hidden, id, title }) => ({
@@ -340,6 +340,13 @@ const ResizableGridLayout = ({
         label: title,
         value: hidden === undefined ? true : !hidden,
     }));
+
+    // if it's the first time an user open the layout, we save the config
+    useEffect(() => {
+        if (!layouts) {
+            onConfigUpdate(serialize(configs));
+        }
+    }, []);
 
     return (
         <Space className={styles.wrapper} direction="vertical">

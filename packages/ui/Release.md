@@ -1,3 +1,6 @@
+### 7.14.7 2023-11-08
+- fix: SKFP-852 fix an issue where the config is corrumpted the first time we open the grid
+
 ### 7.14.6 2023-11-08
 - fix: SKFP-831 manage no data in range filter in QB
 
