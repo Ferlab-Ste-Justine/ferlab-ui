@@ -34,6 +34,7 @@ export type RangeFilterProps = {
     onChange: onChangeType<IFilterRange>;
     selectedFilters?: IFilter[];
     dictionary?: IDictionary | Record<string, never>;
+    noDataOption?: boolean;
 };
 
 const DEFAULT_STEP = 1;
@@ -147,13 +148,14 @@ const RangeFilter = ({
     dictionary,
     filterGroup,
     filters,
+    noDataOption,
     onChange,
     selectedFilters,
 }: RangeFilterProps): React.ReactElement | null => {
     const { config: range } = filterGroup;
     const currentFilter: IFilter<IFilterRange> = filters[0];
     const rangeTypes = filterGroup.config?.rangeTypes;
-    const noDataInputOption = filterGroup.config?.noDataInputOption ?? true;
+    const noDataInputOption = noDataOption != undefined ? noDataOption : filterGroup.config?.noDataInputOption ?? true;
     const defaultOperators = getDefaultOperatorList(
         dictionary,
         filterGroup.config?.defaultOperator || RangeOperators['<'],

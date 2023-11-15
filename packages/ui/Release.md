@@ -1,10 +1,13 @@
+### 7.14.6 2023-11-08
+- fix: SKFP-831 manage no data in range filter in QB
+
 ### 7.14.5 2023-11-08
 - fix: SKFP-852 fix unnecessary breakpoint change for grid-layout
 
 ### 7.14.4 2023-11-08
 - fix: SKFP-852 fix infinite loop on page summary
 
-### 7.14.2 2023-11-06
+### 7.14.3 2023-11-06
 - fix: SJIP-582 extract upload utils method
 
 ### 7.14.2 2023-11-06
