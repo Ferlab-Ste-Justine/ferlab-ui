@@ -102,6 +102,7 @@ const QueryBuilder = ({
     const getColorForReference = (refIndex: number) => referenceColors[refIndex % referenceColors.length];
 
     const updateQueryById = (id: string, newQuery: ISyntheticSqon) => {
+        if (!id) return;
         if (isEmpty(newQuery.content)) {
             deleteQueryAndSetNext(id);
         } else {
@@ -152,7 +153,7 @@ const QueryBuilder = ({
             if (updatedQueries.length) {
                 const nextSelectedIndex = findNextSelectedQuery(updatedQueries, currentQueryIndex);
                 const nextQuery = updatedQueries[nextSelectedIndex];
-                const nextID = nextQuery.id!;
+                const nextID = nextQuery.id;
 
                 if (selectedQueryIndices.includes(currentQueryIndex)) {
                     setSelectedQueryIndices(
@@ -160,7 +161,7 @@ const QueryBuilder = ({
                     );
                 }
                 setQueriesState({
-                    activeId: nextID!,
+                    activeId: nextID || '',
                     queries: updatedQueries,
                 });
             } else {
@@ -205,20 +206,20 @@ const QueryBuilder = ({
             (!canCombine && queryCount > 1));
 
     useEffect(() => {
-        if (selectedSavedFilter?.queries?.length!) {
+        if (selectedSavedFilter?.queries?.length) {
             const activeQuery = selectedSavedFilter.queries.find(({ id }) => id === queryBuilderState?.active);
-            const activeId = activeQuery?.id ?? selectedSavedFilter.queries[0].id!;
+            const activeId = activeQuery?.id ?? selectedSavedFilter.queries[0].id;
 
             setQueriesState({
-                activeId: activeId,
+                activeId: activeId || '',
                 queries: selectedSavedFilter.queries,
             });
         }
     }, [JSON.stringify(selectedSavedFilter)]);
 
     useEffect(() => {
-        if (!isEmpty(headerConfig?.selectedSavedFilter!)) {
-            setSelectedSavedFilter(headerConfig?.selectedSavedFilter!);
+        if (headerConfig?.selectedSavedFilter) {
+            setSelectedSavedFilter(headerConfig.selectedSavedFilter);
         }
     }, [headerConfig?.selectedSavedFilter]);
 
@@ -282,8 +283,8 @@ const QueryBuilder = ({
         if (queryBuilderState) {
             if (!isQueryStateEqual(queryBuilderState, queriesState)) {
                 setQueriesState({
-                    activeId: queryBuilderState?.active!,
-                    queries: queryBuilderState.state!,
+                    activeId: queryBuilderState?.active || '',
+                    queries: queryBuilderState.state || [],
                 });
             }
         }
@@ -341,12 +342,12 @@ const QueryBuilder = ({
                                     fetchQueryCount={fetchQueryCount}
                                     getColorForReference={getColorForReference}
                                     getResolvedQueryForCount={getResolvedQueryForCount}
-                                    id={sqon.id!}
+                                    id={sqon.id || ''}
                                     index={i}
-                                    isActive={sqon.id! === queriesState.activeId}
+                                    isActive={sqon.id === queriesState.activeId}
                                     isReferenced={isIndexReferencedInSqon(i, selectedSyntheticSqon)}
                                     isSelected={selectedQueryIndices.includes(i)}
-                                    key={sqon.id!}
+                                    key={sqon.id}
                                     onChangeQuery={(id) => {
                                         setQueriesState((prevState) => ({
                                             ...prevState,
@@ -378,13 +379,13 @@ const QueryBuilder = ({
                                         addNewQuery(v4(), query.op as BooleanOperators, query.content)
                                     }
                                     onRemoveFacet={(field, query) => {
-                                        updateQueryById(query.id!, removeContentFromSqon(field, query));
+                                        updateQueryById(query.id || '', removeContentFromSqon(field, query));
                                     }}
                                     onRemoveQuery={(id, query) => {
-                                        updateQueryById(query.id!, removeQueryFromSqon(id, query));
+                                        updateQueryById(query.id || '', removeQueryFromSqon(id, query));
                                     }}
                                     onRemoveReference={(refIndex, query) => {
-                                        updateQueryById(query.id!, removeContentFromSqon(refIndex, query));
+                                        updateQueryById(query.id || '', removeContentFromSqon(refIndex, query));
                                     }}
                                     onSelectBar={(id, toRemove) => {
                                         if (toRemove) {

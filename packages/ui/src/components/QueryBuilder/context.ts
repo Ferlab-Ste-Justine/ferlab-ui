@@ -31,11 +31,21 @@ export type TQueryCommonContext = {
 
 export const defaultHeaderConfig = {
     defaultTitle: 'Untitled Filter',
-    onDeleteFilter: () => {},
-    onSaveFilter: () => {},
-    onSetAsFavorite: () => {},
-    onShareFilter: () => {},
-    onUpdateFilter: () => {},
+    onDeleteFilter: (): void => {
+        /* */
+    },
+    onSaveFilter: (): void => {
+        /* */
+    },
+    onSetAsFavorite: (): void => {
+        /* */
+    },
+    onShareFilter: (): void => {
+        /* */
+    },
+    onUpdateFilter: (): void => {
+        /* */
+    },
     options: {
         enableDuplicate: true,
         enableEditTitle: true,
@@ -52,7 +62,9 @@ export const defaultHeaderConfig = {
 export const defaultFacetFilterConfig = {
     blacklistedFacets: [],
     enable: false,
-    onFacetClick: () => {},
+    onFacetClick: (): void => {
+        /* */
+    },
 };
 
 export const defaultCustomPillConfig: ICustomPillConfig = {
