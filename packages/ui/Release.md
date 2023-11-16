@@ -1,3 +1,6 @@
+### 7.14.8 2023-11-08
+- fix: SKFP-852 prevent the grid to be saved while the grid is still loading
+
 ### 7.14.7 2023-11-08
 - fix: SKFP-852 fix an issue where the config is corrumpted the first time we open the grid
 

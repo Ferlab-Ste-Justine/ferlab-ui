@@ -332,6 +332,9 @@ const ResizableGridLayout = ({
     uid,
     ...props
 }: IResizableGridLayout): JSX.Element => {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [isDraggable, setIsDraggable] = useState(false);
+    const [isResizable, setIsResizable] = useState(false);
     const [currentBreakpoint, setCurrentBreakpoint] = useState<string>('md');
     const configs = deserialize(defaultLayouts, layouts);
     const responsiveDefaultLayouts = serializeConfigToLayouts(configs);
@@ -341,11 +344,13 @@ const ResizableGridLayout = ({
         value: hidden === undefined ? true : !hidden,
     }));
 
-    // if it's the first time an user open the layout, we save the config
+    // In some case, the user can resize the browser while react-grid-layout hasn't loaded yet
+    // This can corrumpt the config. That why we need to block the action while waiting for the component
+    // to be loaded
     useEffect(() => {
-        if (!layouts) {
-            onConfigUpdate(serialize(configs));
-        }
+        setIsDraggable(props.isDraggable ?? true);
+        setIsResizable(props.isResizable ?? true);
+        setIsLoaded(true);
     }, []);
 
     return (
@@ -379,6 +384,8 @@ const ResizableGridLayout = ({
                             cols={{ lg: 16, md: 12, sm: 10, xs: 6, xxs: 4 }}
                             containerPadding={[0, 0]}
                             draggableHandle=".ant-card-head"
+                            isDraggable={isDraggable}
+                            isResizable={isResizable}
                             layouts={responsiveDefaultLayouts}
                             margin={[12, 12]}
                             maxRows={10}
@@ -389,7 +396,7 @@ const ResizableGridLayout = ({
                                 setCurrentBreakpoint(newBreakpoint);
                             }}
                             onLayoutChange={(currentLayout, allLayouts) => {
-                                if (isLayoutConfigEqual(allLayouts, configs)) {
+                                if (!isLoaded || isLayoutConfigEqual(allLayouts, configs)) {
                                     return;
                                 }
                                 const serializedLayouts = serializeLayoutsToConfig(allLayouts, configs);
