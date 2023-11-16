@@ -24,6 +24,7 @@ import {
     IValueContent,
     IValueFilter,
     IValueQuery,
+    IWildCardValueContent,
     IWildCardValueFilter,
     MERGE_OPERATOR_STRATEGIES,
     MERGE_VALUES_STRATEGIES,
@@ -41,10 +42,10 @@ import {
  *
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
-export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>) =>
+export const isEmptySqon = (sqon: ISyntheticSqon | Record<string, never>): boolean =>
     !Object.keys(sqon).length || isEmpty(sqon?.content);
 
-export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue) =>
+export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue): boolean =>
     !isEmptySqon(sqon as ISyntheticSqon);
 
 /**
@@ -52,20 +53,20 @@ export const isNotEmptySqon = (sqon: ISyntheticSqon | Record<string, never> | TS
  *
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
-export const isReference = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue) =>
+export const isReference = (sqon: ISyntheticSqon | Record<string, never> | TSyntheticSqonContentValue): boolean =>
     !isNotReference(sqon);
 
-export const isNotReference = (sqon: any) => isNaN(sqon);
+export const isNotReference = (sqon: any): boolean => isNaN(sqon);
 
 /**
  * Check if a sqon value is a set.
  *
  * @param {ISyntheticSqon} syntheticSqon The synthetic sqon to check
  */
-export const isSet = (value: IValueFilter) =>
+export const isSet = (value: IValueFilter): boolean =>
     value.content.value && value.content.value.some((value) => value?.toString().startsWith(SET_ID_PREFIX));
 
-export const isNotSet = (value: IValueFilter) => !isSet(value);
+export const isNotSet = (value: IValueFilter): boolean => !isSet(value);
 
 /**
  * Check if a sqon value is an uploaded list.
@@ -121,13 +122,6 @@ export const isRangeFilter = (query: IValueFilter): boolean =>
  * @param {IValueFilter} query
  */
 export const isCustomPill = (query: IValueFilter): boolean => !!query.title;
-
-/**
- * Check if a query filter is a custom pill.
- *
- * @param {IValueFilter} query
- */
-export const isFilterWithPill = (query: any): boolean => !!query.filterID;
 
 /**
  * Generates an empty synthetic sqon
@@ -201,7 +195,7 @@ export const removeSqonAtIndex = (indexToRemove: number, sqonsList: ISyntheticSq
         content
             .filter((content: TSyntheticSqonContentValue | TSqonContentValue) => content !== indexToRemove)
             .map((s: TSyntheticSqonContentValue | TSqonContentValue) =>
-                isReference(s) ? (s > indexToRemove ? (s as number) - 1 : s) : s,
+                isReference(s) ? (typeof s === 'number' && s > indexToRemove ? (s as number) - 1 : s) : s,
             );
 
     const result = sqonsList
@@ -321,7 +315,7 @@ export const removeQueryFromSqon = (
     };
 };
 
-export const termToSqon = ({ field, value }: IValueContent) => ({
+export const termToSqon = ({ field, value }: IValueContent): IValueFilter => ({
     content: {
         field: field,
         value: [value].flat(),
@@ -329,7 +323,13 @@ export const termToSqon = ({ field, value }: IValueContent) => ({
     op: TermOperators.in,
 });
 
-export const addToSqons = ({ fieldsWValues, sqons }: { fieldsWValues: IValueContent[]; sqons: ISyntheticSqon[] }) => {
+export const addToSqons = ({
+    fieldsWValues,
+    sqons,
+}: {
+    fieldsWValues: IValueContent[];
+    sqons: ISyntheticSqon[];
+}): ISyntheticSqon[] => {
     const currentSqon = {
         content: fieldsWValues.map(({ field, value }) => ({ ...termToSqon({ field, value }) })),
         op: BooleanOperators.and,
@@ -346,7 +346,11 @@ export const addToSqons = ({ fieldsWValues, sqons }: { fieldsWValues: IValueCont
     return [...sqons, currentSqon];
 };
 
-export const deepMergeSqonValue = (sourceSqon: ISyntheticSqon, newSqon: IValueFilter, opts: IMergeOptions) => {
+export const deepMergeSqonValue = (
+    sourceSqon: ISyntheticSqon,
+    newSqon: IValueFilter,
+    opts: IMergeOptions,
+): ISyntheticSqon => {
     const clonedSqons = cloneDeep(sourceSqon);
 
     opts = merge(
@@ -442,7 +446,7 @@ export const deepMergeFieldInActiveQuery = ({
     overrideValuesName?: string;
     isUploadedList?: boolean;
     remoteComponent?: IRemoteComponent;
-}) => {
+}): ISyntheticSqon => {
     let newSqon;
     const activeQuery = getActiveQuery(queryBuilderId);
     const newSqonContent: IValueFilter = {
@@ -488,7 +492,7 @@ export const generateQuery = ({
     }
 
     return {
-        content: [...filters!.content, ...newFilters],
+        content: filters?.content ? [...filters.content, ...newFilters] : [...newFilters],
         id: filters?.id || v4(),
         op: filters?.op || operator,
     };
@@ -508,7 +512,7 @@ export const generateValueFilter = ({
     operator?: TermOperators | string;
     overrideValuesName?: string;
     rangeFilterNoData?: boolean;
-}) => {
+}): IValueFilter | ISqonGroupFilter => {
     const basicFilter = {
         content: { field, index, overrideValuesName, value },
         op: operator,
@@ -538,12 +542,12 @@ export const generateWildCardValueFilter = ({
     index?: string;
     operator?: TermOperators | string;
     overrideValuesName?: string;
-}) => ({
+}): { content: IWildCardValueContent; op: TermOperators | string } => ({
     content: { fields, index, overrideValuesName, value },
     op: operator,
 });
 
-export const findSqonValueByField = (field: string, sqon: ISqonGroupFilter, prevValue: any = undefined) => {
+export const findSqonValueByField = (field: string, sqon: ISqonGroupFilter, prevValue: any = undefined): any => {
     let value: any = prevValue;
     sqon.content.forEach((content) => {
         if (isReference(content)) {
@@ -561,7 +565,7 @@ export const findSqonValueByField = (field: string, sqon: ISqonGroupFilter, prev
     return value;
 };
 
-export const removeFieldFromSqon = (field: string, sqon: ISyntheticSqon) => ({
+export const removeFieldFromSqon = (field: string, sqon: ISyntheticSqon): ISyntheticSqon => ({
     ...sqon,
     content: sqon.content.filter(function f(sqon: any): boolean {
         if (isReference(sqon)) {
@@ -576,7 +580,7 @@ export const removeFieldFromSqon = (field: string, sqon: ISyntheticSqon) => ({
     }),
 });
 
-export const removeFieldFromActiveQuery = (queryBuilderId: string, field: string) =>
+export const removeFieldFromActiveQuery = (queryBuilderId: string, field: string): ISyntheticSqon =>
     removeFieldFromSqon(field, getActiveQuery(queryBuilderId));
 
 export const getUpdatedActiveQueryByFilterGroup = ({
@@ -622,7 +626,7 @@ export const getUpdatedActiveQuery = ({
         if (isEmpty(filterWithoutSelection.content) && isEmpty(activeQuery)) {
             newQuery = { content: [], op: operator };
         } else {
-            if (fieldIndex >= 0) {
+            if ((fieldIndex as number) >= 0) {
                 filterWithoutSelection.content.splice(fieldIndex as number, 0, ...sqonContent);
             } else {
                 filterWithoutSelection.content = [...filterWithoutSelection.content, ...sqonContent];
@@ -686,7 +690,7 @@ export const createSQONFromFilters = (
     }
 };
 
-export const createTextFilter = (field: string, filters: IFilter<IFilterText>[], index?: string) => {
+export const createTextFilter = (field: string, filters: IFilter<IFilterText>[], index?: string): IValueFilter[] => {
     if (filters.length === 0) {
         return [];
     }
@@ -735,22 +739,28 @@ const tsqonFromRangeFilter = (
 
     switch (selectedRange.data.operator) {
         case RangeOperators.between:
-            return createContentValue(
-                [selectedRange.data.min!, selectedRange.data.max!],
-                RangeOperators[selectedRange.data.operator],
-            );
+            return selectedRange.data.min && selectedRange.data.max
+                ? createContentValue(
+                      [selectedRange.data.min, selectedRange.data.max],
+                      RangeOperators[selectedRange.data.operator],
+                  )
+                : null;
         case RangeOperators['<']:
         case RangeOperators['<=']:
-            return createContentValue([selectedRange.data.max!], RangeOperators[selectedRange.data.operator]);
+            return selectedRange.data.max
+                ? createContentValue([selectedRange.data.max], RangeOperators[selectedRange.data.operator])
+                : null;
         case RangeOperators['>']:
         case RangeOperators['>=']:
-            return createContentValue([selectedRange.data.min!], RangeOperators[selectedRange.data.operator]);
+            return selectedRange.data.min
+                ? createContentValue([selectedRange.data.min], RangeOperators[selectedRange.data.operator])
+                : null;
     }
 
     return null;
 };
 
-export const hasSelectedRangeForOperator = (selectedRange: IFilter<IFilterRange>) => {
+export const hasSelectedRangeForOperator = (selectedRange: IFilter<IFilterRange>): boolean => {
     switch (selectedRange.data.operator) {
         case RangeOperators.between:
             return !isUndefined(selectedRange.data.min) && !isUndefined(selectedRange.data.max);
@@ -760,6 +770,8 @@ export const hasSelectedRangeForOperator = (selectedRange: IFilter<IFilterRange>
         case RangeOperators['>']:
         case RangeOperators['>=']:
             return !isUndefined(selectedRange.data.min);
+        default:
+            return false;
     }
 };
 
@@ -854,7 +866,7 @@ export const hasExtraFilterSelected = (
     filterGroup: IFilterGroup<IFilterCheckboxConfig>,
 ): boolean => currentFilters.some(({ id }) => (filterGroup.config?.extraFilterDictionary || []).includes(id));
 
-export const getEmptyCountFilter = (key: string) => ({
+export const getEmptyCountFilter = (key: string): IFilter => ({
     data: {
         count: 0,
         key,
