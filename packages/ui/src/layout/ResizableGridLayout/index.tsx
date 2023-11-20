@@ -335,7 +335,6 @@ const ResizableGridLayout = ({
     const [isLoaded, setIsLoaded] = useState(false);
     const [isDraggable, setIsDraggable] = useState(false);
     const [isResizable, setIsResizable] = useState(false);
-    const [currentBreakpoint, setCurrentBreakpoint] = useState<string>('md');
     const configs = deserialize(defaultLayouts, layouts);
     const responsiveDefaultLayouts = serializeConfigToLayouts(configs);
     const resizableItemsList = configs.map(({ hidden, id, title }) => ({
@@ -389,12 +388,6 @@ const ResizableGridLayout = ({
                             layouts={responsiveDefaultLayouts}
                             margin={[12, 12]}
                             maxRows={10}
-                            onBreakpointChange={(newBreakpoint: string, newCols: number) => {
-                                if (newBreakpoint === currentBreakpoint) {
-                                    return;
-                                }
-                                setCurrentBreakpoint(newBreakpoint);
-                            }}
                             onLayoutChange={(currentLayout, allLayouts) => {
                                 if (!isLoaded || isLayoutConfigEqual(allLayouts, configs)) {
                                     return;
@@ -410,14 +403,7 @@ const ResizableGridLayout = ({
                                 if (layout.hidden) {
                                     return;
                                 }
-                                return (
-                                    <div
-                                        data-grid={layout[currentBreakpoint as keyof IResizableGridLayoutConfig]}
-                                        key={layout.id}
-                                    >
-                                        {layout.component}
-                                    </div>
-                                );
+                                return <div key={layout.id}>{layout.component}</div>;
                             })}
                         </ResponsiveGridLayout>
                     )}
