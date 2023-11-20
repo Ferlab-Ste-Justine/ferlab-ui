@@ -1,3 +1,6 @@
+### 7.14.9 2023-11-20
+- fix: SKFP-852 remove breakpoint loading system, let rgl manage it by himself
+
 ### 7.14.8 2023-11-08
 - fix: SKFP-852 prevent the grid to be saved while the grid is still loading
 
