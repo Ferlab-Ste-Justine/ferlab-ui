@@ -49,6 +49,7 @@ $padding-side-and-bottom: 24px;
       }
       div[class$="-body"] {
         padding: 16px !important;
+        overflow: inherit;
       }
     }
 
