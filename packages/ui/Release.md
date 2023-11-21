@@ -1,3 +1,6 @@
+### 7.14.10 2023-11-21
+- fix: SKFP-858 fix mouseover cutoff on resizable grid card
+
 ### 7.14.9 2023-11-20
 - fix: SKFP-852 remove breakpoint loading system, let rgl manage it by himself
 
