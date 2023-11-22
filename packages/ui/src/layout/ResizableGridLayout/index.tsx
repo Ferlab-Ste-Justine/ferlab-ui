@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { Layout, Layouts, Responsive as ResponsiveGridLayout, ResponsiveProps } from 'react-grid-layout';
 import { SizeMe } from 'react-sizeme';
-import { Space } from 'antd';
+import { Space, Spin } from 'antd';
 import isEqual from 'lodash/isEqual';
 
 import ResizableItemSelector from './ResizableItemSelector';
@@ -332,6 +332,7 @@ const ResizableGridLayout = ({
     uid,
     ...props
 }: IResizableGridLayout): JSX.Element => {
+    const [currentBreakpoint, setCurrentBreakpoint] = useState<string | undefined>(undefined);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isDraggable, setIsDraggable] = useState(false);
     const [isResizable, setIsResizable] = useState(false);
@@ -345,7 +346,7 @@ const ResizableGridLayout = ({
 
     // In some case, the user can resize the browser while react-grid-layout hasn't loaded yet
     // This can corrumpt the config. That why we need to block the action while waiting for the component
-    // to be loaded
+    // to be loaded. It also ensure that currentBreakpoint is set
     useEffect(() => {
         setIsDraggable(props.isDraggable ?? true);
         setIsResizable(props.isResizable ?? true);
@@ -388,6 +389,12 @@ const ResizableGridLayout = ({
                             layouts={responsiveDefaultLayouts}
                             margin={[12, 12]}
                             maxRows={10}
+                            onBreakpointChange={(newBreakpoint: string, newCols: number) => {
+                                if (newBreakpoint === currentBreakpoint) {
+                                    return;
+                                }
+                                setCurrentBreakpoint(newBreakpoint);
+                            }}
                             onLayoutChange={(currentLayout, allLayouts) => {
                                 if (!isLoaded || isLayoutConfigEqual(allLayouts, configs)) {
                                     return;
@@ -399,12 +406,23 @@ const ResizableGridLayout = ({
                             width={size.width && size.width !== null ? size.width : 1280}
                             {...props}
                         >
-                            {configs.map((layout) => {
-                                if (layout.hidden) {
-                                    return;
-                                }
-                                return <div key={layout.id}>{layout.component}</div>;
-                            })}
+                            {currentBreakpoint ? (
+                                configs.map((layout) => {
+                                    if (layout.hidden) {
+                                        return;
+                                    }
+                                    const grid = layout[
+                                        currentBreakpoint as keyof IResizableGridLayoutConfig
+                                    ] as ILayoutItemConfig;
+                                    return (
+                                        <div data-grid={{ ...layout.base, ...grid }} id={layout.id} key={layout.id}>
+                                            {layout.component}
+                                        </div>
+                                    );
+                                })
+                            ) : (
+                                <Spin spinning />
+                            )}
                         </ResponsiveGridLayout>
                     )}
                 </SizeMe>
