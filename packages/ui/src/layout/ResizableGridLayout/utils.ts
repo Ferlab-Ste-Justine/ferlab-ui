@@ -177,7 +177,7 @@ export const dataCategoryDefaultGridConfig = {
     base: {
         h: 2,
         minH: 2,
-        minW: 2,
+        minW: 3,
         w: 8,
         x: 8,
         y: 6,
@@ -258,8 +258,8 @@ export const studiesDefaultGridConfig = {
 export const dataTypeDefaultGridConfig = {
     base: {
         h: 3,
-        minH: 2,
-        minW: 2,
+        minH: 3,
+        minW: 4,
         w: 6,
         x: 4,
         y: 8,

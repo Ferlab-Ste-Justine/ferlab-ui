@@ -1,3 +1,6 @@
+### 7.14.10 2023-11-22
+- fix: SKFP-852 fix baby graph issue
+
 ### 7.14.10 2023-11-21
 - fix: SKFP-858 fix mouseover cutoff on resizable grid card
 
