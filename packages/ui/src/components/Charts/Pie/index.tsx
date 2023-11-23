@@ -25,8 +25,8 @@ const { Title } = Typography;
 const PieChart = ({
     margin = { bottom: 16, left: 24, right: 24, top: 16 },
     onMouseEnter,
-    valueFormat = (value) => `${numberFormat(value ?? 0)}`,
     title,
+    valueFormat = (value) => `${numberFormat(value ?? 0)}`,
     ...rest
 }: TPieChart): JSX.Element => {
     const fill = rest.data?.map((d, index) => ({

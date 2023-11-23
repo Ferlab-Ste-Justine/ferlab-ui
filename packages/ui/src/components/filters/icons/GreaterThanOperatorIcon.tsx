@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
+
 import { IIconProps } from './type';
 
-const GreaterThanOperatorIcon = ({ className = '', width = '16', height = '16' }: IIconProps) => (
+const GreaterThanOperatorIcon = ({ className = '', height = '16', width = '16' }: IIconProps): ReactElement => (
     <svg
         className={className}
-        width={width}
+        fill="none"
         height={height}
         viewBox="0 0 16 16"
-        fill="none"
+        width={width}
         xmlns="http://www.w3.org/2000/svg"
     >
         <path

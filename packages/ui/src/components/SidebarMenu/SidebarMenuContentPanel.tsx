@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import ScrollContent from '../../layout/ScrollContent';
 
@@ -8,17 +8,19 @@ import styles from './SidebarMenuContentPanel.module.scss';
 
 type ISidebarMenuContentPanelProps = {
     className?: string;
-    onClose?: Function;
+    onClose?: () => void;
     isOpen: boolean;
     children: React.ReactNode | string;
 };
 
 const SidebarMenuContentPanel = ({
-    className = '',
-    onClose = () => {},
-    isOpen = false,
     children,
-}: ISidebarMenuContentPanelProps) => (
+    className = '',
+    isOpen = false,
+    onClose = () => {
+        /* */
+    },
+}: ISidebarMenuContentPanelProps): ReactElement => (
     <div className={`${styles.contentPanel} ${isOpen ? styles.opened : ''} ${className}`}>
         <div className={styles.contentPanelHeader}>
             <a onClick={() => onClose()}>

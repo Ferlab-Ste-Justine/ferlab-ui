@@ -8,7 +8,7 @@ export const getSelectedFiltersForRange = (
     filters: IFilter[],
     filterGroup: IFilterGroup,
     selectedFilters: ISyntheticSqon,
-) => {
+): IFilter[] => {
     const rangeData = getRangeSelection(selectedFilters, filterGroup);
     return filters.map((f) => ({ ...f, data: rangeData }));
 };
@@ -19,8 +19,8 @@ export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterG
     let rangeSelection: IFilterRange = {
         max: undefined,
         min: undefined,
-        rangeType: undefined,
         operator: RangeOperators['<'],
+        rangeType: undefined,
     };
     for (const filter of filters.content) {
         let noDataSelected = false;
@@ -49,8 +49,8 @@ export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterG
                     ...rangeSelection,
                     max: filt.content.value[1] as number,
                     min: filt.content.value[0] as number,
-                    operator: RangeOperators.between,
                     noDataSelected,
+                    operator: RangeOperators.between,
                 };
                 break;
             case RangeOperators['<']:
@@ -58,8 +58,8 @@ export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterG
                 rangeSelection = {
                     ...rangeSelection,
                     max: filt.content.value[0] as number,
-                    operator: RangeOperators[filt.op],
                     noDataSelected,
+                    operator: RangeOperators[filt.op],
                 };
                 break;
             case RangeOperators['>']:
@@ -67,15 +67,15 @@ export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterG
                 rangeSelection = {
                     ...rangeSelection,
                     min: filt.content.value[0] as number,
-                    operator: RangeOperators[filt.op],
                     noDataSelected,
+                    operator: RangeOperators[filt.op],
                 };
                 break;
             case RangeOperators['in']:
                 rangeSelection = {
                     ...rangeSelection,
-                    operator: RangeOperators[filt.op],
                     noDataSelected: true,
+                    operator: RangeOperators[filt.op],
                 };
                 break;
         }

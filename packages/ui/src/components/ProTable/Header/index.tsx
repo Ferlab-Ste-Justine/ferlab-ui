@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Divider, Space } from 'antd';
 
 import { IProTableDictionary } from '../types';
@@ -26,21 +26,21 @@ interface OwnProps {
 }
 
 const TableHeader = ({
+    className,
+    dictionary = {},
     extra = [],
     extraCountInfo = [],
     extraSpacing = 12,
+    hideItemsCount = false,
+    onClearSelection,
+    onSelectAllResults,
     pageIndex,
     pageSize,
-    selectedAllResults = false,
     selectedAllPage = false,
+    selectedAllResults = false,
     selectedRowCount = 0,
     total,
-    dictionary = {},
-    onSelectAllResults,
-    onClearSelection,
-    hideItemsCount = false,
-    className,
-}: OwnProps) => (
+}: OwnProps): ReactElement => (
     <div className={className || styles.ProTableHeader}>
         <div>
             {selectedRowCount > 0 ? (
