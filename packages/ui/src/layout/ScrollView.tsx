@@ -21,8 +21,8 @@ const ScrollView: React.FC<ScrollViewProps> = ({
     className,
     horizontal,
     orientation,
-    vertical,
     style = {},
+    vertical,
 }) => {
     const definedOrientation = vertical
         ? StackOrientation.Vertical

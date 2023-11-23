@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from 'react';
+import React, { Fragment, ReactElement, useContext, useState } from 'react';
 import { ConfigProvider, List, Modal } from 'antd';
 import { formatDistance } from 'date-fns';
 import enUS from 'date-fns/locale/en-US';
@@ -21,7 +21,13 @@ interface OwnProps {
     onUpdateFilter: ((filter: ISavedFilter) => void) | undefined;
 }
 
-const ManageFiltersModal = ({ onDeleteFilter, onUpdateFilter, onVisibleChange, savedFilters, visible }: OwnProps) => {
+const ManageFiltersModal = ({
+    onDeleteFilter,
+    onUpdateFilter,
+    onVisibleChange,
+    savedFilters,
+    visible,
+}: OwnProps): ReactElement => {
     const { dictionary } = useContext(QueryBuilderContext);
     const { locale } = useContext(ConfigProvider.ConfigContext);
     const [isEditModalVisible, setEditModalVisible] = useState(false);

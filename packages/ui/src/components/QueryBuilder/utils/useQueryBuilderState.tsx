@@ -42,7 +42,7 @@ export const addQuery = ({
     queryBuilderId: string;
     query: ISyntheticSqon;
     setAsActive?: boolean;
-}) => {
+}): void => {
     const qbState = getQueryBuilderState(queryBuilderId);
     const queries = qbState?.state ?? [];
     const hasEmptyQuery = queries.find(({ content }) => isEmpty(content));
@@ -65,7 +65,7 @@ export const addQuery = ({
  *
  * @param queryBuilderId QueryBuilder unique identifier
  */
-export const getActiveQuery = (queryBuilderId: string) => {
+export const getActiveQuery = (queryBuilderId: string): ISyntheticSqon => {
     const qbState = getQueryBuilderState(queryBuilderId);
     return (
         qbState?.state?.find(({ id }) => id === qbState.active) ?? {
@@ -127,15 +127,15 @@ export const updateActiveQueryFilters = ({
  * ```
  */
 export const updateActiveQueryField = ({
-    queryBuilderId,
     field,
-    value,
+    index,
+    isUploadedList,
     merge_strategy = MERGE_VALUES_STRATEGIES.APPEND_VALUES,
     operator = TermOperators.in,
-    index,
     overrideValuesName,
-    isUploadedList,
+    queryBuilderId,
     remoteComponent,
+    value,
 }: {
     queryBuilderId: string;
     field: string;
@@ -204,7 +204,7 @@ export const updateQueryByTableFilter = ({
  * @param value The new state value
  * ```
  */
-export const setQueryBuilderState = (queryBuilderId: string, value: IQueryBuilderState) => {
+export const setQueryBuilderState = (queryBuilderId: string, value: IQueryBuilderState): void => {
     const QBUpdateEvent: TQBStateUpdateEvent = new Event(QB_UPDATE_EVENT_KEY);
 
     QBUpdateEvent.qbID = queryBuilderId;
@@ -214,7 +214,7 @@ export const setQueryBuilderState = (queryBuilderId: string, value: IQueryBuilde
     document.dispatchEvent(QBUpdateEvent);
 };
 
-export const defaultQueryBuilderState = (queryBuilderId: string) => {
+export const defaultQueryBuilderState = (queryBuilderId: string): IQueryBuilderState => {
     const defaultSqon = getDefaultSyntheticSqon();
     const newQbState: IQueryBuilderState = {
         active: defaultSqon.id,

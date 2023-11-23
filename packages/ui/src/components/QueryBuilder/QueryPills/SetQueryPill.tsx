@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, ReactElement, useContext } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { Button } from 'antd';
 import cx from 'classnames';
@@ -14,10 +14,10 @@ import styles from './QueryPill.module.scss';
 interface IReferenceQueryPillProps {
     isBarActive?: boolean;
     valueFilter: IValueFilter;
-    onRemove: Function;
+    onRemove: () => void;
 }
 
-const SetQueryPill = ({ isBarActive, onRemove, valueFilter }: IReferenceQueryPillProps) => {
+const SetQueryPill = ({ isBarActive, onRemove, valueFilter }: IReferenceQueryPillProps): ReactElement => {
     const { dictionary } = useContext(QueryBuilderContext);
 
     return (

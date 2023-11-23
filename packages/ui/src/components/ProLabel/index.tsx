@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Popover, PopoverProps, Typography } from 'antd';
 import cx from 'classnames';
@@ -23,7 +23,7 @@ const ProLabel = ({
     requiredMark = false,
     size = 'default',
     title,
-}: IProLabelProps) => (
+}: IProLabelProps): ReactElement => (
     <Text className={cx(styles.fuiProLabel, requiredMark ? styles.requiredMark : '', className)}>
         <span>
             <span className={cx(styles.title, styles[size])}>{title}</span>

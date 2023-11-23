@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { ReactElement, useCallback, useContext } from 'react';
 import { WarningFilled } from '@ant-design/icons';
 import { Form, Input, Modal } from 'antd';
 
@@ -17,12 +17,19 @@ interface OwnProps {
 
 const DEFAULT_TITLE_MAX_LENGTH = 50;
 
-const EditFilterModal = ({ initialTitleValue, isNewFilter, okDisabled, onCancel, onSubmit, visible }: OwnProps) => {
+const EditFilterModal = ({
+    initialTitleValue,
+    isNewFilter,
+    okDisabled,
+    onCancel,
+    onSubmit,
+    visible,
+}: OwnProps): ReactElement => {
     const { dictionary, headerConfig } = useContext(QueryBuilderContext);
     const [editForm] = Form.useForm();
 
     const callbackRef = useCallback(
-        (inputElement) => {
+        (inputElement: any) => {
             if (inputElement) {
                 setTimeout(() => {
                     inputElement.focus();

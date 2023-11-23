@@ -43,14 +43,8 @@ const SEARCH_KEY = 'search';
 const Sidebar = ({
     className = '',
     contentPanelClassName = '',
-    style = {},
-    enableQuickFilter = false,
     defaultSelectedKey = undefined,
-    toggleIcon = {
-        close: <MenuFoldOutlined />,
-        open: <MenuUnfoldOutlined />,
-    },
-    quickFilterIcon = undefined,
+    enableQuickFilter = false,
     locale = {
         quickFilter: {
             menuTitle: 'Quick Filter',
@@ -58,6 +52,12 @@ const Sidebar = ({
         },
     },
     menuItems,
+    quickFilterIcon = undefined,
+    style = {},
+    toggleIcon = {
+        close: <MenuFoldOutlined />,
+        open: <MenuUnfoldOutlined />,
+    },
 }: ISidebarMenuProps): React.ReactElement => {
     const [quickFilter, setQuickFilter] = useState('');
     const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -65,7 +65,7 @@ const Sidebar = ({
     const searchInputRef = useRef<InputRef>(null);
     const selectedFilterComponent = menuItems.find((menuItem) => menuItem.key == selectedKey);
 
-    const handleUserKeyUp = useCallback((e) => {
+    const handleUserKeyUp = useCallback((e: any) => {
         const activeElement = document.activeElement?.getAttribute('data-key');
         if ([32, 13].includes(e.keyCode) && activeElement) {
             setSelectedKey(activeElement);

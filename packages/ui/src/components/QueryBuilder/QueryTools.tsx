@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useContext } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { Button, Dropdown, Modal, Space, Switch } from 'antd';
@@ -19,7 +19,13 @@ export interface IQueryToolsProps {
     setShowLabels: (value: boolean) => void;
 }
 
-const QueryTools = ({ addNewQuery, onCombineClick, onDeleteAll, queryCount, setShowLabels }: IQueryToolsProps) => {
+const QueryTools = ({
+    addNewQuery,
+    onCombineClick,
+    onDeleteAll,
+    queryCount,
+    setShowLabels,
+}: IQueryToolsProps): ReactElement => {
     const {
         canCombine,
         dictionary,

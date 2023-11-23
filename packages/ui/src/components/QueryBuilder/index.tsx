@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { cloneDeep } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import { v4 } from 'uuid';
@@ -55,14 +55,17 @@ export interface IQueryBuilderProps {
 
 const QueryBuilder = ({
     className = '',
-    id = '',
-    dictionary = {},
-    total = 0,
-    IconTotal = null,
     currentQuery = {},
+    dictionary = {},
     enableCombine = false,
-    enableSingleQuery = false,
     enableShowHideLabels = false,
+    enableSingleQuery = false,
+    facetFilterConfig = defaultFacetFilterConfig,
+    fetchQueryCount,
+    getResolvedQueryForCount,
+    headerConfig = defaultHeaderConfig,
+    IconTotal = null,
+    id = '',
     initialShowLabelState = true,
     referenceColors = [
         '#C31D7E',
@@ -81,12 +84,9 @@ const QueryBuilder = ({
         '#2D7D9A',
         '#847545',
     ],
-    headerConfig = defaultHeaderConfig,
-    facetFilterConfig = defaultFacetFilterConfig,
-    fetchQueryCount,
-    getResolvedQueryForCount,
     remoteComponentMapping,
-}: IQueryBuilderProps) => {
+    total = 0,
+}: IQueryBuilderProps): ReactElement => {
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
     const { state: queryBuilderState } = useQueryBuilderState(id);
     const [queriesState, setQueriesState] = useState<IQueriesState>({

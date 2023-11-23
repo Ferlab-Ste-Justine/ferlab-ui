@@ -167,11 +167,11 @@ const RangeFilter = ({
             : INTERVAL_DECIMAL;
 
     const {
+        noDataSelected = false,
         selectedMax = undefined,
         selectedMin = undefined,
         selectedOperator = operatorsList[0].value,
         selectedRangeType = rangeTypes?.length ? rangeTypes[0].key : undefined,
-        noDataSelected = false,
     } = getConfig(selectedFilters);
 
     const defaultStateValue = {
@@ -252,6 +252,8 @@ const RangeFilter = ({
 
     const dotField = filterGroup.field;
     const buttonActionDisabled = typeof min !== 'number' && typeof max !== 'number';
+    const rangeMinTitle = (dictionary?.range?.min as string) || 'min';
+    const rangeMaxTitle = (dictionary?.range?.max as string) || 'max';
 
     return (
         <StackLayout className={styles.fuiRfContainer} vertical>
@@ -279,7 +281,7 @@ const RangeFilter = ({
                                 key={`from-${dotField}`}
                                 onChange={onMinChanged}
                                 step={range.step || DEFAULT_STEP}
-                                title={get(dictionary, 'range.min', 'min')}
+                                title={rangeMinTitle}
                                 value={min}
                             />
                         </StackLayout>
@@ -296,7 +298,7 @@ const RangeFilter = ({
                                 key={`to-${dotField}`}
                                 onChange={onMaxChanged}
                                 step={range.step || DEFAULT_STEP}
-                                title={get(dictionary, 'range.max', 'max')}
+                                title={rangeMaxTitle}
                                 value={max}
                             />
                         </StackLayout>

@@ -1,6 +1,9 @@
 import { PaginationViewPerQuery } from './constants';
 
-export const getPaginationOptions = (labelFormat: string, customPagination?: number[]) => {
+export const getPaginationOptions = (
+    labelFormat: string,
+    customPagination?: number[],
+): { label: string; value: number }[] => {
     if (customPagination) {
         return customPagination.map((value) => ({
             label: labelFormat.replace('{value}', value.toString()),

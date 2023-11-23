@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, ReactElement } from 'react';
 import { Space } from 'antd';
 
 import {
@@ -33,7 +33,7 @@ interface IBooleanQueryPillProps {
 
 const isNotEnd = (content: any[], index: number) => content.length - 1 > index;
 
-const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
+const BooleanQueryPill = (props: IBooleanQueryPillProps): ReactElement => (
     <Fragment>
         {props.query.content.map((f: any, i: number) => (
             <Space key={i} size={0} style={{ padding: '2px 0px' }}>
