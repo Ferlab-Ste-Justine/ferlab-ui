@@ -141,7 +141,8 @@ const ResizableGridCard = ({
                 className={styles.button}
                 icon={<CloseOutlined height={11} width={11} />}
                 key="remove-button"
-                onClick={() => {
+                onClick={(e) => {
+                    e.preventDefault();
                     if (id) {
                         context[gridUID].onCardRemoveConfigUpdate(id);
                     }

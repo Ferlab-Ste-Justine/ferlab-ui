@@ -2,10 +2,15 @@
 
 .cardHeader {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   font-size: 12px !important;
   width: 100%;
+
+  div[class$="rgl-drag-zone"] {
+    cursor: move;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   .cardHeadererContent {
     overflow: hidden;

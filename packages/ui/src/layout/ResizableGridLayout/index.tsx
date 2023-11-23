@@ -334,8 +334,6 @@ const ResizableGridLayout = ({
 }: IResizableGridLayout): JSX.Element => {
     const [currentBreakpoint, setCurrentBreakpoint] = useState<string | undefined>(undefined);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [isDraggable, setIsDraggable] = useState(false);
-    const [isResizable, setIsResizable] = useState(false);
     const configs = deserialize(defaultLayouts, layouts);
     const responsiveDefaultLayouts = serializeConfigToLayouts(configs);
     const resizableItemsList = configs.map(({ hidden, id, title }) => ({
@@ -348,8 +346,6 @@ const ResizableGridLayout = ({
     // This can corrumpt the config. That why we need to block the action while waiting for the component
     // to be loaded. It also ensure that currentBreakpoint is set
     useEffect(() => {
-        setIsDraggable(props.isDraggable ?? true);
-        setIsResizable(props.isResizable ?? true);
         setIsLoaded(true);
     }, []);
 
@@ -383,9 +379,7 @@ const ResizableGridLayout = ({
                             className="layout"
                             cols={{ lg: 16, md: 12, sm: 10, xs: 6, xxs: 4 }}
                             containerPadding={[0, 0]}
-                            draggableHandle=".ant-card-head"
-                            isDraggable={isDraggable}
-                            isResizable={isResizable}
+                            draggableHandle=".rgl-drag-zone"
                             layouts={responsiveDefaultLayouts}
                             margin={[12, 12]}
                             maxRows={10}

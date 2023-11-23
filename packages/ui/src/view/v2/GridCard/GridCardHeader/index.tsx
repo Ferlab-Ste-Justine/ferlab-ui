@@ -50,31 +50,33 @@ const GridCardHeader = ({
 
     return (
         <Title className={styles.cardHeader} level={4} ref={headerContainerRef}>
-            <Space align="center" className={styles.cardHeadererContent} direction="horizontal" size={5}>
-                {withHandle && (
-                    <DragHandle className={styles.dragHandle} id={id}>
-                        <HolderOutlined />
-                    </DragHandle>
-                )}
-                {
-                    <div className={styles.titleContainer} style={{ width: titleWidth }}>
-                        <Tooltip title={truncated ? title : undefined}>
-                            <Typography.Text ellipsis={{ onEllipsis: setTruncated }} style={{ width: titleWidth }}>
-                                {title}
-                            </Typography.Text>
-                        </Tooltip>
-                    </div>
-                }
-                {infoPopover && (
-                    <Popover
-                        {...infoPopover}
-                        className={cx(styles.infoPopover, infoPopover.className)}
-                        overlayClassName={cx(styles.infoPopoverOverlay, infoPopover.overlayClassName)}
-                    >
-                        <InfoCircleOutlined className={styles.infoIcon} />
-                    </Popover>
-                )}
-            </Space>
+            <div className="rgl-drag-zone">
+                <Space align="center" className={styles.cardHeadererContent} direction="horizontal" size={5}>
+                    {withHandle && (
+                        <DragHandle className={styles.dragHandle} id={id}>
+                            <HolderOutlined />
+                        </DragHandle>
+                    )}
+                    {
+                        <div className={styles.titleContainer} style={{ width: titleWidth }}>
+                            <Tooltip title={truncated ? title : undefined}>
+                                <Typography.Text ellipsis={{ onEllipsis: setTruncated }} style={{ width: titleWidth }}>
+                                    {title}
+                                </Typography.Text>
+                            </Tooltip>
+                        </div>
+                    }
+                    {infoPopover && (
+                        <Popover
+                            {...infoPopover}
+                            className={cx(styles.infoPopover, infoPopover.className)}
+                            overlayClassName={cx(styles.infoPopoverOverlay, infoPopover.overlayClassName)}
+                        >
+                            <InfoCircleOutlined className={styles.infoIcon} />
+                        </Popover>
+                    )}
+                </Space>
+            </div>
             <div className={extraClassName}>{extra}</div>
         </Title>
     );
