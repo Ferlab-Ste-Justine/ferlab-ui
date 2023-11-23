@@ -1,27 +1,28 @@
-import React, { useRef, RefObject } from 'react';
+import React, { ReactElement, ReactNode, RefObject, useRef } from 'react';
 import { Card } from 'antd';
 import { CardProps } from 'antd/lib/card';
 
 type OwnProps = {
-    gridChildren?: Function;
+    gridChildren?: () => any;
     classNameContainer?: string;
     classNameContent?: string;
     classNameCardItem?: string;
+    children?: ({ height }: { height?: number }) => ReactNode;
 };
 
 type Props = OwnProps & CardProps;
 
 const GridCard = ({
-    loading,
     children,
+    classNameCardItem = '',
     classNameContainer = '',
     classNameContent = '',
-    classNameCardItem = '',
+    loading,
     ...cardProps
-}: Props) => {
+}: Props): ReactElement => {
     const divElem = useRef() as RefObject<HTMLDivElement> | undefined;
     return (
-        <Card loading={loading} className={`core-grid-card ${classNameCardItem}`} {...cardProps}>
+        <Card className={`core-grid-card ${classNameCardItem}`} loading={loading} {...cardProps}>
             <div className={`core-grid-card-content-container ${classNameContainer}`} ref={divElem}>
                 {typeof children === 'function' ? (
                     <div className={`core-grid-card-dynamic-content ${classNameContent}`}>

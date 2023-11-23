@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import './index.module.scss';
 
@@ -7,7 +7,7 @@ export type ScrollableTableProps = {
     children?: React.ReactNode;
 };
 
-const ScrollableTable = ({ children, className = '' }: ScrollableTableProps) => (
+const ScrollableTable = ({ children, className = '' }: ScrollableTableProps): ReactElement => (
     <div className="table-scrollable-container">
         <div
             className={`table-scrollable ${className}`}

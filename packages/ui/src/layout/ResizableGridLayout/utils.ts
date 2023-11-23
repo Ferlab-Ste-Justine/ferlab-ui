@@ -1,6 +1,6 @@
 import { ArrangerValues } from '../../data/arranger/formatting';
 
-export const aggregationToChartData = (buckets: any[] = [], total?: number) =>
+export const aggregationToChartData = (buckets: any[] = [], total?: number): any[] =>
     buckets.map(({ doc_count, key }) => {
         const dataKey = key === ArrangerValues.missing ? 'No Data' : key;
         return {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 import cx from 'classnames';
@@ -66,21 +66,21 @@ type FilterContainerProps = {
 };
 
 const FilterContainer = ({
-    filterGroup,
     className = '',
-    filters = [],
-    maxShowing = 5,
-    selectedFilters,
-    isOpen = false,
-    dictionary,
+    collapseProps,
     customContent,
+    dictionary,
+    filterGroup,
+    filters = [],
+    isOpen = false,
+    maxShowing = 5,
+    noDataInputOption = false,
     onChange,
     onIsOpenChange,
     onSearchVisibleChange,
-    collapseProps,
     searchInputVisible = false,
-    noDataInputOption = false,
-}: FilterContainerProps) => {
+    selectedFilters,
+}: FilterContainerProps): ReactElement => {
     const [isSearchVisible, setIsSearchVisible] = useState(searchInputVisible);
     const [collapseOpen, setCollapseOpen] = useState(isOpen);
 

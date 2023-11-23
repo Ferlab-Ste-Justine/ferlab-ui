@@ -39,6 +39,7 @@ const EntityTable = ({
     columns,
     data,
     dictionary,
+    emptyMessage = 'No data available',
     header,
     headerConfig,
     id,
@@ -49,12 +50,11 @@ const EntityTable = ({
     title,
     titleExtra,
     total = 0,
-    emptyMessage = 'No data available',
 }: IEntityTable): React.ReactElement => {
     const [scroll, setScroll] = useState<{ y: number } | undefined>(undefined);
 
     const tableRef = useCallback(
-        (node) => {
+        (node: any) => {
             const height = node?.clientHeight ?? 0;
             if (height > 400) {
                 setScroll({ y: 400 });

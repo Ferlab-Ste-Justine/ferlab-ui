@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 interface IConditionalWrapperProps {
     condition: boolean;
@@ -6,5 +6,5 @@ interface IConditionalWrapperProps {
     children: React.ReactElement;
 }
 
-export default ({ condition, wrapper, children }: IConditionalWrapperProps) =>
+export default ({ children, condition, wrapper }: IConditionalWrapperProps): ReactElement =>
     condition ? wrapper(children) : children;

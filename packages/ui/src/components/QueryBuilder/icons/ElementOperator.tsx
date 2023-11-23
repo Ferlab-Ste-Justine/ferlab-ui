@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import styles from './LabelOperator.module.scss';
 
@@ -6,7 +6,7 @@ interface IElementlOperatorProps {
     className?: string;
     testId?: string;
 }
-const ElementOperator = ({ className = '', testId }: IElementlOperatorProps) => (
+const ElementOperator = ({ className = '', testId }: IElementlOperatorProps): ReactElement => (
     <svg
         className={`${styles.icon} ${className}`}
         data-testid={testId}
