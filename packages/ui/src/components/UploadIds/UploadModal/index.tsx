@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { PaperClipOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Input, Modal, PopoverProps, Space, Spin, Tabs, Typography, Upload } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
@@ -46,7 +46,7 @@ const UploadModal = ({
     setVisible,
     visible,
     width = 945,
-}: OwnProps) => {
+}: OwnProps): ReactElement => {
     const [isLoading, setIsLoading] = useState(false);
     const [value, setValue] = useState('');
     const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -72,11 +72,12 @@ const UploadModal = ({
             undefined,
         ).length;
 
-    const getSubmittedIdsCount = (match: MatchTableItem[]) =>
-        without(
-            uniqBy(match, ({ submittedId }) => submittedId).map(({ submittedId }) => submittedId),
-            undefined,
-        ).length;
+    // Unused
+    // const getSubmittedIdsCount = (match: MatchTableItem[]) =>
+    //     without(
+    //         uniqBy(match, ({ submittedId }) => submittedId).map(({ submittedId }) => submittedId),
+    //         undefined,
+    //     ).length;
 
     const onClear = () => {
         setUnmatch(undefined);

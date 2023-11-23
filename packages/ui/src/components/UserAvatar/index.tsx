@@ -41,14 +41,14 @@ const UserAvatar = ({
     alt = 'UserAvatar',
     circle = true,
     className = '',
+    gap = 4,
     height = 100,
+    icon,
     size = 100,
     src = '',
     style = {},
     userName = '',
     width = 100,
-    icon,
-    gap = 4,
 }: IUserAvatarProps): React.ReactElement => {
     if (src) {
         return (

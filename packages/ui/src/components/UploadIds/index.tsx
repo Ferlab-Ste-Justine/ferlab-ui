@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useState } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, PopoverProps } from 'antd';
@@ -31,7 +31,7 @@ const UploadIds = ({
     onUpload,
     placeHolder,
     popoverProps,
-}: UploadIdsProps) => {
+}: UploadIdsProps): ReactElement => {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (

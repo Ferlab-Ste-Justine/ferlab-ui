@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import styles from './QueryValues.module.scss';
 
@@ -7,7 +7,7 @@ interface IReferenceQueryValuesProps {
     highlightColor?: string;
 }
 
-const ReferenceQueryValues = (props: IReferenceQueryValuesProps) => (
+const ReferenceQueryValues = (props: IReferenceQueryValuesProps): ReactElement => (
     <div className={styles.queryValuesContainer}>
         <div className={styles.valueWrapper}>
             <span className={styles.value} style={props.highlightColor ? { color: props.highlightColor } : undefined}>

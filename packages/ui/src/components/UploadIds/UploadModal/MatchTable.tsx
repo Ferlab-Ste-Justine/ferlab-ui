@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Table } from 'antd';
 import { get } from 'lodash';
 
@@ -13,7 +13,7 @@ interface OwnProps {
     dictionary: UploadIdDictionary;
 }
 
-const MatchTable = ({ dictionary, loading = false, matchItems }: OwnProps) => (
+const MatchTable = ({ dictionary, loading = false, matchItems }: OwnProps): ReactElement => (
     <Table
         bordered
         className={styles.resultsTable}

@@ -30,8 +30,8 @@ export interface IEntityTableMultiple {
 }
 
 const EntityTableMultiple = ({
-    header,
     direction = 'horizontal',
+    header,
     id,
     loading,
     tables = [],

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useEffect } from 'react';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, Input, Tooltip } from 'antd';
@@ -18,7 +18,13 @@ export type TextInputFilterProps = {
     dictionary?: IDictionary | Record<string, never>;
 };
 
-const TextInputFilter = ({ dictionary, filterGroup, filters, onChange, selectedFilters }: TextInputFilterProps) => {
+const TextInputFilter = ({
+    dictionary,
+    filterGroup,
+    filters,
+    onChange,
+    selectedFilters,
+}: TextInputFilterProps): ReactElement => {
     const currentFilter: IFilter<IFilterText> = filters[0];
     const { config } = filterGroup;
     const defaultStateValue = {

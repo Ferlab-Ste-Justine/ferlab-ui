@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { Space, Typography } from 'antd';
 import cx from 'classnames';
 
@@ -26,17 +26,17 @@ export interface IEmptyProps {
 const { Text, Title } = Typography;
 
 const Empty = ({
-    className = '',
-    title = undefined,
-    description = 'No data',
-    size = 'default',
-    image = undefined,
-    showImage = true,
-    imageType = 'row',
     action,
-    noPadding = false,
     align = 'center',
-}: IEmptyProps) => (
+    className = '',
+    description = 'No data',
+    image = undefined,
+    imageType = 'row',
+    noPadding = false,
+    showImage = true,
+    size = 'default',
+    title = undefined,
+}: IEmptyProps): ReactElement => (
     <div className={cx(styles.fuiEmpty, className, styles[size], noPadding ? styles.noPadding : '', styles[align])}>
         <div className={styles.content}>
             {showImage ? (
