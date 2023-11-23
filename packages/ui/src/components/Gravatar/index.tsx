@@ -1,6 +1,6 @@
-import React from 'react';
-import md5 from 'md5';
+import React, { ReactElement } from 'react';
 import { CSSProperties } from 'react';
+import md5 from 'md5';
 
 export interface IGravatarProps {
     email: string;
@@ -15,13 +15,13 @@ export interface IGravatarProps {
 const BASE_URL = 'https://www.gravatar.com/avatar';
 
 const Gravatar = ({
+    alt = 'Gravatar',
     circle = false,
     email = '',
     placeholder = 'retro',
-    alt = 'Gravatar',
     size = 100,
     ...props
-}: IGravatarProps) => {
+}: IGravatarProps): ReactElement => {
     const getQueryParams = () => {
         const params: Record<string, any> = {};
 
@@ -39,6 +39,8 @@ const Gravatar = ({
     return (
         <img
             {...props}
+            alt={alt}
+            src={`${BASE_URL}/${md5(email.trim().toLowerCase())}${getQueryParams()}`}
             style={
                 circle
                     ? {
@@ -47,8 +49,6 @@ const Gravatar = ({
                       }
                     : props.style
             }
-            src={`${BASE_URL}/${md5(email.trim().toLowerCase())}${getQueryParams()}`}
-            alt={alt}
         />
     );
 };

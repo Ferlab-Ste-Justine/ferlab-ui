@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Spin } from 'antd';
 import Card, { CardProps } from 'antd/lib/card';
 import cx from 'classnames';
@@ -30,7 +30,7 @@ const GridCard = ({
     theme = 'light',
     wrapperClassName = '',
     ...rest
-}: Omit<TGridCard, 'actions'>) => (
+}: Omit<TGridCard, 'actions'>): ReactElement => (
     <div className={cx(wrapperClassName, styles.fuiCardWrapper)}>
         <Card
             {...rest}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
 import {
     closestCenter,
@@ -28,7 +28,13 @@ interface OwnProps<T = any> {
     dictionary?: IProTableDictionary;
 }
 
-const ColumnSelector = ({ className = '', columns, columnStates, onChange, dictionary = {} }: OwnProps) => {
+const ColumnSelector = ({
+    className = '',
+    columns,
+    columnStates,
+    dictionary = {},
+    onChange,
+}: OwnProps): ReactElement => {
     const [localColumnState, setLocalColumnState] = useState(columnStates);
     const [localColumns, setLocalColumns] = useState<{
         saveIndex: number;
@@ -116,25 +122,23 @@ const ColumnSelector = ({ className = '', columns, columnStates, onChange, dicti
                                         return (
                                             <SortableColumnItem
                                                 checked={savedColumnState?.visible}
-                                                id={localState.key!}
+                                                id={localState.key}
                                                 key={index}
                                                 label={String(foundColumn.title)}
                                                 onChange={(e) => {
                                                     const filteredStates = localColumnState.filter(
                                                         ({ key }) => key !== localState.key,
                                                     );
-                                                    let newStates = [
+                                                    const newStates = [
                                                         ...filteredStates,
                                                         {
                                                             ...savedColumnState!,
                                                             visible: e.target.checked,
                                                         },
                                                     ];
-                                                    
+
                                                     // DnD list use array order and not index
-                                                    newStates.sort((a, b) => {
-                                                        return a.index - b.index;
-                                                    });
+                                                    newStates.sort((a, b) => a.index - b.index);
 
                                                     onChange(newStates);
                                                 }}

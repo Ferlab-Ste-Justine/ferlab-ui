@@ -18,12 +18,12 @@ type Props = {
 
 export const SelectedCount = ({
     className = '',
+    dictionnary = {},
+    onClear = () => undefined,
+    onSelectAll = () => undefined,
     selectedAllPage = false,
     selectedAllResults = false,
     selectedRowCount,
-    dictionnary = {},
-    onSelectAll = () => undefined,
-    onClear = () => undefined,
 }: Props): React.ReactElement => {
     const rowCount = dictionnary.numberFormat ? dictionnary.numberFormat(selectedRowCount) : selectedRowCount;
     return (

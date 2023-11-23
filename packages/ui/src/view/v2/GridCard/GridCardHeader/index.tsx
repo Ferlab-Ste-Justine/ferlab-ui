@@ -28,15 +28,15 @@ interface OwnProps {
 const { Title } = Typography;
 
 const GridCardHeader = ({
-    id,
-    title,
     className,
-    handleClassName,
-    extraClassName = '',
     extra = [],
-    withHandle = false,
+    extraClassName = '',
+    handleClassName,
+    id,
     infoPopover,
+    title,
     titleTruncateThresholdWidth,
+    withHandle = false,
 }: OwnProps): JSX.Element => {
     const [truncated, setTruncated] = useState(false);
     const [titleWidth, setTitleWidth] = useState('100%');

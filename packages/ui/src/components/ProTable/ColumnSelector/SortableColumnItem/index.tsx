@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { HolderOutlined } from '@ant-design/icons';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -14,7 +14,7 @@ export type TSortableColumnItem = {
     onChange: (e: CheckboxChangeEvent) => void;
 };
 
-const SortableColumnItem = ({ checked = true, id, label, onChange }: TSortableColumnItem) => {
+const SortableColumnItem = ({ checked = true, id, label, onChange }: TSortableColumnItem): ReactElement => {
     const { attributes, isDragging, listeners, setNodeRef, transform, transition } = useSortable({ id });
 
     const style: React.CSSProperties = {
