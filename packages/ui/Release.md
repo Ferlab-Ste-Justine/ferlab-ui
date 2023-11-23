@@ -1,3 +1,6 @@
+### 7.14.12 2023-11-23
+- fix: CQDG-490 ProTable tooltip should be ReactNode
+
 ### 7.14.10 2023-11-22
 - fix: SKFP-852 fix baby graph issue
 

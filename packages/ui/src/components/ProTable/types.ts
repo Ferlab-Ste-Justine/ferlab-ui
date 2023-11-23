@@ -63,7 +63,7 @@ export interface ProColumnType<T = any> extends ColumnType<T> {
     title: ReactNode;
     icon?: ReactElement;
     iconTitle?: ReactNode;
-    tooltip?: string;
+    tooltip?: ReactNode;
     defaultHidden?: boolean;
 }
 
