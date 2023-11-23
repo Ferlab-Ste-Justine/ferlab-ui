@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import { useState } from 'react';
 import {
     closestCenter,
@@ -21,7 +21,7 @@ interface OwnProps {
     onReorder?: (id: string[]) => void;
 }
 
-const SortableGrid = ({ gutter, items, onReorder }: OwnProps) => {
+const SortableGrid = ({ gutter, items, onReorder }: OwnProps): ReactElement => {
     const [currentItems, setCurrentItems] = useState(items);
     const sensors = useSensors(
         useSensor(PointerSensor),

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { Button, Radio, Space, Tag } from 'antd';
 import { isEmpty } from 'lodash';
 import get from 'lodash/get';
@@ -19,7 +19,13 @@ export type BooleanFilterProps = {
     dictionary?: IDictionary | Record<string, never>;
 };
 
-const ToggleFilter = ({ filterGroup, filters, onChange, selectedFilters = [], dictionary }: BooleanFilterProps) => {
+const ToggleFilter = ({
+    dictionary,
+    filterGroup,
+    filters,
+    onChange,
+    selectedFilters = [],
+}: BooleanFilterProps): ReactElement => {
     const selectedFilter = selectedFilters.length > 0 ? selectedFilters[0].data.key : '';
     const [selected, setSelected] = useState(selectedFilter);
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import './MultiLabel.scss';
 
@@ -26,16 +26,16 @@ export type MultiLabelProps = {
 
 const MultiLabel = ({
     className = '',
-    labelClassName = '',
-    subLabelClassName = '',
-    iconClassName = '',
     Icon,
-    label,
-    subLabel,
-    type = MultiLabelTypeEnum.Stack,
+    iconClassName = '',
     iconPosition = MultiLabelIconPositionEnum.Middle,
+    label,
+    labelClassName = '',
     style = {},
-}: MultiLabelProps) => (
+    subLabel,
+    subLabelClassName = '',
+    type = MultiLabelTypeEnum.Stack,
+}: MultiLabelProps): ReactElement => (
     <div
         className={`multilabel__container multilabel__container--${type} multilabel__container--${iconPosition} ${className}`}
         style={style}

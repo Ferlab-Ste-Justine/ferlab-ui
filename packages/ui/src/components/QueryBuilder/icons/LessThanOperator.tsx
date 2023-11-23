@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import styles from './LabelOperator.module.scss';
 
 interface ILessThanOperatorProps {
     className?: string;
 }
-const LessThanOperator = ({ className = '' }: ILessThanOperatorProps) => (
+const LessThanOperator = ({ className = '' }: ILessThanOperatorProps): ReactElement => (
     <svg
         className={`${styles.icon} ${className}`}
         fill="currentColor"

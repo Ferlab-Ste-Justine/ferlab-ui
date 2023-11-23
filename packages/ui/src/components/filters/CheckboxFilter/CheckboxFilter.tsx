@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Button, Checkbox, Divider, Dropdown, Input, Menu, Space, Switch, Tag, Typography } from 'antd';
+import { Button, Checkbox, Divider, Dropdown, Input, Space, Switch, Tag, Typography } from 'antd';
 import cx from 'classnames';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
@@ -44,9 +44,9 @@ const InternalCheckBox = ({
     filterGroup,
     getMappedName,
     handleOnChange,
+    index = -1,
     localSelectedFilters,
     setLocalSelectedFilters,
-    index = -1,
 }: InternalCheckBoxProps) => (
     <StackLayout
         className={styles.checkboxFilterItem}
@@ -185,6 +185,7 @@ const CheckboxFilter = ({
     const extraFilters = formatExtraFilters(filters, filterGroup);
     const showDictionaryOption = filterGroup.config?.extraFilterDictionary && extraFilters.length > 0;
     const showActionBar = isEmpty(bumpedFilters) ? showDictionaryOption : showSelectAll || showDictionaryOption;
+    const searchPlaceholder = (dictionary?.checkBox?.searchPlaceholder as string) || 'Search...';
 
     return (
         <Fragment>
@@ -192,11 +193,11 @@ const CheckboxFilter = ({
                 <div className={styles.filterSearchWrapper}>
                     <Input
                         allowClear
-                        aria-label={get(dictionary, 'checkBox.searchPlaceholder', 'Search...')}
+                        aria-label={searchPlaceholder}
                         autoFocus
                         className={styles.filterSearchInput}
                         onChange={(value) => setSearch(value.target.value || '')}
-                        placeholder={get(dictionary, 'checkBox.searchPlaceholder', 'Search...')}
+                        placeholder={searchPlaceholder}
                         value={search}
                     />
                 </div>

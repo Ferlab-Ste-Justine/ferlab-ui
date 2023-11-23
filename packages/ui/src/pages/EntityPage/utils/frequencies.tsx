@@ -83,6 +83,6 @@ export const makeRowFromFrequencies = (
 const hasAtLeastOneTruthyProperty = (obj: Omit<IPublicCohortRow, 'key' | 'cohort'>) =>
     Object.values(obj).some((e) => e);
 
-export const isExternalCohortsTableEmpty = (rows: IPublicCohortRow[]) =>
+export const isExternalCohortsTableEmpty = (rows: IPublicCohortRow[]): boolean =>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     rows.every(({ cohort, key, ...visibleRow }: IPublicCohortRow) => !hasAtLeastOneTruthyProperty(visibleRow));

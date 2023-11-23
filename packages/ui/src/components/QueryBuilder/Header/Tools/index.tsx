@@ -46,7 +46,7 @@ const QueryBuilderHeaderTools = ({
     const [isNewFilter, setIsNewFilter] = useState(false);
     const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
 
-    const confirmUnsavedChangeForNewFilter = (onOkCallback: () => unknown) =>
+    const confirmUnsavedChangeForNewFilter = (onOkCallback: () => void) =>
         Modal.confirm({
             cancelText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.createNewFilter?.cancelText || 'Cancel',
             content:

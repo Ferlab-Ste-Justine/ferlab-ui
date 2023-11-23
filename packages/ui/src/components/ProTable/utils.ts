@@ -7,7 +7,7 @@ type TTieBreaker = {
     field: string;
     order: SortDirection;
 };
-export const tieBreaker = ({ field, defaultSort, order = SortDirection.Asc, sort }: TTieBreaker): ISort[] => {
+export const tieBreaker = ({ defaultSort, field, order = SortDirection.Asc, sort }: TTieBreaker): ISort[] => {
     const resultSort = sort.length > 0 ? sort : defaultSort;
     return resultSort.some((e) => e.field === field) ? resultSort : ([...resultSort, { field, order }] as ISort[]);
 };

@@ -13,7 +13,7 @@ import {
     OrphanetEntity,
 } from '../type';
 
-export const makeClinvarRows = (clinvar?: IClinVar) => {
+export const makeClinvarRows = (clinvar?: IClinVar): any[] => {
     if (!clinvar || !clinvar.conditions?.length) {
         return [];
     }
@@ -90,7 +90,7 @@ const cosmicFromEdges = (gene: IArrangerEdge<IVariantGene>, cosmicEdges: IArrang
 const keepOnlyOmimWithId = (arr: IArrangerEdge<OmimEntity>[]) =>
     arr.filter((omimNode: IArrangerEdge<OmimEntity>) => omimNode.node.omim_id);
 
-export const makeUnGroupedDataRows = (genes: IArrangerEdge<IVariantGene>[]) => {
+export const makeUnGroupedDataRows = (genes: IArrangerEdge<IVariantGene>[]): any[] => {
     if (!genes.length) {
         return [];
     }
@@ -106,7 +106,7 @@ export const makeUnGroupedDataRows = (genes: IArrangerEdge<IVariantGene>[]) => {
     });
 };
 
-export const groupRowsBySource = (ungroupedDataTable: any[]) => {
+export const groupRowsBySource = (ungroupedDataTable: any[]): any[] => {
     const orphanetRows = ungroupedDataTable.flat().filter((row) => row.source === ClinicalGenesTableSource.orphanet);
     const omimRows = ungroupedDataTable.flat().filter((row) => row.source === ClinicalGenesTableSource.omim);
     const hpoRows = ungroupedDataTable.flat().filter((row) => row.source === ClinicalGenesTableSource.hpo);
@@ -116,7 +116,7 @@ export const groupRowsBySource = (ungroupedDataTable: any[]) => {
     return [...orphanetRows, ...omimRows, ...hpoRows, ...dddRows, ...cosmicRows];
 };
 
-export const makeGenesOrderedRow = (genesHits?: IArrangerResultsTree<IVariantGene>) => {
+export const makeGenesOrderedRow = (genesHits?: IArrangerResultsTree<IVariantGene>): any[] => {
     const genes = genesHits?.hits?.edges || [];
 
     if (!genes.length) {

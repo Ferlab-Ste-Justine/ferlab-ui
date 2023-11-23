@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { IDictionary } from '../types';
 
@@ -8,7 +8,7 @@ interface IAndOperatorProps {
     dictionary?: IDictionary;
     className?: string;
 }
-const AndOperator = ({ className = '', dictionary = {} }: IAndOperatorProps) => (
+const AndOperator = ({ className = '', dictionary = {} }: IAndOperatorProps): ReactElement => (
     <span className={`${styles.text} ${className}`}>{dictionary.query?.combine?.and || 'and'}</span>
 );
 export default AndOperator;

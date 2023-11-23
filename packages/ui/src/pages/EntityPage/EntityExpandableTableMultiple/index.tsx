@@ -19,14 +19,14 @@ export interface IEntityExpandableTableMultiple extends IEntityTableMultiple {
 
 const EntityExpandableTableMultiple = ({
     dictionary,
-    header,
     direction = 'horizontal',
+    header,
     id,
     loading,
     tables = [],
-    total = 0,
     title,
     titleExtra,
+    total = 0,
 }: IEntityExpandableTableMultiple): React.ReactElement => (
     <div className={styles.container} id={id}>
         {title && (
