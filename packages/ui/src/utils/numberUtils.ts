@@ -45,7 +45,7 @@ export const numberFormat = (num: number, digits = 0): number | string => {
     }
 };
 
-export const numberWithCommas = (number: number): string => number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+export const numberWithCommas = (number: number): string => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 export const toExponentialNotation = (numberCandidate?: number, fractionDigits = 2): string =>
     numberCandidate ? numberCandidate.toExponential(fractionDigits) : '';

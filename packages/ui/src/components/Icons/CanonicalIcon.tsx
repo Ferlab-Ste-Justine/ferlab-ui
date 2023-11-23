@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import cx from 'classnames';
 
 import { IIconProps } from './type';
 
-const CanonicalIcon = ({ className = '', height = 18, width = 18 }: IIconProps): JSX.Element => (
+const CanonicalIcon = ({ className = '', height = 18, width = 18 }: IIconProps): ReactElement => (
     <svg
         className={cx('anticon', className)}
         fill="currentColor"
