@@ -34,7 +34,7 @@ const formatQueriesWithPill = (queries: ISyntheticSqon[]): ISyntheticSqon[] => {
         const newContent = query.content.map((c: TSyntheticSqonContentValue) => {
             if (c.hasOwnProperty('title') && (c as IValueQuery).id)
                 return { filterID: (c as IValueQuery).id } as IValueFilterQuery;
-            else return c;
+            return c;
         });
         return { ...query, content: newContent };
     });
