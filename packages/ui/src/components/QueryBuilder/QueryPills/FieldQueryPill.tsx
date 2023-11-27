@@ -22,6 +22,7 @@ import styles from './QueryPill.module.scss';
 interface IFieldQueryPillProps {
     isBarActive?: boolean;
     valueFilter: IValueFilter;
+    isCustomPillEdition?: boolean;
     onRemove: () => void;
 }
 
@@ -52,7 +53,12 @@ export const Operator = ({ className = '', type }: IOperatorProps): JSX.Element 
     }
 };
 
-const FieldQueryPill = ({ isBarActive, onRemove, valueFilter }: IFieldQueryPillProps): JSX.Element => {
+const FieldQueryPill = ({
+    isBarActive,
+    isCustomPillEdition,
+    onRemove,
+    valueFilter,
+}: IFieldQueryPillProps): JSX.Element => {
     const { dictionary, facetFilterConfig, showLabels } = useContext(QueryCommonContext);
     const [tryOpenQueryPillFilter, setTryOpenQueryPillFilter] = useState(false);
     const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
@@ -92,46 +98,51 @@ const FieldQueryPill = ({ isBarActive, onRemove, valueFilter }: IFieldQueryPillP
                     <Operator className={styles.operator} type={valueFilter.op} />
                 </Fragment>
             )}
-            <ConditionalWrapper
-                condition={isFacetFilterEnableForField()}
-                wrapper={(children) => (
-                    <Dropdown
-                        getPopupContainer={(trigger) => trigger.parentElement!}
-                        onVisibleChange={(visible) => {
-                            if (visible) {
-                                setDropdownContent(undefined);
+            {!isCustomPillEdition && (
+                <ConditionalWrapper
+                    condition={isFacetFilterEnableForField()}
+                    wrapper={(children) => (
+                        <Dropdown
+                            getPopupContainer={(trigger) => trigger.parentElement!}
+                            onVisibleChange={(visible) => {
+                                if (visible) {
+                                    setDropdownContent(undefined);
+                                }
+                                setFilterDropdownVisible(visible);
+                            }}
+                            open={filterDropdownVisible}
+                            overlay={
+                                <div
+                                    onClick={(e: any) => {
+                                        if (e.target.getAttribute('data-key') == APPLY_KEY && filterDropdownVisible) {
+                                            setFilterDropdownVisible(false);
+                                        }
+                                    }}
+                                >
+                                    {(facetFilterConfig.enable && dropdownContent) || (
+                                        <div className={styles.filterLoader}>
+                                            <Spin />
+                                        </div>
+                                    )}
+                                </div>
                             }
-                            setFilterDropdownVisible(visible);
-                        }}
-                        open={filterDropdownVisible}
-                        overlay={
-                            <div
-                                onClick={(e: any) => {
-                                    if (e.target.getAttribute('data-key') == APPLY_KEY && filterDropdownVisible) {
-                                        setFilterDropdownVisible(false);
-                                    }
-                                }}
-                            >
-                                {(facetFilterConfig.enable && dropdownContent) || (
-                                    <div className={styles.filterLoader}>
-                                        <Spin />
-                                    </div>
-                                )}
-                            </div>
-                        }
-                        overlayClassName={styles.filtersDropdown}
-                        trigger={['click']}
-                    >
-                        {children}
-                    </Dropdown>
-                )}
-            >
-                <QueryValues
-                    isElement={valueFilter.op === FieldOperators.between}
-                    onClick={isFacetFilterEnableForField() ? () => handleQueryPillClick(isBarActive!) : undefined}
-                    valueFilter={valueFilter}
-                />
-            </ConditionalWrapper>
+                            overlayClassName={styles.filtersDropdown}
+                            trigger={['click']}
+                        >
+                            {children}
+                        </Dropdown>
+                    )}
+                >
+                    <QueryValues
+                        isElement={valueFilter.op === FieldOperators.between}
+                        onClick={isFacetFilterEnableForField() ? () => handleQueryPillClick(isBarActive!) : undefined}
+                        valueFilter={valueFilter}
+                    />
+                </ConditionalWrapper>
+            )}
+            {isCustomPillEdition && (
+                <QueryValues isElement={valueFilter.op === FieldOperators.between} valueFilter={valueFilter} />
+            )}
             <Button className={styles.close} type="text">
                 <AiOutlineClose
                     onClick={(e) => {

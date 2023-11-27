@@ -33,6 +33,7 @@ interface IBooleanQueryPillProps {
     isActive: boolean;
     parentQueryId: string;
     query: ISyntheticSqon | Record<string, never>;
+    isCustomPillEdition?: boolean;
     onRemoveFacet: TCallbackRemoveAction;
     onRemoveReference: TCallbackRemoveReferenceAction;
     onRemoveQuery?: TCallbackRemoveQueryAction;
@@ -95,6 +96,7 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps): JSX.Element => (
                 ) : (
                     <FieldQueryPill
                         isBarActive={props.isActive}
+                        isCustomPillEdition={props.isCustomPillEdition}
                         onRemove={() => props.onRemoveFacet((f as IValueFilter).content.field, props.query)}
                         valueFilter={f as IValueFilter}
                     />
