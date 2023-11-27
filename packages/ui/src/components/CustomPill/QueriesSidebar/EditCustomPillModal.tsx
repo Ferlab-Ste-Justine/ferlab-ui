@@ -152,6 +152,7 @@ const EditCustomPillModal = ({
                                 <BooleanQueryPill
                                     getColorForReference={getColorForReference}
                                     isActive={true}
+                                    isCustomPillEdition={true}
                                     onCombineChange={() => {
                                         const queryToUpdate = state?.state?.[0];
                                         if (queryToUpdate) {
