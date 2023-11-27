@@ -35,6 +35,11 @@ export interface IQueriesSidebarProps {
     editCallback?: () => void;
 }
 
+const getSortedPill = (customPills: ISavedFilter[]): ISavedFilter[] =>
+    structuredClone(customPills).sort((a, b) =>
+        a.title.localeCompare(b.title, undefined, { ignorePunctuation: true, sensitivity: 'base' }),
+    );
+
 const QueriesSidebar = ({
     customPills = [],
     hasError = false,
@@ -69,9 +74,7 @@ const QueriesSidebar = ({
         );
     }
 
-    const sortedPills = structuredClone(customPills).sort((a, b) =>
-        a.title.localeCompare(b.title, undefined, { ignorePunctuation: true, sensitivity: 'base' }),
-    );
+    const sortedPills = !hasError ? getSortedPill(customPills) : [];
 
     return (
         <QueryCommonContext.Provider
