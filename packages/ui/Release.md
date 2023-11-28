@@ -1,3 +1,6 @@
+### 7.14.14 2023-11-28
+- fix: SKFP-852 fix typo for xss to xxs
+
 ### 7.14.13 2023-11-23
 - fix: SKFP-852 fix conflict between drag and click
 
