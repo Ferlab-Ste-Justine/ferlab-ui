@@ -1,3 +1,6 @@
+### 7.14.15 2023-11-28
+- fix: SKFP-852 minor update to fix pipeline
+
 ### 7.14.14 2023-11-28
 - fix: SKFP-852 fix typo for xss to xxs
 
