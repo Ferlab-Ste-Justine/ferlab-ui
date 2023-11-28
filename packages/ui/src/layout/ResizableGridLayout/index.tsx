@@ -40,7 +40,7 @@ export interface IResizableGridLayoutConfig {
     md?: ILayoutItemConfig;
     sm?: ILayoutItemConfig;
     xs?: ILayoutItemConfig;
-    xss?: ILayoutItemConfig;
+    xxs?: ILayoutItemConfig;
 }
 
 export type TSerializedResizableGridLayoutConfig = Omit<IResizableGridLayoutConfig, 'component'>;

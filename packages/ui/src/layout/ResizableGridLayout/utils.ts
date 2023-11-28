@@ -43,7 +43,7 @@ export const observedPhenotypeDefaultGridConfig = {
         x: 0,
         y: 0,
     },
-    xss: {
+    xxs: {
         h: 4,
         w: 4,
         x: 0,
@@ -83,7 +83,7 @@ export const mondoDefaultGridConfig = {
         x: 0,
         y: 4,
     },
-    xss: {
+    xxs: {
         h: 4,
         w: 4,
         x: 0,
@@ -124,7 +124,7 @@ export const demographicsDefaultGridConfig = {
         x: 0,
         y: 8,
     },
-    xss: {
+    xxs: {
         h: 2,
         w: 4,
         x: 0,
@@ -165,7 +165,7 @@ export const ageAtDiagnosisDefaultGridConfig = {
         x: 0,
         y: 10,
     },
-    xss: {
+    xxs: {
         h: 2,
         w: 4,
         x: 0,
@@ -206,7 +206,7 @@ export const dataCategoryDefaultGridConfig = {
         x: 0,
         y: 12,
     },
-    xss: {
+    xxs: {
         h: 2,
         w: 4,
         x: 0,
@@ -247,7 +247,7 @@ export const studiesDefaultGridConfig = {
         x: 0,
         y: 14,
     },
-    xss: {
+    xxs: {
         h: 3,
         w: 4,
         x: 0,
@@ -288,7 +288,7 @@ export const dataTypeDefaultGridConfig = {
         x: 0,
         y: 17,
     },
-    xss: {
+    xxs: {
         h: 4,
         w: 4,
         x: 0,
