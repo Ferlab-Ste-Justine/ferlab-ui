@@ -60,7 +60,11 @@ const GridCardHeader = ({
                     {
                         <div className={styles.titleContainer} style={{ width: titleWidth }}>
                             <Tooltip title={truncated ? title : undefined}>
-                                <Typography.Text ellipsis={{ onEllipsis: setTruncated }} style={{ width: titleWidth }}>
+                                <Typography.Text
+                                    ellipsis={{ onEllipsis: setTruncated }}
+                                    style={{ width: titleWidth }}
+                                    tabIndex={0}
+                                >
                                     {title}
                                 </Typography.Text>
                             </Tooltip>

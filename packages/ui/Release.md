@@ -1,3 +1,6 @@
+### 7.16.0 2023-11-29
+- fix: SKFP-827 Update nivo, add accessibility settings for GridCard, Bar and Pie chart
+
 ### 7.15.0 2023-11-29
 - fix: CQDG-490 Add Popover on ProTable title
 

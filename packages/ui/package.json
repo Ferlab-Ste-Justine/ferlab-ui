@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "7.15.0",
+    "version": "7.16.0",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -85,10 +85,10 @@
         "@dnd-kit/core": "^4.0.3",
         "@dnd-kit/sortable": "^5.1.0",
         "@dnd-kit/utilities": "^3.2.0",
-        "@nivo/bar": "^0.80.0",
-        "@nivo/core": "^0.80.0",
-        "@nivo/pie": "^0.80.0",
-        "@nivo/tooltip": "^0.80.0",
+        "@nivo/bar": "^0.84.0",
+        "@nivo/core": "^0.84.0",
+        "@nivo/pie": "^0.84.0",
+        "@nivo/tooltip": "^0.84.0",
         "classnames": "^2.2.6",
         "command-line-args": "^5.1.1",
         "cross-spawn": "^7.0.3",

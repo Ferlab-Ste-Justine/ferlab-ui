@@ -40,5 +40,47 @@ export default {
 
 
 export const BarChartStory = () => (
-    <BarChart title="Bar Chart Example" data={data}  />
+    <>
+        <h2>Bar chart</h2>
+        <div style={{width: '600px', height: '600px' }}>
+            <BarChart 
+                title="Bar Chart Example" 
+                data={data} 
+                margin={{
+                    top: 12,
+                    bottom: 45,
+                    left: 60,
+                    right: 24,
+                }}
+            />
+        </div>
+    </>
+);
+
+export const BarChartWithLegendStory = () => (
+    <>
+        <h2>Bar chart</h2>
+        <div style={{marginLeft: '45px', width: '600px', height: '600px' }}>
+            <BarChart 
+                title="Bar Chart Example" 
+                data={data}
+                axisLeft={{
+                    legend: 'Legend Left',
+                    legendPosition: 'middle',
+                    legendOffset: -45,
+                }}
+                axisBottom={{
+                    legend: 'Legend Bottom',
+                    legendPosition: 'middle',
+                    legendOffset: 25,
+                }}
+                margin={{
+                    top: 12,
+                    bottom: 45,
+                    left: 60,
+                    right: 24,
+                }}
+            />
+        </div>
+    </>
 );

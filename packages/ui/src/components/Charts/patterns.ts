@@ -1,0 +1,38 @@
+export const defs = [
+    {
+        background: 'inherit',
+        color: 'rgba(255,255,255,0.15)',
+        id: 'squares',
+        padding: 2,
+        size: 2,
+        stagger: true,
+        type: 'patternSquares',
+    },
+    {
+        background: 'inherit',
+        color: 'rgba(255,255,255,0.15)',
+        id: 'line-left',
+        rotation: -45,
+        size: 4,
+        stagger: true,
+        type: 'patternLines',
+    },
+    {
+        background: 'inherit',
+        color: 'rgba(255,255,255,0.15)',
+        id: 'dots',
+        padding: 4,
+        size: 2,
+        stagger: true,
+        type: 'patternDots',
+    },
+    {
+        background: 'inherit',
+        color: 'rgba(255,255,255,0.15)',
+        id: 'line-right',
+        rotation: 45,
+        size: 4,
+        stagger: true,
+        type: 'patternLines',
+    },
+];
