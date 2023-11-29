@@ -32,7 +32,11 @@ export const getTitleByType = (column: ProColumnType): React.ReactNode => {
         );
     }
     if (column.popoverProps) {
-        return <Popover {...column.popoverProps}>{titleToUse}</Popover>;
+        return (
+            <Popover className={styles.dotted} {...column.popoverProps}>
+                {titleToUse}
+            </Popover>
+        );
     }
     if (column.tooltip) {
         return (
