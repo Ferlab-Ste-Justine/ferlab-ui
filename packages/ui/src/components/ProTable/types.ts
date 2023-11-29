@@ -1,5 +1,6 @@
 import { ReactElement, ReactNode } from 'react';
 import { TableProps } from 'antd';
+import { PopoverProps } from 'antd';
 import { ColumnType, TablePaginationConfig } from 'antd/lib/table';
 
 import { IQueryConfig, ISearchAfter, TQueryConfigCb } from '../../graphql/types';
@@ -60,10 +61,11 @@ export interface IProTableDictionary {
 
 export interface ProColumnType<T = any> extends ColumnType<T> {
     key: string;
-    title: ReactNode;
+    title: string;
     icon?: ReactElement;
     iconTitle?: ReactNode;
     tooltip?: ReactNode;
+    popoverProps?: PopoverProps;
     defaultHidden?: boolean;
 }
 

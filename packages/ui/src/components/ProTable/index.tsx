@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DownloadOutlined } from '@ant-design/icons';
-import { Button, Space, Table, Tooltip } from 'antd';
+import { Button, Popover, Space, Table, Tooltip } from 'antd';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
 
@@ -203,19 +203,8 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     };
 
     const getTitleByType = (column: ProColumnType) => {
-        const titleToUse = column.iconTitle ? column.iconTitle : column.title;
-        let title = column.tooltip ? (
-            <span
-                style={{
-                    borderBottom: '1px dotted',
-                }}
-            >
-                {titleToUse}
-            </span>
-        ) : (
-            titleToUse
-        );
-
+        const titleToUse = column.iconTitle || column.title;
+        let title = column.tooltip ? <span style={{ borderBottom: '1px dotted' }}>{titleToUse}</span> : titleToUse;
         title =
             column.icon && !column.iconTitle ? (
                 <Space size={3}>
@@ -224,8 +213,8 @@ const ProTable = <RecordType extends object & { key: string } = any>({
             ) : (
                 title
             );
-
         title = column.tooltip ? <Tooltip title={column.tooltip}>{title}</Tooltip> : title;
+        title = column.popoverProps ? <Popover {...column.popoverProps}>{column.title}</Popover> : title;
         return title;
     };
 

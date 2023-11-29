@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from 'react';
-import { Space, Table, Tooltip, Typography } from 'antd';
+import { Popover, Space, Table, Tooltip, Typography } from 'antd';
 import { TableProps } from 'antd/lib/table';
 
 import { ProColumnType, ProColumnTypes } from '../../ProTable/types';
@@ -39,6 +39,7 @@ const ExpandableTable = ({
                 title
             );
         title = column.tooltip ? <Tooltip title={column.tooltip}>{title}</Tooltip> : title;
+        title = column.popoverProps ? <Popover {...column.popoverProps}>{column.title}</Popover> : title;
         return { ...column, title } as ProColumnType;
     };
 
