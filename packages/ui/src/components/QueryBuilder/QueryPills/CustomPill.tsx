@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { EditOutlined } from '@ant-design/icons';
 import { Button, Typography } from 'antd';
+import cx from 'classnames';
 
 import { IValueQuery } from '../../../data/sqon/types';
 import EditCustomPillModal from '../../CustomPill/QueriesSidebar/EditCustomPillModal';
@@ -42,10 +43,8 @@ const CustomPill = ({ isBarActive, onRemove, valueFilter }: ICustomPillProps): J
         }
     }, [valueFilter]);
 
-    const color = isBarActive ? styles.activeCustomPill : styles.disableCustomPill;
-
     return (
-        <div className={`${styles.customPillWrapper} ${color}`}>
+        <div className={cx(styles.customPillWrapper, { [styles.selected]: isBarActive })}>
             <div className={styles.titleWrapper}>
                 <Typography.Text className={styles.title}>{valueFilter.title}</Typography.Text>
                 <Button
@@ -58,7 +57,10 @@ const CustomPill = ({ isBarActive, onRemove, valueFilter }: ICustomPillProps): J
                     size="small"
                 />
             </div>
-            <Button className={styles.close} type="text">
+            <Button
+                className={`${styles.close} ${isBarActive ? styles.closeActive : styles.closeInactive}`}
+                type="text"
+            >
                 <AiOutlineClose
                     onClick={(e) => {
                         e.stopPropagation();
