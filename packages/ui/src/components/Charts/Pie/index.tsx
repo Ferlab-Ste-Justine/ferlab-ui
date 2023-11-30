@@ -4,6 +4,7 @@ import { BasicTooltip } from '@nivo/tooltip';
 import { Typography } from 'antd';
 
 import { numberFormat } from '../../../utils/numberUtils';
+import { defs } from '../patterns';
 
 import styles from './index.module.scss';
 
@@ -27,36 +28,47 @@ const PieChart = ({
     valueFormat = (value) => `${numberFormat(value ?? 0)}`,
     title,
     ...rest
-}: TPieChart): JSX.Element => (
-    <div className={styles.pieChartWrapper}>
-        <div className={styles.pieChartContent}>
-            <ResponsivePie
-                enableArcLabels={false}
-                enableArcLinkLabels={false}
-                margin={margin}
-                onMouseEnter={(_: any, e: any) => {
-                    if (onMouseEnter) {
-                        onMouseEnter(_, e);
-                    }
-                    e.target.style.cursor = 'pointer';
-                }}
-                tooltip={(value) => (
-                    <BasicTooltip
-                        color={value.datum.color}
-                        id={value.datum.id.toString()}
-                        value={numberFormat(value.datum.value)}
-                    />
+}: TPieChart): JSX.Element => {
+    const fill = rest.data?.map((d, index) => ({
+        id: defs[index % defs.length].id,
+        match: {
+            id: d.id,
+        },
+    }));
+    return (
+        <div className={styles.pieChartWrapper}>
+            <div className={styles.pieChartContent}>
+                <ResponsivePie
+                    aria-label={title}
+                    defs={defs}
+                    enableArcLabels={false}
+                    enableArcLinkLabels={false}
+                    fill={fill}
+                    margin={margin}
+                    onMouseEnter={(_: any, e: any) => {
+                        if (onMouseEnter) {
+                            onMouseEnter(_, e);
+                        }
+                        e.target.style.cursor = 'pointer';
+                    }}
+                    tooltip={(value) => (
+                        <BasicTooltip
+                            color={value.datum.color}
+                            id={value.datum.id.toString()}
+                            value={numberFormat(value.datum.value)}
+                        />
+                    )}
+                    valueFormat={valueFormat}
+                    {...rest}
+                />
+                {title && (
+                    <Title className={styles.title} level={5}>
+                        {title}
+                    </Title>
                 )}
-                valueFormat={valueFormat}
-                {...rest}
-            />
-            {title && (
-                <Title className={styles.title} level={5}>
-                    {title}
-                </Title>
-            )}
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 export default PieChart;

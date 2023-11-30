@@ -1,4 +1,4 @@
-import PieChart, { TPieChart } from '@ferlab/ui/components/Charts/Pie';
+import PieChart from '@ferlab/ui/components/Charts/Pie';
 import { Meta } from "@storybook/react/types-6-0";
 import React from "react";
 
@@ -39,53 +39,52 @@ export default {
 } as Meta;
 
 
-const PieChartStory = ({
-    storyTitle,
-    ...props
-}: {
-    storyTitle: string;
-    props: TPieChart;
-}) => (
+
+export const PieChartBasic = () => (
+
     <>
-        <h2>{storyTitle}</h2>
+        <h2>Pie Chart</h2>
         <div style={{width: '600px', height: '600px' }}>
-            <PieChart data={data} {...props} width={400} height={500} />
+            <PieChart 
+            data={data} 
+            width={400} 
+            height={500} 
+            />
         </div>
     </>
-);
+)
+export const PieChartWithLegend = () => (
 
-
-export const PieChartBasic = PieChartStory.bind({});
-PieChartBasic.args = {
-    storyTitle: 'Pie Chart',
-};
-
-
-export const PieChartWithLegends = PieChartStory.bind({});
-PieChartWithLegends.args = {
-    storyTitle: 'Pie Chart With Legend',
-    legends: [{
-        anchor: 'bottom',
-        direction: 'row',
-        justify: false,
-        translateX: 0,
-        translateY: 0,
-        itemsSpacing: 0,
-        itemWidth: 100,
-        itemHeight: 18,
-        itemTextColor: '#999',
-        itemDirection: 'left-to-right',
-        itemOpacity: 1,
-        symbolSize: 18,
-        symbolShape: 'circle',
-        effects: [
-            {
-                on: 'hover',
-                style: {
-                    itemTextColor: '#000'
-                }
-            }
-        ]
-    }]
-};
-
+    <>
+        <h2>Pie Chart with Legend</h2>
+        <div style={{width: '600px', height: '600px' }}>
+            <PieChart 
+                data={data} 
+                width={400} 
+                height={500} 
+                legends={[{
+                    anchor: 'bottom',
+                    direction: 'row',
+                    justify: false,
+                    translateX: 0,
+                    translateY: 0,
+                    itemsSpacing: 0,
+                    itemWidth: 100,
+                    itemHeight: 18,
+                    itemTextColor: '#999',
+                    itemDirection: 'left-to-right',
+                    itemOpacity: 1,
+                    symbolSize: 18,
+                    symbolShape: 'circle',
+                    effects: [
+                        {
+                            on: 'hover',
+                            style: {
+                                itemTextColor: '#000'
+                            }
+                        }
+                    ]}]}
+            />
+        </div>
+    </>
+)
