@@ -1,7 +1,8 @@
 import React, { ReactElement, useState } from 'react';
-import { Space, Table, Tooltip, Typography } from 'antd';
+import { Table, Typography } from 'antd';
 import { TableProps } from 'antd/lib/table';
 
+import { getTitleByType } from '../../ProTable';
 import { ProColumnType, ProColumnTypes } from '../../ProTable/types';
 
 import styles from './index.module.scss';
@@ -26,29 +27,11 @@ const ExpandableTable = ({
     const sliceNum = showAll ? dataTotalLength : nOfElementsWhenCollapsed;
     const showButton = dataTotalLength > nOfElementsWhenCollapsed;
     const hiddenNum = dataTotalLength - sliceNum;
-
-    const getColumnTitleOrTooltip = (column: ProColumnTypes) => {
-        const titleToUse = column.iconTitle || column.title;
-        let title = column.tooltip ? <span style={{ borderBottom: '1px dotted' }}>{titleToUse}</span> : titleToUse;
-        title =
-            column.icon && !column.iconTitle ? (
-                <Space size={3}>
-                    {column.icon} {title}
-                </Space>
-            ) : (
-                title
-            );
-        title = column.tooltip ? <Tooltip title={column.tooltip}>{title}</Tooltip> : title;
-        return { ...column, title } as ProColumnType;
-    };
+    const columnsWithTitles = columns?.map((column) => ({ ...column, title: getTitleByType(column as ProColumnType) }));
 
     return (
         <>
-            <Table
-                {...tableProps}
-                columns={columns?.map(getColumnTitleOrTooltip)}
-                dataSource={(dataSource || []).slice(0, sliceNum)}
-            />
+            <Table {...tableProps} columns={columnsWithTitles} dataSource={(dataSource || []).slice(0, sliceNum)} />
             {showButton && (
                 <Typography.Link className={styles.fuiExpandableTableBtn} onClick={() => setShowAll(!showAll)}>
                     {buttonText(showAll, hiddenNum)} {showAll ? '-' : '+'}

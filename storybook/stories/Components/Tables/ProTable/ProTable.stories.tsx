@@ -58,6 +58,23 @@ BasicTable.args = {
             dataIndex: "column_four",
             defaultHidden: true,
         },
+        {
+            key: "column_five",
+            title: "Column 5",
+            dataIndex: "column_five",
+            defaultHidden: false,
+            popoverProps: {
+                title: "This is the popover title",
+                content: "This is the popover content",
+            },
+        },
+        {
+            key: "column_six",
+            title: "Column 6",
+            dataIndex: "column_six",
+            defaultHidden: false,
+            tooltip:"This is the tooltip content",
+        },
     ],
     dataSource: [
         {
@@ -83,6 +100,20 @@ BasicTable.args = {
         },
         {
             key: "4",
+            column_one: "test",
+            column_two: "test",
+            column_three: "test",
+            column_four: "test",
+        },
+        {
+            key: "5",
+            column_one: "test",
+            column_two: "test",
+            column_three: "test",
+            column_four: "test",
+        },
+        {
+            key: "6",
             column_one: "test",
             column_two: "test",
             column_three: "test",

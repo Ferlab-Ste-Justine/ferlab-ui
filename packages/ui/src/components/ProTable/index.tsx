@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DownloadOutlined } from '@ant-design/icons';
-import { Button, Space, Table, Tooltip } from 'antd';
+import { Button, Popover, Space, Table, Tooltip } from 'antd';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
 
@@ -21,6 +21,32 @@ import {
 } from './types';
 
 import styles from './index.module.scss';
+
+export const getTitleByType = (column: ProColumnType): React.ReactNode => {
+    let titleToUse = column.iconTitle || column.title;
+    if (column.icon) {
+        titleToUse = (
+            <Space size={3}>
+                {column.icon} {titleToUse}
+            </Space>
+        );
+    }
+    if (column.popoverProps) {
+        return (
+            <Popover className={styles.dotted} {...column.popoverProps}>
+                {titleToUse}
+            </Popover>
+        );
+    }
+    if (column.tooltip) {
+        return (
+            <Tooltip className={styles.dotted} title={column.tooltip}>
+                {titleToUse}
+            </Tooltip>
+        );
+    }
+    return titleToUse;
+};
 
 type staticTable = {
     left: TColumnStates;
@@ -200,33 +226,6 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         }
 
         return customExtra;
-    };
-
-    const getTitleByType = (column: ProColumnType) => {
-        const titleToUse = column.iconTitle ? column.iconTitle : column.title;
-        let title = column.tooltip ? (
-            <span
-                style={{
-                    borderBottom: '1px dotted',
-                }}
-            >
-                {titleToUse}
-            </span>
-        ) : (
-            titleToUse
-        );
-
-        title =
-            column.icon && !column.iconTitle ? (
-                <Space size={3}>
-                    {column.icon} {title}
-                </Space>
-            ) : (
-                title
-            );
-
-        title = column.tooltip ? <Tooltip title={column.tooltip}>{title}</Tooltip> : title;
-        return title;
     };
 
     const generateColumnTitle = (column: ProColumnTypes<RecordType>) => {
