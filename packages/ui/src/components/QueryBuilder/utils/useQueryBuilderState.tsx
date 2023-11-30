@@ -3,7 +3,13 @@ import { isEmpty } from 'lodash';
 import { v4 } from 'uuid';
 
 import { BooleanOperators, RangeOperators, TermOperators } from '../../../data/sqon/operators';
-import { IRemoteComponent, TSqonGroupOp } from '../../../data/sqon/types';
+import {
+    IRemoteComponent,
+    IValueFilter,
+    IValueQuery,
+    TSqonGroupOp,
+    TSyntheticSqonContentValue,
+} from '../../../data/sqon/types';
 import { ISyntheticSqon, MERGE_VALUES_STRATEGIES } from '../../../data/sqon/types';
 import {
     createInlineFilters,
@@ -42,7 +48,7 @@ export const addQuery = ({
     queryBuilderId: string;
     query: ISyntheticSqon;
     setAsActive?: boolean;
-}) => {
+}): void => {
     const qbState = getQueryBuilderState(queryBuilderId);
     const queries = qbState?.state ?? [];
     const hasEmptyQuery = queries.find(({ content }) => isEmpty(content));
@@ -172,7 +178,7 @@ const updateQuery = ({ query, queryBuilderId }: { queryBuilderId: string; query:
         queryToUpdate.op = query.op;
     }
 
-    setQueryBuilderState(queryBuilderId, qbState!);
+    qbState && setQueryBuilderState(queryBuilderId, qbState);
 };
 
 export const updateQueryByTableFilter = ({
@@ -196,6 +202,22 @@ export const updateQueryByTableFilter = ({
         queryBuilderId: queryBuilderId,
     });
 
+export const removePillFromQueryBuilder = (pillId: string, queryBuilderId: string): void => {
+    const qbState = getQueryBuilderState(queryBuilderId);
+    const updatedState = qbState?.state?.map((sqon: ISyntheticSqon) => {
+        const newContent = sqon.content.map((sqonContent: TSyntheticSqonContentValue) => {
+            if ((sqonContent as IValueFilter).id !== pillId) return sqonContent;
+        });
+        return { ...sqon, content: newContent.filter((el) => el !== undefined) };
+    });
+    setQueryBuilderState(queryBuilderId, { ...qbState, state: updatedState as ISyntheticSqon[] });
+};
+
+export const addPillToQueryBuilder = (pill: IValueQuery, queryBuilderId: string): void => {
+    const activeQuery = getActiveQuery(queryBuilderId);
+    updateQuery({ query: { ...activeQuery, content: [...activeQuery.content, pill] }, queryBuilderId });
+};
+
 /**
  * Update the state of a given QueryBuilder.
  * Dispatch a custom QueryBuilder Update event.
@@ -204,7 +226,7 @@ export const updateQueryByTableFilter = ({
  * @param value The new state value
  * ```
  */
-export const setQueryBuilderState = (queryBuilderId: string, value: IQueryBuilderState) => {
+export const setQueryBuilderState = (queryBuilderId: string, value: IQueryBuilderState): void => {
     const QBUpdateEvent: TQBStateUpdateEvent = new Event(QB_UPDATE_EVENT_KEY);
 
     QBUpdateEvent.qbID = queryBuilderId;
@@ -214,7 +236,7 @@ export const setQueryBuilderState = (queryBuilderId: string, value: IQueryBuilde
     document.dispatchEvent(QBUpdateEvent);
 };
 
-export const defaultQueryBuilderState = (queryBuilderId: string) => {
+export const defaultQueryBuilderState = (queryBuilderId: string): IQueryBuilderState => {
     const defaultSqon = getDefaultSyntheticSqon();
     const newQbState: IQueryBuilderState = {
         active: defaultSqon.id,
