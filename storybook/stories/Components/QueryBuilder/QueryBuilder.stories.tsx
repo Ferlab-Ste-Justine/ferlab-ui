@@ -1,49 +1,41 @@
-import QueryBuilder, {
-    IQueryBuilderProps,
-} from "@ferlab/ui/components/QueryBuilder";
-import { setQueryBuilderState } from "@ferlab/ui/components/QueryBuilder/utils/useQueryBuilderState";
-import { IRemoteComponent } from "@ferlab/ui/data/sqon/types";
-import { Meta, Story } from "@storybook/react/types-6-0";
-import React from "react";
-import { MdPeople } from "react-icons/md";
+import QueryBuilder, { IQueryBuilderProps } from '@ferlab/ui/components/QueryBuilder';
+import { setQueryBuilderState } from '@ferlab/ui/components/QueryBuilder/utils/useQueryBuilderState';
+import { IRemoteComponent } from '@ferlab/ui/data/sqon/types';
+import { Meta, Story } from '@storybook/react/types-6-0';
+import React from 'react';
+import { MdPeople } from 'react-icons/md';
 
 export default {
-    title: "@ferlab/Components/QueryBuilder/QueryBuilder",
+    title: '@ferlab/Components/QueryBuilder/QueryBuilder',
     component: QueryBuilder,
     decorators: [(Story) => <Story />],
     argTypes: {
         className: {
-            control: "text",
+            control: 'text',
         },
         dictionary: {
-            control: "object",
+            control: 'object',
         },
         total: {
-            control: "number",
+            control: 'number',
         },
         loading: {
-            control: "boolean",
+            control: 'boolean',
         },
         enableCombine: {
-            control: "boolean",
+            control: 'boolean',
         },
     },
 } as Meta;
 
-const QueryBuilderStory = ({
-    title,
-    ...props
-}: {
-    title: string;
-    props: Story<IQueryBuilderProps>;
-}) => (
+const QueryBuilderStory = ({ title, ...props }: { title: string; props: Story<IQueryBuilderProps> }) => (
     <>
         <h3>{title}</h3>
         <QueryBuilder {...props} />
     </>
 );
 
-const QB_ID = "storybook-qb-id";
+const QB_ID = 'storybook-qb-id';
 
 const defaultResolveCountPromise = (sqon: any) => sqon;
 
@@ -59,7 +51,7 @@ const defaultFetchQuerCount = async () => {
 export const Empty = QueryBuilderStory.bind({});
 Empty.args = {
     id: QB_ID,
-    title: "Empty",
+    title: 'Empty',
     total: 1350,
     enableSingleQuery: true,
     currentQuery: (f: any) => f,
@@ -71,34 +63,34 @@ Empty.args = {
 
 /* Empty */
 export const WithShowLabelsButton = QueryBuilderStory.bind({});
-const withShowLabelQbId = QB_ID + "WithShowLabelsButton";
+const withShowLabelQbId = QB_ID + 'WithShowLabelsButton';
 setQueryBuilderState(withShowLabelQbId, {
     state: [
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
                     content: {
-                        value: ["something"],
-                        field: "test",
+                        value: ['something'],
+                        field: 'test',
                     },
-                    op: "in",
+                    op: 'in',
                 },
                 {
-                    content: { value: ["false"], field: "test1" },
-                    op: "in",
+                    content: { value: ['false'], field: 'test1' },
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "1",
+            id: '1',
         },
     ],
-    active: "1",
+    active: '1',
 });
 WithShowLabelsButton.args = {
     id: withShowLabelQbId,
     enableShowHideLabels: true,
-    title: "With Show Hide Labels Enable",
+    title: 'With Show Hide Labels Enable',
     currentQuery: (f: any) => f,
     onRemoveFacet: (f: any) => f,
     onChangeQuery: (f: any) => f,
@@ -108,29 +100,29 @@ WithShowLabelsButton.args = {
 
 /* 1 query */
 export const OneQuery = QueryBuilderStory.bind({});
-const oneQueryQbId = QB_ID + "OneQuery";
+const oneQueryQbId = QB_ID + 'OneQuery';
 setQueryBuilderState(oneQueryQbId, {
     state: [
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
                     content: {
-                        value: ["something"],
-                        field: "test",
+                        value: ['something'],
+                        field: 'test',
                     },
-                    op: "in",
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "1",
+            id: '1',
         },
     ],
-    active: "1",
+    active: '1',
 });
 OneQuery.args = {
     id: oneQueryQbId,
-    title: "1 Query",
+    title: '1 Query',
     onRemoveFacet: (f: any) => f,
     onChangeQuery: (f: any) => f,
     getResolvedQueryForCount: defaultResolveCountPromise,
@@ -139,29 +131,85 @@ OneQuery.args = {
 
 /* 1 query */
 export const SingleQuery = QueryBuilderStory.bind({});
-const singleQueryQbId = QB_ID + "SingleQuery";
+const singleQueryQbId = QB_ID + 'SingleQuery';
 setQueryBuilderState(singleQueryQbId, {
     state: [
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
                     content: {
-                        value: ["something"],
-                        field: "test",
+                        value: ['something'],
+                        field: 'test',
                     },
-                    op: "in",
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "1",
+            id: '1',
         },
     ],
-    active: "1",
+    active: '1',
 });
 SingleQuery.args = {
     id: singleQueryQbId,
-    title: "Single Query",
+    title: 'Single Query',
+    enableSingleQuery: true,
+    onRemoveFacet: (f: any) => f,
+    onChangeQuery: (f: any) => f,
+    getResolvedQueryForCount: defaultResolveCountPromise,
+    fetchQueryCount: defaultFetchQuerCount,
+};
+
+/* 1 query with custom pill */
+export const WithCustomPillQuery = QueryBuilderStory.bind({});
+const withCustomPillQueryQbId = QB_ID + 'WithcustomPillQuery';
+setQueryBuilderState(withCustomPillQueryQbId, {
+    state: [
+        {
+            op: 'and',
+            content: [
+                {
+                    content: {
+                        value: ['something'],
+                        field: 'test',
+                    },
+                    op: 'in',
+                },
+
+                {
+                    id: '32b6117d-81e1-4335-bcad-28d2544f29fd',
+                    op: 'and',
+                    content: [
+                        {
+                            op: 'in',
+                            content: {
+                                field: 'consequences.consequences',
+                                index: 'Variants',
+                                value: ['intron_variant', 'downstream_gene_variant', 'upstream_gene_variant'],
+                            },
+                        },
+                        {
+                            op: 'in',
+                            content: {
+                                field: 'variant_class',
+                                index: 'Variants',
+                                value: ['SNV', 'deletion'],
+                            },
+                        },
+                    ],
+                    title: 'Ceci est une pilule',
+                },
+            ],
+            total: 1500,
+            id: '1',
+        },
+    ],
+    active: '1',
+});
+WithCustomPillQuery.args = {
+    id: withCustomPillQueryQbId,
+    title: '1 Query with custom pill',
     enableSingleQuery: true,
     onRemoveFacet: (f: any) => f,
     onChangeQuery: (f: any) => f,
@@ -171,29 +219,29 @@ SingleQuery.args = {
 
 /* 1 query with icon */
 export const WithIconQuery = QueryBuilderStory.bind({});
-const withIconQbId = QB_ID + "WithIconQuery";
+const withIconQbId = QB_ID + 'WithIconQuery';
 setQueryBuilderState(withIconQbId, {
     state: [
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
                     content: {
-                        value: ["something"],
-                        field: "test",
+                        value: ['something'],
+                        field: 'test',
                     },
-                    op: "in",
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "1",
+            id: '1',
         },
     ],
-    active: "1",
+    active: '1',
 });
 WithIconQuery.args = {
     id: withIconQbId,
-    title: "1 Query With Icon",
+    title: '1 Query With Icon',
     onRemoveFacet: (f: any) => f,
     onChangeQuery: (f: any) => f,
     getResolvedQueryForCount: defaultResolveCountPromise,
@@ -203,65 +251,65 @@ WithIconQuery.args = {
 
 /* multi query */
 export const MultiQuery = QueryBuilderStory.bind({});
-const MultiQueryQbId = QB_ID + "MultiQuery";
+const MultiQueryQbId = QB_ID + 'MultiQuery';
 setQueryBuilderState(MultiQueryQbId, {
     state: [
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
                     content: {
-                        value: ["something", "else", "more", "perfect"],
-                        field: "Test",
+                        value: ['something', 'else', 'more', 'perfect'],
+                        field: 'Test',
                     },
-                    op: "in",
+                    op: 'in',
                 },
                 {
                     content: {
-                        value: ["something", "else", "more", "perfect"],
-                        field: "More Data",
+                        value: ['something', 'else', 'more', 'perfect'],
+                        field: 'More Data',
                     },
-                    op: "in",
+                    op: 'in',
                 },
                 {
                     content: {
-                        value: ["something", "else", "more", "perfect"],
-                        field: "Test 2",
+                        value: ['something', 'else', 'more', 'perfect'],
+                        field: 'Test 2',
                     },
-                    op: "in",
+                    op: 'in',
                 },
                 {
                     content: {
-                        value: ["something", "else", "more", "perfect"],
-                        field: "Test 3",
+                        value: ['something', 'else', 'more', 'perfect'],
+                        field: 'Test 3',
                     },
-                    op: "in",
+                    op: 'in',
                 },
                 {
-                    content: { value: [10, 15], field: "age" },
-                    op: "between",
+                    content: { value: [10, 15], field: 'age' },
+                    op: 'between',
                 },
             ],
             total: 1500,
-            id: "1",
+            id: '1',
         },
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
-                    content: { value: ["cram"], field: "Data Type" },
-                    op: "in",
+                    content: { value: ['cram'], field: 'Data Type' },
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "2",
+            id: '2',
         },
     ],
-    active: "2",
+    active: '2',
 });
 MultiQuery.args = {
     id: MultiQueryQbId,
-    title: "Multi Query",
+    title: 'Multi Query',
     onRemoveFacet: (f: any) => f,
     onChangeQuery: (f: any) => f,
     getResolvedQueryForCount: defaultResolveCountPromise,
@@ -270,67 +318,67 @@ MultiQuery.args = {
 
 /* multi query with combine */
 export const MultiQueryWithCombine = QueryBuilderStory.bind({});
-const MultiQueryWithCombineQbId = QB_ID + "MultiQueryWithCombine";
+const MultiQueryWithCombineQbId = QB_ID + 'MultiQueryWithCombine';
 setQueryBuilderState(MultiQueryWithCombineQbId, {
     state: [
         {
-            op: "or",
+            op: 'or',
             content: [
                 {
-                    content: { value: ["something"], field: "Test 1" },
-                    op: "in",
+                    content: { value: ['something'], field: 'Test 1' },
+                    op: 'in',
                 },
                 {
-                    content: { value: ["else"], field: "Test 2" },
-                    op: "in",
+                    content: { value: ['else'], field: 'Test 2' },
+                    op: 'in',
                 },
                 {
-                    content: { value: ["more"], field: "Test 3" },
-                    op: "in",
+                    content: { value: ['more'], field: 'Test 3' },
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "1",
+            id: '1',
         },
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
-                    content: { value: ["something"], field: "Test 1" },
-                    op: "in",
+                    content: { value: ['something'], field: 'Test 1' },
+                    op: 'in',
                 },
                 {
-                    content: { value: ["else"], field: "Test 2" },
-                    op: "in",
+                    content: { value: ['else'], field: 'Test 2' },
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "2",
+            id: '2',
         },
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
-                    content: { value: ["something"], field: "Test 1" },
-                    op: "in",
+                    content: { value: ['something'], field: 'Test 1' },
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "3",
+            id: '3',
         },
         {
-            op: "and",
+            op: 'and',
             content: [0, 1, 2],
             total: 3000,
-            id: "4",
+            id: '4',
         },
     ],
-    active: "1",
+    active: '1',
 });
 MultiQueryWithCombine.args = {
     id: MultiQueryWithCombineQbId,
-    title: "Multi Query With Combine",
-    cacheKey: "test",
+    title: 'Multi Query With Combine',
+    cacheKey: 'test',
     enableCombine: true,
     onRemoveFacet: (f: any) => f,
     onChangeQuery: (f: any) => f,
@@ -340,40 +388,40 @@ MultiQueryWithCombine.args = {
 
 /* with header */
 export const WithQueryPillFilters = QueryBuilderStory.bind({});
-const withQueryPillFilterQbId = QB_ID + "WithQueryPillFilters";
+const withQueryPillFilterQbId = QB_ID + 'WithQueryPillFilters';
 setQueryBuilderState(withQueryPillFilterQbId, {
     state: [
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
                     content: {
-                        value: ["something", "else", "more", "perfect"],
-                        field: "test",
+                        value: ['something', 'else', 'more', 'perfect'],
+                        field: 'test',
                     },
-                    op: "in",
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "1",
+            id: '1',
         },
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
-                    content: { value: ["else"], field: "test" },
-                    op: "in",
+                    content: { value: ['else'], field: 'test' },
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "2",
+            id: '2',
         },
     ],
-    active: "1",
+    active: '1',
 });
 WithQueryPillFilters.args = {
     id: withQueryPillFilterQbId,
-    title: "With Query Pill Filters",
+    title: 'With Query Pill Filters',
     showHeader: true,
     showHeaderTools: true,
     onRemoveFacet: (f: any) => f,
@@ -388,32 +436,32 @@ WithQueryPillFilters.args = {
 
 /* with header */
 export const WithHeader = QueryBuilderStory.bind({});
-const withHeaderQbId = QB_ID + "WithHeader";
+const withHeaderQbId = QB_ID + 'WithHeader';
 setQueryBuilderState(withHeaderQbId, {
     state: [
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
                     content: {
-                        value: ["something"],
-                        field: "test",
+                        value: ['something'],
+                        field: 'test',
                     },
-                    op: "in",
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "1",
+            id: '1',
         },
     ],
-    active: "1",
+    active: '1',
 });
 WithHeader.args = {
     id: withHeaderQbId,
-    title: "With Header",
+    title: 'With Header',
     headerConfig: {
         showHeader: true,
-        defaultTitle: "Queries",
+        defaultTitle: 'Queries',
     },
     onRemoveFacet: (f: any) => f,
     onChangeQuery: (f: any) => f,
@@ -424,42 +472,42 @@ WithHeader.args = {
 
 /* with header */
 export const WithHeaderAndTools = QueryBuilderStory.bind({});
-const withHeaderAndToolsQbID = QB_ID + "WithHeaderAndTools";
+const withHeaderAndToolsQbID = QB_ID + 'WithHeaderAndTools';
 setQueryBuilderState(withHeaderAndToolsQbID, {
     state: [
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
                     content: {
-                        value: ["something 1", "else 2", "more 2", "perfect 2"],
-                        field: "test",
+                        value: ['something 1', 'else 2', 'more 2', 'perfect 2'],
+                        field: 'test',
                     },
-                    op: "in",
+                    op: 'in',
                 },
                 {
                     content: {
-                        value: ["something 2", "else 3", "more 3", "perfect 3"],
-                        field: "test2",
+                        value: ['something 2', 'else 3', 'more 3', 'perfect 3'],
+                        field: 'test2',
                     },
-                    op: "in",
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "1",
+            id: '1',
         },
     ],
-    active: "1",
+    active: '1',
 });
 WithHeaderAndTools.args = {
     id: withHeaderAndToolsQbID,
-    title: "With header and header tools",
+    title: 'With header and header tools',
     getResolvedQueryForCount: defaultResolveCountPromise,
     fetchQueryCount: defaultFetchQuerCount,
     headerConfig: {
         showHeader: true,
         showTools: true,
-        defaultTitle: "Untitled Query",
+        defaultTitle: 'Untitled Query',
         options: {
             enableDuplicate: true,
             enableEditTitle: true,
@@ -467,85 +515,65 @@ WithHeaderAndTools.args = {
             enableUndoChanges: true,
         },
         selectedSavedFilter: {
-            id: "1",
-            title: "Mon filtre 1",
+            id: '1',
+            title: 'Mon filtre 1',
             default: true,
             queries: [
                 {
-                    op: "and",
+                    op: 'and',
                     content: [
                         {
                             content: {
-                                value: [
-                                    "something 1",
-                                    "else 2",
-                                    "more 2",
-                                    "perfect 2",
-                                ],
-                                field: "test",
-                                op: "in",
+                                value: ['something 1', 'else 2', 'more 2', 'perfect 2'],
+                                field: 'test',
+                                op: 'in',
                             },
                         },
                         {
                             content: {
-                                value: [
-                                    "something 2",
-                                    "else 3",
-                                    "more 3",
-                                    "perfect 3",
-                                ],
-                                field: "test2",
-                                op: "in",
+                                value: ['something 2', 'else 3', 'more 3', 'perfect 3'],
+                                field: 'test2',
+                                op: 'in',
                             },
                         },
                     ],
                     total: 1500,
-                    id: "1",
+                    id: '1',
                 },
             ],
         },
         savedFilters: [
             {
-                title: "My query",
-                op: "and",
+                title: 'My query',
+                op: 'and',
                 content: [
                     {
                         content: {
-                            value: [
-                                "something 1",
-                                "else 2",
-                                "more 2",
-                                "perfect 2",
-                            ],
-                            field: "test",
-                            op: "in",
+                            value: ['something 1', 'else 2', 'more 2', 'perfect 2'],
+                            field: 'test',
+                            op: 'in',
                         },
                     },
                 ],
                 total: 1500,
-                id: "1",
-                updated_date: "2022-09-23T03:02:01.286Z",
+                id: '1',
+                updated_date: '2022-09-23T03:02:01.286Z',
             },
             {
-                title: "My query 2",
-                op: "and",
+                title: 'My query 2',
+                op: 'and',
                 content: [
                     {
                         content: {
-                            value: [
-                                "something 1",
-                                "else 2",
-                                "more 2",
-                                "perfect 2",
-                            ],
-                            field: "test",
-                            op: "in",
+                            value: ['something 1', 'else 2', 'more 2', 'perfect 2'],
+                            field: 'test',
+                            op: 'in',
                         },
                     },
                 ],
                 total: 1500,
-                id: "2",
-                updated_date: "2022-09-23T03:02:01.286Z",
+                id: '2',
+                updated_date: '2022-09-23T03:02:01.286Z',
             },
         ],
         onSaveQuery: (filter: any) => {
@@ -562,57 +590,57 @@ WithHeaderAndTools.args = {
 
 /* with name mapping */
 export const WithNameMapping = QueryBuilderStory.bind({});
-const withNameMappingQbId = QB_ID + "WithNameMapping";
+const withNameMappingQbId = QB_ID + 'WithNameMapping';
 setQueryBuilderState(withNameMappingQbId, {
     state: [
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
                     content: {
                         value: [
-                            "somethingsomethingsomethingsomethingsomething",
-                            "elsesomethingsomethingsomethingsomethingsomethingsomething",
-                            "more",
-                            "perfect",
+                            'somethingsomethingsomethingsomethingsomething',
+                            'elsesomethingsomethingsomethingsomethingsomethingsomething',
+                            'more',
+                            'perfect',
                         ],
-                        field: "test",
+                        field: 'test',
                     },
-                    op: "in",
+                    op: 'in',
                 },
                 {
                     content: {
                         value: [
-                            "somethingsomethingsomethingsomethingsomething",
-                            "elsesomethingsomethingsomethingsomethingsomethingsomething",
-                            "more",
-                            "perfect",
+                            'somethingsomethingsomethingsomethingsomething',
+                            'elsesomethingsomethingsomethingsomethingsomethingsomething',
+                            'more',
+                            'perfect',
                         ],
-                        field: "test",
+                        field: 'test',
                     },
-                    op: "in",
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "1",
+            id: '1',
         },
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
-                    content: { value: ["else"], field: "test" },
-                    op: "in",
+                    content: { value: ['else'], field: 'test' },
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "2",
+            id: '2',
         },
     ],
-    active: "1",
+    active: '1',
 });
 WithNameMapping.args = {
     id: withNameMappingQbId,
-    title: "With facet and value mapping",
+    title: 'With facet and value mapping',
     onRemoveFacet: (f: any) => f,
     onChangeQuery: (f: any) => f,
     getResolvedQueryForCount: defaultResolveCountPromise,
@@ -620,13 +648,13 @@ WithNameMapping.args = {
     dictionary: {
         query: {
             facet: (facet: string) => {
-                if (facet == "test") {
-                    return "Mapped facet name";
+                if (facet == 'test') {
+                    return 'Mapped facet name';
                 }
             },
             facetValueMapping: {
                 test: {
-                    something: "mapped value name",
+                    something: 'mapped value name',
                 },
             },
         },
@@ -636,40 +664,40 @@ WithNameMapping.args = {
 
 /* remoteComponent */
 export const RemoteComponentQuery = QueryBuilderStory.bind({});
-const RemoteComponentQueryQbId = QB_ID + "RemoteComponentQuery";
+const RemoteComponentQueryQbId = QB_ID + 'RemoteComponentQuery';
 setQueryBuilderState(RemoteComponentQueryQbId, {
     state: [
         {
-            op: "and",
+            op: 'and',
             content: [
                 {
                     content: {
-                        value: ["something"],
-                        field: "test",
+                        value: ['something'],
+                        field: 'test',
                         remoteComponent: {
-                            id: "remoteComponent",
+                            id: 'remoteComponent',
                             props: {
-                                customProps: "customProps",
+                                customProps: 'customProps',
                             },
                         },
                     },
-                    op: "in",
+                    op: 'in',
                 },
             ],
             total: 1500,
-            id: "1",
+            id: '1',
         },
     ],
-    active: "1",
+    active: '1',
 });
 RemoteComponentQuery.args = {
     id: RemoteComponentQueryQbId,
-    title: "Remote Component",
+    title: 'Remote Component',
     onRemoveFacet: (f: any) => f,
     onChangeQuery: (f: any) => f,
     getResolvedQueryForCount: defaultResolveCountPromise,
     fetchQueryCount: defaultFetchQuerCount,
     remoteComponentMapping: (remoteComponent: IRemoteComponent) => {
-        console.log("remoteComponentMapping has been called", remoteComponent);
+        console.log('remoteComponentMapping has been called', remoteComponent);
     },
 };

@@ -1,0 +1,162 @@
+@import 'theme.template';
+
+.emptyQueriesSidebarWrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+    padding: 16px 16px 0 16px;
+
+    .iconsWrapper {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 12px;
+
+        .icon {
+            font-size: 24px;
+            margin: 0 2px;
+            color: $gray-5;
+        }
+    }
+
+    .emptyText {
+        text-align: center;
+        letter-spacing: 0.25px;
+        color: $gray-8;
+        margin-bottom: 16px;
+    }
+
+    .link {
+        text-align: center;
+        letter-spacing: 0.25px;
+    }
+}
+
+.queriesSidebarWrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+
+    .titleWrapper {
+        margin-bottom: 16px;
+
+        .title {
+            margin-right: 4px;
+            letter-spacing: 0.25px;
+            color: $gray-7;
+        }
+
+        .tooltipIcon {
+            color: $gray-7;
+        }
+    }
+    .pillsWrapper {
+        display: flex;
+        flex-direction: column;
+
+        .errorText {
+            display: flex;
+            flex-direction: row;
+            border: 1px solid $red-3;
+            border-radius: 2px;
+            background-color: $red-1;
+            padding: 9px 16px;
+            letter-spacing: 0.25px;
+
+            .errorIcon {
+                color: $red-7;
+                font-size: 16px;
+                margin-right: 10px;
+            }
+        }
+    }
+
+    .queryPillWrapper {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+
+        .queryPill {
+            display: flex;
+            max-width: 100%;
+            color: $gray-8;
+            height: auto;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 20px;
+            letter-spacing: 0.4px;
+            padding: 0 8px;
+            border: 2px solid $blue-6;
+            border-radius: 2px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+
+            .title {
+                &:before {
+                    content: '';
+                    display: block;
+                }
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .queryPillEditionWrapper {
+            display: none;
+            padding-left: 4px;
+            gap: 4px;
+        }
+
+        .queryPillEditionButton {
+            padding: 4px;
+            color: $gray-8;
+            background-color: transparent;
+            border: none;
+            border-radius: 2px;
+        }
+        .queryPillEditionButton:hover {
+            background-color: $gray-3;
+        }
+    }
+
+    .queryPillWrapper:hover {
+        .queryPillEditionWrapper {
+            display: flex;
+        }
+    }
+}
+
+.deleteCustomPillModal {
+    .icon {
+        color: $orange-7 !important;
+    }
+
+    .existingFilters {
+        border-radius: 2px;
+        border: 1px solid $gray-4;
+        margin-top: 16px;
+        padding: 16px;
+
+        .list {
+            margin-top: 8px;
+            margin-bottom: 0;
+        }
+
+        .error {
+            display: flex;
+            flex-direction: row;
+            border: 1px solid $red-3;
+            border-radius: 2px;
+            background-color: $red-1;
+            padding: 9px 16px;
+            letter-spacing: 0.25px;
+            margin-top: 8px;
+
+            .errorIcon {
+                color: $red-7;
+                font-size: 16px;
+                margin-right: 10px;
+            }
+        }
+    }
+}
