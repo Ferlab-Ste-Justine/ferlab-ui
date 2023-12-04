@@ -353,6 +353,11 @@ export const deepMergeSqonValue = (
 ): ISyntheticSqon => {
     const clonedSqons = cloneDeep(sourceSqon);
 
+    const clonedSqonsWithoutPill = cloneDeep(sourceSqon);
+    clonedSqonsWithoutPill.content = clonedSqonsWithoutPill.content.filter(
+        (sqonContentValue) => !(sqonContentValue as IValueQuery).title,
+    );
+
     opts = merge(
         {},
         {
@@ -362,7 +367,7 @@ export const deepMergeSqonValue = (
         opts,
     );
 
-    const found = deeplySetSqonValue(clonedSqons, newSqon, opts);
+    const found = deeplySetSqonValue(clonedSqonsWithoutPill, newSqon, opts);
 
     return found
         ? clonedSqons
