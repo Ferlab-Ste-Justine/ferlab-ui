@@ -115,8 +115,6 @@
         height: auto;
         display: flex;
         align-items: center;
-
-        @include hoverFocus($custom-pill-button-hover-color, $custom-pill-button-focus-color, '&', none, none);
     }
 
     .closeActive {
@@ -129,6 +127,9 @@
 
     .closeInactive {
         color: $gray-8;
+        &:hover {
+            opacity: 0.7;
+        }
         @include hoverFocus($gray-8, $gray-8, '&', none, none);
     }
 }
