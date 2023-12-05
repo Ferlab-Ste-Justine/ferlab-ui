@@ -353,11 +353,6 @@ export const deepMergeSqonValue = (
 ): ISyntheticSqon => {
     const clonedSqons = cloneDeep(sourceSqon);
 
-    const clonedSqonsWithoutPill = cloneDeep(sourceSqon);
-    clonedSqonsWithoutPill.content = clonedSqonsWithoutPill.content.filter(
-        (sqonContentValue) => !(sqonContentValue as IValueQuery).title,
-    );
-
     opts = merge(
         {},
         {
@@ -367,7 +362,7 @@ export const deepMergeSqonValue = (
         opts,
     );
 
-    const found = deeplySetSqonValue(clonedSqonsWithoutPill, newSqon, opts);
+    const found = deeplySetSqonValue(clonedSqons, newSqon, opts);
 
     return found
         ? clonedSqons
@@ -391,8 +386,9 @@ const deeplySetSqonValue = (sourceSqon: ISyntheticSqon, newSqon: IValueFilter, o
     let found = false;
 
     sourceSqon.content.forEach((sqon) => {
-        // dont follow references
+        // dont follow references and custom pill
         if (isReference(sqon)) return;
+        if ((sqon as IValueQuery).title) return;
 
         const castedSqon = sqon as TSqonContentValue;
 
