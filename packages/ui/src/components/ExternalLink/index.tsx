@@ -1,6 +1,5 @@
 import React from 'react';
 import { Space } from 'antd';
-import cx from 'classnames';
 
 import ExternalLinkIcon from './ExternalLinkIcon';
 
@@ -15,7 +14,7 @@ export type IExternalLinkProps = Omit<
 >;
 
 const ExternalLink = (props: IExternalLinkProps) => (
-    <a {...props} className={props.className} rel="noreferrer" target="_blank">
+    <a rel="noreferrer" target="_blank" {...props}>
         <Space size={5.75}>
             <div className={styles.fuiExternalLink}>{props.children}</div>
             {props.hasIcon && <ExternalLinkIcon height="14" width="14" />}

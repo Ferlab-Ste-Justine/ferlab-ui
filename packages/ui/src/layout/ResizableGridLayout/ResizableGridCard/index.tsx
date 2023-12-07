@@ -249,6 +249,7 @@ const ResizableGridCard = ({
                 resizable
                 title={
                     <GridCardHeader
+                        className={styles.cardHeader}
                         extra={extra}
                         extraClassName={styles.extra}
                         id={headerTitle}

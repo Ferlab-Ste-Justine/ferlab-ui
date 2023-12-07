@@ -1,3 +1,6 @@
+### 7.18.0 2023-12-14
+- feat: SKFP-874 add authorized studies widget
+
 ### 7.17.0 2023-12-14
 - feat: CLIN-1934 add custom pill
 
