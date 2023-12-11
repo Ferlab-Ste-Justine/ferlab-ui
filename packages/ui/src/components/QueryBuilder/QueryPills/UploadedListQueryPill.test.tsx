@@ -5,7 +5,13 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import valueContentMock from '../../../mocks/valueContentMock';
 import valueFilterMock from '../../../mocks/valueFilterMock';
-import { QueryBuilderContext, TQueryBuilderContextType } from '../context';
+import {
+    defaultFacetFilterConfig,
+    QueryBuilderContext,
+    QueryCommonContext,
+    TQueryBuilderContextType,
+    TQueryCommonContext,
+} from '../context';
 
 import UploadedListQueryPill, { IUploadedListQueryPillProps } from './UploadedListQueryPill';
 
@@ -14,41 +20,49 @@ const defaultPillLabel = 'Participant ID';
 type RenderProps = {
     contextProps?: Partial<TQueryBuilderContextType>;
     componentProps?: Partial<IUploadedListQueryPillProps>;
+    queryCommonProps?: Partial<TQueryCommonContext>;
 };
 
-function renderUploadedListQueryPill({ componentProps, contextProps }: RenderProps = {}) {
+function renderUploadedListQueryPill({ componentProps, contextProps, queryCommonProps }: RenderProps = {}) {
     render(
-        <QueryBuilderContext.Provider
-            // @ts-expect-error missing context props
+        <QueryCommonContext.Provider
             value={{
                 dictionary: {
                     query: {
                         facet: jest.fn().mockReturnValue(defaultPillLabel),
                     },
                 },
+                facetFilterConfig: defaultFacetFilterConfig,
                 showLabels: true,
-                ...contextProps,
+                ...queryCommonProps,
             }}
         >
-            <UploadedListQueryPill
-                isBarActive={false}
-                onRemove={jest.fn()}
-                valueFilter={valueFilterMock()}
-                {...componentProps}
-            />
-        </QueryBuilderContext.Provider>,
+            <QueryBuilderContext.Provider
+                // @ts-expect-error missing context props
+                value={{
+                    ...contextProps,
+                }}
+            >
+                <UploadedListQueryPill
+                    isBarActive={false}
+                    onRemove={jest.fn()}
+                    valueFilter={valueFilterMock()}
+                    {...componentProps}
+                />
+            </QueryBuilderContext.Provider>
+        </QueryCommonContext.Provider>,
     );
 }
 
 test('should render the label and operator elements when showLabels is true', () => {
-    renderUploadedListQueryPill({ contextProps: { showLabels: true } });
+    renderUploadedListQueryPill({ queryCommonProps: { showLabels: true } });
 
     expect(screen.getByText(defaultPillLabel)).toBeVisible();
     expect(screen.getByTestId('element-operator')).toBeVisible();
 });
 
 test('should not render the label and operator elements when showLabels is false', () => {
-    renderUploadedListQueryPill({ contextProps: { showLabels: false } });
+    renderUploadedListQueryPill({ queryCommonProps: { showLabels: false } });
 
     expect(screen.queryByText(defaultPillLabel)).not.toBeInTheDocument();
     expect(screen.queryByTestId('element-operator')).not.toBeInTheDocument();
@@ -63,7 +77,7 @@ test('should render the correct label when dictionnary data is provided', () => 
         },
     };
 
-    renderUploadedListQueryPill({ contextProps: { dictionary } });
+    renderUploadedListQueryPill({ queryCommonProps: { dictionary } });
 
     expect(screen.getByText(customPillLabel)).toBeVisible();
 });
@@ -73,7 +87,7 @@ test('should render the field as label when no dictionnary data is provided', ()
     const field = 'fieldAsLabel';
     const valueFilter = valueFilterMock({ content: valueContentMock({ field }) });
 
-    renderUploadedListQueryPill({ componentProps: { valueFilter }, contextProps: { dictionary } });
+    renderUploadedListQueryPill({ componentProps: { valueFilter }, queryCommonProps: { dictionary } });
 
     expect(screen.getByText(field)).toBeVisible();
 });

@@ -1,29 +1,51 @@
 import { createContext } from 'react';
-import { IDictionary, IFacetFilterConfig, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter } from './types';
+
+import {
+    ICustomPillConfig,
+    IDictionary,
+    IFacetFilterConfig,
+    IQueriesState,
+    IQueryBuilderHeaderConfig,
+    ISavedFilter,
+} from './types';
 
 export type TQueryBuilderContextType = {
     queryBuilderId: string;
-    dictionary: IDictionary;
     queriesState: IQueriesState;
     selectedSavedFilter: ISavedFilter | null;
     headerConfig: IQueryBuilderHeaderConfig;
-    facetFilterConfig: IFacetFilterConfig;
     noQueries: boolean;
-    showLabels: boolean;
     canCombine: boolean;
     enableCombine: boolean;
     enableShowHideLabels: boolean;
     enableSingleQuery: boolean;
     hasEmptyQuery: boolean;
+    customPillConfig: ICustomPillConfig;
+};
+
+export type TQueryCommonContext = {
+    dictionary: IDictionary;
+    facetFilterConfig: IFacetFilterConfig;
+    showLabels: boolean;
 };
 
 export const defaultHeaderConfig = {
     defaultTitle: 'Untitled Filter',
-    onSaveFilter: () => {},
-    onDeleteFilter: () => {},
-    onSetAsFavorite: () => {},
-    onShareFilter: () => {},
-    onUpdateFilter: () => {},
+    onDeleteFilter: (): void => {
+        /* */
+    },
+    onSaveFilter: (): void => {
+        /* */
+    },
+    onSetAsFavorite: (): void => {
+        /* */
+    },
+    onShareFilter: (): void => {
+        /* */
+    },
+    onUpdateFilter: (): void => {
+        /* */
+    },
     options: {
         enableDuplicate: true,
         enableEditTitle: true,
@@ -40,24 +62,41 @@ export const defaultHeaderConfig = {
 export const defaultFacetFilterConfig = {
     blacklistedFacets: [],
     enable: false,
-    onFacetClick: () => {},
+    onFacetClick: (): void => {
+        /* */
+    },
+};
+
+export const defaultCustomPillConfig: ICustomPillConfig = {
+    createCustomPill: () => ({}),
+    editMenuItems: [],
+    editPill: () => ({}),
+    getFiltersByPill: () => ({}),
+    getPillById: () => undefined,
+    queryEditionQBId: '',
+    tag: '',
+    validateName: () => ({}),
 };
 
 export const QueryBuilderContext = createContext<TQueryBuilderContextType>({
-    queryBuilderId: '',
-    dictionary: {},
-    queriesState: {
-        activeId: '',
-        queries: [],
-    },
-    selectedSavedFilter: null,
-    headerConfig: defaultHeaderConfig,
-    facetFilterConfig: defaultFacetFilterConfig,
-    noQueries: false,
-    showLabels: false,
     canCombine: false,
+    customPillConfig: defaultCustomPillConfig,
     enableCombine: false,
     enableShowHideLabels: false,
     enableSingleQuery: false,
     hasEmptyQuery: false,
+    headerConfig: defaultHeaderConfig,
+    noQueries: false,
+    queriesState: {
+        activeId: '',
+        queries: [],
+    },
+    queryBuilderId: '',
+    selectedSavedFilter: null,
+});
+
+export const QueryCommonContext = createContext<TQueryCommonContext>({
+    dictionary: {},
+    facetFilterConfig: defaultFacetFilterConfig,
+    showLabels: false,
 });
