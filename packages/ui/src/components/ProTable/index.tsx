@@ -111,9 +111,8 @@ export const generateColumnState = <RecordType,>(
 // eslint-disable-next-line @typescript-eslint/ban-types
 const ProTable = <RecordType extends object & { key: string } = any>({
     columns,
-    pagination,
-    wrapperClassName = '',
-    tableHeaderClassName,
+    dictionary = {},
+    enableRowSelection = false,
     headerConfig = {
         enableColumnSort: false,
         enableTableExport: false,
@@ -142,13 +141,14 @@ const ProTable = <RecordType extends object & { key: string } = any>({
             // optional function when omit
         },
     },
-    initialSelectedKey = [],
-    enableRowSelection = false,
     initialColumnState,
-    dictionary = {},
-    summaryColumns,
-    tableRef,
+    initialSelectedKey = [],
     loading,
+    pagination,
+    summaryColumns,
+    tableHeaderClassName,
+    tableRef,
+    wrapperClassName = '',
     ...tableProps
 }: TProTableProps<RecordType>): React.ReactElement => {
     //    const columnState = generateColumnState(initialColumnState!, columns);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { cloneDeep } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import { v4 } from 'uuid';
@@ -55,14 +55,17 @@ export interface IQueryBuilderProps {
 
 const QueryBuilder = ({
     className = '',
-    id = '',
-    dictionary = {},
-    total = 0,
-    IconTotal = null,
     currentQuery = {},
+    dictionary = {},
     enableCombine = false,
-    enableSingleQuery = false,
     enableShowHideLabels = false,
+    enableSingleQuery = false,
+    facetFilterConfig = defaultFacetFilterConfig,
+    fetchQueryCount,
+    getResolvedQueryForCount,
+    headerConfig = defaultHeaderConfig,
+    IconTotal = null,
+    id = '',
     initialShowLabelState = true,
     referenceColors = [
         '#C31D7E',
@@ -81,12 +84,9 @@ const QueryBuilder = ({
         '#2D7D9A',
         '#847545',
     ],
-    headerConfig = defaultHeaderConfig,
-    facetFilterConfig = defaultFacetFilterConfig,
-    fetchQueryCount,
-    getResolvedQueryForCount,
     remoteComponentMapping,
-}: IQueryBuilderProps) => {
+    total = 0,
+}: IQueryBuilderProps): ReactElement => {
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
     const { state: queryBuilderState } = useQueryBuilderState(id);
     const [queriesState, setQueriesState] = useState<IQueriesState>({
@@ -210,7 +210,7 @@ const QueryBuilder = ({
             (!canCombine && queryCount > 1));
 
     useEffect(() => {
-        if (selectedSavedFilter?.queries?.length!) {
+        if (selectedSavedFilter && (selectedSavedFilter.queries?.length ?? 0) > 0) {
             const activeQuery = selectedSavedFilter.queries.find(({ id }) => id === queryBuilderState?.active);
             const activeId = activeQuery?.id ?? selectedSavedFilter.queries[0].id!;
 
@@ -222,8 +222,8 @@ const QueryBuilder = ({
     }, [JSON.stringify(selectedSavedFilter)]);
 
     useEffect(() => {
-        if (!isEmpty(headerConfig?.selectedSavedFilter!)) {
-            setSelectedSavedFilter(headerConfig?.selectedSavedFilter!);
+        if (headerConfig?.selectedSavedFilter) {
+            setSelectedSavedFilter(headerConfig.selectedSavedFilter);
         }
     }, [headerConfig?.selectedSavedFilter]);
 
@@ -287,8 +287,8 @@ const QueryBuilder = ({
         if (queryBuilderState) {
             if (!isQueryStateEqual(queryBuilderState, queriesState)) {
                 setQueriesState({
-                    activeId: queryBuilderState?.active!,
-                    queries: queryBuilderState.state!,
+                    activeId: queryBuilderState?.active ?? '',
+                    queries: queryBuilderState.state ?? [],
                 });
             }
         }

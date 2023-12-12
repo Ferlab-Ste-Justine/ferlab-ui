@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import { Button, Tooltip } from 'antd';
 
 import { TSqonGroupOp } from '../../data/sqon/types';
@@ -15,7 +15,7 @@ interface ICombinerProps {
     onChange: (type: TSqonGroupOp) => void;
 }
 
-const Combiner = ({ onChange, type }: ICombinerProps) => {
+const Combiner = ({ onChange, type }: ICombinerProps): ReactElement => {
     const { dictionary } = useContext(QueryBuilderContext);
 
     const isAndOperator = () => type === 'and';

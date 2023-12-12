@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, ReactElement, useContext, useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { Button, Dropdown, Spin } from 'antd';
 import cx from 'classnames';
@@ -32,7 +32,7 @@ interface IOperatorProps {
 
 const APPLY_KEY = 'apply';
 
-export const Operator = ({ className = '', type }: IOperatorProps) => {
+export const Operator = ({ className = '', type }: IOperatorProps): ReactElement => {
     switch (type) {
         case FieldOperators['>']:
             return <GreaterThanOperator className={className} />;
@@ -52,7 +52,7 @@ export const Operator = ({ className = '', type }: IOperatorProps) => {
     }
 };
 
-const FieldQueryPill = ({ isBarActive, onRemove, valueFilter }: IFieldQueryPillProps) => {
+const FieldQueryPill = ({ isBarActive, onRemove, valueFilter }: IFieldQueryPillProps): ReactElement => {
     const { dictionary, facetFilterConfig, showLabels } = useContext(QueryBuilderContext);
     const [tryOpenQueryPillFilter, setTryOpenQueryPillFilter] = useState(false);
     const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);

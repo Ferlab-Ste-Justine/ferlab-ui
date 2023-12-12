@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { cloneDeep } from 'lodash';
 
 import { BooleanOperators, TermOperators } from '../../../data/sqon/operators';
@@ -12,7 +12,11 @@ interface IIsolatedBooleanQueryPillProps {
     contentValue: ISqonGroupFilter;
 }
 
-const IsolatedBooleanQueryPill = ({ contentValue, isBarActive, onRemove }: IIsolatedBooleanQueryPillProps) => {
+const IsolatedBooleanQueryPill = ({
+    contentValue,
+    isBarActive,
+    onRemove,
+}: IIsolatedBooleanQueryPillProps): ReactElement => {
     const newQueryDict: { [content: string]: any } = {};
 
     contentValue.content.forEach((f: any) => {

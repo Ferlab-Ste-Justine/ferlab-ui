@@ -1,69 +1,70 @@
+import React, { ReactElement } from 'react';
 import { Tag } from 'antd';
 import { capitalize } from 'lodash';
-import React from 'react';
+
 import styles from './index.module.scss';
 
 export enum ColorTagType {
-    Boolean = "boolean",
-    Gender = "gender",
+    Boolean = 'boolean',
+    Gender = 'gender',
     Family = 'family',
     Position = 'position',
     VitalStatus = 'vitalStatus',
     Interpretation = 'interpretation',
     Pathogenic = 'pathogenic',
     Benign = 'benign',
-    Other = 'other'
+    Other = 'other',
 }
 
 export type TColorTag = {
-    type: ColorTagType,
+    type: ColorTagType;
     value?: string;
     children?: React.ReactNode;
-}
+};
 
 const TAGS_STYLE: any = {
     [ColorTagType.Boolean]: {
-        'true': styles.booleanTrue,
-        'default': styles.default
+        default: styles.default,
+        true: styles.booleanTrue,
     },
     [ColorTagType.Gender]: {
-        'female': styles.genderFemale,
-        'male': styles.genderMale,
-        'default': styles.default,
+        default: styles.default,
+        female: styles.genderFemale,
+        male: styles.genderMale,
     },
     [ColorTagType.Family]: {
-        'default': styles.family,
+        default: styles.family,
     },
     [ColorTagType.Position]: {
-        'proband': styles.positionProband,
-        'default': styles.default,
+        default: styles.default,
+        proband: styles.positionProband,
     },
     [ColorTagType.VitalStatus]: {
-        'alive': styles.vitalStatusAlive,
-        'deceased': styles.vitalStatusDeceased,
-        'default': styles.default,
+        alive: styles.vitalStatusAlive,
+        deceased: styles.vitalStatusDeceased,
+        default: styles.default,
     },
     [ColorTagType.Interpretation]: {
-        'observed': styles.interpretationObserved,
-        'default': styles.default,
+        default: styles.default,
+        observed: styles.interpretationObserved,
     },
     [ColorTagType.Pathogenic]: {
-        'default': styles.pathogenic
+        default: styles.pathogenic,
     },
     [ColorTagType.Benign]: {
-        'default': styles.benign,
+        default: styles.benign,
     },
     [ColorTagType.Other]: {
-        'default': styles.default,
-    }
+        default: styles.default,
+    },
 };
 
-export const ColorTag = ({ type, value, children }: TColorTag) => {
+export const ColorTag = ({ children, type, value }: TColorTag): ReactElement => {
     let tagClassName = TAGS_STYLE[type].default;
     if (value && TAGS_STYLE[type][value.toLocaleLowerCase()]) {
-        tagClassName = TAGS_STYLE[type][value.toLocaleLowerCase()]
+        tagClassName = TAGS_STYLE[type][value.toLocaleLowerCase()];
     }
     return <Tag className={tagClassName}>{children || capitalize(value)}</Tag>;
-}
+};
 
 export default ColorTag;

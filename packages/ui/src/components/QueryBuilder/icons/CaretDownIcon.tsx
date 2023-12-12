@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import styles from './LabelOperator.module.scss';
 
 interface IElementlOperatorProps {
     className?: string;
 }
-const CaretDownIcon = ({ className = '' }: IElementlOperatorProps) => (
+const CaretDownIcon = ({ className = '' }: IElementlOperatorProps): ReactElement => (
     <svg
         className={`${styles.icon} ${className}`}
         fill="currentColor"

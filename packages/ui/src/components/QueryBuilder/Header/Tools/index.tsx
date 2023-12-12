@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { useContext } from 'react';
 import {
     CopyOutlined,
@@ -35,17 +35,17 @@ const tooltipAlign = { align: { offset: [0, 5] } };
 
 const QueryBuilderHeaderTools = ({
     config,
-    savedFilters = [],
-    onSavedFilterChange,
-    onNewSavedFilter,
     onDuplicateSavedFilter,
-}: IQueryBuilderHeaderProps) => {
+    onNewSavedFilter,
+    onSavedFilterChange,
+    savedFilters = [],
+}: IQueryBuilderHeaderProps): ReactElement => {
     const { dictionary, queriesState, selectedSavedFilter } = useContext(QueryBuilderContext);
     const [isDirty, setIsDirty] = useState(false);
     const [isNewFilter, setIsNewFilter] = useState(false);
     const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
 
-    const confirmUnsavedChangeForNewFilter = (onOkCallback: Function) =>
+    const confirmUnsavedChangeForNewFilter = (onOkCallback: () => void) =>
         Modal.confirm({
             cancelText: dictionary.queryBuilderHeader?.modal?.confirmUnsaved?.createNewFilter?.cancelText || 'Cancel',
             content:

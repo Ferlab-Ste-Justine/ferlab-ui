@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { useContext } from 'react';
 import { CopyOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Popconfirm, Space } from 'antd';
@@ -65,7 +65,7 @@ const QueryBar = ({
     query,
     remoteComponentMapping,
     selectionDisabled = false,
-}: IQueryBarProps) => {
+}: IQueryBarProps): ReactElement => {
     const { dictionary, noQueries, queryBuilderId } = useContext(QueryBuilderContext);
     const previousQuery = useRef<ISqonGroupFilter | null>(null);
     const [total, setTotal] = useState(0);

@@ -16,7 +16,7 @@ export type ScrollContentProps = {
     style?: React.CSSProperties;
 };
 
-const ScrollContent: React.FC<ScrollContentProps> = ({ id = '', children, className = '', style = {} }) => (
+const ScrollContent: React.FC<ScrollContentProps> = ({ children, className = '', id = '', style = {} }) => (
     <SimpleBar
         className={`ferlabui-scroll-content ${StackOrientation.Vertical} ${className || ''}`}
         id={id}

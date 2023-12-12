@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+
 import { IDictionary, IFacetFilterConfig, IQueriesState, IQueryBuilderHeaderConfig, ISavedFilter } from './types';
 
 export type TQueryBuilderContextType = {
@@ -19,11 +20,21 @@ export type TQueryBuilderContextType = {
 
 export const defaultHeaderConfig = {
     defaultTitle: 'Untitled Filter',
-    onSaveFilter: () => {},
-    onDeleteFilter: () => {},
-    onSetAsFavorite: () => {},
-    onShareFilter: () => {},
-    onUpdateFilter: () => {},
+    onDeleteFilter: () => {
+        /* */
+    },
+    onSaveFilter: () => {
+        /* */
+    },
+    onSetAsFavorite: () => {
+        /* */
+    },
+    onShareFilter: () => {
+        /* */
+    },
+    onUpdateFilter: () => {
+        /* */
+    },
     options: {
         enableDuplicate: true,
         enableEditTitle: true,
@@ -40,24 +51,26 @@ export const defaultHeaderConfig = {
 export const defaultFacetFilterConfig = {
     blacklistedFacets: [],
     enable: false,
-    onFacetClick: () => {},
+    onFacetClick: () => {
+        /* */
+    },
 };
 
 export const QueryBuilderContext = createContext<TQueryBuilderContextType>({
-    queryBuilderId: '',
+    canCombine: false,
     dictionary: {},
+    enableCombine: false,
+    enableShowHideLabels: false,
+    enableSingleQuery: false,
+    facetFilterConfig: defaultFacetFilterConfig,
+    hasEmptyQuery: false,
+    headerConfig: defaultHeaderConfig,
+    noQueries: false,
     queriesState: {
         activeId: '',
         queries: [],
     },
+    queryBuilderId: '',
     selectedSavedFilter: null,
-    headerConfig: defaultHeaderConfig,
-    facetFilterConfig: defaultFacetFilterConfig,
-    noQueries: false,
     showLabels: false,
-    canCombine: false,
-    enableCombine: false,
-    enableShowHideLabels: false,
-    enableSingleQuery: false,
-    hasEmptyQuery: false,
 });

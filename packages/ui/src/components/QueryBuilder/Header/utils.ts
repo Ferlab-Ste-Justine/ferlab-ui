@@ -1,19 +1,20 @@
 import { isEqual } from 'lodash';
+
 import { isNotEmptySqon } from '../../../data/sqon/utils';
 import { IQueriesState, ISavedFilter } from '../types';
 
-export const isNewUnsavedFilter = (selectedSavedFilter: ISavedFilter, savedFilters: ISavedFilter[]) =>
+export const isNewUnsavedFilter = (selectedSavedFilter: ISavedFilter, savedFilters: ISavedFilter[]): boolean =>
     !selectedSavedFilter ||
     !savedFilters!.find((savedFilter: ISavedFilter) => savedFilter.id == selectedSavedFilter?.id);
 
-export const hasQueries = (queriesState: IQueriesState) =>
+export const hasQueries = (queriesState: IQueriesState): boolean =>
     queriesState.queries.filter((sqon) => isNotEmptySqon(sqon)).length > 0;
 
 export const hasUnsavedChanges = (
     selectedSavedFilter: ISavedFilter,
     savedFilters: ISavedFilter[],
     queriesState: IQueriesState,
-) => {
+): boolean => {
     if (!(selectedSavedFilter && !isNewUnsavedFilter(selectedSavedFilter, savedFilters))) {
         return false;
     }
@@ -29,14 +30,14 @@ export const hasUnsavedChanges = (
             ? false
             : isEqual(
                   {
+                      content: foundQuery?.content,
                       id: foundQuery?.id,
                       op: foundQuery?.op,
-                      content: foundQuery?.content,
                   },
                   {
+                      content: savedFilterQuery?.content,
                       id: savedFilterQuery?.id,
                       op: savedFilterQuery?.op,
-                      content: savedFilterQuery?.content,
                   },
               );
     });
