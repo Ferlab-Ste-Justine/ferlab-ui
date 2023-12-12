@@ -206,7 +206,7 @@ const QueryBuilder = ({
             (!canCombine && queryCount > 1));
 
     useEffect(() => {
-        if (selectedSavedFilter?.queries?.length) {
+        if (selectedSavedFilter && (selectedSavedFilter.queries?.length ?? 0) > 0) {
             const activeQuery = selectedSavedFilter.queries.find(({ id }) => id === queryBuilderState?.active);
             const activeId = activeQuery?.id ?? selectedSavedFilter.queries[0].id;
 
@@ -283,8 +283,8 @@ const QueryBuilder = ({
         if (queryBuilderState) {
             if (!isQueryStateEqual(queryBuilderState, queriesState)) {
                 setQueriesState({
-                    activeId: queryBuilderState?.active || '',
-                    queries: queryBuilderState.state || [],
+                    activeId: queryBuilderState?.active ?? '',
+                    queries: queryBuilderState.state ?? [],
                 });
             }
         }
