@@ -33,6 +33,7 @@ export type TConsequencesCell = {
     consequences: IArrangerEdge<IConsequenceEntity>[];
     symbol: string;
     emptyText: string;
+    withoutSymbol?: boolean;
 };
 
 const impactToColorClassName = Object.freeze({
@@ -44,7 +45,12 @@ const impactToColorClassName = Object.freeze({
 
 const pickImpactBadge = (impact: Impact) => impactToColorClassName[impact];
 
-const ConsequencesCell = ({ consequences, emptyText, symbol }: TConsequencesCell): JSX.Element | null => {
+const ConsequencesCell = ({
+    consequences,
+    emptyText,
+    symbol,
+    withoutSymbol = false,
+}: TConsequencesCell): JSX.Element | null => {
     const pickedEdge = consequences.find((c) => c.node.picked);
     if (!pickedEdge) {
         return <Empty align="left" description={emptyText} noPadding showImage={false} size="mini" />;
@@ -58,16 +64,17 @@ const ConsequencesCell = ({ consequences, emptyText, symbol }: TConsequencesCell
     return (
         <StackLayout center className={style.stackLayout} key={'1'}>
             {pickImpactBadge(picked.vep_impact)}
-            <span className={style.detail} key="detail">
+            <span className={withoutSymbol ? style.detailWithoutSymbol : style.detail} key="detail">
                 {removeUnderscoreAndCapitalize(picked.consequence[0])}
             </span>
-            {symbol && symbol !== NO_GENE && (
+            {!withoutSymbol && symbol && symbol !== NO_GENE && (
                 <span className={style.symbol} key={toKebabCase(symbol)}>
                     <ExternalLink href={`https://useast.ensembl.org/Homo_sapiens/Gene/Summary?g=${symbol}`}>
                         {symbol}
                     </ExternalLink>
                 </span>
             )}
+            {withoutSymbol && picked.hgvsp && <span className={style.dash}> -</span>}
             {picked.hgvsp && <span>{picked.hgvsp.split(':')[1]}</span>}
         </StackLayout>
     );
