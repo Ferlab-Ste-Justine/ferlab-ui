@@ -1,3 +1,6 @@
+### 7.17.0 2023-12-14
+- feat: CLIN-1934 add custom pill
+
 ### 7.16.0 2023-11-29
 - fix: SKFP-827 Update nivo, add accessibility settings for GridCard, Bar and Pie chart
 

@@ -7,12 +7,21 @@ import {
     ISyntheticSqon,
     IValueContent,
     IValueFilter,
+    IValueQuery,
     TSqonGroupOp,
 } from '../../../data/sqon/types';
-import { isBooleanOperator, isReference, isRemoteComponent, isSet, isUploadedList } from '../../../data/sqon/utils';
+import {
+    isBooleanOperator,
+    isCustomPill,
+    isReference,
+    isRemoteComponent,
+    isSet,
+    isUploadedList,
+} from '../../../data/sqon/utils';
 import Combiner from '../Combiner';
-import { TCallbackRemoveAction, TCallbackRemoveReferenceAction } from '../types';
+import { TCallbackRemoveAction, TCallbackRemoveQueryAction, TCallbackRemoveReferenceAction } from '../types';
 
+import CustomPill from './CustomPill';
 import FieldQueryPill from './FieldQueryPill';
 import IsolatedBooleanQueryPill from './IsolatedBooleanQueryPill';
 import ReferenceQueryPill from './ReferenceQueryPill';
@@ -24,8 +33,10 @@ interface IBooleanQueryPillProps {
     isActive: boolean;
     parentQueryId: string;
     query: ISyntheticSqon | Record<string, never>;
+    isCustomPillEdition?: boolean;
     onRemoveFacet: TCallbackRemoveAction;
     onRemoveReference: TCallbackRemoveReferenceAction;
+    onRemoveQuery?: TCallbackRemoveQueryAction;
     onCombineChange?: (id: string, combinator: TSqonGroupOp) => void;
     getColorForReference?: (refIndex: number) => string;
     remoteComponentMapping?: (props: IRemoteComponent) => void;
@@ -33,7 +44,7 @@ interface IBooleanQueryPillProps {
 
 const isNotEnd = (content: any[], index: number) => content.length - 1 > index;
 
-const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
+const BooleanQueryPill = (props: IBooleanQueryPillProps): JSX.Element => (
     <Fragment>
         {props.query.content.map((f: any, i: number) => (
             <Space key={i} size={0} style={{ padding: '2px 0px' }}>
@@ -47,6 +58,12 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
                                 props.query,
                             )
                         }
+                    />
+                ) : isCustomPill(f) ? (
+                    <CustomPill
+                        isBarActive={props.isActive}
+                        onRemove={() => props.onRemoveQuery?.(f.id, props.query)}
+                        valueFilter={f as IValueQuery}
                     />
                 ) : isBooleanOperator(f) ? (
                     <BooleanQueryPill {...props} query={f} />
@@ -79,6 +96,7 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps) => (
                 ) : (
                     <FieldQueryPill
                         isBarActive={props.isActive}
+                        isCustomPillEdition={props.isCustomPillEdition}
                         onRemove={() => props.onRemoveFacet((f as IValueFilter).content.field, props.query)}
                         valueFilter={f as IValueFilter}
                     />

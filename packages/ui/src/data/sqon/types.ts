@@ -24,7 +24,21 @@ export type TValueOp = FieldOperators | string;
 export interface IValueFilter {
     content: IValueContent;
     op: TValueOp;
+    id?: string;
+    title?: string;
 }
+
+export interface IValueQuery {
+    content: TSyntheticSqonContent;
+    op: TValueOp;
+    id?: string;
+    title?: string;
+}
+
+export interface IValueFilterQuery {
+    filterID: string;
+}
+
 export interface IWildCardValueFilter extends Omit<IValueFilter, 'content'> {
     content: IWildCardValueContent;
 }
@@ -38,12 +52,19 @@ export interface ISqonGroupFilter {
     content: TSqonContent;
 }
 
-export type TSyntheticSqonContentValue = ISqonGroupFilter | IValueFilter | IWildCardValueFilter | number;
+export type TSyntheticSqonContentValue =
+    | ISqonGroupFilter
+    | IValueFilter
+    | IValueQuery
+    | IValueFilterQuery
+    | IWildCardValueFilter
+    | number;
 export type TSyntheticSqonContent = Array<TSyntheticSqonContentValue>;
 export interface ISyntheticSqon {
     op: TSqonGroupOp;
     content: TSyntheticSqonContent;
     id?: string;
+    title?: string;
     /**
      * @deprecated The params should not be used anymore
      */
