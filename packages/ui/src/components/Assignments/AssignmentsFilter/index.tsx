@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Input, Space } from 'antd';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
@@ -31,7 +31,13 @@ const handleSelect = (
         : setSelectedKeys([value, ...selectedKeys]);
 };
 
-const AssignmentsFilter = ({ confirm, dictionary, options, selectedKeys, setSelectedKeys }: TAssignmentsFilter) => {
+const AssignmentsFilter = ({
+    confirm,
+    dictionary,
+    options,
+    selectedKeys,
+    setSelectedKeys,
+}: TAssignmentsFilter): ReactElement => {
     const [searchValue, setSearchValue] = useState<string | undefined>();
     const [filteredOption, setFilteredOption] = useState<TPractitionnerInfo[]>([]);
     const [selectedOption, setSelectedOption] = useState<React.Key[]>(selectedKeys ? selectedKeys : []);

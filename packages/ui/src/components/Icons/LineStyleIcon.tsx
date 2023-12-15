@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import cx from 'classnames';
 
 import { IIconProps } from './type';
 
-const LineStyleIcon = ({ className = '', height = 24, width = 24 }: IIconProps) => (
+const LineStyleIcon = ({ className = '', height = 24, width = 24 }: IIconProps): ReactElement => (
     <svg
         className={cx('anticon', className)}
         fill="currentColor"

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { IIconProps } from '../../Icons/type';
 
-const HighBadgeIcon = ({ className = '', height = 10, width = 10 }: IIconProps) => (
+const HighBadgeIcon = ({ className = '', height = 10, width = 10 }: IIconProps): ReactElement => (
     <svg
         className={className}
         fill="currentColor"

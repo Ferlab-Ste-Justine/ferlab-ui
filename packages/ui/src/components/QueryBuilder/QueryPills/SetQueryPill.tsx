@@ -14,7 +14,7 @@ import styles from './QueryPill.module.scss';
 interface IReferenceQueryPillProps {
     isBarActive?: boolean;
     valueFilter: IValueFilter;
-    onRemove: () => unknown;
+    onRemove: () => void;
 }
 
 const SetQueryPill = ({ isBarActive, onRemove, valueFilter }: IReferenceQueryPillProps): JSX.Element => {

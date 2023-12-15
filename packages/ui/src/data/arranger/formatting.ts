@@ -19,5 +19,5 @@ export const keyEnhance = (key: string, s: string = ArrangerValues.noData): stri
     }
 };
 
-export const dotToUnderscore = (str: string) => str.replaceAll('.', '__');
-export const underscoreToDot = (str: string) => str.replaceAll('__', '.');
+export const dotToUnderscore = (str: string): string => str.replaceAll('.', '__');
+export const underscoreToDot = (str: string): string => str.replaceAll('__', '.');

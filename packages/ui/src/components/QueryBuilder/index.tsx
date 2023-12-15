@@ -65,22 +65,22 @@ export interface IQueryBuilderProps {
 
 const QueryBuilder = ({
     className = '',
-    id = '',
-    dictionary = {},
-    total = 0,
-    IconTotal = null,
     currentQuery = {},
-    enableCombine = false,
-    enableSingleQuery = false,
-    enableShowHideLabels = false,
-    initialShowLabelState = true,
-    referenceColors = defaultReferenceColors,
-    headerConfig = defaultHeaderConfig,
-    facetFilterConfig = defaultFacetFilterConfig,
     customPillConfig = defaultCustomPillConfig,
+    dictionary = {},
+    enableCombine = false,
+    enableShowHideLabels = false,
+    enableSingleQuery = false,
+    facetFilterConfig = defaultFacetFilterConfig,
     fetchQueryCount,
     getResolvedQueryForCount,
+    headerConfig = defaultHeaderConfig,
+    IconTotal = null,
+    id = '',
+    initialShowLabelState = true,
+    referenceColors = defaultReferenceColors,
     remoteComponentMapping,
+    total = 0,
 }: IQueryBuilderProps): JSX.Element => {
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
     const { state: queryBuilderState } = useQueryBuilderState(id);
@@ -206,7 +206,7 @@ const QueryBuilder = ({
             (!canCombine && queryCount > 1));
 
     useEffect(() => {
-        if (selectedSavedFilter?.queries?.length) {
+        if (selectedSavedFilter && (selectedSavedFilter.queries?.length ?? 0) > 0) {
             const activeQuery = selectedSavedFilter.queries.find(({ id }) => id === queryBuilderState?.active);
             const activeId = activeQuery?.id ?? selectedSavedFilter.queries[0].id;
 
@@ -283,8 +283,8 @@ const QueryBuilder = ({
         if (queryBuilderState) {
             if (!isQueryStateEqual(queryBuilderState, queriesState)) {
                 setQueriesState({
-                    activeId: queryBuilderState?.active || '',
-                    queries: queryBuilderState.state || [],
+                    activeId: queryBuilderState?.active ?? '',
+                    queries: queryBuilderState.state ?? [],
                 });
             }
         }

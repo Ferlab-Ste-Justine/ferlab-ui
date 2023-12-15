@@ -14,7 +14,7 @@ export const INDEX_IMPACT_PREDICTION_FIELD = 0;
 export const INDEX_IMPACT_PREDICTION_SHORT_LABEL = 1;
 export const INDEX_IMPACT_SCORE = 2;
 
-export const getLongPredictionLabelIfKnown = (predictionField: string, predictionShortLabel: string) => {
+export const getLongPredictionLabelIfKnown = (predictionField: string, predictionShortLabel: string): string | null => {
     if (!predictionField || !predictionShortLabel) {
         return null;
     }
@@ -61,7 +61,7 @@ export const getVepImpactTag = (
     }
 };
 
-export const sortConsequences = (data: IArrangerEdge<IVariantConsequence>[]) =>
+export const sortConsequences = (data: IArrangerEdge<IVariantConsequence>[]): IArrangerEdge<IVariantConsequence>[] =>
     data
         .sort((a, b) => b.node.impact_score! - a.node.impact_score!)
         .sort((a, b) => (a.node.canonical === b.node.canonical ? 0 : a.node.canonical ? -1 : 1));

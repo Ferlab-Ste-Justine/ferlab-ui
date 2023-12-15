@@ -71,7 +71,7 @@ export const addQuery = ({
  *
  * @param queryBuilderId QueryBuilder unique identifier
  */
-export const getActiveQuery = (queryBuilderId: string) => {
+export const getActiveQuery = (queryBuilderId: string): ISyntheticSqon => {
     const qbState = getQueryBuilderState(queryBuilderId);
     return (
         qbState?.state?.find(({ id }) => id === qbState.active) ?? {
@@ -133,15 +133,15 @@ export const updateActiveQueryFilters = ({
  * ```
  */
 export const updateActiveQueryField = ({
-    queryBuilderId,
     field,
-    value,
+    index,
+    isUploadedList,
     merge_strategy = MERGE_VALUES_STRATEGIES.APPEND_VALUES,
     operator = TermOperators.in,
-    index,
     overrideValuesName,
-    isUploadedList,
+    queryBuilderId,
     remoteComponent,
+    value,
 }: {
     queryBuilderId: string;
     field: string;
