@@ -65,22 +65,22 @@ export interface IQueryBuilderProps {
 
 const QueryBuilder = ({
     className = '',
-    id = '',
-    dictionary = {},
-    total = 0,
-    IconTotal = null,
     currentQuery = {},
+    customPillConfig = defaultCustomPillConfig,
+    dictionary = {},
     enableCombine = false,
     enableSingleQuery = false,
     enableShowHideLabels = false,
-    initialShowLabelState = true,
-    referenceColors = defaultReferenceColors,
-    headerConfig = defaultHeaderConfig,
     facetFilterConfig = defaultFacetFilterConfig,
-    customPillConfig = defaultCustomPillConfig,
     fetchQueryCount,
     getResolvedQueryForCount,
+    headerConfig = defaultHeaderConfig,
+    IconTotal = null,
+    id = '',
+    initialShowLabelState = true,
+    referenceColors = defaultReferenceColors,
     remoteComponentMapping,
+    total = 0,
 }: IQueryBuilderProps): JSX.Element => {
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
     const { state: queryBuilderState } = useQueryBuilderState(id);

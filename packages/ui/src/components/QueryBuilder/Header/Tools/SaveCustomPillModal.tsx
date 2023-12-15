@@ -30,7 +30,7 @@ const SaveCustomPillModal = ({
     const [title, setTitle] = useState<string>('');
 
     const callbackRef = useCallback(
-        (inputElement) => {
+        (inputElement: any) => {
             if (inputElement) {
                 setTimeout(() => {
                     inputElement.focus();
