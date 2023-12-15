@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement, ReactNode, useContext, useState } from 'react';
+import React, { Fragment, ReactNode, useContext, useState } from 'react';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Dropdown, Modal } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
@@ -21,13 +21,13 @@ interface OwnProps {
 }
 
 const SavedFiltersMenu = ({
-    selectedKey,
-    isDirty,
-    savedFilters = [],
     children,
-    onSavedFilterChange,
+    isDirty,
     onDeleteFilter,
+    onSavedFilterChange,
     onUpdateFilter,
+    savedFilters = [],
+    selectedKey,
 }: OwnProps): JSX.Element => {
     const { dictionary } = useContext(QueryCommonContext);
     const [manageFiltersVisible, setManageFiltersVisible] = useState(false);

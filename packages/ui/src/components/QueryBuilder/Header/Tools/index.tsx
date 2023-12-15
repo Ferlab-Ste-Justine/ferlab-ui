@@ -35,10 +35,10 @@ const tooltipAlign = { align: { offset: [0, 5] } };
 
 const QueryBuilderHeaderTools = ({
     config,
-    savedFilters = [],
-    onSavedFilterChange,
-    onNewSavedFilter,
     onDuplicateSavedFilter,
+    onNewSavedFilter,
+    onSavedFilterChange,
+    savedFilters = [],
 }: IQueryBuilderHeaderProps): JSX.Element => {
     const { queriesState, selectedSavedFilter } = useContext(QueryBuilderContext);
     const { dictionary } = useContext(QueryCommonContext);
