@@ -2,16 +2,23 @@ import { MutableRefObject, ReactNode, useLayoutEffect, useRef, useState } from '
 import React from 'react';
 import { HolderOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { Popover, PopoverProps, Space, Tooltip, Typography } from 'antd';
+import classnames from 'classnames';
 import cx from 'classnames';
 
 import DragHandle from '../../../../layout/SortableGrid/DragHandle';
 
 import styles from './GridCardHeader.module.scss';
 
+interface IInfoPopover extends PopoverProps {
+    iconClassName?: string;
+}
+
 interface OwnProps {
     id: string;
     title: string;
-    infoPopover?: PopoverProps;
+    infoPopover?: IInfoPopover;
+    className?: string;
+    handleClassName?: string;
     extraClassName?: string;
     extra?: ReactNode[];
     withHandle?: boolean;
@@ -23,6 +30,8 @@ const { Title } = Typography;
 const GridCardHeader = ({
     id,
     title,
+    className,
+    handleClassName,
     extraClassName = '',
     extra = [],
     withHandle = false,
@@ -49,11 +58,11 @@ const GridCardHeader = ({
     }
 
     return (
-        <Title className={styles.cardHeader} level={4} ref={headerContainerRef}>
+        <Title className={classnames(styles.cardHeader, className)} level={4} ref={headerContainerRef}>
             <div className="rgl-drag-zone">
                 <Space align="center" className={styles.cardHeadererContent} direction="horizontal" size={5}>
                     {withHandle && (
-                        <DragHandle className={styles.dragHandle} id={id}>
+                        <DragHandle className={classnames(styles.dragHandle, handleClassName)} id={id}>
                             <HolderOutlined />
                         </DragHandle>
                     )}
@@ -61,7 +70,7 @@ const GridCardHeader = ({
                         <div className={styles.titleContainer} style={{ width: titleWidth }}>
                             <Tooltip title={truncated ? title : undefined}>
                                 <Typography.Text
-                                    ellipsis={{ onEllipsis: setTruncated }}
+                                    ellipsis={titleTruncateThresholdWidth ? { onEllipsis: setTruncated } : {}}
                                     style={{ width: titleWidth }}
                                     tabIndex={0}
                                 >
@@ -76,7 +85,7 @@ const GridCardHeader = ({
                             className={cx(styles.infoPopover, infoPopover.className)}
                             overlayClassName={cx(styles.infoPopoverOverlay, infoPopover.overlayClassName)}
                         >
-                            <InfoCircleOutlined className={styles.infoIcon} />
+                            <InfoCircleOutlined className={classnames(styles.infoIcon, infoPopover.iconClassName)} />
                         </Popover>
                     )}
                 </Space>
