@@ -1,7 +1,7 @@
 import ColorTag, {
     ColorTagType
-} from "@ferlab/ui/components/ColorTag";
-import { Meta } from "@storybook/react/types-6-0";
+} from "@ferlab/ui/core/components/ColorTag";
+import { Meta } from "@storybook/react";
 import React from "react";
 
 export default {

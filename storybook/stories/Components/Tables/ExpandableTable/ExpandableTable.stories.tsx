@@ -1,8 +1,8 @@
 import React from "react";
-import { Meta } from "@storybook/react/types-6-0";
+import { Meta } from "@storybook/react";
 import ExpandableTable, {
     TExpandableTableProps,
-} from "@ferlab/ui/components/tables/ExpandableTable";
+} from "@ferlab/ui/core/components/tables/ExpandableTable";
 
 export default {
     title: "@ferlab/Components/Tables/ExpandableTable",

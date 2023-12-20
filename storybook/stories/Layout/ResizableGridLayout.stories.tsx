@@ -2,12 +2,12 @@ import React from 'react';
 import ResizableGridLayout, {
     TSerializedResizableGridLayoutConfig,
     IResizableGridLayoutConfig,
-} from '@ferlab/ui/layout/ResizableGridLayout';
-import { Meta } from '@storybook/react/types-6-0';
-import ResizableGridCard from '@ferlab/ui/layout/ResizableGridLayout/ResizableGridCard';
-import BarChart from '@ferlab/ui/components/Charts/Bar';
-import PieChart from '@ferlab/ui/components/Charts/Pie';
-import { aggregationToChartData } from '@ferlab/ui/layout/ResizableGridLayout/utils';
+} from '@ferlab/ui/core/layout/ResizableGridLayout';
+import { Meta } from '@storybook/react';
+import ResizableGridCard from '@ferlab/ui/core/layout/ResizableGridLayout/ResizableGridCard';
+import BarChart from '@ferlab/ui/core/components/Charts/Bar';
+import PieChart from '@ferlab/ui/core/components/Charts/Pie';
+import { aggregationToChartData } from '@ferlab/ui/core/layout/ResizableGridLayout/utils';
 
 const GridCardItem = ({
     title = 'Header Title',

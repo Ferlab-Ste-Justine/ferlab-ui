@@ -1,9 +1,9 @@
 import React from "react";
-import { Meta } from "@storybook/react/types-6-0";
+import { Meta } from "@storybook/react";
 import StatusLabel, {
     StatusOptions as Status,
     StatusLabelProps,
-} from "@ferlab/ui/components/labels/Status";
+} from "@ferlab/ui/core/components/labels/Status";
 
 export default {
     title: "@ferlab/Components/Labels/Status",

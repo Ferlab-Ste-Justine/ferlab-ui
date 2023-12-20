@@ -1,9 +1,11 @@
-import QueryBuilder, { IQueryBuilderProps } from '@ferlab/ui/components/QueryBuilder';
-import { setQueryBuilderState } from '@ferlab/ui/components/QueryBuilder/utils/useQueryBuilderState';
-import { IRemoteComponent } from '@ferlab/ui/data/sqon/types';
-import { Meta, Story } from '@storybook/react/types-6-0';
-import React from 'react';
-import { MdPeople } from 'react-icons/md';
+import QueryBuilder, {
+    IQueryBuilderProps,
+} from "@ferlab/ui/core/components/QueryBuilder";
+import { setQueryBuilderState } from "@ferlab/ui/core/components/QueryBuilder/utils/useQueryBuilderState";
+import { IRemoteComponent } from "@ferlab/ui/core/data/sqon/types";
+import { Meta, Story } from "@storybook/react/types-6-0";
+import React from "react";
+import { MdPeople } from "react-icons/md";
 
 export default {
     title: '@ferlab/Components/QueryBuilder/QueryBuilder',

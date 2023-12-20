@@ -1,6 +1,6 @@
 import React from "react";
 import "antd/dist/antd.css";
-import GridCard from "@ferlab/ui/view/v2/GridCard";
+import GridCard from "@ferlab/ui/core/view/v2/GridCard";
 
 export default {
     title: "@ferlab/Views/GridCard V2",

@@ -1,6 +1,6 @@
 import React from "react";
 import {Meta} from '@storybook/react/types-6-0';
-import MultiLabel, {MultiLabelTypeEnum, MultiLabelProps, MultiLabelIconPositionEnum} from '@ferlab/ui/components/labels/MultiLabel';
+import MultiLabel, {MultiLabelTypeEnum, MultiLabelProps, MultiLabelIconPositionEnum} from '@ferlab/ui/core/components/labels/MultiLabel';
 import {AiOutlineSmile} from 'react-icons/ai';
 
 export default {

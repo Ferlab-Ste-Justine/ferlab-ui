@@ -1,5 +1,5 @@
-import PieChart from '@ferlab/ui/components/Charts/Pie';
-import { Meta } from "@storybook/react/types-6-0";
+import PieChart from '@ferlab/ui/core/components/Charts/Pie';
+import { Meta } from "@storybook/react";
 import React from "react";
 
 const data = [
@@ -45,10 +45,10 @@ export const PieChartBasic = () => (
     <>
         <h2>Pie Chart</h2>
         <div style={{width: '600px', height: '600px' }}>
-            <PieChart 
-            data={data} 
-            width={400} 
-            height={500} 
+            <PieChart
+            data={data}
+            width={400}
+            height={500}
             />
         </div>
     </>
@@ -58,10 +58,10 @@ export const PieChartWithLegend = () => (
     <>
         <h2>Pie Chart with Legend</h2>
         <div style={{width: '600px', height: '600px' }}>
-            <PieChart 
-                data={data} 
-                width={400} 
-                height={500} 
+            <PieChart
+                data={data}
+                width={400}
+                height={500}
                 legends={[{
                     anchor: 'bottom',
                     direction: 'row',

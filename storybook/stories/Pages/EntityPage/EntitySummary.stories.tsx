@@ -1,7 +1,7 @@
 import EntitySummary, {
     ISummaryProps,
-} from "@ferlab/ui/pages/EntityPage/EntitySummary";
-import { Meta } from "@storybook/react/types-6-0";
+} from "@ferlab/ui/core/pages/EntityPage/EntitySummary";
+import { Meta } from "@storybook/react";
 import React from "react";
 
 export default {

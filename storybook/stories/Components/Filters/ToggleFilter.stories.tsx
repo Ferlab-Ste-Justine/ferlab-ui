@@ -1,8 +1,8 @@
 import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
-import {IFilter, IFilterCount, IFilterGroup, onChangeType, VisualType} from "@ferlab/ui/components/filters/types";
+import {IFilter, IFilterCount, IFilterGroup, onChangeType, VisualType} from "@ferlab/ui/core/components/filters/types";
 import {booleanFilters, dictionaryFrench, booleanFiltersBigCount} from "./data";
-import ToggleFilter, {BooleanFilterProps} from "@ferlab/ui/components/filters/ToggleFilter";
+import ToggleFilter, {BooleanFilterProps} from "@ferlab/ui/core/components/filters/ToggleFilter";
 
 export default {
   title: "@ferlab/Components/Filters/ToggleFilter",

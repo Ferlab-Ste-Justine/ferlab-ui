@@ -1,6 +1,6 @@
 import React from "react";
-import { Meta } from "@storybook/react/types-6-0";
-import Empty, { IEmptyProps } from "@ferlab/ui/components/Empty";
+import { Meta } from "@storybook/react";
+import Empty, { IEmptyProps } from "@ferlab/ui/core/components/Empty";
 
 export default {
     title: "@ferlab/Components/Empty",
@@ -137,7 +137,7 @@ EmptyDefaultWithAction.args = {
 export const EmptyDescriptionOnlyLeft = EmptyPropsStory.bind({});
 EmptyDescriptionOnlyLeft.args = {
     showImage: false,
-    noPadding: true, 
+    noPadding: true,
     storyTitle: "Empty Description Only Left",
     description: "No data message",
     align: "left",

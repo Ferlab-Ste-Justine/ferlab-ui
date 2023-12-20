@@ -1,7 +1,7 @@
 import EntityExpandableTableMultiple, {
     IEntityExpandableTableMultiple,
-} from "@ferlab/ui/pages/EntityPage/EntityExpandableTableMultiple";
-import { Meta } from "@storybook/react/types-6-0";
+} from "@ferlab/ui/core/pages/EntityPage/EntityExpandableTableMultiple";
+import { Meta } from "@storybook/react";
 import React from "react";
 
 export default {

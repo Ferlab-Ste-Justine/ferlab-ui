@@ -1,8 +1,8 @@
 
 import React from "react";
-import { Meta } from "@storybook/react/types-6-0";
-import ConsequencesCell, { IConsequenceEntity } from '@ferlab/ui/components/Consequences/Cell';
-import { IArrangerEdge } from "@ferlab/ui/graphql/types";
+import { Meta } from "@storybook/react";
+import ConsequencesCell, { IConsequenceEntity } from '@ferlab/ui/core/components/Consequences/Cell';
+import { IArrangerEdge } from "@ferlab/ui/core/graphql/types";
 
 const data = [
     {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta } from '@storybook/react';
-import EntityDataset from '@ferlab/ui/pages/EntityPage/EntityDataset';
+import EntityDataset from '@ferlab/ui/core/pages/EntityPage/EntityDataset';
 
 export default {
     title: '@ferlab/Pages/EntityPage/EntityDataset',

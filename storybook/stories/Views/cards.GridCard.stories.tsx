@@ -1,5 +1,5 @@
 import React from 'react';
-import GridCard from '@ferlab/ui/view/GridCard';
+import GridCard from '@ferlab/ui/core/view/GridCard';
 import 'antd/dist/antd.css'
 
 
@@ -10,9 +10,9 @@ export default {
     label: {
       description: 'overwritten description',
       table: {
-        type: { 
-            summary: 'something short', 
-            detail: 'something really really long' 
+        type: {
+            summary: 'something short',
+            detail: 'something really really long'
         },
       },
       control: {

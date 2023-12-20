@@ -1,8 +1,8 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react/types-6-0';
-import { IFilter, IFilterGroup, IFilterRange, onChangeType, VisualType } from '@ferlab/ui/components/filters/types';
+import { IFilter, IFilterGroup, IFilterRange, onChangeType, VisualType } from '@ferlab/ui/core/components/filters/types';
 import { dictionaryFrench, rangeFilters } from './data';
-import RangeFilter, { RangeFilterProps } from '@ferlab/ui/components/filters/RangeFilter';
+import RangeFilter, { RangeFilterProps } from '@ferlab/ui/core/components/filters/RangeFilter';
 
 export default {
     title: '@ferlab/Components/Filters/RangeFilter',

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Meta } from '@storybook/react/types-6-0';
-import UserAvatar, { IUserAvatarProps } from '@ferlab/ui/components/UserAvatar';
+import { Meta } from '@storybook/react';
+import UserAvatar, { IUserAvatarProps } from '@ferlab/ui/core/components/UserAvatar';
 
 export default {
     title: "@ferlab/Components/UserAvatar",

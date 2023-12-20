@@ -1,6 +1,6 @@
 import React from "react";
-import { Meta } from "@storybook/react/types-6-0";
-import Gravatar, { IGravatarProps } from "@ferlab/ui/components/Gravatar";
+import { Meta } from "@storybook/react";
+import Gravatar, { IGravatarProps } from "@ferlab/ui/core/components/Gravatar";
 
 export default {
     title: "@ferlab/Components/Gravatar",

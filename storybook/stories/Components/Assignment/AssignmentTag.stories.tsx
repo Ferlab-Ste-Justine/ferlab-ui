@@ -1,7 +1,6 @@
 import React from 'react';
-import { Meta } from '@storybook/react/types-6-0';
-import AssignmentsTag, { TAssignmentsTag } from '@ferlab/ui/components/Assignments/AssignmentsTag';
-import { TPractitionnerInfo } from '@ferlab/ui/components/Assignments/types';
+import { Meta } from '@storybook/react';
+import AssignmentsTag, { TAssignmentsTag } from '@ferlab/ui/core/components/Assignments/AssignmentsTag';
 
 export default {
     title: '@ferlab/Components/Assignments/AssignmentsTag',
