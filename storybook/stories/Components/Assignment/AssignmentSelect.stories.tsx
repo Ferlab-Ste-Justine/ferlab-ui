@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta } from '@storybook/react/types-6-0';
-import AssignementsSelect, { TAssignmentsSelect } from '@ferlab/ui/components/Assignments/AssignmentsSelect';
-import { TPractitionnerInfo } from '@ferlab/ui/components/Assignments/types';
+import { Meta } from '@storybook/react';
+import AssignementsSelect, { TAssignmentsSelect } from '@ferlab/ui/core/components/Assignments/AssignmentsSelect';
+import { TPractitionnerInfo } from '@ferlab/ui/core/components/Assignments/types';
 
 export default {
     title: '@ferlab/Components/Assignments/AssignmentsSelect',

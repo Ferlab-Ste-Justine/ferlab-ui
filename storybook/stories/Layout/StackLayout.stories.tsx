@@ -1,7 +1,7 @@
 import React from "react";
-import StackLayout, 
-  { StackOrientation } 
-from '@ferlab/ui/layout/StackLayout';
+import StackLayout,
+  { StackOrientation }
+from '@ferlab/ui/core/layout/StackLayout';
 import { Story, Meta } from '@storybook/react/types-6-0';
 
 export default {
@@ -44,8 +44,8 @@ const StackLayoutStory = ({title, style, ...props} : {title: string, style: Reac
 );
 
 const blockStyle = {
-  background: 'lightblue', 
-  height: '100px', 
+  background: 'lightblue',
+  height: '100px',
   margin: '8px',
   width: '100px'
 }

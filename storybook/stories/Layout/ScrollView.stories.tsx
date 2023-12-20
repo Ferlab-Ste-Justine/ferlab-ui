@@ -1,7 +1,7 @@
 import React from "react";
-import ScrollView, 
-  { ScrollViewProps, StackOrientation } 
-from '@ferlab/ui/layout/ScrollView';
+import ScrollView,
+  { ScrollViewProps, StackOrientation }
+from '@ferlab/ui/core/layout/ScrollView';
 import { Story, Meta } from '@storybook/react/types-6-0';
 
 export default {
@@ -38,8 +38,8 @@ const ScrollViewStory = ({title, style, ...props} : {title: string, style: React
 );
 
 const blockStyle = {
-  background: 'lightblue', 
-  height: '100px', 
+  background: 'lightblue',
+  height: '100px',
   margin: '8px',
   width: '100px'
 }

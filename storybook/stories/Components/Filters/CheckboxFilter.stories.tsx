@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react/types-6-0';
-import { CheckboxFilter, TermFilterProps } from '@ferlab/ui/components/filters/CheckboxFilter';
+import { CheckboxFilter, TermFilterProps } from '@ferlab/ui/core/components/filters/CheckboxFilter';
 import {
     IDictionary,
     IFilter,
@@ -9,7 +9,7 @@ import {
     onChangeType,
     VisualType,
     IFilterCheckboxConfig,
-} from '@ferlab/ui/components/filters/types';
+} from '@ferlab/ui/core/components/filters/types';
 import { dictionaryFrench, filters, filtersWithBigCounts, filtersWithNoData } from './data';
 
 export default {

@@ -1,7 +1,7 @@
 import EntityTableMultiple, {
     IEntityTableMultiple,
-} from "@ferlab/ui/pages/EntityPage/EntityTableMultiple";
-import { Meta } from "@storybook/react/types-6-0";
+} from "@ferlab/ui/core/pages/EntityPage/EntityTableMultiple";
+import { Meta } from "@storybook/react";
 import React from "react";
 
 export default {

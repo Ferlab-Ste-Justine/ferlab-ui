@@ -7,8 +7,8 @@ import {
     IFilterTextInputConfig,
     onChangeType,
     VisualType
-} from "@ferlab/ui/components/filters/types";
-import TextInputFilter, {TextInputFilterProps} from "@ferlab/ui/components/filters/TextInputFilter";
+} from "@ferlab/ui/core/components/filters/types";
+import TextInputFilter, {TextInputFilterProps} from "@ferlab/ui/core/components/filters/TextInputFilter";
 
 export default {
   title: "@ferlab/Components/Filters/TextInputFilter",

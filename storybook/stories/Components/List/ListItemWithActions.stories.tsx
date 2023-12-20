@@ -1,6 +1,6 @@
-import ListItemWithActions from '@ferlab/ui/components/List/ListItemWithActions';
+import ListItemWithActions from '@ferlab/ui/core/components/List/ListItemWithActions';
 import { action } from '@storybook/addon-actions';
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta } from '@storybook/react';
 import React from 'react';
 import { List, Typography } from '../../../node_modules/antd';
 

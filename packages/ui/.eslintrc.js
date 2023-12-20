@@ -14,13 +14,7 @@ module.exports = {
             version: "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
         }
     },
-    extends: [
-        'plugin:@typescript-eslint/recommended',
-        'prettier',
-        'prettier/react',
-        'prettier/@typescript-eslint',
-        'plugin:prettier/recommended'
-    ],
+    extends: ['plugin:@typescript-eslint/recommended', 'prettier', 'prettier/react', 'prettier/@typescript-eslint', 'plugin:prettier/recommended', 'plugin:storybook/recommended'],
     plugins: [
         'react',
         '@typescript-eslint',

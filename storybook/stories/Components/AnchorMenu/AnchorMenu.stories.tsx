@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta } from '@storybook/react/types-6-0';
-import AnchorMenu, { IAnchorLink } from '@ferlab/ui/components/AnchorMenu';
+import AnchorMenu, { IAnchorLink } from '@ferlab/ui/core/components/AnchorMenu';
 
 export default {
     title: '@ferlab/Components/Menu/AnchorMenu',

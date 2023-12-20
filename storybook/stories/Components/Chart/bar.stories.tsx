@@ -1,5 +1,5 @@
-import BarChart from '@ferlab/ui/components/Charts/Bar';
-import { Meta } from "@storybook/react/types-6-0";
+import BarChart from '@ferlab/ui/core/components/Charts/Bar';
+import { Meta } from "@storybook/react";
 import React from "react";
 
 const data = [
@@ -43,9 +43,9 @@ export const BarChartStory = () => (
     <>
         <h2>Bar chart</h2>
         <div style={{width: '600px', height: '600px' }}>
-            <BarChart 
-                title="Bar Chart Example" 
-                data={data} 
+            <BarChart
+                title="Bar Chart Example"
+                data={data}
                 margin={{
                     top: 12,
                     bottom: 45,
@@ -61,8 +61,8 @@ export const BarChartWithLegendStory = () => (
     <>
         <h2>Bar chart</h2>
         <div style={{marginLeft: '45px', width: '600px', height: '600px' }}>
-            <BarChart 
-                title="Bar Chart Example" 
+            <BarChart
+                title="Bar Chart Example"
                 data={data}
                 axisLeft={{
                     legend: 'Legend Left',

@@ -1,7 +1,7 @@
 import EntityTable, {
     IEntityTable,
-} from "@ferlab/ui/pages/EntityPage/EntityTable";
-import { Meta } from "@storybook/react/types-6-0";
+} from "@ferlab/ui/core/pages/EntityPage/EntityTable";
+import { Meta } from "@storybook/react";
 import React from "react";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 

@@ -1,6 +1,6 @@
 import React from "react";
-import { Meta } from "@storybook/react/types-6-0";
-import ProLabel, { IProLabelProps } from "@ferlab/ui/components/ProLabel";
+import { Meta } from "@storybook/react";
+import ProLabel, { IProLabelProps } from "@ferlab/ui/core/components/ProLabel";
 
 export default {
     title: "@ferlab/Components/Labels/ProLabel",

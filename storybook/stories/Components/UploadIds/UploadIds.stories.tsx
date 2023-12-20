@@ -1,6 +1,6 @@
 import React from "react";
-import { Meta } from "@storybook/react/types-6-0";
-import UploadIds, { UploadIdsProps } from "@ferlab/ui/components/UploadIds";
+import { Meta } from "@storybook/react";
+import UploadIds, { UploadIdsProps } from "@ferlab/ui/core/components/UploadIds";
 
 export default {
     title: "@ferlab/Components/UploadIds",

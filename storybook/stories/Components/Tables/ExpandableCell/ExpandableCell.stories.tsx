@@ -1,8 +1,8 @@
 import React from "react";
-import { Meta } from "@storybook/react/types-6-0";
+import { Meta } from "@storybook/react";
 import ExpandableCell, {
     IExpandableCellProps,
-} from "@ferlab/ui/components/tables/ExpandableCell";
+} from "@ferlab/ui/core/components/tables/ExpandableCell";
 
 export default {
     title: "@ferlab/Components/Tables/ExpandableCell",

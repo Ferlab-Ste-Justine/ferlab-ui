@@ -1,9 +1,9 @@
 import React from "react";
 import {Meta, Story} from '@storybook/react/types-6-0';
-import {TermFilterProps} from "@ferlab/ui/components/filters/CheckboxFilter";
-import {IFilter, IFilterCount, IFilterGroup, IFilterRangeConfig, IFilterTextInputConfig, onChangeType, VisualType} from "@ferlab/ui/components/filters/types";
+import {TermFilterProps} from "@ferlab/ui/core/components/filters/CheckboxFilter";
+import {IFilter, IFilterCount, IFilterGroup, IFilterRangeConfig, IFilterTextInputConfig, onChangeType, VisualType} from "@ferlab/ui/core/components/filters/types";
 import {booleanFilters, filters, rangeFilters} from "./data";
-import FilterSelector from "@ferlab/ui/components/filters/FilterSelector";
+import FilterSelector from "@ferlab/ui/core/components/filters/FilterSelector";
 
 export default {
     title: "@ferlab/Components/Filters/FilterSelector",

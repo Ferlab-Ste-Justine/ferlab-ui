@@ -1,7 +1,7 @@
-import ProTable from "@ferlab/ui/components/ProTable";
-import { PaginationViewPerQuery } from "@ferlab/ui/components/ProTable/Pagination/constants";
-import { TProTableProps } from "@ferlab/ui/components/ProTable/types";
-import { Meta } from "@storybook/react/types-6-0";
+import ProTable from "@ferlab/ui/core/components/ProTable";
+import { PaginationViewPerQuery } from "@ferlab/ui/core/components/ProTable/Pagination/constants";
+import { TProTableProps } from "@ferlab/ui/core/components/ProTable/types";
+import { Meta } from "@storybook/react";
 import React from "react";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 

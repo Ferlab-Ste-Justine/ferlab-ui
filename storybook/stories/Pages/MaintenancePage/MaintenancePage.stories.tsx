@@ -1,7 +1,7 @@
 import MaintenancePage, {
     TMaintenancePage,
-} from "@ferlab/ui/pages/MaintenancePage";
-import { Meta } from "@storybook/react/types-6-0";
+} from "@ferlab/ui/core/pages/MaintenancePage";
+import { Meta } from "@storybook/react";
 import React from "react";
 
 export default {

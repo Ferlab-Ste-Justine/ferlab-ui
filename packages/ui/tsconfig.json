@@ -15,11 +15,16 @@
         "skipLibCheck": true,
         "rootDir": "src",
         "sourceMap": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "paths": {
+          "@ferlab/ui": ["./src"],
+          "@ferlab/ui/*": ["./src/*"],
+        },
     },
     "include": ["typings.d.ts", "src", "../data/src/sqon/**/*"],
     "exclude": [
         "src/**/*.spec.ts",
-        "src/**/*.test.ts"
+        "src/**/*.test.ts",
+        "src/stories/**"
     ]
 }

@@ -1,7 +1,7 @@
 import React from "react";
-import SortableGrid from "@ferlab/ui/layout/SortableGrid";
-import GridCard from "@ferlab/ui/view/v2/GridCard";
-import DragHandle from "@ferlab/ui/layout/SortableGrid/DragHandle";
+import SortableGrid from "@ferlab/ui/core/layout/SortableGrid";
+import GridCard from "@ferlab/ui/core/view/v2/GridCard";
+import DragHandle from "@ferlab/ui/core/layout/SortableGrid/DragHandle";
 import { GrDrag } from "react-icons/gr";
 import "antd/dist/antd.css";
 // @ts-ignore

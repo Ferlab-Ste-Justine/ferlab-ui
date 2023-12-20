@@ -4,9 +4,9 @@ import {
     IFilterCount,
     IFilterRange,
     IGlobalSearch,
-    IMessages, 
+    IMessages,
     IRange
-} from "@ferlab/ui/components/filters/types";
+} from "@ferlab/ui/core/components/filters/types";
 
 export const filters: IFilter<IFilterCount>[] = [
     {
@@ -84,7 +84,7 @@ export const filters: IFilter<IFilterCount>[] = [
 
 ]
 
-export const filtersWithNoData = [...filters, 
+export const filtersWithNoData = [...filters,
     {
         data: {
             count: 42,
