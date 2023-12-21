@@ -7,7 +7,7 @@ import { FieldOperators } from '../../../data/sqon/operators';
 import { IValueFilter } from '../../../data/sqon/types';
 import { isBooleanFilter, isRangeFilter } from '../../../data/sqon/utils';
 import ConditionalWrapper from '../../utils/ConditionalWrapper';
-import { QueryBuilderContext, QueryCommonContext } from '../context';
+import { QueryCommonContext } from '../context';
 import ElementOperator from '../icons/ElementOperator';
 import EqualOperator from '../icons/EqualOperator';
 import GreaterThanOperator from '../icons/GreaterThanOperator';

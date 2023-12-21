@@ -21,13 +21,13 @@ interface OwnProps {
 }
 
 const SavedFiltersMenu = ({
-    selectedKey,
-    isDirty,
-    savedFilters = [],
     children,
-    onSavedFilterChange,
+    isDirty,
     onDeleteFilter,
+    onSavedFilterChange,
     onUpdateFilter,
+    savedFilters = [],
+    selectedKey,
 }: OwnProps): JSX.Element => {
     const { dictionary } = useContext(QueryCommonContext);
     const [manageFiltersVisible, setManageFiltersVisible] = useState(false);

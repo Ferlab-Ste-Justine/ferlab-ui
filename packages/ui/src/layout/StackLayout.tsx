@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { ReactNode } from 'react';
 import cx from 'classnames';
 
 import './StackLayout.scss';
@@ -24,6 +24,7 @@ export type StackLayoutOwnProps = {
     vertical?: boolean;
     horizontal?: boolean;
     style?: React.CSSProperties;
+    children?: ReactNode;
 };
 
 export type StackLayoutProps = StackLayoutOwnProps & ExtraProps;

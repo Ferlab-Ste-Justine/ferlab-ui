@@ -14,14 +14,14 @@ type TBarChart = Omit<BarSvgProps<BarDatum>, 'width' | 'height'> & {
 const { Title } = Typography;
 
 const BarChart = ({
+    colorBy = 'indexValue',
+    enableLabel = true,
     margin = { bottom: 12, left: 24, right: 24, top: 12 },
     onMouseEnter,
-    enableLabel = true,
-    valueFormat = (value) => `${numberFormat(value ?? 0)}`,
-    colorBy = 'indexValue',
     title,
     ariaLabel = title,
     barAriaLabel = (e) => `${e.indexValue}, ${e.formattedValue}`,
+    valueFormat = (value) => `${numberFormat(value ?? 0)}`,
     ...rest
 }: TBarChart): JSX.Element => {
     const fill = rest.data?.map((d, index) => ({

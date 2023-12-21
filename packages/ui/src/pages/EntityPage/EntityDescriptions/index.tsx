@@ -20,7 +20,7 @@ export interface IEntityDescriptions {
 
 export interface IEntityDescriptionsItem {
     label: React.ReactNode;
-    value?: React.ReactNode;
+    value?: React.ReactNode | string;
     separator?: boolean;
 }
 

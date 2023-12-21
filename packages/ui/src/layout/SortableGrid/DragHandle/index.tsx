@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import cx from 'classnames';
 
@@ -10,7 +10,7 @@ interface OwnProps {
     className?: string;
 }
 
-const DragHandle = ({ children, className = '', id }: OwnProps) => {
+const DragHandle = ({ children, className = '', id }: OwnProps): ReactElement => {
     const { attributes, listeners } = useSortable({ id });
 
     return (

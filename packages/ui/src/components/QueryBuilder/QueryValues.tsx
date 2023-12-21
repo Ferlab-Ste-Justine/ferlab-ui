@@ -2,7 +2,6 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import { Button } from 'antd';
 import cx from 'classnames';
-import { get } from 'lodash';
 import take from 'lodash/take';
 
 import { ArrangerValues, keyEnhance } from '../../data/arranger/formatting';
@@ -37,7 +36,8 @@ const QueryValues = ({ isElement = false, onClick, valueFilter }: IQueryValuesPr
             return dictionary.query?.setNameResolver(value);
         }
 
-        const facetMapping = get(get(dictionary.query, 'facetValueMapping', {}), valueFilter.content.field, {});
+        const facetValueMapping = dictionary?.query?.facetValueMapping || {};
+        const facetMapping = facetValueMapping[valueFilter?.content?.field] || {};
         return removeUnderscoreAndCapitalize(value in facetMapping ? facetMapping[value] : value);
     };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { Button, Select } from 'antd';
 import type { CustomTagProps } from 'rc-select/lib/BaseSelect';
 
@@ -84,7 +84,7 @@ export const AssignmentsSelect = ({
     loading,
     options,
     visibleOptions = false,
-}: TAssignmentsSelect) => {
+}: TAssignmentsSelect): ReactElement => {
     const noAssignDefaultValue = [
         {
             label: 'noAssign',
