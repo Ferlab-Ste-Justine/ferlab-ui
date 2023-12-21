@@ -14,11 +14,11 @@ type Props = {
 
 export const ItemsCount = ({
     className = '',
-    page,
+    dictionnary = {},
     hidden = false,
+    page,
     size,
     total,
-    dictionnary = {},
 }: Props): React.ReactElement => {
     if (hidden) {
         return <></>;

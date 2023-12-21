@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import styles from './LabelOperator.module.scss';
 
 interface IGreaterThanOrEqualOperatorProps {
     className?: string;
 }
-const GreaterThanOrEqualOperator = ({ className = '' }: IGreaterThanOrEqualOperatorProps) => (
+const GreaterThanOrEqualOperator = ({ className = '' }: IGreaterThanOrEqualOperatorProps): ReactElement => (
     <svg
         className={`${styles.icon} ${className}`}
         fill="currentColor"

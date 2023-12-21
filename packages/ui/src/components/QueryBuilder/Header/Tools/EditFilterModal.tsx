@@ -30,7 +30,7 @@ const EditFilterModal = ({
     const [editForm] = Form.useForm();
 
     const callbackRef = useCallback(
-        (inputElement) => {
+        (inputElement: any) => {
             if (inputElement) {
                 setTimeout(() => {
                     inputElement.focus();

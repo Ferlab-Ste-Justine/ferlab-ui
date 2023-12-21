@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Typography } from 'antd';
 import cx from 'classnames';
 import { get } from 'lodash';
@@ -23,12 +23,12 @@ const DEFAULT_NUM_COLLAPSED = 3;
 const renderItemDefault = (item: any, id: string) => <span key={id}>{item}</span>;
 
 const ExpandableCell = <T,>({
-    nOfElementsWhenCollapsed = DEFAULT_NUM_COLLAPSED,
-    dataSource = [],
-    renderItem = renderItemDefault,
-    dictionnary,
     className = '',
-}: IExpandableCellProps<T>) => {
+    dataSource = [],
+    dictionnary,
+    nOfElementsWhenCollapsed = DEFAULT_NUM_COLLAPSED,
+    renderItem = renderItemDefault,
+}: IExpandableCellProps<T>): ReactElement => {
     const [showAll, setShowAll] = useState(false);
     const dataTotalLength = dataSource?.length || 0;
     const sliceNum = showAll ? dataTotalLength : nOfElementsWhenCollapsed;

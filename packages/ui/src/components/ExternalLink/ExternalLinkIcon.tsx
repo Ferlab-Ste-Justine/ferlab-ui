@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import cx from 'classnames';
 
 type IconProps = {
@@ -7,7 +7,7 @@ type IconProps = {
     className?: string;
 };
 
-const ExternalLinkIcon = ({ className = '', height = '16', width = '16' }: IconProps) => (
+const ExternalLinkIcon = ({ className = '', height = '16', width = '16' }: IconProps): ReactElement => (
     <svg
         className={cx('anticon', className)}
         fill="currentColor"

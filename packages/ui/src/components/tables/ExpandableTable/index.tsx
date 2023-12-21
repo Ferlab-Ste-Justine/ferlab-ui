@@ -17,11 +17,11 @@ const DEFAULT_NUM_COLLAPSED = 5;
 
 const ExpandableTable = ({
     buttonText,
-    nOfElementsWhenCollapsed = DEFAULT_NUM_COLLAPSED,
-    dataSource,
     columns,
+    dataSource,
+    nOfElementsWhenCollapsed = DEFAULT_NUM_COLLAPSED,
     ...tableProps
-}: TExpandableTableProps) => {
+}: TExpandableTableProps): ReactElement => {
     const [showAll, setShowAll] = useState(false);
     const dataTotalLength = dataSource?.length || 0;
     const sliceNum = showAll ? dataTotalLength : nOfElementsWhenCollapsed;

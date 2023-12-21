@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Space, Tag, Typography } from 'antd';
 
 import UserAvatar from '../../UserAvatar';
@@ -28,12 +28,11 @@ export const AssignmentsTag = ({
     background = true,
     closable = false,
     dictionary,
-    email,
     handleClose,
     name,
     organization,
     unAssign = false,
-}: TAssignmentsTag) => {
+}: TAssignmentsTag): ReactElement => {
     const { Text } = Typography;
     return (
         <Tag
