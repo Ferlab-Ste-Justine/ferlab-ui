@@ -1,40 +1,48 @@
 @import 'colors';
 
 .stackLayout {
-  min-width: 375px;
+    min-width: 375px;
 }
 
 .consequenceUl {
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
 
 .highImpact {
-  fill: $red-5;
+    fill: $red-5;
 }
 
 .lowImpact {
-  fill: $green-6;
+    fill: $green-6;
 }
 
 .moderateImpact {
-  fill: $orange-5;
+    fill: $orange-5;
 }
 
 .modifierImpact {
-  fill: $gray-6;
+    fill: $gray-6;
 }
 
 .detail {
-  padding-right: 12px;
+    padding-right: 12px;
+}
+
+.detailWithoutSymbol {
+    padding-right: 4px;
 }
 
 .bullet {
-  margin-right: 8px;
-  min-width: 10px;
-  min-height: 10px;
+    margin-right: 8px;
+    min-width: 10px;
+    min-height: 10px;
 }
 
 .symbol {
-  padding-right: 8px;
+    padding-right: 8px;
+}
+
+.dash {
+    padding-right: 4px;
 }

@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "7.18.0",
+    "version": "7.19.0",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -41,7 +41,7 @@
     "license": "SEE LICENSE IN LICENSE",
     "devDependencies": {
         "@testing-library/dom": "^8.19.0",
-        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/jest-dom": "^5.17.0",
         "@testing-library/react": "^12.1.5",
         "@types/antd": "^1.0.0",
         "@types/classnames": "^2.2.11",

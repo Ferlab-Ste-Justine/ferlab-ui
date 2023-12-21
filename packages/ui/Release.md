@@ -1,3 +1,6 @@
+### 7.19.0 2023-12-21
+- feat: SKFP-880 add fixed table and icons
+
 ### 7.18.0 2023-12-14
 - feat: SKFP-874 add authorized studies widget
 
