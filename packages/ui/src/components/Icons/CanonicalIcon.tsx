@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 import { IIconProps } from './type';
 
-const CanonicalIcon = ({ className = '', height = 18, width = 18 }: IIconProps) => (
+const CanonicalIcon = ({ className = '', height = 18, width = 18 }: IIconProps): JSX.Element => (
     <svg
         className={cx('anticon', className)}
         fill="currentColor"

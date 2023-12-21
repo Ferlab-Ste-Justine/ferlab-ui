@@ -8,7 +8,7 @@ const ManeSelectIcon = ({ className = '', height = 18, width = 18 }: IIconProps)
         className={cx('anticon', className)}
         fill="currentColor"
         height={height}
-        viewBox="0 0 18 18"
+        viewBox="0 0 24 24"
         width={width}
         xmlns="http://www.w3.org/2000/svg"
     >
