@@ -3,7 +3,7 @@ import { MinusCircleFilled, PlusCircleFilled } from '@ant-design/icons';
 import { render, screen } from '@testing-library/react';
 
 import FencesAuthentificationModal from './FencesAuthentificationModal';
-import { FENCE_AUHTENTIFICATION_STATUS, IFenceService } from '.';
+import { FENCE_AUTHENTIFICATION_STATUS, IFenceService } from '.';
 
 const services: IFenceService[] = [
     {
@@ -39,14 +39,14 @@ describe('FencesAuthentificationModal', () => {
                     error: false,
                     id: 'fence1',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.connected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.connected,
                 },
                 {
                     acl: [],
                     error: false,
                     id: 'fence2',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.disconnected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.disconnected,
                 },
             ],
             onCancel: jest.fn(),
@@ -69,14 +69,14 @@ describe('FencesAuthentificationModal', () => {
                     error: false,
                     id: 'fence1',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.connected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.connected,
                 },
                 {
                     acl: [],
                     error: false,
                     id: 'fence2',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.connected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.connected,
                 },
             ],
             onCancel: jest.fn(),
@@ -101,14 +101,14 @@ describe('FencesAuthentificationModal', () => {
                     error: false,
                     id: 'fence1',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.disconnected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.disconnected,
                 },
                 {
                     acl: [],
                     error: false,
                     id: 'fence2',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.disconnected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.disconnected,
                 },
             ],
             onCancel: jest.fn(),
@@ -134,14 +134,14 @@ describe('FencesAuthentificationModal', () => {
                     error: false,
                     id: 'fence1',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.connected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.connected,
                 },
                 {
                     acl: [],
                     error: false,
                     id: 'fence2',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.disconnected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.disconnected,
                 },
             ],
             onCancel: jest.fn(),
@@ -167,14 +167,14 @@ describe('FencesAuthentificationModal', () => {
                     error: true,
                     id: 'fence1',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.unknown,
+                    status: FENCE_AUTHENTIFICATION_STATUS.unknown,
                 },
                 {
                     acl: [],
                     error: false,
                     id: 'fence2',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.disconnected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.disconnected,
                 },
             ],
             onCancel: jest.fn(),

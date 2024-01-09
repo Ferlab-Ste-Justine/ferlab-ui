@@ -1,0 +1,86 @@
+@import "theme.template";
+
+.widget {
+  .authenticatedHeader {
+    margin-bottom: 8px;
+
+    .disconnectBtn {
+      padding: 0;
+      font-size: 12px;
+    }
+
+    .notice {
+      font-size: 12px;
+      line-height: 10px;
+    }
+  }
+
+  .content {
+    border: 1px solid $gray-4;
+    background: $gray-1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .listContent {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contentFooter {
+      margin-top: 12px;
+      [ant-click-animating-without-extra-node='true']::after {
+        display: none;
+      }
+  }
+
+  .list {
+    overflow: auto;
+    min-height: 200px;
+    height: 100%;
+  }
+
+  .cardHeader {
+    width: 100%;
+
+    .titleContainer {
+      min-width: 200px;
+    }
+
+    .dragHandle {
+      font-size: 16px;
+      color: $gray-7;
+      outline: none;
+    }
+
+    .infoIcon {
+      color: $body-2;
+      font-size: 18px;
+    }
+
+    .infoPopoverOverlay {
+      max-width: 350px;
+    }
+  }
+
+}
+
+.infoPopover {
+  margin-left: 5px;
+
+  .infoPopoverContent {
+    border: none;
+    background: $gray-1;
+  }
+}
+
+
+.popoverExternalLink {
+  margin-left: 4px !important;
+}
+
+.contactSupport {
+  margin-left: 4px;
+}
