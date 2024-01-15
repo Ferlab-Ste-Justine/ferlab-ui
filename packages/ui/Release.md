@@ -1,3 +1,6 @@
+### 7.19.2 2024-01-15
+- fix: SKFP-880 fix dependencies for storybook
+
 ### 7.19.1 2024-01-15
 - feat: SKFP-880 fix style in consequence and gene cells
 
