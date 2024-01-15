@@ -1,4 +1,5 @@
 import React from 'react';
+import { Typography } from 'antd';
 
 import { IArrangerEdge } from '../../../graphql/types';
 import StackLayout from '../../../layout/StackLayout';
@@ -22,6 +23,7 @@ export enum Impact {
 }
 
 export interface IConsequenceEntity {
+    aa_change: string | null | undefined;
     id: string;
     picked: boolean;
     consequence: string[];
@@ -30,10 +32,12 @@ export interface IConsequenceEntity {
 }
 
 export type TConsequencesCell = {
+    aaChangeWrapperClassName?: string;
     consequences: IArrangerEdge<IConsequenceEntity>[];
     symbol: string;
     emptyText: string;
     withoutSymbol?: boolean;
+    layoutClassName?: string;
 };
 
 const impactToColorClassName = Object.freeze({
@@ -46,8 +50,10 @@ const impactToColorClassName = Object.freeze({
 const pickImpactBadge = (impact: Impact) => impactToColorClassName[impact];
 
 const ConsequencesCell = ({
+    aaChangeWrapperClassName,
     consequences,
     emptyText,
+    layoutClassName,
     symbol,
     withoutSymbol = false,
 }: TConsequencesCell): JSX.Element | null => {
@@ -62,7 +68,7 @@ const ConsequencesCell = ({
     }
 
     return (
-        <StackLayout center className={style.stackLayout} key={'1'}>
+        <StackLayout center className={`${layoutClassName ? layoutClassName : style.stackLayout}`} key={'1'}>
             {pickImpactBadge(picked.vep_impact)}
             <span className={withoutSymbol ? style.detailWithoutSymbol : style.detail} key="detail">
                 {removeUnderscoreAndCapitalize(picked.consequence[0])}
@@ -74,8 +80,12 @@ const ConsequencesCell = ({
                     </ExternalLink>
                 </span>
             )}
-            {withoutSymbol && picked.hgvsp && <span className={style.dash}> -</span>}
-            {picked.hgvsp && <span>{picked.hgvsp.split(':')[1]}</span>}
+            {withoutSymbol && picked.aa_change && <span className={style.dash}> -</span>}
+            {picked.aa_change && (
+                <span className={`${aaChangeWrapperClassName ? aaChangeWrapperClassName : style.aaChangeWrapper}`}>
+                    <Typography.Text ellipsis={{ tooltip: picked.aa_change }}>{picked.aa_change}</Typography.Text>
+                </span>
+            )}
         </StackLayout>
     );
 };
