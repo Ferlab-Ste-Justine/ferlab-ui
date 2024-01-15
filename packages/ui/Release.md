@@ -1,3 +1,6 @@
+### 7.19.1 2024-01-15
+- feat: SKFP-880 fix style in consequence and gene cells
+
 ### 7.19.0 2023-12-21
 - feat: SKFP-880 add fixed table and icons
 

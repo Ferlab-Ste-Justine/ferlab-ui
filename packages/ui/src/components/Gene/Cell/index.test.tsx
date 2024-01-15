@@ -41,4 +41,19 @@ describe('Gene Cell', () => {
             'https://www.omim.org/search?index=entry&start=1&limit=10&sort=score+desc%2C+prefix_sort+desc&search=ZCCHC24',
         );
     });
+    it('should render TABLE_EMPTY_PLACE_HOLDER if symbol is no gene', () => {
+        render(
+            <GeneCell
+                omimGeneId="123456"
+                queryBuilderId="qb-id"
+                queryIndex="variants"
+                queryValue="gene"
+                symbol="NO_GENE"
+            />,
+        );
+        expect(screen.getByText('-')).toBeInTheDocument();
+        expect(screen.queryByTestId('GeneCell_wrapper')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('GeneCell_link')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('GeneCell_add-query')).not.toBeInTheDocument();
+    });
 });
