@@ -1,3 +1,6 @@
+### 7.19.3 2024-01-16
+- fix: SKFP-918 fix style and studies count in widget
+
 ### 7.19.2 2024-01-15
 - fix: SKFP-880 fix dependencies for storybook
 
