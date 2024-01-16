@@ -34,7 +34,8 @@ interface IAuthorizedStudiesListItem {
 const { Text } = Typography;
 
 const AuthorizedStudiesListItem = ({ data, dictionary, queryProps }: IAuthorizedStudiesListItem): JSX.Element => {
-    const computedFilesCount = data.authorized_controlled_files_count + data.total_uncontrolled_files_count;
+    const authorizedAndUncontrolledFilesCount =
+        data.authorized_controlled_files_count + data.total_uncontrolled_files_count;
 
     return (
         <List.Item className={cx('wrapped', styles.list)}>
@@ -69,7 +70,7 @@ const AuthorizedStudiesListItem = ({ data, dictionary, queryProps }: IAuthorized
                                     to={queryProps.to}
                                 >
                                     <Button className={styles.fileLink} type="link">
-                                        <span>{numberWithCommas(computedFilesCount)}</span>
+                                        <span>{numberWithCommas(authorizedAndUncontrolledFilesCount)}</span>
                                     </Button>
                                 </Link>
                                 <span className={styles.of}>{dictionary?.of ?? 'of'}</span>
@@ -114,7 +115,7 @@ const AuthorizedStudiesListItem = ({ data, dictionary, queryProps }: IAuthorized
             </Text>
             <Progress
                 className={styles.progress}
-                percent={Math.round((computedFilesCount / data.total_files_count) * 100)}
+                percent={Math.round((authorizedAndUncontrolledFilesCount / data.total_files_count) * 100)}
                 size="small"
             ></Progress>
         </List.Item>
