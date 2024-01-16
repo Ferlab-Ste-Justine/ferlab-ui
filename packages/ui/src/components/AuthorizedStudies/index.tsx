@@ -35,6 +35,7 @@ export enum FENCE_AUHTENTIFICATION_STATUS {
 export interface IAuthorizedStudy {
     user_acl_in_study: string[];
     title: string;
+    authorized_controlled_files_count: number;
     total_uncontrolled_files_count: number;
     total_controlled_files_count: number;
     total_files_count: number;
@@ -169,7 +170,6 @@ const AuthorizedStudiesWidget = ({
                                                 'You have access to the following controlled data. '}
                                             <Button
                                                 className={styles.disconnectBtn}
-                                                danger
                                                 icon={<ApiOutlined />}
                                                 loading={authorizedStudies?.loading}
                                                 onClick={() => setIsModalOpen(true)}
