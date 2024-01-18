@@ -25,7 +25,7 @@ const en = {
                 cancel: 'Cancel',
                 okText: 'Download',
                 subText: '*In development and will be available soon.',
-                text: `Download a manifest of the selected files which can be used with CQDG's bulk download tool*. This manifest also includes additional information, including the participants and samples associated with these files.`,
+                text: `Download a manifest of the selected files which can be used with {project}'s bulk download tool*. This manifest also includes additional information, including the participants and samples associated with these files.`,
                 textCheckbox: `Include data files of the same type for the participants' related family members for this selection.`,
                 title: 'File manifest',
             },
@@ -397,7 +397,6 @@ const en = {
             access_limitations: 'Access Limitations',
             access_requirement: 'Access Requirement',
             access_requirements: 'Access Requirements',
-            CQDGStudies: 'CQDG Studies',
             data_access: 'Data Access',
             data_access_codes: {
                 access_limitations: 'Access Limitation',
@@ -409,6 +408,7 @@ const en = {
             keywords: 'Keywords',
             name: 'Name',
             population: 'Population',
+            projectStudies: '{project} Studies',
             restrictedContact:
                 'The access request documents cannot be downloaded for this study. To proceed with your request for access please contact directly the Access Authority.',
             restrictedContact2:
@@ -467,7 +467,7 @@ const en = {
             dbsnp: 'dbSNP',
             frequence: {
                 title: 'Freq.',
-                tooltip: 'Frequency of the variant across CQDG cohorts',
+                tooltip: 'Frequency of the variant across {project} cohorts',
             },
             frequencies: {
                 altAlleles: '# ALT Alleles',
@@ -478,14 +478,14 @@ const en = {
                 domain: 'Domain',
                 frequencies: 'Frequencies',
                 frequency: 'Frequency',
-                frequencyTooltip: 'Frequency of the variant across CQDG studies',
+                frequencyTooltip: 'Frequency of the variant across {project} studies',
                 homozygotes: '# Homozygotes',
                 homozygotesTooltip: 'Number of homozygote variants',
-                internal_frequencies_wgs_af: 'CQDG Allele Frequency',
+                internal_frequencies_wgs_af: '{project} Allele Frequency',
                 participants: 'Participants',
                 participantsInfoIconTooltip:
                     'Due to participant confidentiality, links may return a smaller number than displayed',
-                participantsTooltip: '# of affected participants across CQDG studies',
+                participantsTooltip: '# of affected participants across {project} studies',
                 publicCohorts: 'Public Cohorts',
                 studies: 'Studies',
                 total: 'Total',
@@ -510,7 +510,7 @@ const en = {
             panels: 'Gene Panels',
             participant: {
                 title: 'Part.',
-                tooltip: '# of affected participants across CQDG cohorts',
+                tooltip: '# of affected participants across {project} cohorts',
             },
             pathogenicity: {
                 clinVar: 'ClinVar',
@@ -718,7 +718,7 @@ const en = {
                     oldest: 'Oldest first',
                 },
             },
-            title: 'CQDG Community',
+            title: 'Community',
         },
         dashboard: {
             cards: {
@@ -815,7 +815,6 @@ const en = {
             saveFilesSet: 'Save file set',
             saveParticipantsSet: 'Save participant set',
             saveVariantsSet: 'Save variant set',
-            searchByBiospecimenId: 'Search by biospecimen ID',
             set: 'Set',
             sidemenu: {
                 biospecimen: 'Biospecimen',
@@ -908,7 +907,7 @@ const en = {
                         data: 'Download data',
                         download: 'Download',
                         fileNameDateFormat: 'yyyy-MM-dd',
-                        fileNameTemplate: 'cqdg-%name-%type-%date%extension',
+                        fileNameTemplate: '{project}-%name-%type-%date%extension',
                         png: 'Download PNG',
                         preview: 'Download preview - ',
                         removeChart: 'Remove chart',
@@ -969,7 +968,7 @@ const en = {
             noUsage: 'No intended usages',
             researchDomainsTitle: 'Research domains or domains of interest',
             rolesTitle: 'Roles',
-            usageTitle: 'Intended Use of the CQDG Portal Data',
+            usageTitle: 'Intended Use of the Portal Data',
         },
         profileSettings: {
             cards: {
@@ -978,7 +977,7 @@ const en = {
                     confirm: {
                         content: 'Are you sure you want to permanently delete this account?',
                     },
-                    notice: 'You will no longer be able to sign into the CQDG data portal. All of your saved sets and queries will be lost. You can create a new account at any time.',
+                    notice: 'You will no longer be able to sign into the {project} data portal. All of your saved sets and queries will be lost. You can create a new account at any time.',
                     title: 'Delete Account',
                 },
                 discardChanges: 'Discard changes',

@@ -25,7 +25,7 @@ const fr = {
                 cancel: 'Annuler',
                 okText: 'Télécharger',
                 subText: '*En développement et bientôt disponible.',
-                text: `Télécharger un manifeste des fichiers sélectionnés. Celui-ci pourra être utilisé par l'outil de téléchargement rapide des données du CQDG*. Ce manifeste comprend également des informations supplémentaires, notamment sur les participants et les échantillons associés à ces fichiers.`,
+                text: `Télécharger un manifeste des fichiers sélectionnés. Celui-ci pourra être utilisé par l'outil de téléchargement rapide des données du {project}*. Ce manifeste comprend également des informations supplémentaires, notamment sur les participants et les échantillons associés à ces fichiers.`,
                 textCheckbox: `Inclure les fichiers de données de même type des membres de la famille des participants représentés dans les fichiers sélectionnés.`,
                 title: 'Fichier manifeste',
             },
@@ -326,8 +326,6 @@ const fr = {
             nTooltipParticipant: 'Nombre total de fichiers associés au participant',
             numberByDataTypes: 'Nombre par type de données',
             numberByExperimentalStrategy: 'Nombre par stratégie expérimentale',
-            participants: '{count, plural, =0 {Participant} =1 {Participant} other {Participants}}',
-            samples: '{count, plural, =0 {Échantillon} =1 {Échantillon} other {Échantillons}}',
             sequencing_experiment: {
                 analysis_id: `ID d'analyse`,
                 bio_informatic_analysis: "Type d'analyse",
@@ -400,7 +398,6 @@ const fr = {
             access_limitations: 'Restrictions d’accès',
             access_requirement: "Exigence d'accès",
             access_requirements: 'Conditions d’utilisation',
-            CQDGStudies: 'Études du CQDG',
             data_access: 'Accès aux données',
             data_access_codes: {
                 access_limitations: 'Restriction d’accès',
@@ -412,6 +409,7 @@ const fr = {
             keywords: 'Mots-clés',
             name: 'Nom',
             population: 'Population',
+            projectStudies: 'Études du {project}',
             restrictedContact:
                 "Les documents de demande d'accès ne peuvent pas être téléchargés pour cette étude. Pour poursuivre votre demande d'accès, veuillez contacter directement l'Autorité d'accès.",
             restrictedContact2:
@@ -470,7 +468,7 @@ const fr = {
             dbsnp: 'dbSNP',
             frequence: {
                 title: 'Fréq.',
-                tooltip: 'Fréquence du variant à travers les cohortes CQDG',
+                tooltip: 'Fréquence du variant à travers les cohortes {project}',
             },
             frequencies: {
                 altAlleles: '# Allèles ALT',
@@ -481,14 +479,14 @@ const fr = {
                 domain: 'Domaine',
                 frequencies: 'Fréquences',
                 frequency: 'Fréquence',
-                frequencyTooltip: 'Fréquence du variant à travers les études du CQDG',
+                frequencyTooltip: 'Fréquence du variant à travers les études du {project}',
                 homozygotes: '# Homozygotes',
                 homozygotesTooltip: 'Nombre de variants homozygotes',
-                internal_frequencies_wgs_af: 'Fréq. allélique CQDG',
+                internal_frequencies_wgs_af: 'Fréq. allélique {project}',
                 participants: 'Participants',
                 participantsInfoIconTooltip:
                     'En raison de la confidentialité des participants, les liens peuvent renvoyer un nombre inférieur à celui affiché',
-                participantsTooltip: '# de participants atteints dans les études du CQDG',
+                participantsTooltip: '# de participants atteints dans les études du {project}',
                 publicCohorts: 'Cohortes publiques',
                 studies: 'Études',
                 total: 'Total',
@@ -512,7 +510,7 @@ const fr = {
             panels: 'Panels de gènes',
             participant: {
                 title: 'Part.',
-                tooltip: '# de participants affectés à travers les cohortes CQDG',
+                tooltip: '# de participants affectés à travers les cohortes {project}',
             },
             pathogenicity: {
                 clinVar: 'ClinVar',
@@ -719,7 +717,7 @@ const fr = {
                     oldest: 'Plus ancien',
                 },
             },
-            title: 'Communauté CQDG',
+            title: 'Communauté',
         },
         dashboard: {
             cards: {
@@ -808,9 +806,6 @@ const fr = {
                     exact: 'Participants avec ce terme exact',
                 },
             },
-            noBiospecimenCollectionFound: 'Aucune ID collection trouvé',
-            noBiospecimenFound: 'Aucun biospécimen trouvé',
-            noBiospecimenSetsFound: 'Aucun ensemble de biospécimen trouvé',
             participantCount: 'éléments à la fois. Les 10 000 premiers seront traités.',
             participantSelected: 'participant séléctionné',
             participantsSelected: 'participants séléctionnés',
@@ -819,12 +814,9 @@ const fr = {
             removeTypeSet: "Retirer de l'ensemble de {type}",
             saveAsNewSet: 'Enregistrer un nouvel ensemble',
             saveBiospecimensSet: "Enregistrer l'ensemble de biospécimens",
-            savedBiospecimenSets: 'Ensemble d’échantillons',
             saveFilesSet: "Enregistrer l'ensemble de fichiers",
             saveParticipantsSet: "Enregistrer l'ensemble de participants",
             saveVariantsSet: "Enregistrer l'ensemble de variants",
-            searchByBiospecimenId: 'Recherche par ID biospécimen',
-            searchByBiospecimenSampleId: 'Recherche par ID d’échantillon',
             set: 'Ensemble',
             sidemenu: {
                 biospecimen: 'Biospécimen',
@@ -919,7 +911,7 @@ const fr = {
                         data: 'Télécharger les données',
                         download: 'Télécharger',
                         fileNameDateFormat: 'yyyy-MM-dd',
-                        fileNameTemplate: 'cqdg-%name-%type-%date%extension',
+                        fileNameTemplate: '{project}-%name-%type-%date%extension',
                         png: 'Télécharger PNG',
                         preview: 'Aperçu du téléchargement - ',
                         removeChart: 'Supprimer le graphique',
@@ -982,7 +974,7 @@ const fr = {
             noUsage: 'Aucune utilisation',
             researchDomainsTitle: 'Domaine(s) de recherche ou domaine(s) d’intérêt',
             rolesTitle: 'Rôle(s)',
-            usageTitle: 'Utilisation prévue des données du portail CQDG',
+            usageTitle: 'Utilisation prévue des données du portail {project}',
         },
         profileSettings: {
             cards: {
@@ -991,7 +983,7 @@ const fr = {
                     confirm: {
                         content: 'Êtes-vous sûr(e) de vouloir supprimer définitivement ce compte ?',
                     },
-                    notice: 'Vous ne pourrez plus vous connecter au portail de données CQDG. Tous vos ensembles et requêtes enregistrés seront perdus. Vous pouvez créer un nouveau compte à tout moment.',
+                    notice: 'Vous ne pourrez plus vous connecter au portail de données {project}. Tous vos ensembles et requêtes enregistrés seront perdus. Vous pouvez créer un nouveau compte à tout moment.',
                     title: 'Supprimer le compte',
                 },
                 discardChanges: 'Annuler les modifications',
