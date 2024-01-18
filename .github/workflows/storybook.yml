@@ -19,7 +19,7 @@ jobs:
           persist-credentials: false
 
       - name: Install dependencies and build 🔧
-        run: |
+        run: | # Install npm packages and build the Storybook files
           cd packages/ui
           npm install
           npm run build
@@ -28,11 +28,11 @@ jobs:
           npm run build-storybook
 
       - name: Deploy 🚀
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' # This will prevent the Deploy from being triggered in PRs
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: storybook
-          folder: storybook/storybook-static
-          clean: true
-          target-folder: docs
+          folder: storybook/storybook-static # The folder that the build-storybook script generates files.
+          clean: true # Automatically remove deleted files from the deploy branch
+          target-folder: docs # The folder that we serve our Storybook files from
