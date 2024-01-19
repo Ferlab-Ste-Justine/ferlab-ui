@@ -1,3 +1,6 @@
+### 7.19.4 2024-01-17
+- feat: FLUI-106 Add locales files from CQDG
+
 ### 7.19.3 2024-01-16
 - fix: SKFP-918 fix style and studies count in widget
 
