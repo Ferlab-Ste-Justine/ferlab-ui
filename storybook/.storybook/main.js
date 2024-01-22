@@ -38,7 +38,7 @@ module.exports = {
                     loader: 'sass-loader',
                     options: {
                         sassOptions: {
-                            includePaths: [path.resolve(__dirname, '../../packages/ui/themes/override')],
+                            includePaths: [path.resolve(__dirname, '../../packages/ui/themes/default')],
                         },
                     },
                 },
