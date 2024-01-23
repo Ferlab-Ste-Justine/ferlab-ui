@@ -30,12 +30,7 @@ const AssignmentsTagPropsStory = ({
 }) => (
     <>
         <h3>{storyTitle}</h3>
-        <AssignmentsTag
-            email={email}
-            name={name}
-            organization={organization}
-            {...props}
-        />
+        <AssignmentsTag email={email} name={name} organization={organization} {...props} />
     </>
 );
 
@@ -44,7 +39,7 @@ Default.args = {
     storyTitle: 'Assignment Tag',
     email: 'email@ferlab.bio',
     name: 'Prenom Nom',
-    organization: 'LDM-01'
+    organization: 'LDM-01',
 };
 
 export const Closable = AssignmentsTagPropsStory.bind({});
@@ -53,7 +48,7 @@ Closable.args = {
     email: 'email@ferlab.bio',
     name: 'Prenom Nom',
     organization: 'LDM-01',
-    closable: true
+    closable: true,
 };
 
 export const NoBackground = AssignmentsTagPropsStory.bind({});
@@ -71,7 +66,5 @@ UnAssignTag.args = {
     email: 'email@ferlab.bio',
     name: 'Prenom Nom',
     organization: 'LDM-01',
-    unAssign: true
+    unAssign: true,
 };
-
-

@@ -1,7 +1,7 @@
 import React from 'react';
-import QueriesSidebar, { IQueriesSidebarProps } from '@ferlab/ui/components/CustomPill/QueriesSidebar/index';
-import { ISavedFilter, SavedFilterTypeEnum } from '@ferlab/ui/components/QueryBuilder/types';
-import { Meta } from '@storybook/react/types-6-0';
+import QueriesSidebar, { IQueriesSidebarProps } from '@ferlab/ui/core/components/CustomPill/QueriesSidebar/index';
+import { ISavedFilter, SavedFilterTypeEnum } from '@ferlab/ui/core/components/QueryBuilder/types';
+import { Meta } from '@storybook/react';
 
 const customPillOne: ISavedFilter = {
     favorite: false,

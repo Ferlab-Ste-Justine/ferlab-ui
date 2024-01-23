@@ -3,7 +3,7 @@ import QueryBuilder, {
 } from "@ferlab/ui/core/components/QueryBuilder";
 import { setQueryBuilderState } from "@ferlab/ui/core/components/QueryBuilder/utils/useQueryBuilderState";
 import { IRemoteComponent } from "@ferlab/ui/core/data/sqon/types";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { Meta, Story } from "@storybook/react";
 import React from "react";
 import { MdPeople } from "react-icons/md";
 
