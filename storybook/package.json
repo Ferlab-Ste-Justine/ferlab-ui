@@ -21,7 +21,6 @@
         "@storybook/builder-webpack5": "^6.5.14",
         "@storybook/manager-webpack5": "^6.5.14",
         "@storybook/preset-ant-design": "0.0.2",
-        "@storybook/preset-scss": "^1.0.3",
         "@storybook/preset-typescript": "^3.0.0",
         "@storybook/react": "^6.0.28",
         "@types/react-router": "^5.1.11",
