@@ -34,17 +34,17 @@ The default exported object, configure the stories.
 
 ```javascript
 export default {
-    title: '@ferlab/ui/core/layout/ScrollView',
+    title: '@ferlab/ui/layout/ScrollView',
     component: ScrollView,
     argTypes: {
         orientation: {
             controler: {
                 type: 'select',
-                options: ['Horizontal', 'Vertical']
-            }
-        }
-    }
-}
+                options: ['Horizontal', 'Vertical'],
+            },
+        },
+    },
+};
 ```
 
 #### Title
@@ -52,8 +52,8 @@ export default {
 The title will create the tree structure to display the stories.
 
 e.g. it we have three files with the following title:
-> '@ferlab/ui/core/layout/ScrollView', '@ferlab/ui/core/layout/StackLayout', '@ferlab/ui/core/components/Label'
 
+> '@ferlab/ui/layout/ScrollView', '@ferlab/ui/layout/StackLayout', '@ferlab/ui/components/Label'
 
 ```
 @ferlab

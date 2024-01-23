@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta } from "@storybook/react/types-6-0";
-import CavaticaWidget, { CAVATICA_API_ERROR_TYPE } from '@ferlab/ui/components/Widgets/Cavatica';
-import { PASSPORT_AUTHENTIFICATION_STATUS } from '@ferlab/ui/components/Widgets/Cavatica/type';
+import { Meta } from "@storybook/react";
+import CavaticaWidget, { CAVATICA_API_ERROR_TYPE } from '@ferlab/ui/core/components/Widgets/Cavatica';
+import { PASSPORT_AUTHENTIFICATION_STATUS } from '@ferlab/ui/core/components/Widgets/Cavatica/type';
 
 
 export default {

@@ -31,7 +31,7 @@ const AssignmentsSelectPropsStory = ({
 }) => (
     <>
         <h3>{storyTitle}</h3>
-       <AssignementsSelect
+        <AssignementsSelect
             handleSelect={handleSelect}
             options={options}
             assignedPractionnerRoles={assignedPractionnerRoles}
@@ -81,7 +81,6 @@ Default.args = {
     handleSelect: ([]) => {},
     assignedPractionnerRoles: [],
 };
-
 
 export const VisibleOption = AssignmentsSelectPropsStory.bind({});
 VisibleOption.args = {

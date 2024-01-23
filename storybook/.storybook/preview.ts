@@ -1,4 +1,7 @@
 import type { Preview } from '@storybook/react';
+import '../../packages/ui/themes/index.scss';
+import 'antd/dist/antd.css';
+import '../assets/main.scss';
 
 const preview: Preview = {
     parameters: {

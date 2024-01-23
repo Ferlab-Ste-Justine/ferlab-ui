@@ -1,3 +1,6 @@
+### 8.2.0 2024-01-30
+- feat: FLUI-102 upgrade storybook to V7
+
 ### 8.1.0 2024-01-30
 - feat: FLUI-60 add withHandle prop to ResizableGridCard
 

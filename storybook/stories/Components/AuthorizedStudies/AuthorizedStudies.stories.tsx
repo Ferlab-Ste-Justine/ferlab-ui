@@ -1,8 +1,8 @@
 import React from 'react';
-import { Meta } from "@storybook/react/types-6-0";
+import { Meta } from "@storybook/react";
 
 import { MinusCircleFilled, PlusCircleFilled } from '@ant-design/icons';
-import AuthorizedStudiesWidget, {FENCE_AUTHENTIFICATION_STATUS} from '@ferlab/ui/components/Widgets/AuthorizedStudies';
+import AuthorizedStudiesWidget, {FENCE_AUTHENTIFICATION_STATUS} from '@ferlab/ui/core/components/Widgets/AuthorizedStudies';
 
 const authorizedStudies = {
     error: false,

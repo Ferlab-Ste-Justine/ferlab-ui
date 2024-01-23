@@ -30,8 +30,8 @@ const { Title } = Typography;
 const GridCardHeader = ({
     className,
     extra = [],
-    handleClassName,
     extraClassName = '',
+    handleClassName,
     id,
     infoPopover,
     title,
