@@ -4,33 +4,54 @@ import { Button, List, Result, Space } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import cx from 'classnames';
 
-import GridCard, { GridCardHeader } from '../../view/v2/GridCard';
+import GridCard, { GridCardHeader } from '../../../view/v2/GridCard';
 import CardConnectPlaceholder, {
+    DEFAULT_CARD_CONNECT_PLACEHOLDER_DICTIONARY,
     TCardConnectPlaceholderDictionary,
-} from '../../view/v2/GridCard/GridCardConnectPlaceholder';
-import Empty from '../Empty';
-import ExternalLink from '../ExternalLink';
-import PopoverContentLink from '../PopoverContentLink';
+} from '../../../view/v2/GridCard/GridCardConnectPlaceholder';
+import Empty from '../../Empty';
+import ExternalLink from '../../ExternalLink';
+import PopoverContentLink from '../../PopoverContentLink';
+import { WIDGET_STATE } from '../constants';
 
 import AuthorizedStudiesListItem, {
+    DEFAULT_AUTHORIZED_STUDIES_LIST_ITEM_DICTIONARY,
     IAuthorizedStudyQueryProps,
     TAuthorizedStudiesListItemDictionary,
 } from './AuthorizedStudiesListItem';
-import FencesAuthentificationModal, { TFencesAuthentificationModalDictionary } from './FencesAuthentificationModal';
+import FencesAuthentificationModal, {
+    DEFAULT_FENCES_AUTHENTIFICATION_MODAL_DICTIONARY,
+    TFencesAuthentificationModalDictionary,
+} from './FencesAuthentificationModal';
 
-import styles from './index.module.scss';
+import styles from '../widget.module.scss';
 
-enum WIDGET_STATE {
-    error = 'error',
-    connected = 'connected',
-    disconnected = 'disconnected',
-}
-
-export enum FENCE_AUHTENTIFICATION_STATUS {
+export enum FENCE_AUTHENTIFICATION_STATUS {
     connected = 'connected',
     disconnected = 'disconnected',
     unknown = 'unknown',
 }
+
+export const DEFAULT_AUTHORIZED_WIDGET_DICTIONARY = {
+    authentification: DEFAULT_CARD_CONNECT_PLACEHOLDER_DICTIONARY,
+    connectedNotice: 'You have access to the following controlled data.',
+    error: {
+        contactSupport: 'contact support',
+        email: '',
+        subtitle: 'An error has occurred. Please try again',
+        title: 'Error',
+    },
+    list: DEFAULT_AUTHORIZED_STUDIES_LIST_ITEM_DICTIONARY,
+    manageConnections: 'Manage your connections',
+    modal: DEFAULT_FENCES_AUTHENTIFICATION_MODAL_DICTIONARY,
+    noAvailableStudies: 'No available studies',
+    popover: {
+        applyingForDataAccess: 'applying for data access',
+        content: 'Users requesting access to controlled data are required to have an eRA Commons account. Read more on',
+        title: 'Accessing Data',
+    },
+    title: 'Authorized Studies',
+};
 
 export interface IAuthorizedStudy {
     user_acl_in_study: string[];
@@ -50,7 +71,7 @@ export interface IAuthorizedStudies {
 
 export interface IFence {
     id: string;
-    status: FENCE_AUHTENTIFICATION_STATUS;
+    status: FENCE_AUTHENTIFICATION_STATUS;
     loading: boolean;
     acl: string[];
     error: boolean;
@@ -64,6 +85,27 @@ export interface IFenceService {
     onDisconnectFromFence: () => void;
 }
 
+type TAuthorizedStudiesWidgetDictionary = {
+    title: string;
+    connectedNotice: string;
+    manageConnections: string;
+    noAvailableStudies: string;
+    authentification: TCardConnectPlaceholderDictionary;
+    list: TAuthorizedStudiesListItemDictionary;
+    error: {
+        title: string;
+        subtitle: string;
+        contactSupport: string;
+        email: string;
+    };
+    popover: {
+        title: string;
+        applyingForDataAccess: string;
+        content: string;
+    };
+    modal: TFencesAuthentificationModalDictionary;
+};
+
 interface IAuthorizedStudiesWidget {
     id: string;
     className?: string;
@@ -71,48 +113,28 @@ interface IAuthorizedStudiesWidget {
     services: IFenceService[];
     authorizedStudies?: IAuthorizedStudies;
     queryProps: IAuthorizedStudyQueryProps;
-    dictionary?: {
-        title?: string;
-        connectedNotice?: string;
-        disconnectedNotice?: string;
-        manageConnections?: string;
-        noAvailableStudies?: string;
-        authentification?: TCardConnectPlaceholderDictionary;
-        list?: TAuthorizedStudiesListItemDictionary;
-        error?: {
-            title?: string;
-            subtitle?: string;
-            contactSupport?: string;
-            email?: string;
-        };
-        popover?: {
-            title?: string;
-            applyingForDataAccess?: string;
-            content?: string;
-        };
-        modal?: TFencesAuthentificationModalDictionary;
-    };
+    dictionary?: TAuthorizedStudiesWidgetDictionary;
 }
 
 const AuthorizedStudiesWidget = ({
     authorizedStudies,
     className = '',
-    dictionary,
+    dictionary = DEFAULT_AUTHORIZED_WIDGET_DICTIONARY,
     fences,
     id,
     queryProps,
     services,
 }: IAuthorizedStudiesWidget): JSX.Element => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-    let state = WIDGET_STATE.disconnected;
+    let state = WIDGET_STATE.loading;
 
     // check if has one fence connected
-    if (fences.some((fence) => fence.status === FENCE_AUHTENTIFICATION_STATUS.connected)) {
+    if (fences.some((fence) => fence.status === FENCE_AUTHENTIFICATION_STATUS.connected)) {
         state = WIDGET_STATE.connected;
-    }
-
-    if (fences.some((fence) => fence.error)) {
+    } else if (fences.every((fence) => fence.status === FENCE_AUTHENTIFICATION_STATUS.disconnected)) {
+        state = WIDGET_STATE.disconnected;
+    } else if (fences.some((fence) => fence.error)) {
         state = WIDGET_STATE.error;
     }
 
@@ -135,14 +157,17 @@ const AuthorizedStudiesWidget = ({
                                     status="error"
                                     subTitle={
                                         <Text>
-                                            {dictionary?.error?.subtitle}
-                                            <ExternalLink href={`mailto:${dictionary?.error?.email}`}>
-                                                <Text>{dictionary?.error?.contactSupport}</Text>
+                                            {dictionary.error.subtitle}
+                                            <ExternalLink
+                                                className={styles.contactSupport}
+                                                href={`mailto:${dictionary.error.email}`}
+                                            >
+                                                <Text>{dictionary.error.contactSupport}</Text>
                                             </ExternalLink>
                                             .
                                         </Text>
                                     }
-                                    title={dictionary?.error?.title}
+                                    title={dictionary.error.title}
                                 />
                             </div>
                         )}
@@ -154,20 +179,20 @@ const AuthorizedStudiesWidget = ({
                                     btnProps={{
                                         onClick: () => setIsModalOpen(true),
                                     }}
-                                    dictionary={dictionary?.authentification}
+                                    dictionary={dictionary.authentification}
+                                    icon={<SafetyOutlined />}
                                 />
                             </div>
                         )}
 
                         {/* List of Authorized Studies */}
                         {state === WIDGET_STATE.connected && (
-                            <div className={styles.connected}>
+                            <div className={styles.listContent}>
                                 <div className={styles.authenticatedHeader}>
                                     <Space align="start">
                                         <SafetyOutlined className={styles.safetyIcon} />
                                         <Text className={styles.notice}>
-                                            {dictionary?.connectedNotice ??
-                                                'You have access to the following controlled data. '}
+                                            {dictionary.connectedNotice}
                                             <Button
                                                 className={styles.disconnectBtn}
                                                 icon={<ApiOutlined />}
@@ -176,7 +201,7 @@ const AuthorizedStudiesWidget = ({
                                                 size="small"
                                                 type="link"
                                             >
-                                                {dictionary?.manageConnections ?? 'Manage your connections'}
+                                                {dictionary.manageConnections}
                                             </Button>
                                         </Text>
                                     </Space>
@@ -189,10 +214,7 @@ const AuthorizedStudiesWidget = ({
                                     loading={authorizedStudies?.loading}
                                     locale={{
                                         emptyText: (
-                                            <Empty
-                                                description={dictionary?.noAvailableStudies ?? 'No available studies'}
-                                                imageType="grid"
-                                            />
+                                            <Empty description={dictionary.noAvailableStudies} imageType="grid" />
                                         ),
                                     }}
                                     renderItem={(item) => (
@@ -208,6 +230,8 @@ const AuthorizedStudiesWidget = ({
                         )}
                     </>
                 }
+                loading={state === WIDGET_STATE.loading}
+                loadingType="spinner"
                 theme="shade"
                 title={
                     <GridCardHeader
@@ -219,27 +243,24 @@ const AuthorizedStudiesWidget = ({
                             content: (
                                 <Space className={styles.infoPopoverContent} direction="vertical" size={0}>
                                     <Text>
-                                        {dictionary?.popover?.content ??
-                                            'Users requesting access to controlled data are required to have an eRA Commons account. Read more on'}
+                                        {dictionary.popover.content}
                                         <PopoverContentLink
                                             className={styles.popoverExternalLink}
                                             externalHref="https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?login=&page=login"
-                                            title={
-                                                dictionary?.popover?.applyingForDataAccess || 'applying for data access'
-                                            }
+                                            title={dictionary.popover.applyingForDataAccess}
                                         />
                                         .
                                     </Text>
                                 </Space>
                             ),
                             iconClassName: styles.infoIcon,
-                            title: dictionary?.popover?.title ?? 'Accessing Data',
+                            title: dictionary.popover.title,
                         }}
-                        title={dictionary?.title ?? 'Authorized Studies'}
+                        title={dictionary.title}
                         withHandle
                     />
                 }
-                wrapperClassName={cx(styles.wrapper, className)}
+                wrapperClassName={cx(styles.widget, className)}
             />
         </>
     );

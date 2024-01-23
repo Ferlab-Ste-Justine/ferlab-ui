@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
+import CavaticaIcon from '../../../../components/Widgets/Cavatica/CavaticaIcon';
 import GridCardConnectPlaceholder from '../GridCardConnectPlaceholder';
 
 const dictionary = {
@@ -12,6 +13,7 @@ describe('GridCardConnectPlaceholder', () => {
     test('make sure GridCardConnectPlaceholder render correctly', () => {
         const props = {
             dictionary,
+            icon: <CavaticaIcon />,
         };
 
         render(<GridCardConnectPlaceholder {...props} />);
