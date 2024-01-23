@@ -8,6 +8,7 @@ module.exports = {
         '@storybook/addon-viewport',
         '@storybook/addon-essentials',
         '@storybook/addon-controls',
+        '@storybook/preset-ant-design',
     ],
     core: {
         builder: 'webpack5',
