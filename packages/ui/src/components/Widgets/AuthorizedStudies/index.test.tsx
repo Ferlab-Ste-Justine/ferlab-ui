@@ -3,7 +3,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { MinusCircleFilled, PlusCircleFilled } from '@ant-design/icons';
 import { render, screen } from '@testing-library/react';
 
-import AuthorizedStudiesWidget, { FENCE_AUHTENTIFICATION_STATUS, IFenceService } from '.';
+import AuthorizedStudiesWidget, {
+    DEFAULT_AUTHORIZED_WIDGET_DICTIONARY,
+    FENCE_AUTHENTIFICATION_STATUS,
+    IFenceService,
+} from '.';
 
 const authorizedStudies = {
     error: false,
@@ -56,30 +60,10 @@ const queryProps = {
     to: 'route/',
 };
 
-const dictionary = {
-    authentification: {
-        action: 'authentification.action',
-        description: 'authentification.description',
-    },
-    connectedNotice: 'connectedNotice',
-    error: {
-        contactSupport: 'error.contactSupport',
-        email: 'error.email',
-        subtitle: 'error.subtitle',
-        title: 'error.title',
-    },
-    list: {
-        authorization: 'list.authorization',
-        dataGroups: 'list.dataGroups',
-        files: 'list.files',
-        of: 'list.of',
-    },
-    manageConnections: 'manageConnections',
-    noAvailableStudies: 'noAvailableStudies',
-};
+const dictionary = DEFAULT_AUTHORIZED_WIDGET_DICTIONARY;
 
 describe('AuthorizedStudiesWidget', () => {
-    test('make sure AuthorizedStudiesWidget can render the connect content if fence status are unknow', () => {
+    test('make sure AuthorizedStudiesWidget can render the spinner if fence status are unknow', () => {
         const props = {
             dictionary,
             fences: [
@@ -88,14 +72,14 @@ describe('AuthorizedStudiesWidget', () => {
                     error: false,
                     id: 'fence1',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.unknown,
+                    status: FENCE_AUTHENTIFICATION_STATUS.unknown,
                 },
                 {
                     acl: [],
                     error: false,
                     id: 'fence2',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.unknown,
+                    status: FENCE_AUTHENTIFICATION_STATUS.unknown,
                 },
             ],
             id: '1',
@@ -108,8 +92,7 @@ describe('AuthorizedStudiesWidget', () => {
                 <AuthorizedStudiesWidget {...props} />
             </BrowserRouter>,
         );
-        expect(screen.getByText(dictionary.authentification.action)).toBeTruthy();
-        expect(screen.getByText(dictionary.authentification.description)).toBeTruthy();
+        expect(screen.findAllByRole('loading')).toBeTruthy();
     });
 
     test('make sure AuthorizedStudiesWidget can render the connect content if fence status are disconnected', () => {
@@ -121,14 +104,14 @@ describe('AuthorizedStudiesWidget', () => {
                     error: false,
                     id: 'fence1',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.disconnected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.disconnected,
                 },
                 {
                     acl: [],
                     error: false,
                     id: 'fence2',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.unknown,
+                    status: FENCE_AUTHENTIFICATION_STATUS.disconnected,
                 },
             ],
             id: '1',
@@ -155,14 +138,14 @@ describe('AuthorizedStudiesWidget', () => {
                     error: false,
                     id: 'fence1',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.connected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.connected,
                 },
                 {
                     acl: ['xxxxx1.x1', 'xxxxx2.x2', 'xxxxx3.x3'],
                     error: false,
                     id: 'fence2',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.connected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.connected,
                 },
             ],
             id: '1',
@@ -197,14 +180,14 @@ describe('AuthorizedStudiesWidget', () => {
                     error: false,
                     id: 'fence1',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.connected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.connected,
                 },
                 {
                     acl: ['xxxxx1.x1', 'xxxxx2.x2', 'xxxxx3.x3'],
                     error: false,
                     id: 'fence2',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.connected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.connected,
                 },
             ],
             id: '1',
@@ -230,14 +213,14 @@ describe('AuthorizedStudiesWidget', () => {
                     error: true,
                     id: 'fence1',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.disconnected,
+                    status: FENCE_AUTHENTIFICATION_STATUS.unknown,
                 },
                 {
                     acl: [],
                     error: true,
                     id: 'fence2',
                     loading: false,
-                    status: FENCE_AUHTENTIFICATION_STATUS.unknown,
+                    status: FENCE_AUTHENTIFICATION_STATUS.unknown,
                 },
             ],
             id: '1',

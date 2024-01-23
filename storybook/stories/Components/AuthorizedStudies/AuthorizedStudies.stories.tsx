@@ -2,7 +2,7 @@ import React from 'react';
 import { Meta } from "@storybook/react/types-6-0";
 
 import { MinusCircleFilled, PlusCircleFilled } from '@ant-design/icons';
-import AuthorizedStudiesWidget, {FENCE_AUHTENTIFICATION_STATUS} from '@ferlab/ui/components/AuthorizedStudies';
+import AuthorizedStudiesWidget, {FENCE_AUTHENTIFICATION_STATUS} from '@ferlab/ui/components/Widgets/AuthorizedStudies';
 
 const authorizedStudies = {
     error: false,
@@ -57,7 +57,7 @@ const queryProps = {
 
 
 export default {
-    title: "@ferlab/Components/AuthorizedStudies",
+    title: "@ferlab/Components/Widgets/AuthorizedStudies",
     component: AuthorizedStudiesWidget,
     decorators: [
         (Story) => (
@@ -88,14 +88,14 @@ export const AuthorizedStudiesBasicStory = () => (
                         error: false,
                         id: 'fence1',
                         loading: false,
-                        status: FENCE_AUHTENTIFICATION_STATUS.unknown,
+                        status: FENCE_AUTHENTIFICATION_STATUS.unknown,
                     },
                     {
                         acl: [],
                         error: false,
                         id: 'fence2',
                         loading: false,
-                        status: FENCE_AUHTENTIFICATION_STATUS.unknown,
+                        status: FENCE_AUTHENTIFICATION_STATUS.unknown,
                     },
                 ]}
                 />
@@ -119,14 +119,14 @@ export const AuthorizedStudiesBasicStory = () => (
 //                       error: false,
 //                       id: 'fence1',
 //                       loading: false,
-//                       status: FENCE_AUHTENTIFICATION_STATUS.connected,
+//                       status: FENCE_AUTHENTIFICATION_STATUS.connected,
 //                   },
 //                   {
 //                       acl: ['xxxxx1.x1', 'xxxxx2.x2', 'xxxxx3.x3'],
 //                       error: false,
 //                       id: 'fence2',
 //                       loading: false,
-//                       status: FENCE_AUHTENTIFICATION_STATUS.connected,
+//                       status: FENCE_AUTHENTIFICATION_STATUS.connected,
 //                   },
 //               ]}
 //              />
@@ -153,14 +153,14 @@ export const AuthorizedStudiesWithEmptyListStory = () => (
                       error: false,
                       id: 'fence1',
                       loading: false,
-                      status: FENCE_AUHTENTIFICATION_STATUS.connected,
+                      status: FENCE_AUTHENTIFICATION_STATUS.connected,
                   },
                   {
                       acl: ['xxxxx1.x1', 'xxxxx2.x2', 'xxxxx3.x3'],
                       error: false,
                       id: 'fence2',
                       loading: false,
-                      status: FENCE_AUHTENTIFICATION_STATUS.connected,
+                      status: FENCE_AUTHENTIFICATION_STATUS.connected,
                   },
               ]}
              />

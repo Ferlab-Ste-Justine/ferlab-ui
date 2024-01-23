@@ -1,3 +1,6 @@
+### 7.20.0 2024-01-22
+- fix: SKFP-895 add cavatica widgets
+
 ### 7.19.3 2024-01-16
 - fix: SKFP-918 fix style and studies count in widget
 

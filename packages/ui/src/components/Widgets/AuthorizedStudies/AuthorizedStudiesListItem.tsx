@@ -3,20 +3,20 @@ import { BrowserRouter, Link } from 'react-router-dom';
 import { Button, List, Progress, Space, Typography } from 'antd';
 import cx from 'classnames';
 
-import { generateQuery, generateValueFilter } from '../../data/sqon/utils';
-import { numberWithCommas } from '../../utils/numberUtils';
-import { addQuery } from '../QueryBuilder/utils/useQueryBuilderState';
+import { generateQuery, generateValueFilter } from '../../../data/sqon/utils';
+import { numberWithCommas } from '../../../utils/numberUtils';
+import { addQuery } from '../../QueryBuilder/utils/useQueryBuilderState';
 
 import { IAuthorizedStudy } from '.';
 
 import styles from './AuthorizedStudiesListItem.module.scss';
 
-export interface IAuthorizedStudyQueryProps {
-    to: string;
-    queryBuilderId: string;
-    participantIndex: string;
-    fileIndex: string;
-}
+export const DEFAULT_AUTHORIZED_STUDIES_LIST_ITEM_DICTIONARY = {
+    authorization: 'Authorization :',
+    dataGroups: 'Data use groups:',
+    files: 'files',
+    of: 'of',
+};
 
 export type TAuthorizedStudiesListItemDictionary = {
     authorization?: string;
@@ -24,6 +24,13 @@ export type TAuthorizedStudiesListItemDictionary = {
     dataGroups?: string;
     files?: string;
 };
+
+export interface IAuthorizedStudyQueryProps {
+    to: string;
+    queryBuilderId: string;
+    participantIndex: string;
+    fileIndex: string;
+}
 
 interface IAuthorizedStudiesListItem {
     data: IAuthorizedStudy;
@@ -33,7 +40,11 @@ interface IAuthorizedStudiesListItem {
 
 const { Text } = Typography;
 
-const AuthorizedStudiesListItem = ({ data, dictionary, queryProps }: IAuthorizedStudiesListItem): JSX.Element => {
+const AuthorizedStudiesListItem = ({
+    data,
+    dictionary = DEFAULT_AUTHORIZED_STUDIES_LIST_ITEM_DICTIONARY,
+    queryProps,
+}: IAuthorizedStudiesListItem): JSX.Element => {
     const authorizedAndUncontrolledFilesCount =
         data.authorized_controlled_files_count + data.total_uncontrolled_files_count;
 
@@ -44,8 +55,8 @@ const AuthorizedStudiesListItem = ({ data, dictionary, queryProps }: IAuthorized
                 description={
                     <BrowserRouter>
                         <div className={styles.filesCount}>
-                            {dictionary?.authorization ?? 'Authorization : '}
                             <Space size={4}>
+                                <span>{dictionary.authorization}</span>
                                 <Link
                                     onClick={() => {
                                         addQuery({
@@ -73,7 +84,7 @@ const AuthorizedStudiesListItem = ({ data, dictionary, queryProps }: IAuthorized
                                         <span>{numberWithCommas(authorizedAndUncontrolledFilesCount)}</span>
                                     </Button>
                                 </Link>
-                                <span className={styles.of}>{dictionary?.of ?? 'of'}</span>
+                                <span className={styles.of}>{dictionary.of}</span>
                                 <Link
                                     onClick={() => {
                                         addQuery({
@@ -96,7 +107,7 @@ const AuthorizedStudiesListItem = ({ data, dictionary, queryProps }: IAuthorized
                                         <span>{numberWithCommas(data.total_files_count)}</span>
                                     </Button>
                                 </Link>
-                                <span>{dictionary?.files ?? 'Files'}</span>
+                                <span>{dictionary.files}</span>
                             </Space>
                         </div>
                     </BrowserRouter>
@@ -109,7 +120,7 @@ const AuthorizedStudiesListItem = ({ data, dictionary, queryProps }: IAuthorized
             />
             <Text className={styles.dataUseGroups} type="secondary">
                 <Space size={4}>
-                    <span>{dictionary?.dataGroups || 'Data use groups:'}</span>
+                    <span>{dictionary.dataGroups}</span>
                     <span>{data.user_acl_in_study.join(', ')}</span>
                 </Space>
             </Text>
