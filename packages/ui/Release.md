@@ -1,3 +1,6 @@
+### 7.20.2 2024-01-23
+- fix: SKFP-895 fix npm publish
+
 ### 7.20.1 2024-01-23
 - fix: SKFP-895 reset error on modal error close
 
