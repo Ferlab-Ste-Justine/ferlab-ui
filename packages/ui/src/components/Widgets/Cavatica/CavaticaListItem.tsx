@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { TeamOutlined } from '@ant-design/icons';
 import { List, Space, Typography } from 'antd';
 import cx from 'classnames';
@@ -34,9 +35,11 @@ const CavaticaListItem = ({
         <List.Item.Meta
             className={styles.itemMeta}
             title={
-                <ExternalLink className={styles.projectLink} hasIcon href={`${cavaticaUrl}${project.id}`}>
-                    {project.name}
-                </ExternalLink>
+                <BrowserRouter>
+                    <ExternalLink className={styles.projectLink} hasIcon href={`${cavaticaUrl}${project.id}`}>
+                        {project.name}
+                    </ExternalLink>
+                </BrowserRouter>
             }
         />
         <Space className={styles.members}>

@@ -1,3 +1,6 @@
+### 7.20.1 2024-01-23
+- fix: SKFP-895 reset error on modal error close
+
 ### 7.20.0 2024-01-22
 - fix: SKFP-895 add cavatica widgets
 
