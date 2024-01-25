@@ -38,6 +38,7 @@ describe('Cavatica Analyse', () => {
             handleConnection: jest.fn(),
             handleCreateProject: jest.fn(),
             handleFilesAndFolders: jest.fn(),
+            handleResetErrors: jest.fn(),
             setCavaticaBulkImportDataStatus: jest.fn(),
         };
 
@@ -80,6 +81,7 @@ describe('Cavatica Analyse', () => {
             handleConnection: jest.fn(),
             handleCreateProject: jest.fn(),
             handleFilesAndFolders: jest.fn(),
+            handleResetErrors: jest.fn(),
             setCavaticaBulkImportDataStatus: jest.fn(),
         };
 
@@ -126,6 +128,7 @@ describe('Cavatica Analyse', () => {
             handleConnection: jest.fn(),
             handleCreateProject: jest.fn(),
             handleFilesAndFolders: jest.fn(),
+            handleResetErrors: jest.fn(),
             setCavaticaBulkImportDataStatus: jest.fn(),
         };
 

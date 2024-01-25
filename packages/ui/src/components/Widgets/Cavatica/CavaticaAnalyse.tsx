@@ -116,6 +116,7 @@ export interface ICavaticaAnalyse extends BaseButtonProps {
     handleConnection: () => void;
     setCavaticaBulkImportDataStatus: (status: CAVATICA_ANALYSE_STATUS) => void;
     handleCreateProject: (values: any) => void;
+    handleResetErrors: () => void;
     cavatica: {
         authentification: ICavaticaAuthentification;
         bulkImportData: ICavaticaBulkImportData;
@@ -168,6 +169,7 @@ const CavaticaAnalyse = ({
     handleConnection,
     setCavaticaBulkImportDataStatus,
     handleCreateProject,
+    handleResetErrors,
     cavatica,
     dictionary = DEFAULT_CAVATICA_ANALYSE_DICTIONARY,
     ...rest
@@ -237,7 +239,13 @@ const CavaticaAnalyse = ({
                 title={dictionary?.connectionRequiredModal?.title}
             />
 
-            <ErrorModal onOk={onResetModal} {...getErrorModalTileAndDescription(modalState, dictionary)} />
+            <ErrorModal
+                onOk={() => {
+                    onResetModal();
+                    handleResetErrors();
+                }}
+                {...getErrorModalTileAndDescription(modalState, dictionary)}
+            />
 
             <CavaticaAnalyseModal
                 handleCreateProjectClick={() => {
