@@ -68,6 +68,7 @@ const CavaticaCreateProjectModal = ({
         <Modal
             cancelText={dictionary.cancelText}
             destroyOnClose
+            okButtonProps={{ disabled: !isValid }}
             okText={dictionary.okText}
             onCancel={() => {
                 form.resetFields();
@@ -75,10 +76,6 @@ const CavaticaCreateProjectModal = ({
             }}
             onOk={() => {
                 form.submit();
-                if (rest.onCancel && isValid) {
-                    form.resetFields();
-                    rest.onCancel();
-                }
             }}
             title={dictionary.title}
             {...rest}
@@ -98,6 +95,11 @@ const CavaticaCreateProjectModal = ({
                         billing_group: values[FORM_FIELDS.PROJECT_BILLING_GROUP],
                         name: values[FORM_FIELDS.PROJECT_NAME],
                     });
+
+                    if (rest.onCancel && isValid) {
+                        form.resetFields();
+                        rest.onCancel();
+                    }
                 }}
                 validateMessages={{
                     required: dictionary.requiredField,

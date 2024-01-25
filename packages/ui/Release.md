@@ -1,5 +1,17 @@
+### 8.0.2 2024-01-24
+- fix: SKFP-895 fix form submit error (cherry-pick from 7.20.3)
+
 ### 8.0.1 2024-01-23
 - fix: SKFP-895 reset error on modal error close (cherry-pick from 7.20.1)
+
+### 7.20.3 2024-01-24
+- fix: SKFP-895 fix form submit error
+
+### 7.20.2 2024-01-23
+- fix: SKFP-895 fix npm publish
+
+### 7.20.1 2024-01-23
+- fix: SKFP-895 reset error on modal error close
 
 ### 7.20.0 2024-01-22
 - fix: SKFP-895 add cavatica widgets
