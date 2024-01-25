@@ -1,3 +1,6 @@
+### 7.20.3 2024-01-24
+- fix: SKFP-895 fix form submit error
+
 ### 7.20.2 2024-01-23
 - fix: SKFP-895 fix npm publish
 
