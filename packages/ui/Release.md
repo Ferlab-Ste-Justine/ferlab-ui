@@ -1,3 +1,6 @@
+### 8.0.3 2024-01-26
+- fix: FLUI-115 manage custom pill display in QB
+
 ### 8.0.2 2024-01-24
 - fix: SKFP-895 fix form submit error (cherry-pick from 7.20.3)
 

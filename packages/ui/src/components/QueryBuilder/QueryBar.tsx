@@ -188,26 +188,30 @@ const QueryBar = ({
                 </Space>
                 {!actionDisabled && (
                     <Space className={styles.actions} size={4}>
-                        <Tooltip
-                            title={
-                                isSaveCustomPillDisabled
-                                    ? dictionary.actions?.saveCustomPill?.tooltip?.disabled ||
-                                      'Custom queries cannot include other custom queries'
-                                    : dictionary.actions?.saveCustomPill?.tooltip?.enabled || 'Save as a custom query'
-                            }
-                        >
-                            <Button
-                                className={`${styles.actionButton} ${styles.actionButtonWithTooltip}`}
-                                disabled={isSaveCustomPillDisabled}
-                                icon={<SaveOutlined />}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setIsSaveCustomPillModalVisible(true);
-                                }}
-                                size="small"
-                                type="text"
-                            />
-                        </Tooltip>
+                        {/* Tag is checked to define if we want custom pill in QB. We could check each prop in config but tag is linked to backend. */}
+                        {customPillConfig.tag && (
+                            <Tooltip
+                                title={
+                                    isSaveCustomPillDisabled
+                                        ? dictionary.actions?.saveCustomPill?.tooltip?.disabled ||
+                                          'Custom queries cannot include other custom queries'
+                                        : dictionary.actions?.saveCustomPill?.tooltip?.enabled ||
+                                          'Save as a custom query'
+                                }
+                            >
+                                <Button
+                                    className={`${styles.actionButton} ${styles.actionButtonWithTooltip}`}
+                                    disabled={isSaveCustomPillDisabled}
+                                    icon={<SaveOutlined />}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setIsSaveCustomPillModalVisible(true);
+                                    }}
+                                    size="small"
+                                    type="text"
+                                />
+                            </Tooltip>
+                        )}
                         <Button
                             className={styles.actionButton}
                             icon={<CopyOutlined />}
