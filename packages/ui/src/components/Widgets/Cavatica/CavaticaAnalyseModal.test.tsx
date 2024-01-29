@@ -55,6 +55,7 @@ describe('CavaticaAnalyseModal', () => {
             dictionary,
             handleCreateProjectClick: jest.fn(),
             handleFilesAndFolders: jest.fn(),
+            handleSubmit: jest.fn(),
             open: true,
             projects: {
                 data: [],

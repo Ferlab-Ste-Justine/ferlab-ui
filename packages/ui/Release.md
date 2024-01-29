@@ -1,3 +1,6 @@
+### 8.0.4 2024-01-29
+- fix: SKFP-895 fix bulk import
+
 ### 8.0.3 2024-01-26
 - fix: FLUI-115 manage custom pill display in QB
 

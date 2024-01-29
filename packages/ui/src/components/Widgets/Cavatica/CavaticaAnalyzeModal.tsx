@@ -53,6 +53,7 @@ export interface ICavaticaAnalyseModal extends ModalFuncProps {
     projects: ICavaticaProjects;
     handleFilesAndFolders: (parentId: string, isProject: boolean) => any;
     handleCreateProjectClick?: () => void;
+    handleSubmit: (value: ICavaticaTreeNode) => void;
     dictionary?: TCavaticaAnalyseModalDictionary;
 }
 
@@ -66,6 +67,7 @@ const CavaticaAnalyseModal = ({
     projects,
     bulkImportData,
     handleFilesAndFolders,
+    handleSubmit,
     handleCreateProjectClick,
     dictionary = DEFAULT_CAVATICA_ANALYSE_MODAL_DICTIONARY,
     ...rest
@@ -113,6 +115,13 @@ const CavaticaAnalyseModal = ({
         <Modal
             className={styles.cavaticaAnalyseModal}
             destroyOnClose
+            okButtonProps={{ disabled: selectedTreeNode === undefined }}
+            onOk={() => {
+                if (selectedTreeNode) {
+                    handleSubmit(selectedTreeNode);
+                    setSelectedTreeNode(undefined);
+                }
+            }}
             title={dictionary?.title}
             wrapClassName={styles.cavaticaModalWrapper}
             {...rest}
