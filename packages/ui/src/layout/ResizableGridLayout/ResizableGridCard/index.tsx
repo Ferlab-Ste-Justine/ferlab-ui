@@ -252,6 +252,7 @@ const ResizableGridCard = ({
                 title={
                     <GridCardHeader
                         className={styles.cardHeader}
+                        draggable={draggable}
                         extra={extra}
                         extraClassName={styles.extra}
                         id={headerTitle}
@@ -259,7 +260,6 @@ const ResizableGridCard = ({
                         title={headerTitle}
                         titleTruncateThresholdWidth={CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH}
                         withHandle={draggable}
-                        draggable={draggable}
                     />
                 }
                 wrapperClassName={styles.resizableCard}
