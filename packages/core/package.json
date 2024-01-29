@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm-run-all build:es build:esnext && tsc && tscp",
-    "build:es": "tsc --declaration --sourceMap --outDir lib/es",
-    "build:esnext": "tsc --declaration --declarationMap",
+    "build": "tsc",
     "build:core": "tsc && tscp",
     "start": "tsc -w --declaration && tscp -w --declaration"
   },
