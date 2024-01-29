@@ -119,13 +119,13 @@ const populateMenuItems = (settings: TDownloadSettings, dictionary?: TDictionary
 const ResizableGridCard = ({
     dictionary,
     downloadSettings = { png: true, svg: true, tsv: true },
+    draggable = true,
     gridUID,
     headerTitle,
     id,
     modalContent,
     modalSettings = { height: 600, width: 800 },
     tsvSettings,
-    draggable = true,
     ...rest
 }: TResizableGridCard): JSX.Element => {
     const context = useContext(ResizableGridLayoutContext);

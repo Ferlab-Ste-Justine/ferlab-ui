@@ -23,7 +23,7 @@ interface OwnProps {
     extra?: ReactNode[];
     withHandle?: boolean;
     titleTruncateThresholdWidth?: number;
-    draggable: boolean;
+    draggable?: boolean;
 }
 
 const { Title } = Typography;
@@ -38,7 +38,7 @@ const GridCardHeader = ({
     title,
     titleTruncateThresholdWidth,
     withHandle = false,
-    draggable,
+    draggable = false,
 }: OwnProps): JSX.Element => {
     const [truncated, setTruncated] = useState(false);
     const [titleWidth, setTitleWidth] = useState('100%');
