@@ -47,6 +47,7 @@ type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
     };
     downloadSettings?: TDownloadSettings;
     onRemoveClick?: () => void;
+    draggable?: boolean;
 };
 
 enum DownloadKey {
@@ -124,6 +125,7 @@ const ResizableGridCard = ({
     modalContent,
     modalSettings = { height: 600, width: 800 },
     tsvSettings,
+    draggable = true,
     ...rest
 }: TResizableGridCard): JSX.Element => {
     const context = useContext(ResizableGridLayoutContext);
@@ -256,7 +258,8 @@ const ResizableGridCard = ({
                         key={toKebabCase(headerTitle)}
                         title={headerTitle}
                         titleTruncateThresholdWidth={CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH}
-                        withHandle
+                        withHandle={draggable}
+                        draggable={draggable}
                     />
                 }
                 wrapperClassName={styles.resizableCard}
