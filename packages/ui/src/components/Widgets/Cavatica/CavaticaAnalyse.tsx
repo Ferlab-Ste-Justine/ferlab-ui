@@ -8,6 +8,7 @@ import WarningModal from '../../Modal/WarningModal';
 
 import CavaticaAnalyseModal, {
     DEFAULT_CAVATICA_ANALYSE_MODAL_DICTIONARY,
+    ICavaticaTreeNode,
     TCavaticaAnalyseModalDictionary as TCavaticaAnalyseModalDictionary,
 } from './CavaticaAnalyzeModal';
 import CavaticaCreateProjectModal, {
@@ -117,6 +118,7 @@ export interface ICavaticaAnalyse extends BaseButtonProps {
     setCavaticaBulkImportDataStatus: (status: CAVATICA_ANALYSE_STATUS) => void;
     handleCreateProject: (values: any) => void;
     handleResetErrors: () => void;
+    handleImportBulkData: (value: ICavaticaTreeNode) => void;
     cavatica: {
         authentification: ICavaticaAuthentification;
         bulkImportData: ICavaticaBulkImportData;
@@ -170,6 +172,7 @@ const CavaticaAnalyse = ({
     setCavaticaBulkImportDataStatus,
     handleCreateProject,
     handleResetErrors,
+    handleImportBulkData,
     cavatica,
     dictionary = DEFAULT_CAVATICA_ANALYSE_DICTIONARY,
     ...rest
@@ -252,6 +255,10 @@ const CavaticaAnalyse = ({
                     setModalState(ModalState.createProject);
                 }}
                 handleFilesAndFolders={handleFilesAndFolders}
+                handleSubmit={(value: ICavaticaTreeNode) => {
+                    handleImportBulkData(value);
+                    onResetModal();
+                }}
                 onCancel={onResetModal}
                 open={modalState === ModalState.analyse}
                 {...cavatica}
