@@ -17,6 +17,6 @@
         "sourceMap": true,
         "forceConsistentCasingInFileNames": true
     },
-    "include": ["typings.d.ts", "src", "../data/src/sqon/**/*"],
+    "include": ["typings.d.ts", "src/**/*", "../data/src/sqon/**/*"],
     "exclude": ["src/**/*.spec.ts", "src/**/*.test.ts"]
 }
