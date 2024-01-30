@@ -1,5 +1,5 @@
 ### 8.1.0 2024-01-30
-- feat: FLUI-60 add draggable props to ResizableGridCard
+- feat: FLUI-60 add isDragable props to ResizableGridCard
 
 ### 8.0.4 2024-01-29
 - fix: SKFP-895 fix bulk import

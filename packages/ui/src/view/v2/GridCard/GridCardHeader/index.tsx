@@ -21,9 +21,8 @@ interface OwnProps {
     handleClassName?: string;
     extraClassName?: string;
     extra?: ReactNode[];
-    withHandle?: boolean;
     titleTruncateThresholdWidth?: number;
-    draggable?: boolean;
+    isDraggable?: boolean;
 }
 
 const { Title } = Typography;
@@ -37,8 +36,7 @@ const GridCardHeader = ({
     infoPopover,
     title,
     titleTruncateThresholdWidth,
-    withHandle = false,
-    draggable = false,
+    isDraggable = false,
 }: OwnProps): JSX.Element => {
     const [truncated, setTruncated] = useState(false);
     const [titleWidth, setTitleWidth] = useState('100%');
@@ -61,9 +59,9 @@ const GridCardHeader = ({
 
     return (
         <Title className={classnames(styles.cardHeader, className)} level={4} ref={headerContainerRef}>
-            <div className={classnames({ 'rgl-drag-zone': draggable })}>
+            <div className={classnames({ 'rgl-drag-zone': isDraggable })}>
                 <Space align="center" className={styles.cardHeadererContent} direction="horizontal" size={5}>
-                    {withHandle && (
+                    {isDraggable && (
                         <DragHandle className={classnames(styles.dragHandle, handleClassName)} id={id}>
                             <HolderOutlined />
                         </DragHandle>

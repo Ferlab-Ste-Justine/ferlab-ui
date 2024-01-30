@@ -256,8 +256,8 @@ const AuthorizedStudiesWidget = ({
                             iconClassName: styles.infoIcon,
                             title: dictionary.popover.title,
                         }}
+                        isDraggable
                         title={dictionary.title}
-                        withHandle
                     />
                 }
                 wrapperClassName={cx(styles.widget, className)}

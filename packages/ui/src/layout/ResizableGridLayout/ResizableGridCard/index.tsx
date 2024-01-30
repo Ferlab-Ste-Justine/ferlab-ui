@@ -47,7 +47,7 @@ type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
     };
     downloadSettings?: TDownloadSettings;
     onRemoveClick?: () => void;
-    draggable?: boolean;
+    isDraggable?: boolean;
 };
 
 enum DownloadKey {
@@ -119,7 +119,7 @@ const populateMenuItems = (settings: TDownloadSettings, dictionary?: TDictionary
 const ResizableGridCard = ({
     dictionary,
     downloadSettings = { png: true, svg: true, tsv: true },
-    draggable = true,
+    isDraggable = true,
     gridUID,
     headerTitle,
     id,
@@ -181,7 +181,7 @@ const ResizableGridCard = ({
                     `#${graphId} div:nth-child(${index + 1}) svg`,
                     fileNameFormatter(fileNameTemplate, DownloadType.chart, fileNameDateFormat, headerTitle, ''),
                     { ...EXPORT_SETTINGS, format: action },
-                ).then((_) => {
+                ).then(() => {
                     setHasStartedDownload(false);
                 });
             });
@@ -252,14 +252,13 @@ const ResizableGridCard = ({
                 title={
                     <GridCardHeader
                         className={styles.cardHeader}
-                        draggable={draggable}
                         extra={extra}
                         extraClassName={styles.extra}
                         id={headerTitle}
+                        isDraggable={isDraggable}
                         key={toKebabCase(headerTitle)}
                         title={headerTitle}
                         titleTruncateThresholdWidth={CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH}
-                        withHandle={draggable}
                     />
                 }
                 wrapperClassName={styles.resizableCard}

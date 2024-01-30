@@ -31,7 +31,7 @@ const GridCardItem = ({ id }: { id: string }) => (
         }
         resizable
         theme="shade"
-        title={<GridCardHeader id={id} title={`GridCard Header ${id}`} withHandle />}
+        title={<GridCardHeader id={id} isDraggable title={`GridCard Header ${id}`} />}
     />
 );
 
