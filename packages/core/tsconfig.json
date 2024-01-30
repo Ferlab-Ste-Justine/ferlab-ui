@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "declaration": true,
-        "incremental": true,
+        "incremental": false,
         "target": "ES2017",
         "module": "CommonJS",
         "lib": ["es2021", "ES2021.String", "dom"],
