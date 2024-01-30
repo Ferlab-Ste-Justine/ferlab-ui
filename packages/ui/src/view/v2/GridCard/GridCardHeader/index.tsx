@@ -61,7 +61,7 @@ const GridCardHeader = ({
 
     return (
         <Title className={classnames(styles.cardHeader, className)} level={4} ref={headerContainerRef}>
-            <div className={draggable ? 'rgl-drag-zone' : ''}>
+            <div className={classnames({ 'rgl-drag-zone': draggable })}>
                 <Space align="center" className={styles.cardHeadererContent} direction="horizontal" size={5}>
                     {withHandle && (
                         <DragHandle className={classnames(styles.dragHandle, handleClassName)} id={id}>
