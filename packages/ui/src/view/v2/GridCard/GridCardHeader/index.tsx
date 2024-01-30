@@ -21,8 +21,8 @@ interface OwnProps {
     handleClassName?: string;
     extraClassName?: string;
     extra?: ReactNode[];
-    withHandle?: boolean;
     titleTruncateThresholdWidth?: number;
+    withHandle?: boolean;
 }
 
 const { Title } = Typography;
@@ -59,7 +59,7 @@ const GridCardHeader = ({
 
     return (
         <Title className={classnames(styles.cardHeader, className)} level={4} ref={headerContainerRef}>
-            <div className="rgl-drag-zone">
+            <div className={classnames({ 'rgl-drag-zone': withHandle })}>
                 <Space align="center" className={styles.cardHeadererContent} direction="horizontal" size={5}>
                     {withHandle && (
                         <DragHandle className={classnames(styles.dragHandle, handleClassName)} id={id}>

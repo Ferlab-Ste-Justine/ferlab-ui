@@ -47,6 +47,10 @@ type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
     };
     downloadSettings?: TDownloadSettings;
     onRemoveClick?: () => void;
+    /**
+     * This will affect whether or not the handle is shown.
+     */
+    withHandle?: boolean;
 };
 
 enum DownloadKey {
@@ -124,6 +128,7 @@ const ResizableGridCard = ({
     modalContent,
     modalSettings = { height: 600, width: 800 },
     tsvSettings,
+    withHandle = true,
     ...rest
 }: TResizableGridCard): JSX.Element => {
     const context = useContext(ResizableGridLayoutContext);
@@ -179,7 +184,7 @@ const ResizableGridCard = ({
                     `#${graphId} div:nth-child(${index + 1}) svg`,
                     fileNameFormatter(fileNameTemplate, DownloadType.chart, fileNameDateFormat, headerTitle, ''),
                     { ...EXPORT_SETTINGS, format: action },
-                ).then((_) => {
+                ).then(() => {
                     setHasStartedDownload(false);
                 });
             });
@@ -256,7 +261,7 @@ const ResizableGridCard = ({
                         key={toKebabCase(headerTitle)}
                         title={headerTitle}
                         titleTruncateThresholdWidth={CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH}
-                        withHandle
+                        withHandle={withHandle}
                     />
                 }
                 wrapperClassName={styles.resizableCard}
