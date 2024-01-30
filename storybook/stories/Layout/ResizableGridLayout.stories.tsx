@@ -9,7 +9,15 @@ import BarChart from '@ferlab/ui/components/Charts/Bar';
 import PieChart from '@ferlab/ui/components/Charts/Pie';
 import { aggregationToChartData } from '@ferlab/ui/layout/ResizableGridLayout/utils';
 
-const GridCardItem = ({ type }: { type: string }) => {
+const GridCardItem = ({
+    title = 'Header Title',
+    type,
+    withHandle,
+}: {
+    title?: string;
+    type: string;
+    withHandle: boolean;
+}) => {
     var buckets = [];
     var total = Math.floor(Math.random() * 10) + 1;
     for (let i = 0; i < total; i++) {
@@ -23,11 +31,12 @@ const GridCardItem = ({ type }: { type: string }) => {
 
     return (
         <ResizableGridCard
+            withHandle={withHandle}
             gridUID="storybook"
             theme="shade"
             loading={false}
             loadingType="spinner"
-            headerTitle={'header title'}
+            headerTitle={title}
             tsvSettings={{
                 data: [data],
             }}
@@ -104,8 +113,9 @@ const getDefaultLayouts = (): IResizableGridLayoutConfig[] => [
             w: 6,
             x: 0,
             y: 0,
+            isDraggable: false,
         },
-        component: <GridCardItem type="bar" />,
+        component: <GridCardItem title="Not Draggable" type="bar" withHandle={false} />,
         id: 'card_1',
         title: 'Card 1 to be truncable when activated by card resize',
     },

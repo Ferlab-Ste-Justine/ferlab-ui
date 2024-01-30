@@ -47,7 +47,10 @@ type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
     };
     downloadSettings?: TDownloadSettings;
     onRemoveClick?: () => void;
-    isDraggable?: boolean;
+    /**
+     * This will affect whether or not the handle is shown.
+     */
+    withHandle?: boolean;
 };
 
 enum DownloadKey {
@@ -119,13 +122,13 @@ const populateMenuItems = (settings: TDownloadSettings, dictionary?: TDictionary
 const ResizableGridCard = ({
     dictionary,
     downloadSettings = { png: true, svg: true, tsv: true },
-    isDraggable = true,
     gridUID,
     headerTitle,
     id,
     modalContent,
     modalSettings = { height: 600, width: 800 },
     tsvSettings,
+    withHandle = true,
     ...rest
 }: TResizableGridCard): JSX.Element => {
     const context = useContext(ResizableGridLayoutContext);
@@ -255,10 +258,10 @@ const ResizableGridCard = ({
                         extra={extra}
                         extraClassName={styles.extra}
                         id={headerTitle}
-                        isDraggable={isDraggable}
                         key={toKebabCase(headerTitle)}
                         title={headerTitle}
                         titleTruncateThresholdWidth={CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH}
+                        withHandle={withHandle}
                     />
                 }
                 wrapperClassName={styles.resizableCard}
