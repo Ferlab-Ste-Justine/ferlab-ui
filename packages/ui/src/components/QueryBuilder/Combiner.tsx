@@ -24,14 +24,12 @@ const Combiner = ({ onChange, type }: ICombinerProps): JSX.Element => {
         onChange(isAndOperator() ? CombinerEnum.Or : CombinerEnum.And);
     };
 
-    const getTooltipTitle = () => `
-            ${dictionary.actions?.changeOperatorTo || 'Change operator to'}
-            ${
-                isAndOperator()
-                    ? `"${dictionary.query?.combine?.or || 'or'}"`
-                    : `"${dictionary.query?.combine?.and || 'and'}"`
-            }
-        `;
+    const getTooltipTitle = () =>
+        `${dictionary.actions?.changeOperatorTo || 'Change operator to'} ${
+            isAndOperator()
+                ? `"${dictionary.query?.combine?.or || 'or'}"`
+                : `"${dictionary.query?.combine?.and || 'and'}"`
+        }`;
 
     return (
         <div className={styles.combinerContainer}>
