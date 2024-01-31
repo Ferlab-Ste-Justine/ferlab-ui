@@ -1,3 +1,6 @@
+### 8.2.1 2024-01-31
+- fix: FLUI-116 fix the operator tooltip in QueryBuild to be on a single line
+
 ### 8.2.0 2024-01-30
 - feat: FLUI-102 upgrade storybook to V7
 
