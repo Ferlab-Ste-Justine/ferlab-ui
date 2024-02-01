@@ -38,13 +38,13 @@ export const observedPhenotypeDefaultGridConfig = {
         y: 0,
     },
     xs: {
-        h: 4,
+        h: 6,
         w: 6,
         x: 0,
         y: 0,
     },
     xxs: {
-        h: 4,
+        h: 6,
         w: 4,
         x: 0,
         y: 0,
@@ -78,16 +78,16 @@ export const mondoDefaultGridConfig = {
         y: 0,
     },
     xs: {
-        h: 4,
+        h: 6,
         w: 6,
         x: 0,
-        y: 4,
+        y: 6,
     },
     xxs: {
-        h: 4,
+        h: 6,
         w: 4,
         x: 0,
-        y: 4,
+        y: 6,
     },
 };
 
@@ -122,13 +122,13 @@ export const demographicsDefaultGridConfig = {
         h: 2,
         w: 6,
         x: 0,
-        y: 8,
+        y: 12,
     },
     xxs: {
         h: 2,
         w: 4,
         x: 0,
-        y: 8,
+        y: 12,
     },
 };
 
@@ -163,13 +163,13 @@ export const ageAtDiagnosisDefaultGridConfig = {
         h: 2,
         w: 6,
         x: 0,
-        y: 10,
+        y: 14,
     },
     xxs: {
         h: 2,
         w: 4,
         x: 0,
-        y: 10,
+        y: 14,
     },
 };
 
@@ -204,13 +204,13 @@ export const dataCategoryDefaultGridConfig = {
         h: 2,
         w: 6,
         x: 0,
-        y: 12,
+        y: 16,
     },
     xxs: {
         h: 2,
         w: 4,
         x: 0,
-        y: 12,
+        y: 16,
     },
 };
 
@@ -245,13 +245,13 @@ export const studiesDefaultGridConfig = {
         h: 3,
         w: 6,
         x: 0,
-        y: 14,
+        y: 18,
     },
     xxs: {
         h: 3,
         w: 4,
         x: 0,
-        y: 14,
+        y: 18,
     },
 };
 
@@ -286,12 +286,12 @@ export const dataTypeDefaultGridConfig = {
         h: 4,
         w: 6,
         x: 0,
-        y: 17,
+        y: 21,
     },
     xxs: {
         h: 4,
         w: 4,
         x: 0,
-        y: 17,
+        y: 21,
     },
 };

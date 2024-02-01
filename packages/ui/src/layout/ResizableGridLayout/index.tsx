@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, memo, useEffect, useState } from 'react';
 import { Layout, Layouts, Responsive as ResponsiveGridLayout, ResponsiveProps } from 'react-grid-layout';
 import { SizeMe } from 'react-sizeme';
 import { Space, Spin } from 'antd';
@@ -160,43 +160,6 @@ export const serializeLayoutsToConfig = (
 };
 
 /**
- * Compare config
- * @param layouts
- * @param configs
- * @returns boolean
- */
-export const isLayoutConfigEqual = (layouts: Layouts, configs: IResizableGridLayoutConfig[]): boolean => {
-    const serializedConfigs = serialize(configs);
-    const serializedAllLayouts = serializeLayoutsToConfig(layouts, configs);
-
-    for (const config of serializedConfigs) {
-        for (const layout of serializedAllLayouts) {
-            if (layout.id == config.id) {
-                for (const breakpoint in BREAKPOINTS) {
-                    const configValue = config[
-                        breakpoint as keyof TSerializedResizableGridLayoutConfig
-                    ] as ILayoutItemConfig;
-
-                    const layoutValue = layout[
-                        breakpoint as keyof TSerializedResizableGridLayoutConfig
-                    ] as ILayoutItemConfig;
-
-                    for (const property in configValue) {
-                        if (
-                            configValue[property as keyof ILayoutItemConfig] !==
-                            layoutValue[property as keyof ILayoutItemConfig]
-                        ) {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return true;
-};
-
-/**
  * Iterate over all react-grid layouts to return a specific
  * layout or undefined if the layout doesn't exist
  * @param layouts layouts used by react-grid-layout
@@ -323,7 +286,10 @@ export const generateOptionalBaseConfig = (base: ILayoutItemConfig): TOptionalBa
     return optionalBaseValues;
 };
 
-const ResizableGridLayout = ({
+const arePropsEqual = (oldProps: IResizableGridLayout, newProps: IResizableGridLayout) =>
+    JSON.stringify(oldProps.layouts) === JSON.stringify(newProps.layouts);
+
+const ResizableGridLayout = memo(function ResizableGridLayout({
     defaultLayouts,
     dictionary,
     layouts,
@@ -331,11 +297,15 @@ const ResizableGridLayout = ({
     onReset,
     uid,
     ...props
-}: IResizableGridLayout): JSX.Element => {
+}: IResizableGridLayout) {
     const [currentBreakpoint, setCurrentBreakpoint] = useState<string | undefined>(undefined);
     const [isLoaded, setIsLoaded] = useState(false);
     const configs = deserialize(defaultLayouts, layouts);
     const responsiveDefaultLayouts = serializeConfigToLayouts(configs);
+    // React-grid-layout lifecycle is pretty tricky
+    // It will trigger onLayoutChange before updating the breakpoint
+    // Result in data of md are sending to lg. Thas why this flag is needed
+    const [hasLayoutChanged, setHasLayoutChanged] = useState<boolean>(false);
     const resizableItemsList = configs.map(({ hidden, id, title }) => ({
         id,
         label: title,
@@ -389,12 +359,22 @@ const ResizableGridLayout = ({
                                 }
                                 setCurrentBreakpoint(newBreakpoint);
                             }}
-                            onLayoutChange={(currentLayout, allLayouts) => {
-                                if (!isLoaded || isLayoutConfigEqual(allLayouts, configs)) {
+                            onDragStop={() => {
+                                setHasLayoutChanged(true);
+                            }}
+                            onLayoutChange={(currentLayout: Layout[], allLayouts: Layouts) => {
+                                if (!isLoaded) {
                                     return;
                                 }
-                                const serializedLayouts = serializeLayoutsToConfig(allLayouts, configs);
-                                onConfigUpdate(serializedLayouts);
+
+                                if (hasLayoutChanged) {
+                                    const serializedLayouts = serializeLayoutsToConfig(allLayouts, configs);
+                                    onConfigUpdate(serializedLayouts);
+                                    setHasLayoutChanged(false);
+                                }
+                            }}
+                            onResizeStop={() => {
+                                setHasLayoutChanged(true);
                             }}
                             rowHeight={98}
                             width={size.width && size.width !== null ? size.width : 1280}
@@ -408,6 +388,7 @@ const ResizableGridLayout = ({
                                     const grid = layout[
                                         currentBreakpoint as keyof IResizableGridLayoutConfig
                                     ] as ILayoutItemConfig;
+
                                     return (
                                         <div data-grid={{ ...layout.base, ...grid }} id={layout.id} key={layout.id}>
                                             {layout.component}
@@ -423,6 +404,7 @@ const ResizableGridLayout = ({
             </ResizableGridLayoutContext.Provider>
         </Space>
     );
-};
+},
+arePropsEqual);
 
 export default ResizableGridLayout;
