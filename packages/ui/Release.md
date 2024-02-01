@@ -1,3 +1,6 @@
+### 8.2.1 2024-02-01
+- fix: SKFP-934 fix ok button text on cavatica analyse modal
+
 ### 8.2.1 2024-01-31
 - fix: FLUI-116 fix the operator tooltip in QueryBuild to be on a single line
 

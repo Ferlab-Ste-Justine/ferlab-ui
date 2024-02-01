@@ -50,11 +50,11 @@ export type TCavaticaAnalyseModalDictionary = {
 
 export interface ICavaticaAnalyseModal extends ModalFuncProps {
     bulkImportData: ICavaticaBulkImportData;
-    projects: ICavaticaProjects;
-    handleFilesAndFolders: (parentId: string, isProject: boolean) => any;
-    handleCreateProjectClick?: () => void;
-    handleSubmit: (value: ICavaticaTreeNode) => void;
     dictionary?: TCavaticaAnalyseModalDictionary;
+    handleCreateProjectClick?: () => void;
+    handleFilesAndFolders: (parentId: string, isProject: boolean) => any;
+    handleSubmit: (value: ICavaticaTreeNode) => void;
+    projects: ICavaticaProjects;
 }
 
 const aggregateFilesToStudy = (filesToCopy: any[]) =>
@@ -64,12 +64,12 @@ const aggregateFilesToStudy = (filesToCopy: any[]) =>
     }));
 
 const CavaticaAnalyseModal = ({
-    projects,
     bulkImportData,
+    dictionary = DEFAULT_CAVATICA_ANALYSE_MODAL_DICTIONARY,
+    handleCreateProjectClick,
     handleFilesAndFolders,
     handleSubmit,
-    handleCreateProjectClick,
-    dictionary = DEFAULT_CAVATICA_ANALYSE_MODAL_DICTIONARY,
+    projects,
     ...rest
 }: ICavaticaAnalyseModal): JSX.Element => {
     const { authorizedFiles, files } = bulkImportData;
@@ -116,6 +116,7 @@ const CavaticaAnalyseModal = ({
             className={styles.cavaticaAnalyseModal}
             destroyOnClose
             okButtonProps={{ disabled: selectedTreeNode === undefined }}
+            okText={dictionary.copyFiles}
             onOk={() => {
                 if (selectedTreeNode) {
                     handleSubmit(selectedTreeNode);
