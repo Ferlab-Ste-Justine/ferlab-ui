@@ -70,7 +70,7 @@ const EXPORT_SETTINGS = {
     scale: 1,
 };
 
-const CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH = 75;
+const CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH = 140;
 const DOWNLOAD_DELAY = 250;
 const DEFAULT_TSV_HEADERS = ['Value', 'Count', 'Frequency'];
 const DEFAULT_TSV_CONTENT_MAP = ['label', 'value', 'frequency'];

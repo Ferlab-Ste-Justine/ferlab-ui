@@ -1,3 +1,6 @@
+### 8.2.1 2024-02-02
+- fix: SJIP-680 fix config corrumption when resizing the browser 
+
 ### 8.2.1 2024-02-01
 - fix: SKFP-934 fix ok button text on cavatica analyse modal
 
