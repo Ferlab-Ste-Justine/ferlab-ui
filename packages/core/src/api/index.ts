@@ -4,7 +4,7 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } f
 export interface ApiResponse<T> {
   data: T | undefined;
   response: AxiosResponse;
-  error: AxiosError | undefined;
+  error?: AxiosError | undefined;
 }
 
 const rptApiInstance = axios.create({

@@ -1,13 +1,9 @@
 import { sendRequestWithRpt } from "..";
 
-import { LANG } from '../../utils/constants';
-
-const FORM_API_URL = "https://forms.qa.cqgc.hsj.rtss.qc.ca"
-
-const downloadDocuments = (analysis_id: string, lang = LANG.FR, token: any) =>
+const downloadDocuments = (file_id: string, lang:string , url: string, token?: string) =>
     sendRequestWithRpt({
         method: 'GET',
-        url: `${FORM_API_URL}/render/${analysis_id}?format=pdf&lang=${lang}`,
+        url: `${url}/render/${file_id}?format=pdf&lang=${lang}`,
         responseType: 'blob',
         headers: {
             Authorization: `Bearer ${token}`

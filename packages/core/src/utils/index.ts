@@ -1,23 +1,26 @@
+import React from 'react';
 import { FhirApi } from '../api/fhir';
-import { HTTP_HEADERS, LANG, MIME_TYPES } from './constants';
+
+import { HTTP_HEADERS, MIME_TYPES } from './constants';
 import { downloadFile, extractFilename } from './helper';
 
 export const downloadDocuments = (
-    prescriptionId: string,
-    lang: LANG,
+    fileID: string,
+    lang: string,
     setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    token?: String,
+    url: string,
+    token?: string,
     errorNotification?: ()=> void,
 ) => {
 
-    FhirApi.downloadDocuments(prescriptionId, lang, token)
+    FhirApi.downloadDocuments(fileID, lang, url, token)
         .then(({ data, error, response }) => {
             if (error) {
                 errorNotification && errorNotification()
             } else {
                 const fileName = extractFilename(
                     response.headers[HTTP_HEADERS.CONTENT_DISPOSITION],
-                    `${prescriptionId}.pdf`,
+                    `${fileID}.pdf`,
                 );
                 const blob = new Blob([data as BlobPart], {
                     type: MIME_TYPES.APPLICATION_PDF,
