@@ -196,6 +196,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                     <Button
                         icon={<DownloadOutlined />}
                         key="table-export"
+                        disabled={(headerConfig.itemCount?.total || 0) === 0}
                         onClick={() => {
                             if (headerConfig.onTableExportClick) {
                                 headerConfig.onTableExportClick();
