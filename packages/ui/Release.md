@@ -1,5 +1,8 @@
 ### 8.2.1 2024-02-02
-- fix: SJIP-680 fix config corrumption when resizing the browser 
+- fix: CLIN-2300 disable export tsv button when total is 0
+
+### 8.2.1 2024-02-02
+- fix: SJIP-680 fix config corrumption when resizing the browser
 
 ### 8.2.1 2024-02-01
 - fix: SKFP-934 fix ok button text on cavatica analyse modal
@@ -149,7 +152,7 @@
 - feat: CLIN-1767 add update query for filter by table
 
 ### 7.11.1 2023-07-10
-- fix: CLIN-1763 assignement style + functionality 
+- fix: CLIN-1763 assignement style + functionality
 - feat: SKFP-675 add truncable title on card header, fix resizable card tooltip
 
 ### 7.11.0 2023-07-06
@@ -178,7 +181,7 @@
 - fix: FLUI-74 remove preventUrlHash on anchor menu
 
 ### 7.9.8 2023-06-16
-- fix: FLUI-72 fixed breaking css change from antd update 
+- fix: FLUI-72 fixed breaking css change from antd update
 
 ### 7.9.7 2023-06-15
 - fix: FLUI-67 72 updates antd preventUrlHash default false AnchorMenu
@@ -188,13 +191,13 @@
 
 ### 7.9.3 2023-06-08
 - feat: CLIN-1991 move noDataInputOption for rangeFilter into config props
- 
+
 ### 7.9.0 2023-06-05
 - feat: FLUI-67 update antd@4.24.10
 
 ### 7.7.0 2023-06-05
 - feat: FLUI-65 add locale to numberFormat
- 
+
 ### 6.1.0 2023-04-19
 - feat: CQDG-215 create UserAvatar with auto color by user's name
 

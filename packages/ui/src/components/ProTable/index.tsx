@@ -194,6 +194,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
             customExtra = customExtra.concat(
                 <Tooltip title={dictionary.tooltips?.tableExport || 'Export as TSV'}>
                     <Button
+                        disabled={(headerConfig.itemCount?.total || 0) === 0}
                         icon={<DownloadOutlined />}
                         key="table-export"
                         onClick={() => {
