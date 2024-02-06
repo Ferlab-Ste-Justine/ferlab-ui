@@ -1,4 +1,7 @@
 ### 8.2.1 2024-02-02
+- fix: CLIN-2300 disable export tsv button when total is 0
+
+### 8.2.1 2024-02-02
 - fix: SJIP-680 fix config corrumption when resizing the browser
 
 ### 8.2.1 2024-02-01
