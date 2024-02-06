@@ -1,4 +1,5 @@
-/* import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+
 
 export interface ApiResponse<T> {
   data: T | undefined;
@@ -9,7 +10,6 @@ export interface ApiResponse<T> {
 const rptApiInstance = axios.create({
   timeout: 15000,
 });
-
 
 export const sendRequestWithRpt = async <T>(config: AxiosRequestConfig) =>
   makeRequest<T>(rptApiInstance, config);
@@ -30,4 +30,4 @@ export const makeRequest = async <T>(instance: AxiosInstance, config: AxiosReque
         data: undefined,
         error: err,
       }),
-    ); */
+    );
