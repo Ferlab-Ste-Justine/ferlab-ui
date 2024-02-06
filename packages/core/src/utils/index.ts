@@ -6,13 +6,16 @@ import { downloadFile, extractFilename } from './helper';
 
 export const downloadDocuments = (
     fileID: string,
-    lang: string,
     setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    url: string,
-    token?: string,
+    config: {
+        token?: string,
+        url: string,
+        lang: string,
+        type: string,
+    },
     errorNotification?: ()=> void,
 ) => {
-
+    const {token, url, lang, type} = config;
     FhirApi.downloadDocuments(fileID, lang, url, token)
         .then(({ data, error, response }) => {
             if (error) {
@@ -23,7 +26,7 @@ export const downloadDocuments = (
                     `${fileID}.pdf`,
                 );
                 const blob = new Blob([data as BlobPart], {
-                    type: MIME_TYPES.APPLICATION_PDF,
+                    type,
                 });
                 downloadFile(blob, fileName);
             }
