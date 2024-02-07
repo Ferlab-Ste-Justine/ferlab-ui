@@ -108,6 +108,7 @@ export type THeaderConfig<RecordType> = {
     extra?: ReactNode[];
     extraCountInfo?: ReactNode[];
     enableTableExport?: boolean;
+    tableExportDisabled?: boolean;
     enableColumnSort?: boolean;
     onSelectedRowsChange?: (selectedKeys: any[], selectedRows: RecordType[]) => void;
     onSelectAllResultsChange?: (selected: boolean) => void;
