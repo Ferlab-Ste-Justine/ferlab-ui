@@ -1,5 +1,5 @@
 import React from 'react';
-import { FhirApi } from '../api/fhir';
+import { FhirApi } from '../api/download';
 
 import { HTTP_HEADERS, MIME_TYPES } from './constants';
 import { downloadFile, extractFilename } from './helper';
@@ -10,20 +10,20 @@ export const downloadDocuments = (
     config: {
         token?: string,
         url: string,
-        lang: string,
         type: string,
+        format: string
     },
     errorNotification?: ()=> void,
 ) => {
-    const {token, url, lang, type} = config;
-    FhirApi.downloadDocuments(fileID, lang, url, token)
+    const {token, url, type, format} = config;
+    FhirApi.downloadDocuments(url, token)
         .then(({ data, error, response }) => {
             if (error) {
                 errorNotification && errorNotification()
             } else {
                 const fileName = extractFilename(
                     response.headers[HTTP_HEADERS.CONTENT_DISPOSITION],
-                    `${fileID}.pdf`,
+                    `${fileID}.${format}`,
                 );
                 const blob = new Blob([data as BlobPart], {
                     type,

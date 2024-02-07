@@ -1,9 +1,9 @@
 import { sendRequestWithRpt } from "..";
 
-const downloadDocuments = (file_id: string, lang:string , url: string, token?: string) =>
+const downloadDocuments = (url: string, token?: string) =>
     sendRequestWithRpt({
         method: 'GET',
-        url: `${url}/render/${file_id}?format=pdf&lang=${lang}`,
+        url: url,
         responseType: 'blob',
         headers: {
             Authorization: `Bearer ${token}`
