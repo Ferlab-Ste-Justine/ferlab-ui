@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button, List, Progress, Space, Typography } from 'antd';
 import cx from 'classnames';
 
@@ -53,67 +53,65 @@ const AuthorizedStudiesListItem = ({
             <List.Item.Meta
                 className={styles.itemMeta}
                 description={
-                    <BrowserRouter>
-                        <div className={styles.filesCount}>
-                            <Space size={4}>
-                                <span>{dictionary.authorization}</span>
-                                <Link
-                                    onClick={() => {
-                                        addQuery({
-                                            query: generateQuery({
-                                                newFilters: [
-                                                    generateValueFilter({
-                                                        field: 'study_id',
-                                                        index: queryProps.participantIndex,
-                                                        value: [data.study_id],
-                                                    }),
-                                                    generateValueFilter({
-                                                        field: 'acl',
-                                                        index: queryProps.fileIndex,
-                                                        value: data.user_acl_in_study,
-                                                    }),
-                                                ],
-                                            }),
-                                            queryBuilderId: queryProps.queryBuilderId,
-                                            setAsActive: true,
-                                        });
-                                    }}
-                                    to={queryProps.to}
-                                >
-                                    <Button className={styles.fileLink} type="link">
-                                        <span>{numberWithCommas(authorizedAndUncontrolledFilesCount)}</span>
-                                    </Button>
-                                </Link>
-                                <span className={styles.of}>{dictionary.of}</span>
-                                <Link
-                                    onClick={() => {
-                                        addQuery({
-                                            query: generateQuery({
-                                                newFilters: [
-                                                    generateValueFilter({
-                                                        field: 'study_id',
-                                                        index: queryProps.participantIndex,
-                                                        value: [data.study_id],
-                                                    }),
-                                                ],
-                                            }),
-                                            queryBuilderId: queryProps.queryBuilderId,
-                                            setAsActive: true,
-                                        });
-                                    }}
-                                    to={queryProps.to}
-                                >
-                                    <Button className={styles.fileLink} type="link">
-                                        <span>{numberWithCommas(data.total_files_count)}</span>
-                                    </Button>
-                                </Link>
-                                <span>{dictionary.files}</span>
-                            </Space>
-                        </div>
-                    </BrowserRouter>
+                    <div className={styles.filesCount}>
+                        <Space size={4}>
+                            <span>{dictionary.authorization}</span>
+                            <Link
+                                onClick={() => {
+                                    addQuery({
+                                        query: generateQuery({
+                                            newFilters: [
+                                                generateValueFilter({
+                                                    field: 'study.study_code',
+                                                    index: queryProps.participantIndex,
+                                                    value: [data.study_code],
+                                                }),
+                                                generateValueFilter({
+                                                    field: 'acl',
+                                                    index: queryProps.fileIndex,
+                                                    value: data.user_acl_in_study,
+                                                }),
+                                            ],
+                                        }),
+                                        queryBuilderId: queryProps.queryBuilderId,
+                                        setAsActive: true,
+                                    });
+                                }}
+                                to={queryProps.to}
+                            >
+                                <Button className={styles.fileLink} type="link">
+                                    <span>{numberWithCommas(authorizedAndUncontrolledFilesCount)}</span>
+                                </Button>
+                            </Link>
+                            <span className={styles.of}>{dictionary.of}</span>
+                            <Link
+                                onClick={() => {
+                                    addQuery({
+                                        query: generateQuery({
+                                            newFilters: [
+                                                generateValueFilter({
+                                                    field: 'study.study_code',
+                                                    index: queryProps.participantIndex,
+                                                    value: [data.study_code],
+                                                }),
+                                            ],
+                                        }),
+                                        queryBuilderId: queryProps.queryBuilderId,
+                                        setAsActive: true,
+                                    });
+                                }}
+                                to={queryProps.to}
+                            >
+                                <Button className={styles.fileLink} type="link">
+                                    <span>{numberWithCommas(data.total_files_count)}</span>
+                                </Button>
+                            </Link>
+                            <span>{dictionary.files}</span>
+                        </Space>
+                    </div>
                 }
                 title={
-                    <Text ellipsis title={data.title}>
+                    <Text ellipsis={{ tooltip: data.title }} title={data.title}>
                         {data.title}
                     </Text>
                 }

@@ -1,8 +1,12 @@
-import React, { createContext, memo, useEffect, useState } from 'react';
+// Check for futur fix for the mouse input lag
+// TODO: https://github.com/react-grid-layout/react-grid-layout/issues/2003
+import React, { createContext, memo, useState } from 'react';
 import { Layout, Layouts, Responsive as ResponsiveGridLayout, ResponsiveProps } from 'react-grid-layout';
-import { SizeMe } from 'react-sizeme';
 import { Space, Spin } from 'antd';
+import { Breakpoint } from 'antd/lib/_util/responsiveObserve';
 import isEqual from 'lodash/isEqual';
+
+import useElementSize from '../../hooks/useElementSize';
 
 import ResizableItemSelector from './ResizableItemSelector';
 
@@ -133,21 +137,20 @@ export const serializeConfigToLayouts = (configs: IResizableGridLayoutConfig[]):
  * @returns IResizableGridLayoutConfig[]
  */
 export const serializeLayoutsToConfig = (
-    layouts: Layouts,
+    layouts: Layout[],
     configs: IResizableGridLayoutConfig[],
+    currentBreakpoint: Breakpoint,
 ): TSerializedResizableGridLayoutConfig[] => {
     const configObj: { [p: string]: any } = {};
 
     for (const config of configs) {
         configObj[config.id] = { ...config };
-        for (const breakpoint in BREAKPOINTS) {
-            for (const layout of layouts[breakpoint]) {
-                if (layout.i == config.id) {
-                    configObj[config.id][breakpoint] = {
-                        ...layout,
-                    };
-                    delete configObj[config.id][breakpoint].i;
-                }
+        for (const layout of layouts) {
+            if (layout.i == config.id) {
+                configObj[config.id][currentBreakpoint] = {
+                    ...layout,
+                };
+                delete configObj[config.id][currentBreakpoint].i;
             }
         }
     }
@@ -298,29 +301,25 @@ const ResizableGridLayout = memo(function ResizableGridLayout({
     uid,
     ...props
 }: IResizableGridLayout) {
+    const size = useElementSize('resizable-grid-container');
     const [currentBreakpoint, setCurrentBreakpoint] = useState<string | undefined>(undefined);
-    const [isLoaded, setIsLoaded] = useState(false);
     const configs = deserialize(defaultLayouts, layouts);
     const responsiveDefaultLayouts = serializeConfigToLayouts(configs);
     // React-grid-layout lifecycle is pretty tricky
     // It will trigger onLayoutChange before updating the breakpoint
     // Result in data of md are sending to lg. Thas why this flag is needed
-    const [hasLayoutChanged, setHasLayoutChanged] = useState<boolean>(false);
     const resizableItemsList = configs.map(({ hidden, id, title }) => ({
         id,
         label: title,
         value: hidden === undefined ? true : !hidden,
     }));
-
-    // In some case, the user can resize the browser while react-grid-layout hasn't loaded yet
-    // This can corrumpt the config. That why we need to block the action while waiting for the component
-    // to be loaded. It also ensure that currentBreakpoint is set
-    useEffect(() => {
-        setIsLoaded(true);
-    }, []);
+    const handleUpdate = (layouts: Layout[]) => {
+        const serializedLayouts = serializeLayoutsToConfig(layouts, configs, currentBreakpoint as Breakpoint);
+        onConfigUpdate(serializedLayouts);
+    };
 
     return (
-        <Space className={styles.wrapper} direction="vertical">
+        <Space className={styles.wrapper} direction="vertical" id="resizable-grid-container">
             <div className={styles.graphSelector}>
                 <ResizableItemSelector
                     dictionary={dictionary}
@@ -342,65 +341,46 @@ const ResizableGridLayout = memo(function ResizableGridLayout({
                     },
                 }}
             >
-                <SizeMe>
-                    {({ size }) => (
-                        <ResponsiveGridLayout
-                            breakpoints={BREAKPOINTS}
-                            className="layout"
-                            cols={{ lg: 16, md: 12, sm: 10, xs: 6, xxs: 4 }}
-                            containerPadding={[0, 0]}
-                            draggableHandle=".rgl-drag-zone"
-                            layouts={responsiveDefaultLayouts}
-                            margin={[12, 12]}
-                            maxRows={10}
-                            onBreakpointChange={(newBreakpoint: string, newCols: number) => {
-                                if (newBreakpoint === currentBreakpoint) {
-                                    return;
-                                }
-                                setCurrentBreakpoint(newBreakpoint);
-                            }}
-                            onDragStop={() => {
-                                setHasLayoutChanged(true);
-                            }}
-                            onLayoutChange={(currentLayout: Layout[], allLayouts: Layouts) => {
-                                if (!isLoaded) {
-                                    return;
-                                }
+                <ResponsiveGridLayout
+                    breakpoints={BREAKPOINTS}
+                    className="layout"
+                    cols={{ lg: 16, md: 12, sm: 10, xs: 6, xxs: 4 }}
+                    containerPadding={[0, 0]}
+                    draggableHandle=".rgl-drag-zone"
+                    layouts={responsiveDefaultLayouts}
+                    margin={[12, 12]}
+                    maxRows={10}
+                    onBreakpointChange={(newBreakpoint: string, newCols: number) => {
+                        if (newBreakpoint === currentBreakpoint) {
+                            return;
+                        }
+                        setCurrentBreakpoint(newBreakpoint);
+                    }}
+                    onDragStop={handleUpdate}
+                    onResizeStop={handleUpdate}
+                    rowHeight={98}
+                    width={size.x && size.x !== null ? size.x : 1280}
+                    {...props}
+                >
+                    {currentBreakpoint ? (
+                        configs.map((layout) => {
+                            if (layout.hidden) {
+                                return;
+                            }
+                            const grid = layout[
+                                currentBreakpoint as keyof IResizableGridLayoutConfig
+                            ] as ILayoutItemConfig;
 
-                                if (hasLayoutChanged) {
-                                    const serializedLayouts = serializeLayoutsToConfig(allLayouts, configs);
-                                    onConfigUpdate(serializedLayouts);
-                                    setHasLayoutChanged(false);
-                                }
-                            }}
-                            onResizeStop={() => {
-                                setHasLayoutChanged(true);
-                            }}
-                            rowHeight={98}
-                            width={size.width && size.width !== null ? size.width : 1280}
-                            {...props}
-                        >
-                            {currentBreakpoint ? (
-                                configs.map((layout) => {
-                                    if (layout.hidden) {
-                                        return;
-                                    }
-                                    const grid = layout[
-                                        currentBreakpoint as keyof IResizableGridLayoutConfig
-                                    ] as ILayoutItemConfig;
-
-                                    return (
-                                        <div data-grid={{ ...layout.base, ...grid }} id={layout.id} key={layout.id}>
-                                            {layout.component}
-                                        </div>
-                                    );
-                                })
-                            ) : (
-                                <Spin spinning />
-                            )}
-                        </ResponsiveGridLayout>
+                            return (
+                                <div data-grid={{ ...layout.base, ...grid }} id={layout.id} key={layout.id}>
+                                    {layout.component}
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <Spin spinning />
                     )}
-                </SizeMe>
+                </ResponsiveGridLayout>
             </ResizableGridLayoutContext.Provider>
         </Space>
     );

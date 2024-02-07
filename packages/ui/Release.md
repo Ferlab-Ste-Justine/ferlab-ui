@@ -1,3 +1,6 @@
+### 9.0.0 2024-02-09
+- fix: SKFP-924 fix link redirection with react-router v6 
+
 ### 8.2.1 2024-02-02
 - fix: SJIP-680 fix config corrumption when resizing the browser 
 

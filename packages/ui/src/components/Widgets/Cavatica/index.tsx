@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DisconnectOutlined, PlusOutlined, SafetyOutlined } from '@ant-design/icons';
-import { Button, List, Result, Space, Typography } from 'antd';
+import { Button, List, Modal, Result, Space, Typography } from 'antd';
 import cx from 'classnames';
 
 import GridCard, { GridCardHeader } from '../../../view/v2/GridCard';
@@ -9,7 +9,6 @@ import CardConnectPlaceholder, {
 } from '../../../view/v2/GridCard/GridCardConnectPlaceholder';
 import Empty from '../../Empty';
 import ExternalLink from '../../ExternalLink';
-import ErrorModal from '../../Modal/ErrorModal';
 import PopoverContentLink from '../../PopoverContentLink';
 import { WIDGET_STATE } from '../constants';
 
@@ -138,8 +137,8 @@ const CavaticaWidget = ({
     createProjectModalProps,
     dictionary = DEFAULT_CAVATICA_WIDGET_DICTIONARY,
     handleConnection,
-    handleErrorModalReset,
     handleDisconnection,
+    handleErrorModalReset,
     id,
 }: ICavaticaWidget): JSX.Element => {
     const { authentification, billingGroups, projects } = cavatica;
@@ -154,6 +153,33 @@ const CavaticaWidget = ({
         state = WIDGET_STATE.error;
     }
 
+    useEffect(() => {
+        if (billingGroups.error) {
+            Modal.error({
+                content: dictionary.error.billingGroups.subtitle,
+                onOk: handleErrorModalReset,
+                title: dictionary.error.billingGroups.title,
+            });
+            return;
+        }
+
+        if (projects.error) {
+            Modal.error({
+                content: (
+                    <>
+                        {dictionary.error.create.subtitle}
+                        <ExternalLink className={styles.contactSupport} href={`mailto:${dictionary.error.email}`}>
+                            <Text>{dictionary.error.contactSupport}</Text>
+                        </ExternalLink>
+                    </>
+                ),
+                onOk: handleErrorModalReset,
+                title: dictionary.error.create.title,
+            });
+            return;
+        }
+    }, [billingGroups.error, projects.error]);
+
     return (
         <>
             <CavaticaCreateProjectModal
@@ -162,24 +188,6 @@ const CavaticaWidget = ({
                 onCancel={() => setIsCreateProjectModalOpen(false)}
                 open={isCreateProjectModalOpen}
                 {...createProjectModalProps}
-            />
-            <ErrorModal
-                content={
-                    billingGroups.error ? (
-                        <Text>{dictionary.error.billingGroups.subtitle}</Text>
-                    ) : (
-                        <Text>
-                            {dictionary.error.create.subtitle}
-                            <ExternalLink className={styles.contactSupport} href={`mailto:${dictionary.error.email}`}>
-                                <Text>{dictionary.error.contactSupport}</Text>
-                            </ExternalLink>
-                            .
-                        </Text>
-                    )
-                }
-                onOk={() => handleErrorModalReset()}
-                open={projects.error === CAVATICA_API_ERROR_TYPE.create || billingGroups.error}
-                title={billingGroups.error ? dictionary.error.billingGroups.title : dictionary.error.create.title}
             />
             <GridCard
                 content={

@@ -203,63 +203,17 @@ describe('ResizableGridLayout', () => {
     });
 
     test('make sure serializeLayoutsToConfig return IResizableGridLayoutConfig[]', () => {
-        const layouts = {
-            lg: [
-                {
-                    h: 3,
-                    i: 'card_1',
-                    minH: 3,
-                    minW: 3,
-                    w: 6,
-                    x: 0,
-                    y: 0,
-                },
-            ],
-            md: [
-                {
-                    h: 10,
-                    i: 'card_1',
-                    minH: 3,
-                    minW: 3,
-                    w: 10,
-                    x: 10,
-                    y: 0,
-                },
-            ],
-            sm: [
-                {
-                    h: 10,
-                    i: 'card_1',
-                    minH: 3,
-                    minW: 3,
-                    w: 10,
-                    x: 10,
-                    y: 0,
-                },
-            ],
-            xs: [
-                {
-                    h: 3,
-                    i: 'card_1',
-                    minH: 3,
-                    minW: 3,
-                    w: 6,
-                    x: 0,
-                    y: 0,
-                },
-            ],
-            xxs: [
-                {
-                    h: 3,
-                    i: 'card_1',
-                    minH: 3,
-                    minW: 3,
-                    w: 6,
-                    x: 0,
-                    y: 0,
-                },
-            ],
-        };
+        const layouts = [
+            {
+                h: 3,
+                i: 'card_1',
+                minH: 3,
+                minW: 3,
+                w: 6,
+                x: 0,
+                y: 0,
+            },
+        ];
         const configs = [
             {
                 base: {
@@ -288,7 +242,7 @@ describe('ResizableGridLayout', () => {
             },
         ];
 
-        expect(serializeLayoutsToConfig(layouts, configs)).toEqual([
+        expect(serializeLayoutsToConfig(layouts, configs, 'md')).toEqual([
             {
                 base: {
                     h: 3,
@@ -299,7 +253,7 @@ describe('ResizableGridLayout', () => {
                     y: 0,
                 },
                 id: 'card_1',
-                lg: {
+                md: {
                     h: 3,
                     minH: 3,
                     minW: 3,
@@ -307,39 +261,13 @@ describe('ResizableGridLayout', () => {
                     x: 0,
                     y: 0,
                 },
-                md: {
-                    h: 10,
-                    minH: 3,
-                    minW: 3,
-                    w: 10,
-                    x: 10,
-                    y: 0,
-                },
                 sm: {
                     h: 10,
-                    minH: 3,
-                    minW: 3,
                     w: 10,
                     x: 10,
                     y: 0,
                 },
                 title: 'Card 1',
-                xs: {
-                    h: 3,
-                    minH: 3,
-                    minW: 3,
-                    w: 6,
-                    x: 0,
-                    y: 0,
-                },
-                xxs: {
-                    h: 3,
-                    minH: 3,
-                    minW: 3,
-                    w: 6,
-                    x: 0,
-                    y: 0,
-                },
             },
         ]);
     });
