@@ -10,6 +10,6 @@ const downloadDocuments = (url: string, token?: string) =>
         }
     });
 
-export const FhirApi = {
+export const DownloadApi = {
     downloadDocuments,
 };

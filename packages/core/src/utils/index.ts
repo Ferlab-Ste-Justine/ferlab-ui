@@ -1,7 +1,7 @@
 import React from 'react';
-import { FhirApi } from '../api/download';
+import { DownloadApi } from '../api/download';
 
-import { HTTP_HEADERS, MIME_TYPES } from './constants';
+import { HTTP_HEADERS } from './constants';
 import { downloadFile, extractFilename } from './helper';
 
 export const downloadDocuments = (
@@ -16,7 +16,7 @@ export const downloadDocuments = (
     errorNotification?: ()=> void,
 ) => {
     const {token, url, type, format} = config;
-    FhirApi.downloadDocuments(url, token)
+    DownloadApi.downloadDocuments(url, token)
         .then(({ data, error, response }) => {
             if (error) {
                 errorNotification && errorNotification()
