@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { CloudUploadOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { BaseButtonProps } from 'antd/lib/button/button';
-
-import ErrorModal from '../../Modal/ErrorModal';
-import WarningModal from '../../Modal/WarningModal';
 
 import CavaticaAnalyseModal, {
     DEFAULT_CAVATICA_ANALYSE_MODAL_DICTIONARY,
     ICavaticaTreeNode,
-    TCavaticaAnalyseModalDictionary as TCavaticaAnalyseModalDictionary,
+    TCavaticaAnalyseModalDictionary,
 } from './CavaticaAnalyzeModal';
 import CavaticaCreateProjectModal, {
     DEFAULT_CAVATICA_CREATE_PROJECT_MODAL_DICTIONARY,
@@ -133,48 +130,43 @@ const getErrorModalTileAndDescription = (modalState: ModalState, dictionary: TCa
         case ModalState.billing_groups_error:
             return {
                 content: dictionary.billingGroupsErrorModal?.description,
-                open: true,
                 title: dictionary.billingGroupsErrorModal?.title,
             };
         case ModalState.create_project_error:
             return {
                 content: dictionary.projectCreateErrorModal?.description,
-                open: true,
                 title: dictionary.projectCreateErrorModal?.title,
             };
         case ModalState.fetch_project_error:
             return {
                 content: dictionary.projectFetchErrorModal?.description,
-                open: true,
                 title: dictionary.projectFetchErrorModal?.title,
             };
         case ModalState.unauthorized_error:
             return {
                 content: dictionary.unauthorizedModal?.description,
-                open: true,
                 title: dictionary.unauthorizedModal?.title,
             };
         case ModalState.upload_limit_reached_error:
             return {
                 content: dictionary.uploadLimitReachedModalError?.description,
-                open: true,
                 title: dictionary.uploadLimitReachedModalError?.title,
             };
         default:
-            return { open: false };
+            return undefined;
     }
 };
 
 const CavaticaAnalyse = ({
-    handleBeginAnalyse,
-    handleFilesAndFolders,
-    handleConnection,
-    setCavaticaBulkImportDataStatus,
-    handleCreateProject,
-    handleResetErrors,
-    handleImportBulkData,
     cavatica,
     dictionary = DEFAULT_CAVATICA_ANALYSE_DICTIONARY,
+    handleBeginAnalyse,
+    handleConnection,
+    handleCreateProject,
+    handleFilesAndFolders,
+    handleImportBulkData,
+    handleResetErrors,
+    setCavaticaBulkImportDataStatus,
     ...rest
 }: ICavaticaAnalyse): JSX.Element => {
     const [modalState, setModalState] = useState<ModalState>(ModalState.unknow);
@@ -182,6 +174,34 @@ const CavaticaAnalyse = ({
     const onResetModal = () => {
         setModalState(ModalState.unknow);
     };
+
+    useEffect(() => {
+        const errorProps = getErrorModalTileAndDescription(modalState, dictionary);
+        if (!errorProps) {
+            return;
+        }
+        Modal.error({
+            ...errorProps,
+            onOk: () => {
+                onResetModal();
+                handleResetErrors();
+            },
+        });
+    }, [modalState]);
+
+    useEffect(() => {
+        if (modalState != ModalState.connection_needed) {
+            return;
+        }
+
+        Modal.warning({
+            content: dictionary?.connectionRequiredModal?.description,
+            okText: dictionary.connectionRequiredModal?.okText,
+            onCancel: onResetModal,
+            onOk: () => handleConnection(),
+            title: dictionary?.connectionRequiredModal?.title,
+        });
+    }, [modalState]);
 
     useEffect(() => {
         if (cavatica.authentification.status !== PASSPORT_AUTHENTIFICATION_STATUS.connected) {
@@ -232,23 +252,6 @@ const CavaticaAnalyse = ({
             >
                 {dictionary?.buttonText}
             </Button>
-
-            <WarningModal
-                content={dictionary?.connectionRequiredModal?.description}
-                okText={dictionary.connectionRequiredModal?.okText}
-                onCancel={onResetModal}
-                onOk={() => handleConnection()}
-                open={modalState === ModalState.connection_needed}
-                title={dictionary?.connectionRequiredModal?.title}
-            />
-
-            <ErrorModal
-                onOk={() => {
-                    onResetModal();
-                    handleResetErrors();
-                }}
-                {...getErrorModalTileAndDescription(modalState, dictionary)}
-            />
 
             <CavaticaAnalyseModal
                 handleCreateProjectClick={() => {

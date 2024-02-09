@@ -61,6 +61,7 @@ export interface IAuthorizedStudy {
     total_controlled_files_count: number;
     total_files_count: number;
     study_id: string;
+    study_code: string;
 }
 
 export interface IAuthorizedStudies {
