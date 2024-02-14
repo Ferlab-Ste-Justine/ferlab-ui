@@ -29,12 +29,28 @@ describe('CavaticaWidget', () => {
             },
             cavaticaUrl: 'cavaticaUrl',
             createProjectModalProps: {
+                cavatica: {
+                    billingGroups: {
+                        data: [],
+                        error: true,
+                        loading: false,
+                    },
+                    projects: {
+                        data: [],
+                        error: false,
+                        loading: true,
+                    },
+                },
+                fetchBillingGroups: jest.fn(),
+                fetchProjects: jest.fn(),
+                handleCloseModal: jest.fn(),
+                handleErrorModalReset: jest.fn(),
                 handleSubmit: jest.fn(),
+                onCancel: jest.fn(),
             },
             dictionary,
             handleConnection: jest.fn(),
             handleDisconnection: jest.fn(),
-            handleErrorModalReset: jest.fn(),
             id: '1',
         };
 
@@ -68,12 +84,28 @@ describe('CavaticaWidget', () => {
             },
             cavaticaUrl: 'cavaticaUrl',
             createProjectModalProps: {
+                cavatica: {
+                    billingGroups: {
+                        data: [],
+                        error: true,
+                        loading: false,
+                    },
+                    projects: {
+                        data: [],
+                        error: false,
+                        loading: true,
+                    },
+                },
+                fetchBillingGroups: jest.fn(),
+                fetchProjects: jest.fn(),
+                handleCloseModal: jest.fn(),
+                handleErrorModalReset: jest.fn(),
                 handleSubmit: jest.fn(),
+                onCancel: jest.fn(),
             },
             dictionary,
             handleConnection: jest.fn(),
             handleDisconnection: jest.fn(),
-            handleErrorModalReset: jest.fn(),
             id: '1',
         };
 
@@ -139,12 +171,55 @@ describe('CavaticaWidget', () => {
             },
             cavaticaUrl: 'cavaticaUrl',
             createProjectModalProps: {
+                cavatica: {
+                    billingGroups: {
+                        data: [
+                            {
+                                href: 'https://cavatica-api.sbgenomics.com/v2/billing/groups/mock_id',
+                                id: 'mock_id',
+                                name: 'Pilot Funds (mock)',
+                            },
+                        ],
+                        error: false,
+                        loading: false,
+                    },
+                    projects: {
+                        data: [
+                            {
+                                category: 'PRIVATE',
+                                created_by: 'mock',
+                                created_on: '2023-12-20T18:37:08Z',
+                                href: 'https://cavatica-api.sbgenomics.com/v2/projects/mock/project1',
+                                id: 'mock/project1',
+                                memberCount: 4,
+                                modified_on: '2023-12-20T18:37:08Z',
+                                name: 'project1',
+                            },
+                            {
+                                category: 'PRIVATE',
+                                created_by: 'mock',
+                                created_on: '2023-12-20T18:37:08Z',
+                                href: 'https://cavatica-api.sbgenomics.com/v2/projects/mock/project2',
+                                id: 'mock/project2',
+                                memberCount: 2,
+                                modified_on: '2023-12-20T18:37:08Z',
+                                name: 'project2',
+                            },
+                        ],
+                        error: false,
+                        loading: false,
+                    },
+                },
+                fetchBillingGroups: jest.fn(),
+                fetchProjects: jest.fn(),
+                handleCloseModal: jest.fn(),
+                handleErrorModalReset: jest.fn(),
                 handleSubmit: jest.fn(),
+                onCancel: jest.fn(),
             },
             dictionary,
             handleConnection: jest.fn(),
             handleDisconnection: jest.fn(),
-            handleErrorModalReset: jest.fn(),
             id: '1',
         };
 
@@ -190,12 +265,34 @@ describe('CavaticaWidget', () => {
             },
             cavaticaUrl: 'cavaticaUrl',
             createProjectModalProps: {
+                cavatica: {
+                    billingGroups: {
+                        data: [
+                            {
+                                href: 'https://cavatica-api.sbgenomics.com/v2/billing/groups/mock_id',
+                                id: 'mock_id',
+                                name: 'Pilot Funds (mock)',
+                            },
+                        ],
+                        error: false,
+                        loading: false,
+                    },
+                    projects: {
+                        data: [],
+                        error: false,
+                        loading: false,
+                    },
+                },
+                fetchBillingGroups: jest.fn(),
+                fetchProjects: jest.fn(),
+                handleCloseModal: jest.fn(),
+                handleErrorModalReset: jest.fn(),
                 handleSubmit: jest.fn(),
+                onCancel: jest.fn(),
             },
             dictionary,
             handleConnection: jest.fn(),
             handleDisconnection: jest.fn(),
-            handleErrorModalReset: jest.fn(),
             id: '1',
         };
 
@@ -231,12 +328,28 @@ describe('CavaticaWidget', () => {
             },
             cavaticaUrl: 'cavaticaUrl',
             createProjectModalProps: {
+                cavatica: {
+                    billingGroups: {
+                        data: [],
+                        error: false,
+                        loading: false,
+                    },
+                    projects: {
+                        data: [],
+                        error: CAVATICA_API_ERROR_TYPE.fetch,
+                        loading: false,
+                    },
+                },
+                fetchBillingGroups: jest.fn(),
+                fetchProjects: jest.fn(),
+                handleCloseModal: jest.fn(),
+                handleErrorModalReset: jest.fn(),
                 handleSubmit: jest.fn(),
+                onCancel: jest.fn(),
             },
             dictionary,
             handleConnection: jest.fn(),
             handleDisconnection: jest.fn(),
-            handleErrorModalReset: jest.fn(),
             id: '1',
         };
 

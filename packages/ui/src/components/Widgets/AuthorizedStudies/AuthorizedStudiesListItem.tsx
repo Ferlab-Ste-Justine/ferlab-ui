@@ -56,7 +56,8 @@ const AuthorizedStudiesListItem = ({
                     <div className={styles.filesCount}>
                         <Space size={4}>
                             <span>{dictionary.authorization}</span>
-                            <Link
+                            <a
+                                href={queryProps.to}
                                 onClick={() => {
                                     addQuery({
                                         query: generateQuery({
@@ -77,14 +78,14 @@ const AuthorizedStudiesListItem = ({
                                         setAsActive: true,
                                     });
                                 }}
-                                to={queryProps.to}
                             >
                                 <Button className={styles.fileLink} type="link">
                                     <span>{numberWithCommas(authorizedAndUncontrolledFilesCount)}</span>
                                 </Button>
-                            </Link>
+                            </a>
                             <span className={styles.of}>{dictionary.of}</span>
-                            <Link
+                            <a
+                                href={queryProps.to}
                                 onClick={() => {
                                     addQuery({
                                         query: generateQuery({
@@ -100,12 +101,11 @@ const AuthorizedStudiesListItem = ({
                                         setAsActive: true,
                                     });
                                 }}
-                                to={queryProps.to}
                             >
                                 <Button className={styles.fileLink} type="link">
                                     <span>{numberWithCommas(data.total_files_count)}</span>
                                 </Button>
-                            </Link>
+                            </a>
                             <span>{dictionary.files}</span>
                         </Space>
                     </div>

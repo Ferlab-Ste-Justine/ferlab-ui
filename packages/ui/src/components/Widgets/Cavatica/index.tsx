@@ -12,11 +12,12 @@ import ExternalLink from '../../ExternalLink';
 import PopoverContentLink from '../../PopoverContentLink';
 import { WIDGET_STATE } from '../constants';
 
-import CavaticaCreateProjectModal, {
+import {
     DEFAULT_CAVATICA_CREATE_PROJECT_MODAL_DICTIONARY,
     ICavaticaCreateProjectModal,
     TCavaticaCreateProjectModalDictionary,
 } from './CavaticaCreateProjectModal';
+import CavaticaCreateProjectModal from './CavaticaCreateProjectModal';
 import CavaticaIcon from './CavaticaIcon';
 import CavaticaListItem, {
     DEFAULT_CAVATICA_LIST_ITEM_DICTIONARY,
@@ -52,16 +53,8 @@ export const DEFAULT_CAVATICA_WIDGET_DICTIONARY: TCavaticaWidgetDictionary = {
     createProjectModal: DEFAULT_CAVATICA_CREATE_PROJECT_MODAL_DICTIONARY,
     disconnect: 'screen.dashboard.cards.cavatica.disconnect',
     error: {
-        billingGroups: {
-            subtitle: 'Unable to fetch your cavatica billing groups.',
-            title: 'Error',
-        },
         contactSupport:
             'We are currently unable to connect to this service. Please refresh the page and try again. If the problem persists, please contact support.',
-        create: {
-            subtitle: 'Unable to create your cavatica projects.',
-            title: 'Error',
-        },
         email: '',
         fetch: {
             subtitle: 'Unable to fetch your cavatica projects.',
@@ -97,15 +90,7 @@ type TCavaticaWidgetDictionary = {
     list: TCavaticaListItemDictionary;
     createProjectModal: TCavaticaCreateProjectModalDictionary;
     error: {
-        billingGroups: {
-            title: string;
-            subtitle: string;
-        };
         fetch: {
-            title: string;
-            subtitle: string;
-        };
-        create: {
             title: string;
             subtitle: string;
         };
@@ -124,7 +109,6 @@ interface ICavaticaWidget {
     className?: string;
     cavaticaUrl: string;
     createProjectModalProps: ICavaticaCreateProjectModal;
-    handleErrorModalReset: () => void;
     handleConnection: () => void;
     handleDisconnection: () => void;
     dictionary?: TCavaticaWidgetDictionary;
@@ -138,53 +122,26 @@ const CavaticaWidget = ({
     dictionary = DEFAULT_CAVATICA_WIDGET_DICTIONARY,
     handleConnection,
     handleDisconnection,
-    handleErrorModalReset,
     id,
 }: ICavaticaWidget): JSX.Element => {
-    const { authentification, billingGroups, projects } = cavatica;
+    const { authentification, projects } = cavatica;
     const [isCreateProjectModalOpen, setIsCreateProjectModalOpen] = useState<boolean>(false);
 
     let state = WIDGET_STATE.loading;
-    if (authentification.status === PASSPORT_AUTHENTIFICATION_STATUS.connected) {
+
+    if (authentification.error || projects.error === CAVATICA_API_ERROR_TYPE.fetch) {
+        state = WIDGET_STATE.error;
+    } else if (authentification.status === PASSPORT_AUTHENTIFICATION_STATUS.connected) {
         state = WIDGET_STATE.connected;
     } else if (authentification.status === PASSPORT_AUTHENTIFICATION_STATUS.disconnected) {
         state = WIDGET_STATE.disconnected;
-    } else if (authentification.error || projects.error === CAVATICA_API_ERROR_TYPE.fetch) {
-        state = WIDGET_STATE.error;
     }
-
-    useEffect(() => {
-        if (billingGroups.error) {
-            Modal.error({
-                content: dictionary.error.billingGroups.subtitle,
-                onOk: handleErrorModalReset,
-                title: dictionary.error.billingGroups.title,
-            });
-            return;
-        }
-
-        if (projects.error) {
-            Modal.error({
-                content: (
-                    <>
-                        {dictionary.error.create.subtitle}
-                        <ExternalLink className={styles.contactSupport} href={`mailto:${dictionary.error.email}`}>
-                            <Text>{dictionary.error.contactSupport}</Text>
-                        </ExternalLink>
-                    </>
-                ),
-                onOk: handleErrorModalReset,
-                title: dictionary.error.create.title,
-            });
-            return;
-        }
-    }, [billingGroups.error, projects.error]);
 
     return (
         <>
             <CavaticaCreateProjectModal
-                billingGroups={billingGroups}
                 dictionary={dictionary?.createProjectModal}
+                handleCloseModal={() => setIsCreateProjectModalOpen(false)}
                 onCancel={() => setIsCreateProjectModalOpen(false)}
                 open={isCreateProjectModalOpen}
                 {...createProjectModalProps}

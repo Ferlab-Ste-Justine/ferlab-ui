@@ -8,10 +8,12 @@ import CavaticaAnalyseModal, {
     ICavaticaTreeNode,
     TCavaticaAnalyseModalDictionary,
 } from './CavaticaAnalyzeModal';
-import CavaticaCreateProjectModal, {
+import {
     DEFAULT_CAVATICA_CREATE_PROJECT_MODAL_DICTIONARY,
+    ICavaticaCreateProjectModal,
     TCavaticaCreateProjectModalDictionary,
 } from './CavaticaCreateProjectModal';
+import CavaticaCreateProjectModal from './CavaticaCreateProjectModal';
 import {
     CAVATICA_ANALYSE_STATUS,
     IBillingGroups,
@@ -28,18 +30,12 @@ enum ModalState {
     connection_needed = 'connection_needed',
     unauthorized_error = 'unauthorized',
     fetch_project_error = 'fetch_project_error',
-    create_project_error = 'create_project_error',
     upload_limit_reached_error = 'upload_limit_reached_error',
-    billing_groups_error = 'billing_groups_error',
     generic_error = 'generic_error',
 }
 
 export const DEFAULT_CAVATICA_ANALYSE_DICTIONARY: TCavaticaAnalyseDictionary = {
     analyseModal: DEFAULT_CAVATICA_ANALYSE_MODAL_DICTIONARY,
-    billingGroupsErrorModal: {
-        description: 'Unable to fetch your cavatica projects.',
-        title: 'Error',
-    },
     buttonText: 'Analyze in Cavatica',
     connectionRequiredModal: {
         description:
@@ -50,10 +46,6 @@ export const DEFAULT_CAVATICA_ANALYSE_DICTIONARY: TCavaticaAnalyseDictionary = {
     createProjectModal: DEFAULT_CAVATICA_CREATE_PROJECT_MODAL_DICTIONARY,
     fetchErrorModal: {
         description: 'Unable to fetch selected files',
-        title: 'Error',
-    },
-    projectCreateErrorModal: {
-        description: 'Unable to fetch your cavatica projects.',
         title: 'Error',
     },
     projectFetchErrorModal: {
@@ -85,14 +77,6 @@ export type TCavaticaAnalyseDictionary = {
         title: string;
         description: string;
     };
-    billingGroupsErrorModal: {
-        title: string;
-        description: string;
-    };
-    projectCreateErrorModal: {
-        title: string;
-        description: string;
-    };
     projectFetchErrorModal: {
         title: string;
         description: string;
@@ -113,8 +97,8 @@ export interface ICavaticaAnalyse extends BaseButtonProps {
     handleFilesAndFolders: (parentId: string, isProject: boolean) => any;
     handleConnection: () => void;
     setCavaticaBulkImportDataStatus: (status: CAVATICA_ANALYSE_STATUS) => void;
-    handleCreateProject: (values: any) => void;
     handleResetErrors: () => void;
+    createProjectModalProps: ICavaticaCreateProjectModal;
     handleImportBulkData: (value: ICavaticaTreeNode) => void;
     cavatica: {
         authentification: ICavaticaAuthentification;
@@ -127,16 +111,6 @@ export interface ICavaticaAnalyse extends BaseButtonProps {
 
 const getErrorModalTileAndDescription = (modalState: ModalState, dictionary: TCavaticaAnalyseDictionary) => {
     switch (modalState) {
-        case ModalState.billing_groups_error:
-            return {
-                content: dictionary.billingGroupsErrorModal?.description,
-                title: dictionary.billingGroupsErrorModal?.title,
-            };
-        case ModalState.create_project_error:
-            return {
-                content: dictionary.projectCreateErrorModal?.description,
-                title: dictionary.projectCreateErrorModal?.title,
-            };
         case ModalState.fetch_project_error:
             return {
                 content: dictionary.projectFetchErrorModal?.description,
@@ -159,10 +133,10 @@ const getErrorModalTileAndDescription = (modalState: ModalState, dictionary: TCa
 
 const CavaticaAnalyse = ({
     cavatica,
+    createProjectModalProps,
     dictionary = DEFAULT_CAVATICA_ANALYSE_DICTIONARY,
     handleBeginAnalyse,
     handleConnection,
-    handleCreateProject,
     handleFilesAndFolders,
     handleImportBulkData,
     handleResetErrors,
@@ -268,16 +242,13 @@ const CavaticaAnalyse = ({
             />
 
             <CavaticaCreateProjectModal
-                billingGroups={cavatica.billingGroups}
                 dictionary={dictionary.createProjectModal}
-                handleSubmit={(values) => {
-                    handleCreateProject(values);
-                    setModalState(ModalState.analyse);
-                }}
+                handleCloseModal={onResetModal}
                 onCancel={() => {
                     setModalState(ModalState.analyse);
                 }}
                 open={modalState === ModalState.createProject}
+                {...createProjectModalProps}
             />
         </>
     );
