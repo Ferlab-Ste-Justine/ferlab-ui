@@ -1,3 +1,6 @@
+### 9.0.1 2024-02-14
+- fix: SKFP-895 fix cavatica error message
+
 ### 9.0.0 2024-02-09
 - fix: SKFP-924 fix link redirection with react-router v6 
 

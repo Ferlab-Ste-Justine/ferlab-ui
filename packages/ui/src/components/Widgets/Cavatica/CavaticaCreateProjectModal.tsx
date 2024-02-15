@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { Form, Input, Modal, ModalFuncProps, Select } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Input, Modal, ModalFuncProps, Select, Typography } from 'antd';
 
 import Empty from '../../Empty';
+import ExternalLink from '../../ExternalLink';
 
-import { ICavaticaBillingGroup } from './type';
+import { IBillingGroups, ICavaticaProjects } from './type';
+import { CAVATICA_API_ERROR_TYPE } from '.';
 
 import styles from './CavaticaCreateProjectModal.module.scss';
 
@@ -18,6 +20,19 @@ export const DEFAULT_CAVATICA_CREATE_PROJECT_MODAL_DICTIONARY: TCavaticaCreatePr
         label: 'Project billing group',
     },
     cancelText: 'Cancel',
+    error: {
+        billingGroups: {
+            subtitle: 'Unable to fetch your cavatica billing groups.',
+            title: 'Error',
+        },
+        contactSupport:
+            'We are currently unable to connect to this service. Please refresh the page and try again. If the problem persists, please contact support.',
+        create: {
+            subtitle: 'Unable to create your cavatica projects.',
+            title: 'Error',
+        },
+        email: '',
+    },
     okText: 'Create project',
     projectName: {
         label: 'Project name',
@@ -40,29 +55,94 @@ export type TCavaticaCreateProjectModalDictionary = {
         label: string;
         empty: string;
     };
+    error: {
+        billingGroups: {
+            title: string;
+            subtitle: string;
+        };
+        create: {
+            title: string;
+            subtitle: string;
+        };
+        contactSupport: string;
+        email: string;
+    };
 };
 
 export interface ICavaticaCreateProjectModal extends ModalFuncProps {
     dictionary?: TCavaticaCreateProjectModalDictionary;
     handleSubmit: (value: any) => void;
-    billingGroups?: {
-        data?: ICavaticaBillingGroup[];
-        loading: boolean;
+    fetchBillingGroups: () => void;
+    fetchProjects: () => void;
+    handleErrorModalReset: () => void;
+    handleCloseModal?: () => void;
+    cavatica: {
+        projects: ICavaticaProjects;
+        billingGroups: IBillingGroups;
     };
 }
 
 const CavaticaCreateProjectModal = ({
+    cavatica,
     dictionary = DEFAULT_CAVATICA_CREATE_PROJECT_MODAL_DICTIONARY,
+    fetchBillingGroups,
+    fetchProjects,
+    handleCloseModal,
+    handleErrorModalReset,
     handleSubmit,
-    billingGroups = {
-        loading: true,
-    },
     ...rest
 }: ICavaticaCreateProjectModal): JSX.Element => {
     const [form] = Form.useForm();
     const [isValid, setIsValid] = useState<boolean>(false);
+    const { billingGroups, projects } = cavatica;
 
     const billingGroupsData = billingGroups.data || [];
+
+    useEffect(() => {
+        if (projects.error === CAVATICA_API_ERROR_TYPE.create) {
+            Modal.error({
+                content: (
+                    <>
+                        <span className={styles.modalSubtitle}>{dictionary.error.create.subtitle}</span>
+                        <ExternalLink href={`mailto:${dictionary.error.email}`}>
+                            <Typography.Text>{dictionary.error.contactSupport}</Typography.Text>
+                        </ExternalLink>
+                    </>
+                ),
+                onOk: handleErrorModalReset,
+                title: dictionary.error.create.title,
+            });
+            return;
+        }
+
+        if (!rest.open) {
+            return;
+        }
+
+        if (billingGroups.error) {
+            Modal.error({
+                content: (
+                    <>
+                        <span className={styles.modalSubtitle}>{dictionary.error.billingGroups.subtitle}</span>
+                        <ExternalLink href={`mailto:${dictionary.error.email}`}>
+                            <Typography.Text>{dictionary.error.contactSupport}</Typography.Text>
+                        </ExternalLink>
+                    </>
+                ),
+                onOk: () => {
+                    if (handleCloseModal) {
+                        handleCloseModal();
+                    }
+                    handleErrorModalReset();
+                },
+                title: dictionary.error.billingGroups.title,
+            });
+            return;
+        }
+
+        fetchBillingGroups();
+        fetchProjects();
+    }, [rest.open, billingGroups.error, projects.error]);
 
     return (
         <Modal
