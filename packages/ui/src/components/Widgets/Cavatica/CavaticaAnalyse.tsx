@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CloudUploadOutlined } from '@ant-design/icons';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Tooltip } from 'antd';
 import { BaseButtonProps } from 'antd/lib/button/button';
 
 import CavaticaAnalyseModal, {
@@ -44,6 +44,7 @@ export const DEFAULT_CAVATICA_ANALYSE_DICTIONARY: TCavaticaAnalyseDictionary = {
         title: 'You are not connected to Cavatica',
     },
     createProjectModal: DEFAULT_CAVATICA_CREATE_PROJECT_MODAL_DICTIONARY,
+    disabledButtonTooltip: 'You must select at least 1 item',
     fetchErrorModal: {
         description: 'Unable to fetch selected files',
         title: 'Error',
@@ -70,6 +71,7 @@ export type TCavaticaAnalyseDictionary = {
         description: string;
         okText: string;
     };
+    disabledButtonTooltip: string;
     buttonText: string;
     analyseModal: TCavaticaAnalyseModalDictionary;
     createProjectModal: TCavaticaCreateProjectModalDictionary;
@@ -209,23 +211,25 @@ const CavaticaAnalyse = ({
 
     return (
         <>
-            <Button
-                aria-label={dictionary.buttonText}
-                icon={<CloudUploadOutlined />}
-                onClick={() => {
-                    if (cavatica.authentification.status === PASSPORT_AUTHENTIFICATION_STATUS.connected) {
-                        handleBeginAnalyse();
-                        return;
-                    }
+            <Tooltip title={rest.disabled ? dictionary?.disabledButtonTooltip : undefined}>
+                <Button
+                    aria-label={dictionary.buttonText}
+                    icon={<CloudUploadOutlined />}
+                    onClick={() => {
+                        if (cavatica.authentification.status === PASSPORT_AUTHENTIFICATION_STATUS.connected) {
+                            handleBeginAnalyse();
+                            return;
+                        }
 
-                    setCavaticaBulkImportDataStatus(CAVATICA_ANALYSE_STATUS.pending_analyse);
-                    setModalState(ModalState.connection_needed);
-                }}
-                role="button"
-                {...rest}
-            >
-                {dictionary?.buttonText}
-            </Button>
+                        setCavaticaBulkImportDataStatus(CAVATICA_ANALYSE_STATUS.pending_analyse);
+                        setModalState(ModalState.connection_needed);
+                    }}
+                    role="button"
+                    {...rest}
+                >
+                    {dictionary?.buttonText}
+                </Button>
+            </Tooltip>
 
             <CavaticaAnalyseModal
                 handleCreateProjectClick={() => {

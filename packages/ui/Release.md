@@ -1,3 +1,6 @@
+### 9.1.1 2024-02-19
+- feat: FLUI-121 add disabled button tooltip in Cavatica
+
 ### 9.0.1 2024-02-14
 - fix: SKFP-895 fix cavatica error message
 
