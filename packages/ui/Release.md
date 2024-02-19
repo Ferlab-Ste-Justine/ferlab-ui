@@ -4,6 +4,9 @@
 ### 9.1.0 2024-02-19
 - feat: FLUI-121 add disabled button tooltip in Cavatica
 
+### 9.0.2 2024-02-14
+- fix: SJIP-704 directly connect the user if only one service is provided to authorized studies widget
+
 ### 9.0.1 2024-02-14
 - fix: SKFP-895 fix cavatica error message
 
