@@ -1,12 +1,12 @@
 import React from 'react';
 
 import EntityTable, { IEntityTable } from '../EntityTable';
-import { IVariantFrequencies } from '../type';
+import { IExternalFrequenciesEntity } from '../type';
 import { isExternalCohortsTableEmpty, makeRowFromFrequencies } from '../utils/frequencies';
 
 interface IEntityPublicCohortTable extends Omit<IEntityTable, 'data'> {
     emptyMessage: string;
-    frequencies?: IVariantFrequencies;
+    frequencies?: IExternalFrequenciesEntity;
     locus?: string;
 }
 

@@ -1,3 +1,6 @@
+### 9.2.0 2024-02-20
+- feat: FLUI-121 update public cohort table to use new types
+
 ### 9.1.0 2024-02-19
 - feat: FLUI-121 add disabled button tooltip in Cavatica
 

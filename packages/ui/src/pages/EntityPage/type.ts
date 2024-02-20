@@ -86,7 +86,7 @@ export interface IVariantEntity {
     studies: IArrangerResultsTree<IVariantStudyEntity>;
     consequences: IArrangerResultsTree<IVariantConsequence>;
     clinvar: IClinVar;
-    frequencies: IVariantFrequencies;
+    frequencies: IExternalFrequenciesEntity;
     genes: IArrangerResultsTree<IVariantGene>;
 }
 
@@ -98,17 +98,15 @@ export interface IClinVar {
 }
 
 export interface IVariantFrequenciesInternal {
-    upper_bound_kf: BoundType;
+    upper_bound_kf: IBoundType;
 }
 
-export interface IVariantFrequencies {
-    internal: IVariantFrequenciesInternal;
-    topmed: FreqTopmed;
-    one_thousand_genomes: FreqOneThousand;
-    gnomad_exomes_2_1: Freqgnomad;
-    gnomad_genomes_2_1: Freqgnomad;
-    gnomad_genomes_3_0: Freqgnomad;
-    gnomad_genomes_3_1_1: Freqgnomad;
+export interface IExternalFrequenciesEntity {
+    gnomad_exomes_2_1_1: IBoundType;
+    gnomad_genomes_2_1_1: IBoundType;
+    gnomad_genomes_3: IBoundType;
+    thousand_genomes: IBoundType;
+    topmed_bravo: IBoundType;
 }
 
 export interface IVariantGene {
@@ -173,7 +171,7 @@ export interface IStudyEntity {
 }
 
 export interface IVariantStudyFrequencies {
-    upper_bound_kf: BoundType;
+    upper_bound_kf: IBoundType;
 }
 
 export interface IParticipantQueryParams {
@@ -193,10 +191,16 @@ export type FreqTopmed = FreqAll & { homozygotes: number };
 export type Freqgnomad = FreqAll & { homozygotes: number };
 export type FreqOneThousand = FreqAll & { homozygotes: number };
 
-export type BoundType = {
-    ac: number;
-    homozygotes: number;
-};
+export interface IBoundType {
+    ac?: number;
+    af?: number;
+    an?: number;
+    pn?: number;
+    pc?: number;
+    pf?: number;
+    het?: number;
+    hom?: number;
+}
 
 export type OmimCondition = {
     omimName: string;
@@ -319,24 +323,4 @@ export interface IGeneRecord {
     gene: string | OmimGene;
     conditions: Conditions;
     inheritance: Inheritance;
-}
-
-export interface IVariantEntity {
-    id: string;
-    alternate: string;
-    chromosome: string;
-    genome_build: string;
-    hgvsg: string;
-    locus: string;
-    participant_number: number;
-    participant_total_number: number;
-    reference: string;
-    rsnumber: string;
-    start: number;
-    variant_class: string;
-    studies: IArrangerResultsTree<IVariantStudyEntity>;
-    consequences: IArrangerResultsTree<IVariantConsequence>;
-    clinvar: IClinVar;
-    frequencies: IVariantFrequencies;
-    genes: IArrangerResultsTree<IVariantGene>;
 }
