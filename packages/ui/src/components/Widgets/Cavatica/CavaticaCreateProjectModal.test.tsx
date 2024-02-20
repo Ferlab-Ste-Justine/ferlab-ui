@@ -1,6 +1,5 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { fireEvent, getByText, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { DEFAULT_CAVATICA_CREATE_PROJECT_MODAL_DICTIONARY } from './CavaticaCreateProjectModal';
 import CavaticaCreateProjectModal from './CavaticaCreateProjectModal';
@@ -30,11 +29,7 @@ describe('CavaticaCreateProjectModal', () => {
             open: true,
         };
 
-        render(
-            <BrowserRouter>
-                <CavaticaCreateProjectModal {...props} />
-            </BrowserRouter>,
-        );
+        render(<CavaticaCreateProjectModal {...props} />);
         expect(screen.getAllByText(dictionary.title).length).toBe(2);
         expect(screen.getByText(dictionary.billingGroup.label)).toBeTruthy();
 
@@ -74,11 +69,7 @@ describe('CavaticaCreateProjectModal', () => {
             open: true,
         };
 
-        render(
-            <BrowserRouter>
-                <CavaticaCreateProjectModal {...props} />
-            </BrowserRouter>,
-        );
+        render(<CavaticaCreateProjectModal {...props} />);
 
         expect(screen.getAllByText(dictionary.title).length).toBe(2);
         expect(screen.getByText(dictionary.billingGroup.label)).toBeTruthy();

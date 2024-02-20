@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, List, Progress, Space, Typography } from 'antd';
+import { List, Progress, Space, Typography } from 'antd';
 import cx from 'classnames';
 
 import { generateQuery, generateValueFilter } from '../../../data/sqon/utils';
@@ -56,6 +56,7 @@ const AuthorizedStudiesListItem = ({
                         <Space size={4}>
                             <span>{dictionary.authorization}</span>
                             <a
+                                className={styles.fileLink}
                                 href={queryProps.to}
                                 onClick={() => {
                                     addQuery({
@@ -78,12 +79,11 @@ const AuthorizedStudiesListItem = ({
                                     });
                                 }}
                             >
-                                <Button className={styles.fileLink} type="link">
-                                    <span>{numberWithCommas(authorizedAndUncontrolledFilesCount)}</span>
-                                </Button>
+                                <span>{numberWithCommas(authorizedAndUncontrolledFilesCount)}</span>
                             </a>
                             <span className={styles.of}>{dictionary.of}</span>
                             <a
+                                className={styles.fileLink}
                                 href={queryProps.to}
                                 onClick={() => {
                                     addQuery({
@@ -101,9 +101,7 @@ const AuthorizedStudiesListItem = ({
                                     });
                                 }}
                             >
-                                <Button className={styles.fileLink} type="link">
-                                    <span>{numberWithCommas(data.total_files_count)}</span>
-                                </Button>
+                                <span>{numberWithCommas(data.total_files_count)}</span>
                             </a>
                             <span>{dictionary.files}</span>
                         </Space>

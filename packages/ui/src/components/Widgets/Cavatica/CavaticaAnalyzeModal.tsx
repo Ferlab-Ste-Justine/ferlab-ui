@@ -21,7 +21,7 @@ export const DEFAULT_CAVATICA_ANALYSE_MODAL_DICTIONARY: TCavaticaAnalyseModalDic
     files: '{files} files',
     newProject: 'New project',
     ofFiles: '(out of {files} selected) to your Cavatica workspace.',
-    title: 'Connect in Cavatica',
+    title: 'Analyze in Cavatica',
     youAreAuthorizedToCopy: 'You are authorized to copy',
 };
 

@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
 import { Space } from 'antd';
 
 import styles from './index.module.scss';
@@ -12,12 +11,12 @@ type TEntityTableRedirectLink = {
 };
 
 const EntityTableRedirectLink = (props: TEntityTableRedirectLink): JSX.Element => (
-    <Link className={styles.link} {...props}>
+    <a className={styles.link} href={props.to} {...props}>
         <Space size={4}>
             <span className={styles.content}>{props.children}</span>
             <span className={styles.icon}>{props.icon}</span>
         </Space>
-    </Link>
+    </a>
 );
 
 export default EntityTableRedirectLink;
