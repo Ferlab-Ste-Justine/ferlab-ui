@@ -4,7 +4,7 @@ import EntityTable, { IEntityTable } from '../EntityTable';
 import { IExternalFrequenciesEntity } from '../type';
 import { isExternalCohortsTableEmpty, makeRowFromFrequencies } from '../utils/frequencies';
 
-interface IEntityPublicCohortTable extends Omit<IEntityTable, 'data'> {
+export interface IEntityPublicCohortTable extends Omit<IEntityTable, 'data'> {
     emptyMessage: string;
     frequencies?: IExternalFrequenciesEntity;
     locus?: string;
