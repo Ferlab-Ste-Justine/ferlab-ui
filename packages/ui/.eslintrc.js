@@ -82,7 +82,7 @@ module.exports = {
         ],
         'arrow-body-style': ['error', 'as-needed'],
 
-        'react/jsx-sort-default-props': 'error',
+        'react/sort-default-props': 'error',
         'react/jsx-sort-props': 'error',
         'react/jsx-props-no-spreading': 'off',
 

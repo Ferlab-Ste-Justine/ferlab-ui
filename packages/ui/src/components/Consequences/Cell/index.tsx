@@ -1,5 +1,5 @@
-import { Typography } from 'antd';
 import React from 'react';
+import { Typography } from 'antd';
 
 import { IArrangerEdge } from '../../../graphql/types';
 import StackLayout from '../../../layout/StackLayout';
@@ -47,7 +47,7 @@ const impactToColorClassName = Object.freeze({
     [Impact.Modifier]: <ModifierBadgeIcon className={`${style.bullet} ${style.modifierImpact}`} />,
 });
 
-export const pickImpactBadge = (impact: Impact) => impactToColorClassName[impact];
+export const pickImpactBadge = (impact: Impact): JSX.Element => impactToColorClassName[impact];
 
 const ConsequencesCell = ({
     aaChangeWrapperClassName,
