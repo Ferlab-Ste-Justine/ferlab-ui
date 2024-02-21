@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link, LinkProps } from 'react-router-dom';
 import { Button, ButtonProps } from 'antd';
 
 import ExternalLink from '../ExternalLink';
 
 import styles from './index.module.scss';
 
-type TPopoverContentLink = Omit<LinkProps, 'to'> & {
+type TPopoverContentLink = {
+    className?: string;
     title: string;
     externalHref?: string;
     to?: any;
@@ -28,9 +28,9 @@ const PopoverContentLink = ({ externalHref, title, to, ...linkProps }: TPopoverC
     }
 
     return (
-        <Link to={to} {...linkProps}>
+        <a href={to} {...linkProps}>
             <Button {...buttonProps}>{title}</Button>
-        </Link>
+        </a>
     );
 };
 

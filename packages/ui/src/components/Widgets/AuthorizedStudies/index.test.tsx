@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { MinusCircleFilled, PlusCircleFilled } from '@ant-design/icons';
 import { render, screen } from '@testing-library/react';
 
@@ -87,11 +86,7 @@ describe('AuthorizedStudiesWidget', () => {
             services,
         };
 
-        render(
-            <BrowserRouter>
-                <AuthorizedStudiesWidget {...props} />
-            </BrowserRouter>,
-        );
+        render(<AuthorizedStudiesWidget {...props} />);
         expect(screen.findAllByRole('loading')).toBeTruthy();
     });
 
@@ -119,11 +114,7 @@ describe('AuthorizedStudiesWidget', () => {
             services,
         };
 
-        render(
-            <BrowserRouter>
-                <AuthorizedStudiesWidget {...props} />
-            </BrowserRouter>,
-        );
+        render(<AuthorizedStudiesWidget {...props} />);
         expect(screen.getByText(dictionary.authentification.action)).toBeTruthy();
         expect(screen.getByText(dictionary.authentification.description)).toBeTruthy();
     });
@@ -153,11 +144,7 @@ describe('AuthorizedStudiesWidget', () => {
             services,
         };
 
-        render(
-            <BrowserRouter>
-                <AuthorizedStudiesWidget {...props} />
-            </BrowserRouter>,
-        );
+        render(<AuthorizedStudiesWidget {...props} />);
         expect(screen.getByText(dictionary.manageConnections)).toBeTruthy();
         expect(screen.getByText(dictionary.connectedNotice)).toBeTruthy();
         expect(screen.queryAllByText(dictionary.list.authorization)).toHaveLength(2);
@@ -195,11 +182,7 @@ describe('AuthorizedStudiesWidget', () => {
             services,
         };
 
-        render(
-            <BrowserRouter>
-                <AuthorizedStudiesWidget {...props} />
-            </BrowserRouter>,
-        );
+        render(<AuthorizedStudiesWidget {...props} />);
         expect(screen.getByText(dictionary.manageConnections)).toBeTruthy();
         expect(screen.getByText(dictionary.noAvailableStudies)).toBeTruthy();
     });
@@ -228,11 +211,7 @@ describe('AuthorizedStudiesWidget', () => {
             services,
         };
 
-        render(
-            <BrowserRouter>
-                <AuthorizedStudiesWidget {...props} />
-            </BrowserRouter>,
-        );
+        render(<AuthorizedStudiesWidget {...props} />);
         expect(screen.getByText(dictionary.error.title)).toBeTruthy();
         expect(screen.getByText(dictionary.error.subtitle, { exact: false })).toBeTruthy();
         expect(screen.getByText(dictionary.error.contactSupport)).toBeTruthy();

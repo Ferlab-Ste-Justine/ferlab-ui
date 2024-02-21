@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { DisconnectOutlined, PlusOutlined, SafetyOutlined } from '@ant-design/icons';
-import { Button, List, Modal, Result, Space, Typography } from 'antd';
+import { Button, List, Result, Space, Typography } from 'antd';
 import cx from 'classnames';
 
 import GridCard, { GridCardHeader } from '../../../view/v2/GridCard';

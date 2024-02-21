@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
 import { numberWithCommas } from '../../../utils/numberUtils';
@@ -39,11 +38,7 @@ describe('AuthorizedStudiesListItem', () => {
             queryProps,
         };
 
-        render(
-            <BrowserRouter>
-                <AuthorizedStudiesListItem {...props} />
-            </BrowserRouter>,
-        );
+        render(<AuthorizedStudiesListItem {...props} />);
 
         // text
         expect(screen.getByText(dictionary.authorization)).toBeTruthy();

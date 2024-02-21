@@ -69,10 +69,11 @@ export default {
     ],
 } as Meta;
 
-export const AuthorizedStudiesBasicStory = () => (
+
+export const AuthorizedStudiesLoadingStory = () => (
     <>
-        <h2>AuthorizedStudies with disconnected fences</h2>
-        <div style={{width: '400px' }}>
+        <h2>AuthorizedStudies loading</h2>
+        <div>
                 <AuthorizedStudiesWidget 
                 id={'1'} 
                 authorizedStudies={{
@@ -103,41 +104,195 @@ export const AuthorizedStudiesBasicStory = () => (
     </>
 );
 
-// React-router is broken with our current version, wait for new storybook to uncomment
-// export const AuthorizedStudiesWithStudiesStory = () => (
-//     <>
-//         <h2>AuthorizedStudies With Connected Fences</h2>
-//         <div style={{width: '400px' }}>
-//             <AuthorizedStudiesWidget 
-//               id={'1'}
-//               authorizedStudies={authorizedStudies}
-//               services={services}
-//               queryProps={queryProps}
-//               fences= {[
-//                   {
-//                       acl: [],
-//                       error: false,
-//                       id: 'fence1',
-//                       loading: false,
-//                       status: FENCE_AUTHENTIFICATION_STATUS.connected,
-//                   },
-//                   {
-//                       acl: ['xxxxx1.x1', 'xxxxx2.x2', 'xxxxx3.x3'],
-//                       error: false,
-//                       id: 'fence2',
-//                       loading: false,
-//                       status: FENCE_AUTHENTIFICATION_STATUS.connected,
-//                   },
-//               ]}
-//              />
-//         </div>
-//     </>
-// );
 
-export const AuthorizedStudiesWithEmptyListStory = () => (
+
+export const AuthorizedStudiesSingleServiceDisconnectedStory = () => (
     <>
-        <h2>AuthorizedStudies With Empty List</h2>
-        <div style={{width: '400px' }}>
+        <h2>AuthorizedStudies with a single service and disconnected fences</h2>
+        <div>
+                <AuthorizedStudiesWidget 
+                id={'1'} 
+                authorizedStudies={{
+                    loading: false,
+                    error: false,
+                    studies: []
+                }}
+                services={[services[0]]}
+                queryProps={queryProps}
+                fences={[
+                    {
+                        acl: [],
+                        error: false,
+                        id: 'fence1',
+                        loading: false,
+                        status: FENCE_AUTHENTIFICATION_STATUS.disconnected,
+                    },
+                ]}
+                />
+        </div>
+    </>
+);
+
+export const AuthorizedStudiesWithASingleServiceStory = () => (
+    <>
+        <h2>AuthorizedStudies With a single service</h2>
+        <div>
+            <AuthorizedStudiesWidget 
+              id={'1'}
+              authorizedStudies={{
+                loading: false,
+                error: false,
+                studies: []
+              }}
+              services={[services[0]]}
+              queryProps={queryProps}
+              fences= {[
+                  {
+                      acl: [],
+                      error: false,
+                      id: 'fence1',
+                      loading: false,
+                      status: FENCE_AUTHENTIFICATION_STATUS.connected,
+                  },
+                  {
+                      acl: ['xxxxx1.x1', 'xxxxx2.x2', 'xxxxx3.x3'],
+                      error: false,
+                      id: 'fence2',
+                      loading: false,
+                      status: FENCE_AUTHENTIFICATION_STATUS.connected,
+                  },
+              ]}
+             />
+        </div>
+    </>
+);
+
+
+export const AuthorizedStudiesSingleServiceWithStudiesStory = () => (
+    <>
+        <h2>AuthorizedStudies With a single service and Connected Fences</h2>
+        <div>
+            <AuthorizedStudiesWidget 
+              id={'1'}
+              authorizedStudies={authorizedStudies}
+              services={[services[0]]}
+              queryProps={queryProps}
+              fences= {[
+                  {
+                      acl: [],
+                      error: false,
+                      id: 'fence1',
+                      loading: false,
+                      status: FENCE_AUTHENTIFICATION_STATUS.connected,
+                  },
+                  {
+                      acl: ['xxxxx1.x1', 'xxxxx2.x2', 'xxxxx3.x3'],
+                      error: false,
+                      id: 'fence2',
+                      loading: false,
+                      status: FENCE_AUTHENTIFICATION_STATUS.connected,
+                  },
+              ]}
+             />
+        </div>
+    </>
+);
+
+export const AuthorizedStudiesSingleServiceWithEmptyListStory = () => (
+    <>
+        <h2>AuthorizedStudies with a single service With and empty List</h2>
+        <div>
+            <AuthorizedStudiesWidget 
+              id={'1'}
+              authorizedStudies={{
+                loading: false,
+                error: false,
+                studies: []
+              }}
+              services={[services[0]]}
+              queryProps={queryProps}
+              fences= {[
+                  {
+                      acl: [],
+                      error: false,
+                      id: 'fence1',
+                      loading: false,
+                      status: FENCE_AUTHENTIFICATION_STATUS.connected,
+                  }
+              ]}
+             />
+        </div>
+    </>
+);
+
+export const AuthorizedStudiesMultiServiceDisconnectedStory = () => (
+    <>
+        <h2>AuthorizedStudies with multi-service and disconnected fences</h2>
+        <div>
+                <AuthorizedStudiesWidget 
+                id={'1'} 
+                authorizedStudies={{
+                    loading: false,
+                    error: false,
+                    studies: []
+                }}
+                services={services}
+                queryProps={queryProps}
+                fences={[
+                    {
+                        acl: [],
+                        error: false,
+                        id: 'fence1',
+                        loading: false,
+                        status: FENCE_AUTHENTIFICATION_STATUS.disconnected,
+                    },
+                    {
+                        acl: [],
+                        error: false,
+                        id: 'fence2',
+                        loading: false,
+                        status: FENCE_AUTHENTIFICATION_STATUS.disconnected,
+                    },
+                ]}
+                />
+        </div>
+    </>
+);
+
+export const AuthorizedStudiesMultiServiceWithStudiesStory = () => (
+    <>
+        <h2>AuthorizedStudies With multi-service and Connected Fences</h2>
+        <div>
+            <AuthorizedStudiesWidget 
+              id={'1'}
+              authorizedStudies={authorizedStudies}
+              services={services}
+              queryProps={queryProps}
+              fences= {[
+                  {
+                      acl: [],
+                      error: false,
+                      id: 'fence1',
+                      loading: false,
+                      status: FENCE_AUTHENTIFICATION_STATUS.connected,
+                  },
+                  {
+                      acl: ['xxxxx1.x1', 'xxxxx2.x2', 'xxxxx3.x3'],
+                      error: false,
+                      id: 'fence2',
+                      loading: false,
+                      status: FENCE_AUTHENTIFICATION_STATUS.connected,
+                  },
+              ]}
+             />
+        </div>
+    </>
+);
+
+export const AuthorizedStudiesMultiServiceWithEmptyListStory = () => (
+    <>
+        <h2>AuthorizedStudies with multi-service With and empty List</h2>
+        <div>
             <AuthorizedStudiesWidget 
               id={'1'}
               authorizedStudies={{

@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
 import CavaticaAnalyseModal, { DEFAULT_CAVATICA_ANALYSE_MODAL_DICTIONARY } from './CavaticaAnalyzeModal';
@@ -64,11 +63,7 @@ describe('CavaticaAnalyseModal', () => {
             },
         };
 
-        render(
-            <BrowserRouter>
-                <CavaticaAnalyseModal {...props} />
-            </BrowserRouter>,
-        );
+        render(<CavaticaAnalyseModal {...props} />);
         expect(screen.getByText(dictionary.title)).toBeTruthy();
         expect(screen.getByText(dictionary.files.replace('{files}', `${1}`))).toBeTruthy();
     });

@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { PASSPORT_AUTHENTIFICATION_STATUS } from './type';
@@ -54,11 +53,7 @@ describe('CavaticaWidget', () => {
             id: '1',
         };
 
-        render(
-            <BrowserRouter>
-                <CavaticaWidget {...props} />
-            </BrowserRouter>,
-        );
+        render(<CavaticaWidget {...props} />);
         expect(screen.getByText(dictionary.title)).toBeTruthy();
         expect(screen.findAllByRole('loading')).toBeTruthy();
     });
@@ -109,11 +104,7 @@ describe('CavaticaWidget', () => {
             id: '1',
         };
 
-        render(
-            <BrowserRouter>
-                <CavaticaWidget {...props} />
-            </BrowserRouter>,
-        );
+        render(<CavaticaWidget {...props} />);
         expect(screen.getByText(dictionary.title)).toBeTruthy();
         expect(screen.getByText(dictionary.connectCard?.action)).toBeTruthy();
         expect(screen.getByText(dictionary.connectCard?.description)).toBeTruthy();
@@ -223,11 +214,7 @@ describe('CavaticaWidget', () => {
             id: '1',
         };
 
-        render(
-            <BrowserRouter>
-                <CavaticaWidget {...props} />
-            </BrowserRouter>,
-        );
+        render(<CavaticaWidget {...props} />);
         expect(screen.getByText(dictionary.title)).toBeTruthy();
         expect(screen.getByText(dictionary.connectedNotice)).toBeTruthy();
         expect(screen.getByText(dictionary.disconnect)).toBeTruthy();
@@ -296,11 +283,7 @@ describe('CavaticaWidget', () => {
             id: '1',
         };
 
-        render(
-            <BrowserRouter>
-                <CavaticaWidget {...props} />
-            </BrowserRouter>,
-        );
+        render(<CavaticaWidget {...props} />);
         expect(screen.getByText(dictionary.title)).toBeTruthy();
         expect(screen.getByText(dictionary.connectedNotice)).toBeTruthy();
         expect(screen.getByText(dictionary.disconnect)).toBeTruthy();
@@ -353,11 +336,7 @@ describe('CavaticaWidget', () => {
             id: '1',
         };
 
-        render(
-            <BrowserRouter>
-                <CavaticaWidget {...props} />
-            </BrowserRouter>,
-        );
+        render(<CavaticaWidget {...props} />);
         expect(screen.getByText(dictionary.title)).toBeTruthy();
         expect(screen.getByText(dictionary.error.fetch.title)).toBeTruthy();
     });

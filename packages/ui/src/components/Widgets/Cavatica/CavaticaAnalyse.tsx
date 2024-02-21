@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CloudUploadOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Button, Modal, Tooltip } from 'antd';
 import { BaseButtonProps } from 'antd/lib/button/button';
 
@@ -38,10 +39,11 @@ export const DEFAULT_CAVATICA_ANALYSE_DICTIONARY: TCavaticaAnalyseDictionary = {
     analyseModal: DEFAULT_CAVATICA_ANALYSE_MODAL_DICTIONARY,
     buttonText: 'Analyze in Cavatica',
     connectionRequiredModal: {
+        cancelText: 'Cancel',
         description:
             'In order to analyze your files you must first connect your Cavatica account. Once you are connected, you will be redirected back to this page.',
         okText: 'Connect',
-        title: 'You are not connected to Cavatica',
+        title: 'Connect to Cavatica',
     },
     createProjectModal: DEFAULT_CAVATICA_CREATE_PROJECT_MODAL_DICTIONARY,
     disabledButtonTooltip: 'You must select at least 1 item',
@@ -70,6 +72,7 @@ export type TCavaticaAnalyseDictionary = {
         title: string;
         description: string;
         okText: string;
+        cancelText: string;
     };
     disabledButtonTooltip: string;
     buttonText: string;
@@ -156,6 +159,7 @@ const CavaticaAnalyse = ({
         if (!errorProps) {
             return;
         }
+
         Modal.error({
             ...errorProps,
             onOk: () => {
@@ -170,12 +174,15 @@ const CavaticaAnalyse = ({
             return;
         }
 
-        Modal.warning({
+        Modal.confirm({
+            cancelText: dictionary.connectionRequiredModal.cancelText,
             content: dictionary?.connectionRequiredModal?.description,
+            icon: <ExclamationCircleOutlined />,
             okText: dictionary.connectionRequiredModal?.okText,
             onCancel: onResetModal,
             onOk: () => handleConnection(),
             title: dictionary?.connectionRequiredModal?.title,
+            type: 'warn',
         });
     }, [modalState]);
 

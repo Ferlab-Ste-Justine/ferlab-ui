@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
 import CavaticaListItem from './CavaticaListItem';
@@ -25,11 +24,7 @@ describe('CavaticaListItem', () => {
             },
         };
 
-        render(
-            <BrowserRouter>
-                <CavaticaListItem {...props} />
-            </BrowserRouter>,
-        );
+        render(<CavaticaListItem {...props} />);
         expect(screen.getByText(props.project.name)).toBeTruthy();
         expect(screen.getByText(dictionary.membersCount(props.project.memberCount))).toBeTruthy();
     });

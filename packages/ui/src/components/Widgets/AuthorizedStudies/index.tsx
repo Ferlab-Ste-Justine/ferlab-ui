@@ -104,7 +104,7 @@ type TAuthorizedStudiesWidgetDictionary = {
         applyingForDataAccess: string;
         content: string;
     };
-    modal: TFencesAuthentificationModalDictionary;
+    modal?: TFencesAuthentificationModalDictionary;
 };
 
 interface IAuthorizedStudiesWidget {
@@ -129,6 +129,7 @@ const AuthorizedStudiesWidget = ({
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     let state = WIDGET_STATE.loading;
+    const hasMultipleServices = services.length > 1;
 
     // check if has one fence connected
     if (fences.some((fence) => fence.status === FENCE_AUTHENTIFICATION_STATUS.connected)) {
@@ -141,13 +142,15 @@ const AuthorizedStudiesWidget = ({
 
     return (
         <>
-            <FencesAuthentificationModal
-                dictionary={dictionary?.modal}
-                fences={fences}
-                onCancel={() => setIsModalOpen(false)}
-                open={isModalOpen}
-                services={services}
-            />
+            {hasMultipleServices && (
+                <FencesAuthentificationModal
+                    dictionary={dictionary?.modal}
+                    fences={fences}
+                    onCancel={() => setIsModalOpen(false)}
+                    open={isModalOpen}
+                    services={services}
+                />
+            )}
             <GridCard
                 content={
                     <>
@@ -178,7 +181,13 @@ const AuthorizedStudiesWidget = ({
                             <div className={styles.content}>
                                 <CardConnectPlaceholder
                                     btnProps={{
-                                        onClick: () => setIsModalOpen(true),
+                                        onClick: () => {
+                                            if (hasMultipleServices) {
+                                                setIsModalOpen(true);
+                                                return;
+                                            }
+                                            services[0].onConnectToFence();
+                                        },
                                     }}
                                     dictionary={dictionary.authentification}
                                     icon={<SafetyOutlined />}
@@ -189,24 +198,32 @@ const AuthorizedStudiesWidget = ({
                         {/* List of Authorized Studies */}
                         {state === WIDGET_STATE.connected && (
                             <div className={styles.listContent}>
-                                <div className={styles.authenticatedHeader}>
-                                    <Space align="start">
-                                        <SafetyOutlined className={styles.safetyIcon} />
-                                        <Text className={styles.notice}>
-                                            {dictionary.connectedNotice}
-                                            <Button
-                                                className={styles.disconnectBtn}
-                                                icon={<ApiOutlined />}
-                                                loading={authorizedStudies?.loading}
-                                                onClick={() => setIsModalOpen(true)}
-                                                size="small"
-                                                type="link"
-                                            >
-                                                {dictionary.manageConnections}
-                                            </Button>
-                                        </Text>
-                                    </Space>
-                                </div>
+                                {hasMultipleServices && (
+                                    <div className={styles.authenticatedHeader}>
+                                        <Space align="start">
+                                            <SafetyOutlined className={styles.safetyIcon} />
+                                            <Text className={styles.notice}>
+                                                {dictionary.connectedNotice}
+                                                <Button
+                                                    className={styles.disconnectBtn}
+                                                    icon={<ApiOutlined />}
+                                                    loading={authorizedStudies?.loading}
+                                                    onClick={() => {
+                                                        if (hasMultipleServices) {
+                                                            setIsModalOpen(true);
+                                                            return;
+                                                        }
+                                                        services[0].onDisconnectFromFence();
+                                                    }}
+                                                    size="small"
+                                                    type="link"
+                                                >
+                                                    {dictionary.manageConnections}
+                                                </Button>
+                                            </Text>
+                                        </Space>
+                                    </div>
+                                )}
                                 <List<IAuthorizedStudy>
                                     bordered
                                     className={styles.list}

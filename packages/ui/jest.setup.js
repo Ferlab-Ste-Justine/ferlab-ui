@@ -19,12 +19,3 @@ Object.defineProperty(window, 'matchMedia', {
     })),
     writable: true,
 });
-
-jest.mock(
-    'react-router-dom',
-    () => ({
-        BrowserRouter: ({ children }) => children,
-        Link: ({ children }) => children,
-    }),
-    { virtual: true },
-);

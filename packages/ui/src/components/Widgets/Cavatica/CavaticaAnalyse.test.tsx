@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import CavaticaAnalyse, { DEFAULT_CAVATICA_ANALYSE_DICTIONARY } from './CavaticaAnalyse';
@@ -62,11 +61,7 @@ describe('Cavatica Analyse', () => {
             setCavaticaBulkImportDataStatus: jest.fn(),
         };
 
-        render(
-            <BrowserRouter>
-                <CavaticaAnalyse {...props} />
-            </BrowserRouter>,
-        );
+        render(<CavaticaAnalyse {...props} />);
         const button = screen.getByRole('button', { name: dictionary.buttonText });
         expect(button).toBeTruthy();
     });
@@ -125,11 +120,7 @@ describe('Cavatica Analyse', () => {
             setCavaticaBulkImportDataStatus: jest.fn(),
         };
 
-        render(
-            <BrowserRouter>
-                <CavaticaAnalyse {...props} />
-            </BrowserRouter>,
-        );
+        render(<CavaticaAnalyse {...props} />);
 
         const button = screen.getByRole('button', { name: dictionary.buttonText });
         expect(button).toBeTruthy();
@@ -192,11 +183,7 @@ describe('Cavatica Analyse', () => {
             setCavaticaBulkImportDataStatus: jest.fn(),
         };
 
-        render(
-            <BrowserRouter>
-                <CavaticaAnalyse {...props} />
-            </BrowserRouter>,
-        );
+        render(<CavaticaAnalyse {...props} />);
 
         const button = screen.getByRole('button', { name: dictionary.buttonText });
         expect(button).toBeTruthy();

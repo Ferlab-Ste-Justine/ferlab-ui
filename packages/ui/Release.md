@@ -1,3 +1,7 @@
+### 9.3.0 2024-02-20
+- fix: SKFP-895 fix react-router-dom issue, fix color
+- fix: SJIP-704 directly connect the user if only one service is provided to authorized studies widget
+
 ### 9.2.0 2024-02-20
 - feat: FLUI-121 update public cohort table to use new types
 
