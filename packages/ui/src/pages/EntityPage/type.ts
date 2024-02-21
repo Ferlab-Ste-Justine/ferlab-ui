@@ -109,16 +109,111 @@ export interface IExternalFrequenciesEntity {
     topmed_bravo: IBoundType;
 }
 
+export interface ConsequenceEntity {
+    id: string;
+    score: number;
+    aa_change: string | undefined | null;
+    canonical: boolean;
+    cdna_position: string;
+    cds_position: string;
+    consequence: string[];
+    ensembl_feature_id: string;
+    ensembl_transcript_id: string;
+    feature_type: string;
+    hgvsc: string;
+    hgvsp: string;
+    impact_score: number;
+    mane_plus: boolean;
+    mane_select: boolean;
+    picked: boolean;
+    protein_position: string;
+    refseq_mrna_id: string[];
+    strand: string;
+    uniprot_id: string;
+    vep_impact: Impact;
+    amino_acids: {
+        reference: string;
+        variant: string;
+    };
+    codons: {
+        reference: string;
+        variant: string;
+    };
+    conservations: IConservationsEntity;
+    exon: {
+        rank: number;
+        total: number;
+    };
+    intron: {
+        rank: number;
+        total: number;
+    };
+    predictions: IPredictionEntity;
+}
+
+export type OmimEntity = {
+    id: any;
+    score: number;
+    inheritance: string[];
+    inheritance_code: string[];
+    name: string;
+    omim_id: string;
+};
+
+export type HpoEntity = {
+    id: any;
+    score: number;
+    hpo_term_id: string;
+    hpo_term_label: string;
+    hpo_term_name: string;
+};
+
+export type DddEntity = {
+    id: any;
+    score: number;
+    disease_name: string;
+};
+
+export type CosmicEntity = {
+    id: any;
+    score: number;
+    tumour_types_germline: string[];
+};
+
+export type OrphanetEntity = {
+    id: any;
+    score: number;
+    inheritance: string;
+    disorder_id: number;
+    panel: string;
+};
+
 export interface IVariantGene {
     id: any;
+    score: number;
+    alias: string[];
+    biotype: string;
+    ensembl_gene_id: string;
+    entrez_gene_id: string;
+    hgnc: string;
     location: string;
+    name: string;
     omim_gene_id: string;
     symbol: string;
+    consequences: IArrangerResultsTree<ConsequenceEntity>;
     cosmic: IArrangerResultsTree<CosmicEntity>;
     ddd: IArrangerResultsTree<DddEntity>;
+    gnomad: {
+        loeuf: string;
+        pli: number;
+    };
     hpo: IArrangerResultsTree<HpoEntity>;
     omim: IArrangerResultsTree<OmimEntity>;
     orphanet: IArrangerResultsTree<OrphanetEntity>;
+    spliceai: {
+        ds: number;
+        type: string[];
+    };
 }
 
 export interface IVariantConsequence {
@@ -139,21 +234,9 @@ export interface IVariantConsequence {
     hgvsp: string;
 }
 
-export interface IPredictionEntity {
-    fathmm_pred: number;
-    lrt_pred: string;
-    lrt_converted_rankscore: number;
-    revel_rankscore: number;
-    sift_pred: string;
-    polyphen2_hvar_pred: string;
-    sift_converted_rankscore: number;
-    cadd_rankscore: number;
-    dann_rankscore: number;
-    fathmm_converted_rankscore: number;
-}
-
 export interface IConservationsEntity {
-    phylo_p17way_primate_rankscore: number;
+    phyloP100way_vertebrate: number;
+    phyloP17way_primate: number;
 }
 
 export interface IVariantStudyEntity {
@@ -236,36 +319,6 @@ export type Inheritance = SingleValuedInheritance | OrphanetInheritance | OmimIn
 
 export type OmimGene = string[][];
 
-export type OmimEntity = {
-    id: string;
-    omim_id: string;
-    name: string;
-    inheritance: OmimInheritance | undefined | null;
-};
-
-export type HpoEntity = {
-    id: string;
-    hpo_term_label: string;
-    hpo_term_id: string;
-};
-
-export type DddEntity = {
-    id: string;
-    disease_name: string;
-};
-
-export type CosmicEntity = {
-    id: string;
-    tumour_types_germline: string[];
-};
-
-export type OrphanetEntity = {
-    id: string;
-    panel: string;
-    inheritance: OrphanetInheritance | null | undefined;
-    disorder_id: number;
-};
-
 export enum Impact {
     High = 'HIGH',
     Moderate = 'MODERATE',
@@ -293,17 +346,18 @@ export interface ISymbolToConsequences {
 }
 
 export interface IPredictionEntity {
-    fathmm_pred: number;
+    cadd_phred: number;
+    cadd_score: number;
+    dann_score: number;
+    fathmm_pred: string;
+    fathmm_score: number;
     lrt_pred: string;
-    lrt_converted_rankscore: number;
-    revel_rankscore: number;
-    sift_pred: string;
+    lrt_score: number;
     polyphen2_hvar_pred: string;
-    polyphen2_hvar_rankscore: number;
-    sift_converted_rankscore: number;
-    cadd_rankscore: number;
-    dann_rankscore: number;
-    fathmm_converted_rankscore: number;
+    polyphen2_hvar_score: number;
+    revel_score: number;
+    sift_pred: string;
+    sift_score: number;
 }
 
 export interface IPublicCohortRow {
