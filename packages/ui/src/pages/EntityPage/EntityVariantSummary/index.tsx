@@ -8,7 +8,7 @@ import style from './index.module.scss';
 export interface IDataItem {
     label: ReactNode;
     value: ReactNode;
-} 
+}
 
 export interface IDetailData {
     title: string;
