@@ -47,7 +47,7 @@ const impactToColorClassName = Object.freeze({
     [Impact.Modifier]: <ModifierBadgeIcon className={`${style.bullet} ${style.modifierImpact}`} />,
 });
 
-const pickImpactBadge = (impact: Impact) => impactToColorClassName[impact];
+export const pickImpactBadge = (impact: Impact): JSX.Element => impactToColorClassName[impact];
 
 const ConsequencesCell = ({
     aaChangeWrapperClassName,

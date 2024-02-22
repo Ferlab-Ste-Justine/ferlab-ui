@@ -1,3 +1,6 @@
+### 9.5.0 2024-02-22
+- feat: SKFP-900 add variant summary
+
 ### 9.4.0 2024-02-22
 - feat: FLUI-121 update pathogenicity utils to use new types
 
