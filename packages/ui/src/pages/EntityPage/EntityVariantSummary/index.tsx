@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
 import { Card, Descriptions, Space } from 'antd';
+import React, { ReactNode } from 'react';
 
 import Empty from '../../../components/Empty';
 
@@ -19,9 +19,9 @@ export interface IVariantSummaryData {
     banner: IDataItem[];
     info: ReactNode[];
     details: {
-        block1: IDetailData;
-        block2: IDetailData[];
-        block3: IDetailData;
+        leftSection: IDetailData;
+        middleSection: IDetailData[];
+        rightSection: IDetailData;
     };
 }
 
@@ -33,15 +33,18 @@ export interface ISummaryProps {
 }
 
 export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummaryProps): JSX.Element => {
-    const detailsBlock1Length = data?.details.block1.items.length || 0;
-    const detailsBlock1Col1 = data?.details.block1.items.slice(0, detailsBlock1Length / 2);
-    const detailsBlock1Col2 = data?.details.block1.items.slice(detailsBlock1Length / 2, detailsBlock1Length);
+    const detailsleftSectionLength = data?.details.leftSection.items.length || 0;
+    const detailsleftSectionCol1 = data?.details.leftSection.items.slice(0, detailsleftSectionLength / 2);
+    const detailsleftSectionCol2 = data?.details.leftSection.items.slice(
+        detailsleftSectionLength / 2,
+        detailsleftSectionLength,
+    );
 
     return (
         <div className={style.summaryWrapper} id={id}>
             <Card className={style.card} loading={loading}>
                 {data ? (
-                    <Space className={style.space} direction="vertical" size={'middle'}>
+                    <Space className={style.space} direction="vertical" size="middle">
                         {data.banner && (
                             <div className={style.bannerWrapper}>
                                 {data.banner.map((item: IDataItem, index: number) => (
@@ -64,10 +67,10 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                         {data.details && (
                             <div className={style.detailsWrapper}>
                                 <div className={style.score}>
-                                    <div className={style.detailsTitle}>{data.details.block1.title}</div>
-                                    <Space direction="horizontal" size={'middle'}>
+                                    <div className={style.detailsTitle}>{data.details.leftSection.title}</div>
+                                    <Space direction="horizontal" size="middle">
                                         <Descriptions column={1}>
-                                            {detailsBlock1Col1?.map((item: IDataItem, index: number) => (
+                                            {detailsleftSectionCol1?.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
                                                     key={index}
                                                     label={<span className={style.detailsItemLabel}>{item.label}</span>}
@@ -77,7 +80,7 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                             ))}
                                         </Descriptions>
                                         <Descriptions column={1}>
-                                            {detailsBlock1Col2?.map((item: IDataItem, index: number) => (
+                                            {detailsleftSectionCol2?.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
                                                     key={index}
                                                     label={<span className={style.detailsItemLabel}>{item.label}</span>}
@@ -89,7 +92,7 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                     </Space>
                                 </div>
                                 <div className={style.geneSplice}>
-                                    {data.details.block2.map((detail: IDetailData, index: number) => (
+                                    {data.details.middleSection.map((detail: IDetailData, index: number) => (
                                         <Descriptions
                                             column={1}
                                             key={index}
@@ -109,9 +112,13 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                 <div className={style.omim}>
                                     <Descriptions
                                         column={1}
-                                        title={<span className={style.detailsTitle}>{data.details.block3.title}</span>}
+                                        title={
+                                            <span className={style.detailsTitle}>
+                                                {data.details.rightSection.title}
+                                            </span>
+                                        }
                                     >
-                                        {data.details.block3.items.map((item: IDataItem, index: number) => (
+                                        {data.details.rightSection.items.map((item: IDataItem, index: number) => (
                                             <Descriptions.Item key={index}>
                                                 <span className={style.detailsItemValue}>{item.value}</span>
                                             </Descriptions.Item>

@@ -37,7 +37,7 @@ BasicEntityVariantSummary.args = {
         ],
         info: ['Item 1', 'Item 2', 'Item 3', 'Item 4'],
         details: {
-            block1: {
+            leftSection: {
                 title: 'Block 1',
                 items: [
                     { label: 'Item 1', value: 'Value 1' },
@@ -48,7 +48,7 @@ BasicEntityVariantSummary.args = {
                     { label: 'Item 6', value: 'Value 6' },
                 ],
             },
-            block2: [
+            middleSection: [
                 {
                     title: 'Block 2.1',
                     items: [
@@ -61,7 +61,7 @@ BasicEntityVariantSummary.args = {
                     items: [{ label: 'Item 1', value: 'Value 1' }],
                 },
             ],
-            block3: {
+            rightSection: {
                 title: 'Block 3',
                 items: [
                     { label: 'Item 1', value: 'Value 1' },
