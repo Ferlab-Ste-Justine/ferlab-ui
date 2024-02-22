@@ -33,11 +33,11 @@ export interface ISummaryProps {
 }
 
 export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummaryProps): JSX.Element => {
-    const detailsleftSectionLength = data?.details.leftSection.items.length || 0;
-    const detailsleftSectionCol1 = data?.details.leftSection.items.slice(0, detailsleftSectionLength / 2);
-    const detailsleftSectionCol2 = data?.details.leftSection.items.slice(
-        detailsleftSectionLength / 2,
-        detailsleftSectionLength,
+    const detailsLeftSectionLength = data?.details.leftSection.items.length || 0;
+    const detailsLeftSectionCol1 = data?.details.leftSection.items.slice(0, detailsLeftSectionLength / 2);
+    const detailsLeftSectionCol2 = data?.details.leftSection.items.slice(
+        detailsLeftSectionLength / 2,
+        detailsLeftSectionLength,
     );
 
     return (
@@ -70,7 +70,7 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                     <div className={style.detailsTitle}>{data.details.leftSection.title}</div>
                                     <Space direction="horizontal" size="middle">
                                         <Descriptions column={1}>
-                                            {detailsleftSectionCol1?.map((item: IDataItem, index: number) => (
+                                            {detailsLeftSectionCol1?.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
                                                     key={index}
                                                     label={<span className={style.detailsItemLabel}>{item.label}</span>}
@@ -80,7 +80,7 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                             ))}
                                         </Descriptions>
                                         <Descriptions column={1}>
-                                            {detailsleftSectionCol2?.map((item: IDataItem, index: number) => (
+                                            {detailsLeftSectionCol2?.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
                                                     key={index}
                                                     label={<span className={style.detailsItemLabel}>{item.label}</span>}
