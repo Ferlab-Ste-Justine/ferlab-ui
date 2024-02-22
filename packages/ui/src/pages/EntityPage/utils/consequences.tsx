@@ -144,11 +144,11 @@ export const getPredictionScore = (
     },
 ): any[][] =>
     [
-        [dictionary.sift, predictions?.sift_pred, predictions?.sift_converted_rankscore],
-        [dictionary.polyphen2, predictions?.polyphen2_hvar_pred, predictions?.sift_converted_rankscore],
-        [dictionary.fathmm, predictions?.fathmm_converted_rankscore],
-        [dictionary.cadd, null, predictions?.cadd_rankscore],
-        [dictionary.dann, null, predictions?.dann_rankscore],
-        [dictionary.lrt, predictions?.lrt_pred, predictions?.lrt_converted_rankscore],
-        [dictionary.revel, null, predictions?.revel_rankscore],
+        [dictionary.sift, predictions?.sift_pred, predictions?.sift_score],
+        [dictionary.polyphen2, predictions?.polyphen2_hvar_pred, predictions?.sift_score],
+        [dictionary.fathmm, predictions?.fathmm_score],
+        [dictionary.cadd, null, predictions?.cadd_score],
+        [dictionary.dann, null, predictions?.dann_score],
+        [dictionary.lrt, predictions?.lrt_pred, predictions?.lrt_score],
+        [dictionary.revel, null, predictions?.revel_score],
     ].filter(([, , score]) => score);
