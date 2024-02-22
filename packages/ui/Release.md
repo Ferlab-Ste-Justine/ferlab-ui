@@ -1,4 +1,4 @@
-### 9.2.0 2024-02-20
+### 9.4.0 2024-02-22
 - feat: FLUI-121 update pathogenicity utils to use new types
 
 ### 9.3.0 2024-02-20
