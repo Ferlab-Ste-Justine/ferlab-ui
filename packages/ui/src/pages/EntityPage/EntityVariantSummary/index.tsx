@@ -1,5 +1,5 @@
-import { Card, Descriptions, Space } from 'antd';
 import React, { ReactNode } from 'react';
+import { Card, Descriptions, Space } from 'antd';
 
 import Empty from '../../../components/Empty';
 
