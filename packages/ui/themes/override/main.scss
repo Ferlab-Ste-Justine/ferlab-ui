@@ -25,16 +25,3 @@ a.link {
     }
 }
 
-.ant-modal-confirm {
-    .ant-modal-confirm-body > .anticon {
-        color: $orange-7;
-    }
-
-    &.ant-modal-confirm-warning .ant-modal-confirm-body > .anticon {
-        color: $orange-7;
-    }
-
-    &.ant-modal-confirm-error .ant-modal-confirm-body > .anticon {
-        color: $red-7;
-    }
-}
