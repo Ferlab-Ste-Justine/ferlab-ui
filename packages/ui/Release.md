@@ -1,3 +1,6 @@
+### 9.5.1 2024-02-22
+- fix: SJIP-715 fix card header truncable text on resize. Fix color issue on modal
+
 ### 9.5.0 2024-02-22
 - feat: SKFP-900 add variant summary
 
