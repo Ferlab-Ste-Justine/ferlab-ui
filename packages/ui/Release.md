@@ -1,3 +1,6 @@
+### 9.5.2 2024-02-23
+- fix: SKFP-895 Remove color override of modal
+
 ### 9.5.1 2024-02-22
 - fix: SJIP-715 fix card header truncable text on resize. Fix color issue on modal
 

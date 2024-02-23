@@ -19,3 +19,5 @@ Object.defineProperty(window, 'matchMedia', {
     })),
     writable: true,
 });
+
+global.ResizeObserver = require('resize-observer-polyfill');
