@@ -1,9 +1,10 @@
-import { MutableRefObject, ReactNode, useLayoutEffect, useRef, useState } from 'react';
+import { MutableRefObject, ReactNode, useEffect, useRef, useState } from 'react';
 import React from 'react';
 import { HolderOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { Popover, PopoverProps, Space, Tooltip, Typography } from 'antd';
 import classnames from 'classnames';
 import cx from 'classnames';
+import { throttle } from 'lodash';
 
 import DragHandle from '../../../../layout/SortableGrid/DragHandle';
 
@@ -41,21 +42,22 @@ const GridCardHeader = ({
     const [truncated, setTruncated] = useState(false);
     const [titleWidth, setTitleWidth] = useState('100%');
     const headerContainerRef = useRef() as MutableRefObject<HTMLSpanElement>;
+    const onCardResize = throttle(() => {
+        if (!titleTruncateThresholdWidth) {
+            return;
+        }
+        const headerWidth = headerContainerRef.current.clientWidth;
+        setTitleWidth(`${headerWidth - titleTruncateThresholdWidth}px`);
+    }, 10);
+    const resizeObserver = new ResizeObserver(onCardResize);
 
-    // titleTruncateThresholdWidth allow text to be truncate. antd absolutly needs a
-    // a width to be able to works. Only active it when needed since useLayoutEffect
-    // can be a performance pitfall. A value needs to be passed since our div can
-    // be bigger than our header width.
-    if (titleTruncateThresholdWidth) {
-        useLayoutEffect(() => {
-            if (!headerContainerRef?.current) {
-                return;
-            }
+    useEffect(() => {
+        if (!headerContainerRef.current || !titleTruncateThresholdWidth) {
+            return;
+        }
 
-            const headerWidth = headerContainerRef.current.clientWidth;
-            setTitleWidth(`${headerWidth - titleTruncateThresholdWidth}px`);
-        });
-    }
+        resizeObserver.observe(headerContainerRef.current);
+    }, [headerContainerRef, headerContainerRef.current]);
 
     return (
         <Title className={classnames(styles.cardHeader, className)} level={4} ref={headerContainerRef}>
