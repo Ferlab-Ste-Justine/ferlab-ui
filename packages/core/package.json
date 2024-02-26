@@ -9,6 +9,9 @@
     "build:core": "tsc && tscp",
     "start": "tsc -w --declaration && tscp -w --declaration"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Ferlab-Ste-Justine/ferlab-ui.git"
