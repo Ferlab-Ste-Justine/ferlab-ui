@@ -1,11 +1,13 @@
 import React from 'react';
-import { Typography } from 'antd';
+import { Space, Typography } from 'antd';
 
 import ExternalLink from '../../../components/ExternalLink';
 import ExpandableCell from '../../../components/tables/ExpandableCell';
 import StackLayout from '../../../layout/StackLayout';
 import { titleCase } from '../../../utils/stringUtils';
-import { HpoCondition, HpoConditions } from '../type';
+import { HpoCondition, HpoConditions, SingleValuedInheritance } from '../type';
+
+import InheritanceTag from './InheritanceTag';
 
 interface OwnProps {
     conditions: HpoConditions;
@@ -13,11 +15,18 @@ interface OwnProps {
         'see.less': string;
         'see.more': string;
     };
+    inheritances?: SingleValuedInheritance;
+    withInheritanceTags?: boolean;
 }
 
 const { Text } = Typography;
 
-const HpoConditionCell: React.FC<OwnProps> = ({ conditions, dictionary }) => (
+const HpoConditionCell: React.FC<OwnProps> = ({
+    conditions,
+    dictionary,
+    inheritances,
+    withInheritanceTags = false,
+}) => (
     <ExpandableCell
         dataSource={conditions || []}
         dictionnary={dictionary}
@@ -33,11 +42,16 @@ const HpoConditionCell: React.FC<OwnProps> = ({ conditions, dictionary }) => (
 
             return (
                 <StackLayout key={id}>
-                    <Text>{titleCase(condition)}</Text>&nbsp;(
-                    <ExternalLink href={`https://hpo.jax.org/app/browse/term/${termId}`} key={id}>
-                        {termId}
-                    </ExternalLink>
-                    )
+                    <Space direction="horizontal">
+                        <div>
+                            <Text>{titleCase(condition)}</Text>&nbsp;(
+                            <ExternalLink href={`https://hpo.jax.org/app/browse/term/${termId}`} key={id}>
+                                {termId}
+                            </ExternalLink>
+                            )
+                        </div>
+                    </Space>
+                    {withInheritanceTags && inheritances && <InheritanceTag inheritances={inheritances} />}
                 </StackLayout>
             );
         }}

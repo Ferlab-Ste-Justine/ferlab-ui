@@ -6,6 +6,14 @@ export const removeUnderscoreAndCapitalize = (word: string): string => {
     return frags.join(' ');
 };
 
+export const addUnderscoreAndLowercase = (phrase: string): string => {
+    const words = phrase.split(' ');
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i].charAt(0).toLowerCase() + words[i].slice(1);
+    }
+    return words.join('_');
+};
+
 export const titleCase = (word: string): string => {
     const frags = word.split(' ');
     for (let i = 0; i < frags.length; i++) {
