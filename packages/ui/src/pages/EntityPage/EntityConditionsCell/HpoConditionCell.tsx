@@ -50,8 +50,8 @@ const HpoConditionCell: React.FC<OwnProps> = ({
                             </ExternalLink>
                             )
                         </div>
+                        {withInheritanceTags && inheritances && <InheritanceTag inheritances={inheritances} />}
                     </Space>
-                    {withInheritanceTags && inheritances && <InheritanceTag inheritances={inheritances} />}
                 </StackLayout>
             );
         }}

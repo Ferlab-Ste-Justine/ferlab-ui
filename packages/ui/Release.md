@@ -1,3 +1,6 @@
+### 9.5.2 2024-02-27
+- fix: FLUI-124 Add new styles on conditions cells in Variant Entity
+
 ### 9.5.2 2024-02-23
 - fix: SKFP-895 Remove color override of modal
 

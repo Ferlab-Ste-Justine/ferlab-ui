@@ -33,8 +33,10 @@ const OrphanetConditionCell: React.FC<OwnProps> = ({ conditions, inheritances, w
                                     {titleCase(panel)}
                                 </ExternalLink>
                             </div>
+                            {withInheritanceTags && inheritances && (
+                                <InheritanceTag inheritances={inheritances[index]} />
+                            )}
                         </Space>
-                        {withInheritanceTags && inheritances && <InheritanceTag inheritances={inheritances[index]} />}
                     </StackLayout>
                 );
             })}
