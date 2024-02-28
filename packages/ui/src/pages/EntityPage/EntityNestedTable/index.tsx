@@ -48,7 +48,7 @@ export const EntityNestedTable = ({
                 extra={titleExtra}
                 header={
                     <Space size={2}>
-                        {header} {total > 0 && <span>({total})</span>}{' '}
+                        {header} {total > 0 && <span>({total})</span>}
                     </Space>
                 }
                 key="1"
@@ -61,7 +61,7 @@ export const EntityNestedTable = ({
                             dataSource={data}
                             expandable={{
                                 defaultExpandedRowKeys: expandedRowKeys,
-                                expandedRowRender: (record) => expandedRowRender(record),
+                                expandedRowRender,
                             }}
                             pagination={false}
                             size="small"
