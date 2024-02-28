@@ -1,12 +1,11 @@
 import React, { ReactNode } from 'react';
-import { DownOutlined } from '@ant-design/icons';
-import { Badge, Card, Dropdown, Space, Table, Typography } from 'antd';
+import { Card, Space, Table, Typography } from 'antd';
 
-import style from './index.module.scss';
-
-import { ProColumnType } from '../../../components/ProTable/types';
 import Collapse, { CollapsePanel } from '../../../components/Collapse';
 import Empty from '../../../components/Empty';
+import { ProColumnType } from '../../../components/ProTable/types';
+
+import style from './index.module.scss';
 
 const { Title } = Typography;
 
@@ -36,46 +35,44 @@ export const EntityNestedTable = ({
     title,
     titleExtra,
     total = 0,
-}: IEntityNestedTableProps) => {
-    return (
-        <div className={style.container} id={id}>
-            {title && (
-                <Title className={style.title} level={4}>
-                    {title}
-                </Title>
-            )}
-            <Collapse arrowIcon="caretFilled" className={style.collapse} defaultActiveKey={['1']}>
-                <CollapsePanel
-                    className={style.panel}
-                    extra={titleExtra}
-                    header={
-                        <Space size={2}>
-                            {header} {total > 0 && <span>({total})</span>}{' '}
-                        </Space>
-                    }
-                    key="1"
-                >
-                    <Card className={style.card} loading={loading}>
-                        {data ? (
-                            <Table
-                                columns={columns}
-                                expandable={{
-                                    expandedRowRender: (record) => expandedRowRender(record),
-                                    defaultExpandedRowKeys: expandedRowKeys,
-                                }}
-                                dataSource={data}
-                                size="small"
-                                pagination={false}
-                                bordered
-                            />
-                        ) : (
-                            <Empty align="left" description={noDataLabel} noPadding showImage={false} />
-                        )}
-                    </Card>
-                </CollapsePanel>
-            </Collapse>
-        </div>
-    );
-};
+}: IEntityNestedTableProps): JSX.Element => (
+    <div className={style.container} id={id}>
+        {title && (
+            <Title className={style.title} level={4}>
+                {title}
+            </Title>
+        )}
+        <Collapse arrowIcon="caretFilled" className={style.collapse} defaultActiveKey={['1']}>
+            <CollapsePanel
+                className={style.panel}
+                extra={titleExtra}
+                header={
+                    <Space size={2}>
+                        {header} {total > 0 && <span>({total})</span>}{' '}
+                    </Space>
+                }
+                key="1"
+            >
+                <Card className={style.card} loading={loading}>
+                    {data ? (
+                        <Table
+                            bordered
+                            columns={columns}
+                            dataSource={data}
+                            expandable={{
+                                defaultExpandedRowKeys: expandedRowKeys,
+                                expandedRowRender: (record) => expandedRowRender(record),
+                            }}
+                            pagination={false}
+                            size="small"
+                        />
+                    ) : (
+                        <Empty align="left" description={noDataLabel} noPadding showImage={false} />
+                    )}
+                </Card>
+            </CollapsePanel>
+        </Collapse>
+    </div>
+);
 
 export default EntityNestedTable;
