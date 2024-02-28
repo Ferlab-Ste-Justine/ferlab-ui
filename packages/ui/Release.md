@@ -1,3 +1,6 @@
+### 9.6.0 2024-02-28
+- feat: SKFP-901 Add entity nested table
+
 ### 9.5.3 2024-02-27
 - fix: FLUI-124 Add new styles on conditions cells in Variant Entity
 
