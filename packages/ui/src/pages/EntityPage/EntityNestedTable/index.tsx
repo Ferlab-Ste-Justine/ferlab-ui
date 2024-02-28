@@ -26,8 +26,8 @@ export interface IEntityNestedTableProps {
 export const EntityNestedTable = ({
     columns,
     data,
-    expandedRowRender,
     expandedRowKeys = undefined,
+    expandedRowRender,
     header,
     id,
     loading,
