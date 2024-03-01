@@ -1,3 +1,6 @@
+### 9.6.1 2024-03-01
+- fix: SKFP-964 Various visual bugs on Authorized Studies Widget
+
 ### 9.6.0 2024-02-28
 - feat: SKFP-901 Add entity nested table
 
