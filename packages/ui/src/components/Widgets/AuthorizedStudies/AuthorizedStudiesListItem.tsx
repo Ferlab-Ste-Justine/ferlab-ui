@@ -107,11 +107,7 @@ const AuthorizedStudiesListItem = ({
                         </Space>
                     </div>
                 }
-                title={
-                    <Text ellipsis={{ tooltip: data.title }} title={data.title}>
-                        {data.title}
-                    </Text>
-                }
+                title={<Text ellipsis={{ tooltip: data.title }}>{data.title}</Text>}
             />
             <Text className={styles.dataUseGroups} type="secondary">
                 <Space size={4}>
