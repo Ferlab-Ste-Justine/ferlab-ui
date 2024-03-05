@@ -99,7 +99,6 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                             column={1}
                                             key={index}
                                             title={<span className={style.detailsTitle}>{detail.title}</span>}
-                                            className={style.detailsItem}
                                         >
                                             {detail.items.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
