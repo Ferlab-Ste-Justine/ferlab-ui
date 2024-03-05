@@ -1,3 +1,6 @@
+### 9.6.3 2024-03-05
+- fix: SKFP-900 variant summary fixes
+
 ### 9.6.2 2024-03-05
 - fix: CLIN-2300 disable download button and export tsv button when total is 0
 

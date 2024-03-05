@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Typography } from 'antd';
 
 import { IArrangerEdge } from '../../../graphql/types';
@@ -40,14 +40,32 @@ export type TConsequencesCell = {
     layoutClassName?: string;
 };
 
-const impactToColorClassName = Object.freeze({
-    [Impact.High]: <HighBadgeIcon className={`${style.bullet} ${style.highImpact}`} />,
-    [Impact.Low]: <LowBadgeIcon className={`${style.bullet} ${style.lowImpact}`} />,
-    [Impact.Moderate]: <ModerateBadgeIcon className={`${style.bullet} ${style.moderateImpact}`} />,
-    [Impact.Modifier]: <ModifierBadgeIcon className={`${style.bullet} ${style.modifierImpact}`} />,
-});
-
-export const pickImpactBadge = (impact: Impact): JSX.Element => impactToColorClassName[impact];
+export const pickImpactBadge = (impact: Impact, height = 10, width = 10): ReactNode => {
+    switch (impact) {
+        case Impact.High:
+            return <HighBadgeIcon className={`${style.bullet} ${style.highImpact}`} height={height} width={width} />;
+        case Impact.Low:
+            return <LowBadgeIcon className={`${style.bullet} ${style.lowImpact}`} height={height} width={width} />;
+        case Impact.Moderate:
+            return (
+                <ModerateBadgeIcon
+                    className={`${style.bullet} ${style.moderateImpact}`}
+                    height={height}
+                    width={width}
+                />
+            );
+        case Impact.Modifier:
+            return (
+                <ModifierBadgeIcon
+                    className={`${style.bullet} ${style.modifierImpact}`}
+                    height={height}
+                    width={width}
+                />
+            );
+        default:
+            return;
+    }
+};
 
 const ConsequencesCell = ({
     aaChangeWrapperClassName,

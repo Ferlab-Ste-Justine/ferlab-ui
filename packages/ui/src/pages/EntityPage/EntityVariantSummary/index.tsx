@@ -11,7 +11,7 @@ export interface IDataItem {
 }
 
 export interface IDetailData {
-    title: string;
+    title: ReactNode;
     items: IDataItem[];
 }
 
@@ -33,7 +33,8 @@ export interface ISummaryProps {
 }
 
 export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummaryProps): JSX.Element => {
-    const detailsLeftSectionLength = data?.details.leftSection.items.length || 0;
+    let detailsLeftSectionLength = data?.details.leftSection.items.length || 0;
+    if (detailsLeftSectionLength % 2 != 0) detailsLeftSectionLength++;
     const detailsLeftSectionCol1 = data?.details.leftSection.items.slice(0, detailsLeftSectionLength / 2);
     const detailsLeftSectionCol2 = data?.details.leftSection.items.slice(
         detailsLeftSectionLength / 2,
@@ -94,6 +95,7 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                 <div className={style.geneSplice}>
                                     {data.details.middleSection.map((detail: IDetailData, index: number) => (
                                         <Descriptions
+                                            className={style.detailsItem}
                                             column={1}
                                             key={index}
                                             title={<span className={style.detailsTitle}>{detail.title}</span>}
