@@ -1,3 +1,6 @@
+### 9.6.4 2024-03-05
+- fix: SKFP-900 style fix
+
 ### 9.6.3 2024-03-05
 - fix: SKFP-900 variant summary fixes
 
