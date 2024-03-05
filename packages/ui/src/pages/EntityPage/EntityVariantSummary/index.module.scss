@@ -11,6 +11,10 @@
     border: 1px solid;
     border-radius: 2px;
     border-color: $gray-4;
+
+    :global(.ant-card-body) {
+        padding: 16px;
+    }
 }
 
 .space {
@@ -88,11 +92,14 @@
 }
 
 .detailsTitle {
-    color: $gray-9;
     font-size: 14px;
     font-weight: 600;
     line-height: 22px;
     margin-bottom: 8px;
+}
+
+.detailsItem:not(:last-child) {
+    margin-bottom: 12px;
 }
 
 .detailsItemLabel {
