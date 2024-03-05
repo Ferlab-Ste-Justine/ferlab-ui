@@ -72,20 +72,14 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                     <Space direction="horizontal" size="middle">
                                         <Descriptions column={1}>
                                             {detailsLeftSectionCol1?.map((item: IDataItem, index: number) => (
-                                                <Descriptions.Item
-                                                    key={index}
-                                                    label={<span className={style.detailsItemLabel}>{item.label}</span>}
-                                                >
+                                                <Descriptions.Item key={index} label={<span>{item.label}</span>}>
                                                     <span className={style.detailsItemValue}>{item.value}</span>
                                                 </Descriptions.Item>
                                             ))}
                                         </Descriptions>
                                         <Descriptions column={1}>
                                             {detailsLeftSectionCol2?.map((item: IDataItem, index: number) => (
-                                                <Descriptions.Item
-                                                    key={index}
-                                                    label={<span className={style.detailsItemLabel}>{item.label}</span>}
-                                                >
+                                                <Descriptions.Item key={index} label={<span>{item.label}</span>}>
                                                     <span className={style.detailsItemValue}>{item.value}</span>
                                                 </Descriptions.Item>
                                             ))}
@@ -101,10 +95,7 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                             title={<span className={style.detailsTitle}>{detail.title}</span>}
                                         >
                                             {detail.items.map((item: IDataItem, index: number) => (
-                                                <Descriptions.Item
-                                                    key={index}
-                                                    label={<span className={style.detailsItemLabel}>{item.label}</span>}
-                                                >
+                                                <Descriptions.Item key={index} label={<span>{item.label}</span>}>
                                                     <span className={style.detailsItemValue}>{item.value}</span>
                                                 </Descriptions.Item>
                                             ))}
