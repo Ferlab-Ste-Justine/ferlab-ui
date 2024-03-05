@@ -95,10 +95,10 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                 <div className={style.geneSplice}>
                                     {data.details.middleSection.map((detail: IDetailData, index: number) => (
                                         <Descriptions
+                                            className={style.detailsItem}
                                             column={1}
                                             key={index}
                                             title={<span className={style.detailsTitle}>{detail.title}</span>}
-                                            className={style.detailsItem}
                                         >
                                             {detail.items.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Typography } from 'antd';
 
 import { IArrangerEdge } from '../../../graphql/types';
@@ -40,7 +40,7 @@ export type TConsequencesCell = {
     layoutClassName?: string;
 };
 
-export const pickImpactBadge = (impact: Impact, height: number = 10, width: number = 10) => {
+export const pickImpactBadge = (impact: Impact, height = 10, width = 10): ReactNode => {
     switch (impact) {
         case Impact.High:
             return <HighBadgeIcon className={`${style.bullet} ${style.highImpact}`} height={height} width={width} />;
