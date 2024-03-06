@@ -1,3 +1,6 @@
+### 9.6.5 2024-03-06
+- fix: SKFP-924 fix authorized studies widget title
+
 ### 9.6.4 2024-03-05
 - fix: SKFP-900 style fix
 
