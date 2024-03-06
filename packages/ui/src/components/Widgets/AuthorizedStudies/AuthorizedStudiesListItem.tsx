@@ -47,6 +47,8 @@ const AuthorizedStudiesListItem = ({
     const authorizedAndUncontrolledFilesCount =
         data.authorized_controlled_files_count + data.total_uncontrolled_files_count;
 
+    const title = `${data.title} (${data.study_code})`;
+
     return (
         <List.Item className={cx('wrapped', styles.list)}>
             <List.Item.Meta
@@ -107,7 +109,7 @@ const AuthorizedStudiesListItem = ({
                         </Space>
                     </div>
                 }
-                title={<Text ellipsis={{ tooltip: data.title }}>{data.title}</Text>}
+                title={<Text ellipsis={{ tooltip: title }}>{title}</Text>}
             />
             <Text className={styles.dataUseGroups} type="secondary">
                 <Space size={4}>
