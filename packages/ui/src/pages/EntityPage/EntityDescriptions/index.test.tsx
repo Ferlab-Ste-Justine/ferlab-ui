@@ -53,4 +53,23 @@ describe('EntityPage/EntityDescription', () => {
         expect(screen.getByText('Header')).toBeTruthy();
         expect(screen.getByText('SubHeader')).toBeTruthy();
     });
+
+    test('should render empty if descriptions is an empty array', () => {
+        const props = {
+            descriptions: [],
+            header: 'Header',
+            id: 'ID',
+            loading: false,
+            subheader: <>SubHeader</>,
+            title: 'Title',
+        };
+        render(<EntityDescription {...props} />);
+        expect(screen.getByText('Title')).toBeTruthy();
+        expect(screen.getByText('Header')).toBeTruthy();
+        expect(screen.getByText('No data available')).toBeTruthy();
+
+        expect(screen.queryByText('label 1')).toBeNull();
+        expect(screen.queryByText('value 3')).toBeNull();
+        expect(screen.queryByText('SubHeader')).toBeNull();
+    });
 });

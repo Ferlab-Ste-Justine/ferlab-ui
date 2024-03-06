@@ -1,3 +1,6 @@
+### 9.6.6 2024-03-06
+- fix: SJIP-710 manage no data in Entity Description
+
 ### 9.6.5 2024-03-06
 - fix: SKFP-924 fix authorized studies widget title
 
