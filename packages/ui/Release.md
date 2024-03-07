@@ -1,3 +1,6 @@
+### 9.6.7 2024-03-07
+- fix: SKFP-904 change tooltip casing
+
 ### 9.6.6 2024-03-06
 - fix: SJIP-710 manage no data in Entity Description
 
