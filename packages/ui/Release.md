@@ -1,3 +1,6 @@
+### 9.9.0 2024-03-20
+- feat: SJIP-711 Add Entity Statistics Component
+
 ### 9.8.1 2024-03-18
 - fix: SKFP-900 Descriptions style
 
