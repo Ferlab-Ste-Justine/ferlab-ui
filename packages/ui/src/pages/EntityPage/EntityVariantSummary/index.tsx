@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Card, Descriptions, Space } from 'antd';
+import { Card, Descriptions, Space, Typography } from 'antd';
 
 import Empty from '../../../components/Empty';
 
@@ -50,7 +50,9 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                             <div className={style.bannerWrapper}>
                                 {data.banner.map((item: IDataItem, index: number) => (
                                     <Space direction="vertical" key={index} size={4}>
-                                        <div>{item.label}</div>
+                                        <div>
+                                            <Typography.Text type="secondary">{item.label}</Typography.Text>
+                                        </div>
                                         <div>{item.value}</div>
                                     </Space>
                                 ))}
@@ -72,15 +74,25 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                     <Space direction="horizontal" size="middle">
                                         <Descriptions column={1}>
                                             {detailsLeftSectionCol1?.map((item: IDataItem, index: number) => (
-                                                <Descriptions.Item key={index} label={<span>{item.label}</span>}>
-                                                    <span className={style.detailsItemValue}>{item.value}</span>
+                                                <Descriptions.Item
+                                                    key={index}
+                                                    label={
+                                                        <Typography.Text type="secondary">{item.label}</Typography.Text>
+                                                    }
+                                                >
+                                                    {item.value}
                                                 </Descriptions.Item>
                                             ))}
                                         </Descriptions>
                                         <Descriptions column={1}>
                                             {detailsLeftSectionCol2?.map((item: IDataItem, index: number) => (
-                                                <Descriptions.Item key={index} label={<span>{item.label}</span>}>
-                                                    <span className={style.detailsItemValue}>{item.value}</span>
+                                                <Descriptions.Item
+                                                    key={index}
+                                                    label={
+                                                        <Typography.Text type="secondary">{item.label}</Typography.Text>
+                                                    }
+                                                >
+                                                    {item.value}
                                                 </Descriptions.Item>
                                             ))}
                                         </Descriptions>
@@ -95,7 +107,18 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                             title={<span className={style.detailsTitle}>{detail.title}</span>}
                                         >
                                             {detail.items.map((item: IDataItem, index: number) => (
-                                                <Descriptions.Item key={index} label={<span>{item.label}</span>}>
+                                                <Descriptions.Item
+                                                    key={index}
+                                                    label={
+                                                        <span>
+                                                            {
+                                                                <Typography.Text type="secondary">
+                                                                    {item.label}
+                                                                </Typography.Text>
+                                                            }
+                                                        </span>
+                                                    }
+                                                >
                                                     <span className={style.detailsItemValue}>{item.value}</span>
                                                 </Descriptions.Item>
                                             ))}
