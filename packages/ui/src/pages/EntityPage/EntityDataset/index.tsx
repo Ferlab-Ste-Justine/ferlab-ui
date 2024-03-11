@@ -1,6 +1,7 @@
 import React from 'react';
 import { FileTextOutlined, UserOutlined } from '@ant-design/icons';
 import { Card, Descriptions, Typography } from 'antd';
+import cx from 'classnames';
 
 import { TABLE_EMPTY_PLACE_HOLDER } from '../../../common/constants';
 import Collapse, { CollapsePanel } from '../../../components/Collapse';
@@ -54,9 +55,11 @@ export interface IEntityDatasetProps {
         participants?: string;
         files?: string;
     };
+    containerClassName?: string;
 }
 
 const EntityDataset = ({
+    containerClassName,
     descriptions,
     dictionnary,
     file_count,
@@ -67,7 +70,7 @@ const EntityDataset = ({
     title,
     titleExtra,
 }: IEntityDatasetProps): React.ReactElement => (
-    <div className={styles.container} id={id}>
+    <div className={cx(styles.container, containerClassName)} id={id}>
         {title && (
             <Title className={styles.title} level={4}>
                 {title}
