@@ -106,10 +106,6 @@
     margin: 0 8px 0 0;
 }
 
-.detailsItemValue {
-    color: $gray-8;
-}
-
 @media (max-width: 1024px) {
     .bannerWrapper {
         grid-template-columns: repeat(3, 1fr);

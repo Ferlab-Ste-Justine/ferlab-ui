@@ -1,3 +1,6 @@
+### 9.6.8 2024-03-11
+- fix: SKFP-900 update entity summary variant style
+
 ### 9.6.7 2024-03-07
 - fix: SKFP-904 change tooltip casing
 
