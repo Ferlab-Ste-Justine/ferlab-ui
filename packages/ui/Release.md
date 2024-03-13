@@ -1,3 +1,6 @@
+### 9.7.1 2024-03-13
+- fix: SJIP-712 Update CountCard style
+
 ### 9.7.0 2024-03-13
 - feat: FLUI-126 Add Futuro icons
 - feat: SJIP-712 Update CountCard style
