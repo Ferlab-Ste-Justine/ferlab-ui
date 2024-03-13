@@ -1,9 +1,12 @@
 import React from 'react';
 import { FileTextOutlined, UserOutlined } from '@ant-design/icons';
 import { Card, Descriptions, Typography } from 'antd';
+import cx from 'classnames';
 
 import { TABLE_EMPTY_PLACE_HOLDER } from '../../../common/constants';
 import Collapse, { CollapsePanel } from '../../../components/Collapse';
+import FamilyIcon from '../../../components/Icons/Futuro/FamilyIcon';
+import FileIcon from '../../../components/Icons/Futuro/FileIcon';
 import { numberFormat } from '../../../utils/numberUtils';
 import { IEntityDescriptionsItem } from '../EntityDescriptions';
 
@@ -23,18 +26,18 @@ interface ICountCardProps {
 const CountCard = ({ dictionnary, file_count = 0, participant_count = 0 }: ICountCardProps) => (
     <Card className={styles.countCardContainer}>
         <div className={styles.rowCountCard}>
-            <UserOutlined className={styles.icon} />
-            <div className={styles.alignBaseline}>
-                <span className={styles.count}>
+            <FamilyIcon />
+            <div>
+                <div className={styles.count}>
                     {participant_count ? numberFormat(participant_count) : TABLE_EMPTY_PLACE_HOLDER}
-                </span>
+                </div>
                 <span className={styles.name}>{dictionnary?.participants || 'Participants'}</span>
             </div>
         </div>
         <div className={styles.rowCountCard}>
-            <FileTextOutlined className={styles.icon} />
-            <div className={styles.alignBaseline}>
-                <span className={styles.count}>{file_count ? numberFormat(file_count) : TABLE_EMPTY_PLACE_HOLDER}</span>
+            <FileIcon />
+            <div>
+                <div className={styles.count}>{file_count ? numberFormat(file_count) : TABLE_EMPTY_PLACE_HOLDER}</div>
                 <span className={styles.name}>{dictionnary?.files || 'Files'}</span>
             </div>
         </div>
@@ -54,9 +57,11 @@ export interface IEntityDatasetProps {
         participants?: string;
         files?: string;
     };
+    containerClassName?: string;
 }
 
 const EntityDataset = ({
+    containerClassName,
     descriptions,
     dictionnary,
     file_count,
@@ -67,7 +72,7 @@ const EntityDataset = ({
     title,
     titleExtra,
 }: IEntityDatasetProps): React.ReactElement => (
-    <div className={styles.container} id={id}>
+    <div className={cx(styles.container, containerClassName)} id={id}>
         {title && (
             <Title className={styles.title} level={4}>
                 {title}
