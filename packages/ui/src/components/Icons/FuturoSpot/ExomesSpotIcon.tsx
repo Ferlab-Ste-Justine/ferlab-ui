@@ -8,152 +8,152 @@ import style from './icon.module.scss';
 const ExomesSpotIcon = ({ className = '', height = 48, spotClassName = '', width = 48 }: IIconProps): JSX.Element => (
     <svg
         className={cx(style.iconColor, className)}
-        width={width}
+        fill="none"
         height={height}
         viewBox="0 0 48 48"
-        fill="none"
+        width={width}
         xmlns="http://www.w3.org/2000/svg"
     >
         <g id="exomes">
             <path
                 className={cx(style.spotColor, spotClassName)}
-                id="spot"
                 d="M48 32.25C48 40.9478 40.9492 48 32.25 48C23.5508 48 16.5 40.9478 16.5 32.25C16.5 23.547 23.5508 16.5 32.25 16.5C40.9492 16.5 48 23.547 48 32.25Z"
                 fill="currentColor"
+                id="spot"
             />
             <g id="Group">
                 <path
-                    id="Vector"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M24 1.5C11.5735 1.5 1.5 11.5735 1.5 24C1.5 29.4312 3.42366 34.4127 6.62753 38.3003L5.46997 39.2542C2.05284 35.1078 0 29.7918 0 24C0 10.745 10.745 0 24 0C37.255 0 48 10.745 48 24H46.5C46.5 11.5735 36.4265 1.5 24 1.5Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector"
                 />
                 <path
-                    id="Vector_2"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M9.69099 41.3643C13.58 44.5732 18.5644 46.4998 23.9999 46.4998V47.9998C18.2034 47.9998 12.8843 45.9438 8.73633 42.5212L9.69099 41.3643Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_2"
                 />
                 <path
-                    id="Vector_3"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M24.0002 43.4998C28.6245 43.4998 32.8715 41.8905 36.2142 39.2021L37.1542 40.371C33.5549 43.2657 28.9788 44.9998 24.0002 44.9998C20.0153 44.9998 16.2871 43.8891 13.1123 41.9606L13.8911 40.6786C16.8378 42.4686 20.2976 43.4998 24.0002 43.4998Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_3"
                 />
                 <path
-                    id="Vector_4"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M43.5001 23.9998C43.5001 21.4469 43.0096 19.0113 42.1194 16.7775L43.5128 16.2222C44.4721 18.6293 45.0001 21.2532 45.0001 23.9998C45.0001 28.9575 43.2808 33.5156 40.4079 37.1087L39.2363 36.172C41.9044 32.835 43.5001 28.6047 43.5001 23.9998Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_4"
                 />
                 <path
-                    id="Vector_5"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M36.276 8.84819C32.924 6.12889 28.6533 4.5 24 4.5V3C29.0097 3 33.6115 4.75511 37.221 7.68331L36.276 8.84819Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_5"
                 />
                 <path
-                    id="Vector_6"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M4.5 24C4.5 27.7048 5.53201 31.1661 7.32413 34.1142L6.04237 34.8933C4.11149 31.7169 3 27.9872 3 24H4.5Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_6"
                 />
                 <path
-                    id="Vector_7"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M24 7.5C21.5754 7.5 19.2746 8.02307 17.2021 8.96036L16.584 7.59364C18.8465 6.57043 21.3576 6 24 6C33.9415 6 42 14.0585 42 24C42 26.9179 41.3044 29.6773 40.0706 32.1167L38.732 31.4397C39.8622 29.2052 40.5 26.6771 40.5 24C40.5 14.887 33.1131 7.5 24 7.5Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_7"
                 />
                 <path
-                    id="Vector_8"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M9.63446 15.8774C8.27551 18.2748 7.5 21.0457 7.5 23.9998C7.5 33.1128 14.887 40.4998 24 40.4998C26.6975 40.4998 29.2412 39.854 31.4871 38.7089L32.1684 40.0452C29.7163 41.2956 26.9395 41.9998 24 41.9998C14.0585 41.9998 6 33.9413 6 23.9998C6 20.7799 6.84599 17.7548 8.32954 15.1377L9.63446 15.8774Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_8"
                 />
                 <path
-                    id="Vector_9"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M24.0003 10.5C21.2033 10.5 18.6068 11.3496 16.4529 12.8045L15.6133 11.5615C18.0074 9.94436 20.8949 9 24.0003 9C30.1602 9 35.4512 12.7126 37.7606 18.0203L36.3851 18.6187C34.3054 13.8389 29.542 10.5 24.0003 10.5Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_9"
                 />
                 <path
-                    id="Vector_10"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M13.3774 15.6671C11.5746 17.963 10.5 20.8544 10.5 23.9999C10.5 25.4927 10.7417 26.9262 11.1876 28.2661L9.76437 28.7397C9.26828 27.2491 9 25.6556 9 23.9999C9 20.5064 10.1949 17.2913 12.1976 14.7407L13.3774 15.6671Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_10"
                 />
                 <path
-                    id="Vector_11"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M24 37.4998C29.6993 37.4998 34.5766 33.9661 36.5567 28.9683L37.9513 29.5208C35.7524 35.0709 30.3352 38.9998 24 38.9998V37.4998Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_11"
                 />
                 <path
-                    id="Vector_12"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M13.5 24C13.5 29.7988 18.2012 34.5 24 34.5C29.0825 34.5 33.3233 30.8885 34.2921 26.0896L35.7624 26.3864C34.6552 31.8715 29.8105 36 24 36C17.3728 36 12 30.6272 12 24H13.5Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_12"
                 />
                 <path
-                    id="Vector_13"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M34.2865 21.8831C33.3072 17.0989 29.0727 13.5 24 13.5V12C29.7993 12 34.6368 16.1141 35.756 21.5824L34.2865 21.8831Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_13"
                 />
                 <path
-                    id="Vector_14"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M24 19.5C21.5147 19.5 19.5 21.5147 19.5 24C19.5 26.4853 21.5147 28.5 24 28.5C26.4853 28.5 28.5 26.4853 28.5 24C28.5 21.5147 26.4853 19.5 24 19.5ZM18 24C18 20.6863 20.6863 18 24 18C27.3137 18 30 20.6863 30 24C30 27.3137 27.3137 30 24 30C20.6863 30 18 27.3137 18 24Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_14"
                 />
                 <path
-                    id="Vector_15"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M7.5 39C6.67157 39 6 39.6716 6 40.5C6 41.3284 6.67157 42 7.5 42C8.32843 42 9 41.3284 9 40.5C9 39.6716 8.32843 39 7.5 39ZM4.5 40.5C4.5 38.8431 5.84315 37.5 7.5 37.5C9.15685 37.5 10.5 38.8431 10.5 40.5C10.5 42.1569 9.15685 43.5 7.5 43.5C5.84315 43.5 4.5 42.1569 4.5 40.5Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_15"
                 />
                 <path
-                    id="Vector_16"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M35.25 22.5C34.4216 22.5 33.75 23.1716 33.75 24C33.75 24.8284 34.4216 25.5 35.25 25.5C36.0784 25.5 36.75 24.8284 36.75 24C36.75 23.1716 36.0784 22.5 35.25 22.5ZM32.25 24C32.25 22.3431 33.5931 21 35.25 21C36.9069 21 38.25 22.3431 38.25 24C38.25 25.6569 36.9069 27 35.25 27C33.5931 27 32.25 25.6569 32.25 24Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_16"
                 />
                 <path
-                    id="Vector_17"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M38.25 36.75C37.4216 36.75 36.75 37.4216 36.75 38.25C36.75 39.0784 37.4216 39.75 38.25 39.75C39.0784 39.75 39.75 39.0784 39.75 38.25C39.75 37.4216 39.0784 36.75 38.25 36.75ZM35.25 38.25C35.25 36.5931 36.5931 35.25 38.25 35.25C39.9069 35.25 41.25 36.5931 41.25 38.25C41.25 39.9069 39.9069 41.25 38.25 41.25C36.5931 41.25 35.25 39.9069 35.25 38.25Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_17"
                 />
                 <path
-                    id="Vector_18"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M14.25 12C13.4216 12 12.75 12.6716 12.75 13.5C12.75 14.3284 13.4216 15 14.25 15C15.0784 15 15.75 14.3284 15.75 13.5C15.75 12.6716 15.0784 12 14.25 12ZM11.25 13.5C11.25 11.8431 12.5931 10.5 14.25 10.5C15.9069 10.5 17.25 11.8431 17.25 13.5C17.25 15.1569 15.9069 16.5 14.25 16.5C12.5931 16.5 11.25 15.1569 11.25 13.5Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_18"
                 />
                 <path
-                    id="Vector_19"
-                    fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M22.5 24C22.5 23.1716 23.1716 22.5 24 22.5C24.8284 22.5 25.5 23.1716 25.5 24C25.5 24.8284 24.8284 25.5 24 25.5C23.1716 25.5 22.5 24.8284 22.5 24Z"
                     fill="currentColor"
+                    fill-rule="evenodd"
+                    id="Vector_19"
                 />
             </g>
         </g>
