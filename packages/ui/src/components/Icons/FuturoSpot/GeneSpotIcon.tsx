@@ -7,7 +7,7 @@ import style from './icon.module.scss';
 
 const GeneSpotIcon = ({ className = '', height = 48, spotClassName = '', width = 48 }: IIconProps): JSX.Element => (
     <svg
-        className={className}
+        className={cx(style.iconColor, className)}
         width={width}
         height={height}
         viewBox="0 0 48 48"

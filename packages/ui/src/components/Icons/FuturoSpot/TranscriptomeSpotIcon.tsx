@@ -12,7 +12,7 @@ const TranscriptomeSpotIcon = ({
     width = 48,
 }: IIconProps): JSX.Element => (
     <svg
-        className={className}
+        className={cx(style.iconColor, className)}
         width={width}
         height={height}
         viewBox="0 0 48 48"
