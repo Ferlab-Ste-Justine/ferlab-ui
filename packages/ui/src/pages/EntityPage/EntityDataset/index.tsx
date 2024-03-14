@@ -1,5 +1,4 @@
 import React from 'react';
-import { FileTextOutlined, UserOutlined } from '@ant-design/icons';
 import { Card, Descriptions, Typography } from 'antd';
 import cx from 'classnames';
 
