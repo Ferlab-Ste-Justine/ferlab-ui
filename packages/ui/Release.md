@@ -1,3 +1,6 @@
+### 9.8.0 2024-03-15
+- feat: FLUI-127 Add Statistic component
+
 ### 9.7.1 2024-03-13
 - fix: SJIP-712 Update CountCard style
 
