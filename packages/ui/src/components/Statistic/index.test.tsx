@@ -1,9 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import Statistic from '.';
-import FamilyIcon from '../Icons/Futuro/FamilyIcon';
 import { TABLE_EMPTY_PLACE_HOLDER } from '../../common/constants';
+import FamilyIcon from '../Icons/Futuro/FamilyIcon';
+
+import Statistic from '.';
 
 describe('Statistic', () => {
     it('should render statistic', () => {
