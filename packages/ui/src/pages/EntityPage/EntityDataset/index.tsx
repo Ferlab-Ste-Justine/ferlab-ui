@@ -6,7 +6,7 @@ import { TABLE_EMPTY_PLACE_HOLDER } from '../../../common/constants';
 import Collapse, { CollapsePanel } from '../../../components/Collapse';
 import FamilyIcon from '../../../components/Icons/Futuro/FamilyIcon';
 import FileIcon from '../../../components/Icons/Futuro/FileIcon';
-import { numberFormat } from '../../../utils/numberUtils';
+import Statistic from '../../../components/Statistic';
 import { IEntityDescriptionsItem } from '../EntityDescriptions';
 
 import styles from './index.module.scss';
@@ -25,20 +25,14 @@ interface ICountCardProps {
 const CountCard = ({ dictionnary, file_count = 0, participant_count = 0 }: ICountCardProps) => (
     <Card className={styles.countCardContainer}>
         <div className={styles.rowCountCard}>
-            <FamilyIcon />
-            <div>
-                <div className={styles.count}>
-                    {participant_count ? numberFormat(participant_count) : TABLE_EMPTY_PLACE_HOLDER}
-                </div>
-                <span className={styles.name}>{dictionnary?.participants || 'Participants'}</span>
-            </div>
+            <Statistic
+                count={participant_count}
+                icon={<FamilyIcon />}
+                label={dictionnary?.participants || 'Participants'}
+            />
         </div>
         <div className={styles.rowCountCard}>
-            <FileIcon />
-            <div>
-                <div className={styles.count}>{file_count ? numberFormat(file_count) : TABLE_EMPTY_PLACE_HOLDER}</div>
-                <span className={styles.name}>{dictionnary?.files || 'Files'}</span>
-            </div>
+            <Statistic count={file_count} icon={<FileIcon />} label={dictionnary?.files || 'Files'} />
         </div>
     </Card>
 );
