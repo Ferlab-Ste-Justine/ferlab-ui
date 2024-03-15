@@ -46,11 +46,11 @@ import SampleSpotIcon from '@ferlab/ui/core/components/Icons/FuturoSpot/SampleSp
 import StudySpotIcon from '@ferlab/ui/core/components/Icons/FuturoSpot/StudySpotIcon';
 import TranscriptomeSpotIcon from '@ferlab/ui/core/components/Icons/FuturoSpot/TranscriptomeSpotIcon';
 import WebsiteSpotIcon from '@ferlab/ui/core/components/Icons/FuturoSpot/WebsiteSpotIcon';
-import Statistic from '@ferlab/ui/core/components/Statistic';
+import StatisticIcon from '@ferlab/ui/core/components/StatisticIcon';
 
 export default {
-    title: '@ferlab/Components/Statistic',
-    component: Statistic,
+    title: '@ferlab/Components/StatisticIcon',
+    component: StatisticIcon,
     decorators: [
         (Story) => (
             <>
@@ -71,64 +71,64 @@ export default {
     },
 } as Meta;
 
-export const StatisticStory = () => (
+export const StatisticIconStory = () => (
     <>
-        <h3>Statistic</h3>
+        <h3>StatisticIcon</h3>
         <div style={{ display: 'grid', gap: '24px', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr' }}>
-            <Statistic count={23} icon={<AnalyseIcon />} label="Analyses" />
-            <Statistic count={35} icon={<BiospecimenIcon />} label="Biospecimens" />
-            <Statistic count={126} icon={<ChemistryIcon />} label="Chemistries" />
-            <Statistic count={234} icon={<CloudArchitectureIcon />} label="Archis" />
-            <Statistic count={345} icon={<CloudComputingIcon />} label="Computing" />
-            <Statistic count={456} icon={<CloudDatabaseIcon />} label="Database" />
-            <Statistic count={567} icon={<CloudFileAccessIcon />} label="File Access" />
-            <Statistic count={678} icon={<CloudReportingIcon />} label="Reporting" />
-            <Statistic count={789} icon={<CloudSearchIcon />} label="Search" />
-            <Statistic count={890} icon={<CloudSecurityIcon />} label="Security" />
-            <Statistic count={901} icon={<ExomesIcon />} label="Exomes" />
-            <Statistic count={519} icon={<FamilyIcon />} label="Families" />
-            <Statistic count={620} icon={<FileIcon />} label="Files" />
-            <Statistic count={721} icon={<FileSearchIcon />} label="Files Search" />
-            <Statistic count={822} icon={<GeneIcon />} label="Genes" />
-            <Statistic count={923} icon={<InformationIcon />} label="Infos" />
-            <Statistic count={24} icon={<MetabolomeIcon />} label="Metabolomes" />
-            <Statistic count={125} icon={<ParticipantIcon />} label="Participants" />
-            <Statistic count={226} icon={<ProteomeIcon />} label="Proteomes" />
-            <Statistic count={327} icon={<SampleIcon />} label="Samples" />
-            <Statistic count={428} icon={<StudyIcon />} label="Studies" />
-            <Statistic count={529} icon={<TranscriptomeIcon />} label="Transcriptomes" />
-            <Statistic count={630} icon={<WebsiteIcon />} label="Websites" />
+            <StatisticIcon count={23} icon={<AnalyseIcon />} label="Analyses" />
+            <StatisticIcon count={35} icon={<BiospecimenIcon />} label="Biospecimens" />
+            <StatisticIcon count={126} icon={<ChemistryIcon />} label="Chemistries" />
+            <StatisticIcon count={234} icon={<CloudArchitectureIcon />} label="Archis" />
+            <StatisticIcon count={345} icon={<CloudComputingIcon />} label="Computing" />
+            <StatisticIcon count={456} icon={<CloudDatabaseIcon />} label="Database" />
+            <StatisticIcon count={567} icon={<CloudFileAccessIcon />} label="File Access" />
+            <StatisticIcon count={678} icon={<CloudReportingIcon />} label="Reporting" />
+            <StatisticIcon count={789} icon={<CloudSearchIcon />} label="Search" />
+            <StatisticIcon count={890} icon={<CloudSecurityIcon />} label="Security" />
+            <StatisticIcon count={901} icon={<ExomesIcon />} label="Exomes" />
+            <StatisticIcon count={519} icon={<FamilyIcon />} label="Families" />
+            <StatisticIcon count={620} icon={<FileIcon />} label="Files" />
+            <StatisticIcon count={721} icon={<FileSearchIcon />} label="Files Search" />
+            <StatisticIcon count={822} icon={<GeneIcon />} label="Genes" />
+            <StatisticIcon count={923} icon={<InformationIcon />} label="Infos" />
+            <StatisticIcon count={24} icon={<MetabolomeIcon />} label="Metabolomes" />
+            <StatisticIcon count={125} icon={<ParticipantIcon />} label="Participants" />
+            <StatisticIcon count={226} icon={<ProteomeIcon />} label="Proteomes" />
+            <StatisticIcon count={327} icon={<SampleIcon />} label="Samples" />
+            <StatisticIcon count={428} icon={<StudyIcon />} label="Studies" />
+            <StatisticIcon count={529} icon={<TranscriptomeIcon />} label="Transcriptomes" />
+            <StatisticIcon count={630} icon={<WebsiteIcon />} label="Websites" />
         </div>
     </>
 );
 
-export const StatisticWithoutCountStory = () => (
+export const StatisticIconWithoutCountStory = () => (
     <>
-        <h3>Statistic without count</h3>
+        <h3>StatisticIcon without count</h3>
         <div style={{ display: 'grid', gap: '24px', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr' }}>
-            <Statistic icon={<AnalyseSpotIcon />} label="Analyses" />
-            <Statistic icon={<BiospecimenSpotIcon />} label="Biospecimens" />
-            <Statistic icon={<ChemistrySpotIcon />} label="Chemistries" />
-            <Statistic icon={<CloudArchitectureSpotIcon />} label="Archis" />
-            <Statistic icon={<CloudComputingSpotIcon />} label="Computing" />
-            <Statistic icon={<CloudDatabaseSpotIcon />} label="Databases" />
-            <Statistic icon={<CloudFileAccessSpotIcon />} label="File Access" />
-            <Statistic icon={<CloudReportingSpotIcon />} label="Reporting" />
-            <Statistic icon={<CloudSearchSpotIcon />} label="Search" />
-            <Statistic icon={<CloudSecuritySpotIcon />} label="Security" />
-            <Statistic icon={<ExomesSpotIcon />} label="Exomes" />
-            <Statistic icon={<FamilySpotIcon />} label="Families" />
-            <Statistic icon={<FileSpotIcon />} label="Files" />
-            <Statistic icon={<FileSearchSpotIcon />} label="Files Search" />
-            <Statistic icon={<GeneSpotIcon />} label="Genes" />
-            <Statistic icon={<InformationSpotIcon />} label="Infos" />
-            <Statistic icon={<MetabolomeSpotIcon />} label="Metabolomes" />
-            <Statistic icon={<ParticipantSpotIcon />} label="Participants" />
-            <Statistic icon={<ProteomeSpotIcon />} label="Proteomes" />
-            <Statistic icon={<SampleSpotIcon />} label="Samples" />
-            <Statistic icon={<StudySpotIcon />} label="Studies" />
-            <Statistic icon={<TranscriptomeSpotIcon />} label="Transcriptomes" />
-            <Statistic icon={<WebsiteSpotIcon />} label="Websites" />
+            <StatisticIcon icon={<AnalyseSpotIcon />} label="Analyses" />
+            <StatisticIcon icon={<BiospecimenSpotIcon />} label="Biospecimens" />
+            <StatisticIcon icon={<ChemistrySpotIcon />} label="Chemistries" />
+            <StatisticIcon icon={<CloudArchitectureSpotIcon />} label="Archis" />
+            <StatisticIcon icon={<CloudComputingSpotIcon />} label="Computing" />
+            <StatisticIcon icon={<CloudDatabaseSpotIcon />} label="Databases" />
+            <StatisticIcon icon={<CloudFileAccessSpotIcon />} label="File Access" />
+            <StatisticIcon icon={<CloudReportingSpotIcon />} label="Reporting" />
+            <StatisticIcon icon={<CloudSearchSpotIcon />} label="Search" />
+            <StatisticIcon icon={<CloudSecuritySpotIcon />} label="Security" />
+            <StatisticIcon icon={<ExomesSpotIcon />} label="Exomes" />
+            <StatisticIcon icon={<FamilySpotIcon />} label="Families" />
+            <StatisticIcon icon={<FileSpotIcon />} label="Files" />
+            <StatisticIcon icon={<FileSearchSpotIcon />} label="Files Search" />
+            <StatisticIcon icon={<GeneSpotIcon />} label="Genes" />
+            <StatisticIcon icon={<InformationSpotIcon />} label="Infos" />
+            <StatisticIcon icon={<MetabolomeSpotIcon />} label="Metabolomes" />
+            <StatisticIcon icon={<ParticipantSpotIcon />} label="Participants" />
+            <StatisticIcon icon={<ProteomeSpotIcon />} label="Proteomes" />
+            <StatisticIcon icon={<SampleSpotIcon />} label="Samples" />
+            <StatisticIcon icon={<StudySpotIcon />} label="Studies" />
+            <StatisticIcon icon={<TranscriptomeSpotIcon />} label="Transcriptomes" />
+            <StatisticIcon icon={<WebsiteSpotIcon />} label="Websites" />
         </div>
     </>
 );

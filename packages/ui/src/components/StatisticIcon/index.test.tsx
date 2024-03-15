@@ -4,17 +4,17 @@ import { render, screen } from '@testing-library/react';
 import { TABLE_EMPTY_PLACE_HOLDER } from '../../common/constants';
 import FamilyIcon from '../Icons/Futuro/FamilyIcon';
 
-import Statistic from '.';
+import StatisticIcon from '.';
 
-describe('Statistic', () => {
-    it('should render statistic', () => {
-        render(<Statistic count={23} icon={<FamilyIcon />} label="Families" />);
+describe('StatisticIcon', () => {
+    it('should render statistic icon', () => {
+        render(<StatisticIcon count={23} icon={<FamilyIcon />} label="Families" />);
         expect(screen.getByText('23')).toBeTruthy();
         expect(screen.getByText('Families')).toBeTruthy();
     });
 
     it('should render - when count is not filled', () => {
-        render(<Statistic icon={<FamilyIcon />} label="Families" />);
+        render(<StatisticIcon icon={<FamilyIcon />} label="Families" />);
         expect(screen.queryByText('23')).toBeFalsy();
         expect(screen.getByText(TABLE_EMPTY_PLACE_HOLDER)).toBeTruthy();
         expect(screen.getByText('Families')).toBeTruthy();

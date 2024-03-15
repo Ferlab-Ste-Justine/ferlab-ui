@@ -5,13 +5,13 @@ import { numberFormat } from '../../utils/numberUtils';
 
 import styles from './index.module.scss';
 
-export type TStatistic = {
+export type TStatisticIcon = {
     count?: number;
     icon: React.ReactNode;
     label: string;
 };
 
-export const Statistic = ({ count, icon, label }: TStatistic): ReactElement => (
+export const StatisticIcon = ({ count, icon, label }: TStatisticIcon): ReactElement => (
     <div className={styles.statisticWrapper}>
         {icon}
         <div>
@@ -21,4 +21,4 @@ export const Statistic = ({ count, icon, label }: TStatistic): ReactElement => (
     </div>
 );
 
-export default Statistic;
+export default StatisticIcon;
