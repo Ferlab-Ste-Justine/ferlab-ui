@@ -53,23 +53,6 @@
     }
 }
 
-.rowCountCard {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 0 0 24px 0;
-
-    .count {
-        font-weight: 600 !important;
-        font-size: 16px;
-        line-height: 24px;
-        color: $gray-8;
-    }
-
-    .name {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 22px;
-        color: $gray-8;
-    }
+.rowCountCard:not(:last-child) {
+    padding-bottom: 24px;
 }
