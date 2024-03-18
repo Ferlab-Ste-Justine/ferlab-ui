@@ -83,6 +83,7 @@
     }
 
     :global(.ant-descriptions-item-label::after) {
+        color: $gray-7;
         margin: 0 8px 0 0;
     }
 
@@ -100,10 +101,6 @@
 
 .detailsItem:not(:last-child) {
     margin-bottom: 12px;
-}
-
-.ant-descriptions-item-label::after {
-    margin: 0 8px 0 0;
 }
 
 @media (max-width: 1024px) {

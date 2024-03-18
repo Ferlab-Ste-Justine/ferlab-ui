@@ -1,3 +1,6 @@
+### 9.8.1 2024-03-18
+- fix: SKFP-900 Descriptions style
+
 ### 9.8.0 2024-03-15
 - feat: FLUI-127 Add Statistic component
 
