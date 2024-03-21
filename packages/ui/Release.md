@@ -1,3 +1,6 @@
+### 9.9.1 2024-03-21
+- fix: SJIP-711 Fix Entity Statistic style
+
 ### 9.9.0 2024-03-20
 - feat: SJIP-711 Add Entity Statistics Component
 
