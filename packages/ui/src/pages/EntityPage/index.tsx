@@ -9,6 +9,7 @@ import EntityDescriptions, { IEntityDescriptions, IEntityDescriptionsItem } from
 import EntityExpandableTableMultiple from './EntityExpandableTableMultiple';
 import EntityGeneConsequences from './EntityGeneConsequence';
 import EntityPublicCohortTable from './EntityPublicCohortTable';
+import EntityStatistics from './EntityStatistics';
 import EntitySummary from './EntitySummary';
 import EntityTable, { IEntityTable } from './EntityTable';
 import EntityTableMultiple, { IEntityTableMultiple } from './EntityTableMultiple';
@@ -24,6 +25,7 @@ export {
     EntityGeneConsequences,
     EntityGeneConsequenceSubtitle,
     EntityPublicCohortTable,
+    EntityStatistics,
     EntitySummary,
     EntityTable,
     EntityTableMultiple,

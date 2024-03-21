@@ -51,10 +51,11 @@ export type TSerializedResizableGridLayoutConfig = Omit<IResizableGridLayoutConf
 
 interface IResizableGridLayout extends Omit<ResponsiveProps, 'layouts'> {
     uid: string;
-    onConfigUpdate: (layouts: TSerializedResizableGridLayoutConfig[]) => void;
+    onConfigUpdate?: (layouts: TSerializedResizableGridLayoutConfig[]) => void;
     defaultLayouts: IResizableGridLayoutConfig[];
     layouts?: TSerializedResizableGridLayoutConfig[];
-    onReset: (layouts: TSerializedResizableGridLayoutConfig[]) => void;
+    onReset?: (layouts: TSerializedResizableGridLayoutConfig[]) => void;
+    displayGridSettings?: boolean;
     dictionary?: {
         columnSelector?: {
             reset?: string;
@@ -289,54 +290,61 @@ export const generateOptionalBaseConfig = (base: ILayoutItemConfig): TOptionalBa
     return optionalBaseValues;
 };
 
-const arePropsEqual = (oldProps: IResizableGridLayout, newProps: IResizableGridLayout) =>
-    JSON.stringify(oldProps.layouts) === JSON.stringify(newProps.layouts);
-
-const ResizableGridLayout = memo(function ResizableGridLayout({
+const ResizableGridLayout = ({
     defaultLayouts,
     dictionary,
+    displayGridSettings = true,
     layouts,
     onConfigUpdate,
     onReset,
     uid,
     ...props
-}: IResizableGridLayout) {
+}: IResizableGridLayout): JSX.Element => {
     const size = useElementSize('resizable-grid-container');
     const [currentBreakpoint, setCurrentBreakpoint] = useState<string | undefined>(undefined);
     const configs = deserialize(defaultLayouts, layouts);
     const responsiveDefaultLayouts = serializeConfigToLayouts(configs);
-    // React-grid-layout lifecycle is pretty tricky
-    // It will trigger onLayoutChange before updating the breakpoint
-    // Result in data of md are sending to lg. Thas why this flag is needed
     const resizableItemsList = configs.map(({ hidden, id, title }) => ({
         id,
         label: title,
         value: hidden === undefined ? true : !hidden,
     }));
     const handleUpdate = (layouts: Layout[]) => {
-        const serializedLayouts = serializeLayoutsToConfig(layouts, configs, currentBreakpoint as Breakpoint);
-        onConfigUpdate(serializedLayouts);
+        if (onConfigUpdate) {
+            const serializedLayouts = serializeLayoutsToConfig(layouts, configs, currentBreakpoint as Breakpoint);
+            onConfigUpdate(serializedLayouts);
+        }
     };
 
     return (
         <Space className={styles.wrapper} direction="vertical" id="resizable-grid-container">
-            <div className={styles.graphSelector}>
-                <ResizableItemSelector
-                    dictionary={dictionary}
-                    isPristine={isPrisitine(defaultLayouts, configs)}
-                    items={resizableItemsList}
-                    onChange={(targetId, checked) => {
-                        onConfigUpdate(serialize(updateConfig(configs, targetId, 'hidden', !checked)));
-                    }}
-                    onReset={() => onReset(serialize(defaultLayouts))}
-                />
-            </div>
+            {displayGridSettings && (
+                <div className={styles.graphSelector}>
+                    <ResizableItemSelector
+                        dictionary={dictionary}
+                        isPristine={isPrisitine(defaultLayouts, configs)}
+                        items={resizableItemsList}
+                        onChange={(targetId, checked) => {
+                            if (onConfigUpdate) {
+                                onConfigUpdate(serialize(updateConfig(configs, targetId, 'hidden', !checked)));
+                            }
+                        }}
+                        onReset={() => {
+                            if (onReset) {
+                                onReset(serialize(defaultLayouts));
+                            }
+                        }}
+                    />
+                </div>
+            )}
 
             <ResizableGridLayoutContext.Provider
                 value={{
                     [uid]: {
                         onCardRemoveConfigUpdate: (targetId: string) => {
-                            onConfigUpdate(serialize(updateConfig(configs, targetId, 'hidden', true)));
+                            if (onConfigUpdate) {
+                                onConfigUpdate(serialize(updateConfig(configs, targetId, 'hidden', true)));
+                            }
                         },
                     },
                 }}
@@ -384,7 +392,6 @@ const ResizableGridLayout = memo(function ResizableGridLayout({
             </ResizableGridLayoutContext.Provider>
         </Space>
     );
-},
-arePropsEqual);
+};
 
 export default ResizableGridLayout;

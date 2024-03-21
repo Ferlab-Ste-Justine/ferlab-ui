@@ -27,3 +27,6 @@ export const toKebabCase = (str: string): string => {
     const match: string[] = (str && str.match(KEBAB_REGEX)) || [];
     return match.map((x: string) => x.toLowerCase()).join('-');
 };
+
+export const truncateString = (text: string, maxLength: number) =>
+    `${text.substring(0, maxLength)}${text.length > maxLength ? '...' : ''}`;

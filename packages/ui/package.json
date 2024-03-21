@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "9.8.1",
+    "version": "9.9.0",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -68,7 +68,7 @@
         "prettier": "^2.2.1",
         "sass": "^1.26.12",
         "sass-loader": "^10.5.0",
-        "ts-jest": "^29.0.3",
+        "ts-jest": "^29.1.2",
         "ts-loader": "^9.5.1",
         "ts-node": "^10.9.1",
         "tsconfig-paths-webpack-plugin": "^4.1.0",
