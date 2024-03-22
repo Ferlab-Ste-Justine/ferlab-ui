@@ -1,3 +1,6 @@
+### 9.9.2 2024-03-22
+- fix: FLUI-128 Fix expandablecell style
+
 ### 9.9.1 2024-03-21
 - fix: SJIP-711 Fix Entity Statistic style
 
