@@ -1,3 +1,6 @@
+### 9.9.3 2024-03-26
+- fix: SKFP-964 fix authorized studies title
+
 ### 9.9.2 2024-03-22
 - fix: FLUI-128 Fix expandablecell style
 
