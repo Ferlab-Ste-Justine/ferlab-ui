@@ -34,3 +34,9 @@
         width: 50%;
     }
 }
+
+// Removes double title on safari
+.title::after {
+    content: '';
+    display: block;
+}
