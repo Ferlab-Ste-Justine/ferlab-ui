@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { Space, Tooltip } from 'antd';
 
 import ColorTag, { ColorTagType } from '../../../components/ColorTag';
+import { titleCase } from '../../../utils/stringUtils';
 import { SingleValuedInheritance } from '../type';
 
 type GeneticTypes = {
@@ -38,7 +39,7 @@ const InheritanceTag = ({ inheritances }: OwnProps): ReactElement | null => {
             <Space direction="horizontal">
                 {inheritances.map((inheritance: string, index: number) =>
                     inheritance ? (
-                        <Tooltip title={inheritance}>
+                        <Tooltip title={titleCase(inheritance)}>
                             <div>
                                 <ColorTag key={index} type={ColorTagType.Other}>
                                     {geneticTypes[inheritance.toLowerCase()]}

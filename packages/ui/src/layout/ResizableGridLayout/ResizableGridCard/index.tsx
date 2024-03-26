@@ -35,7 +35,7 @@ type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
     gridUID: string;
     headerTitle: string;
     dictionary?: TDictionary;
-    modalContent: React.ReactNode;
+    modalContent?: React.ReactNode;
     modalSettings?: {
         width: number;
         height: number;
@@ -45,8 +45,10 @@ type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
         contentMap?: string[];
         data: any[];
     };
+    closeHandle?: boolean;
     downloadSettings?: TDownloadSettings;
     onRemoveClick?: () => void;
+    titleTruncateThresholdWidth?: number;
     /**
      * This will affect whether or not the handle is shown.
      */
@@ -120,6 +122,7 @@ const populateMenuItems = (settings: TDownloadSettings, dictionary?: TDictionary
 };
 
 const ResizableGridCard = ({
+    closeHandle = true,
     dictionary,
     downloadSettings = { png: true, svg: true, tsv: true },
     gridUID,
@@ -127,6 +130,7 @@ const ResizableGridCard = ({
     id,
     modalContent,
     modalSettings = { height: 600, width: 800 },
+    titleTruncateThresholdWidth = CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH,
     tsvSettings,
     withHandle = true,
     ...rest
@@ -140,23 +144,28 @@ const ResizableGridCard = ({
     const fileNameTemplate = dictionary?.download?.fileNameTemplate ?? DEFAULT_FILENAME_TEMPLATE;
     const fileNameDateFormat = dictionary?.download?.fileNameDateFormat ?? DEFAULT_FILENAME_DATE_FORMAT;
     const menuItems = populateMenuItems(downloadSettings, dictionary);
-    const extra = [
-        <Tooltip key="remove-button-tooltips" title={`${dictionary?.download?.removeChart ?? 'Remove chart'}`}>
-            <Button
-                className={styles.button}
-                icon={<CloseOutlined height={11} width={11} />}
-                key="remove-button"
-                onClick={(e) => {
-                    e.preventDefault();
-                    if (id) {
-                        context[gridUID].onCardRemoveConfigUpdate(id);
-                    }
-                }}
-                size="small"
-                type="text"
-            />
-        </Tooltip>,
-    ];
+
+    const extra = [];
+
+    if (closeHandle) {
+        extra.push(
+            <Tooltip key="remove-button-tooltips" title={`${dictionary?.download?.removeChart ?? 'Remove chart'}`}>
+                <Button
+                    className={styles.button}
+                    icon={<CloseOutlined height={11} width={11} />}
+                    key="remove-button"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        if (id) {
+                            context[gridUID].onCardRemoveConfigUpdate(id);
+                        }
+                    }}
+                    size="small"
+                    type="text"
+                />
+            </Tooltip>,
+        );
+    }
 
     if (menuItems.length > 0) {
         extra.push(
@@ -233,21 +242,23 @@ const ResizableGridCard = ({
 
     return (
         <>
-            <Modal
-                confirmLoading={hasStartedDownload}
-                okText={dictionary?.download?.download ?? 'Download'}
-                onCancel={() => setIsModalVisible(false)}
-                onOk={() => {
-                    setHasStartedDownload(true);
-                }}
-                open={isModalVisible}
-                title={`${dictionary?.download?.preview ?? 'Download preview - '}${headerTitle}.${action}`}
-                width={modalSettings.width}
-            >
-                <div className={styles.modalContentWrapper} id={graphId} style={{ height: modalSettings.height }}>
-                    {modalContent}
-                </div>
-            </Modal>
+            {modalContent && (
+                <Modal
+                    confirmLoading={hasStartedDownload}
+                    okText={dictionary?.download?.download ?? 'Download'}
+                    onCancel={() => setIsModalVisible(false)}
+                    onOk={() => {
+                        setHasStartedDownload(true);
+                    }}
+                    open={isModalVisible}
+                    title={`${dictionary?.download?.preview ?? 'Download preview - '}${headerTitle}.${action}`}
+                    width={modalSettings.width}
+                >
+                    <div className={styles.modalContentWrapper} id={graphId} style={{ height: modalSettings.height }}>
+                        {modalContent}
+                    </div>
+                </Modal>
+            )}
             <GridCard
                 contentClassName={styles.resizableCard}
                 loadingType="spinner"
@@ -260,7 +271,7 @@ const ResizableGridCard = ({
                         id={headerTitle}
                         key={toKebabCase(headerTitle)}
                         title={headerTitle}
-                        titleTruncateThresholdWidth={CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH}
+                        titleTruncateThresholdWidth={titleTruncateThresholdWidth}
                         withHandle={withHandle}
                     />
                 }

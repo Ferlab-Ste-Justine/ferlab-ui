@@ -11,6 +11,10 @@
     border: 1px solid;
     border-radius: 2px;
     border-color: $gray-4;
+
+    :global(.ant-card-body) {
+        padding: 16px;
+    }
 }
 
 .space {
@@ -79,6 +83,7 @@
     }
 
     :global(.ant-descriptions-item-label::after) {
+        color: $gray-7;
         margin: 0 8px 0 0;
     }
 
@@ -88,22 +93,14 @@
 }
 
 .detailsTitle {
-    color: $gray-9;
     font-size: 14px;
     font-weight: 600;
     line-height: 22px;
     margin-bottom: 8px;
 }
 
-.detailsItemLabel {
-    color: $gray-7;
-}
-.ant-descriptions-item-label::after {
-    margin: 0 8px 0 0;
-}
-
-.detailsItemValue {
-    color: $gray-8;
+.detailsItem:not(:last-child) {
+    margin-bottom: 12px;
 }
 
 @media (max-width: 1024px) {

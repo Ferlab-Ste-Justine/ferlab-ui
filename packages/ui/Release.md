@@ -1,3 +1,46 @@
+### 9.9.2 2024-03-22
+- fix: FLUI-128 Fix expandablecell style
+
+### 9.9.1 2024-03-21
+- fix: SJIP-711 Fix Entity Statistic style
+
+### 9.9.0 2024-03-20
+- feat: SJIP-711 Add Entity Statistics Component
+
+### 9.8.1 2024-03-18
+- fix: SKFP-900 Descriptions style
+
+### 9.8.0 2024-03-15
+- feat: FLUI-127 Add Statistic component
+
+### 9.7.1 2024-03-13
+- fix: SJIP-712 Update CountCard style
+
+### 9.7.0 2024-03-13
+- feat: FLUI-126 Add Futuro icons
+- feat: SJIP-712 Update CountCard style
+
+### 9.6.8 2024-03-11
+- fix: SKFP-900 update entity summary variant style
+
+### 9.6.7 2024-03-07
+- fix: SKFP-904 change tooltip casing
+
+### 9.6.6 2024-03-06
+- fix: SJIP-710 manage no data in Entity Description
+
+### 9.6.5 2024-03-06
+- fix: SKFP-924 fix authorized studies widget title
+
+### 9.6.4 2024-03-05
+- fix: SKFP-900 style fix
+
+### 9.6.3 2024-03-05
+- fix: SKFP-900 variant summary fixes
+
+### 9.6.2 2024-03-05
+- fix: CLIN-2300 disable download button and export tsv button when total is 0
+
 ### 9.6.1 2024-03-01
 - fix: SKFP-964 Various visual bugs on Authorized Studies Widget
 
@@ -33,10 +76,10 @@
 - fix: SKFP-895 fix cavatica error message
 
 ### 9.0.0 2024-02-09
-- fix: SKFP-924 fix link redirection with react-router v6 
+- fix: SKFP-924 fix link redirection with react-router v6
 
 ### 8.2.1 2024-02-02
-- fix: SJIP-680 fix config corrumption when resizing the browser 
+- fix: SJIP-680 fix config corrumption when resizing the browser
 
 ### 8.2.1 2024-02-01
 - fix: SKFP-934 fix ok button text on cavatica analyse modal
@@ -186,7 +229,7 @@
 - feat: CLIN-1767 add update query for filter by table
 
 ### 7.11.1 2023-07-10
-- fix: CLIN-1763 assignement style + functionality 
+- fix: CLIN-1763 assignement style + functionality
 - feat: SKFP-675 add truncable title on card header, fix resizable card tooltip
 
 ### 7.11.0 2023-07-06
@@ -215,7 +258,7 @@
 - fix: FLUI-74 remove preventUrlHash on anchor menu
 
 ### 7.9.8 2023-06-16
-- fix: FLUI-72 fixed breaking css change from antd update 
+- fix: FLUI-72 fixed breaking css change from antd update
 
 ### 7.9.7 2023-06-15
 - fix: FLUI-67 72 updates antd preventUrlHash default false AnchorMenu
@@ -225,13 +268,13 @@
 
 ### 7.9.3 2023-06-08
 - feat: CLIN-1991 move noDataInputOption for rangeFilter into config props
- 
+
 ### 7.9.0 2023-06-05
 - feat: FLUI-67 update antd@4.24.10
 
 ### 7.7.0 2023-06-05
 - feat: FLUI-65 add locale to numberFormat
- 
+
 ### 6.1.0 2023-04-19
 - feat: CQDG-215 create UserAvatar with auto color by user's name
 

@@ -1,9 +1,11 @@
 import React, { ReactNode } from 'react';
-import { Card, Descriptions, Space } from 'antd';
+import { Card, Descriptions, Space, Typography } from 'antd';
 
 import Empty from '../../../components/Empty';
 
 import style from './index.module.scss';
+
+const { Text } = Typography;
 
 export interface IDataItem {
     label: ReactNode;
@@ -11,7 +13,7 @@ export interface IDataItem {
 }
 
 export interface IDetailData {
-    title: string;
+    title: ReactNode;
     items: IDataItem[];
 }
 
@@ -33,7 +35,8 @@ export interface ISummaryProps {
 }
 
 export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummaryProps): JSX.Element => {
-    const detailsLeftSectionLength = data?.details.leftSection.items.length || 0;
+    let detailsLeftSectionLength = data?.details.leftSection.items.length || 0;
+    if (detailsLeftSectionLength % 2 != 0) detailsLeftSectionLength++;
     const detailsLeftSectionCol1 = data?.details.leftSection.items.slice(0, detailsLeftSectionLength / 2);
     const detailsLeftSectionCol2 = data?.details.leftSection.items.slice(
         detailsLeftSectionLength / 2,
@@ -49,7 +52,9 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                             <div className={style.bannerWrapper}>
                                 {data.banner.map((item: IDataItem, index: number) => (
                                     <Space direction="vertical" key={index} size={4}>
-                                        <div>{item.label}</div>
+                                        <div>
+                                            <Text type="secondary">{item.label}</Text>
+                                        </div>
                                         <div>{item.value}</div>
                                     </Space>
                                 ))}
@@ -73,9 +78,9 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                             {detailsLeftSectionCol1?.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
                                                     key={index}
-                                                    label={<span className={style.detailsItemLabel}>{item.label}</span>}
+                                                    label={<Text type="secondary">{item.label}</Text>}
                                                 >
-                                                    <span className={style.detailsItemValue}>{item.value}</span>
+                                                    {item.value}
                                                 </Descriptions.Item>
                                             ))}
                                         </Descriptions>
@@ -83,9 +88,9 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                             {detailsLeftSectionCol2?.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
                                                     key={index}
-                                                    label={<span className={style.detailsItemLabel}>{item.label}</span>}
+                                                    label={<Text type="secondary">{item.label}</Text>}
                                                 >
-                                                    <span className={style.detailsItemValue}>{item.value}</span>
+                                                    {item.value}
                                                 </Descriptions.Item>
                                             ))}
                                         </Descriptions>
@@ -94,6 +99,7 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                 <div className={style.geneSplice}>
                                     {data.details.middleSection.map((detail: IDetailData, index: number) => (
                                         <Descriptions
+                                            className={style.detailsItem}
                                             column={1}
                                             key={index}
                                             title={<span className={style.detailsTitle}>{detail.title}</span>}
@@ -101,7 +107,7 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                             {detail.items.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
                                                     key={index}
-                                                    label={<span className={style.detailsItemLabel}>{item.label}</span>}
+                                                    label={<span>{<Text type="secondary">{item.label}</Text>}</span>}
                                                 >
                                                     <span className={style.detailsItemValue}>{item.value}</span>
                                                 </Descriptions.Item>

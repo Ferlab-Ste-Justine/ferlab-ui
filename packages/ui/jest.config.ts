@@ -91,6 +91,7 @@ export default {
     moduleNameMapper: {
         '^.+\\.(css|less|scss)$': 'babel-jest',
         '^uuid$': require.resolve('uuid'),
+        nivo: require.resolve('@nivo/bar'),
     },
 
     // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader

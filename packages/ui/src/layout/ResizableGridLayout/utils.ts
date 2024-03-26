@@ -11,6 +11,13 @@ export const aggregationToChartData = (buckets: any[] = [], total?: number): any
         };
     });
 
+export const treeNodeToChartData = (buckets: any[] = []): any[] =>
+    buckets.map(({ exactTagCount, key, name }) => ({
+        id: key,
+        label: name,
+        value: exactTagCount,
+    }));
+
 export const observedPhenotypeDefaultGridConfig = {
     base: {
         h: 4,
