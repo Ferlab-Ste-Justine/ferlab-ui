@@ -1,3 +1,6 @@
+### 9.9.4 2024-04-2
+- fix: CQDG-662 force Entity Table not striped
+
 ### 9.9.3 2024-03-26
 - fix: SKFP-964 fix authorized studies title
 
