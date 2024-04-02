@@ -217,3 +217,18 @@ e.g.
     btnPrimaryColor: $btn-primary-color;
 }
 ```
+
+Link Issues:
+````
+In packages/ui:
+rm -rf core
+npm i
+npm run build
+npm remove --global @ferlab/ui
+npm link
+npm link ~/[project path]/nodes-module/react
+
+Then in local projet:
+npm unlink @ferlab/ui
+npm link @ferlab/ui
+npm start

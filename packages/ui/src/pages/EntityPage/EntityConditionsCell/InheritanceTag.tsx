@@ -39,11 +39,9 @@ const InheritanceTag = ({ inheritances }: OwnProps): ReactElement | null => {
             <Space direction="horizontal">
                 {inheritances.map((inheritance: string, index: number) =>
                     inheritance ? (
-                        <Tooltip title={titleCase(inheritance)}>
+                        <Tooltip key={`${inheritance}-${index}`} title={titleCase(inheritance)}>
                             <div>
-                                <ColorTag key={index} type={ColorTagType.Other}>
-                                    {geneticTypes[inheritance.toLowerCase()]}
-                                </ColorTag>
+                                <ColorTag type={ColorTagType.Other}>{geneticTypes[inheritance.toLowerCase()]}</ColorTag>
                             </div>
                         </Tooltip>
                     ) : undefined,
