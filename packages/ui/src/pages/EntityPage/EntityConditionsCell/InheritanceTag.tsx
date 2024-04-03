@@ -18,6 +18,7 @@ const geneticTypes: GeneticTypes = {
     mitochondrial: 'Mi',
     multifactorial: 'Mu',
     'no reported transmission': 'NRT',
+    'not applicable': 'NA',
     'somatic mosaicism': 'SMo',
     'somatic mutation': 'Smu',
     unknown: null,
