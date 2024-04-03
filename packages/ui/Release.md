@@ -1,3 +1,6 @@
+### 9.9.5 2024-04-3
+- fix: SJIP-711 fix entity statistic mondo and diagnoses graphs
+
 ### 9.9.4 2024-04-2
 - fix: CQDG-662 force Entity Table not striped
 
