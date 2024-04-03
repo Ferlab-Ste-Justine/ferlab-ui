@@ -1,3 +1,6 @@
+### 9.9.6 2024-04-3
+- fix: SJIP-756 fix typo in item count pro table
+
 ### 9.9.5 2024-04-3
 - fix: SJIP-711 fix entity statistic mondo and diagnoses graphs
 

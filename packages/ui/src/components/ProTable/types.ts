@@ -31,6 +31,7 @@ export interface IPaginationProps {
 export interface IProTableDictionary {
     itemCount?: {
         noResults: ReactNode;
+        result: ReactNode;
         results: ReactNode;
         of: ReactNode;
         selected: ReactNode;
