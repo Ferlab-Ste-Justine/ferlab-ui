@@ -1,3 +1,6 @@
+### 9.9.7 2024-04-3
+- fix: SKFP-1003 fix not applicable tag
+
 ### 9.9.6 2024-04-3
 - fix: SJIP-756 fix typo in item count pro table
 
