@@ -41,7 +41,10 @@ export const ItemsCount = ({
                         dictionnary.itemCount?.noResults || 'No Results'
                     ) : (
                         <span>
-                            <strong>{formatNumber()}</strong> {dictionnary.itemCount?.results || 'Results'}
+                            <strong>{formatNumber()}</strong>
+                            {total > 1
+                                ? ` ${dictionnary.itemCount?.results}` || ' Results'
+                                : ` ${dictionnary.itemCount?.result}` || ' Result'}
                         </span>
                     )}
                 </Typography.Text>
