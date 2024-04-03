@@ -205,7 +205,10 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                                 }}
                                 axisLeft={{
                                     format: (label: string) => {
-                                        const title = label.split('-').pop();
+                                        const title = label
+                                            .replace(/\(HP:\d+\)/g, '')
+                                            .split('-')
+                                            .pop();
                                         return truncateString(title ?? '', 15);
                                     },
                                     legend: dictionary.phenotype.legendAxisLeft,
@@ -264,7 +267,10 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                                 }}
                                 axisLeft={{
                                     format: (label: string) => {
-                                        const title = label.split('-').pop();
+                                        const title = label
+                                            .replace(/\(MONDO:\d+\)/g, '')
+                                            .split('-')
+                                            .pop();
                                         return truncateString(title ?? '', 15);
                                     },
                                     legend: dictionary.mondo.legendAxisLeft,
