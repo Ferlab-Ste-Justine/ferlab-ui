@@ -274,10 +274,12 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         >
             <TableHeader
                 className={tableHeaderClassName}
+                clearFilter={headerConfig.clearFilter}
                 dictionary={dictionary}
                 extra={getExtraConfig()}
                 extraCountInfo={headerConfig.extraCountInfo}
                 extraSpacing={headerConfig.extraSpacing}
+                hasFilter={headerConfig.hasFilter}
                 hideItemsCount={headerConfig.hideItemsCount}
                 onClearSelection={() => {
                     if (headerConfig.onClearSelection) {
@@ -296,8 +298,6 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                 selectedAllResults={selectedAllResults}
                 selectedRowCount={selectedAllResults ? getTotalResults() : selectedRowKeys.length}
                 total={headerConfig.itemCount?.total || 0}
-                hasFilter={headerConfig.hasFilter}
-                clearFilter={headerConfig.clearFilter}
             />
 
             {columnsState !== undefined && rightColumnsState !== undefined && (

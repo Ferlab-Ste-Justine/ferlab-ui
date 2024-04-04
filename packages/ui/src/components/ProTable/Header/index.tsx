@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
-import { Button, Divider, Space } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
+import { Button, Divider, Space } from 'antd';
 
 import { IProTableDictionary } from '../types';
 
@@ -77,10 +77,10 @@ const TableHeader = ({
             {hasFilter && clearFilter && (
                 <Button
                     className={styles.clearFilterLink}
+                    icon={<CloseOutlined />}
                     onClick={clearFilter}
                     size="small"
                     type="link"
-                    icon={<CloseOutlined />}
                 >
                     {dictionary.itemCount?.clearFilters || 'Clear filters'}
                 </Button>
