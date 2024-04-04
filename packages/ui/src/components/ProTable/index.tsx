@@ -114,11 +114,15 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     dictionary = {},
     enableRowSelection = false,
     headerConfig = {
+        clearFilter: () => {
+            // optional function when omit
+        },
         enableColumnSort: false,
         enableTableExport: false,
         extra: [],
         extraCountInfo: [],
         extraSpacing: 12,
+        hasFilter: false,
         itemCount: {
             pageIndex: 1,
             pageSize: 15,
@@ -270,10 +274,12 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         >
             <TableHeader
                 className={tableHeaderClassName}
+                clearFilter={headerConfig.clearFilter}
                 dictionary={dictionary}
                 extra={getExtraConfig()}
                 extraCountInfo={headerConfig.extraCountInfo}
                 extraSpacing={headerConfig.extraSpacing}
+                hasFilter={headerConfig.hasFilter}
                 hideItemsCount={headerConfig.hideItemsCount}
                 onClearSelection={() => {
                     if (headerConfig.onClearSelection) {
