@@ -46,7 +46,10 @@ const GridCardHeader = ({
         if (!titleTruncateThresholdWidth) {
             return;
         }
-        const headerWidth = headerContainerRef.current.clientWidth;
+        const headerWidth = headerContainerRef?.current?.clientWidth;
+        if (!headerWidth) {
+            return;
+        }
         setTitleWidth(`${headerWidth - titleTruncateThresholdWidth}px`);
     }, 10);
     const resizeObserver = new ResizeObserver(onCardResize);

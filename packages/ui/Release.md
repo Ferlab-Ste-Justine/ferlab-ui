@@ -1,3 +1,6 @@
+### 9.10.1 2024-04-4
+- fix: prevent error when getting header size
+
 ### 9.10.0 2024-04-4
 - feat: SJIP-764 add clear filters in ProTable
 
