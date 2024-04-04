@@ -1,3 +1,6 @@
+### 9.10.0 2024-04-4
+- feat: SJIP-764 add clear filters in ProTable
+
 ### 9.9.7 2024-04-3
 - fix: SKFP-1003 fix not applicable tag
 

@@ -38,6 +38,7 @@ export interface IProTableDictionary {
         selectedPlural: ReactNode;
         selectAllResults: ReactNode;
         clear: ReactNode;
+        clearFilters: ReactNode;
     };
     tooltips?: {
         tableExport: ReactNode;
@@ -122,6 +123,8 @@ export type THeaderConfig<RecordType> = {
         total: number;
     };
     hideItemsCount?: boolean;
+    hasFilter?: boolean;
+    clearFilter?: () => void;
 };
 
 export type TColumnStates = Array<{

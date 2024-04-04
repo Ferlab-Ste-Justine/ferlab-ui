@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
-import { Divider, Space } from 'antd';
+import { Button, Divider, Space } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
 
 import { IProTableDictionary } from '../types';
 
@@ -23,14 +24,18 @@ interface OwnProps {
     onClearSelection?: () => void;
     className?: string;
     extraCountInfo?: React.ReactNode[];
+    hasFilter?: boolean;
+    clearFilter?: () => void;
 }
 
 const TableHeader = ({
     className,
+    clearFilter,
     dictionary = {},
     extra = [],
     extraCountInfo = [],
     extraSpacing = 12,
+    hasFilter = false,
     hideItemsCount = false,
     onClearSelection,
     onSelectAllResults,
@@ -68,6 +73,18 @@ const TableHeader = ({
                         <div>{element}</div>
                     </div>
                 ))}
+
+            {hasFilter && clearFilter && (
+                <Button
+                    className={styles.clearFilterLink}
+                    onClick={clearFilter}
+                    size="small"
+                    type="link"
+                    icon={<CloseOutlined />}
+                >
+                    {dictionary.itemCount?.clearFilters || 'Clear filters'}
+                </Button>
+            )}
         </div>
         <Space size={extraSpacing}>
             {extra.map((element, index) => (
