@@ -1,3 +1,6 @@
+### 9.10.1 2024-04-5
+- fix: SJIP-773 add excludeZeroValue
+
 ### 9.10.1 2024-04-4
 - fix: prevent error when getting header size
 
