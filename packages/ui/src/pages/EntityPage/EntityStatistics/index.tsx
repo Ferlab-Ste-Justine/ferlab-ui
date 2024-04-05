@@ -97,6 +97,7 @@ type TEntityStatisticsDictionary = {
 type TStatisticFilter = {
     total?: number;
     unique?: boolean;
+    excludeZeroValue?: boolean;
     excludes?: string[];
 };
 
@@ -167,6 +168,11 @@ const applyFilter = ({ data, filter }: TStatisticBarChart | TStatisticPieChart, 
     }
 
     let result = data as any[];
+
+    if (filter.excludeZeroValue) {
+        result = result.filter((item) => item.value > 0);
+    }
+
     if (filter.excludes) {
         result = result.filter((item) => !filter.excludes?.includes((item as any)[key]));
     }
