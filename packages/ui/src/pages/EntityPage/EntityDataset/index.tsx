@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Card, Descriptions, Typography } from 'antd';
 import cx from 'classnames';
 
@@ -42,8 +42,8 @@ export interface IEntityDatasetProps {
     descriptions: IEntityDescriptionsItem[];
     loading: boolean;
     title?: string;
-    titleExtra?: React.ReactNode[];
-    header: string;
+    titleExtra?: ReactNode[];
+    header: ReactNode;
     participant_count: number;
     file_count: number;
     dictionnary?: {

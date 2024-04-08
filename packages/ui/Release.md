@@ -1,4 +1,7 @@
-### 9.10.1 2024-04-5
+### 9.11.1 2024-04-8
+- feat: SJIP-775 change header dataset entity type
+
+### 9.11.0 2024-04-5
 - fix: SJIP-773 add excludeZeroValue
 
 ### 9.10.1 2024-04-4
