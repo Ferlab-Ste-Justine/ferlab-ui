@@ -11,10 +11,10 @@ export interface IEntityTitleLogo {
     loading?: boolean;
 }
 
-const EntityTitleLogo: React.FC<IEntityTitleLogo> = ({ extra, loading, logo, title }) =>
-    loading ? (
-        <Skeleton loading={loading} paragraph={{ rows: 0 }} />
-    ) : (
+const EntityTitleLogo: React.FC<IEntityTitleLogo> = ({ extra, loading, logo, title }) => {
+    if (loading) return <Skeleton loading={loading} paragraph={{ rows: 0 }} />;
+
+    return (
         <div className={styles.titleHeader}>
             {
                 <div className={styles.titleLogoWrapper}>
@@ -35,5 +35,6 @@ const EntityTitleLogo: React.FC<IEntityTitleLogo> = ({ extra, loading, logo, tit
             {extra && <div className={styles.extra}>{extra}</div>}
         </div>
     );
+};
 
 export default EntityTitleLogo;
