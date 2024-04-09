@@ -11,7 +11,7 @@ export interface IEntityTitleLogo {
     loading?: boolean;
 }
 
-const EntityTitleLogo: React.FC<IEntityTitleLogo> = ({ extra, logo, loading, title }) =>
+const EntityTitleLogo: React.FC<IEntityTitleLogo> = ({ extra, loading, logo, title }) =>
     loading ? (
         <Skeleton loading={loading} paragraph={{ rows: 0 }} />
     ) : (
