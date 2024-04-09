@@ -7,8 +7,8 @@ describe('EntityPage/EntityTitleLogo', () => {
     test('make sure text does not render while loading', () => {
         const props = {
             extra: <>Extra</>,
-            logo: <>Logo</>,
             loading: true,
+            logo: <>Logo</>,
             title: 'This is a text',
         };
 
@@ -21,8 +21,8 @@ describe('EntityPage/EntityTitleLogo', () => {
     test('make sure Title render correctly', () => {
         const props = {
             extra: <>Extra</>,
-            logo: <>Logo</>,
             loading: false,
+            logo: <>Logo</>,
             title: 'This is a text',
         };
 
