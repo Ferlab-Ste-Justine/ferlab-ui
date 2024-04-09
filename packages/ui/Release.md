@@ -1,3 +1,6 @@
+### 9.11.2 2024-04-8
+- feat: SJIP-771 change statistic icon style behavior
+
 ### 9.11.1 2024-04-8
 - feat: SJIP-775 change header dataset entity type
 
