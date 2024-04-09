@@ -5,10 +5,10 @@ import Title from 'antd/lib/typography/Title';
 import styles from './index.module.scss';
 
 export interface IEntityTitleLogo {
-    title?: string;
-    logo: React.ReactNode;
     extra?: React.ReactNode;
     loading?: boolean;
+    logo: React.ReactNode;
+    title?: string;
 }
 
 const EntityTitleLogo: React.FC<IEntityTitleLogo> = ({ extra, loading, logo, title }) => {
