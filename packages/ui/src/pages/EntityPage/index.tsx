@@ -15,6 +15,7 @@ import EntityTable, { IEntityTable } from './EntityTable';
 import EntityTableMultiple, { IEntityTableMultiple } from './EntityTableMultiple';
 import EntityTableRedirectLink from './EntityTableRedirectLink';
 import EntityTitle, { IEntityTitle } from './EntityTitle';
+import EntityTitleLogo, { IEntityTitleLogo } from './EntityTitleLogo';
 
 export {
     CosmicConditionCell,
@@ -31,12 +32,14 @@ export {
     EntityTableMultiple,
     EntityTableRedirectLink,
     EntityTitle,
+    EntityTitleLogo,
     HpoConditionCell,
     IEntityDescriptions,
     IEntityDescriptionsItem,
     IEntityTable,
     IEntityTableMultiple,
     IEntityTitle,
+    IEntityTitleLogo,
     OmimConditionCell,
     OrphanetConditionCell,
 };

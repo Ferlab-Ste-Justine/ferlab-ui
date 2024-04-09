@@ -1,3 +1,6 @@
+### 9.12.0 2024-04-9
+- feat: SJIP-774 Add EntityTitleLogo
+
 ### 9.11.2 2024-04-8
 - feat: SJIP-771 change statistic icon style behavior
 
