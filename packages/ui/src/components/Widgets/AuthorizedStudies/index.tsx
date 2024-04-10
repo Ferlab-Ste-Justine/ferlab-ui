@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ApiOutlined, SafetyOutlined } from '@ant-design/icons';
+import { ApiOutlined, DisconnectOutlined, SafetyOutlined } from '@ant-design/icons';
 import { Button, List, Result, Space } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import cx from 'classnames';
@@ -35,10 +35,14 @@ export enum FENCE_AUTHENTIFICATION_STATUS {
 export const DEFAULT_AUTHORIZED_WIDGET_DICTIONARY = {
     authentification: DEFAULT_CARD_CONNECT_PLACEHOLDER_DICTIONARY,
     connectedNotice: 'You have access to the following controlled data.',
+    disconnect: 'Disconnect',
     error: {
         contactSupport: 'contact support',
+        disconnect: {
+            end: 'your account and try again. If the problem persists, please',
+            start: 'We are currently unable to connect to this service. Please refresh the page or',
+        },
         email: '',
-        subtitle: 'An error has occurred. Please try again',
         title: 'Error',
     },
     list: DEFAULT_AUTHORIZED_STUDIES_LIST_ITEM_DICTIONARY,
@@ -93,9 +97,13 @@ type TAuthorizedStudiesWidgetDictionary = {
     noAvailableStudies: string;
     authentification: TCardConnectPlaceholderDictionary;
     list: TAuthorizedStudiesListItemDictionary;
+    disconnect: string;
     error: {
         title: string;
-        subtitle: string;
+        disconnect: {
+            start: string;
+            end: string;
+        };
         contactSupport: string;
         email: string;
     };
@@ -161,7 +169,23 @@ const AuthorizedStudiesWidget = ({
                                     status="error"
                                     subTitle={
                                         <Text>
-                                            {dictionary.error.subtitle}
+                                            {dictionary.error.disconnect.start}
+                                            <Button
+                                                className={styles.disconnectErrorBtn}
+                                                danger
+                                                onClick={() => {
+                                                    if (hasMultipleServices) {
+                                                        setIsModalOpen(true);
+                                                        return;
+                                                    }
+                                                    services[0].onDisconnectFromFence();
+                                                }}
+                                                size="small"
+                                                type="link"
+                                            >
+                                                {dictionary.disconnect.toLowerCase()}
+                                            </Button>
+                                            {dictionary.error.disconnect.end}
                                             <ExternalLink
                                                 className={styles.contactSupport}
                                                 href={`mailto:${dictionary.error.email}`}
@@ -198,32 +222,30 @@ const AuthorizedStudiesWidget = ({
                         {/* List of Authorized Studies */}
                         {state === WIDGET_STATE.connected && (
                             <div className={styles.listContent}>
-                                {hasMultipleServices && (
-                                    <div className={styles.authenticatedHeader}>
-                                        <Space align="start">
-                                            <SafetyOutlined className={styles.safetyIcon} />
-                                            <Text className={styles.notice}>
-                                                {dictionary.connectedNotice}
-                                                <Button
-                                                    className={styles.disconnectBtn}
-                                                    icon={<ApiOutlined />}
-                                                    loading={authorizedStudies?.loading}
-                                                    onClick={() => {
-                                                        if (hasMultipleServices) {
-                                                            setIsModalOpen(true);
-                                                            return;
-                                                        }
-                                                        services[0].onDisconnectFromFence();
-                                                    }}
-                                                    size="small"
-                                                    type="link"
-                                                >
-                                                    {dictionary.manageConnections}
-                                                </Button>
-                                            </Text>
-                                        </Space>
-                                    </div>
-                                )}
+                                <div className={styles.authenticatedHeader}>
+                                    <Space align="start">
+                                        <SafetyOutlined className={styles.safetyIcon} />
+                                        <Text className={styles.notice}>
+                                            {dictionary.connectedNotice}
+                                            <Button
+                                                className={styles.disconnectBtn}
+                                                icon={<ApiOutlined />}
+                                                loading={authorizedStudies?.loading}
+                                                onClick={() => {
+                                                    if (hasMultipleServices) {
+                                                        setIsModalOpen(true);
+                                                        return;
+                                                    }
+                                                    services[0].onDisconnectFromFence();
+                                                }}
+                                                size="small"
+                                                type="link"
+                                            >
+                                                {dictionary.manageConnections}
+                                            </Button>
+                                        </Text>
+                                    </Space>
+                                </div>
                                 <List<IAuthorizedStudy>
                                     bordered
                                     className={styles.list}

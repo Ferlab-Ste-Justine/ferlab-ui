@@ -53,11 +53,13 @@ export const DEFAULT_CAVATICA_WIDGET_DICTIONARY: TCavaticaWidgetDictionary = {
     createProjectModal: DEFAULT_CAVATICA_CREATE_PROJECT_MODAL_DICTIONARY,
     disconnect: 'screen.dashboard.cards.cavatica.disconnect',
     error: {
-        contactSupport:
-            'We are currently unable to connect to this service. Please refresh the page and try again. If the problem persists, please contact support.',
+        contactSupport: 'contact support.',
         email: '',
         fetch: {
-            subtitle: 'Unable to fetch your cavatica projects.',
+            disconnect: {
+                end: 'your account and try again. If the problem persists, please',
+                start: 'We are currently unable to connect to this service. Please refresh the page or',
+            },
             title: 'Error',
         },
     },
@@ -92,7 +94,10 @@ type TCavaticaWidgetDictionary = {
     error: {
         fetch: {
             title: string;
-            subtitle: string;
+            disconnect: {
+                start: string;
+                end: string;
+            };
         };
         contactSupport: string;
         email: string;
@@ -156,7 +161,18 @@ const CavaticaWidget = ({
                                     status="error"
                                     subTitle={
                                         <Text>
-                                            {dictionary.error.fetch.subtitle}
+                                            {dictionary.error.fetch.disconnect.start}
+                                            <Button
+                                                className={styles.disconnectErrorBtn}
+                                                danger
+                                                loading={authentification.loading}
+                                                onClick={handleDisconnection}
+                                                size="small"
+                                                type="link"
+                                            >
+                                                {dictionary.disconnect.toLowerCase()}
+                                            </Button>
+                                            {dictionary.error.fetch.disconnect.end}
                                             <ExternalLink
                                                 className={styles.contactSupport}
                                                 href={`mailto:${dictionary.error.email}`}
