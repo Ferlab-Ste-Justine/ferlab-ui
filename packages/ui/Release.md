@@ -1,3 +1,6 @@
+### 9.12.3 2024-04-10
+- feat: SJIP-783 Add disconnect button to error message
+
 ### 9.12.2 2024-04-10
 - feat: CQDG-662 Add Mitochondrial inheritance tag
 

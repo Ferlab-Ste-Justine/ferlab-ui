@@ -213,7 +213,8 @@ describe('AuthorizedStudiesWidget', () => {
 
         render(<AuthorizedStudiesWidget {...props} />);
         expect(screen.getByText(dictionary.error.title)).toBeTruthy();
-        expect(screen.getByText(dictionary.error.subtitle, { exact: false })).toBeTruthy();
+        expect(screen.getByText(dictionary.error.disconnect.start, { exact: false })).toBeTruthy();
+        expect(screen.getByText(dictionary.error.disconnect.end, { exact: false })).toBeTruthy();
         expect(screen.getByText(dictionary.error.contactSupport)).toBeTruthy();
     });
 });
