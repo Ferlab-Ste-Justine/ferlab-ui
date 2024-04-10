@@ -16,6 +16,7 @@ const geneticTypes: GeneticTypes = {
     'digenic recessive': 'DR',
     'isolated cases': 'IC',
     mitochondrial: 'Mi',
+    'Mitochondrial inheritance': 'MI',
     multifactorial: 'Mu',
     'no reported transmission': 'NRT',
     'not applicable': 'NA',

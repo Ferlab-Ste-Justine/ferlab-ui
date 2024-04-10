@@ -1,3 +1,6 @@
+### 9.12.1 2024-04-9
+- feat: CQDG-662 Add Mitochondrial inheritance tag
+
 ### 9.12.0 2024-04-9
 - feat: SJIP-774 Add EntityTitleLogo
 
