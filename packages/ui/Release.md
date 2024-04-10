@@ -1,4 +1,4 @@
-### 9.12.1 2024-04-9
+### 9.12.2 2024-04-10
 - feat: CQDG-662 Add Mitochondrial inheritance tag
 
 ### 9.12.0 2024-04-9
