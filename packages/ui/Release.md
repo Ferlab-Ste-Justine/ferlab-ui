@@ -1,3 +1,6 @@
+### 9.12.4 2024-04-11
+- feat: SJIP-791 Fix phenotypes and mondo graph to display empty data
+
 ### 9.12.3 2024-04-10
 - feat: SJIP-783 Add disconnect button to error message
 
