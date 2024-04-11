@@ -228,7 +228,11 @@ const AuthorizedStudiesWidget = ({
                                         <Text className={styles.notice}>
                                             {dictionary.connectedNotice}
                                             <Button
-                                                className={styles.disconnectBtn}
+                                                className={
+                                                    hasMultipleServices
+                                                        ? styles.manageConnections
+                                                        : styles.disconnectBtn
+                                                }
                                                 icon={<ApiOutlined />}
                                                 loading={authorizedStudies?.loading}
                                                 onClick={() => {

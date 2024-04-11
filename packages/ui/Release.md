@@ -1,3 +1,6 @@
+### 9.12.5 2024-04-11
+- feat: SJIP-797 Fix disconnect button issue
+
 ### 9.12.4 2024-04-11
 - feat: SJIP-791 Fix phenotypes and mondo graph to display empty data
 

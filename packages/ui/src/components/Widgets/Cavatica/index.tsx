@@ -209,7 +209,7 @@ const CavaticaWidget = ({
                                         <Text className={styles.notice}>
                                             {dictionary.connectedNotice}
                                             <Button
-                                                className={styles.disconnectBtn}
+                                                className={styles.manageConnections}
                                                 danger
                                                 icon={<DisconnectOutlined />}
                                                 loading={authentification.loading}
