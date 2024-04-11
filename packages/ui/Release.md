@@ -1,3 +1,6 @@
+### 9.12.6 2024-04-11
+- fix: SJIP-797 statistic icon align
+
 ### 9.12.5 2024-04-11
 - feat: SJIP-797 Fix disconnect button issue
 
