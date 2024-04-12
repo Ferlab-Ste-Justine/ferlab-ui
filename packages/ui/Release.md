@@ -1,3 +1,6 @@
+### 9.12.7 2024-04-12
+- feat: FLUI-129 Align functionnal scores in variant summary
+
 ### 9.12.6 2024-04-11
 - fix: SJIP-797 statistic icon align
 
