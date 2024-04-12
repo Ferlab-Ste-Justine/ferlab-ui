@@ -73,7 +73,7 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                             <div className={style.detailsWrapper}>
                                 <div className={style.score}>
                                     <div className={style.detailsTitle}>{data.details.leftSection.title}</div>
-                                    <Space direction="horizontal" size="middle">
+                                    <Space direction="horizontal" size="middle" align="start">
                                         <Descriptions column={1}>
                                             {detailsLeftSectionCol1?.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
