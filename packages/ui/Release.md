@@ -1,3 +1,6 @@
+### 9.13.0 2024-04-15
+- feat: FLUI-130 Add landing page common components
+
 ### 9.12.7 2024-04-12
 - feat: FLUI-129 Align functionnal scores in variant summary
 

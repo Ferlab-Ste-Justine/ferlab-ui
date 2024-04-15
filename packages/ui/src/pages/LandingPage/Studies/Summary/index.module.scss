@@ -1,0 +1,25 @@
+@import "theme.template";
+
+.container {
+  max-width: 360px;
+  width: 100%;
+  background: linear-gradient(346deg, #1C3863 20.53%, #0369A1 100.05%), linear-gradient(299deg, #0369A1 0.84%, #1C3863 100.02%), #F0F3F8;
+  padding: 48px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 24px;
+  color: $gray-1;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    max-width: 100%;
+    padding: 40px;
+  }
+}

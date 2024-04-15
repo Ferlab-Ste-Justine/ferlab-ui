@@ -1,0 +1,54 @@
+@import "theme.template";
+
+.carousel {
+  max-width: 840px;
+  height: 100%;
+  width: 100%;
+  background-color: $gray-1;
+  border: 1px solid $gray-4;
+}
+
+.contentStyle {
+  padding: 24px 40px 64px 40px;
+  text-align: justify;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 32px;
+  color: $gray-9;
+  margin-bottom: 24px
+}
+
+.logo {
+  height: 60px;
+}
+
+.subTitle {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  color: $gray-9;
+  margin-bottom: 16px
+}
+
+.description {
+  font-size: 16px;
+  line-height: 24px;
+  color: $gray-8;
+}
+
+.dots li button {
+  background-color: $gray-9 !important;
+}
+
+.dots {
+  bottom: 32px !important;
+}
+
+@media (max-width: 1024px) {
+  .carousel {
+    max-width: 100%;
+  }
+}
