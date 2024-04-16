@@ -21,13 +21,14 @@ export type Study = {
 export type StudiesProps = {
     studiesCount: number;
     studies: Study[];
+    autoplaySpeed?: number;
     dictionary: StudiesDictionary;
 };
 
-const Studies = ({ dictionary, studies, studiesCount }: StudiesProps): ReactElement => (
+const Studies = ({ autoplaySpeed, dictionary, studies, studiesCount }: StudiesProps): ReactElement => (
     <div className={styles.container}>
         <Summary dictionary={dictionary} studiesCount={studiesCount} />
-        <Carousel studies={studies} />
+        <Carousel autoplaySpeed={autoplaySpeed} studies={studies} />
     </div>
 );
 export default Studies;

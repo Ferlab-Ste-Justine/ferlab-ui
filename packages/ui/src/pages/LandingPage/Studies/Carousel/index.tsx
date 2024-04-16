@@ -10,10 +10,11 @@ import styles from './index.module.scss';
 
 type OwnProps = {
     studies: Study[];
+    autoplaySpeed?: number;
 };
 
-const Carousel = ({ studies }: OwnProps) => (
-    <AntCarousel autoplay autoplaySpeed={5000} className={styles.carousel} dots={{ className: styles.dots }}>
+const Carousel = ({ autoplaySpeed = 7000, studies }: OwnProps) => (
+    <AntCarousel autoplay autoplaySpeed={autoplaySpeed} className={styles.carousel} dots={{ className: styles.dots }}>
         {studies.map((study) => (
             <div className={styles.contentStyle} key={study.code}>
                 <div className={styles.title}>{study.title}</div>
