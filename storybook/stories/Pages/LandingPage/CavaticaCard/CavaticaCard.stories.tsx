@@ -19,4 +19,4 @@ const props = {
     logo: <img src={CavaticaLogo} alt="Cavatica Logo" className={styles.logo}/>
 };
 
-export const CavaticaStory = () => <CavaticaCard {...props} />;
+export const CavaticaCardStory = () => <CavaticaCard {...props} />;
