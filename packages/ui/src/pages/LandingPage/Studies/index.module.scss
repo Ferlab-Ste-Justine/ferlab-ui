@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  // This is a known bug with Slick (what is used under the hood by Carousel
+  // Fix: https://github.com/kenwheeler/slick/issues/982#issuecomment-73517458
+  * {
+    min-height: 0;
+    min-width: 0;
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column-reverse;
+  }
+}

@@ -1,0 +1,46 @@
+@import 'theme.template';
+
+.container {
+  background: $landing-cavatica-gradient;
+  width: 100%;
+  height: 100%;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 24px;
+  color: $gray-1;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.learnMoreButton {
+  background-color: #B645FA;
+  border-color: #B645FA;
+
+  &:hover {
+    background-color: #8A19CE;
+    border-color: #8A19CE;
+  }
+
+  &:focus-visible {
+    background-color: #B645FA;
+    border: 2px solid $gray-1;
+    box-shadow: 0 0 0 2px #B645FA, 0 0 0 3px #B645FA;
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 8px;
+}
+
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 40px;
+  }
+}
