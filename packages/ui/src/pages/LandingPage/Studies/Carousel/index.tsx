@@ -18,13 +18,13 @@ const Carousel = ({ autoplaySpeed = 7000, studies }: OwnProps) => (
         {studies.map((study) => (
             <div className={styles.contentStyle} key={study.code}>
                 <div className={styles.title}>{study.title}</div>
-                <div className={styles.subTitle}>{study.subtitle}</div>
+                <div className={styles.subtitle}>{study.subtitle}</div>
                 <div className={styles.description}>{study.description}</div>
                 {study.participantCount && (
                     <TextIcon
                         IconComponent={ParticipantIcon}
                         color="dark"
-                        subTitle="Participants"
+                        subtitle="Participants"
                         title={numberFormat(study.participantCount)}
                     />
                 )}

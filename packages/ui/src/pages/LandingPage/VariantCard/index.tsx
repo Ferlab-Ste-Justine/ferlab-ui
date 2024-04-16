@@ -25,7 +25,7 @@ const VariantCard = ({ dictionary, handleClick, variantsCount }: VariantCardProp
         <TextIcon
             IconComponent={GeneIcon}
             size="large"
-            subTitle={dictionary.title}
+            subtitle={dictionary.title}
             title={numberFormat(variantsCount)}
         />
         <div className={styles.description}>{dictionary.description}</div>

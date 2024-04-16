@@ -13,7 +13,7 @@ type OwnProps = {
 
 const Summary = ({ dictionary, studiesCount }: OwnProps) => (
     <div className={styles.container}>
-        <TextIcon IconComponent={StudyIcon} size="large" subTitle={dictionary.title} title={studiesCount} />
+        <TextIcon IconComponent={StudyIcon} size="large" subtitle={dictionary.title} title={studiesCount} />
         <div className={styles.description}>{dictionary.summary}</div>
     </div>
 );
