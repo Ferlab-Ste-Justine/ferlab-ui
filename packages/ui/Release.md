@@ -1,3 +1,6 @@
+### 9.14.0 2024-04-17
+- feat: SJIP-758 Add loading state for copy cavatica file
+
 ### 9.13.1 2024-04-17
 - fix: FLUI-130 Adjust some values for the landing page components
 

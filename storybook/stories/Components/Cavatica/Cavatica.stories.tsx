@@ -20,7 +20,7 @@ export default {
 
 export const CavaticaBasicStory = () => (
     <>
-        <h2>Cavatica with loading</h2>
+        <h2>Cavatica Widget with loading</h2>
         <div style={{width: '400px' }}>
             <CavaticaWidget 
               id={'1'} 
@@ -69,7 +69,7 @@ export const CavaticaBasicStory = () => (
 
 export const CavaticaFetchProjectErrorStory = () => (
     <>
-        <h2>Cavatica with with a failed attemp to fetch project</h2>
+        <h2>Cavatica Widget with with a failed attemp to fetch project</h2>
         <div style={{width: '400px' }}>
             <CavaticaWidget 
               id={'1'} 
@@ -118,7 +118,7 @@ export const CavaticaFetchProjectErrorStory = () => (
 
 export const CavaticaAuthErrorStory = () => (
     <>
-        <h2>Cavatica with authentification error</h2>
+        <h2>Cavatica Widget with authentification error</h2>
         <div style={{width: '400px' }}>
             <CavaticaWidget 
               id={'1'} 

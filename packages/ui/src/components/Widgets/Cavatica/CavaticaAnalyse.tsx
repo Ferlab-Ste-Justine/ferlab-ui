@@ -213,6 +213,7 @@ const CavaticaAnalyse = ({
 
         if (cavatica.bulkImportData.status === CAVATICA_ANALYSE_STATUS.analyzed) {
             setModalState(ModalState.analyse);
+            return;
         }
     }, [cavatica.bulkImportData.status]);
 
