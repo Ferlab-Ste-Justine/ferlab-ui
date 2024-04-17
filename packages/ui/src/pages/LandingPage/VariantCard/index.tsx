@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRightOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Button, ButtonProps } from 'antd';
 
 import GeneIcon from '../../../components/Icons/FuturoSpot/GeneSpotIcon';
 import { numberFormat } from '../../../utils/numberUtils';
@@ -8,19 +8,19 @@ import TextIcon from '../TextIcon';
 
 import styles from './index.module.scss';
 
-export type VariantDictionaryProps = {
+export type TVariantDictionaryProps = {
     title: string;
     description: string;
     button: string;
 };
 
-export type VariantCardProps = {
+export type TVariantCardProps = {
     variantsCount: number;
-    handleClick: () => Promise<void> | void;
-    dictionary: VariantDictionaryProps;
+    dictionary: TVariantDictionaryProps;
+    buttonProps?: ButtonProps;
 };
 
-const VariantCard = ({ dictionary, handleClick, variantsCount }: VariantCardProps) => (
+const VariantCard = ({ buttonProps, dictionary, variantsCount }: TVariantCardProps) => (
     <div className={styles.container}>
         <TextIcon
             IconComponent={GeneIcon}
@@ -30,7 +30,7 @@ const VariantCard = ({ dictionary, handleClick, variantsCount }: VariantCardProp
         />
         <div className={styles.description}>{dictionary.description}</div>
         <div className={styles.buttonContainer}>
-            <Button onClick={handleClick} size="large" type="primary">
+            <Button size="large" {...buttonProps}>
                 {dictionary.button}
                 <ArrowRightOutlined />
             </Button>

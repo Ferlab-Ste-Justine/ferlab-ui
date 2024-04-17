@@ -5,27 +5,27 @@ import Summary from './Summary';
 
 import styles from './index.module.scss';
 
-export type StudiesDictionary = {
+export type TStudiesDictionary = {
     title: string;
     summary: string;
 };
 
-export type Study = {
+export type TStudy = {
     code: string;
     title: ReactNode;
-    subtitle: string;
-    description: string;
+    subtitle: ReactNode;
+    description: ReactNode;
     participantCount?: number;
 };
 
-export type StudiesProps = {
+export type TStudiesProps = {
     studiesCount: number;
-    studies: Study[];
+    studies: TStudy[];
     autoplaySpeed?: number;
-    dictionary: StudiesDictionary;
+    dictionary: TStudiesDictionary;
 };
 
-const Studies = ({ autoplaySpeed, dictionary, studies, studiesCount }: StudiesProps): ReactElement => (
+const Studies = ({ autoplaySpeed, dictionary, studies, studiesCount }: TStudiesProps): ReactElement => (
     <div className={styles.container}>
         <Summary dictionary={dictionary} studiesCount={studiesCount} />
         <Carousel autoplaySpeed={autoplaySpeed} studies={studies} />

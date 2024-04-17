@@ -1,6 +1,7 @@
 import React from 'react';
 import {Meta} from '@storybook/react';
 import VariantCard from '@ferlab/ui/core/pages/LandingPage/VariantCard';
+import {ButtonProps} from "antd";
 
 export default {
     title: '@ferlab/Pages/LandingPage/VariantCard',
@@ -15,7 +16,10 @@ const props = {
         title: 'Germline Variants',
     },
     variantsCount: 12346789,
-    handleClick: console.log,
+    buttonProps: {
+        type: 'primary',
+        onClick: console.log
+    } as ButtonProps
 };
 
 export const VariantCardStory = () => <VariantCard {...props} />;

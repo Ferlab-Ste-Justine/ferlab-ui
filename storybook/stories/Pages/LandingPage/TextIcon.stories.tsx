@@ -1,6 +1,6 @@
 import React from 'react';
 import {Meta} from '@storybook/react';
-import TextIcon, {TextIconProps} from '@ferlab/ui/core/pages/LandingPage/TextIcon';
+import TextIcon, {TTextIconProps} from '@ferlab/ui/core/pages/LandingPage/TextIcon';
 import Icon from '@ferlab/ui/core/components/Icons/FuturoSpot/CloudComputingSpotIcon'
 
 
@@ -19,17 +19,17 @@ const commonProps = {
 const smallProps = {
     ...commonProps,
     size: 'small',
-} as TextIconProps;
+} as TTextIconProps;
 
 const mediumProps = {
     ...commonProps,
     size: 'medium',
-} as TextIconProps;
+} as TTextIconProps;
 
 const largeProps = {
     ...commonProps,
     size: 'large',
-} as TextIconProps;
+} as TTextIconProps;
 
 export const SmallTextIconStory = () => <TextIcon {...smallProps} />;
 export const MediumTextIconStory = () => <TextIcon {...mediumProps} />;

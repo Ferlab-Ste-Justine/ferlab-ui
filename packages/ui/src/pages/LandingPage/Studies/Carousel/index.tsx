@@ -4,16 +4,16 @@ import { Carousel as AntCarousel } from 'antd';
 import ParticipantIcon from '../../../../components/Icons/Futuro/ParticipantIcon';
 import { numberFormat } from '../../../../utils/numberUtils';
 import TextIcon from '../../TextIcon';
-import { Study } from '../index';
+import { TStudy } from '../index';
 
 import styles from './index.module.scss';
 
-type OwnProps = {
-    studies: Study[];
+type TCarouselProps = {
+    studies: TStudy[];
     autoplaySpeed?: number;
 };
 
-const Carousel = ({ autoplaySpeed = 7000, studies }: OwnProps) => (
+const Carousel = ({ autoplaySpeed = 7000, studies }: TCarouselProps) => (
     <AntCarousel autoplay autoplaySpeed={autoplaySpeed} className={styles.carousel} dots={{ className: styles.dots }}>
         {studies.map((study) => (
             <div className={styles.contentStyle} key={study.code}>

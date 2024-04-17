@@ -4,7 +4,7 @@ import { IIconProps } from '../../../components/Icons/type';
 
 import styles from './index.module.scss';
 
-export type TextIconProps = {
+export type TTextIconProps = {
     IconComponent: ComponentType<IIconProps>;
     title?: ReactNode;
     subtitle?: ReactNode;
@@ -12,7 +12,7 @@ export type TextIconProps = {
     color?: 'light' | 'dark';
 };
 
-const TextIcon = ({ color = 'light', IconComponent, size = 'small', subtitle, title }: TextIconProps) => (
+const TextIcon = ({ color = 'light', IconComponent, size = 'small', subtitle, title }: TTextIconProps) => (
     <div className={`${styles[size]} ${styles[color]}`}>
         <div className={styles.layout}>
             <IconComponent className={styles.icon} spotClassName={styles.iconSpot} />
