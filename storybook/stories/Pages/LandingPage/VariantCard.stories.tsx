@@ -15,7 +15,10 @@ const props = {
         title: 'Germline Variants',
     },
     variantsCount: 12346789,
-    handleClick: console.log,
+    buttonProps: {
+        type: 'primary',
+        onClick: console.log
+    }
 };
 
 export const VariantCardStory = () => <VariantCard {...props} />;

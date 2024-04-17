@@ -1,26 +1,26 @@
 @import "theme.template";
 
 .light {
-  color: $blue-3;
+  color: $landing-text-icon-color-light;
 
   .icon {
-    color: $blue-3;
+    color: $landing-text-icon-color-light;
   }
 
   .iconSpot {
-    color: $blue-8;
+    color: $landing-spot-icon-color-light;
   }
 }
 
 .dark {
-  color: $gray-8;
+  color: $landing-text-icon-color-dark;
 
   .icon {
-    color: $gray-8;
+    color: $landing-text-icon-color-dark;
   }
 
   .iconSpot {
-    color: $blue-3;
+    color: $landing-spot-icon-color-dark;
   }
 }
 

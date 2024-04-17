@@ -1,3 +1,6 @@
+### 9.13.1 2024-04-17
+- fix: FLUI-130 Adjust some values for the landing page components
+
 ### 9.13.0 2024-04-15
 - feat: FLUI-130 Add landing page common components
 

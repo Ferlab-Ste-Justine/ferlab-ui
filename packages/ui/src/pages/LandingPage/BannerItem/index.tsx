@@ -1,5 +1,5 @@
 import React, { ComponentType } from 'react';
-import { Button } from 'antd';
+import { Button, ButtonProps } from 'antd';
 
 import ExternalLinkIcon from '../../../components/ExternalLink/ExternalLinkIcon';
 import { IIconProps } from '../../../components/Icons/type';
@@ -7,20 +7,25 @@ import TextIcon from '../TextIcon';
 
 import styles from './index.module.scss';
 
-type TBannerItemProps = {
-    IconComponent: ComponentType<IIconProps>;
-    title: string;
+type BannerItemDictionary = {
     description: string;
-    buttonText: string;
-    buttonUrl: string;
+    button: string;
+    title: string;
 };
-const BannerItem = ({ buttonText, buttonUrl, description, IconComponent, title }: TBannerItemProps) => (
+
+export type BannerItemProps = {
+    IconComponent: ComponentType<IIconProps>;
+    color?: 'light' | 'dark';
+    dictionary: BannerItemDictionary;
+    buttonProps?: ButtonProps;
+};
+const BannerItem = ({ buttonProps, color = 'light', dictionary, IconComponent }: BannerItemProps) => (
     <div className={styles.container}>
-        <TextIcon IconComponent={IconComponent} color="dark" size="medium" title={title} />
-        <div className={styles.text}>{description}</div>
+        <TextIcon IconComponent={IconComponent} color={color} size="medium" title={dictionary.title} />
+        <div className={styles.text}>{dictionary.description}</div>
         <div>
-            <Button href={buttonUrl} size="large" target="_blank" type="primary">
-                {buttonText}
+            <Button size="large" {...buttonProps}>
+                {dictionary.button}
                 <ExternalLinkIcon height="14" width="14" />
             </Button>
         </div>
