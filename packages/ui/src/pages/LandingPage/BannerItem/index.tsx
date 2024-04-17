@@ -7,19 +7,19 @@ import TextIcon from '../TextIcon';
 
 import styles from './index.module.scss';
 
-type BannerItemDictionary = {
+type TBannerItemDictionary = {
     description: string;
     button: string;
     title: string;
 };
 
-export type BannerItemProps = {
+export type TBannerItemProps = {
     IconComponent: ComponentType<IIconProps>;
     color?: 'light' | 'dark';
-    dictionary: BannerItemDictionary;
+    dictionary: TBannerItemDictionary;
     buttonProps?: ButtonProps;
 };
-const BannerItem = ({ buttonProps, color = 'light', dictionary, IconComponent }: BannerItemProps) => (
+const BannerItem = ({ buttonProps, color = 'light', dictionary, IconComponent }: TBannerItemProps) => (
     <div className={styles.container}>
         <TextIcon IconComponent={IconComponent} color={color} size="medium" title={dictionary.title} />
         <div className={styles.text}>{dictionary.description}</div>

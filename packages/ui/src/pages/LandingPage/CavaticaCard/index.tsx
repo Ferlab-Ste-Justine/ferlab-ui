@@ -5,18 +5,18 @@ import ExternalLinkIcon from '../../../components/ExternalLink/ExternalLinkIcon'
 
 import styles from './index.module.scss';
 
-export type CavaticaDictionary = {
+export type TCavaticaDictionary = {
     description: string;
     learnMore: string;
     login: string;
 };
 
-export type CavaticaCardProps = {
-    dictionary: CavaticaDictionary;
+export type TCavaticaCardProps = {
+    dictionary: TCavaticaDictionary;
     logo: ReactNode;
 };
 
-const CavaticaCard = ({ dictionary, logo }: CavaticaCardProps) => (
+const CavaticaCard = ({ dictionary, logo }: TCavaticaCardProps) => (
     <div className={styles.container}>
         {logo}
         <div className={styles.description}>{dictionary.description}</div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Meta} from '@storybook/react';
-import BannerItem, {BannerItemProps} from '@ferlab/ui/core/pages/LandingPage/BannerItem';
+import BannerItem, {TBannerItemProps} from '@ferlab/ui/core/pages/LandingPage/BannerItem';
 import Icon from '@ferlab/ui/core/components/Icons/FuturoSpot/CloudComputingSpotIcon'
 
 export default {
@@ -22,6 +22,6 @@ const props = {
     } ,
     IconComponent: Icon,
     color: 'dark'
-} as BannerItemProps;
+} as TBannerItemProps;
 
 export const BannerItemStory = () => <BannerItem {...props} />;

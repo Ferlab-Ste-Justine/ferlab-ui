@@ -8,19 +8,19 @@ import TextIcon from '../TextIcon';
 
 import styles from './index.module.scss';
 
-export type VariantDictionaryProps = {
+export type TVariantDictionaryProps = {
     title: string;
     description: string;
     button: string;
 };
 
-export type VariantCardProps = {
+export type TVariantCardProps = {
     variantsCount: number;
-    dictionary: VariantDictionaryProps;
+    dictionary: TVariantDictionaryProps;
     buttonProps?: ButtonProps;
 };
 
-const VariantCard = ({ buttonProps, dictionary, variantsCount }: VariantCardProps) => (
+const VariantCard = ({ buttonProps, dictionary, variantsCount }: TVariantCardProps) => (
     <div className={styles.container}>
         <TextIcon
             IconComponent={GeneIcon}

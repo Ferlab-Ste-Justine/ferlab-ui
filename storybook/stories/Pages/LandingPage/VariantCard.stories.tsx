@@ -1,6 +1,7 @@
 import React from 'react';
 import {Meta} from '@storybook/react';
 import VariantCard from '@ferlab/ui/core/pages/LandingPage/VariantCard';
+import {ButtonProps} from "antd";
 
 export default {
     title: '@ferlab/Pages/LandingPage/VariantCard',
@@ -18,7 +19,7 @@ const props = {
     buttonProps: {
         type: 'primary',
         onClick: console.log
-    }
+    } as ButtonProps
 };
 
 export const VariantCardStory = () => <VariantCard {...props} />;

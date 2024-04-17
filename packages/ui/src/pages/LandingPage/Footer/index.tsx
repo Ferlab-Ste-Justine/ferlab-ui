@@ -2,11 +2,11 @@ import React, { ReactElement } from 'react';
 
 import styles from './index.module.scss';
 
-export type FooterProps = {
+export type TFooterProps = {
     logos: string[];
 };
 
-const Footer = ({ logos }: FooterProps): ReactElement => (
+const Footer = ({ logos }: TFooterProps): ReactElement => (
     <footer className={styles.footerContainer}>
         {logos.map((logo) => (
             <img alt="Footer Logo" className={styles.image} src={logo} />
