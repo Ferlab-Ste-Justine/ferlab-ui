@@ -8,6 +8,8 @@ export enum CAVATICA_ANALYSE_STATUS {
     unauthorize = 'unauthorize_files',
     upload_limit_reached = 'upload_limit_reached',
     pending_analyse = 'pending_analyse',
+    pending_copy = 'pending_copy',
+    copied = 'copied',
     analyzed = 'analyzed',
     unknow = 'unknow',
     generic_error = 'generic_error',

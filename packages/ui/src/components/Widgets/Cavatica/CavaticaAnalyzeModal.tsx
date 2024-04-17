@@ -4,7 +4,7 @@ import { Button, Divider, List, Modal, ModalFuncProps, Space, Tag, TreeSelect, T
 import { groupBy } from 'lodash';
 import { LegacyDataNode } from 'rc-tree-select/lib/TreeSelect';
 
-import { ICavaticaBulkImportData, ICavaticaProjects } from './type';
+import { CAVATICA_ANALYSE_STATUS, ICavaticaBulkImportData, ICavaticaProjects } from './type';
 
 import styles from './CavaticaAnalyzeModal.module.scss';
 
@@ -115,7 +115,10 @@ const CavaticaAnalyseModal = ({
         <Modal
             className={styles.cavaticaAnalyseModal}
             destroyOnClose
-            okButtonProps={{ disabled: selectedTreeNode === undefined }}
+            okButtonProps={{
+                disabled: selectedTreeNode === undefined,
+                loading: bulkImportData.status === CAVATICA_ANALYSE_STATUS.pending_copy,
+            }}
             okText={dictionary.copyFiles}
             onOk={() => {
                 if (selectedTreeNode) {
