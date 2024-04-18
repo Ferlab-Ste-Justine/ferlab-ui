@@ -1,3 +1,8 @@
+export enum CavaticaAnalyticsAction {
+    ANALYSE = 'ANALYSE',
+    PROJECT_CREATED = 'PROJECT_CREATED',
+}
+
 export enum PASSPORT_AUTHENTIFICATION_STATUS {
     connected = 'connected',
     disconnected = 'disconnected',

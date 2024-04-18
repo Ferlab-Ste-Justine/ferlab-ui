@@ -123,7 +123,6 @@ const CavaticaAnalyseModal = ({
             onOk={() => {
                 if (selectedTreeNode) {
                     handleSubmit(selectedTreeNode);
-                    setSelectedTreeNode(undefined);
                 }
             }}
             title={dictionary?.title}

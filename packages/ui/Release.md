@@ -1,3 +1,6 @@
+### 9.14.1 2024-04-17
+- fix: SJIP-758 keep analyse modal open when copying file
+
 ### 9.14.0 2024-04-17
 - feat: SJIP-758 Add loading state for copy cavatica file
 
