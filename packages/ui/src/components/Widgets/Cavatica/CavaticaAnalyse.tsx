@@ -246,7 +246,6 @@ const CavaticaAnalyse = ({
                 handleFilesAndFolders={handleFilesAndFolders}
                 handleSubmit={(value: ICavaticaTreeNode) => {
                     handleImportBulkData(value);
-                    onResetModal();
                 }}
                 onCancel={onResetModal}
                 open={modalState === ModalState.analyse}
