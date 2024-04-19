@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { CloseOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Modal, Tooltip } from 'antd';
 import d3ToPng from 'd3-svg-to-png';
-import { format } from 'date-fns';
 import { v4 } from 'uuid';
 
 import { toKebabCase } from '../../../utils/stringUtils';
@@ -10,26 +9,17 @@ import { GridCardHeader } from '../../../view/v2/GridCard';
 import GridCard, { TGridCard } from '../../../view/v2/GridCard/GridCard';
 import { ResizableGridLayoutContext } from '..';
 
+import {
+    DownloadKey,
+    downloadToSvg,
+    DownloadType,
+    fileNameFormatter,
+    populateMenuItems,
+    TDictionary,
+    TDownloadSettings,
+} from './utils';
+
 import styles from './index.module.scss';
-
-type TDictionary = {
-    download?: {
-        fileNameTemplate?: string;
-        fileNameDateFormat?: string;
-        preview?: string;
-        download?: string;
-        data?: string;
-        svg?: string;
-        png?: string;
-        removeChart?: string;
-    };
-};
-
-type TDownloadSettings = {
-    tsv: boolean;
-    svg: boolean;
-    png: boolean;
-};
 
 type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
     gridUID: string;
@@ -55,17 +45,6 @@ type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
     withHandle?: boolean;
 };
 
-enum DownloadKey {
-    png = 'png',
-    svg = 'svg',
-    tsv = 'tsv',
-}
-
-enum DownloadType {
-    data = 'data',
-    chart = 'chart',
-}
-
 const EXPORT_SETTINGS = {
     background: 'white',
     quality: 0.92,
@@ -78,48 +57,6 @@ const DEFAULT_TSV_HEADERS = ['Value', 'Count', 'Frequency'];
 const DEFAULT_TSV_CONTENT_MAP = ['label', 'value', 'frequency'];
 const DEFAULT_FILENAME_TEMPLATE = '%name-$type-%date%extension';
 const DEFAULT_FILENAME_DATE_FORMAT = 'yyyy-MM-dd';
-
-const fileNameFormatter = (
-    fileNameTemplate: string,
-    type: DownloadType,
-    dateFormat: string,
-    name: string,
-    extension: string,
-): string => {
-    const formattedDate = format(new Date(), dateFormat);
-    return fileNameTemplate
-        .replace('%name', name.toLowerCase().replace(/ /g, ''))
-        .replace('%type', type)
-        .replace('%date', formattedDate)
-        .replace('%extension', extension);
-};
-
-const populateMenuItems = (settings: TDownloadSettings, dictionary?: TDictionary) => {
-    const items = [];
-
-    if (settings.tsv) {
-        items.push({
-            key: DownloadKey.tsv,
-            label: dictionary?.download?.data ?? 'Download data',
-        });
-    }
-
-    if (settings.svg) {
-        items.push({
-            key: DownloadKey.svg,
-            label: dictionary?.download?.svg ?? 'Download SVG',
-        });
-    }
-
-    if (settings.png) {
-        items.push({
-            key: DownloadKey.png,
-            label: dictionary?.download?.png ?? 'Download PNG',
-        });
-    }
-
-    return items;
-};
 
 const ResizableGridCard = ({
     closeHandle = true,
@@ -134,7 +71,7 @@ const ResizableGridCard = ({
     tsvSettings,
     withHandle = true,
     ...rest
-}: TResizableGridCard): JSX.Element => {
+}: TResizableGridCard): ReactElement => {
     const context = useContext(ResizableGridLayoutContext);
     const graphId = `graph-${v4()}`;
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -187,15 +124,28 @@ const ResizableGridCard = ({
 
         // d3ToPng block react's re-rendering. A timeout is need to force the download state to be set
         setTimeout(() => {
-            document.querySelectorAll(`#${graphId} svg`).forEach((_, index) => {
-                // d3ToPng only works with string query, not element
-                d3ToPng(
-                    `#${graphId} div:nth-child(${index + 1}) svg`,
-                    fileNameFormatter(fileNameTemplate, DownloadType.chart, fileNameDateFormat, headerTitle, ''),
-                    { ...EXPORT_SETTINGS, format: action },
-                ).then(() => {
-                    setHasStartedDownload(false);
-                });
+            document.querySelectorAll(`#${graphId} svg`).forEach((svg, index) => {
+                const fileName = fileNameFormatter(
+                    fileNameTemplate,
+                    DownloadType.chart,
+                    fileNameDateFormat,
+                    headerTitle,
+                    '',
+                );
+
+                if (action === DownloadKey.svg) {
+                    downloadToSvg(fileName, svg).then(() => {
+                        setHasStartedDownload(false);
+                    });
+                } else {
+                    // d3ToPng only works with string query, not element
+                    d3ToPng(`#${graphId} div:nth-child(${index + 1}) svg`, fileName, {
+                        ...EXPORT_SETTINGS,
+                        format: action,
+                    }).then(() => {
+                        setHasStartedDownload(false);
+                    });
+                }
             });
         }, DOWNLOAD_DELAY);
     }, [hasStartedDownload]);
