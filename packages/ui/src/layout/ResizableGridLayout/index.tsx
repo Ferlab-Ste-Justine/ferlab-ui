@@ -1,6 +1,6 @@
 // Check for futur fix for the mouse input lag
 // TODO: https://github.com/react-grid-layout/react-grid-layout/issues/2003
-import React, { createContext, memo, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { Layout, Layouts, Responsive as ResponsiveGridLayout, ResponsiveProps } from 'react-grid-layout';
 import { Space, Spin } from 'antd';
 import { Breakpoint } from 'antd/lib/_util/responsiveObserve';

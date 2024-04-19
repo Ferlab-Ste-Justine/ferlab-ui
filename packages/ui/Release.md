@@ -1,3 +1,6 @@
+### 9.14.2 2024-04-19
+- fix: SJIP-818 implement svg download for charts
+
 ### 9.14.1 2024-04-17
 - fix: SJIP-758 keep analyse modal open when copying file
 
