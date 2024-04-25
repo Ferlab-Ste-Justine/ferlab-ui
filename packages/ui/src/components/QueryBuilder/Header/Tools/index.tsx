@@ -85,6 +85,7 @@ const QueryBuilderHeaderTools = ({
                         className={styles.queryBuilderHeaderActionIconBtn}
                         disabled={isNewFilter}
                         icon={<PlusOutlined />}
+                        id="QBH_newFilter"
                         onClick={() => {
                             if (isDirty) {
                                 confirmUnsavedChangeForNewFilter(onNewSavedFilter);
@@ -108,6 +109,7 @@ const QueryBuilderHeaderTools = ({
                         className={cx(styles.queryBuilderHeaderActionIconBtn, isDirty ? styles.dirty : '')}
                         disabled={isSaveButtonDisabled}
                         icon={<SaveOutlined />}
+                        id="QBH_saveFilter"
                         onClick={() => {
                             if (isDirty) {
                                 if (config.onUpdateFilter) {
@@ -132,6 +134,7 @@ const QueryBuilderHeaderTools = ({
                             className={styles.queryBuilderHeaderActionIconBtn}
                             disabled={isNewFilter}
                             icon={<CopyOutlined />}
+                            id="QBH_copyFilter"
                             onClick={() => {
                                 if (isDirty) {
                                     confirmUnsavedChangeForNewFilter(onDuplicateSavedFilter);
@@ -149,6 +152,7 @@ const QueryBuilderHeaderTools = ({
                         className={styles.queryBuilderHeaderActionIconBtn}
                         disabled={isNewFilter}
                         icon={<DeleteOutlined />}
+                        id="QBH_deleteFilter"
                         onClick={() =>
                             deleteFilterConfirm({
                                 dictionary,
@@ -169,6 +173,7 @@ const QueryBuilderHeaderTools = ({
                             className={styles.queryBuilderHeaderActionIconBtn}
                             disabled={isNewFilter || isDirty}
                             icon={<ShareAltOutlined />}
+                            id="QBH_shareFilter"
                             onClick={() => {
                                 if (config.onShareFilter) {
                                     config.onShareFilter(selectedSavedFilter!);

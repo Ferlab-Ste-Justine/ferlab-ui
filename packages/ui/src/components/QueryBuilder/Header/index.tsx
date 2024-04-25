@@ -187,6 +187,7 @@ const QueryBuilderHeader = ({
                                     <Button
                                         className={styles.iconBtnAction}
                                         icon={<EditOutlined />}
+                                        id="QBH_editName"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setEditModalVisible(true);
