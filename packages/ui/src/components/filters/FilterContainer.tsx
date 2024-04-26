@@ -100,7 +100,7 @@ const FilterContainer = ({
     };
 
     return (
-        <div className={cx(styles.filterContainer, className)}>
+        <div className={cx(styles.filterContainer, className)} id="FilterContainer_collapseFacet">
             <Collapse
                 {...collapseProps}
                 activeKey={collapseOpen ? filterGroup.field : undefined}

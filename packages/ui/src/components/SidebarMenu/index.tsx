@@ -130,7 +130,7 @@ const Sidebar = ({
 
     return (
         <div className={`${styles.siderContainer} ${className}`} style={style}>
-            <div className={styles.sider} data-collapsed={collapsed}>
+            <div className={styles.sider} data-collapsed={collapsed} id="SidebarMenu_sider">
                 <StackLayout center={false} className={styles.siderStackLayout} flexContent vertical>
                     <div className={styles.sidebarToggleIconContainer}>
                         <div
