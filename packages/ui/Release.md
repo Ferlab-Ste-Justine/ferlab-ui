@@ -1,3 +1,6 @@
+### 9.14.3 2024-04-29
+- feat: SJIP-811 add class to pie chart
+
 ### 9.14.2 2024-04-19
 - fix: SJIP-818 implement svg download for charts
 
