@@ -15,7 +15,7 @@ import {
     DownloadType,
     fileNameFormatter,
     populateMenuItems,
-    TDictionary,
+    TDownloadDictionary,
     TDownloadSettings,
 } from './utils';
 
@@ -24,7 +24,7 @@ import styles from './index.module.scss';
 type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
     gridUID: string;
     headerTitle: string;
-    dictionary?: TDictionary;
+    dictionary?: TDownloadDictionary;
     modalContent?: React.ReactNode;
     modalSettings?: {
         width: number;
@@ -55,7 +55,7 @@ const CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH = 140;
 const DOWNLOAD_DELAY = 250;
 const DEFAULT_TSV_HEADERS = ['Value', 'Count', 'Frequency'];
 const DEFAULT_TSV_CONTENT_MAP = ['label', 'value', 'frequency'];
-const DEFAULT_FILENAME_TEMPLATE = '%name-$type-%date%extension';
+const DEFAULT_FILENAME_TEMPLATE = '%name-%type-%date%extension';
 const DEFAULT_FILENAME_DATE_FORMAT = 'yyyy-MM-dd';
 
 const ResizableGridCard = ({
@@ -78,15 +78,15 @@ const ResizableGridCard = ({
     const [action, setAction] = useState<DownloadKey>(DownloadKey.tsv);
     const [hasStartedDownload, setHasStartedDownload] = useState(false);
 
-    const fileNameTemplate = dictionary?.download?.fileNameTemplate ?? DEFAULT_FILENAME_TEMPLATE;
-    const fileNameDateFormat = dictionary?.download?.fileNameDateFormat ?? DEFAULT_FILENAME_DATE_FORMAT;
+    const fileNameTemplate = dictionary?.fileNameTemplate ?? DEFAULT_FILENAME_TEMPLATE;
+    const fileNameDateFormat = dictionary?.fileNameDateFormat ?? DEFAULT_FILENAME_DATE_FORMAT;
     const menuItems = populateMenuItems(downloadSettings, dictionary);
 
     const extra = [];
 
     if (closeHandle) {
         extra.push(
-            <Tooltip key="remove-button-tooltips" title={`${dictionary?.download?.removeChart ?? 'Remove chart'}`}>
+            <Tooltip key="remove-button-tooltips" title={`${dictionary?.removeChart ?? 'Remove chart'}`}>
                 <Button
                     className={styles.button}
                     icon={<CloseOutlined height={11} width={11} />}
@@ -131,6 +131,7 @@ const ResizableGridCard = ({
                     fileNameDateFormat,
                     headerTitle,
                     '',
+                    dictionary?.fileNameAdditionalInfo,
                 );
 
                 if (action === DownloadKey.svg) {
@@ -151,6 +152,7 @@ const ResizableGridCard = ({
     }, [hasStartedDownload]);
 
     const onMenuClick = (e: DownloadKey) => {
+        debugger;
         if (e === DownloadKey.tsv) {
             if (!tsvSettings) {
                 return;
@@ -179,6 +181,7 @@ const ResizableGridCard = ({
                     fileNameDateFormat,
                     headerTitle,
                     `.${DownloadKey.tsv}`,
+                    dictionary?.fileNameAdditionalInfo,
                 );
                 hiddenElement.click();
             });
@@ -195,13 +198,13 @@ const ResizableGridCard = ({
             {modalContent && (
                 <Modal
                     confirmLoading={hasStartedDownload}
-                    okText={dictionary?.download?.download ?? 'Download'}
+                    okText={dictionary?.download ?? 'Download'}
                     onCancel={() => setIsModalVisible(false)}
                     onOk={() => {
                         setHasStartedDownload(true);
                     }}
                     open={isModalVisible}
-                    title={`${dictionary?.download?.preview ?? 'Download preview - '}${headerTitle}.${action}`}
+                    title={`${dictionary?.preview ?? 'Download preview - '}${headerTitle}.${action}`}
                     width={modalSettings.width}
                 >
                     <div className={styles.modalContentWrapper} id={graphId} style={{ height: modalSettings.height }}>

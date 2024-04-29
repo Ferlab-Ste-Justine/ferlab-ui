@@ -1,3 +1,6 @@
+### 9.15.0 2024-04-29
+- feat: SJIP-803 allow download of Entity Statistic charts
+
 ### 9.14.3 2024-04-29
 - feat: SJIP-811 add class to pie chart
 

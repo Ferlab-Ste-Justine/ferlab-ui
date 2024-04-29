@@ -1,16 +1,15 @@
 import { format } from 'date-fns';
 
-export type TDictionary = {
-    download?: {
-        fileNameTemplate?: string;
-        fileNameDateFormat?: string;
-        preview?: string;
-        download?: string;
-        data?: string;
-        svg?: string;
-        png?: string;
-        removeChart?: string;
-    };
+export type TDownloadDictionary = {
+    fileNameTemplate?: string;
+    fileNameDateFormat?: string;
+    fileNameAdditionalInfo?: string;
+    preview?: string;
+    download?: string;
+    data?: string;
+    svg?: string;
+    png?: string;
+    removeChart?: string;
 };
 
 export type TDownloadSettings = {
@@ -36,10 +35,12 @@ export const fileNameFormatter = (
     dateFormat: string,
     name: string,
     extension: string,
+    extra?: string,
 ): string => {
     const formattedDate = format(new Date(), dateFormat);
     return fileNameTemplate
         .replace('%name', name.toLowerCase().replace(/ /g, ''))
+        .replace('%extra', extra || '')
         .replace('%type', type)
         .replace('%date', formattedDate)
         .replace('%extension', extension);
@@ -94,27 +95,27 @@ export const downloadToSvg = async (fileName: string, svg: Element) => {
     return downloadPromise;
 };
 
-export const populateMenuItems = (settings: TDownloadSettings, dictionary?: TDictionary) => {
+export const populateMenuItems = (settings: TDownloadSettings, dictionary?: TDownloadDictionary) => {
     const items = [];
 
     if (settings.tsv) {
         items.push({
             key: DownloadKey.tsv,
-            label: dictionary?.download?.data ?? 'Download data',
+            label: dictionary?.data ?? 'Download data',
         });
     }
 
     if (settings.svg) {
         items.push({
             key: DownloadKey.svg,
-            label: dictionary?.download?.svg ?? 'Download SVG',
+            label: dictionary?.svg ?? 'Download SVG',
         });
     }
 
     if (settings.png) {
         items.push({
             key: DownloadKey.png,
-            label: dictionary?.download?.png ?? 'Download PNG',
+            label: dictionary?.png ?? 'Download PNG',
         });
     }
 
