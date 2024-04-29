@@ -18,6 +18,7 @@ export type TPieChart = Omit<PieSvgProps<DefaultRawDatum>, 'width' | 'height'> &
         left: number;
         right: number;
     };
+    wrapperClassname?: string;
 };
 
 const { Title } = Typography;
@@ -27,6 +28,7 @@ const PieChart = ({
     onMouseEnter,
     title,
     valueFormat = (value) => `${numberFormat(value ?? 0)}`,
+    wrapperClassname = '',
     ...rest
 }: TPieChart): JSX.Element => {
     const fill = rest.data?.map((d, index) => ({
@@ -36,7 +38,7 @@ const PieChart = ({
         },
     }));
     return (
-        <div className={styles.pieChartWrapper}>
+        <div className={`${styles.pieChartWrapper} ${wrapperClassname}`}>
             <div className={styles.pieChartContent}>
                 <ResponsivePie
                     aria-label={title}
