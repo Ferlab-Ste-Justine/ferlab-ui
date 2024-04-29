@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { TDownloadDictionary } from '@ferlab/ui/layout/ResizableGridLayout/ResizableGridCard/utils';
 import { BarDatum } from '@nivo/bar';
 import { DefaultRawDatum } from '@nivo/pie';
 import { Col, Row, Space, Typography } from 'antd';
@@ -57,6 +58,7 @@ export const DEFAULT_ENTITY_STATISTIC_DICTIONARY: TEntityStatisticsDictionary = 
 };
 
 type TEntityStatisticsDictionary = {
+    download?: TDownloadDictionary;
     phenotype: {
         headerTitle: string;
         legendAxisLeft: string;
@@ -142,9 +144,9 @@ export interface IEntityStatistics {
 const resizableCardCommonsSettings = {
     closeHandle: false,
     downloadSettings: {
-        png: false,
-        svg: false,
-        tsv: false,
+        png: true,
+        svg: true,
+        tsv: true,
     },
     withHandle: false,
 };
@@ -243,11 +245,45 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                             )}
                         </>
                     }
+                    dictionary={dictionary.download}
                     gridUID="phenotypes"
                     headerTitle={dictionary.phenotype.headerTitle}
                     loading={statistic.phenotype.loading}
                     loadingType="spinner"
+                    modalContent={
+                        <BarChart
+                            axisBottom={{
+                                legend: dictionary.phenotype.legendAxisBottom,
+                                legendOffset: 35,
+                                legendPosition: 'middle',
+                            }}
+                            axisLeft={{
+                                format: (label: string) => {
+                                    const title = label
+                                        .replace(/\(HP:\d+\)/g, '')
+                                        .split('-')
+                                        .pop();
+                                    return truncateString(title ?? '', 15);
+                                },
+                                legend: dictionary.phenotype.legendAxisLeft,
+                                legendOffset: -125,
+                                legendPosition: 'middle',
+                            }}
+                            data={phenotypesData}
+                            layout="horizontal"
+                            margin={{
+                                bottom: 45,
+                                left: 145,
+                                right: 12,
+                                top: 12,
+                            }}
+                            {...barCharCommonsSettings}
+                        />
+                    }
                     theme="shade"
+                    tsvSettings={{
+                        data: [phenotypesData],
+                    }}
                     {...resizableCardCommonsSettings}
                 />
             ),
@@ -305,11 +341,45 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                             )}
                         </>
                     }
+                    dictionary={dictionary.download}
                     gridUID="mondo"
                     headerTitle={dictionary.mondo.headerTitle}
                     loading={statistic.mondo.loading}
                     loadingType="spinner"
+                    modalContent={
+                        <BarChart
+                            axisBottom={{
+                                legend: dictionary.mondo.legendAxisBottom,
+                                legendOffset: 35,
+                                legendPosition: 'middle',
+                            }}
+                            axisLeft={{
+                                format: (label: string) => {
+                                    const title = label
+                                        .replace(/\(MONDO:\d+\)/g, '')
+                                        .split('-')
+                                        .pop();
+                                    return truncateString(title ?? '', 15);
+                                },
+                                legend: dictionary.mondo.legendAxisLeft,
+                                legendOffset: -125,
+                                legendPosition: 'middle',
+                            }}
+                            data={mondoData}
+                            layout="horizontal"
+                            margin={{
+                                bottom: 45,
+                                left: 145,
+                                right: 12,
+                                top: 12,
+                            }}
+                            {...barCharCommonsSettings}
+                        />
+                    }
                     theme="shade"
+                    tsvSettings={{
+                        data: [mondoData],
+                    }}
                     {...resizableCardCommonsSettings}
                 />
             ),
@@ -373,11 +443,52 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                             </Col>
                         </Row>
                     }
+                    dictionary={dictionary.download}
                     gridUID="demography"
                     headerTitle={dictionary.demography.headerTitle}
                     loading={statistic.demography.loading}
                     loadingType="spinner"
+                    modalContent={
+                        <Row className={styles.graphRowWrapper} gutter={[12, 24]}>
+                            <Col lg={8} md={12} sm={12}>
+                                {isEmpty(statistic.demography.sex) ? (
+                                    <Empty imageType="grid" />
+                                ) : (
+                                    <PieChart
+                                        data={statistic.demography.sex}
+                                        title={dictionary.demography.sexTitle}
+                                        {...pieChartCommonsSettings}
+                                    />
+                                )}
+                            </Col>
+                            <Col lg={8} md={12} sm={12}>
+                                {isEmpty(statistic.demography.race) ? (
+                                    <Empty imageType="grid" />
+                                ) : (
+                                    <PieChart
+                                        data={statistic.demography.race}
+                                        title={dictionary.demography.raceTitle}
+                                        {...pieChartCommonsSettings}
+                                    />
+                                )}
+                            </Col>
+                            <Col lg={8} md={12} sm={12}>
+                                {isEmpty(statistic.demography.ethnicity) ? (
+                                    <Empty imageType="grid" />
+                                ) : (
+                                    <PieChart
+                                        data={statistic.demography.ethnicity}
+                                        title={dictionary.demography.ethnicityTitle}
+                                        {...pieChartCommonsSettings}
+                                    />
+                                )}
+                            </Col>
+                        </Row>
+                    }
                     theme="shade"
+                    tsvSettings={{
+                        data: [statistic.demography.sex, statistic.demography.race, statistic.demography.ethnicity],
+                    }}
                     {...resizableCardCommonsSettings}
                 />
             ),
@@ -437,12 +548,17 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                             )}
                         </>
                     }
+                    dictionary={dictionary.download}
                     gridUID="down_syndrome"
                     headerTitle={dictionary.downSyndromeStatus.headerTitle}
                     loading={statistic.downSyndromeStatus.loading}
                     loadingType="spinner"
+                    modalContent={<PieChart data={downSyndromeStatusData} {...pieChartCommonsSettings} />}
                     theme="shade"
                     titleTruncateThresholdWidth={100}
+                    tsvSettings={{
+                        data: [downSyndromeStatusData],
+                    }}
                     {...resizableCardCommonsSettings}
                 />
             ),
@@ -502,12 +618,17 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                             )}
                         </>
                     }
+                    dictionary={dictionary.download}
                     gridUID="sample_type"
                     headerTitle={dictionary.sampleType.headerTitle}
                     loading={statistic.sampleType.loading}
                     loadingType="spinner"
+                    modalContent={<PieChart data={sampleTypeData} {...pieChartCommonsSettings} />}
                     theme="shade"
                     titleTruncateThresholdWidth={100}
+                    tsvSettings={{
+                        data: [sampleTypeData],
+                    }}
                     {...resizableCardCommonsSettings}
                 />
             ),
@@ -567,12 +688,17 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                             )}
                         </>
                     }
+                    dictionary={dictionary.download}
                     gridUID="sample_availability"
                     headerTitle={dictionary.sampleAvailability.headerTitle}
                     loading={statistic.sampleAvailability.loading}
                     loadingType="spinner"
+                    modalContent={<PieChart data={sampleAvailabilityData} {...pieChartCommonsSettings} />}
                     theme="shade"
                     titleTruncateThresholdWidth={100}
+                    tsvSettings={{
+                        data: [sampleAvailabilityData],
+                    }}
                     {...resizableCardCommonsSettings}
                 />
             ),
@@ -653,11 +779,39 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                             )}
                         </>
                     }
+                    dictionary={dictionary.download}
                     gridUID="data-category"
                     headerTitle={dictionary.dataCategory.headerTitle}
                     loading={statistic.dataCategory.loading}
                     loadingType="spinner"
+                    modalContent={
+                        <BarChart
+                            axisBottom={{
+                                legend: dictionary.dataCategory.legendAxisBottom,
+                                legendOffset: 35,
+                                legendPosition: 'middle',
+                            }}
+                            axisLeft={{
+                                format: (title: string) => truncateString(title, 15),
+                                legend: dictionary.dataCategory.legendAxisLeft,
+                                legendOffset: -110,
+                                legendPosition: 'middle',
+                            }}
+                            data={dataCategoryData}
+                            layout="horizontal"
+                            margin={{
+                                bottom: 45,
+                                left: 125,
+                                right: 12,
+                                top: 12,
+                            }}
+                            {...barCharCommonsSettings}
+                        />
+                    }
                     theme="shade"
+                    tsvSettings={{
+                        data: [dataCategoryData],
+                    }}
                     {...resizableCardCommonsSettings}
                 />
             ),
@@ -738,11 +892,39 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                             )}
                         </>
                     }
+                    dictionary={dictionary.download}
                     gridUID="data-type"
                     headerTitle={dictionary.dataType.headerTitle}
                     loading={statistic.dataType.loading}
                     loadingType="spinner"
+                    modalContent={
+                        <BarChart
+                            axisBottom={{
+                                legend: dictionary.dataType.legendAxisBottom,
+                                legendOffset: 35,
+                                legendPosition: 'middle',
+                            }}
+                            axisLeft={{
+                                format: (title: string) => truncateString(title, 15),
+                                legend: dictionary.dataType.legendAxisLeft,
+                                legendOffset: -110,
+                                legendPosition: 'middle',
+                            }}
+                            data={dataTypeData}
+                            layout="horizontal"
+                            margin={{
+                                bottom: 45,
+                                left: 125,
+                                right: 12,
+                                top: 12,
+                            }}
+                            {...barCharCommonsSettings}
+                        />
+                    }
                     theme="shade"
+                    tsvSettings={{
+                        data: [dataTypeData],
+                    }}
                     {...resizableCardCommonsSettings}
                 />
             ),
