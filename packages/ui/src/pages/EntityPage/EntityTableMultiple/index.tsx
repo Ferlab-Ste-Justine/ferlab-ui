@@ -5,8 +5,10 @@ import { SizeType } from 'antd/lib/config-provider/SizeContext';
 import Collapse, { CollapsePanel } from '../../../components/Collapse';
 import ProTable from '../../../components/ProTable';
 import { IProTableDictionary, ProColumnType, TColumnStates, THeaderConfig } from '../../../components/ProTable/types';
+import { numberFormat } from '../../../utils/numberUtils';
 
 import styles from '../EntityTable/index.module.scss';
+
 const { Title } = Typography;
 
 export interface IEntityTableMultiple {
@@ -51,7 +53,7 @@ const EntityTableMultiple = ({
                 extra={titleExtra}
                 header={
                     <Space size={2}>
-                        {header} {total > 0 && <span>({total})</span>}
+                        {header} {total > 0 && <span>({numberFormat(total)})</span>}
                     </Space>
                 }
                 key="1"
