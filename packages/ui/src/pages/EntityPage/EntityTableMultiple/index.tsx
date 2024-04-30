@@ -2,10 +2,10 @@ import React, { ReactNode } from 'react';
 import { Card, Space, Typography } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 
-import { numberFormat } from '../../../../lib/es/utils/numberUtils';
 import Collapse, { CollapsePanel } from '../../../components/Collapse';
 import ProTable from '../../../components/ProTable';
 import { IProTableDictionary, ProColumnType, TColumnStates, THeaderConfig } from '../../../components/ProTable/types';
+import { numberFormat } from '../../../utils/numberUtils';
 
 import styles from '../EntityTable/index.module.scss';
 
