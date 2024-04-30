@@ -152,12 +152,10 @@ const ResizableGridCard = ({
     }, [hasStartedDownload]);
 
     const onMenuClick = (e: DownloadKey) => {
-        debugger;
         if (e === DownloadKey.tsv) {
             if (!tsvSettings) {
                 return;
             }
-
             tsvSettings.data.forEach((datum) => {
                 let tsvContent = `${tsvSettings.headers?.join('\t') ?? DEFAULT_TSV_HEADERS.join('\t')}\n`;
                 const tsvDataMapping = tsvSettings.contentMap ?? DEFAULT_TSV_CONTENT_MAP;

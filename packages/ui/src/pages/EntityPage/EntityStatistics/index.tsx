@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { TDownloadDictionary } from '@ferlab/ui/layout/ResizableGridLayout/ResizableGridCard/utils';
 import { BarDatum } from '@nivo/bar';
+import { LegendProps } from '@nivo/legends';
 import { DefaultRawDatum } from '@nivo/pie';
 import { Col, Row, Space, Typography } from 'antd';
 import { isEmpty, uniqBy } from 'lodash';
@@ -160,6 +161,35 @@ const pieChartCommonsSettings = {
     },
 };
 
+const graphModalSettings = {
+    margin: {
+        bottom: 116,
+        left: 12,
+        right: 12,
+        top: -32,
+    },
+};
+
+const singlePieModalSetting = {
+    legends: [
+        {
+            anchor: 'bottom',
+            direction: 'column',
+            itemHeight: 15,
+            itemsSpacing: 2,
+            itemWidth: 100,
+            translateX: -310,
+            translateY: 92,
+        },
+    ] as LegendProps[],
+    margin: {
+        bottom: 96,
+        left: 12,
+        right: 12,
+        top: 12,
+    },
+};
+
 const barCharCommonsSettings = {
     tooltipLabel: (node: any) => node.data.label,
 };
@@ -189,6 +219,8 @@ const applyFilter = ({ data, filter }: TStatisticBarChart | TStatisticPieChart, 
 
     return result;
 };
+
+const LEGEND_ITEM_HEIGHT = 18;
 
 const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatisticsDictionary) => {
     const phenotypesData = applyFilter(statistic.phenotype, 'label');
@@ -282,7 +314,9 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                     }
                     theme="shade"
                     tsvSettings={{
+                        contentMap: ['label', 'value'],
                         data: [phenotypesData],
+                        headers: ['Value', 'Count'],
                     }}
                     {...resizableCardCommonsSettings}
                 />
@@ -378,7 +412,9 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                     }
                     theme="shade"
                     tsvSettings={{
+                        contentMap: ['label', 'value'],
                         data: [mondoData],
+                        headers: ['Value', 'Count'],
                     }}
                     {...resizableCardCommonsSettings}
                 />
@@ -456,8 +492,18 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                                 ) : (
                                     <PieChart
                                         data={statistic.demography.sex}
-                                        title={dictionary.demography.sexTitle}
-                                        {...pieChartCommonsSettings}
+                                        legends={[
+                                            {
+                                                anchor: 'bottom',
+                                                direction: 'column',
+                                                itemHeight: LEGEND_ITEM_HEIGHT,
+                                                itemWidth: 100,
+                                                translateX: 0,
+                                                translateY:
+                                                    (LEGEND_ITEM_HEIGHT * statistic.demography.sex.length - 1) / 2,
+                                            },
+                                        ]}
+                                        {...graphModalSettings}
                                     />
                                 )}
                             </Col>
@@ -467,8 +513,18 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                                 ) : (
                                     <PieChart
                                         data={statistic.demography.race}
-                                        title={dictionary.demography.raceTitle}
-                                        {...pieChartCommonsSettings}
+                                        legends={[
+                                            {
+                                                anchor: 'bottom',
+                                                direction: 'column',
+                                                itemHeight: LEGEND_ITEM_HEIGHT,
+                                                itemWidth: 100,
+                                                translateX: 0,
+                                                translateY:
+                                                    (LEGEND_ITEM_HEIGHT * statistic.demography.race.length - 1) / 2,
+                                            },
+                                        ]}
+                                        {...graphModalSettings}
                                     />
                                 )}
                             </Col>
@@ -478,8 +534,19 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                                 ) : (
                                     <PieChart
                                         data={statistic.demography.ethnicity}
-                                        title={dictionary.demography.ethnicityTitle}
-                                        {...pieChartCommonsSettings}
+                                        legends={[
+                                            {
+                                                anchor: 'bottom',
+                                                direction: 'column',
+                                                itemHeight: LEGEND_ITEM_HEIGHT,
+                                                itemWidth: 100,
+                                                translateX: 0,
+                                                translateY:
+                                                    (LEGEND_ITEM_HEIGHT * statistic.demography.ethnicity.length - 1) /
+                                                    2,
+                                            },
+                                        ]}
+                                        {...graphModalSettings}
                                     />
                                 )}
                             </Col>
@@ -553,7 +620,7 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                     headerTitle={dictionary.downSyndromeStatus.headerTitle}
                     loading={statistic.downSyndromeStatus.loading}
                     loadingType="spinner"
-                    modalContent={<PieChart data={downSyndromeStatusData} {...pieChartCommonsSettings} />}
+                    modalContent={<PieChart data={downSyndromeStatusData} {...singlePieModalSetting} />}
                     theme="shade"
                     titleTruncateThresholdWidth={100}
                     tsvSettings={{
@@ -623,7 +690,7 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                     headerTitle={dictionary.sampleType.headerTitle}
                     loading={statistic.sampleType.loading}
                     loadingType="spinner"
-                    modalContent={<PieChart data={sampleTypeData} {...pieChartCommonsSettings} />}
+                    modalContent={<PieChart data={sampleTypeData} {...singlePieModalSetting} />}
                     theme="shade"
                     titleTruncateThresholdWidth={100}
                     tsvSettings={{
@@ -693,7 +760,7 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                     headerTitle={dictionary.sampleAvailability.headerTitle}
                     loading={statistic.sampleAvailability.loading}
                     loadingType="spinner"
-                    modalContent={<PieChart data={sampleAvailabilityData} {...pieChartCommonsSettings} />}
+                    modalContent={<PieChart data={sampleAvailabilityData} {...singlePieModalSetting} />}
                     theme="shade"
                     titleTruncateThresholdWidth={100}
                     tsvSettings={{
