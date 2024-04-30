@@ -1,15 +1,18 @@
 import { ArrangerValues } from '../../data/arranger/formatting';
 
-export const aggregationToChartData = (buckets: any[] = [], total?: number): any[] =>
-    buckets.map(({ doc_count, key }) => {
+export const aggregationToChartData = (buckets: any[] = [], total?: number): any[] => {
+    const computedTotal = total ?? buckets.reduce((acc, { doc_count }) => acc + doc_count, 0);
+
+    return buckets.map(({ doc_count, key }) => {
         const dataKey = key === ArrangerValues.missing ? 'No Data' : key;
         return {
-            frequency: total ? (doc_count * 100) / total : '',
+            frequency: (doc_count * 100) / computedTotal,
             id: dataKey,
             label: dataKey,
             value: doc_count,
         };
     });
+};
 
 export const treeNodeToChartData = (buckets: any[] = []): any[] =>
     buckets.map(({ exactTagCount, key, name }) => ({
