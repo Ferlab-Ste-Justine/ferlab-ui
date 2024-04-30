@@ -2,11 +2,13 @@ import React, { ReactNode } from 'react';
 import { Card, Space, Typography } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 
+import { numberFormat } from '../../../../lib/es/utils/numberUtils';
 import Collapse, { CollapsePanel } from '../../../components/Collapse';
 import ProTable from '../../../components/ProTable';
 import { IProTableDictionary, ProColumnType, TColumnStates, THeaderConfig } from '../../../components/ProTable/types';
 
 import styles from '../EntityTable/index.module.scss';
+
 const { Title } = Typography;
 
 export interface IEntityTableMultiple {
@@ -51,7 +53,7 @@ const EntityTableMultiple = ({
                 extra={titleExtra}
                 header={
                     <Space size={2}>
-                        {header} {total > 0 && <span>({total})</span>}
+                        {header} {total > 0 && <span>({numberFormat(total)})</span>}
                     </Space>
                 }
                 key="1"
