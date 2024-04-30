@@ -1,5 +1,5 @@
 ### 9.15.1 2024-04-30
-- feat: SJIP-800 format Entity Table Multiple header with number format
+- fix: SJIP-800 format Entity Table Multiple header with number format
 
 ### 9.15.0 2024-04-29
 - feat: SJIP-803 allow download of Entity Statistic charts
