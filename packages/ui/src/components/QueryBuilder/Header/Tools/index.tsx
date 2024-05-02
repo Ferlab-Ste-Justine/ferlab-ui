@@ -98,7 +98,9 @@ const QueryBuilderHeaderTools = ({
                 </Tooltip>
                 <Tooltip
                     title={
-                        isDirty
+                        isSaveButtonDisabled
+                            ? dictionary.queryBuilderHeader?.tooltips?.saveDisabled || 'Add a query to save'
+                            : isDirty
                             ? dictionary.queryBuilderHeader?.tooltips?.saveChanges || 'Save changes'
                             : dictionary.queryBuilderHeader?.tooltips?.save || 'Save filter'
                     }
@@ -162,7 +164,11 @@ const QueryBuilderHeaderTools = ({
                 </Tooltip>
                 {config.options?.enableShare && (
                     <Tooltip
-                        title={dictionary.queryBuilderHeader?.tooltips?.share || 'Share (Copy url)'}
+                        title={
+                            isNewFilter || isDirty
+                                ? dictionary.queryBuilderHeader?.tooltips?.shareDisabled || 'Save filter to share'
+                                : dictionary.queryBuilderHeader?.tooltips?.share || 'Share (Copy url)'
+                        }
                         {...tooltipAlign}
                     >
                         <Button

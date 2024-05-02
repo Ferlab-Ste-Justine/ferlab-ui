@@ -247,9 +247,11 @@ interface IQueryBuilderHeaderDictionnary {
         newQueryBuilder: React.ReactNode;
         save: React.ReactNode;
         saveChanges: React.ReactNode;
+        saveDisabled: React.ReactNode;
         duplicateQueryBuilder: React.ReactNode;
         delete: React.ReactNode;
         share: React.ReactNode;
+        shareDisabled: React.ReactNode;
         setAsDefaultFilter: React.ReactNode;
         unsetDefaultFilter: React.ReactNode;
         undoChanges: React.ReactNode;
