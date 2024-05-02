@@ -357,7 +357,6 @@ const ResizableGridLayout = ({
                     draggableHandle=".rgl-drag-zone"
                     layouts={responsiveDefaultLayouts}
                     margin={[12, 12]}
-                    maxRows={10}
                     onBreakpointChange={(newBreakpoint: string, newCols: number) => {
                         if (newBreakpoint === currentBreakpoint) {
                             return;
