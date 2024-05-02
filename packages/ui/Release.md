@@ -2,6 +2,9 @@
 - fix: SJIP-819 add tooltip to disabled QB Tools buttons
 
 ### 9.15.2 2024-04-30
+- fix: SJIP-831 remove max rows on Resizable Grid Layout
+
+### 9.15.2 2024-04-30
 - fix: SJIP-803 fix the format of Entity Statistic charts download and previews
 
 ### 9.15.1 2024-04-30
