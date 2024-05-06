@@ -1,3 +1,6 @@
+### 9.15.5 2024-05-06
+- feat: SKFP-1026 update default grid config
+
 ### 9.15.4 2024-05-01
 - fix: SJIP-831 remove max rows on Resizable Grid Layout
 
