@@ -17,7 +17,7 @@ export interface IEmptyProps {
     size?: SizeTypes;
     title?: string;
     imageType?: IImageType;
-    description?: string;
+    description?: ReactNode;
     action?: ReactNode;
     noPadding?: boolean;
     align?: 'left' | 'center';
