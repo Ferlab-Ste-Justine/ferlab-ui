@@ -1,3 +1,6 @@
+### 9.15.6 2024-05-06
+- fix: SKFP-971 update empty component props type
+
 ### 9.15.5 2024-05-06
 - feat: SKFP-1026 update default grid config
 
