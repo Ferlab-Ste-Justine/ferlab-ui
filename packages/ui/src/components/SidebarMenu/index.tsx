@@ -48,11 +48,6 @@ const Sidebar = ({
     contentPanelClassName = '',
     defaultSelectedKey = undefined,
     menuItems,
-    style = {},
-    toggleIcon = {
-        close: <MenuFoldOutlined />,
-        open: <MenuUnfoldOutlined />,
-    },
     quickFilter = {
         enableQuickFilter: false,
         inputPrefixIcon: undefined,
@@ -61,6 +56,11 @@ const Sidebar = ({
         menuTitle: 'Quick filter',
         placeholder: 'Quick filter...',
         quickFilterOptions: [],
+    },
+    style = {},
+    toggleIcon = {
+        close: <MenuFoldOutlined />,
+        open: <MenuUnfoldOutlined />,
     },
 }: ISidebarMenuProps): React.ReactElement => {
     const [quickFilterValue, setQuickFilterValue] = useState('');
