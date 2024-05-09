@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { InfoCircleOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { AutoComplete, Input, InputRef, Menu } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 
@@ -13,9 +13,19 @@ import styles from './index.module.scss';
 
 export interface ISidebarMenuItem {
     key: string | number;
-    title: string | React.ReactNode;
-    icon: React.ReactNode;
-    panelContent: (() => React.ReactNode) | React.ReactNode;
+    title: string | ReactNode;
+    icon: ReactNode;
+    panelContent: (() => ReactNode) | ReactNode;
+}
+
+export interface IQuickFilter {
+    enableQuickFilter?: boolean;
+    inputPrefixIcon?: ReactNode;
+    inputSuffixIcon?: ReactNode;
+    menuIcon?: ReactNode;
+    menuTitle?: string;
+    placeholder?: string;
+    quickFilterOptions?: any[];
 }
 
 export interface ISidebarMenuProps {
@@ -24,18 +34,11 @@ export interface ISidebarMenuProps {
     style?: React.CSSProperties;
     menuItems: Array<ISidebarMenuItem>;
     toggleIcon?: {
-        open?: React.ReactNode;
-        close?: React.ReactNode;
+        open?: ReactNode;
+        close?: ReactNode;
     };
-    enableQuickFilter?: boolean;
     defaultSelectedKey?: string | number;
-    quickFilterIcon?: React.ReactNode;
-    locale?: {
-        quickFilter?: {
-            placeholder?: string;
-            menuTitle?: string;
-        };
-    };
+    quickFilter?: IQuickFilter;
 }
 
 const SEARCH_KEY = 'search';
@@ -44,26 +47,36 @@ const Sidebar = ({
     className = '',
     contentPanelClassName = '',
     defaultSelectedKey = undefined,
-    enableQuickFilter = false,
-    locale = {
-        quickFilter: {
-            menuTitle: 'Quick Filter',
-            placeholder: 'Quick filter...',
-        },
-    },
     menuItems,
-    quickFilterIcon = undefined,
+    quickFilter = {
+        enableQuickFilter: false,
+        inputPrefixIcon: undefined,
+        inputSuffixIcon: undefined,
+        menuIcon: undefined,
+        menuTitle: 'Quick filter',
+        placeholder: 'Quick filter...',
+        quickFilterOptions: [],
+    },
     style = {},
     toggleIcon = {
         close: <MenuFoldOutlined />,
         open: <MenuUnfoldOutlined />,
     },
 }: ISidebarMenuProps): React.ReactElement => {
-    const [quickFilter, setQuickFilter] = useState('');
+    const [quickFilterValue, setQuickFilterValue] = useState('');
     const [collapsed, setCollapsed] = useState<boolean>(false);
     const [selectedKey, setSelectedKey] = useState<string>('');
     const searchInputRef = useRef<InputRef>(null);
     const selectedFilterComponent = menuItems.find((menuItem) => menuItem.key == selectedKey);
+    const {
+        enableQuickFilter,
+        inputPrefixIcon,
+        inputSuffixIcon,
+        menuIcon,
+        menuTitle,
+        placeholder,
+        quickFilterOptions,
+    } = quickFilter;
 
     const handleUserKeyUp = useCallback((e: any) => {
         const activeElement = document.activeElement?.getAttribute('data-key');
@@ -89,9 +102,9 @@ const Sidebar = ({
         if (enableQuickFilter && collapsed) {
             items.push({
                 className: styles.sidebarMenuItem,
-                icon: quickFilterIcon ? quickFilterIcon : <SearchIcon />,
+                icon: menuIcon ? menuIcon : <SearchIcon />,
                 key: SEARCH_KEY,
-                label: locale.quickFilter?.menuTitle,
+                label: menuTitle || 'Quick filter',
             });
         }
 
@@ -147,20 +160,19 @@ const Sidebar = ({
                         {enableQuickFilter && !collapsed && (
                             <div className={styles.searchMenuItem}>
                                 <AutoComplete
-                                    allowClear
                                     className={styles.searchInput}
                                     onChange={(value: string) => {
-                                        setQuickFilter(value ? value : '');
+                                        setQuickFilterValue(value ? value : '');
                                     }}
-                                    options={[]}
+                                    options={quickFilterOptions}
                                     tabIndex={0}
-                                    value={quickFilter}
+                                    value={quickFilterValue}
                                 >
                                     <Input
-                                        placeholder={locale.quickFilter?.placeholder}
-                                        prefix={quickFilterIcon ? quickFilterIcon : <SearchIcon />}
+                                        placeholder={placeholder || 'Quick filter...'}
+                                        prefix={inputPrefixIcon ? inputPrefixIcon : undefined}
                                         ref={searchInputRef}
-                                        suffix={<InfoCircleOutlined></InfoCircleOutlined>}
+                                        suffix={inputSuffixIcon ? inputSuffixIcon : <SearchIcon />}
                                     />
                                 </AutoComplete>
                             </div>

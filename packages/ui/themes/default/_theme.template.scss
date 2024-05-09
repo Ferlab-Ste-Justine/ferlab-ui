@@ -131,6 +131,7 @@ $sidebar-quick-filter-input-box-shadow-hover: 0 0 0 2px #00546e;
 $sidebar-quick-filter-input-box-shadow-focus: 0 0 0 2px #007694, 0 0 0 3px white;
 $sidebar-quick-filter-input-placeholder-color: #8a8da8;
 $sidebar-quick-filter-input-text-color: #383f72;
+$sidebar-quick-filter-input-border-color-focus: #007694;
 
 $sidebar-content-panel-padding: 16px;
 $sidebar-content-panel-width: 320px;
@@ -222,8 +223,9 @@ $maintenance-page-subtitle: $gray-9;
 $chart-title-color: $gray-8;
 
 // landing page
-$landing-card-gradient: linear-gradient(346deg, #1C3863 20.53%, #0369A1 100.05%), linear-gradient(299deg, #0369A1 0.84%, #1C3863 100.02%), #F0F3F8;
-$landing-cavatica-gradient: linear-gradient(300deg, rgba(210, 54, 254, 0.30) 0%, rgba(0, 170, 221, 0.30) 100%), #2E3F50;
+$landing-card-gradient: linear-gradient(346deg, #1c3863 20.53%, #0369a1 100.05%),
+    linear-gradient(299deg, #0369a1 0.84%, #1c3863 100.02%), #f0f3f8;
+$landing-cavatica-gradient: linear-gradient(300deg, rgba(210, 54, 254, 0.3) 0%, rgba(0, 170, 221, 0.3) 100%), #2e3f50;
 $landing-text-color: $gray-8;
 $landing-text-color-invert: $gray-1;
 $landing-text-icon-color-light: $blue-3;

@@ -1,3 +1,6 @@
+### 9.15.7 2024-05-09
+- feat: SKFP-1041 update quick filter input
+
 ### 9.15.6 2024-05-06
 - fix: SKFP-971 update empty component props type
 
