@@ -74,8 +74,6 @@ const QuickFilter = ({
     return (
         <div className={styles.searchMenuItem}>
             <Popover
-                overlayClassName={styles.popoverWrapper}
-                showArrow={false}
                 content={
                     <>
                         {search.length >= 3 && (
@@ -86,14 +84,14 @@ const QuickFilter = ({
                                             <div className={styles.facetNameWrapper} key={index}>
                                                 <Button
                                                     className={styles.facetNameBtn}
-                                                    type="link"
                                                     // TODO SKFP-1078 open facet
                                                     onClick={() => console.log('facet name click')}
+                                                    type="link"
                                                 >
                                                     <Highlighter
                                                         highlightClassName={styles.highlight}
-                                                        textToHighlight={option.title}
                                                         searchWords={[search]}
+                                                        textToHighlight={option.title}
                                                     />
                                                 </Button>
                                             </div>
@@ -118,8 +116,8 @@ const QuickFilter = ({
                                                 >
                                                     <Highlighter
                                                         highlightClassName={styles.highlight}
-                                                        textToHighlight={option.title}
                                                         searchWords={[search]}
+                                                        textToHighlight={option.title}
                                                     />
                                                 </Checkbox>
                                                 <Tag className={styles.tag}>
@@ -132,12 +130,12 @@ const QuickFilter = ({
                                 <div className={styles.popoverFooter}>
                                     <Button
                                         className={styles.cancelBtn}
-                                        type="link"
                                         onClick={() => {
                                             setOpenPopover(false);
                                             setSearch('');
                                             setQFOptions([]);
                                         }}
+                                        type="link"
                                     >
                                         {cancelLabel}
                                     </Button>
@@ -168,10 +166,12 @@ const QuickFilter = ({
                         <Typography.Text className={styles.popoverTitle}>{emptyMessage}</Typography.Text>
                     )
                 }
-                trigger="click"
-                open={isOpenPopover}
                 onOpenChange={handleOpenChange}
+                open={isOpenPopover}
+                overlayClassName={styles.popoverWrapper}
                 placement="bottomLeft"
+                showArrow={false}
+                trigger="click"
             >
                 <Input
                     onChange={(value) => {
