@@ -1,5 +1,5 @@
-import React, { ReactNode, useState } from 'react';
 import { Button, Checkbox, Input, InputRef, Popover, Tag, Typography } from 'antd';
+import React, { ReactNode, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 
 import { ISyntheticSqon } from '../../../data/sqon/types';
