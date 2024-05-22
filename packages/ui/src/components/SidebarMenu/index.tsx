@@ -1,12 +1,13 @@
 import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { AutoComplete, Input, InputRef, Menu } from 'antd';
+import { InputRef, Menu } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 
 import ScrollView from '../../layout/ScrollView';
 import StackLayout from '../../layout/StackLayout';
 
 import SearchIcon from './icons/SearchIcon';
+import QuickFilter, { IQuickFilter } from './QuickFilter';
 import SidebarMenuContentPanel from './SidebarMenuContentPanel';
 
 import styles from './index.module.scss';
@@ -16,16 +17,6 @@ export interface ISidebarMenuItem {
     title: string | ReactNode;
     icon: ReactNode;
     panelContent: (() => ReactNode) | ReactNode;
-}
-
-export interface IQuickFilter {
-    enableQuickFilter?: boolean;
-    inputPrefixIcon?: ReactNode;
-    inputSuffixIcon?: ReactNode;
-    menuIcon?: ReactNode;
-    menuTitle?: string;
-    placeholder?: string;
-    quickFilterOptions?: any[];
 }
 
 export interface ISidebarMenuProps {
@@ -50,12 +41,7 @@ const Sidebar = ({
     menuItems,
     quickFilter = {
         enableQuickFilter: false,
-        inputPrefixIcon: undefined,
-        inputSuffixIcon: undefined,
         menuIcon: undefined,
-        menuTitle: 'Quick filter',
-        placeholder: 'Quick filter...',
-        quickFilterOptions: [],
     },
     style = {},
     toggleIcon = {
@@ -63,20 +49,11 @@ const Sidebar = ({
         open: <MenuUnfoldOutlined />,
     },
 }: ISidebarMenuProps): React.ReactElement => {
-    const [quickFilterValue, setQuickFilterValue] = useState('');
     const [collapsed, setCollapsed] = useState<boolean>(false);
     const [selectedKey, setSelectedKey] = useState<string>('');
     const searchInputRef = useRef<InputRef>(null);
     const selectedFilterComponent = menuItems.find((menuItem) => menuItem.key == selectedKey);
-    const {
-        enableQuickFilter,
-        inputPrefixIcon,
-        inputSuffixIcon,
-        menuIcon,
-        menuTitle,
-        placeholder,
-        quickFilterOptions,
-    } = quickFilter;
+    const { enableQuickFilter, menuIcon, menuTitle } = quickFilter;
 
     const handleUserKeyUp = useCallback((e: any) => {
         const activeElement = document.activeElement?.getAttribute('data-key');
@@ -158,24 +135,18 @@ const Sidebar = ({
                     </div>
                     <ScrollView>
                         {enableQuickFilter && !collapsed && (
-                            <div className={styles.searchMenuItem}>
-                                <AutoComplete
-                                    className={styles.searchInput}
-                                    onChange={(value: string) => {
-                                        setQuickFilterValue(value ? value : '');
-                                    }}
-                                    options={quickFilterOptions}
-                                    tabIndex={0}
-                                    value={quickFilterValue}
-                                >
-                                    <Input
-                                        placeholder={placeholder || 'Quick filter...'}
-                                        prefix={inputPrefixIcon ? inputPrefixIcon : undefined}
-                                        ref={searchInputRef}
-                                        suffix={inputSuffixIcon ? inputSuffixIcon : <SearchIcon />}
-                                    />
-                                </AutoComplete>
-                            </div>
+                            <QuickFilter
+                                applyLabel={quickFilter.applyLabel}
+                                cancelLabel={quickFilter.cancelLabel}
+                                emptyMessage={quickFilter.emptyMessage}
+                                getSuggestionsList={quickFilter.getSuggestionsList}
+                                inputPrefixIcon={quickFilter.inputPrefixIcon}
+                                inputSuffixIcon={quickFilter.inputSuffixIcon}
+                                placeholder={quickFilter.placeholder}
+                                queryBuilderId={quickFilter.queryBuilderId}
+                                resultsLabel={quickFilter.resultsLabel}
+                                searchInputRef={searchInputRef}
+                            />
                         )}
                         <Menu
                             className={styles.sidebarMenu}

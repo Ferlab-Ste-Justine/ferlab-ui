@@ -1,0 +1,142 @@
+@import 'theme.template';
+
+$input-prefix: 'ant-input';
+$input-wrapper-prefix: $input-prefix + '-affix-wrapper';
+
+.searchMenuItem {
+    margin: 0 5px;
+    height: $sidebar-menu-item-height;
+    padding: 2px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    *,
+    ::placeholder {
+        color: $sidebar-quick-filter-input-placeholder-color;
+    }
+
+    // input style
+    :global(.#{$input-prefix}) {
+        color: $sidebar-quick-filter-input-text-color;
+    }
+
+    :global(.#{$input-prefix}-suffix) {
+        max-width: 16px;
+        font-size: 16px;
+    }
+
+    :global(.#{$input-prefix}-prefix) {
+        max-width: 16px;
+        font-size: 16px;
+    }
+
+    :global(.#{$input-wrapper-prefix}):hover,
+    :global(.#{$input-wrapper-prefix}):focus {
+        border-color: transparent;
+    }
+
+    .#{$input-wrapper-prefix}:hover {
+        box-shadow: $sidebar-quick-filter-input-box-shadow-hover;
+        border-color: transparent;
+        border-radius: 2px;
+    }
+
+    :global(.#{$input-wrapper-prefix}-focused) {
+        box-shadow: $sidebar-quick-filter-input-box-shadow-focus;
+        border-color: $sidebar-quick-filter-input-border-color-focus;
+        border-radius: 2px;
+    }
+    // end input style
+}
+
+// popover
+.popoverWrapper {
+    padding-top: 4px;
+    max-height: 420px;
+    width: max-content;
+    overflow: auto;
+    box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+
+    :global(.ant-popover-title) {
+        padding: 6px 12px;
+    }
+
+    :global(.ant-popover-inner) {
+        box-shadow: none;
+    }
+
+    :global(.ant-popover-inner-content) {
+        padding: 0;
+    }
+}
+
+.popoverTitle {
+    color: $gray-7;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.facetNameWrapper {
+    padding: 5px 12px;
+    &:not(:first-child) {
+        border-top: 1px solid $gray-4;
+    }
+    &:hover {
+        background-color: $gray-3;
+    }
+
+    .facetNameBtn {
+        color: $geekblue-7;
+        font-weight: 600;
+        padding: 0;
+        width: 100%;
+        span {
+            text-decoration: none;
+        }
+    }
+
+    :global(.ant-btn) {
+        text-align: left;
+    }
+}
+
+.facetValueWrapper {
+    padding: 5px 16px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    flex: auto 0;
+
+    .tag {
+        height: fit-content;
+        margin-right: 0px;
+    }
+}
+
+.popoverFooter {
+    text-align: right;
+    padding: 12px 16px;
+    border-top: 1px solid $gray-4;
+}
+
+.scrollContent {
+    width: 380px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.cancelBtn {
+    color: $gray-8;
+    span {
+        text-decoration: none;
+    }
+}
+
+.applyBtn {
+    padding: 1px 8px;
+}
+
+.highlight {
+    background-color: $blue-2;
+}
