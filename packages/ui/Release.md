@@ -1,3 +1,6 @@
+### 9.16.0 2024-05-22
+- feat: SKFP-1043 Quick filter displayed suggestion list
+
 ### 9.15.7 2024-05-09
 - feat: SKFP-1041 update quick filter input
 
