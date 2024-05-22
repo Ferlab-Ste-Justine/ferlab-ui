@@ -1,6 +1,6 @@
-import { Button, Checkbox, Input, InputRef, Popover, Tag, Typography } from 'antd';
 import React, { ReactNode, useState } from 'react';
 import Highlighter from 'react-highlight-words';
+import { Button, Checkbox, Input, InputRef, Popover, Tag, Typography } from 'antd';
 
 import { ISyntheticSqon } from '../../../data/sqon/types';
 import ScrollContent from '../../../layout/ScrollContent';
