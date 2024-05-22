@@ -5,8 +5,8 @@ import Highlighter from 'react-highlight-words';
 import { ISyntheticSqon } from '../../../data/sqon/types';
 import ScrollContent from '../../../layout/ScrollContent';
 import { numberFormat } from '../../../utils/numberUtils';
-import SearchIcon from '../icons/SearchIcon';
 import useQueryBuilderState from '../../QueryBuilder/utils/useQueryBuilderState';
+import SearchIcon from '../icons/SearchIcon';
 
 import styles from './index.module.scss';
 
