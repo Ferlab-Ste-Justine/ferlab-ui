@@ -1,11 +1,12 @@
 import React, { ReactNode, useState } from 'react';
 import { Button, Checkbox, Input, InputRef, Popover, Tag, Typography } from 'antd';
 import Highlighter from 'react-highlight-words';
-import SearchIcon from '../icons/SearchIcon';
-import useQueryBuilderState from '../../QueryBuilder/utils/useQueryBuilderState';
+
 import { ISyntheticSqon } from '../../../data/sqon/types';
 import ScrollContent from '../../../layout/ScrollContent';
 import { numberFormat } from '../../../utils/numberUtils';
+import SearchIcon from '../icons/SearchIcon';
+import useQueryBuilderState from '../../QueryBuilder/utils/useQueryBuilderState';
 
 import styles from './index.module.scss';
 
@@ -79,8 +80,8 @@ const QuickFilter = ({
                         {search.length >= 3 && (
                             <>
                                 <ScrollContent className={styles.scrollContent}>
-                                    {qfOptions.map((option, index) => {
-                                        return option.type === QuickFilterType.TITLE ? (
+                                    {qfOptions.map((option, index) =>
+                                        option.type === QuickFilterType.TITLE ? (
                                             <div className={styles.facetNameWrapper} key={index}>
                                                 <Button
                                                     className={styles.facetNameBtn}
@@ -124,8 +125,8 @@ const QuickFilter = ({
                                                     {numberFormat((option as CheckboxQFOption).docCount)}
                                                 </Tag>
                                             </div>
-                                        );
-                                    })}
+                                        ),
+                                    )}
                                 </ScrollContent>
                                 <div className={styles.popoverFooter}>
                                     <Button
@@ -157,6 +158,11 @@ const QuickFilter = ({
                         )}
                     </>
                 }
+                onOpenChange={handleOpenChange}
+                open={isOpenPopover}
+                overlayClassName={styles.popoverWrapper}
+                placement="bottomLeft"
+                showArrow={false}
                 title={
                     search.length >= 3 ? (
                         <Typography.Text
@@ -166,11 +172,6 @@ const QuickFilter = ({
                         <Typography.Text className={styles.popoverTitle}>{emptyMessage}</Typography.Text>
                     )
                 }
-                onOpenChange={handleOpenChange}
-                open={isOpenPopover}
-                overlayClassName={styles.popoverWrapper}
-                placement="bottomLeft"
-                showArrow={false}
                 trigger="click"
             >
                 <Input
