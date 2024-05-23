@@ -135,19 +135,7 @@ const Sidebar = ({
                     </div>
                     <ScrollView>
                         {enableQuickFilter && !collapsed && (
-                            <QuickFilter
-                                applyLabel={quickFilter.applyLabel}
-                                cancelLabel={quickFilter.cancelLabel}
-                                emptyMessage={quickFilter.emptyMessage}
-                                getSuggestionsList={quickFilter.getSuggestionsList}
-                                handleFacetClick={quickFilter?.handleFacetClick}
-                                inputPrefixIcon={quickFilter.inputPrefixIcon}
-                                inputSuffixIcon={quickFilter.inputSuffixIcon}
-                                placeholder={quickFilter.placeholder}
-                                queryBuilderId={quickFilter.queryBuilderId}
-                                resultsLabel={quickFilter.resultsLabel}
-                                searchInputRef={searchInputRef}
-                            />
+                            <QuickFilter {...quickFilter} searchInputRef={searchInputRef} />
                         )}
                         <Menu
                             className={styles.sidebarMenu}
