@@ -77,6 +77,12 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
     font-weight: 400;
 }
 
+.popoverFacetTitle {
+    color: $geekblue-7;
+    font-weight: 600;
+    font-size: 14px;
+}
+
 .facetNameWrapper {
     padding: 5px 12px;
     &:not(:first-child) {
@@ -139,4 +145,42 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
 
 .highlight {
     background-color: $blue-2;
+}
+
+.actionBar {
+    margin-left: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+
+    .checkboxSelectActions {
+        margin-right: auto;
+
+        .separator {
+            height: 1.2rem;
+            align-self: center;
+            background: $checkbox-filter-actions-separator-background;
+            margin: 0 0.5rem;
+        }
+
+        .checkboxFilterLinks {
+            border: none;
+            color: $checkbox-filter-actions-separator-links;
+            padding: 0;
+            font-size: $checkbox-filter-link-font-size;
+            line-height: $checkbox-filter-link-line-height;
+            height: auto;
+
+            > * {
+                text-decoration: underline;
+            }
+
+            &:hover > * {
+                background: transparent;
+                text-decoration: none;
+            }
+        }
+    }
 }
