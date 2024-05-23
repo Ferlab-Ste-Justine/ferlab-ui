@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import Highlighter from 'react-highlight-words';
-import { Button, Checkbox, Divider, Dropdown, Input, InputRef, Popover, Tag, Typography } from 'antd';
+import { Button, Checkbox, Divider, Dropdown, Input, InputRef, Popover, Spin, Tag, Typography } from 'antd';
 
 import { TermOperators } from '../../../data/sqon/operators';
 import { ISyntheticSqon } from '../../../data/sqon/types';
@@ -30,6 +30,9 @@ export type CheckboxQFOption = TitleQFOption & {
 };
 
 export interface IQuickFilter {
+    allLabel?: string;
+    allOfLabel?: string;
+    anyOfLabel?: string;
     applyLabel?: string;
     cancelLabel?: string;
     emptyMessage?: string;
@@ -38,14 +41,16 @@ export interface IQuickFilter {
         setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
         sqon: ISyntheticSqon,
         searchText: string,
-    ) => void;
+    ) => Promise<void>;
     handleFacetClick?: (
         setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
         sqon: ISyntheticSqon,
         option: TitleQFOption,
-    ) => void;
+    ) => Promise<void>;
     inputPrefixIcon?: ReactNode;
     inputSuffixIcon?: ReactNode;
+    noneLabel?: string;
+    noneOfLabel?: string;
     menuIcon?: ReactNode;
     menuTitle?: string;
     placeholder?: string;
@@ -55,6 +60,9 @@ export interface IQuickFilter {
 }
 
 const QuickFilter = ({
+    allLabel = 'All',
+    allOfLabel = 'All of',
+    anyOfLabel = 'Any of',
     applyLabel = 'Apply',
     cancelLabel = 'Cancel',
     emptyMessage = 'Empty search',
@@ -62,6 +70,8 @@ const QuickFilter = ({
     handleFacetClick,
     inputPrefixIcon,
     inputSuffixIcon,
+    noneLabel = 'None',
+    noneOfLabel = 'None of',
     placeholder = 'Quick filter...',
     queryBuilderId = '',
     resultsLabel = 'Results',
@@ -73,15 +83,18 @@ const QuickFilter = ({
     const [qfOptions, setQFOptions] = useState<(TitleQFOption | CheckboxQFOption)[]>([]);
     const [selectedOptions, setSelectedOptions] = useState<CheckboxQFOption[]>([]);
     const [selectedFacet, setSelectedFacet] = useState<TitleQFOption | undefined>(undefined);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleOpenChange = (newOpen: boolean) => setOpenPopover(newOpen);
 
     const handleSearchChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
+        async (e: React.ChangeEvent<HTMLInputElement>) => {
             const searchText = e.target.value;
             setSearch(searchText);
             if (searchText.length >= 3 && getSuggestionsList) {
-                getSuggestionsList(setQFOptions, activeQuery, searchText);
+                setIsLoading(true);
+                await getSuggestionsList(setQFOptions, activeQuery, searchText);
+                setIsLoading(false);
             } else {
                 setQFOptions([]);
             }
@@ -118,12 +131,13 @@ const QuickFilter = ({
         clearFilters();
     };
 
-    const onFacetClick = (option: TitleQFOption) => {
+    const onFacetClick = async (option: TitleQFOption) => {
         setSelectedFacet(option);
         setSearch('');
-
         if (handleFacetClick) {
-            handleFacetClick(setQFOptions, activeQuery, option);
+            setIsLoading(true);
+            await handleFacetClick(setQFOptions, activeQuery, option);
+            setIsLoading(false);
         }
     };
 
@@ -181,66 +195,72 @@ const QuickFilter = ({
         <div className={styles.searchMenuItem}>
             <Popover
                 content={
-                    <>
-                        {(search.length >= 3 || selectedFacet) && (
-                            <>
-                                {selectedFacet && (
-                                    <StackLayout className={styles.actionBar}>
-                                        <Button
-                                            className={styles.checkboxFilterLinks}
-                                            onClick={handleSelectAll}
-                                            type="text"
-                                        >
-                                            All
-                                        </Button>
+                    isLoading ? (
+                        <div className={styles.spinnerWrapper}>
+                            <Spin spinning={isLoading} />
+                        </div>
+                    ) : (
+                        <>
+                            {(search.length >= 3 || selectedFacet) && (
+                                <>
+                                    {selectedFacet && (
+                                        <StackLayout className={styles.actionBar}>
+                                            <Button
+                                                className={styles.checkboxFilterLinks}
+                                                onClick={handleSelectAll}
+                                                type="text"
+                                            >
+                                                {allLabel}
+                                            </Button>
 
-                                        <Divider className={styles.separator} type="vertical" />
-                                        <Button
-                                            className={styles.checkboxFilterLinks}
-                                            onClick={handleClearAll}
-                                            type="text"
-                                        >
-                                            None
-                                        </Button>
-                                    </StackLayout>
-                                )}
-                                <ScrollContent className={styles.scrollContent}>{renderOptions}</ScrollContent>
-                                <div className={styles.popoverFooter}>
-                                    <Button className={styles.cancelBtn} onClick={clearFilters} type="link">
-                                        {cancelLabel}
-                                    </Button>
-                                    {selectedFacet ? (
-                                        <Dropdown.Button
-                                            className={styles.applyBtn}
-                                            disabled={!selectedOptions.length}
-                                            menu={{
-                                                items: [
-                                                    { key: TermOperators.in, label: 'Any of' },
-                                                    { key: TermOperators.all, label: 'All of' },
-                                                    { key: TermOperators['not-in'], label: 'None of' },
-                                                ],
-                                                onClick: (e) => applyFilters(e.key as TermOperators),
-                                            }}
-                                            onClick={() => applyFilters(TermOperators.in)}
-                                            size="small"
-                                            type="primary"
-                                        >
-                                            {applyLabel}
-                                        </Dropdown.Button>
-                                    ) : (
-                                        <Button
-                                            className={styles.applyBtn}
-                                            disabled={!selectedOptions.length}
-                                            onClick={() => applyFilters(TermOperators.in)}
-                                            type="primary"
-                                        >
-                                            {applyLabel}
-                                        </Button>
+                                            <Divider className={styles.separator} type="vertical" />
+                                            <Button
+                                                className={styles.checkboxFilterLinks}
+                                                onClick={handleClearAll}
+                                                type="text"
+                                            >
+                                                {noneLabel}
+                                            </Button>
+                                        </StackLayout>
                                     )}
-                                </div>
-                            </>
-                        )}
-                    </>
+                                    <ScrollContent className={styles.scrollContent}>{renderOptions}</ScrollContent>
+                                    <div className={styles.popoverFooter}>
+                                        <Button className={styles.cancelBtn} onClick={clearFilters} type="link">
+                                            {cancelLabel}
+                                        </Button>
+                                        {selectedFacet ? (
+                                            <Dropdown.Button
+                                                className={styles.applyBtn}
+                                                disabled={!selectedOptions.length}
+                                                menu={{
+                                                    items: [
+                                                        { key: TermOperators.in, label: anyOfLabel },
+                                                        { key: TermOperators.all, label: allOfLabel },
+                                                        { key: TermOperators['not-in'], label: noneOfLabel },
+                                                    ],
+                                                    onClick: (e) => applyFilters(e.key as TermOperators),
+                                                }}
+                                                onClick={() => applyFilters(TermOperators.in)}
+                                                size="small"
+                                                type="primary"
+                                            >
+                                                {applyLabel}
+                                            </Dropdown.Button>
+                                        ) : (
+                                            <Button
+                                                className={styles.applyBtn}
+                                                disabled={!selectedOptions.length}
+                                                onClick={() => applyFilters(TermOperators.in)}
+                                                type="primary"
+                                            >
+                                                {applyLabel}
+                                            </Button>
+                                        )}
+                                    </div>
+                                </>
+                            )}
+                        </>
+                    )
                 }
                 onOpenChange={handleOpenChange}
                 open={isOpenPopover}

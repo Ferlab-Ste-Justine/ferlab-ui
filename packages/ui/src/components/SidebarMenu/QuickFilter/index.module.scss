@@ -147,6 +147,14 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
     background-color: $blue-2;
 }
 
+.spinnerWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    width: 380px;
+}
+
 .actionBar {
     margin: 10px 0 10px 12px;
     align-items: center;
