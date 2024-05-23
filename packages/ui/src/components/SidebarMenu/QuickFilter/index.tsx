@@ -67,17 +67,17 @@ const QuickFilter = ({
     resultsLabel = 'Results',
     searchInputRef,
 }: IQuickFilter): ReactElement => {
-    const [isOpenPopover, setOpenPopover] = useState<boolean>(false);
-    const [search, setSearch] = useState<string>('');
+    const { activeQuery } = useQueryBuilderState(queryBuilderId);
+    const [isOpenPopover, setOpenPopover] = useState(false);
+    const [search, setSearch] = useState('');
     const [qfOptions, setQFOptions] = useState<(TitleQFOption | CheckboxQFOption)[]>([]);
     const [selectedOptions, setSelectedOptions] = useState<CheckboxQFOption[]>([]);
     const [selectedFacet, setSelectedFacet] = useState<TitleQFOption | undefined>(undefined);
-    const { activeQuery } = useQueryBuilderState(queryBuilderId);
 
-    const handleOpenChange = (newOpen: boolean): void => setOpenPopover(newOpen);
+    const handleOpenChange = (newOpen: boolean) => setOpenPopover(newOpen);
 
     const handleSearchChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>): void => {
+        (e: React.ChangeEvent<HTMLInputElement>) => {
             const searchText = e.target.value;
             setSearch(searchText);
             if (searchText.length >= 3 && getSuggestionsList) {
@@ -89,36 +89,36 @@ const QuickFilter = ({
         [getSuggestionsList, activeQuery],
     );
 
-    const handleCheckboxChange = useCallback((option: CheckboxQFOption, checked: boolean): void => {
+    const handleCheckboxChange = useCallback((option: CheckboxQFOption, checked: boolean) => {
         setSelectedOptions((prevSelectedOptions) =>
             checked ? [...prevSelectedOptions, option] : prevSelectedOptions.filter((opt) => opt.key !== option.key),
         );
     }, []);
 
-    const handleSelectAll = (): void => {
+    const handleSelectAll = () => {
         setSelectedOptions(
             qfOptions.filter((option): option is CheckboxQFOption => option.type === QuickFilterType.CHECKBOX),
         );
     };
 
-    const handleClearAll = (): void => {
+    const handleClearAll = () => {
         setSelectedOptions([]);
     };
 
-    const clearFilters = (): void => {
+    const clearFilters = () => {
         setSelectedFacet(undefined);
         setOpenPopover(false);
         setSearch('');
         setQFOptions([]);
     };
 
-    const applyFilters = (operator: TermOperators): void => {
+    const applyFilters = (operator: TermOperators) => {
         console.log(operator);
         // Add logic to apply selected filters
         clearFilters();
     };
 
-    const onFacetClick = (option: TitleQFOption): void => {
+    const onFacetClick = (option: TitleQFOption) => {
         setSelectedFacet(option);
         setSearch('');
 
@@ -219,18 +219,9 @@ const QuickFilter = ({
                                             disabled={!selectedOptions.length}
                                             menu={{
                                                 items: [
-                                                    {
-                                                        key: TermOperators.in,
-                                                        label: 'Any of',
-                                                    },
-                                                    {
-                                                        key: TermOperators.all,
-                                                        label: 'All of',
-                                                    },
-                                                    {
-                                                        key: TermOperators['not-in'],
-                                                        label: 'None of',
-                                                    },
+                                                    { key: TermOperators.in, label: 'Any of' },
+                                                    { key: TermOperators.all, label: 'All of' },
+                                                    { key: TermOperators['not-in'], label: 'None of' },
                                                 ],
                                                 onClick: (e) => applyFilters(e.key as TermOperators),
                                             }}
