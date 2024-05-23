@@ -186,24 +186,22 @@ const QuickFilter = ({
                             <>
                                 {selectedFacet && (
                                     <StackLayout className={styles.actionBar}>
-                                        <StackLayout className={styles.checkboxSelectActions}>
-                                            <Button
-                                                className={styles.checkboxFilterLinks}
-                                                onClick={handleSelectAll}
-                                                type="text"
-                                            >
-                                                All
-                                            </Button>
+                                        <Button
+                                            className={styles.checkboxFilterLinks}
+                                            onClick={handleSelectAll}
+                                            type="text"
+                                        >
+                                            All
+                                        </Button>
 
-                                            <Divider className={styles.separator} type="vertical" />
-                                            <Button
-                                                className={styles.checkboxFilterLinks}
-                                                onClick={handleClearAll}
-                                                type="text"
-                                            >
-                                                None
-                                            </Button>
-                                        </StackLayout>
+                                        <Divider className={styles.separator} type="vertical" />
+                                        <Button
+                                            className={styles.checkboxFilterLinks}
+                                            onClick={handleClearAll}
+                                            type="text"
+                                        >
+                                            None
+                                        </Button>
                                     </StackLayout>
                                 )}
                                 <ScrollContent className={styles.scrollContent}>{renderOptions}</ScrollContent>

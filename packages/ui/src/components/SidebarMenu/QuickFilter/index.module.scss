@@ -148,39 +148,32 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
 }
 
 .actionBar {
-    margin-left: 12px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 0 10px 12px;
     align-items: center;
-    justify-content: space-between;
     font-size: 12px;
 
-    .checkboxSelectActions {
-        margin-right: auto;
+    .separator {
+        height: 1.2rem;
+        align-self: center;
+        background: $checkbox-filter-actions-separator-background;
+        margin: 0 0.5rem;
+    }
 
-        .separator {
-            height: 1.2rem;
-            align-self: center;
-            background: $checkbox-filter-actions-separator-background;
-            margin: 0 0.5rem;
+    .checkboxFilterLinks {
+        border: none;
+        color: $checkbox-filter-actions-separator-links;
+        padding: 0;
+        font-size: $checkbox-filter-link-font-size;
+        line-height: $checkbox-filter-link-line-height;
+        height: auto;
+
+        > * {
+            text-decoration: underline;
         }
 
-        .checkboxFilterLinks {
-            border: none;
-            color: $checkbox-filter-actions-separator-links;
-            padding: 0;
-            font-size: $checkbox-filter-link-font-size;
-            line-height: $checkbox-filter-link-line-height;
-            height: auto;
-
-            > * {
-                text-decoration: underline;
-            }
-
-            &:hover > * {
-                background: transparent;
-                text-decoration: none;
-            }
+        &:hover > * {
+            background: transparent;
+            text-decoration: none;
         }
     }
 }
