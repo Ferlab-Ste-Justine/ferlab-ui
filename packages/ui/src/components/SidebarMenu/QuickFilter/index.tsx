@@ -185,26 +185,24 @@ const QuickFilter = ({
                         {(search.length >= 3 || selectedFacet) && (
                             <>
                                 {selectedFacet && (
-                                    <StackLayout vertical>
-                                        <StackLayout className={styles.actionBar}>
-                                            <StackLayout className={styles.checkboxSelectActions}>
-                                                <Button
-                                                    className={styles.checkboxFilterLinks}
-                                                    onClick={handleSelectAll}
-                                                    type="text"
-                                                >
-                                                    All
-                                                </Button>
+                                    <StackLayout className={styles.actionBar}>
+                                        <StackLayout className={styles.checkboxSelectActions}>
+                                            <Button
+                                                className={styles.checkboxFilterLinks}
+                                                onClick={handleSelectAll}
+                                                type="text"
+                                            >
+                                                All
+                                            </Button>
 
-                                                <Divider className={styles.separator} type="vertical" />
-                                                <Button
-                                                    className={styles.checkboxFilterLinks}
-                                                    onClick={handleClearAll}
-                                                    type="text"
-                                                >
-                                                    None
-                                                </Button>
-                                            </StackLayout>
+                                            <Divider className={styles.separator} type="vertical" />
+                                            <Button
+                                                className={styles.checkboxFilterLinks}
+                                                onClick={handleClearAll}
+                                                type="text"
+                                            >
+                                                None
+                                            </Button>
                                         </StackLayout>
                                     </StackLayout>
                                 )}
@@ -215,7 +213,7 @@ const QuickFilter = ({
                                     </Button>
                                     {selectedFacet ? (
                                         <Dropdown.Button
-                                            className={styles.fuiCbfActionsApply}
+                                            className={styles.applyBtn}
                                             disabled={!selectedOptions.length}
                                             menu={{
                                                 items: [
@@ -229,7 +227,7 @@ const QuickFilter = ({
                                             size="small"
                                             type="primary"
                                         >
-                                            <span data-key="apply">{applyLabel}</span>
+                                            {applyLabel}
                                         </Dropdown.Button>
                                     ) : (
                                         <Button
