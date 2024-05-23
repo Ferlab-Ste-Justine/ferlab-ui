@@ -1,3 +1,6 @@
+### 9.16.1 2024-05-23
+- feat: SKFP-1043 Refactor Quick filter component
+
 ### 9.16.0 2024-05-22
 - feat: SKFP-1043 Quick filter displayed suggestion list
 
