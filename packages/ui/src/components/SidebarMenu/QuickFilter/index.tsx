@@ -41,12 +41,13 @@ export interface IQuickFilter {
         setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
         sqon: ISyntheticSqon,
         searchText: string,
-    ) => Promise<void>;
+    ) => void;
     handleFacetClick?: (
         setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
         sqon: ISyntheticSqon,
         option: TitleQFOption,
-    ) => Promise<void>;
+    ) => void;
+    isLoading?: boolean;
     inputPrefixIcon?: ReactNode;
     inputSuffixIcon?: ReactNode;
     noneLabel?: string;
@@ -70,6 +71,7 @@ const QuickFilter = ({
     handleFacetClick,
     inputPrefixIcon,
     inputSuffixIcon,
+    isLoading = false,
     noneLabel = 'None',
     noneOfLabel = 'None of',
     placeholder = 'Quick filter...',
@@ -83,18 +85,15 @@ const QuickFilter = ({
     const [qfOptions, setQFOptions] = useState<(TitleQFOption | CheckboxQFOption)[]>([]);
     const [selectedOptions, setSelectedOptions] = useState<CheckboxQFOption[]>([]);
     const [selectedFacet, setSelectedFacet] = useState<TitleQFOption | undefined>(undefined);
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleOpenChange = (newOpen: boolean) => setOpenPopover(newOpen);
 
     const handleSearchChange = useCallback(
-        async (e: React.ChangeEvent<HTMLInputElement>) => {
+        (e: React.ChangeEvent<HTMLInputElement>) => {
             const searchText = e.target.value;
             setSearch(searchText);
             if (searchText.length >= 3 && getSuggestionsList) {
-                setIsLoading(true);
-                await getSuggestionsList(setQFOptions, activeQuery, searchText);
-                setIsLoading(false);
+                getSuggestionsList(setQFOptions, activeQuery, searchText);
             } else {
                 setQFOptions([]);
             }
@@ -131,13 +130,11 @@ const QuickFilter = ({
         clearFilters();
     };
 
-    const onFacetClick = async (option: TitleQFOption) => {
+    const onFacetClick = (option: TitleQFOption) => {
         setSelectedFacet(option);
         setSearch('');
         if (handleFacetClick) {
-            setIsLoading(true);
-            await handleFacetClick(setQFOptions, activeQuery, option);
-            setIsLoading(false);
+            handleFacetClick(setQFOptions, activeQuery, option);
         }
     };
 
