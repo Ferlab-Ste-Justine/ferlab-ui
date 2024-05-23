@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactElement, ReactNode, useCallback, useEffect, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Button, Checkbox, Input, InputRef, Popover, Tag, Typography } from 'antd';
 
@@ -19,15 +19,12 @@ export type TitleQFOption = {
     key: string;
     title: string;
     type: QuickFilterType;
+    index: string;
 };
 
-export type CheckboxQFOption = {
-    key: string;
-    title: string;
+export type CheckboxQFOption = TitleQFOption & {
     docCount: number;
-    type: QuickFilterType;
     facetKey: string;
-    index?: string;
 };
 
 export interface IQuickFilter {
@@ -39,6 +36,11 @@ export interface IQuickFilter {
         setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
         sqon: ISyntheticSqon,
         searchText: string,
+    ) => void;
+    handleFacetClick?: (
+        setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
+        sqon: ISyntheticSqon,
+        option: TitleQFOption,
     ) => void;
     inputPrefixIcon?: ReactNode;
     inputSuffixIcon?: ReactNode;
@@ -55,21 +57,88 @@ const QuickFilter = ({
     cancelLabel = 'Cancel',
     emptyMessage = 'Empty search',
     getSuggestionsList,
-    inputPrefixIcon = undefined,
-    inputSuffixIcon = undefined,
+    handleFacetClick,
+    inputPrefixIcon,
+    inputSuffixIcon,
     placeholder = 'Quick filter...',
     queryBuilderId = '',
     resultsLabel = 'Results',
     searchInputRef,
-}: IQuickFilter) => {
+}: IQuickFilter): ReactElement => {
     const [isOpenPopover, setOpenPopover] = useState<boolean>(false);
     const [search, setSearch] = useState('');
     const [qfOptions, setQFOptions] = useState<(TitleQFOption | CheckboxQFOption)[]>([]);
     const [selectedOptions, setSelectedOptions] = useState<CheckboxQFOption[]>([]);
     const { activeQuery } = useQueryBuilderState(queryBuilderId || '');
 
-    const handleOpenChange = (newOpen: boolean) => {
-        setOpenPopover(newOpen);
+    const handleOpenChange = (newOpen: boolean) => setOpenPopover(newOpen);
+
+    const handleSearchChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            const searchText = e.target.value;
+            setSearch(searchText);
+            if (searchText.length >= 3 && getSuggestionsList) {
+                getSuggestionsList(setQFOptions, activeQuery, searchText);
+            } else {
+                setQFOptions([]);
+            }
+        },
+        [getSuggestionsList, activeQuery],
+    );
+
+    const handleCheckboxChange = (option: CheckboxQFOption, checked: boolean) => {
+        setSelectedOptions((prevSelectedOptions) =>
+            checked ? [...prevSelectedOptions, option] : prevSelectedOptions.filter((opt) => opt.key !== option.key),
+        );
+    };
+
+    const clearFilters = () => {
+        setOpenPopover(false);
+        setSearch('');
+        setQFOptions([]);
+    };
+
+    const applyFilters = () => {
+        // Add logic to apply selected filters
+        clearFilters();
+    };
+
+    const renderOptions = () =>
+        qfOptions.map((option, index) =>
+            option.type === QuickFilterType.TITLE ? (
+                <div className={styles.facetNameWrapper} key={index}>
+                    <Button className={styles.facetNameBtn} onClick={() => onFacetClick(option)} type="link">
+                        <Highlighter
+                            highlightClassName={styles.highlight}
+                            searchWords={[search]}
+                            textToHighlight={option.title}
+                        />
+                    </Button>
+                </div>
+            ) : (
+                <div className={styles.facetValueWrapper} key={index}>
+                    <Checkbox onChange={(e) => handleCheckboxChange(option as CheckboxQFOption, e.target.checked)}>
+                        <Highlighter
+                            highlightClassName={styles.highlight}
+                            searchWords={[search]}
+                            textToHighlight={option.title}
+                        />
+                    </Checkbox>
+                    <Tag className={styles.tag}>{numberFormat((option as CheckboxQFOption).docCount)}</Tag>
+                </div>
+            ),
+        );
+
+    useEffect(() => {
+        if (!isOpenPopover) {
+            clearFilters();
+        }
+    }, [isOpenPopover]);
+
+    const onFacetClick = (option: TitleQFOption) => {
+        if (handleFacetClick) {
+            handleFacetClick(setQFOptions, activeQuery, option);
+        }
     };
 
     return (
@@ -79,76 +148,15 @@ const QuickFilter = ({
                     <>
                         {search.length >= 3 && (
                             <>
-                                <ScrollContent className={styles.scrollContent}>
-                                    {qfOptions.map((option, index) =>
-                                        option.type === QuickFilterType.TITLE ? (
-                                            <div className={styles.facetNameWrapper} key={index}>
-                                                <Button
-                                                    className={styles.facetNameBtn}
-                                                    // TODO SKFP-1078 open facet
-                                                    onClick={() => console.log('facet name click')}
-                                                    type="link"
-                                                >
-                                                    <Highlighter
-                                                        highlightClassName={styles.highlight}
-                                                        searchWords={[search]}
-                                                        textToHighlight={option.title}
-                                                    />
-                                                </Button>
-                                            </div>
-                                        ) : (
-                                            <div className={styles.facetValueWrapper} key={index}>
-                                                <Checkbox
-                                                    onChange={(e) => {
-                                                        const { checked } = e.target;
-                                                        let newSelectedOptions: CheckboxQFOption[];
-                                                        if (checked) {
-                                                            newSelectedOptions = [
-                                                                ...selectedOptions,
-                                                                option as CheckboxQFOption,
-                                                            ];
-                                                        } else {
-                                                            newSelectedOptions = selectedOptions.filter(
-                                                                (opt: CheckboxQFOption) => opt.key !== option.key,
-                                                            );
-                                                        }
-                                                        setSelectedOptions(newSelectedOptions);
-                                                    }}
-                                                >
-                                                    <Highlighter
-                                                        highlightClassName={styles.highlight}
-                                                        searchWords={[search]}
-                                                        textToHighlight={option.title}
-                                                    />
-                                                </Checkbox>
-                                                <Tag className={styles.tag}>
-                                                    {numberFormat((option as CheckboxQFOption).docCount)}
-                                                </Tag>
-                                            </div>
-                                        ),
-                                    )}
-                                </ScrollContent>
+                                <ScrollContent className={styles.scrollContent}>{renderOptions()}</ScrollContent>
                                 <div className={styles.popoverFooter}>
-                                    <Button
-                                        className={styles.cancelBtn}
-                                        onClick={() => {
-                                            setOpenPopover(false);
-                                            setSearch('');
-                                            setQFOptions([]);
-                                        }}
-                                        type="link"
-                                    >
+                                    <Button className={styles.cancelBtn} onClick={clearFilters} type="link">
                                         {cancelLabel}
                                     </Button>
                                     <Button
                                         className={styles.applyBtn}
                                         disabled={!selectedOptions.length}
-                                        onClick={() => {
-                                            // Add to QB
-                                            setOpenPopover(false);
-                                            setSearch('');
-                                            setQFOptions([]);
-                                        }}
+                                        onClick={applyFilters}
                                         type="primary"
                                     >
                                         {applyLabel}
@@ -164,28 +172,18 @@ const QuickFilter = ({
                 placement="bottomLeft"
                 showArrow={false}
                 title={
-                    search.length >= 3 ? (
-                        <Typography.Text
-                            className={styles.popoverTitle}
-                        >{`${qfOptions.length} ${resultsLabel}`}</Typography.Text>
-                    ) : (
-                        <Typography.Text className={styles.popoverTitle}>{emptyMessage}</Typography.Text>
-                    )
+                    <Typography.Text className={styles.popoverTitle}>
+                        {search.length >= 3 ? `${qfOptions.length} ${resultsLabel}` : emptyMessage}
+                    </Typography.Text>
                 }
                 trigger="click"
             >
                 <Input
-                    onChange={(value) => {
-                        const searchText = value.target.value;
-                        setSearch(searchText);
-                        if (searchText.length >= 3 && getSuggestionsList)
-                            getSuggestionsList(setQFOptions, activeQuery, searchText);
-                        else setQFOptions([]);
-                    }}
-                    placeholder={placeholder || 'Quick filter...'}
-                    prefix={inputPrefixIcon ? inputPrefixIcon : undefined}
+                    onChange={handleSearchChange}
+                    placeholder={placeholder}
+                    prefix={inputPrefixIcon}
                     ref={searchInputRef}
-                    suffix={inputSuffixIcon ? inputSuffixIcon : <SearchIcon />}
+                    suffix={inputSuffixIcon || <SearchIcon />}
                     value={search}
                 />
             </Popover>

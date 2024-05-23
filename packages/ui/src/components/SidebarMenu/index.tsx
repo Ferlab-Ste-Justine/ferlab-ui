@@ -140,6 +140,7 @@ const Sidebar = ({
                                 cancelLabel={quickFilter.cancelLabel}
                                 emptyMessage={quickFilter.emptyMessage}
                                 getSuggestionsList={quickFilter.getSuggestionsList}
+                                handleFacetClick={quickFilter?.handleFacetClick}
                                 inputPrefixIcon={quickFilter.inputPrefixIcon}
                                 inputSuffixIcon={quickFilter.inputSuffixIcon}
                                 placeholder={quickFilter.placeholder}
