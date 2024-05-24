@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { MouseEvent, ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Button, Checkbox, Divider, Dropdown, Input, InputRef, Popover, Spin, Tag, Typography } from 'antd';
 
@@ -183,7 +183,7 @@ const QuickFilter = ({
         );
     };
 
-    const stopEventPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
+    const stopEventPropagation = (e: MouseEvent<HTMLDivElement>) => {
         // Prevents the modal from closing when we click in the input again
         if (isOpenPopover) {
             e.stopPropagation();
