@@ -86,10 +86,9 @@ const QuickFilter = ({
     const [selectedOptions, setSelectedOptions] = useState<CheckboxQFOption[]>([]);
     const [selectedFacet, setSelectedFacet] = useState<TitleQFOption | undefined>(undefined);
 
-    const handleOpenChange = () => {
-        if (!isOpenPopover) {
-            setOpenPopover(true);
-        }
+    const handleOpenChange = (newOpen: boolean) => {
+        console.log(newOpen);
+        setOpenPopover(newOpen);
     };
 
     const handleSearchChange = useCallback(
@@ -272,15 +271,29 @@ const QuickFilter = ({
                 title={renderTitle()}
                 trigger="click"
             >
-                <Input
-                    onChange={handleSearchChange}
-                    onClick={handleOpenChange}
-                    placeholder={placeholder}
-                    prefix={inputPrefixIcon}
-                    ref={searchInputRef}
-                    suffix={inputSuffixIcon || <SearchIcon />}
-                    value={search}
-                />
+                <div
+                    onClick={(e) => {
+                        // Prevents the modal from closing when we click in the input again
+                        if (isOpenPopover) {
+                            e.stopPropagation();
+                        }
+                    }}
+                >
+                    <Input
+                        onChange={handleSearchChange}
+                        onClick={(e) => {
+                            // Prevents the modal from closing when we click in the input again
+                            if (isOpenPopover) {
+                                e.stopPropagation();
+                            }
+                        }}
+                        placeholder={placeholder}
+                        prefix={inputPrefixIcon}
+                        ref={searchInputRef}
+                        suffix={inputSuffixIcon || <SearchIcon />}
+                        value={search}
+                    />
+                </div>
             </Popover>
         </div>
     );
