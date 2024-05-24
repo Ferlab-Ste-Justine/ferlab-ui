@@ -183,6 +183,13 @@ const QuickFilter = ({
         );
     };
 
+    const stopEventPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
+        // Prevents the modal from closing when we click in the input again
+        if (isOpenPopover) {
+            e.stopPropagation();
+        }
+    };
+
     useEffect(() => {
         if (!isOpenPopover) {
             clearFilters();
@@ -268,22 +275,10 @@ const QuickFilter = ({
                 title={renderTitle()}
                 trigger="click"
             >
-                <div
-                    onClick={(e) => {
-                        // Prevents the modal from closing when we click in the input again
-                        if (isOpenPopover) {
-                            e.stopPropagation();
-                        }
-                    }}
-                >
+                <div onClick={stopEventPropagation}>
                     <Input
                         onChange={handleSearchChange}
-                        onClick={(e) => {
-                            // Prevents the modal from closing when we click in the input again
-                            if (isOpenPopover) {
-                                e.stopPropagation();
-                            }
-                        }}
+                        onClick={stopEventPropagation}
                         placeholder={placeholder}
                         prefix={inputPrefixIcon}
                         ref={searchInputRef}
