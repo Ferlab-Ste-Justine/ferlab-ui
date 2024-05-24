@@ -1,3 +1,6 @@
+### 9.16.3 2024-05-24
+- fix: SKFP-1078 prevent popover from closing when focusing input field
+
 ### 9.16.2 2024-05-23
 - feat: SKFP-1078 Add facet title click in Quick filter
 - 

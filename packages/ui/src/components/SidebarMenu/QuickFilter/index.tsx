@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { MouseEvent, ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Button, Checkbox, Divider, Dropdown, Input, InputRef, Popover, Spin, Tag, Typography } from 'antd';
 
@@ -91,6 +91,7 @@ const QuickFilter = ({
     const handleSearchChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const searchText = e.target.value;
+            setSelectedFacet(undefined);
             setSearch(searchText);
             if (searchText.length >= 3 && getSuggestionsList) {
                 getSuggestionsList(setQFOptions, activeQuery, searchText);
@@ -182,6 +183,13 @@ const QuickFilter = ({
         );
     };
 
+    const stopEventPropagation = (e: MouseEvent<HTMLDivElement>) => {
+        // Prevents the modal from closing when we click in the input again
+        if (isOpenPopover) {
+            e.stopPropagation();
+        }
+    };
+
     useEffect(() => {
         if (!isOpenPopover) {
             clearFilters();
@@ -267,14 +275,17 @@ const QuickFilter = ({
                 title={renderTitle()}
                 trigger="click"
             >
-                <Input
-                    onChange={handleSearchChange}
-                    placeholder={placeholder}
-                    prefix={inputPrefixIcon}
-                    ref={searchInputRef}
-                    suffix={inputSuffixIcon || <SearchIcon />}
-                    value={search}
-                />
+                <div onClick={stopEventPropagation}>
+                    <Input
+                        onChange={handleSearchChange}
+                        onClick={stopEventPropagation}
+                        placeholder={placeholder}
+                        prefix={inputPrefixIcon}
+                        ref={searchInputRef}
+                        suffix={inputSuffixIcon || <SearchIcon />}
+                        value={search}
+                    />
+                </div>
             </Popover>
         </div>
     );
