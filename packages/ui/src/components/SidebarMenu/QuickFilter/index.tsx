@@ -86,10 +86,7 @@ const QuickFilter = ({
     const [selectedOptions, setSelectedOptions] = useState<CheckboxQFOption[]>([]);
     const [selectedFacet, setSelectedFacet] = useState<TitleQFOption | undefined>(undefined);
 
-    const handleOpenChange = (newOpen: boolean) => {
-        console.log(newOpen);
-        setOpenPopover(newOpen);
-    };
+    const handleOpenChange = (newOpen: boolean) => setOpenPopover(newOpen);
 
     const handleSearchChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
