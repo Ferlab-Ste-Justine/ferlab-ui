@@ -86,11 +86,16 @@ const QuickFilter = ({
     const [selectedOptions, setSelectedOptions] = useState<CheckboxQFOption[]>([]);
     const [selectedFacet, setSelectedFacet] = useState<TitleQFOption | undefined>(undefined);
 
-    const handleOpenChange = (newOpen: boolean) => setOpenPopover(newOpen);
+    const handleOpenChange = () => {
+        if (!isOpenPopover) {
+            setOpenPopover(true);
+        }
+    };
 
     const handleSearchChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const searchText = e.target.value;
+            setSelectedFacet(undefined);
             setSearch(searchText);
             if (searchText.length >= 3 && getSuggestionsList) {
                 getSuggestionsList(setQFOptions, activeQuery, searchText);
@@ -269,6 +274,7 @@ const QuickFilter = ({
             >
                 <Input
                     onChange={handleSearchChange}
+                    onClick={handleOpenChange}
                     placeholder={placeholder}
                     prefix={inputPrefixIcon}
                     ref={searchInputRef}
