@@ -1,3 +1,6 @@
+### 9.16.7 2024-05-27
+- fix: SKFP-1046 update higlight style
+
 ### 9.16.6 2024-05-27
 - fix: SKFP-1042 QF change signature of getSuggestions
 
