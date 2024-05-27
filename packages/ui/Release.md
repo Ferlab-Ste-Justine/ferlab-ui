@@ -1,3 +1,6 @@
+### 9.16.6 2024-05-27
+- fix: SKFP-1042 QF change signature of getSuggestions
+
 ### 9.16.5 2024-05-27
 - fix: SKFP-1079 open QF from sidebar search click
 
