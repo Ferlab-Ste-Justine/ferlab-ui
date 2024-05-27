@@ -39,7 +39,6 @@ export interface IQuickFilter {
     enableQuickFilter?: boolean;
     getSuggestionsList?: (
         setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
-        sqon: ISyntheticSqon,
         searchText: string,
     ) => void;
     handleFacetClick?: (
@@ -96,12 +95,12 @@ const QuickFilter = ({
             setSelectedFacet(undefined);
             setSearch(searchText);
             if (searchText.length >= 3 && getSuggestionsList) {
-                getSuggestionsList(setQFOptions, activeQuery, searchText);
+                getSuggestionsList(setQFOptions, searchText);
             } else {
                 setQFOptions([]);
             }
         },
-        [getSuggestionsList, activeQuery],
+        [getSuggestionsList],
     );
 
     const handleCheckboxChange = useCallback((option: CheckboxQFOption, checked: boolean) => {
