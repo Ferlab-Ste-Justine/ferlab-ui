@@ -144,7 +144,8 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
 }
 
 .highlight {
-    background-color: $blue-2;
+    background-color: $sidebar-quick-filter-higlight-color;
+    padding: 2px 0;
 }
 
 .spinnerWrapper {
