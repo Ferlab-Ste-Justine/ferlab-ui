@@ -1,3 +1,6 @@
+### 9.16.4 2024-05-27
+- feat: SKFP-1048 add apply function to QF
+
 ### 9.16.3 2024-05-24
 - fix: SKFP-1078 prevent popover from closing when focusing input field
 

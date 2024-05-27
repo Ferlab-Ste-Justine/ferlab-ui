@@ -47,6 +47,7 @@ export interface IQuickFilter {
         sqon: ISyntheticSqon,
         option: TitleQFOption,
     ) => void;
+    handleOnApply?: (options: CheckboxQFOption[], operator: TermOperators) => void;
     isLoading?: boolean;
     inputPrefixIcon?: ReactNode;
     inputSuffixIcon?: ReactNode;
@@ -69,6 +70,7 @@ const QuickFilter = ({
     emptyMessage = 'Empty search',
     getSuggestionsList,
     handleFacetClick,
+    handleOnApply,
     inputPrefixIcon,
     inputSuffixIcon,
     isLoading = false,
@@ -123,11 +125,11 @@ const QuickFilter = ({
         setOpenPopover(false);
         setSearch('');
         setQFOptions([]);
+        setSelectedOptions([]);
     };
 
     const applyFilters = (operator: TermOperators) => {
-        console.log(operator);
-        // Add logic to apply selected filters
+        handleOnApply && handleOnApply(selectedOptions, operator);
         clearFilters();
     };
 
