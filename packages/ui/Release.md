@@ -1,3 +1,6 @@
+### 9.16.5 2024-05-27
+- fix: SKFP-1079 open QF from sidebar search click
+
 ### 9.16.4 2024-05-27
 - feat: SKFP-1048 add apply function to QF
 
