@@ -108,7 +108,7 @@ const Sidebar = ({
 
     useEffect(() => {
         if (!collapsed && selectedKey == SEARCH_KEY) {
-            searchInputRef.current?.focus();
+            searchInputRef.current?.input?.click();
         }
     }, [collapsed, selectedKey]);
 
