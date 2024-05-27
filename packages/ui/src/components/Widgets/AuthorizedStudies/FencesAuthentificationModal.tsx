@@ -7,7 +7,7 @@ import { FENCE_AUTHENTIFICATION_STATUS, IFence, IFenceService } from '.';
 import styles from './FencesAuthentificationModal.module.scss';
 
 export const DEFAULT_FENCES_AUTHENTIFICATION_MODAL_DICTIONARY = {
-    close: 'close',
+    close: 'Close',
     description:
         'Access select NCI and Kids First controlled access data by connecting your account using your NIH login credentials. Please remember that it is your responsibility to follow any data use limitations with controlled access data.',
     error: 'We were unable to establish a connection. Please try again later.',
