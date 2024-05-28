@@ -154,10 +154,7 @@ const QuickFilter = ({
                     </div>
                 ) : (
                     <div className={styles.facetValueWrapper} key={index}>
-                        <Checkbox
-                            checked={selectedOptions.some((selectedOption) => selectedOption.key === option.key)}
-                            onChange={(e) => handleCheckboxChange(option as CheckboxQFOption, e.target.checked)}
-                        >
+                        <Checkbox onChange={(e) => handleCheckboxChange(option as CheckboxQFOption, e.target.checked)}>
                             <Highlighter
                                 highlightClassName={styles.highlight}
                                 searchWords={[search]}

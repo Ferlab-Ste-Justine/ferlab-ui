@@ -1,3 +1,6 @@
+### 9.16.13 2024-05-28
+- fix: SKFP-1111 QF check all same value
+
 ### 9.16.12 2024-05-28
 - fix: SKFP-1106 QF total result
 - fix: SKFP-1107 clear instead of cancel button
