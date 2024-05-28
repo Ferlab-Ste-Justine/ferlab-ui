@@ -43,7 +43,6 @@ export interface IQuickFilter {
     ) => void;
     handleFacetClick?: (
         setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
-        sqon: ISyntheticSqon,
         option: TitleQFOption,
     ) => void;
     handleOnApply?: (options: CheckboxQFOption[], operator: TermOperators) => void;
@@ -55,7 +54,6 @@ export interface IQuickFilter {
     menuIcon?: ReactNode;
     menuTitle?: string;
     placeholder?: string;
-    queryBuilderId?: string;
     resultsLabel?: string;
     searchInputRef?: React.RefObject<InputRef>;
 }
@@ -76,11 +74,9 @@ const QuickFilter = ({
     noneLabel = 'None',
     noneOfLabel = 'None of',
     placeholder = 'Quick filter...',
-    queryBuilderId = '',
     resultsLabel = 'Results',
     searchInputRef,
 }: IQuickFilter): ReactElement => {
-    const { activeQuery } = useQueryBuilderState(queryBuilderId);
     const [isOpenPopover, setOpenPopover] = useState(false);
     const [search, setSearch] = useState('');
     const [qfOptions, setQFOptions] = useState<(TitleQFOption | CheckboxQFOption)[]>([]);
@@ -136,7 +132,7 @@ const QuickFilter = ({
         setSelectedFacet(option);
         setSearch('');
         if (handleFacetClick) {
-            handleFacetClick(setQFOptions, activeQuery, option);
+            handleFacetClick(setQFOptions, option);
         }
     };
 

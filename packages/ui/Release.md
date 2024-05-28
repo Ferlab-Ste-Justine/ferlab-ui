@@ -1,3 +1,6 @@
+### 9.16.9 2024-05-28
+- fix: SKFP-1042 remove useless QF props
+
 ### 9.16.8 2024-05-28
 - fix: SKFP-1053 remove visual glitch on side menu collapse
 
