@@ -130,6 +130,7 @@ const QuickFilter = ({
 
     const onFacetClick = (option: TitleQFOption) => {
         setSelectedFacet(option);
+        setSelectedOptions([]);
         setSearch('');
         if (handleFacetClick) {
             handleFacetClick(setQFOptions, option);
