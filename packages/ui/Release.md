@@ -1,3 +1,6 @@
+### 9.16.10 2024-05-28
+- fix: SKFP-1078 remove option level 1 on facet name click
+
 ### 9.16.9 2024-05-28
 - fix: SKFP-1042 remove useless QF props
 
