@@ -10,6 +10,7 @@ import HighBadgeIcon from '../Icons/HighBadgeIcon';
 import LowBadgeIcon from '../Icons/LowBadgeIcon';
 import ModerateBadgeIcon from '../Icons/ModerateBadgeIcon';
 import ModifierBadgeIcon from '../Icons/ModifierBadgeIcon';
+import { renderTemporaryAAChange } from '../utils';
 
 import style from './index.module.scss';
 
@@ -24,6 +25,7 @@ export enum Impact {
 
 export interface IConsequenceEntity {
     aa_change: string | null | undefined;
+    cds_position: string;
     id: string;
     picked: boolean;
     consequence: string[];
@@ -101,7 +103,11 @@ const ConsequencesCell = ({
             {withoutSymbol && picked.aa_change && <span className={style.dash}> -</span>}
             {picked.aa_change && (
                 <span className={`${aaChangeWrapperClassName ? aaChangeWrapperClassName : style.aaChangeWrapper}`}>
-                    <Typography.Text ellipsis={{ tooltip: picked.aa_change }}>{picked.aa_change}</Typography.Text>
+                    {/* FIXME: SKFP-1104 Temporary disabled, restore when aa_change is stable */}
+                    {/*<Typography.Text ellipsis={{ tooltip: picked.aa_change }}>{picked.aa_change}</Typography.Text>*/}
+                    <Typography.Text ellipsis={{ tooltip: picked.hgvsp }}>
+                        {renderTemporaryAAChange(picked.hgvsp)}
+                    </Typography.Text>
                 </span>
             )}
         </StackLayout>
