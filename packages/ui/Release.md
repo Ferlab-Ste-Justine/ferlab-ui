@@ -1,3 +1,6 @@
+### 9.16.8 2024-05-28
+- fix: SKFP-1053 remove visual glitch on side menu collapse
+
 ### 9.16.7 2024-05-27
 - fix: SKFP-1046 update higlight style
 

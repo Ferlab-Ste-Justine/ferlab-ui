@@ -81,7 +81,7 @@ const Sidebar = ({
                 className: styles.sidebarMenuItem,
                 icon: menuIcon ? menuIcon : <SearchIcon />,
                 key: SEARCH_KEY,
-                label: menuTitle || 'Quick filter',
+                label: <span className={styles.sidebarMenuItemTitle}>{menuTitle || 'Quick filter'}</span>,
             });
         }
 
