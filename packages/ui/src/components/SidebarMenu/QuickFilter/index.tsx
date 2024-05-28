@@ -34,12 +34,13 @@ export interface IQuickFilter {
     allOfLabel?: string;
     anyOfLabel?: string;
     applyLabel?: string;
-    cancelLabel?: string;
+    clearLabel?: string;
     emptyMessage?: string;
     enableQuickFilter?: boolean;
     getSuggestionsList?: (
-        setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
         searchText: string,
+        setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
+        setTotal: React.Dispatch<React.SetStateAction<number>>,
     ) => void;
     handleFacetClick?: (
         setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
@@ -63,7 +64,7 @@ const QuickFilter = ({
     allOfLabel = 'All of',
     anyOfLabel = 'Any of',
     applyLabel = 'Apply',
-    cancelLabel = 'Cancel',
+    clearLabel = 'Clear',
     emptyMessage = 'Empty search',
     getSuggestionsList,
     handleFacetClick,
@@ -80,6 +81,7 @@ const QuickFilter = ({
     const [isOpenPopover, setOpenPopover] = useState(false);
     const [search, setSearch] = useState('');
     const [qfOptions, setQFOptions] = useState<(TitleQFOption | CheckboxQFOption)[]>([]);
+    const [total, setTotal] = useState(0);
     const [selectedOptions, setSelectedOptions] = useState<CheckboxQFOption[]>([]);
     const [selectedFacet, setSelectedFacet] = useState<TitleQFOption | undefined>(undefined);
 
@@ -91,7 +93,7 @@ const QuickFilter = ({
             setSelectedFacet(undefined);
             setSearch(searchText);
             if (searchText.length >= 3 && getSuggestionsList) {
-                getSuggestionsList(setQFOptions, searchText);
+                getSuggestionsList(searchText, setQFOptions, setTotal);
             } else {
                 setQFOptions([]);
             }
@@ -176,7 +178,7 @@ const QuickFilter = ({
 
         return (
             <Typography.Text className={styles.popoverTitle}>
-                {search.length >= 3 ? `${qfOptions.length} ${resultsLabel}` : emptyMessage}
+                {search.length >= 3 ? `${total} ${resultsLabel}` : emptyMessage}
             </Typography.Text>
         );
     };
@@ -228,8 +230,8 @@ const QuickFilter = ({
                                     )}
                                     <ScrollContent className={styles.scrollContent}>{renderOptions}</ScrollContent>
                                     <div className={styles.popoverFooter}>
-                                        <Button className={styles.cancelBtn} onClick={clearFilters} type="link">
-                                            {cancelLabel}
+                                        <Button className={styles.clearBtn} onClick={clearFilters} type="link">
+                                            {clearLabel}
                                         </Button>
                                         {selectedFacet ? (
                                             <Dropdown.Button
