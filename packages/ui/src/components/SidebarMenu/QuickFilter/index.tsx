@@ -227,7 +227,7 @@ const QuickFilter = ({
                                     )}
                                     <ScrollContent className={styles.scrollContent}>{renderOptions}</ScrollContent>
                                     <div className={styles.popoverFooter}>
-                                        <Button className={styles.clearBtn} onClick={clearFilters} type="link">
+                                        <Button className={styles.clearBtn} onClick={clearFilters} type="text">
                                             {clearLabel}
                                         </Button>
                                         {selectedFacet ? (
