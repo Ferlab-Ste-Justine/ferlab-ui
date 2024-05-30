@@ -1,3 +1,8 @@
+### 9.16.14 2024-05-30
+- fix: SKFP-1108 QF clear button style
+- fix: SKFP-1109 QF suggestions max height
+- fix: SKFP-1112 QF none / all actions style
+
 ### 9.16.13 2024-05-28
 - fix: SKFP-1111 QF check all same value
 
