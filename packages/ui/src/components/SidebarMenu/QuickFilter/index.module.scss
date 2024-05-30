@@ -126,17 +126,20 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
     border-top: 1px solid $gray-4;
 }
 
-.scrollContent {
+.scrollContentLevel1 {
     width: 380px;
-    max-height: 250px;
+    max-height: 327px;
+    overflow-y: auto;
+}
+
+.scrollContentLevel2 {
+    width: 380px;
+    max-height: 286px;
     overflow-y: auto;
 }
 
 .clearBtn {
-    color: $gray-8;
-    span {
-        text-decoration: none;
-    }
+    margin-right: 8px;
 }
 
 .applyBtn {
@@ -184,5 +187,17 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
             background: transparent;
             text-decoration: none;
         }
+    }
+
+    .checkboxFilterLinks:hover {
+        background: transparent;
+        border: none;
+        color: $checkbox-filter-links-hover;
+        text-decoration: none;
+    }
+
+    .checkboxFilterLinks:focus {
+        background: transparent;
+        border: none;
     }
 }
