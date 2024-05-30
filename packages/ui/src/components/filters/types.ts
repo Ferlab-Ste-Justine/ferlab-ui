@@ -91,6 +91,7 @@ export enum VisualType {
     Toggle = 'toggle',
     Range = 'range',
     Text = 'text',
+    OntologyTree = 'nested',
 }
 
 export interface IDictionary {

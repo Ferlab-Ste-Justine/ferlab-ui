@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { CheckboxFilter } from './CheckboxFilter';
+import OntologyTreeModal from '../OntologyTreeFilter';
 import RangeFilter from './RangeFilter';
 import TextInputFilter from './TextInputFilter';
 import ToggleFilter from './ToggleFilter';

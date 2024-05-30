@@ -1,3 +1,6 @@
+### 9.17.0 2024-05-30
+- feat: SJIP-822 Add Ontology Tree Modal component
+
 ### 9.16.14 2024-05-30
 - fix: SKFP-1108 QF clear button style
 - fix: SKFP-1109 QF suggestions max height
