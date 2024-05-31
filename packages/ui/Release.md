@@ -1,3 +1,6 @@
+### 9.17.4 2024-06-07
+- fix: SJIP-822 fix ontology tree search, query and css
+
 ### 9.17.3 2024-06-07
 - fix: CLIN-2635 adjust text button styles (add mixins to easily override focus states for QueryBuilder Header)
 

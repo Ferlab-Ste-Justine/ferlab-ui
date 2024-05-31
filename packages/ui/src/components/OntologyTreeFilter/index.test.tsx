@@ -11,10 +11,31 @@ describe('OntologyTreeModal', () => {
         const props = {
             data: [],
             dictionary,
+            field: 'mondo',
             handleCancel: jest.fn(),
             handleOnApply: jest.fn(),
             loading: false,
             open: false,
+            sqon: {
+                content: [
+                    {
+                        content: {
+                            field: 'mondo.name',
+                            index: 'participant',
+                            remoteComponent: {
+                                id: 'mondoTree',
+                                props: {
+                                    field: 'mondo',
+                                    visible: true,
+                                },
+                            },
+                            value: [],
+                        },
+                        op: 'in',
+                    },
+                ],
+                op: 'and',
+            },
         };
 
         render(<OntologyTreeModal {...props} />);
@@ -27,10 +48,32 @@ describe('OntologyTreeModal', () => {
         const props = {
             data: [],
             dictionary,
+            field: 'mondo',
             handleCancel: jest.fn(),
             handleOnApply: jest.fn(),
             loading: false,
             open: true,
+
+            sqon: {
+                content: [
+                    {
+                        content: {
+                            field: 'mondo.name',
+                            index: 'participant',
+                            remoteComponent: {
+                                id: 'mondoTree',
+                                props: {
+                                    field: 'mondo',
+                                    visible: true,
+                                },
+                            },
+                            value: [],
+                        },
+                        op: 'in',
+                    },
+                ],
+                op: 'and',
+            },
         };
 
         render(<OntologyTreeModal {...props} />);
@@ -43,10 +86,32 @@ describe('OntologyTreeModal', () => {
         const props = {
             data: [],
             dictionary,
+            field: 'mondo',
             handleCancel: jest.fn(),
             handleOnApply: jest.fn(),
             loading: true,
             open: true,
+
+            sqon: {
+                content: [
+                    {
+                        content: {
+                            field: 'mondo.name',
+                            index: 'participant',
+                            remoteComponent: {
+                                id: 'mondoTree',
+                                props: {
+                                    field: 'mondo',
+                                    visible: true,
+                                },
+                            },
+                            value: [],
+                        },
+                        op: 'in',
+                    },
+                ],
+                op: 'and',
+            },
         };
 
         render(<OntologyTreeModal {...props} />);
@@ -59,10 +124,32 @@ describe('OntologyTreeModal', () => {
         const props = {
             data: ONTOLOGY_TREE_MOCK_API_RESPONSE,
             dictionary,
+            field: 'mondo',
             handleCancel: jest.fn(),
             handleOnApply: jest.fn(),
             loading: false,
             open: true,
+
+            sqon: {
+                content: [
+                    {
+                        content: {
+                            field: 'mondo.name',
+                            index: 'participant',
+                            remoteComponent: {
+                                id: 'mondoTree',
+                                props: {
+                                    field: 'mondo',
+                                    visible: true,
+                                },
+                            },
+                            value: [],
+                        },
+                        op: 'in',
+                    },
+                ],
+                op: 'and',
+            },
         };
 
         render(<OntologyTreeModal {...props} />);

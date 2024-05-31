@@ -30,6 +30,12 @@
   li[class$='-list-content-item'] {
     span[class$='-list-content-item-text'] {
       flex: unset;
+
+      &:before {
+        content: '';
+        display: block;
+      }
+
     }
 
     div[class$='-list-content-item-remove'] {

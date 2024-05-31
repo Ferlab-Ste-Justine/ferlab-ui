@@ -8,9 +8,11 @@ import {
     flattenTransferTargetKeys,
     getChildrenKeysByKey,
     getChildrenKeysByNode,
+    getOntologySqonValues,
     legacyToNewOntologyTreeData,
     ontologyTreeDataToOntologyDataNode,
     ontologyTreeToTransferData,
+    rebuildNodeKey,
     searchInOntologyTree,
 } from './utils';
 
@@ -100,7 +102,7 @@ export const ONTOLOGY_TREE_MOCK_API_RESPONSE = [
 const LEGACY_ONTOLOGY_TREE_DATA = legacyToNewOntologyTreeData(ONTOLOGY_TREE_MOCK_API_RESPONSE);
 
 describe('OntologyTreeFilter utils', () => {
-    test("legacyToNewOntologyTreeData should correctly convert server's respond", () => {
+    test("legacyToNewOntologyTreeData should correctly convert server's respond and remove excluded_node", () => {
         expect(legacyToNewOntologyTreeData(ONTOLOGY_TREE_MOCK_API_RESPONSE)).toEqual([
             {
                 doc_count: 7175,
@@ -125,17 +127,6 @@ describe('OntologyTreeFilter utils', () => {
                 top_hits: {
                     children: [],
                     parents: ['Abnormal heart morphology (HP:0001627)'],
-                },
-            },
-            {
-                doc_count: 7175,
-                filter_by_term: {
-                    doc_count: 0,
-                },
-                key: 'All (HP:0000001)',
-                top_hits: {
-                    children: ['Phenotypic abnormality (HP:0000118)'],
-                    parents: [],
                 },
             },
             {
@@ -317,10 +308,6 @@ describe('OntologyTreeFilter utils', () => {
         const transferData = ontologyTreeToTransferData(LEGACY_ONTOLOGY_TREE_DATA);
         expect(transferData).toEqual([
             {
-                key: 'Phenotypic abnormality HP:0000118',
-                title: 'Phenotypic abnormality (HP:0000118)',
-            },
-            {
                 key: 'Phenotypic abnormality HP:0000118-Abnormality of the nervous system HP:0000707',
                 title: 'Abnormality of the nervous system (HP:0000707)',
             },
@@ -345,8 +332,8 @@ describe('OntologyTreeFilter utils', () => {
                 title: 'Abnormal heart valve morphology (HP:0001654)',
             },
             {
-                key: 'All (HP:0000001)',
-                title: 'All (HP:0000001)',
+                key: 'Phenotypic abnormality HP:0000118',
+                title: 'Phenotypic abnormality (HP:0000118)',
             },
         ]);
     });
@@ -960,7 +947,7 @@ describe('OntologyTreeFilter utils', () => {
             flattenTransferTargetKeys([
                 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
             ]),
-        ).toEqual(['Abnormality of the cardiovascular system HP:0001626']);
+        ).toEqual(['Abnormality of the cardiovascular system (HP:0001626)']);
     });
 
     test('extractCodeAndTitle should extract title and code from a string', () => {
@@ -973,5 +960,38 @@ describe('OntologyTreeFilter utils', () => {
             code: '(MONDO:0000118)',
             title: 'Phenotypic abnormality',
         });
+    });
+
+    test('rebuildNodeKey should change code format XXXX XXXX CODE-XXXX to XXXX XXXX (CODE-XXXX)', () => {
+        expect(rebuildNodeKey('Phenotype HP:0000001')).toEqual('Phenotype (HP:0000001)');
+        expect(rebuildNodeKey('Diagnosis MONDO:0000001')).toEqual('Diagnosis (MONDO:0000001)');
+    });
+
+    test('getOntologySqonValues should return the correct transferKey', () => {
+        const ontologyTreeData = legacyToNewOntologyTreeData(LEGACY_ONTOLOGY_TREE_DATA);
+        const sqon = {
+            content: [
+                {
+                    content: {
+                        field: 'observed_phenotype.name',
+                        index: 'participant',
+                        remoteComponent: {
+                            id: 'hpoTree',
+                            props: {
+                                field: 'observed_phenotype',
+                                visible: true,
+                            },
+                        },
+                        value: ['Abnormality of the cardiovascular system (HP:0001626)'],
+                    },
+                    op: 'in',
+                },
+            ],
+            op: 'and',
+        };
+
+        expect(getOntologySqonValues(ontologyTreeData, sqon, 'observed_phenotype')).toEqual([
+            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+        ]);
     });
 });
