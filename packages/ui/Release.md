@@ -1,3 +1,6 @@
+### 9.17.1 2024-05-30
+- fix: SKFP-1096 use default link hover color from theme on PopoverLink
+
 ### 9.17.0 2024-05-30
 - feat: SJIP-822 Add Ontology Tree Modal component
 
