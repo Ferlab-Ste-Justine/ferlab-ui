@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ApiOutlined, DisconnectOutlined, SafetyOutlined } from '@ant-design/icons';
+import { ApiOutlined, SafetyOutlined } from '@ant-design/icons';
 import { Button, List, Result, Space } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import cx from 'classnames';
@@ -61,8 +61,7 @@ export interface IAuthorizedStudy {
     user_acl_in_study: string[];
     title: string;
     authorized_controlled_files_count: number;
-    total_uncontrolled_files_count: number;
-    total_controlled_files_count: number;
+    total_authorized_files_count: number;
     total_files_count: number;
     study_id: string;
     study_code: string;

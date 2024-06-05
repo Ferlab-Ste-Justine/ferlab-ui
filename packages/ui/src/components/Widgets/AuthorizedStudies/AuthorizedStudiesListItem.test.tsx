@@ -10,9 +10,8 @@ const data = {
     study_code: 'STUDY_CODE_1',
     study_id: 'STUDY_ID_1',
     title: 'Title 1',
-    total_controlled_files_count: 9152,
+    total_authorized_files_count: 9152,
     total_files_count: 9152,
-    total_uncontrolled_files_count: 0,
     user_acl_in_study: ['xxxxx1.x1', 'xxxxx2.x2'],
 };
 
@@ -47,11 +46,7 @@ describe('AuthorizedStudiesListItem', () => {
         expect(screen.getByText(dictionary.files)).toBeTruthy();
 
         // computed values
-        expect(
-            screen.queryAllByText(
-                numberWithCommas(data.total_controlled_files_count + data.total_uncontrolled_files_count),
-            ),
-        ).toHaveLength(2);
+        expect(screen.queryAllByText(numberWithCommas(data.total_authorized_files_count))).toHaveLength(2);
         expect(screen.queryAllByText(numberWithCommas(data.total_files_count))).toHaveLength(2);
         expect(screen.getByText(data.user_acl_in_study.join(', '))).toBeTruthy();
     });

@@ -1,3 +1,6 @@
+### 9.17.2 2024-06-05
+- fix: SKFP-1097 adjust auth studies allowed files count
+
 ### 9.17.1 2024-05-30
 - fix: SKFP-1096 use default link hover color from theme on PopoverLink
 
