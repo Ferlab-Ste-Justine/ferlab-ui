@@ -44,9 +44,6 @@ const AuthorizedStudiesListItem = ({
     dictionary = DEFAULT_AUTHORIZED_STUDIES_LIST_ITEM_DICTIONARY,
     queryProps,
 }: IAuthorizedStudiesListItem): JSX.Element => {
-    const authorizedAndUncontrolledFilesCount =
-        data.authorized_controlled_files_count + data.total_uncontrolled_files_count;
-
     const title = `${data.title} (${data.study_code})`;
 
     return (
@@ -81,7 +78,7 @@ const AuthorizedStudiesListItem = ({
                                     });
                                 }}
                             >
-                                <span>{numberWithCommas(authorizedAndUncontrolledFilesCount)}</span>
+                                <span>{numberWithCommas(data.total_authorized_files_count)}</span>
                             </a>
                             <span className={styles.of}>{dictionary.of}</span>
                             <a
@@ -123,7 +120,7 @@ const AuthorizedStudiesListItem = ({
             </Text>
             <Progress
                 className={styles.progress}
-                percent={Math.round((authorizedAndUncontrolledFilesCount / data.total_files_count) * 100)}
+                percent={Math.round((data.total_authorized_files_count / data.total_files_count) * 100)}
                 size="small"
             ></Progress>
         </List.Item>
