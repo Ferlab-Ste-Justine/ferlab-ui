@@ -17,3 +17,12 @@
     -webkit-transition: $transition;
     transition:         $transition;
 }
+
+@mixin query-builder-header-button-focus {
+    border: $query-builder-header-tools-icon-color-dirty;
+    color: $query-builder-header-tools-icon-color-dirty;
+}
+
+@mixin query-builder-header-button-focus-visible {
+    border: 1px solid !important;
+}
