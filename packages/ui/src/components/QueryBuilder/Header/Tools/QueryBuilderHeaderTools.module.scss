@@ -4,7 +4,7 @@
     .toolsContainer {
         .queryBuilderHeaderActionIconBtn {
             &:focus-visible {
-                border: 1px solid !important;
+                @include query-builder-header-button-focus-visible;
             }
 
             &:not(:disabled) {
@@ -16,17 +16,15 @@
                     &:not(span) {
                         &:hover,
                         &:focus {
-                            border: $query-builder-header-tools-icon-color-dirty;
-                            color: $query-builder-header-tools-icon-color-dirty;
+                            @include query-builder-header-button-dirty-focus
                         }
                     }
                 }
 
                 &:not(span) {
                     &:hover,
-                    &:focus {
-                        border: $query-builder-header-tools-icon-color-dirty;
-                        color: $query-builder-header-tools-icon-color-dirty;
+                    &:focus-visible {
+                        @include query-builder-header-button-nested-focus-visible
                     }
                 }
             }
