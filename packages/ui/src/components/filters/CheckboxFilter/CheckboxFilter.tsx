@@ -25,6 +25,7 @@ export type TermFilterProps = {
     maxShowing: number;
     hasSearchInput: boolean;
     filters: IFilter<IFilterCount>[];
+    isQuickFilter?: boolean;
 };
 
 type InternalCheckBoxProps = {
@@ -89,6 +90,7 @@ const CheckboxFilter = ({
     filterGroup,
     filters,
     hasSearchInput,
+    isQuickFilter = false,
     maxShowing,
     onChange,
     selectedFilters = [],
@@ -105,6 +107,9 @@ const CheckboxFilter = ({
     const handleOnChange = (newFilter: IFilter[]) => {
         if (withFooter) {
             setLocalSelectedFilters(newFilter);
+        } else if (isQuickFilter) {
+            setLocalSelectedFilters(newFilter);
+            onChange(filterGroup, newFilter);
         } else {
             onChange(filterGroup, newFilter);
         }

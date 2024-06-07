@@ -16,12 +16,14 @@ export type FilterSelectorProps = {
     filters: IFilter[];
     dictionary?: IDictionary;
     noDataInputOption?: boolean;
+    isQuickFilter?: boolean;
 };
 
 const FilterSelector = ({
     dictionary,
     filterGroup,
     filters,
+    isQuickFilter = false,
     maxShowing,
     noDataInputOption,
     onChange,
@@ -38,7 +40,14 @@ const FilterSelector = ({
         case VisualType.Toggle:
             return <ToggleFilter {...commonProps} filters={filters} />;
         case VisualType.Range:
-            return <RangeFilter {...commonProps} filters={filters} noDataOption={noDataInputOption} />;
+            return (
+                <RangeFilter
+                    {...commonProps}
+                    isQuickFilter={isQuickFilter}
+                    filters={filters}
+                    noDataOption={noDataInputOption}
+                />
+            );
         case VisualType.Text:
             return <TextInputFilter {...commonProps} filters={filters} />;
         case VisualType.Checkbox:
@@ -47,6 +56,7 @@ const FilterSelector = ({
                 <CheckboxFilter
                     {...commonProps}
                     filters={filters}
+                    isQuickFilter={isQuickFilter}
                     hasSearchInput={searchInputVisible}
                     maxShowing={maxShowing}
                 />

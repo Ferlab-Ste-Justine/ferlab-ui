@@ -56,6 +56,7 @@ const ToggleFilter = ({
                 className={styles.radioGroup}
                 onChange={(e) => {
                     const newSelection = filters.filter((f) => f.data.key === e.target.value);
+                    setSelected(e.target.value);
                     onChange(filterGroup, newSelection);
                 }}
                 options={options}

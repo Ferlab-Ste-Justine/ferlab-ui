@@ -35,6 +35,7 @@ export type RangeFilterProps = {
     selectedFilters?: IFilter[];
     dictionary?: IDictionary | Record<string, never>;
     noDataOption?: boolean;
+    isQuickFilter?: boolean;
 };
 
 const DEFAULT_STEP = 1;
@@ -148,6 +149,7 @@ const RangeFilter = ({
     dictionary,
     filterGroup,
     filters,
+    isQuickFilter = false,
     noDataOption,
     onChange,
     selectedFilters,
@@ -231,14 +233,51 @@ const RangeFilter = ({
             ...prevState,
             operator: value,
         }));
+        if (isQuickFilter)
+            onChange(filterGroup, [
+                {
+                    ...currentFilter,
+                    data: {
+                        ...rangeFilter,
+                        noDataSelected: checkNoData,
+                        operator: getValidOperator(value),
+                    },
+                },
+            ]);
     };
 
     const onMinChanged = (min: number | null) => {
-        setRangeFilter((prevState) => ({ ...prevState, min: !!min || min === 0 ? min : undefined }));
+        const newMinValue = !!min || min === 0 ? min : undefined;
+        setRangeFilter((prevState) => ({ ...prevState, min: newMinValue }));
+        if (isQuickFilter)
+            onChange(filterGroup, [
+                {
+                    ...currentFilter,
+                    data: {
+                        ...rangeFilter,
+                        min: newMinValue,
+                        noDataSelected: checkNoData,
+                        operator: getValidOperator(rangeFilter.operator),
+                    },
+                },
+            ]);
     };
 
     const onMaxChanged = (max: number | null) => {
-        setRangeFilter((prevState) => ({ ...prevState, max: !!max || max === 0 ? max : undefined }));
+        const newMaxValue = !!max || max === 0 ? max : undefined;
+        setRangeFilter((prevState) => ({ ...prevState, max: newMaxValue }));
+        if (isQuickFilter)
+            onChange(filterGroup, [
+                {
+                    ...currentFilter,
+                    data: {
+                        ...rangeFilter,
+                        max: newMaxValue,
+                        noDataSelected: checkNoData,
+                        operator: getValidOperator(rangeFilter.operator),
+                    },
+                },
+            ]);
     };
 
     const onNoDataChanged = (value: CheckboxChangeEvent) => {
@@ -338,47 +377,49 @@ const RangeFilter = ({
                     </StackLayout>
                 )}
             </Space>
-            <StackLayout className={styles.fuiRfActions} horizontal>
-                <Button
-                    className={styles.fuiRfActionsClear}
-                    disabled={buttonActionDisabled}
-                    onClick={() => {
-                        setRangeFilter((prevState) => ({
-                            ...prevState,
-                            max: undefined,
-                            min: undefined,
-                            operator: operatorsList[0].value,
-                        }));
-                        setUserCleared(true);
-                    }}
-                    size="small"
-                    type="text"
-                >
-                    {get(dictionary, 'actions.none', 'Clear')}
-                </Button>
-                <Button
-                    className={styles.fuiRfActionsApply}
-                    data-cy={`Button_Apply_${filterGroup.title}`}
-                    disabled={userCleared ? !userCleared : !hasChanged()}
-                    onClick={() => {
-                        onChange(filterGroup, [
-                            {
-                                ...currentFilter,
-                                data: {
-                                    ...rangeFilter,
-                                    noDataSelected: checkNoData,
-                                    operator: getValidOperator(rangeFilter.operator),
+            {!isQuickFilter && (
+                <StackLayout className={styles.fuiRfActions} horizontal>
+                    <Button
+                        className={styles.fuiRfActionsClear}
+                        disabled={buttonActionDisabled}
+                        onClick={() => {
+                            setRangeFilter((prevState) => ({
+                                ...prevState,
+                                max: undefined,
+                                min: undefined,
+                                operator: operatorsList[0].value,
+                            }));
+                            setUserCleared(true);
+                        }}
+                        size="small"
+                        type="text"
+                    >
+                        {get(dictionary, 'actions.none', 'Clear')}
+                    </Button>
+                    <Button
+                        className={styles.fuiRfActionsApply}
+                        data-cy={`Button_Apply_${filterGroup.title}`}
+                        disabled={userCleared ? !userCleared : !hasChanged()}
+                        onClick={() => {
+                            onChange(filterGroup, [
+                                {
+                                    ...currentFilter,
+                                    data: {
+                                        ...rangeFilter,
+                                        noDataSelected: checkNoData,
+                                        operator: getValidOperator(rangeFilter.operator),
+                                    },
                                 },
-                            },
-                        ]);
-                        setUserCleared(false);
-                    }}
-                    size="small"
-                    type="primary"
-                >
-                    <span data-key="apply">{get(dictionary, 'actions.apply', 'Apply')}</span>
-                </Button>
-            </StackLayout>
+                            ]);
+                            setUserCleared(false);
+                        }}
+                        size="small"
+                        type="primary"
+                    >
+                        <span data-key="apply">{get(dictionary, 'actions.apply', 'Apply')}</span>
+                    </Button>
+                </StackLayout>
+            )}
         </StackLayout>
     );
 };

@@ -11,6 +11,7 @@ import QuickFilter, { IQuickFilter } from './QuickFilter';
 import SidebarMenuContentPanel from './SidebarMenuContentPanel';
 
 import styles from './index.module.scss';
+import { get } from 'lodash';
 
 export interface ISidebarMenuItem {
     key: string | number;
@@ -40,6 +41,7 @@ const Sidebar = ({
     defaultSelectedKey = undefined,
     menuItems,
     quickFilter = {
+        dictionary: {},
         enableQuickFilter: false,
         menuIcon: undefined,
     },
@@ -53,7 +55,7 @@ const Sidebar = ({
     const [selectedKey, setSelectedKey] = useState<string>('');
     const searchInputRef = useRef<InputRef>(null);
     const selectedFilterComponent = menuItems.find((menuItem) => menuItem.key == selectedKey);
-    const { enableQuickFilter, menuIcon, menuTitle } = quickFilter;
+    const { enableQuickFilter, menuIcon, dictionary } = quickFilter;
 
     const handleUserKeyUp = useCallback((e: any) => {
         const activeElement = document.activeElement?.getAttribute('data-key');
@@ -81,7 +83,11 @@ const Sidebar = ({
                 className: styles.sidebarMenuItem,
                 icon: menuIcon ? menuIcon : <SearchIcon />,
                 key: SEARCH_KEY,
-                label: <span className={styles.sidebarMenuItemTitle}>{menuTitle || 'Quick filter'}</span>,
+                label: (
+                    <span className={styles.sidebarMenuItemTitle}>
+                        {get(dictionary, 'quickFilter.menuTitle', 'Quick filter')}
+                    </span>
+                ),
             });
         }
 
