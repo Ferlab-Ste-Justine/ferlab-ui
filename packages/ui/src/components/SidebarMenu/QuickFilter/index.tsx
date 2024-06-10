@@ -97,16 +97,6 @@ const QuickFilter = ({
         setSelectedFacetOptions(f);
     }, []);
 
-    const handleSelectAll = () => {
-        setSelectedOptions(
-            qfOptions.filter((option): option is CheckboxQFOption => option.type === VisualType.Checkbox),
-        );
-    };
-
-    const handleClearAll = () => {
-        setSelectedOptions([]);
-    };
-
     const clearFilters = () => {
         setSelectedFacet(undefined);
         setOpenPopover(false);
