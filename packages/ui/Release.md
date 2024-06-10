@@ -1,3 +1,6 @@
+### 10.0.0-rc1 2024-06-10
+- fix: SKFP-1097 adjust auth studies allowed files count
+
 ### 9.17.3 2024-06-07
 - fix: CLIN-2635 adjust text button styles (add mixins to easily override focus states for QueryBuilder Header)
 

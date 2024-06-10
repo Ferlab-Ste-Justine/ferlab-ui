@@ -10,7 +10,7 @@ import { numberFormat } from '../../../utils/numberUtils';
 import useQueryBuilderState from '../../QueryBuilder/utils/useQueryBuilderState';
 import SearchIcon from '../icons/SearchIcon';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export enum QuickFilterType {
     TITLE = 'title',

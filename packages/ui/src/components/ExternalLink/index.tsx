@@ -3,7 +3,7 @@ import { Space } from 'antd';
 
 import ExternalLinkIcon from './ExternalLinkIcon';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type IExternalLinkProps = Omit<
     React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> & {

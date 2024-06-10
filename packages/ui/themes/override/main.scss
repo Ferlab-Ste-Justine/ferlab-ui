@@ -11,7 +11,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a.link {
-    color: $blue-8;
+    color: var(--blue-8);
     text-decoration: underline;
 
     &.small {
@@ -20,7 +20,7 @@ a.link {
 
 
     &:hover {
-        color: $blue-8;
+        color: var(--blue-8);
         text-decoration: none;
     }
 }

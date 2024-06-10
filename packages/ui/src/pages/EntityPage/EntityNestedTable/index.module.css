@@ -1,0 +1,12 @@
+.container {
+  margin-bottom: 40px;
+}
+.container .title {
+  margin-bottom: 16px;
+}
+.container .collapse .panel .card {
+  border: none;
+}
+.container .collapse .panel .card *[class$=-card-body] {
+  padding: 0;
+}
