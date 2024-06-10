@@ -5,7 +5,7 @@ import { Typography } from 'antd';
 import { numberFormat } from '../../../utils/numberUtils';
 import { defs } from '../patterns';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 type TBarChart = Omit<BarSvgProps<BarDatum>, 'width' | 'height'> & {
     title?: string;

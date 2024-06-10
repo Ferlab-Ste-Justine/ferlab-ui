@@ -31,7 +31,7 @@ import {
     PASSPORT_AUTHENTIFICATION_STATUS,
 } from './type';
 
-import styles from '../widget.module.scss';
+import styles from '../widget.module.css';
 
 const { Text } = Typography;
 

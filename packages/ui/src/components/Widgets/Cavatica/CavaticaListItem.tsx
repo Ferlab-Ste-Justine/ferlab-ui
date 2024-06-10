@@ -7,7 +7,7 @@ import ExternalLink from '../../ExternalLink';
 
 import { ICavaticaProject } from './type';
 
-import styles from './CavaticaListItem.module.scss';
+import styles from './CavaticaListItem.module.css';
 
 export const DEFAULT_CAVATICA_LIST_ITEM_DICTIONARY: TCavaticaListItemDictionary = {
     membersCount: (count: number) => `${count} members`,

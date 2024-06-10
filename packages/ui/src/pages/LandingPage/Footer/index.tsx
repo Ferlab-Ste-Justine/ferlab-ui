@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TFooterProps = {
     logos: string[];

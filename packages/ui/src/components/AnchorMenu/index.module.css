@@ -1,0 +1,39 @@
+.anchorMenu {
+  max-width: 180px;
+  margin: 24px;
+}
+.anchorMenu *[class$=-anchor-ink] {
+  z-index: -9;
+  top: inherit;
+  left: inherit;
+}
+.anchorMenu *[class$=-anchor-ink-ball] {
+  display: none;
+}
+.anchorMenu *[class$=-anchor-ink-ball-visible] {
+  display: none;
+}
+.anchorMenu *[class$=-anchor-link] {
+  padding: 0 16px;
+  margin-bottom: 4px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  border-left: 2px solid transparent;
+  transition: all 0.1s ease;
+}
+.anchorMenu *[class$=-anchor-link-active] {
+  padding: 0 16px;
+  margin-bottom: 4px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  border-left: 2px solid var(--blue-8);
+  z-index: 9;
+}
+.anchorMenu *[class$=-anchor-link-title] {
+  font-size: 12px;
+}
+.anchorMenu *[class$=-anchor-link-title-active] {
+  font-size: 12px;
+}

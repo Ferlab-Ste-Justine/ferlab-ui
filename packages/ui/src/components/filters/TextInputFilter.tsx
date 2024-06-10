@@ -8,7 +8,7 @@ import StackLayout from '../../layout/StackLayout';
 
 import { IDictionary, IFilter, IFilterGroup, IFilterText, IFilterTextInputConfig, onChangeType } from './types';
 
-import styles from './TextInputFilter.module.scss';
+import styles from './TextInputFilter.module.css';
 
 export type TextInputFilterProps = {
     filters: IFilter<IFilterText>[];

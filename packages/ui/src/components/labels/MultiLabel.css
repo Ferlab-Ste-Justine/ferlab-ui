@@ -1,0 +1,50 @@
+.multilabel__container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "icon label" ". subLabel";
+  align-items: center;
+}
+.multilabel__container .wrapper__icon {
+  grid-area: icon;
+  display: flex;
+}
+.multilabel__container .wrapper__label {
+  grid-area: label;
+}
+.multilabel__container .wrapper__subLabel {
+  grid-area: subLabel;
+}
+.multilabel__container--stack.multilabel__container--middle-icon {
+  grid-template-areas: "icon label" "icon subLabel";
+}
+.multilabel__container--stack .wrapper__icon {
+  margin-right: var(--multi-label-stack-icon-space);
+}
+.multilabel__container--stack .wrapper__label {
+  font-size: var(--multi-label-stack-label-size);
+  font-weight: var(--multi-label-stack-label-weight);
+}
+.multilabel__container--stack .wrapper__subLabel {
+  font-size: var(--multi-label-stack-sub-label-size);
+  font-weight: var(--multi-label-stack-sub-label-weight);
+}
+.multilabel__container--stack.multilabel__container--top-icon .wrapper__icon {
+  margin-right: var(--multi-label-stack-top-icon-space);
+}
+.multilabel__container--inline {
+  grid-template-rows: 1fr;
+  grid-template-columns: auto auto 1fr;
+  grid-template-areas: "icon label subLabel";
+}
+.multilabel__container--inline .wrapper__icon {
+  margin-right: var(--multi-label-inline-icon-space);
+}
+.multilabel__container--inline .wrapper__label {
+  font-size: var(--multi-label-inline-label-size);
+  font-weight: var(--multi-label-inline-label-weight);
+  margin-right: var(--multi-label-inline-label-space);
+}
+.multilabel__container--inline .wrapper__subLabel {
+  font-size: var(--multi-label-inline-sub-label-size);
+  font-weight: var(--multi-label-inline-sub-label-weight);
+}
