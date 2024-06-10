@@ -10,7 +10,7 @@ import FilterSelector from '../../filters/FilterSelector';
 import { IDictionary, IFilter, IFilterGroup, onChangeType, VisualType } from '../../filters/types';
 import SearchIcon from '../icons/SearchIcon';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TitleQFOption = {
     key: string;

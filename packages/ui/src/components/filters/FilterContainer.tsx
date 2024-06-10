@@ -18,7 +18,7 @@ import {
     VisualType,
 } from './types';
 
-import styles from './FilterContainer.module.scss';
+import styles from './FilterContainer.module.css';
 
 type FilterContainerHeaderProps = {
     title: string | React.ReactNode;

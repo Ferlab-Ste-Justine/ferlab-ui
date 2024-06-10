@@ -15,7 +15,7 @@ import {
 } from './requestBiospecimen.utils';
 import RequestBiospecimenTable, { IRequestBioDataRow } from './RequestBiospecimenTable';
 
-import styles from './requestBiospecimen.module.scss';
+import styles from './requestBiospecimen.module.css'
 
 export interface IGetSamples {
     error: any;

@@ -9,7 +9,7 @@ import AndOperator from './icons/AndOperator';
 import OrOperator from './icons/OrOperator';
 import { QueryBuilderContext, QueryCommonContext } from './context';
 
-import styles from './QueryTools.module.scss';
+import styles from './QueryTools.module.css';
 
 export interface IQueryToolsProps {
     queryCount: number;

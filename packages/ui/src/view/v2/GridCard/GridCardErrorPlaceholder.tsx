@@ -3,7 +3,7 @@ import { Result, Typography } from 'antd';
 
 import ExternalLink from '../../../components/ExternalLink';
 
-import styles from './GridCardErrorPlaceholder.module.scss';
+import styles from './GridCardErrorPlaceholder.module.css';
 
 export const DEFAULT_CARD_ERROR_PLACEHOLDER_DICTIONARY = {
     contactSupport: 'contact support',

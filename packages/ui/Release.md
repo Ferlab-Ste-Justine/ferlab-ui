@@ -1,3 +1,6 @@
+### 10.0.0-rc5 2024-06-10
+- fix: SKFP-1097 adjust auth studies allowed files count
+
 ### 9.20.4 2024-06-18
 - fix: CLIN-2635 ProTable Header: fix 'results' label when there is only 1 result
 
@@ -84,7 +87,7 @@
 
 ### 9.16.2 2024-05-23
 - feat: SKFP-1078 Add facet title click in Quick filter
-- 
+-
 ### 9.16.1 2024-05-23
 - feat: SKFP-1043 Refactor Quick filter component
 

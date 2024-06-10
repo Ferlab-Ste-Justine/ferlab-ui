@@ -2,7 +2,7 @@ import React from 'react';
 import {Meta} from '@storybook/react';
 import CavaticaCard from '@ferlab/ui/core/pages/LandingPage/CavaticaCard';
 import CavaticaLogo from '../assets/cavatica-logo.png'
-import styles from './index.module.scss'
+import styles from './index.module.css'
 
 export default {
     title: '@ferlab/Pages/LandingPage/CavaticaCard',

@@ -5,7 +5,7 @@ import Collapse, { CollapsePanel } from '../../../components/Collapse';
 import Empty from '../../../components/Empty';
 import { ProColumnType } from '../../../components/ProTable/types';
 
-import style from './index.module.scss';
+import style from './index.module.css';
 
 const { Title } = Typography;
 

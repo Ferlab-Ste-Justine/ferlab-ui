@@ -1,0 +1,50 @@
+.fuiListItemWithActions {
+  align-items: baseline;
+  padding: 8px 12px !important;
+}
+.fuiListItemWithActions .filterLink {
+  padding: 0;
+  height: unset;
+  color: var(--gray-8);
+}
+.fuiListItemWithActions:not(:hover) :global(.ant-list-item-action) {
+  display: none;
+}
+.fuiListItemWithActions :global(.ant-list-item-action) > li {
+  padding: 0 4px;
+  color: var(--gray-8);
+}
+.fuiListItemWithActions :global(.ant-list-item-action) > li:last-child {
+  padding-right: 0;
+}
+.fuiListItemWithActions :global(.ant-list-item-action-split) {
+  display: none;
+}
+.fuiListItemWithActions:hover .setLink * {
+  text-decoration: underline;
+}
+.fuiListItemWithActions:hover .setLink:hover {
+  color: var(--gray-8);
+  cursor: pointer;
+}
+.fuiListItemWithActions:hover .setLink:hover * {
+  text-decoration: none;
+}
+.fuiListItemWithActions:hover .extra {
+  display: none;
+}
+.fuiListItemWithActions .itemMeta {
+  margin-bottom: 0px;
+}
+.fuiListItemWithActions .itemMeta :global(.ant-list-item-meta-title) {
+  margin-bottom: 2px;
+}
+.fuiListItemWithActions .itemMeta :global(.ant-list-item-meta-description) {
+  font-size: 12px;
+}
+.fuiListItemWithActions .actionBtn:hover {
+  background-color: var(--gray-2);
+}
+.fuiListItemWithActions .actionBtn:focus {
+  background-color: transparent;
+}

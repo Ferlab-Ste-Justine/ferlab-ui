@@ -17,7 +17,7 @@ import {
     searchInOntologyTree,
 } from './utils';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export const DEFAULT_ONTOLOGY_TREE_DICTIONARY = {
     emptySelection: 'Select items from the left-hand panel in order to add to your query.',

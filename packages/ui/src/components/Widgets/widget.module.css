@@ -1,0 +1,94 @@
+.widget .authenticatedHeader {
+  margin-bottom: 8px;
+}
+.widget .authenticatedHeader .manageConnections {
+  margin-left: 8px;
+  padding: 0;
+  font-size: 12px;
+}
+.widget .authenticatedHeader .disconnectBtn {
+  margin-left: 8px;
+  padding: 0;
+  font-size: 12px;
+  color: var(--red-7);
+}
+.widget .authenticatedHeader .notice {
+  font-size: 12px;
+  line-height: 10px;
+}
+.widget .content {
+  border: 1px solid var(--gray-4);
+  background: var(--gray-1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px 24px;
+}
+.widget .listContent {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.widget .listContent .listItemTitle > span::after {
+  content: "";
+  display: block;
+}
+.widget .contentFooter {
+  margin-top: 12px;
+}
+.widget .contentFooter [ant-click-animating-without-extra-node=true]::after {
+  display: none;
+}
+.widget .list {
+  overflow: auto;
+  min-height: 200px;
+  height: 100%;
+}
+.widget .list div[class$=-item-meta] {
+  margin-bottom: 0;
+}
+.widget .list *[class$=-item-meta-description] {
+  font-size: 12px;
+}
+.widget .cardHeader {
+  width: 100%;
+}
+.widget .cardHeader .titleContainer {
+  min-width: 200px;
+}
+.widget .cardHeader .dragHandle {
+  font-size: 16px;
+  color: var(--gray-7);
+  outline: none;
+}
+.widget .cardHeader .infoIcon {
+  color: var(--body-2);
+  font-size: 18px;
+}
+.widget .cardHeader .infoPopoverOverlay {
+  max-width: 350px;
+}
+
+.infoPopover {
+  margin-left: 5px;
+}
+.infoPopover .infoPopoverContent {
+  border: none;
+  background: var(--gray-1);
+}
+
+.popoverExternalLink {
+  margin-left: 4px !important;
+}
+
+.contactSupport {
+  margin-left: 4px;
+}
+.contactSupport :global(.ant-typography) {
+  color: var(--blue-8) !important;
+}
+
+.disconnectErrorBtn {
+  padding: 0 4px !important;
+  padding: 0;
+}
