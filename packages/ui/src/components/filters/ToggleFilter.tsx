@@ -9,7 +9,7 @@ import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 import { IDictionary, IFilter, IFilterCount } from './types';
 import { IFilterGroup, onChangeType } from './types';
 
-import styles from './ToggleFilter.module.scss';
+import styles from './ToggleFilter.module.css';
 
 export type BooleanFilterProps = {
     filters: IFilter<IFilterCount>[];

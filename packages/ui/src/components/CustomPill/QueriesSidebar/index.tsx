@@ -11,7 +11,7 @@ import EmptyQueriesSidebar from './EmptyQueriesSidebar';
 import QueryPill from './QueryPill';
 import { IQueriesSidebarDictionary } from './types';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export interface IQueriesSidebarProps {
     customPills: ISavedFilter[];
