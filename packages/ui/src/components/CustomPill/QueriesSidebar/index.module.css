@@ -1,0 +1,135 @@
+.emptyQueriesSidebarWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  padding: 16px 16px 0 16px;
+}
+.emptyQueriesSidebarWrapper .iconsWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.emptyQueriesSidebarWrapper .iconsWrapper .icon {
+  font-size: 24px;
+  margin: 0 2px;
+  color: var(--gray-5);
+}
+.emptyQueriesSidebarWrapper .emptyText {
+  text-align: center;
+  letter-spacing: 0.25px;
+  color: var(--gray-8);
+  margin-bottom: 16px;
+}
+.emptyQueriesSidebarWrapper .link {
+  text-align: center;
+  letter-spacing: 0.25px;
+}
+
+.queriesSidebarWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+.queriesSidebarWrapper .titleWrapper {
+  margin-bottom: 16px;
+}
+.queriesSidebarWrapper .titleWrapper .title {
+  margin-right: 4px;
+  letter-spacing: 0.25px;
+  color: var(--gray-7);
+}
+.queriesSidebarWrapper .titleWrapper .tooltipIcon {
+  color: var(--gray-7);
+}
+.queriesSidebarWrapper .pillsWrapper {
+  display: flex;
+  flex-direction: column;
+}
+.queriesSidebarWrapper .pillsWrapper .errorText {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid var(--red-3);
+  border-radius: 2px;
+  background-color: var(--red-1);
+  padding: 9px 16px;
+  letter-spacing: 0.25px;
+}
+.queriesSidebarWrapper .pillsWrapper .errorText .errorIcon {
+  color: var(--red-7);
+  font-size: 16px;
+  margin-right: 10px;
+}
+.queriesSidebarWrapper .queryPillWrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.queriesSidebarWrapper .queryPillWrapper .queryPill {
+  display: flex;
+  max-width: 100%;
+  color: var(--gray-8);
+  height: auto;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.4px;
+  padding: 0 8px;
+  border: 2px solid var(--blue-6);
+  border-radius: 2px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.queriesSidebarWrapper .queryPillWrapper .queryPill .title:before {
+  content: "";
+  display: block;
+}
+.queriesSidebarWrapper .queryPillWrapper .queryPill .title:hover {
+  text-decoration: underline;
+}
+.queriesSidebarWrapper .queryPillWrapper .queryPillEditionWrapper {
+  display: none;
+  padding-left: 4px;
+  gap: 4px;
+}
+.queriesSidebarWrapper .queryPillWrapper .queryPillEditionButton {
+  padding: 4px;
+  color: var(--gray-8);
+  background-color: transparent;
+  border: none;
+  border-radius: 2px;
+}
+.queriesSidebarWrapper .queryPillWrapper .queryPillEditionButton:hover {
+  background-color: var(--gray-3);
+}
+.queriesSidebarWrapper .queryPillWrapper:hover .queryPillEditionWrapper {
+  display: flex;
+}
+
+.deleteCustomPillModal .icon {
+  color: var(--orange-7) !important;
+}
+.deleteCustomPillModal .existingFilters {
+  border-radius: 2px;
+  border: 1px solid var(--gray-4);
+  margin-top: 16px;
+  padding: 16px;
+}
+.deleteCustomPillModal .existingFilters .list {
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+.deleteCustomPillModal .existingFilters .error {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid var(--red-3);
+  border-radius: 2px;
+  background-color: var(--red-1);
+  padding: 9px 16px;
+  letter-spacing: 0.25px;
+  margin-top: 8px;
+}
+.deleteCustomPillModal .existingFilters .error .errorIcon {
+  color: var(--red-7);
+  font-size: 16px;
+  margin-right: 10px;
+}

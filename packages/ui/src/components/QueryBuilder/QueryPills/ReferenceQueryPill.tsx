@@ -5,7 +5,7 @@ import cx from 'classnames';
 
 import ReferenceQueryValues from '../ReferenceQueryValues';
 
-import styles from './QueryPill.module.scss';
+import styles from './QueryPill.module.css';
 
 interface IReferenceQueryPillProps {
     isBarActive?: boolean;

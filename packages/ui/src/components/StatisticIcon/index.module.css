@@ -1,0 +1,31 @@
+.statisticWrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.statisticWrapper .stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 6px;
+}
+.statisticWrapper .count {
+  font-weight: 600 !important;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--gray-8);
+  text-align: left;
+}
+.statisticWrapper .label {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--gray-8);
+  text-align: left;
+}
+.statisticWrapper .icon {
+  color: var(--gray-8);
+}
+.statisticWrapper.disabled .count, .statisticWrapper.disabled .label, .statisticWrapper.disabled .icon {
+  color: inherit;
+}

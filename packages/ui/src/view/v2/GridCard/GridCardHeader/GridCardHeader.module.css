@@ -1,0 +1,33 @@
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.cardHeader div[class$=rgl-drag-zone] {
+  cursor: move;
+}
+.cardHeader .cardHeadererContent {
+  overflow: hidden;
+  padding-left: 8px;
+}
+.cardHeader .dragHandle {
+  font-size: 12px;
+  color: var(--body-2);
+  outline: none;
+}
+.cardHeader .infoPopover {
+  margin-left: 5px;
+}
+.cardHeader .infoIcon {
+  color: var(--body-2);
+  font-size: 12px;
+}
+.cardHeader .titleContainer {
+  overflow: hidden;
+  width: 100%;
+}
+
+.infoPopoverOverlay {
+  max-width: 350px;
+}

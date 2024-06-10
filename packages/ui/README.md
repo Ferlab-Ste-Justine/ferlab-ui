@@ -196,7 +196,7 @@ import 'themes/default/main.scss';
 2. Import your style inside your components
 
 ```JavaScript
-import style from '[Component].module.scss';
+import style from '[Component].module.css'
 // ...
 return () => <div clasName={style.isBeautiful}></div>;
 ```
