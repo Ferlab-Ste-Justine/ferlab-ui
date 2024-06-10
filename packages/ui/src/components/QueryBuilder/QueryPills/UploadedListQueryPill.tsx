@@ -8,7 +8,7 @@ import { QueryCommonContext } from '../context';
 import ElementOperator from '../icons/ElementOperator';
 import QueryValues from '../QueryValues';
 
-import styles from './QueryPill.module.scss';
+import styles from './QueryPill.module.css';
 
 export interface IUploadedListQueryPillProps {
     isBarActive: boolean;

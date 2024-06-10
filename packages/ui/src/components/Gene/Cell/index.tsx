@@ -8,7 +8,7 @@ import { NO_GENE } from '../../Consequences/Cell';
 import ExternalLink from '../../ExternalLink';
 import { addQuery } from '../../QueryBuilder/utils/useQueryBuilderState';
 
-import style from './index.module.scss';
+import style from './index.module.css';
 
 export type TGeneCell = {
     queryBuilderId: string;

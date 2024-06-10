@@ -1,0 +1,89 @@
+:root {
+  --default-font-size: 1.4rem;
+  --default-box-shadow: 0px 2px 4px var(--default-box-shadow-color);
+}
+
+.header {
+  width: 100%;
+  padding: 1.6rem;
+  background-color: var(--white);
+  box-shadow: var(--default-box-shadow);
+  display: inline-grid;
+  grid-template-columns: [logo] auto [nav] 2fr [actions] 4fr [language] auto;
+  grid-gap: 0 4.2rem;
+  align-items: center;
+  min-height: 7.2rem;
+  letter-spacing: 0.16px;
+  position: relative;
+  z-index: 10;
+}
+.header__logo {
+  margin-left: 2.2rem;
+  margin-right: 4rem;
+}
+.header__nav {
+  display: flex;
+}
+.header__nav .menu-item {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem;
+  margin: 0;
+  background: var(--gray-2);
+}
+.header__nav .menu-item-icon {
+  margin-right: 0.8rem;
+}
+.header__nav .menu-item:hover, .header__nav .menu-item:focus-visible {
+  color: var(--gray-8);
+  background-color: var(--white);
+  border-color: var(--gray-4);
+}
+.header__nav .menu-item:focus {
+  color: var(--gray-8);
+  background-color: var(--white);
+  border-color: var(--gray-8);
+}
+.header__nav .menu-item:active, .header__nav .menu-item.--active {
+  color: var(--blue-7);
+  border-color: var(--blue-7);
+}
+.header__nav a:not(:last-child) {
+  margin-right: 1rem;
+}
+.header__actions {
+  display: flex;
+  justify-self: flex-end;
+  align-items: center;
+  margin-right: -3.2rem;
+}
+.header__actions .separator {
+  margin: 0 1.6rem 0 0.8rem;
+  border-left: 1px solid var(--gold-6);
+  height: 1.9em;
+}
+.header__actions .login, .header__actions .logout {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.8rem;
+}
+.header__actions .login .icon, .header__actions .logout .icon {
+  margin-right: 0.5rem;
+}
+.header__actions .link {
+  font-size: 1.2rem;
+  padding: 0;
+  margin-right: 1rem;
+  color: var(--gray-7);
+  text-decoration: none;
+}
+.header__actions .link--icon {
+  margin-left: 0.5rem;
+}
+.header__actions .link:not([disable]):hover {
+  text-decoration: underline;
+  color: var(--gray-7);
+}
+.header__actions .link:focus-visible {
+  color: var(--blue-7);
+}

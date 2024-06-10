@@ -5,7 +5,7 @@ import ExternalLinkIcon from '../../../components/ExternalLink/ExternalLinkIcon'
 import { IIconProps } from '../../../components/Icons/type';
 import TextIcon from '../TextIcon';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 type TBannerItemDictionary = {
     description: string;

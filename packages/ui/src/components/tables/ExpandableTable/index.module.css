@@ -1,0 +1,10 @@
+.fuiExpandableTableBtn {
+  padding-left: 0;
+  font-size: 12px;
+  text-decoration: underline;
+  margin-top: 12px;
+  display: block;
+}
+.fuiExpandableTableBtn:hover {
+  text-decoration: none;
+}

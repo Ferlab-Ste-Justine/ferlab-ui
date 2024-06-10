@@ -1,0 +1,132 @@
+.queryPillContainer {
+  background: var(--query-pill-bg);
+  padding: 2px 2px 2px 3px;
+  border-radius: 2px;
+  align-items: center;
+  display: flex;
+}
+.queryPillContainer.selected {
+  background: var(--query-pill-bg-active);
+}
+.queryPillContainer .operator {
+  margin-right: 4px;
+  margin-left: 2px;
+  min-width: 14px;
+}
+.queryPillContainer .field {
+  font-weight: var(--font-weight-bold);
+  font-size: 12px;
+  margin-left: 4px;
+  margin-right: 2px;
+}
+.queryPillContainer .close {
+  border: none;
+  padding: 3px 2px 3px 4px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  color: var(--query-pill-button-default-color);
+}
+.queryPillContainer .close:hover {
+  color: var(--query-pill-button-hover-color);
+  background: none;
+  opacity: 0.7;
+}
+.queryPillContainer .close:focus {
+  color: var(--query-pill-button-focus-color);
+  background: none;
+}
+.queryPillContainer .queryValuesTrigger {
+  text-decoration: none;
+}
+
+.filtersDropdown {
+  min-width: 285px !important;
+  background: white;
+  border-radius: 2px;
+  padding: 8px 16px;
+  border: 1px solid #eaeaec;
+  max-width: 500px;
+}
+.filtersDropdown section,
+.filtersDropdown > div {
+  background-color: white;
+}
+
+.filterLoader {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.filterLoader > div {
+  display: flex;
+}
+
+.customPillWrapper {
+  display: flex;
+  padding: 2px;
+  align-items: center;
+  border-radius: 2px;
+  background-color: var(--custom-pill-bg);
+}
+.customPillWrapper.selected {
+  background: var(--custom-pill-bg-active);
+}
+.customPillWrapper .titleWrapper {
+  display: flex;
+  align-items: center;
+  padding: 0 4px 0 8px;
+  border-radius: 2px;
+  background-color: white;
+}
+.customPillWrapper .titleWrapper .title {
+  font-weight: var(--font-weight-bold);
+  font-size: 12px;
+  margin-right: 4px;
+}
+.customPillWrapper .titleWrapper .edit {
+  border: none;
+  padding: 3px;
+  height: auto;
+  color: var(--gray-8);
+}
+.customPillWrapper .titleWrapper .edit:hover {
+  opacity: 0.7;
+  background-color: var(--gray-1);
+}
+.customPillWrapper .titleWrapper .edit > span {
+  font-size: 14px;
+  padding: 0;
+}
+.customPillWrapper .close {
+  border: none;
+  padding: 3px;
+  height: auto;
+  display: flex;
+  align-items: center;
+}
+.customPillWrapper .closeActive {
+  color: var(--gray-1);
+}
+.customPillWrapper .closeActive:hover {
+  color: var(--custom-pill-button-hover-color);
+  background: none;
+  opacity: 0.7;
+}
+.customPillWrapper .closeActive:focus {
+  color: var(--custom-pill-button-focus-color);
+  background: none;
+}
+.customPillWrapper .closeInactive {
+  color: var(--gray-8);
+}
+.customPillWrapper .closeInactive:hover {
+  color: var(--gray-8);
+  background: none;
+  opacity: 0.7;
+}
+.customPillWrapper .closeInactive:focus {
+  color: var(--gray-8);
+  background: none;
+}

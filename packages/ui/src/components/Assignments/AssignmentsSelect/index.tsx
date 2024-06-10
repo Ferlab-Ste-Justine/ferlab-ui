@@ -7,7 +7,7 @@ import AssignmentsTag from '../AssignmentsTag';
 import { IAssignmentsDictionary, TPractitionnerInfo } from '../types';
 import { getPractitionnerName } from '../utils';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TAssignmentsSelect = {
     options: TPractitionnerInfo[];
