@@ -41,7 +41,7 @@ import {
     IQueryBuilderHeaderConfig,
 } from './types';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export interface IQueryBuilderProps {
     id: string;

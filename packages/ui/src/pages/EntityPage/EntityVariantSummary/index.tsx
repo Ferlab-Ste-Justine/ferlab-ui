@@ -3,7 +3,7 @@ import { Card, Descriptions, Space, Typography } from 'antd';
 
 import Empty from '../../../components/Empty';
 
-import style from './index.module.scss';
+import style from './index.module.css';
 
 const { Text } = Typography;
 

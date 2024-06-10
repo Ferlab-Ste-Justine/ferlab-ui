@@ -2,7 +2,7 @@ import React, { ComponentType, ReactNode } from 'react';
 
 import { IIconProps } from '../../../components/Icons/type';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TTextIconProps = {
     IconComponent: ComponentType<IIconProps>;

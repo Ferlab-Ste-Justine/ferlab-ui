@@ -17,7 +17,7 @@ import LessThanOrEqualOperator from '../icons/LessThanOrEqualOperator';
 import NotInOperator from '../icons/NotInOperator';
 import QueryValues from '../QueryValues';
 
-import styles from './QueryPill.module.scss';
+import styles from './QueryPill.module.css';
 
 interface IFieldQueryPillProps {
     isBarActive?: boolean;

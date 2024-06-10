@@ -19,7 +19,7 @@ import {
     TDownloadSettings,
 } from './utils';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
     gridUID: string;
