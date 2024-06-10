@@ -2,7 +2,7 @@
 import React, { ReactNode } from 'react';
 import cx from 'classnames';
 
-import './StackLayout.scss';
+import './StackLayout.css';
 
 export enum StackOrientation {
     Vertical = 'vertical',

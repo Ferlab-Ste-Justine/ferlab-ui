@@ -19,7 +19,7 @@ import EditBiospecimenRequestModal, {
     TEditBiospecimenRequestModalDictionary,
 } from './EditBiospecimenRequestModal';
 
-import styles from '../widget.module.scss';
+import styles from '../widget.module.css';
 
 export const DEFAULT_BIOSPECIMEN_REQUESTS_WIDGET_DICTIONARY: TBiospecimenRequestsWidgetDictionary = {
     error: DEFAULT_CARD_ERROR_PLACEHOLDER_DICTIONARY,

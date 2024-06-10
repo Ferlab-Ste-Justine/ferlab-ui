@@ -7,7 +7,7 @@ import cx from 'classnames';
 import { TFetchMatchFunc, TOnUpload, UploadIdDictionary } from './types';
 import UploadModal from './UploadModal';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export interface UploadIdsProps {
     className?: string;

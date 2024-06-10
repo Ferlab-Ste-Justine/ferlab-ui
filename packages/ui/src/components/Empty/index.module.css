@@ -1,0 +1,89 @@
+.fuiEmpty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.fuiEmpty.left {
+  justify-content: left;
+}
+.fuiEmpty.center {
+  justify-content: center;
+}
+.fuiEmpty .contentWrapper .title,
+.fuiEmpty .contentWrapper .description {
+  margin-bottom: 0;
+  color: var(--empty-content-color);
+}
+.fuiEmpty .contentWrapper .action {
+  color: unset;
+  margin-top: 24px;
+}
+.fuiEmpty .image {
+  display: flex;
+  margin: auto;
+  fill: var(--empty-image-color);
+}
+.fuiEmpty .content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+.fuiEmpty.noPadding {
+  padding: 0 !important;
+}
+.fuiEmpty.mini {
+  padding: var(--empty-content-mini-padding);
+}
+.fuiEmpty.mini .content {
+  gap: 12px;
+}
+.fuiEmpty.mini .title {
+  font-size: 16px;
+}
+.fuiEmpty.mini .image.imageRow {
+  max-height: 28px;
+}
+.fuiEmpty.mini .image.imageGrid {
+  max-height: 45px;
+}
+.fuiEmpty.mini .contentWrapper {
+  gap: 4px;
+}
+.fuiEmpty.default {
+  padding: var(--empty-content-default-padding);
+}
+.fuiEmpty.default .content {
+  gap: 16px;
+}
+.fuiEmpty.default .title {
+  font-size: 20px;
+}
+.fuiEmpty.default .image.imageRow {
+  max-height: 45px;
+}
+.fuiEmpty.default .image.imageGrid {
+  max-height: 75px;
+}
+.fuiEmpty.default .contentWrapper {
+  gap: 8px;
+}
+.fuiEmpty.large {
+  padding: var(--empty-content-large-padding);
+}
+.fuiEmpty.large .content {
+  gap: 24px;
+}
+.fuiEmpty.large .title {
+  font-size: 24px;
+}
+.fuiEmpty.large .image.imageRow {
+  max-height: 72px;
+}
+.fuiEmpty.large .image.imageGrid {
+  max-height: 100px;
+}
+.fuiEmpty.large .contentWrapper {
+  gap: 16px;
+}

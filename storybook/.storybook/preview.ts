@@ -1,7 +1,9 @@
 import type { Preview } from '@storybook/react';
-import '../../packages/ui/themes/index.scss';
+
+import '@ferlab/ui/themes/default/theme.template.css';
+
 import 'antd/dist/antd.css';
-import '../assets/main.scss';
+import '../assets/main.css';
 
 const preview: Preview = {
     parameters: {

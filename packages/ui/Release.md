@@ -1,3 +1,6 @@
+### 10.0.0-rc15 2024-07-02
+- fix: SKFP-1097 adjust auth studies allowed files count
+
 ### 9.21.4 2024-07-04
 - fix: SKFP-1134 Adjust chart bar width for smaller dataset
 
@@ -102,7 +105,7 @@
 
 ### 9.16.2 2024-05-23
 - feat: SKFP-1078 Add facet title click in Quick filter
-- 
+-
 ### 9.16.1 2024-05-23
 - feat: SKFP-1043 Refactor Quick filter component
 

@@ -7,7 +7,7 @@ import ExternalLink from '../../ExternalLink';
 import { IBillingGroups, ICavaticaProjects } from './type';
 import { CAVATICA_API_ERROR_TYPE } from '.';
 
-import styles from './CavaticaCreateProjectModal.module.scss';
+import styles from './CavaticaCreateProjectModal.module.css';
 
 enum FORM_FIELDS {
     PROJECT_NAME = 'project_name',

@@ -1,0 +1,28 @@
+.resizableCard {
+  height: 100%;
+  width: 100%;
+}
+.resizableCard .cardHeader {
+  font-size: 12px;
+}
+.resizableCard .extra {
+  display: flex;
+  padding-right: 8px;
+}
+.resizableCard .extra .dropdownMenu :global(.ant-btn-compact-first-item) {
+  display: none;
+}
+.resizableCard .extra .dropdownMenu :global(.ant-btn-compact-last-item) {
+  width: 20px;
+}
+.resizableCard .extra .dropdownMenu :global(.ant-btn-text) {
+  color: var(--chart-title-color) !important;
+}
+.resizableCard .extra .button {
+  width: 20px;
+  color: var(--chart-title-color) !important;
+}
+
+.modalContentWrapper {
+  position: relative;
+}
