@@ -1,0 +1,31 @@
+.cavaticaAnalyseModal .authorizedFilesTag {
+  margin: 0 4px;
+}
+.cavaticaAnalyseModal .studiesList div[class$=-meta-description] {
+  margin-right: 12px;
+}
+.cavaticaAnalyseModal .studiesList :global(.ant-list-item):hover {
+  background-color: transparent;
+}
+
+.cavaticaModalWrapper .treeSelectorWrapper,
+.cavaticaModalWrapper .treeSelector {
+  width: 100%;
+}
+
+.cavaticaTreeDropdown {
+  padding: 0;
+}
+.cavaticaTreeDropdown .treeSelectEmpty {
+  width: 100%;
+  padding: 4px 8px;
+}
+.cavaticaTreeDropdown .cavaticaTreeDropdownMenu {
+  padding: 8px 4px;
+}
+.cavaticaTreeDropdown .cavaticaTreeDropdownFooter {
+  padding: 12px;
+}
+.cavaticaTreeDropdown .cavaticaTreeDropdownDivider {
+  margin: 0;
+}

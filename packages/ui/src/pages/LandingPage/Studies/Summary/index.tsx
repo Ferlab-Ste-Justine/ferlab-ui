@@ -4,7 +4,7 @@ import StudyIcon from '../../../../components/Icons/FuturoSpot/StudySpotIcon';
 import TextIcon from '../../TextIcon';
 import { TStudiesDictionary } from '../index';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 type TSummaryProps = {
     dictionary: TStudiesDictionary;

@@ -1,0 +1,50 @@
+.stackLayout {
+  min-width: 375px;
+}
+
+.consequenceUl {
+  list-style: none;
+  padding: 0;
+}
+
+.highImpact {
+  fill: var(--red-7);
+}
+
+.lowImpact {
+  fill: var(--green-7);
+}
+
+.moderateImpact {
+  fill: var(--orange-5);
+}
+
+.modifierImpact {
+  fill: var(--gray-6);
+}
+
+.detail {
+  padding-right: 12px;
+  white-space: nowrap;
+}
+
+.detailWithoutSymbol {
+  padding-right: 4px;
+  white-space: nowrap;
+}
+
+.bullet {
+  margin-right: 8px;
+}
+
+.symbol {
+  padding-right: 8px;
+}
+
+.dash {
+  padding-right: 4px;
+}
+
+.aaChangeWrapper {
+  max-width: 200px !important;
+}

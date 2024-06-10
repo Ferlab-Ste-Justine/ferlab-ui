@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 import { IIconProps } from '../type';
 
-import style from './icon.module.scss';
+import style from './icon.module.css';
 
 const CloudArchitectureSpotIcon = ({
     className = '',

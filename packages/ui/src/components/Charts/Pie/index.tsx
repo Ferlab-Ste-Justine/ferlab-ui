@@ -6,7 +6,7 @@ import { Typography } from 'antd';
 import { numberFormat } from '../../../utils/numberUtils';
 import { defs } from '../patterns';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TPieChart = Omit<PieSvgProps<DefaultRawDatum>, 'width' | 'height'> & {
     title?: string;
