@@ -3,7 +3,7 @@ import { Alert, Modal, Typography } from 'antd';
 
 import { IRequestBiospecimenDictionary } from './requestBiospecimen.utils';
 
-import styles from './requestBiospecimen.module.scss';
+import styles from './requestBiospecimen.module.css'
 
 const { Text } = Typography;
 

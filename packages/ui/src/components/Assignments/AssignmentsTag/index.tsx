@@ -6,7 +6,7 @@ import { IAssignmentsDictionary } from '../types';
 
 import { UnAssignAvatar } from './UnsassignAvatar';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TAssignmentsTag = {
     email?: string;

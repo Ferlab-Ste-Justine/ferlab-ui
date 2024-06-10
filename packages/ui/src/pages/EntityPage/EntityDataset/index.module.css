@@ -1,0 +1,45 @@
+.container {
+  max-width: 1600px;
+  margin-bottom: 40px;
+}
+.container .title {
+  margin-bottom: 16px;
+}
+.container .collapse .panel .card {
+  border: none;
+}
+.container .collapse .panel .card *[class$=-card-body] {
+  padding: 0;
+}
+.container .collapse .panel .card *[class$=-descriptions-item-label] {
+  width: 30%;
+}
+.container .collapse .panel .card .subTitle {
+  font-size: 14px;
+  font-weight: 600;
+}
+.container .tableHeader {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.rowDataset {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+.rowDataset .descriptionsCard {
+  margin-right: 24px;
+  flex: 6;
+}
+.rowDataset .countCardContainer {
+  padding: 24px;
+  display: flex;
+  flex: 0 1 220px;
+}
+
+.rowCountCard:not(:last-child) {
+  padding-bottom: 24px;
+}

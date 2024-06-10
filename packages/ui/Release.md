@@ -1,3 +1,6 @@
+### 10.0.0-rc10 2024-06-18
+- fix: SKFP-1097 adjust auth studies allowed files count
+
 ### 9.20.5 2024-06-21
 - fix: SJIP-822 OntologyTree: improve behavior, fix issue on edit
 
@@ -87,7 +90,7 @@
 
 ### 9.16.2 2024-05-23
 - feat: SKFP-1078 Add facet title click in Quick filter
-- 
+-
 ### 9.16.1 2024-05-23
 - feat: SKFP-1043 Refactor Quick filter component
 

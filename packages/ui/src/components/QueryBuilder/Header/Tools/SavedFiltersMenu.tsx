@@ -8,7 +8,7 @@ import { ISavedFilter, TOnSavedFilterChange } from '../../types';
 
 import ManageFiltersModal from './ManageFiltersModal';
 
-import styles from './QueryBuilderHeaderTools.module.scss';
+import styles from './QueryBuilderHeaderTools.module.css';
 
 interface OwnProps {
     selectedKey: string;

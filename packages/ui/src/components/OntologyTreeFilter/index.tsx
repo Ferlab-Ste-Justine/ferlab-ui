@@ -11,7 +11,7 @@ import OntologyTree, { DEFAULT_ONTOLOGY_TREE_DICTIONARY, TOntologyTreeDictionary
 import { ILegacyOntologyTreeData } from './type';
 import { getSqonTransferKeys, legacyToNewOntologyTreeData, rebuildTransferTargetKeys } from './utils';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export const DEFAULT_ONTOLOGY_TREE_MODAL_DICTIONARY = {
     allOf: 'All of',

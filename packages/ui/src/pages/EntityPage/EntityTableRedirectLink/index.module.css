@@ -1,0 +1,11 @@
+.link {
+  font-size: 12px;
+}
+.link .content {
+  text-decoration: underline;
+}
+
+.icon {
+  color: var(--link-base-color);
+  font-size: 14px;
+}
