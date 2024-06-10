@@ -1,3 +1,6 @@
+### 9.18.2 2024-06-13
+- fix: FLUI-133 fix tests
+
 ### 9.18.1 2024-06-13
 - fix: SKFP-1149 Quick Filter fix apply btn style
 
