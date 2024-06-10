@@ -10,7 +10,7 @@ import QueryValues from '../QueryValues';
 
 import { Operator } from './FieldQueryPill';
 
-import styles from './QueryPill.module.scss';
+import styles from './QueryPill.module.css';
 
 interface IRemoteComponentQueryPillProps {
     isBarActive?: boolean;

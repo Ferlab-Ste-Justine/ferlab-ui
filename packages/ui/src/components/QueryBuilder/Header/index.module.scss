@@ -1,12 +1,10 @@
-@import "theme.template";
-
 .QBHeditModal {
   .editModalContent,
   .labelInput {
     width: 100%;
 
     .title {
-      font-weight: $font-weight-semibold;
+      font-weight: var(--font-weight-semibold);
     }
   }
 }
@@ -58,16 +56,39 @@
 
     &.QBHOptionsActionsContainer {
       .iconBtnAction {
-        @include query-builder-header-icon-button-action;
+          &:focus,
+          &:hover {
+              background-color: transparent;
+          }
+
+          &:focus-visible {
+              border: 1px solid !important;
+          }
+
+          &:not(:disabled) {
+            color: var(--query-builder-header-tools-icon-color);
+              
+            #{&}:hover {
+                border: 1px solid transparent;
+                background: transparent;
+                color: var(--var(--query-builder-header-tools-icon-hover));
+            }
+            #{&}:focus {
+                border: 1px solid transparent;
+                background: transparent;
+                color: var(--query-builder-header-tools-icon-focus);
+            }
+          }
+
       }
 
       .QBHOptionsFavoriteStar {
-        color: $query-builder-header-tools-favorite-icon-color;
+        color: var(--query-builder-header-tools-favorite-icon-color);
       }
     }
 
     &.togglerClosed {
-      border-bottom: 1px solid $query-builder-border-color;
+      border-bottom: 1px solid var(--query-builder-border-color);
       border-bottom-left-radius: 2px;
       border-bottom-right-radius: 2px;
     }

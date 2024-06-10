@@ -1,22 +1,21 @@
-@import 'theme.template';
-
 .queryBuilderHeaderTools {
     .toolsContainer {
         .queryBuilderHeaderActionIconBtn {
             &:focus-visible {
-                @include query-builder-header-button-focus-visible;
+              border: 1px solid !important;
             }
 
             &:not(:disabled) {
-                color: $query-builder-header-tools-icon-color;
+                color: var(--query-builder-header-tools-icon-color);
 
                 &.dirty {
-                    color: $query-builder-header-tools-icon-color-dirty;
+                    color: var(--query-builder-header-tools-icon-color-dirty);
 
                     &:not(span) {
                         &:hover,
                         &:focus {
-                            @include query-builder-header-button-dirty-focus;
+                            border: var(--query-builder-header-tools-icon-color-dirty);
+                            color: var(--query-builder-header-tools-icon-color-dirty);
                         }
                     }
                 }
@@ -24,7 +23,8 @@
                 &:not(span) {
                     &:hover,
                     &:focus-visible {
-                        @include query-builder-header-button-nested-focus-visible;
+                      border: var(--query-builder-header-tools-icon-color-dirty);
+                      color: var(--query-builder-header-tools-icon-color-dirty);
                     }
                 }
             }
@@ -66,7 +66,7 @@
     }
 
     .message {
-        color: $gray-8;
+        color: var(--gray-8);
         letter-spacing: 0.25px;
     }
 }
