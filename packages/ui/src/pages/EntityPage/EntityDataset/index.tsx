@@ -9,7 +9,7 @@ import FileIcon from '../../../components/Icons/Futuro/FileIcon';
 import StatisticIcon from '../../../components/StatisticIcon';
 import { IEntityDescriptionsItem } from '../EntityDescriptions';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 const { Title } = Typography;
 

@@ -8,7 +8,7 @@ import { addQuery } from '../../QueryBuilder/utils/useQueryBuilderState';
 
 import { IAuthorizedStudy } from '.';
 
-import styles from './AuthorizedStudiesListItem.module.scss';
+import styles from './AuthorizedStudiesListItem.module.css';
 
 export const DEFAULT_AUTHORIZED_STUDIES_LIST_ITEM_DICTIONARY = {
     authorization: 'Authorization :',

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import styles from './QueryValues.module.scss';
+import styles from './QueryValues.module.css';
 
 interface IReferenceQueryValuesProps {
     refIndex: number;

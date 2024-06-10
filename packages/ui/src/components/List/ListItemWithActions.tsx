@@ -5,7 +5,7 @@ import cx from 'classnames';
 
 import ConditionalWrapper from '../utils/ConditionalWrapper';
 
-import styles from './ListItemWithActions.module.scss';
+import styles from './ListItemWithActions.module.css';
 
 export type TListItemWithActionsProps = {
     onEdit: () => void;

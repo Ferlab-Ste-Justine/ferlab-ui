@@ -33,8 +33,6 @@
         "react-docgen-typescript": "^1.21.0",
         "react-icons": "^4.2.0",
         "react-is": "^16.13.1",
-        "sass": "^1.69.5",
-        "sass-loader": "^10.5.0",
         "storybook": "^7.6.5",
         "style-loader": "^2.0.0",
         "ts-loader": "^8.0.17",

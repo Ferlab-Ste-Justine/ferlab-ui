@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import styles from './LabelOperator.module.scss';
+import styles from './LabelOperator.module.css';
 
 interface IGreaterThanOperatorProps {
     className?: string;
