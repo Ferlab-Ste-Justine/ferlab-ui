@@ -26,6 +26,7 @@ export type TermFilterProps = {
     hasSearchInput: boolean;
     filters: IFilter<IFilterCount>[];
     isQuickFilter?: boolean;
+    checkboxClassname?: string;
 };
 
 type InternalCheckBoxProps = {
@@ -86,6 +87,7 @@ const InternalCheckBox = ({
 );
 
 const CheckboxFilter = ({
+    checkboxClassname = '',
     dictionary,
     filterGroup,
     filters,
@@ -208,7 +210,7 @@ const CheckboxFilter = ({
                 </div>
             )}
 
-            <StackLayout className={styles.checkboxFilter} vertical>
+            <StackLayout className={`${styles.checkboxFilter} ${checkboxClassname}`} vertical>
                 {showActionBar && (
                     <StackLayout className={styles.actionBar}>
                         {showSelectAll && (

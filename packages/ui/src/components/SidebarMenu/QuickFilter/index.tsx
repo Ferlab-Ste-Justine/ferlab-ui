@@ -1,19 +1,16 @@
 import React, { MouseEvent, ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import Highlighter from 'react-highlight-words';
-import { Button, Checkbox, Divider, Dropdown, Input, InputRef, Popover, Radio, Spin, Tag, Typography } from 'antd';
+import { Button, Checkbox, Dropdown, Input, InputRef, Popover, Radio, Spin, Tag, Typography } from 'antd';
+import { get } from 'lodash';
 
 import { TermOperators } from '../../../data/sqon/operators';
-import { ISyntheticSqon } from '../../../data/sqon/types';
 import ScrollContent from '../../../layout/ScrollContent';
-import StackLayout from '../../../layout/StackLayout';
 import { numberFormat } from '../../../utils/numberUtils';
-import useQueryBuilderState from '../../QueryBuilder/utils/useQueryBuilderState';
+import FilterSelector from '../../filters/FilterSelector';
+import { IDictionary, IFilter, IFilterGroup, VisualType, onChangeType } from '../../filters/types';
 import SearchIcon from '../icons/SearchIcon';
 
 import styles from './index.module.scss';
-import { IDictionary, IFilter, IFilterGroup, VisualType, onChangeType } from '../../filters/types';
-import FilterSelector from '../../filters/FilterSelector';
-import { get } from 'lodash';
 
 export type TitleQFOption = {
     key: string;
@@ -30,6 +27,7 @@ export type CheckboxQFOption = TitleQFOption & {
 export type FacetOption = {
     filterGroup: IFilterGroup<any>;
     filters: IFilter<any>[];
+    maxShowing?: number;
     onChange: onChangeType;
     selectedFilters: IFilter<any>[];
 };
@@ -96,8 +94,6 @@ const QuickFilter = ({
     }, []);
 
     const handleFacetChange = useCallback((fg: IFilterGroup<any>, f: IFilter<any>[]) => {
-        // console.log('fg', fg);
-        console.log('handleFacetChange f', f);
         setSelectedFacetOptions(f);
     }, []);
 
@@ -133,7 +129,7 @@ const QuickFilter = ({
                     ...filter,
                     data: {
                         ...filter.data,
-                        operator,
+                        operator: filter.data.min || filter.data.max ? filter.data.operator : operator,
                     },
                 })),
             );
@@ -218,38 +214,20 @@ const QuickFilter = ({
                                 <>
                                     {selectedFacet && qfFacetOptions ? (
                                         <>
-                                            {/* <StackLayout className={styles.actionBar}>
-                                                <Button
-                                                    className={styles.checkboxFilterLinks}
-                                                    onClick={handleSelectAll}
-                                                    type="text"
-                                                >
-                                                    {get(dictionary, 'actions.all', 'All')}
-                                                </Button>
-
-                                                <Divider className={styles.separator} type="vertical" />
-                                                <Button
-                                                    className={styles.checkboxFilterLinks}
-                                                    onClick={handleClearAll}
-                                                    type="text"
-                                                >
-                                                    {get(dictionary, 'actions.none', 'None')}
-                                                </Button>
-                                            </StackLayout> */}
-                                            <ScrollContent className={styles.scrollContentLevel2}>
+                                            <div className={styles.scrollContentLevel2}>
                                                 <FilterSelector
+                                                    checkboxClassname={styles.checboxFilterSelector}
                                                     dictionary={dictionary}
                                                     filterGroup={qfFacetOptions?.filterGroup || {}}
                                                     filters={qfFacetOptions?.filters || []}
                                                     isQuickFilter={true}
-                                                    maxShowing={3} //a determiner
+                                                    maxShowing={qfFacetOptions?.maxShowing || 5}
                                                     noDataInputOption={false}
-                                                    // onChange={qfFacetOptions?.onChange}
                                                     onChange={handleFacetChange}
                                                     searchInputVisible={false}
                                                     selectedFilters={qfFacetOptions?.selectedFilters || []}
                                                 />
-                                            </ScrollContent>
+                                            </div>
                                             <div className={styles.popoverFooter}>
                                                 <Button className={styles.clearBtn} onClick={clearFilters} type="text">
                                                     {get(dictionary, 'actions.clear', 'Clear')}

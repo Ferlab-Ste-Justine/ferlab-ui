@@ -133,10 +133,13 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
 }
 
 .scrollContentLevel2 {
-    padding: 5px 16px;
+    padding: 8px 16px;
     width: 380px;
-    max-height: 286px;
-    overflow-y: auto;
+    max-height: 324px;
+}
+
+.checboxFilterSelector {
+    max-height: 314px;
 }
 
 .clearBtn {
