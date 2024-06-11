@@ -1,0 +1,71 @@
+.QBHeditModal .editModalContent,
+.QBHeditModal .labelInput {
+  width: 100%;
+}
+.QBHeditModal .editModalContent .title,
+.QBHeditModal .labelInput .title {
+  font-weight: var(--font-weight-semibold);
+}
+
+.QBHManageFiltersList {
+  max-height: 250px;
+  overflow: scroll;
+}
+
+.QBHfilterEditFormItem {
+  margin: 0;
+}
+
+.QBHCollapse :global(.ant-collapse-header-text) {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.QBHContainer {
+  background-color: white;
+  border-radius: 2px;
+  width: 100%;
+  padding-right: 24px;
+}
+.QBHContainer :global(.ant-space-item):first-child {
+  overflow: hidden;
+}
+.QBHContainer .togglerTitle {
+  margin: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.QBHContainer .QBHActionContainer {
+  display: flex;
+  align-items: center;
+}
+.QBHContainer .QBHActionContainer:hover {
+  cursor: pointer;
+}
+.QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:focus, .QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:hover {
+  background-color: transparent;
+}
+.QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:focus-visible {
+  border: 1px solid !important;
+}
+.QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:not(:disabled) {
+  color: var(--query-builder-header-tools-icon-color);
+}
+.QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:not(:disabled):hover {
+  color: var(--query-builder-header-tools-icon-hover);
+  background: none;
+}
+.QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:not(:disabled):focus {
+  color: var(--query-builder-header-tools-icon-focus);
+  background: none;
+}
+.QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .QBHOptionsFavoriteStar {
+  color: var(--query-builder-header-tools-favorite-icon-color);
+}
+.QBHContainer .QBHActionContainer.togglerClosed {
+  border-bottom: 1px solid var(--query-builder-border-color);
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}

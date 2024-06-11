@@ -1,0 +1,86 @@
+:root {
+  --padding-top-card: 16px;
+  --padding-side-and-bottom: 24px;
+}
+
+.fuiCardWrapper .fbUIGridCard {
+  padding: var(--padding-top-card) var(--padding-side-and-bottom);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.fuiCardWrapper .fbUIGridCard.light {
+  background-color: var(--grid-card-light-background-color);
+}
+.fuiCardWrapper .fbUIGridCard.shade {
+  background-color: var(--grid-card-shade-background-color);
+}
+.fuiCardWrapper .fbUIGridCard div[class^=ant-spin] {
+  height: 100%;
+}
+.fuiCardWrapper .fbUIGridCard .contentWrapper {
+  height: 100%;
+}
+.fuiCardWrapper .fbUIGridCard div[class$=-head] {
+  min-height: unset;
+  padding: 0;
+}
+.fuiCardWrapper .fbUIGridCard div[class$=-head] div[class$=-head-title],
+.fuiCardWrapper .fbUIGridCard div[class$=-head] div[class$=-extra] {
+  padding: 0;
+  padding-bottom: 12px;
+}
+.fuiCardWrapper .fbUIGridCard.resizableCard {
+  padding: 0 !important;
+  padding-bottom: 16px !important;
+}
+.fuiCardWrapper .fbUIGridCard.resizableCard div[class$=-head] div[class$=-head-title] {
+  padding: 0;
+}
+.fuiCardWrapper .fbUIGridCard.resizableCard div[class$=-body] {
+  padding: 16px !important;
+  overflow: inherit;
+}
+.fuiCardWrapper .fbUIGridCard.withHeaderOnly {
+  padding-bottom: 24px;
+}
+.fuiCardWrapper .fbUIGridCard.withHeaderOnly div[class$=-body] {
+  padding-bottom: 0;
+  flex: auto;
+}
+.fuiCardWrapper .fbUIGridCard.withFooterOnly {
+  padding-top: 24px;
+}
+.fuiCardWrapper .fbUIGridCard.withFooterOnly div[class$=-body] {
+  padding-top: 0;
+  flex: auto;
+}
+.fuiCardWrapper .fbUIGridCard.contentOnly div[class$=-body] {
+  padding: 0;
+  flex: auto;
+}
+.fuiCardWrapper .fbUIGridCard div[class$=-body] {
+  padding-left: 0;
+  padding-right: 0;
+  padding: 24px 0;
+  overflow: hidden;
+}
+.fuiCardWrapper .fbUIGridCard:not(.withFooterOnly):not(.withHeaderOnly) {
+  justify-content: space-between;
+}
+.fuiCardWrapper .fbUIGridCard:not(.withFooterOnly):not(.withHeaderOnly) div[class$=-body] {
+  flex: auto;
+}
+.fuiCardWrapper .fbUIGridCard ul[class$=-actions] {
+  background-color: transparent;
+}
+.fuiCardWrapper .fbUIGridCard ul[class$=-actions] > li {
+  color: unset;
+  float: unset;
+  text-align: unset;
+  margin: 0;
+  padding-top: 16px;
+}
+.fuiCardWrapper .fbUIGridCard ul[class$=-actions] > li span {
+  cursor: unset;
+}

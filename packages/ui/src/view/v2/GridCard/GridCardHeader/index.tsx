@@ -8,7 +8,7 @@ import { throttle } from 'lodash';
 
 import DragHandle from '../../../../layout/SortableGrid/DragHandle';
 
-import styles from './GridCardHeader.module.scss';
+import styles from './GridCardHeader.module.css';
 
 interface IInfoPopover extends PopoverProps {
     iconClassName?: string;
