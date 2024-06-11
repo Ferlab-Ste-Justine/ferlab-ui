@@ -97,10 +97,3 @@
   margin: 10px 22px;
   padding: 0;
 }
-
-.ant-space-compact-block {
-  display: inline-flex;
-  width: unset;
-  max-width: 100%;
-}
-

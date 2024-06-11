@@ -7,7 +7,8 @@
 html {
   /*Defines what 1rem is.*/
   font-size: 62.5%; /*Do not set to pixel otherwise it prevents user to use his personal browser settings*/
-      Percentage is calculated based on the default of 16px -> 10px / 16px = 62.5%
+  /*
+    Percentage is calculated based on the default of 16px -> 10px / 16px = 62.5%
     We target a font-size of 10px for easy rem calculation (base 10)
   */
 }
@@ -44,4 +45,3 @@ a.link:hover {
   color: var(--blue-8);
   text-decoration: none;
 }
-

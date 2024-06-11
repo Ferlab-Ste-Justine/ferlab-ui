@@ -25,4 +25,3 @@
   font-weight: 600;
   src: local(""), url("./fonts/ibm-plex-mono-v6-latin-600.woff2") format("woff2"), url("./fonts/ibm-plex-mono-v6-latin-600.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
-
