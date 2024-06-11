@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { Tag } from 'antd';
 import { capitalize } from 'lodash';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export enum ColorTagType {
     Boolean = 'boolean',

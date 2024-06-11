@@ -2,7 +2,7 @@ import React from 'react';
 import { Skeleton } from 'antd';
 import Title from 'antd/lib/typography/Title';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export interface IEntityTitle {
     text?: string;

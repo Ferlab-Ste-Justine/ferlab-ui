@@ -1,0 +1,104 @@
+.modalContainer {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  top: 0;
+}
+.modalContainer .contentContainer {
+  display: flex;
+  background-color: var(--gray-4);
+}
+.modalContainer .contentContainer .sidebarMenu {
+  height: 100vh;
+  background-color: var(--gray-4);
+}
+.modalContainer .contentContainer .sidebarMenu li[role=menuitem] {
+  color: white;
+}
+.modalContainer .contentContainer .sidebarMenu li[role=menuitem] span[class$=-title-content] {
+  margin-left: 0;
+}
+.modalContainer .contentContainer .editContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+}
+.modalContainer .contentContainer .editContainer .header {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--gray-1);
+  padding: 16px 24px;
+}
+.modalContainer .contentContainer .editContainer .header .title {
+  color: var(--blue-9);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+}
+.modalContainer .contentContainer .editContainer .header .closeIcon {
+  height: var(--sidebar-content-panel-close-icon-width);
+  width: var(--sidebar-content-panel-close-icon-width);
+  color: var(--gray-7);
+}
+.modalContainer .contentContainer .editContainer .content {
+  background-color: var(--gray-1);
+  padding: 24px;
+  border-top: 1px solid var(--gray-4);
+  border-bottom: 1px solid var(--gray-4);
+}
+.modalContainer .contentContainer .editContainer .content .queryTitle {
+  padding-bottom: 16px;
+}
+.modalContainer .contentContainer .editContainer .footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  background-color: var(--gray-1);
+  padding: 16px 24px;
+}
+.modalContainer .contentContainer .editContainer .footer .cancel {
+  padding: 5px 16px;
+  border-radius: 2px;
+  border: 1px solid var(--gray-5);
+  color: var(--blue-8);
+}
+.modalContainer .contentContainer .editContainer .footer .save {
+  padding: 5px 16px;
+  border-radius: 2px;
+  background-color: var(--blue-8);
+  color: var(--gray-1);
+}
+.modalContainer .contentContainer .editContainer .footer .save:disabled {
+  background-color: var(--gray-3);
+  color: var(--gray-6);
+  border: 1px solid var(--gray-5);
+}
+
+.existingFilters {
+  border-radius: 2px;
+  border: 1px solid var(--gray-4);
+  margin-top: 16px;
+  padding: 16px;
+}
+.existingFilters .list {
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+.existingFilters .error {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid var(--red-3);
+  border-radius: 2px;
+  background-color: var(--red-1);
+  padding: 9px 16px;
+  letter-spacing: 0.25px;
+  margin-top: 8px;
+}
+.existingFilters .error .errorIcon {
+  color: var(--red-7);
+  font-size: 16px;
+  margin-right: 10px;
+}

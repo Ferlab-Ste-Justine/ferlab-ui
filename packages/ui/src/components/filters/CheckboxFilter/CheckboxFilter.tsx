@@ -15,7 +15,7 @@ import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup
 
 import { getMappedName, TGetMappedNameParams } from './CheckboxFilter.utils';
 
-import styles from './CheckboxFilter.module.scss';
+import styles from './CheckboxFilter.module.css';
 
 export type TermFilterProps = {
     dictionary?: IDictionary | Record<string, never>;

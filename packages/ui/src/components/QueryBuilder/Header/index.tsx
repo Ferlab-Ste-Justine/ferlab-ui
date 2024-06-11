@@ -16,7 +16,7 @@ import EditFilterModal from './Tools/EditFilterModal';
 import QueryBuilderHeaderTools from './Tools';
 import { hasUnsavedChanges, isNewUnsavedFilter } from './utils';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 interface IQueryBuilderHeaderProps {
     children: JSX.Element;

@@ -1,11 +1,11 @@
-@import 'colors';
+
 @import '../default/theme.template';
 
 // Query builder
-$query-default-action-hover-color:$blue-7;
-$query-default-action-focus-color:$gray-8;
+--query-default-action-hover-color:var(--blue-7);
+--query-default-action-focus-color:var(--gray-8);
 
-$small-font: 1.2rem;
+--small-font: 1.2rem;
 
-$checkbox-filter-item-font-size: $small-font;
-$checkbox-filter-link-font-size: $small-font;
+--checkbox-filter-item-font-size: var(--small-font);
+--checkbox-filter-link-font-size: var(--small-font);
