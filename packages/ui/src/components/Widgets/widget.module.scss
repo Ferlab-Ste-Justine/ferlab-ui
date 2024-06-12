@@ -36,6 +36,11 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+
+    .listItemTitle > span::after {
+      content: '';
+      display: block;
+    }
   }
 
   .contentFooter {
@@ -49,6 +54,14 @@
     overflow: auto;
     min-height: 200px;
     height: 100%;
+
+    div[class$='-item-meta'] {
+      margin-bottom: 0;
+    }
+
+    *[class$='-item-meta-description'] {
+      font-size: 12px;
+    }
   }
 
   .cardHeader {

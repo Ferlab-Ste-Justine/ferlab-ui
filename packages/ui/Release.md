@@ -1,3 +1,6 @@
+### 9.19.0 2024-06-13
+- feat: SKFP-1126 add biospecimen requests widget
+
 ### 9.18.2 2024-06-13
 - fix: FLUI-133 fix tests
 
