@@ -1,3 +1,6 @@
+### 9.18.0 2024-06-12
+- feat: SKFP-1101 add range and boolean to Quick Filter
+
 ### 9.17.4 2024-06-07
 - fix: SJIP-822 fix ontology tree search, query and css
 
