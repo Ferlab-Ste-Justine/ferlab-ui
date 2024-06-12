@@ -2,6 +2,7 @@ import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'reac
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { InputRef, Menu } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
+import { get } from 'lodash';
 
 import ScrollView from '../../layout/ScrollView';
 import StackLayout from '../../layout/StackLayout';
@@ -11,7 +12,6 @@ import QuickFilter, { IQuickFilter } from './QuickFilter';
 import SidebarMenuContentPanel from './SidebarMenuContentPanel';
 
 import styles from './index.module.scss';
-import { get } from 'lodash';
 
 export interface ISidebarMenuItem {
     key: string | number;
@@ -55,7 +55,7 @@ const Sidebar = ({
     const [selectedKey, setSelectedKey] = useState<string>('');
     const searchInputRef = useRef<InputRef>(null);
     const selectedFilterComponent = menuItems.find((menuItem) => menuItem.key == selectedKey);
-    const { enableQuickFilter, menuIcon, dictionary } = quickFilter;
+    const { dictionary, enableQuickFilter, menuIcon } = quickFilter;
 
     const handleUserKeyUp = useCallback((e: any) => {
         const activeElement = document.activeElement?.getAttribute('data-key');

@@ -1,6 +1,6 @@
 import React, { MouseEvent, ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import Highlighter from 'react-highlight-words';
-import { Button, Checkbox, Dropdown, Input, InputRef, Popover, Radio, Spin, Tag, Typography } from 'antd';
+import { Button, Checkbox, Dropdown, Input, InputRef, Popover, Spin, Tag, Typography } from 'antd';
 import { get } from 'lodash';
 
 import { TermOperators } from '../../../data/sqon/operators';
@@ -151,12 +151,12 @@ const QuickFilter = ({
                 ) : (
                     <div className={styles.facetValueWrapper} key={index}>
                         <Checkbox
-                            onChange={(e) => handleCheckboxChange(option as CheckboxQFOption, e.target.checked)}
                             checked={selectedOptions.some(
                                 (selectedOption) =>
                                     selectedOption.key === option.key &&
                                     selectedOption.facetKey === (option as CheckboxQFOption).facetKey,
                             )}
+                            onChange={(e) => handleCheckboxChange(option as CheckboxQFOption, e.target.checked)}
                         >
                             <Highlighter
                                 highlightClassName={styles.highlight}
