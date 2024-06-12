@@ -1,7 +1,28 @@
 import React from 'react';
 import OntologyTreeModal from '@ferlab/ui/core/components/OntologyTreeFilter';
 import { Meta } from '@storybook/react';
-import { TermOperators } from '@ferlab/ui/core/data/sqon/operators';
+
+
+const sqon = {
+    content: [
+        {
+            content: {
+                field: 'mondo.name',
+                index: 'participant',
+                remoteComponent: {
+                    id: 'mondoTree',
+                    props: {
+                        field: 'mondo',
+                        visible: true,
+                    },
+                },
+                value: [],
+            },
+            op: 'in',
+        },
+    ],
+    op: 'and',
+};
 
 
 const MOCK_API = [
@@ -105,7 +126,7 @@ export const OntologyTreeModalStory = () => (
   <>
   <h3>OntologyTreeModal Story</h3>
   <div>
-    <OntologyTreeModal open={true} data={MOCK_API} loading={false} handleCancel={() => console.log('handleCancel')} handleOnApply={() => console.log('handleOnApply')} />
+    <OntologyTreeModal field="observed_phenotype" sqon={sqon} open={true} data={MOCK_API} loading={false} handleCancel={() => console.log('handleCancel')} handleOnApply={() => console.log('handleOnApply')} />
   </div>
   </>
 )
@@ -114,7 +135,7 @@ export const OntologyTreeModalLoadingStory = () => (
   <>
   <h3>OntologyTreeModal Loading Story</h3>
   <div>
-    <OntologyTreeModal open={true} data={[]} loading={true} handleCancel={() => console.log('handleCancel')} handleOnApply={() => console.log('handleOnApply')} />
+    <OntologyTreeModal field="observed_phenotype" open={true} data={[]} sqon={sqon} loading={true} handleCancel={() => console.log('handleCancel')} handleOnApply={() => console.log('handleOnApply')} />
   </div>
   </>
 )

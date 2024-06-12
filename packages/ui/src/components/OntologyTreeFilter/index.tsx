@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { Button, Dropdown, Modal, Skeleton, Space, Spin } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Dropdown, Modal, Skeleton, Space } from 'antd';
 import { isEmpty } from 'lodash';
 import { MenuInfo } from 'rc-menu/lib/interface';
 
 import { TermOperators } from '../../data/sqon/operators';
+import { ISqonGroupFilter } from '../../data/sqon/types';
 import Empty from '../Empty';
 
 import OntologyTree, { DEFAULT_ONTOLOGY_TREE_DICTIONARY, TOntologyTreeDictionary } from './OntologyTree';
 import { ILegacyOntologyTreeData } from './type';
-import { flattenTransferTargetKeys, legacyToNewOntologyTreeData } from './utils';
+import { flattenTransferTargetKeys, getOntologySqonValues, legacyToNewOntologyTreeData } from './utils';
 
 import styles from './index.module.scss';
 
@@ -36,25 +37,35 @@ type TOntologyTreeFilter = {
     open: boolean;
     data: ILegacyOntologyTreeData[];
     loading: boolean;
+    field: string;
     handleCancel: () => void;
     handleOnApply: (value: string[], operator: TermOperators) => void;
+    sqon: ISqonGroupFilter;
     dictionary?: TOntologyTreeModalDictionary;
 };
 
 const OntologyTreeModal = ({
     data,
     dictionary = DEFAULT_ONTOLOGY_TREE_MODAL_DICTIONARY,
+    field,
     handleCancel,
     handleOnApply,
     loading,
     open,
+    sqon,
 }: TOntologyTreeFilter): JSX.Element => {
-    const [transferTargetKeys, setTransferTargetKeys] = useState<string[]>([]);
     const newOntologyData = legacyToNewOntologyTreeData(data);
+    const sqonValues = getOntologySqonValues(newOntologyData, sqon, field);
+    const [transferTargetKeys, setTransferTargetKeys] = useState<string[]>(sqonValues);
+
+    useEffect(() => {
+        setTransferTargetKeys(getOntologySqonValues(newOntologyData, sqon, field));
+    }, [sqon]);
 
     return (
         <Modal
             className={styles.modal}
+            destroyOnClose
             footer={[
                 <Space key="tree-modal-actions">
                     <Button onClick={handleCancel}>{dictionary?.cancelText}</Button>
@@ -84,7 +95,11 @@ const OntologyTreeModal = ({
                     </Dropdown.Button>
                 </Space>,
             ]}
-            onCancel={handleCancel}
+            onCancel={(e) => {
+                e.stopPropagation();
+
+                handleCancel();
+            }}
             open={open}
             title={dictionary.title}
             wrapClassName={styles.modalWrapper}
@@ -111,6 +126,7 @@ const OntologyTreeModal = ({
                     data={newOntologyData}
                     dictionary={dictionary.tree}
                     setTransferTargetKeys={setTransferTargetKeys}
+                    sqonValues={sqonValues}
                     total={data.length - 1 ?? 0}
                     transferTargetKeys={transferTargetKeys}
                 />

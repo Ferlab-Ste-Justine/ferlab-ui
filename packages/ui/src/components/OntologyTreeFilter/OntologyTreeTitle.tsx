@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row, Tag, Typography } from 'antd';
 
-import { cleanNodeKey, extractCodeAndTitle, HP_CODE, MONDO_CODE } from './utils';
+import { cleanNodeKey, CODE_REGEX, extractCodeAndTitle, HP_CODE, MONDO_CODE } from './utils';
 
 import styles from './index.module.scss';
 
@@ -33,14 +33,19 @@ const SearchResultTreeTitle = ({ name, query }: { name: string; query: string })
     const nameLeftParenthesis = name.indexOf('(');
     const queryLeftParenthesis = query.indexOf('(');
 
+    // since special character are removed, need to manage case  "331)"
+    if (queryLeftParenthesis == -1 && query.slice(-1) === ')') {
+        query = query.substring(0, query.length - 1);
+    }
+
     // from name
     const firstIndex = findOccurenceIndex(name, query);
-    const lastIndex = firstIndex + query.length;
+    let lastIndex = firstIndex + query.length;
     const beforeText = name.substring(0, firstIndex);
-    let termText = name.substring(firstIndex, lastIndex);
+    const termText = name.substring(firstIndex, lastIndex);
     let afterText = name.substring(lastIndex);
 
-    // Query has parenthesis e.g. "morphology (HP:00"
+    // Query has left parenthesis e.g. "morphology (HP:00", "morphology (hp:0012331)"
     if (queryLeftParenthesis != -1) {
         const termTextTitle = termText.substring(0, termText.indexOf('('));
         const termTextCode = termText.substring(termText.indexOf('('));
@@ -72,12 +77,33 @@ const SearchResultTreeTitle = ({ name, query }: { name: string; query: string })
         );
     }
 
-    // Query has no parenthesis but still contains a code e.g. "morphology HP:00"
+    // Query has no parenthesis but still contains a code e.g. "morphology HP:00" or "007"
     // Parenthesis must be added to keep the correct style
     if (lastIndex > nameLeftParenthesis) {
-        termText = name.substring(firstIndex, lastIndex + 1);
+        // Manage code query e.g. "HP:007", "007", "P:007"
+        const code = name.substring(nameLeftParenthesis);
+        const queryCodeIndex = code.toLowerCase().indexOf(query.toLowerCase());
+        if (queryCodeIndex != -1) {
+            const beforeTextCode = code.slice(0, queryCodeIndex);
+            const termTextCode = code.replace(beforeTextCode, '').slice(0, query.length);
+            const termTextTitle = name.slice(0, name.indexOf('('));
+            return (
+                <>
+                    <Typography.Text>{termTextTitle}</Typography.Text>
+                    <Typography.Text className={styles.code} type="secondary">
+                        {beforeTextCode}
+                        <div className={styles.highlight}>{termTextCode}</div>
+                        {afterText}
+                    </Typography.Text>
+                </>
+            );
+        }
+
+        // Manage word + code e.g. "morphology HP:00", "morphology hp:0012443"
+        lastIndex = lastIndex + 1; // manage missing left parenthesis
+        const termText = name.substring(firstIndex, lastIndex);
         afterText = afterText.slice(1);
-        const termTextCode = '(' + termText.slice(nameLeftParenthesis - lastIndex);
+        const termTextCode = termText.slice(nameLeftParenthesis - lastIndex);
         const termTextTitle = termText.slice(0, termText.indexOf('('));
 
         return (
@@ -97,6 +123,7 @@ const SearchResultTreeTitle = ({ name, query }: { name: string; query: string })
     // Query only contains title term e.g. "morphology"
     const termTextCode = name.substring(nameLeftParenthesis);
     afterText = afterText.replace(termTextCode, '');
+
     return (
         <Typography.Text>
             {beforeText}

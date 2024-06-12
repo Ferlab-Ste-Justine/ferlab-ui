@@ -1,14 +1,20 @@
 import React from 'react';
 import { TransferItem } from 'antd/lib/transfer';
 
+import { ISqonGroupFilter } from '../../data/sqon/types';
+import { findSqonValueByField } from '../../data/sqon/utils';
+
 import OntologyTreeTitle from './OntologyTreeTitle';
 import { ILegacyOntologyTreeData, IOntologyDataNode, IOntologyTreeData } from './type';
 
-export const EXCLUDED_NODES = ['MONDO:0042489', '(HP:0000001)'];
+export const EXCLUDED_KEYS = ['(MONDO:0042489)', '(HP:0000001)'];
 export const MATCH_SPECIAL_CHARACTERS_REGEX = /[\\^$*+?.()|[\]{}]/g;
 export const TITLE_AND_CODE_REGEX = /^(.+?)\s*(\([Mondo:|HP:][^)]+\))/gi;
+export const CODE_REGEX = /(MONDO:|HP:)/g;
+export const CODE_PREFIX_REGEX = /(MONDO|HP)/gi;
 export const HP_CODE = 'hp:';
 export const MONDO_CODE = 'mondo:';
+export const ROOT_NODE_CODE = /(MONDO:0000001|HP:0000118)/g;
 
 /**
  * Map server's responsive to contains both parent and child reference
@@ -18,6 +24,10 @@ export const MONDO_CODE = 'mondo:';
 export const legacyToNewOntologyTreeData = (data: ILegacyOntologyTreeData[]): IOntologyTreeData[] => {
     const result: IOntologyTreeData[] = [];
     data.forEach((parent) => {
+        if (EXCLUDED_KEYS.some((excludedKey) => parent.key.includes(excludedKey))) {
+            return;
+        }
+
         const children: string[] = [];
         data.forEach((child) => {
             if (child.top_hits.parents.includes(parent.key)) {
@@ -45,7 +55,7 @@ export const legacyToNewOntologyTreeData = (data: ILegacyOntologyTreeData[]): IO
  * @returns
  */
 export const ontologyTreeDataToOntologyDataNode = (data: IOntologyTreeData[]): IOntologyDataNode[] => {
-    const rootOntologyNode = data.find((node) => node.top_hits.parents.length === 0);
+    const rootOntologyNode = data.find((node) => node.key.search(ROOT_NODE_CODE) != -1);
     if (!rootOntologyNode) {
         return [];
     }
@@ -83,12 +93,12 @@ export const ontologyTreeDataToOntologyDataNode = (data: IOntologyTreeData[]): I
     const participantsCount = rootOntologyNode.doc_count ?? 0;
     const participantsWithExactTerm = rootOntologyNode.filter_by_term?.doc_count ?? 0;
     const rootNode = {
-        children: recursiveNodeCreate(rootOntologyNode, ''),
-        count: rootOntologyNode.filter_by_term?.doc_count,
-        key: rootOntologyNode.key,
+        children: recursiveNodeCreate(rootOntologyNode, cleanNodeKey(rootOntologyNode.key)),
+        key: cleanNodeKey(rootOntologyNode.key),
         name: rootOntologyNode.key,
         participantsCount,
         participantsWithExactTerm,
+        path: '',
         title: (
             <OntologyTreeTitle
                 name={rootOntologyNode.key}
@@ -96,8 +106,9 @@ export const ontologyTreeDataToOntologyDataNode = (data: IOntologyTreeData[]): I
                 participantsWithExactTerm={participantsWithExactTerm}
             />
         ),
-    };
-    return [...rootNode.children];
+    } as IOntologyDataNode;
+
+    return [rootNode];
 };
 
 /**
@@ -106,7 +117,7 @@ export const ontologyTreeDataToOntologyDataNode = (data: IOntologyTreeData[]): I
  * @returns
  */
 export const ontologyTreeToTransferData = (data: IOntologyTreeData[]): TransferItem[] => {
-    const rootOntologyNode = data.find((node) => node.top_hits.parents.length === 0);
+    const rootOntologyNode = data.find((node) => node.key.search(ROOT_NODE_CODE) != -1);
     if (!rootOntologyNode) {
         return [];
     }
@@ -132,13 +143,31 @@ export const ontologyTreeToTransferData = (data: IOntologyTreeData[]): TransferI
         return result;
     };
 
-    recursive(rootOntologyNode, '');
+    recursive(rootOntologyNode, cleanNodeKey(rootOntologyNode.key));
     transferData.push({
-        key: rootOntologyNode.key,
+        key: cleanNodeKey(rootOntologyNode.key),
         title: rootOntologyNode.key,
     });
 
     return transferData;
+};
+
+/**
+ * sqonValues only contains the node keys, we needs to children to mark them as checked
+ * @param rootNode
+ * @param sqonValues
+ * @returns
+ */
+export const getSqonValuesChildrenKeys = (rootNode: IOntologyDataNode, sqonValues: string[]): string[] => {
+    const result: string[] = [];
+    sqonValues.forEach((key) => {
+        result.push(key);
+        getChildrenKeysByKey(rootNode, key).forEach((childrenKey) => {
+            result.push(childrenKey);
+        });
+    });
+
+    return result;
 };
 
 /**
@@ -348,9 +377,9 @@ export const getChildrenKeysByNode = (node: IOntologyDataNode): string[] => {
  * @returns
  */
 export const getChildrenKeysByKey = (rootNode: IOntologyDataNode, key: string): string[] => {
-    if (rootNode.key === key) {
-        return getChildrenKeysByNode(rootNode);
-    }
+    if (!rootNode) return [];
+    if (rootNode.key === key) return getChildrenKeysByNode(rootNode);
+
     let targetNode: IOntologyDataNode;
     let result: string[] = [];
 
@@ -407,7 +436,7 @@ export const flattenTransferTargetKeys = (keys: string[]): string[] => {
     keys.map((key) => {
         const phenotype = key.split('-').pop();
         if (phenotype) {
-            result.push(phenotype);
+            result.push(rebuildNodeKey(phenotype));
         }
     });
 
@@ -438,3 +467,35 @@ export const extractCodeAndTitle = (value: string): { code: string; title: strin
  * @returns
  */
 export const cleanNodeKey = (key: string): string => key.replaceAll(MATCH_SPECIAL_CHARACTERS_REGEX, '');
+
+/**
+ * Rebuild key from xxxxx-xxxx to xxxxx (xxxxx)
+ * @param key
+ */
+export const rebuildNodeKey = (key: string): string => {
+    const codeIndex = key.search(CODE_REGEX);
+    return `${key.slice(0, codeIndex)}(${key.slice(codeIndex)})`;
+};
+
+/**
+ * @param sqon
+ * @param field
+ * @returns
+ */
+export const getOntologySqonValues = (data: IOntologyTreeData[], sqon: ISqonGroupFilter, field: string): string[] => {
+    const defaultTransferData = ontologyTreeToTransferData(data);
+    const result: string[] = [];
+    const sqonTransferKeys = (findSqonValueByField(`${field}.name`, sqon) ?? []).map((key: string) =>
+        cleanNodeKey(key),
+    ) as string[];
+
+    defaultTransferData.forEach((transferData) => {
+        sqonTransferKeys.forEach((sqonTransferKey) => {
+            if (cleanNodeKey(transferData.title ?? '') === sqonTransferKey) {
+                result.push(transferData.key ?? '');
+            }
+        });
+    });
+
+    return result;
+};
