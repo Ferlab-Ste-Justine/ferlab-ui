@@ -39,6 +39,7 @@ export interface IQuickFilter {
         searchText: string,
         setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
         setTotal: React.Dispatch<React.SetStateAction<number>>,
+        setSelectedOptions: React.Dispatch<React.SetStateAction<CheckboxQFOption[]>>,
     ) => void;
     handleFacetClick?: (
         setFacetOptions: React.Dispatch<React.SetStateAction<FacetOption | undefined>>,
@@ -79,7 +80,7 @@ const QuickFilter = ({
             setSelectedFacet(undefined);
             setSearch(searchText);
             if (searchText.length >= 3 && getSuggestionsList) {
-                getSuggestionsList(searchText, setQFOptions, setTotal);
+                getSuggestionsList(searchText, setQFOptions, setTotal, setSelectedOptions);
             } else {
                 setQFOptions([]);
             }
@@ -149,7 +150,14 @@ const QuickFilter = ({
                     </div>
                 ) : (
                     <div className={styles.facetValueWrapper} key={index}>
-                        <Checkbox onChange={(e) => handleCheckboxChange(option as CheckboxQFOption, e.target.checked)}>
+                        <Checkbox
+                            onChange={(e) => handleCheckboxChange(option as CheckboxQFOption, e.target.checked)}
+                            checked={selectedOptions.some(
+                                (selectedOption) =>
+                                    selectedOption.key === option.key &&
+                                    selectedOption.facetKey === (option as CheckboxQFOption).facetKey,
+                            )}
+                        >
                             <Highlighter
                                 highlightClassName={styles.highlight}
                                 searchWords={[search]}
