@@ -1,6 +1,6 @@
 import React, { MouseEvent, ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
-import Highlighter from 'react-highlight-words';
 import { Button, Checkbox, Dropdown, Input, InputRef, Popover, Spin, Tag, Typography } from 'antd';
+import Highlighter from 'react-highlight-words';
 import { get } from 'lodash';
 
 import { TermOperators } from '../../../data/sqon/operators';
