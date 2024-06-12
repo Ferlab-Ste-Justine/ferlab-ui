@@ -13,6 +13,7 @@ export type TAggregationBuckets = {
     buckets: [
         {
             key: string;
+            key_as_string?: string;
             doc_count: number;
         },
     ];

@@ -1,26 +1,21 @@
 import React, { MouseEvent, ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import Highlighter from 'react-highlight-words';
-import { Button, Checkbox, Divider, Dropdown, Input, InputRef, Popover, Spin, Tag, Typography } from 'antd';
+import { Button, Checkbox, Dropdown, Input, InputRef, Popover, Spin, Tag, Typography } from 'antd';
+import { get } from 'lodash';
 
 import { TermOperators } from '../../../data/sqon/operators';
-import { ISyntheticSqon } from '../../../data/sqon/types';
 import ScrollContent from '../../../layout/ScrollContent';
-import StackLayout from '../../../layout/StackLayout';
 import { numberFormat } from '../../../utils/numberUtils';
-import useQueryBuilderState from '../../QueryBuilder/utils/useQueryBuilderState';
+import FilterSelector from '../../filters/FilterSelector';
+import { IDictionary, IFilter, IFilterGroup, onChangeType, VisualType } from '../../filters/types';
 import SearchIcon from '../icons/SearchIcon';
 
 import styles from './index.module.scss';
 
-export enum QuickFilterType {
-    TITLE = 'title',
-    CHECKBOX = 'checkbox',
-}
-
 export type TitleQFOption = {
     key: string;
-    title: string;
-    type: QuickFilterType;
+    label: string;
+    type: VisualType | 'title';
     index: string;
 };
 
@@ -29,61 +24,53 @@ export type CheckboxQFOption = TitleQFOption & {
     facetKey: string;
 };
 
+export type FacetOption = {
+    filterGroup: IFilterGroup<any>;
+    filters: IFilter<any>[];
+    maxShowing?: number;
+    onChange: onChangeType;
+    selectedFilters: IFilter<any>[];
+};
+
 export interface IQuickFilter {
-    allLabel?: string;
-    allOfLabel?: string;
-    anyOfLabel?: string;
-    applyLabel?: string;
-    clearLabel?: string;
-    emptyMessage?: string;
+    dictionary?: IDictionary;
     enableQuickFilter?: boolean;
     getSuggestionsList?: (
         searchText: string,
         setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
         setTotal: React.Dispatch<React.SetStateAction<number>>,
+        setSelectedOptions: React.Dispatch<React.SetStateAction<CheckboxQFOption[]>>,
     ) => void;
     handleFacetClick?: (
-        setOptions: React.Dispatch<React.SetStateAction<(TitleQFOption | CheckboxQFOption)[]>>,
+        setFacetOptions: React.Dispatch<React.SetStateAction<FacetOption | undefined>>,
         option: TitleQFOption,
     ) => void;
     handleOnApply?: (options: CheckboxQFOption[], operator: TermOperators) => void;
     isLoading?: boolean;
     inputPrefixIcon?: ReactNode;
     inputSuffixIcon?: ReactNode;
-    noneLabel?: string;
-    noneOfLabel?: string;
     menuIcon?: ReactNode;
-    menuTitle?: string;
-    placeholder?: string;
-    resultsLabel?: string;
     searchInputRef?: React.RefObject<InputRef>;
 }
 
 const QuickFilter = ({
-    allLabel = 'All',
-    allOfLabel = 'All of',
-    anyOfLabel = 'Any of',
-    applyLabel = 'Apply',
-    clearLabel = 'Clear',
-    emptyMessage = 'Empty search',
+    dictionary,
     getSuggestionsList,
     handleFacetClick,
     handleOnApply,
     inputPrefixIcon,
     inputSuffixIcon,
     isLoading = false,
-    noneLabel = 'None',
-    noneOfLabel = 'None of',
-    placeholder = 'Quick filter...',
-    resultsLabel = 'Results',
     searchInputRef,
 }: IQuickFilter): ReactElement => {
     const [isOpenPopover, setOpenPopover] = useState(false);
     const [search, setSearch] = useState('');
     const [qfOptions, setQFOptions] = useState<(TitleQFOption | CheckboxQFOption)[]>([]);
+    const [qfFacetOptions, setQFFacetOptions] = useState<FacetOption | undefined>(undefined);
     const [total, setTotal] = useState(0);
     const [selectedOptions, setSelectedOptions] = useState<CheckboxQFOption[]>([]);
     const [selectedFacet, setSelectedFacet] = useState<TitleQFOption | undefined>(undefined);
+    const [selectedFacetOptions, setSelectedFacetOptions] = useState<IFilter[]>(qfFacetOptions?.selectedFilters || []);
 
     const handleOpenChange = (newOpen: boolean) => setOpenPopover(newOpen);
 
@@ -93,7 +80,7 @@ const QuickFilter = ({
             setSelectedFacet(undefined);
             setSearch(searchText);
             if (searchText.length >= 3 && getSuggestionsList) {
-                getSuggestionsList(searchText, setQFOptions, setTotal);
+                getSuggestionsList(searchText, setQFOptions, setTotal, setSelectedOptions);
             } else {
                 setQFOptions([]);
             }
@@ -107,15 +94,9 @@ const QuickFilter = ({
         );
     }, []);
 
-    const handleSelectAll = () => {
-        setSelectedOptions(
-            qfOptions.filter((option): option is CheckboxQFOption => option.type === QuickFilterType.CHECKBOX),
-        );
-    };
-
-    const handleClearAll = () => {
-        setSelectedOptions([]);
-    };
+    const handleFacetChange = useCallback((fg: IFilterGroup<any>, f: IFilter<any>[]) => {
+        setSelectedFacetOptions(f);
+    }, []);
 
     const clearFilters = () => {
         setSelectedFacet(undefined);
@@ -123,6 +104,7 @@ const QuickFilter = ({
         setSearch('');
         setQFOptions([]);
         setSelectedOptions([]);
+        setSelectedFacetOptions([]);
     };
 
     const applyFilters = (operator: TermOperators) => {
@@ -130,35 +112,56 @@ const QuickFilter = ({
         clearFilters();
     };
 
+    const applyFacetFilters = (operator: TermOperators) => {
+        if (qfFacetOptions?.onChange)
+            qfFacetOptions.onChange(
+                qfFacetOptions.filterGroup,
+                selectedFacetOptions.map((filter) => ({
+                    ...filter,
+                    data: {
+                        ...filter.data,
+                        operator: filter.data.min || filter.data.max ? filter.data.operator : operator,
+                    },
+                })),
+            );
+
+        clearFilters();
+    };
+
     const onFacetClick = (option: TitleQFOption) => {
         setSelectedFacet(option);
         setSelectedOptions([]);
         setSearch('');
-        if (handleFacetClick) {
-            handleFacetClick(setQFOptions, option);
-        }
+        if (handleFacetClick) handleFacetClick(setQFFacetOptions, option);
     };
 
     const renderOptions = useMemo(
         () =>
             qfOptions.map((option, index) =>
-                option.type === QuickFilterType.TITLE ? (
+                option.type === 'title' ? (
                     <div className={styles.facetNameWrapper} key={index}>
                         <Button className={styles.facetNameBtn} onClick={() => onFacetClick(option)} type="link">
                             <Highlighter
                                 highlightClassName={styles.highlight}
                                 searchWords={[search]}
-                                textToHighlight={option.title}
+                                textToHighlight={option.label}
                             />
                         </Button>
                     </div>
                 ) : (
                     <div className={styles.facetValueWrapper} key={index}>
-                        <Checkbox onChange={(e) => handleCheckboxChange(option as CheckboxQFOption, e.target.checked)}>
+                        <Checkbox
+                            checked={selectedOptions.some(
+                                (selectedOption) =>
+                                    selectedOption.key === option.key &&
+                                    selectedOption.facetKey === (option as CheckboxQFOption).facetKey,
+                            )}
+                            onChange={(e) => handleCheckboxChange(option as CheckboxQFOption, e.target.checked)}
+                        >
                             <Highlighter
                                 highlightClassName={styles.highlight}
                                 searchWords={[search]}
-                                textToHighlight={option.title}
+                                textToHighlight={option.label}
                             />
                         </Checkbox>
                         <Tag className={styles.tag}>{numberFormat((option as CheckboxQFOption).docCount)}</Tag>
@@ -170,12 +173,14 @@ const QuickFilter = ({
 
     const renderTitle = (): ReactElement => {
         if (selectedFacet) {
-            return <Typography.Text className={styles.popoverFacetTitle}>{selectedFacet.title}</Typography.Text>;
+            return <Typography.Text className={styles.popoverFacetTitle}>{selectedFacet.label}</Typography.Text>;
         }
 
         return (
             <Typography.Text className={styles.popoverTitle}>
-                {search.length >= 3 ? `${total} ${resultsLabel}` : emptyMessage}
+                {search.length >= 3
+                    ? `${total} ${get(dictionary, 'quickFilter.results', 'Results')}`
+                    : get(dictionary, 'quickFilter.emptyMessage', 'Empty search')}
             </Typography.Text>
         );
     };
@@ -205,66 +210,75 @@ const QuickFilter = ({
                         <>
                             {(search.length >= 3 || selectedFacet) && (
                                 <>
-                                    {selectedFacet && (
-                                        <StackLayout className={styles.actionBar}>
-                                            <Button
-                                                className={styles.checkboxFilterLinks}
-                                                onClick={handleSelectAll}
-                                                type="text"
-                                            >
-                                                {allLabel}
-                                            </Button>
+                                    {selectedFacet && qfFacetOptions ? (
+                                        <>
+                                            <div className={styles.scrollContentLevel2}>
+                                                <FilterSelector
+                                                    checkboxClassname={styles.checboxFilterSelector}
+                                                    dictionary={dictionary}
+                                                    filterGroup={qfFacetOptions?.filterGroup || {}}
+                                                    filters={qfFacetOptions?.filters || []}
+                                                    isQuickFilter={true}
+                                                    maxShowing={qfFacetOptions?.maxShowing || 5}
+                                                    noDataInputOption={false}
+                                                    onChange={handleFacetChange}
+                                                    searchInputVisible={false}
+                                                    selectedFilters={qfFacetOptions?.selectedFilters || []}
+                                                />
+                                            </div>
+                                            <div className={styles.popoverFooter}>
+                                                <Button className={styles.clearBtn} onClick={clearFilters} type="text">
+                                                    {get(dictionary, 'actions.clear', 'Clear')}
+                                                </Button>
+                                                <Dropdown.Button
+                                                    className={styles.applyBtn}
+                                                    disabled={selectedFacet && !selectedFacetOptions.length}
+                                                    menu={{
+                                                        items: [
+                                                            {
+                                                                key: TermOperators.in,
+                                                                label: get(dictionary, 'operators.anyOf', 'Any of'),
+                                                            },
+                                                            {
+                                                                key: TermOperators.all,
+                                                                label: get(dictionary, 'operators.allOf', 'All of'),
+                                                            },
+                                                            {
+                                                                key: TermOperators['not-in'],
+                                                                label: get(dictionary, 'operators.noneOf', 'None of'),
+                                                            },
+                                                        ],
+                                                        onClick: (e) => applyFacetFilters(e.key as TermOperators),
+                                                    }}
+                                                    onClick={() => applyFacetFilters(TermOperators.in)}
+                                                    size="small"
+                                                    type="primary"
+                                                >
+                                                    {get(dictionary, 'actions.apply', 'Apply')}
+                                                </Dropdown.Button>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <ScrollContent className={styles.scrollContentLevel1}>
+                                                {renderOptions}
+                                            </ScrollContent>
+                                            <div className={styles.popoverFooter}>
+                                                <Button className={styles.clearBtn} onClick={clearFilters} type="text">
+                                                    {get(dictionary, 'actions.clear', 'Clear')}
+                                                </Button>
 
-                                            <Divider className={styles.separator} type="vertical" />
-                                            <Button
-                                                className={styles.checkboxFilterLinks}
-                                                onClick={handleClearAll}
-                                                type="text"
-                                            >
-                                                {noneLabel}
-                                            </Button>
-                                        </StackLayout>
+                                                <Button
+                                                    className={styles.applyBtn}
+                                                    disabled={!selectedOptions.length}
+                                                    onClick={() => applyFilters(TermOperators.in)}
+                                                    type="primary"
+                                                >
+                                                    {get(dictionary, 'actions.apply', 'Apply')}
+                                                </Button>
+                                            </div>
+                                        </>
                                     )}
-                                    <ScrollContent
-                                        className={
-                                            selectedFacet ? styles.scrollContentLevel2 : styles.scrollContentLevel1
-                                        }
-                                    >
-                                        {renderOptions}
-                                    </ScrollContent>
-                                    <div className={styles.popoverFooter}>
-                                        <Button className={styles.clearBtn} onClick={clearFilters} type="text">
-                                            {clearLabel}
-                                        </Button>
-                                        {selectedFacet ? (
-                                            <Dropdown.Button
-                                                className={styles.applyBtn}
-                                                disabled={!selectedOptions.length}
-                                                menu={{
-                                                    items: [
-                                                        { key: TermOperators.in, label: anyOfLabel },
-                                                        { key: TermOperators.all, label: allOfLabel },
-                                                        { key: TermOperators['not-in'], label: noneOfLabel },
-                                                    ],
-                                                    onClick: (e) => applyFilters(e.key as TermOperators),
-                                                }}
-                                                onClick={() => applyFilters(TermOperators.in)}
-                                                size="small"
-                                                type="primary"
-                                            >
-                                                {applyLabel}
-                                            </Dropdown.Button>
-                                        ) : (
-                                            <Button
-                                                className={styles.applyBtn}
-                                                disabled={!selectedOptions.length}
-                                                onClick={() => applyFilters(TermOperators.in)}
-                                                type="primary"
-                                            >
-                                                {applyLabel}
-                                            </Button>
-                                        )}
-                                    </div>
                                 </>
                             )}
                         </>
@@ -282,7 +296,7 @@ const QuickFilter = ({
                     <Input
                         onChange={handleSearchChange}
                         onClick={stopEventPropagation}
-                        placeholder={placeholder}
+                        placeholder={get(dictionary, 'quickFilter.placeholder', 'Quick filter...')}
                         prefix={inputPrefixIcon}
                         ref={searchInputRef}
                         suffix={inputSuffixIcon || <SearchIcon />}

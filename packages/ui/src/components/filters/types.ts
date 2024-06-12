@@ -100,6 +100,7 @@ export interface IDictionary {
     checkBox?: ICheckBox;
     range?: IRange;
     operators?: IOperators;
+    quickFilter?: IQuickFilter;
 }
 
 export type IFacetDictionary = {
@@ -145,6 +146,13 @@ export interface IOperators {
     allOf?: ReactNode;
     anyOf?: ReactNode;
     noneOf?: ReactNode;
+}
+
+export interface IQuickFilter {
+    emptyMessage?: ReactNode;
+    menuTitle?: ReactNode;
+    placeholder?: string;
+    results?: ReactNode;
 }
 
 export type TExtendedMapping = {

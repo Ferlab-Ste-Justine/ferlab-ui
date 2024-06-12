@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { CheckboxFilter } from './CheckboxFilter';
-import OntologyTreeModal from '../OntologyTreeFilter';
 import RangeFilter from './RangeFilter';
 import TextInputFilter from './TextInputFilter';
 import ToggleFilter from './ToggleFilter';
@@ -16,12 +15,16 @@ export type FilterSelectorProps = {
     filters: IFilter[];
     dictionary?: IDictionary;
     noDataInputOption?: boolean;
+    isQuickFilter?: boolean;
+    checkboxClassname?: string;
 };
 
 const FilterSelector = ({
+    checkboxClassname = '',
     dictionary,
     filterGroup,
     filters,
+    isQuickFilter = false,
     maxShowing,
     noDataInputOption,
     onChange,
@@ -31,6 +34,7 @@ const FilterSelector = ({
     const commonProps = {
         dictionary,
         filterGroup,
+        isQuickFilter,
         onChange,
         selectedFilters,
     };
@@ -46,6 +50,7 @@ const FilterSelector = ({
             return (
                 <CheckboxFilter
                     {...commonProps}
+                    checkboxClassname={checkboxClassname}
                     filters={filters}
                     hasSearchInput={searchInputVisible}
                     maxShowing={maxShowing}

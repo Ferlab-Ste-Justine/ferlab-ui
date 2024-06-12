@@ -17,12 +17,14 @@ export type BooleanFilterProps = {
     onChange: onChangeType;
     selectedFilters?: IFilter[];
     dictionary?: IDictionary | Record<string, never>;
+    isQuickFilter?: boolean;
 };
 
 const ToggleFilter = ({
     dictionary,
     filterGroup,
     filters,
+    isQuickFilter = false,
     onChange,
     selectedFilters = [],
 }: BooleanFilterProps): ReactElement => {
@@ -56,6 +58,7 @@ const ToggleFilter = ({
                 className={styles.radioGroup}
                 onChange={(e) => {
                     const newSelection = filters.filter((f) => f.data.key === e.target.value);
+                    setSelected(e.target.value);
                     onChange(filterGroup, newSelection);
                 }}
                 options={options}
@@ -63,7 +66,7 @@ const ToggleFilter = ({
                 value={selected}
             />
 
-            {selectedFilter?.length > 0 && (
+            {!isQuickFilter && selectedFilter?.length > 0 && (
                 <div className={styles.actions}>
                     <Button
                         className={styles.clearButton}
