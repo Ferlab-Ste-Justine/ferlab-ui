@@ -1,13 +1,13 @@
 import React, { MouseEvent, ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import Highlighter from 'react-highlight-words';
 import { Button, Checkbox, Dropdown, Input, InputRef, Popover, Spin, Tag, Typography } from 'antd';
 import { get } from 'lodash';
-import Highlighter from 'react-highlight-words';
 
 import { TermOperators } from '../../../data/sqon/operators';
 import ScrollContent from '../../../layout/ScrollContent';
 import { numberFormat } from '../../../utils/numberUtils';
 import FilterSelector from '../../filters/FilterSelector';
-import { IDictionary, IFilter, IFilterGroup, VisualType, onChangeType } from '../../filters/types';
+import { IDictionary, IFilter, IFilterGroup, onChangeType, VisualType } from '../../filters/types';
 import SearchIcon from '../icons/SearchIcon';
 
 import styles from './index.module.scss';
