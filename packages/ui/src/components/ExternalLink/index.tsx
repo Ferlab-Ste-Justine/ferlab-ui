@@ -13,13 +13,16 @@ export type IExternalLinkProps = Omit<
     'rel' | 'target'
 >;
 
-const ExternalLink = (props: IExternalLinkProps): ReactElement => (
-    <a {...props} className={props.className} rel="noreferrer" target="_blank">
-        <Space size={5.75}>
-            <div className={styles.fuiExternalLink}>{props.children}</div>
-            {props.hasIcon && <ExternalLinkIcon height="14" width="14" />}
-        </Space>
-    </a>
-);
+const ExternalLink = (props: IExternalLinkProps): ReactElement => {
+    const { hasIcon, ...baseProps } = props;
+    return (
+        <a {...baseProps} className={props.className} rel="noreferrer" target="_blank">
+            <Space size={5.75}>
+                <div className={styles.fuiExternalLink}>{props.children}</div>
+                {hasIcon && <ExternalLinkIcon height="14" width="14" />}
+            </Space>
+        </a>
+    );
+};
 
 export default ExternalLink;
