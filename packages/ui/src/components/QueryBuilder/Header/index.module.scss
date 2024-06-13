@@ -25,6 +25,7 @@
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
+    padding: 2px 0;
   }
 }
 
@@ -34,7 +35,7 @@
   width: 100%;
   padding-right: 24px;
 
-  :global(.ant-space-item) {
+  &>:global(.ant-space-item) {
     &:first-child {
       overflow: hidden;
     }
@@ -57,23 +58,7 @@
 
     &.QBHOptionsActionsContainer {
       .iconBtnAction {
-        &:focus,
-        &:hover {
-          background-color: transparent;
-        }
-
-        &:focus-visible {
-          border: 1px solid !important;
-        }
-
-        &:not(:disabled) {
-          color: $query-builder-header-tools-icon-color;
-
-          @include hoverFocus(
-            $query-builder-header-tools-icon-hover,
-            $query-builder-header-tools-icon-focus
-          );
-        }
+        @include query-builder-header-icon-button-action;
       }
 
       .QBHOptionsFavoriteStar {
