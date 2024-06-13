@@ -1,3 +1,6 @@
+### 9.18.1 2024-06-13
+- fix: SKFP-1149 Quick Filter fix apply btn style
+
 ### 9.18.0 2024-06-12
 - feat: SKFP-1101 add range and boolean to Quick Filter
 
