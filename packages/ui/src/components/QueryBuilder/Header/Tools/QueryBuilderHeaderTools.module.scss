@@ -16,7 +16,7 @@
                     &:not(span) {
                         &:hover,
                         &:focus {
-                            @include query-builder-header-button-dirty-focus
+                            @include query-builder-header-button-dirty-focus;
                         }
                     }
                 }
@@ -24,7 +24,7 @@
                 &:not(span) {
                     &:hover,
                     &:focus-visible {
-                        @include query-builder-header-button-nested-focus-visible
+                        @include query-builder-header-button-nested-focus-visible;
                     }
                 }
             }

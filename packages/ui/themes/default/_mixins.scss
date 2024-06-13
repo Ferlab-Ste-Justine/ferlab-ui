@@ -30,3 +30,24 @@
 @mixin query-builder-header-button-focus-visible {
     border: 1px solid !important;
 }
+
+@mixin query-builder-header-icon-button-action {
+    &:focus,
+    &:hover {
+        background-color: transparent;
+    }
+
+    &:focus-visible {
+        border: 1px solid !important;
+    }
+
+    &:not(:disabled) {
+        color: $query-builder-header-tools-icon-color;
+
+        @include hoverFocus(
+        $query-builder-header-tools-icon-hover,
+        $query-builder-header-tools-icon-focus
+        );
+    }
+}
+

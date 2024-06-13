@@ -1,3 +1,6 @@
+### 9.19.1 2024-06-13
+- fix: CLIN-2635 adjust text button styles (add mixins to easily override QueryBuilder Header action buttons)
+
 ### 9.19.0 2024-06-13
 - feat: SKFP-1126 add biospecimen requests widget
 
