@@ -227,7 +227,12 @@ const QuickFilter = ({
                                                 />
                                             </div>
                                             <div className={styles.popoverFooter}>
-                                                <Button className={styles.clearBtn} onClick={clearFilters} type="text">
+                                                <Button
+                                                    className={styles.clearBtn}
+                                                    onClick={clearFilters}
+                                                    size="small"
+                                                    type="text"
+                                                >
                                                     {get(dictionary, 'actions.clear', 'Clear')}
                                                 </Button>
                                                 <Dropdown.Button
@@ -264,7 +269,12 @@ const QuickFilter = ({
                                                 {renderOptions}
                                             </ScrollContent>
                                             <div className={styles.popoverFooter}>
-                                                <Button className={styles.clearBtn} onClick={clearFilters} type="text">
+                                                <Button
+                                                    className={styles.clearBtn}
+                                                    onClick={clearFilters}
+                                                    size="small"
+                                                    type="text"
+                                                >
                                                     {get(dictionary, 'actions.clear', 'Clear')}
                                                 </Button>
 
@@ -272,6 +282,7 @@ const QuickFilter = ({
                                                     className={styles.applyBtn}
                                                     disabled={!selectedOptions.length}
                                                     onClick={() => applyFilters(TermOperators.in)}
+                                                    size="small"
                                                     type="primary"
                                                 >
                                                     {get(dictionary, 'actions.apply', 'Apply')}
