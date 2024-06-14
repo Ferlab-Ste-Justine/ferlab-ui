@@ -1,15 +1,13 @@
-import { ReactNode } from 'react';
-
 export const BIOSPECIMEN_REQUEST_KEY = 'BIOSPECIMEN_REQUEST';
 export const SHARED_BIOSPECIMEN_REQUEST_ID_QUERY_PARAM_KEY = 'biospecimenRequestId';
-export const MAX_TITLE_LENGTH = 200;
+export const BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH = 200;
 
 export type IUserSetOutput = {
     updated_date?: string;
     id: string;
     tag: string;
     size: number;
-    setType: SetType;
+    setType: SetType | string;
 };
 
 export enum SetType {
@@ -29,36 +27,29 @@ export const isNameExists = (newSetName: string, savedSets: IUserSetOutput[]): b
 };
 
 export interface IRequestBiospecimenDictionary {
-    buttonLabel: ReactNode;
-    itemSelectionTooltip: ReactNode;
+    buttonLabel: string;
+    itemSelectionTooltip: string;
     modal: {
-        title: ReactNode;
-        okText: ReactNode;
-        cancelText: ReactNode;
-        closeText: ReactNode;
-        description: ReactNode;
+        title: string;
+        okText: string;
+        cancelText: string;
+        closeText: string;
+        description: string;
         nameForm: {
-            title: ReactNode;
-            note: ReactNode;
+            title: string;
+            note: string;
             placeholder: string;
             requiredError: string;
             existingNameError: string;
-            maximumLength: ReactNode;
+            maximumLength: string;
         };
-        // table: {
-        //     studyCode: ReactNode;
-        //     nbParticipants: ReactNode;
-        //     nbAvailableSamples: ReactNode;
-        //     nbAvailableSamplesTooltip: ReactNode;
-        //     nbContainers: ReactNode;
-        // };
         alert: {
-            errorMessage: ReactNode;
-            errorDescription: ReactNode;
-            infoMessage: ReactNode;
-            infoDescription: ReactNode;
-            limitMessage: ReactNode;
-            limitDescription: ReactNode;
+            errorMessage: string;
+            errorDescription: string;
+            infoMessage: string;
+            infoDescription: string;
+            limitMessage: string;
+            limitDescription: string;
         };
     };
 }
@@ -81,14 +72,6 @@ export const DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY: IRequestBiospecimenDictiona
             existingNameError: 'A biospecimen request with this name already exists',
             maximumLength: 'characters maximum',
         },
-        // table: {
-        //     studyCode: 'Study Name',
-        //     nbParticipants: 'Participants',
-        //     nbAvailableSamples: 'Available Samples',
-        //     nbAvailableSamplesTooltip:
-        //         'Biobank samples available for sharing through the Virtual Biorepository based on your biospecimen selection.',
-        //     nbContainers: 'Containers',
-        // },
         alert: {
             errorMessage: 'Unable to process your request',
             errorDescription:

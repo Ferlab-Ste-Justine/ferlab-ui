@@ -9,8 +9,7 @@ import RequestBiospecimenModal, { IGetSamples, IGetSavedSets } from './RequestBi
 import {
     DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY,
     IRequestBiospecimenDictionary,
-    IUserSetOutput,
-    MAX_TITLE_LENGTH,
+    BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
 } from './requestBiospecimen.utils';
 
 interface RequestBiospecimenButtonProps {
@@ -37,7 +36,7 @@ const RequestBiospecimenButton = ({
     getDataTypeColumns,
     getSamples,
     getSavedSets,
-    maxTitleLength = MAX_TITLE_LENGTH,
+    maxTitleLength = BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
     nbBiospecimenSelected,
     type = 'default',
     sqon,

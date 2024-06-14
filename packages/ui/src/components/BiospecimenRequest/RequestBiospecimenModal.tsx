@@ -11,7 +11,7 @@ import {
     IRequestBiospecimenDictionary,
     isNameExists,
     IUserSetOutput,
-    MAX_TITLE_LENGTH,
+    BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
 } from './requestBiospecimen.utils';
 import RequestBiospecimenTable, { IRequestBioDataRow } from './RequestBiospecimenTable';
 
@@ -52,7 +52,7 @@ const RequestBiospecimenModal = ({
     getSamples,
     getSavedSets,
     isOpen,
-    maxTitleLength = MAX_TITLE_LENGTH,
+    maxTitleLength = BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
     sqon,
 }: RequestBiospecimenModalProps) => {
     const [editForm] = Form.useForm();

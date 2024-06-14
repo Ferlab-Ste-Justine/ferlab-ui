@@ -3,8 +3,11 @@ import { WarningFilled } from '@ant-design/icons';
 import { Form, Input, Modal } from 'antd';
 import { Store } from 'antd/lib/form/interface';
 
-import { BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH, isNameExists } from './utils';
-import { TBiospecimenRequests } from '.';
+import {
+    BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
+    IUserSetOutput,
+    isNameExists,
+} from '../../BiospecimenRequest/requestBiospecimen.utils';
 
 import styles from './EditBiospecimenRequestModal.module.scss';
 
@@ -39,11 +42,11 @@ export type TEditBiospecimenRequestModalDictionary = {
 };
 
 type TBiospecimenRequestModal = {
-    biospecimenRequest?: TBiospecimenRequests;
+    biospecimenRequest?: IUserSetOutput;
     handleSubmit: (id: string, name: string, callback: () => void) => void;
     handleClose: () => void;
     open: boolean;
-    savedSets: TBiospecimenRequests[];
+    savedSets: IUserSetOutput[];
     dictionary?: TEditBiospecimenRequestModalDictionary;
 };
 

@@ -10,6 +10,7 @@ import CardErrorPlaceholder, {
     DEFAULT_CARD_ERROR_PLACEHOLDER_DICTIONARY,
     TDictionaryCardErrorPlaceholder,
 } from '../../../view/v2/GridCard/GridCardErrorPlaceholder';
+import { IUserSetOutput } from '../../BiospecimenRequest/requestBiospecimen.utils';
 import Empty from '../../Empty';
 import ListItemWithActions from '../../List/ListItemWithActions';
 
@@ -75,19 +76,11 @@ type TBiospecimenRequestsWidgetDictionary = {
     };
 };
 
-export type TBiospecimenRequests = {
-    updated_date: string;
-    id: string;
-    tag: string;
-    size: number;
-    setType: string;
-};
-
 interface IBiospecimenRequestsWidget {
     id: string;
     className?: string;
     dictionary?: TBiospecimenRequestsWidgetDictionary;
-    data: TBiospecimenRequests[];
+    data: IUserSetOutput[];
     loading: boolean;
     hasError?: boolean;
     handleListItemEdit: (id: string, name: string, callback: () => void) => void;
@@ -108,7 +101,7 @@ const BiospecimenRequestsWidget = ({
     id,
     loading,
 }: IBiospecimenRequestsWidget): JSX.Element => {
-    const [editedBiospecimenRequest, setEditedBiospecimenRequest] = useState<TBiospecimenRequests>();
+    const [editedBiospecimenRequest, setEditedBiospecimenRequest] = useState<IUserSetOutput>();
 
     return (
         <>

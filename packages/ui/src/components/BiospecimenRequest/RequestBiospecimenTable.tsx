@@ -31,6 +31,7 @@ const RequestBiospecimenTable = ({
         <Table
             columns={getDataTypeColumns()}
             dataSource={data.map((i) => ({ ...i, key: i.study_code }))}
+            data-testid={'reqBioTable'}
             pagination={false}
             size="small"
             rowClassName={styles.notStriped}
