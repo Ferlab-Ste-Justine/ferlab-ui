@@ -1,11 +1,10 @@
-@import 'theme.template';
 
 $input-prefix: 'ant-input';
 $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
 
 .searchMenuItem {
     margin: 0 5px;
-    height: $sidebar-menu-item-height;
+    height: var(--sidebar-menu-item-height);
     padding: 2px;
     border-radius: 4px;
     border: 1px solid transparent;
@@ -13,12 +12,12 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
     align-items: center;
     *,
     ::placeholder {
-        color: $sidebar-quick-filter-input-placeholder-color;
+        color: var(--sidebar-quick-filter-input-placeholder-color);
     }
 
     // input style
     :global(.#{$input-prefix}) {
-        color: $sidebar-quick-filter-input-text-color;
+        color: var(--sidebar-quick-filter-input-text-color);
     }
 
     :global(.#{$input-prefix}-suffix) {
@@ -37,14 +36,14 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
     }
 
     .#{$input-wrapper-prefix}:hover {
-        box-shadow: $sidebar-quick-filter-input-box-shadow-hover;
+        box-shadow: var(--sidebar-quick-filter-input-box-shadow-hover);
         border-color: transparent;
         border-radius: 2px;
     }
 
     :global(.#{$input-wrapper-prefix}-focused) {
-        box-shadow: $sidebar-quick-filter-input-box-shadow-focus;
-        border-color: $sidebar-quick-filter-input-border-color-focus;
+        box-shadow: var(--sidebar-quick-filter-input-box-shadow-focus);
+        border-color: var(--sidebar-quick-filter-input-border-color-focus);
         border-radius: 2px;
     }
     // end input style
@@ -72,13 +71,13 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
 }
 
 .popoverTitle {
-    color: $gray-7;
+    color: var(--gray-7);
     font-size: 12px;
     font-weight: 400;
 }
 
 .popoverFacetTitle {
-    color: $geekblue-7;
+    color: var(--geekblue-7);
     font-weight: 600;
     font-size: 14px;
 }
@@ -86,14 +85,14 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
 .facetNameWrapper {
     padding: 5px 12px;
     &:not(:first-child) {
-        border-top: 1px solid $gray-4;
+        border-top: 1px solid var(--gray-4);
     }
     &:hover {
-        background-color: $gray-3;
+        background-color: var(--gray-3);
     }
 
     .facetNameBtn {
-        color: $geekblue-7;
+        color: var(--geekblue-7);
         font-weight: 600;
         padding: 0;
         width: 100%;
@@ -123,7 +122,7 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
 .popoverFooter {
     text-align: right;
     padding: 12px 16px;
-    border-top: 1px solid $gray-4;
+    border-top: 1px solid var(--gray-4);
 }
 
 .scrollContentLevel1 {
@@ -151,7 +150,7 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
 }
 
 .highlight {
-    background-color: $sidebar-quick-filter-higlight-color;
+    background-color: var(--sidebar-quick-filter-higlight-color);
     padding: 2px 0;
 }
 
@@ -171,16 +170,16 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
     .separator {
         height: 1.2rem;
         align-self: center;
-        background: $checkbox-filter-actions-separator-background;
+        background: var(--checkbox-filter-actions-separator-background);
         margin: 0 0.5rem;
     }
 
     .checkboxFilterLinks {
         border: none;
-        color: $checkbox-filter-actions-separator-links;
+        color: var(--checkbox-filter-actions-separator-links);
         padding: 0;
-        font-size: $checkbox-filter-link-font-size;
-        line-height: $checkbox-filter-link-line-height;
+        font-size: var(--checkbox-filter-link-font-size);
+        line-height: var(--checkbox-filter-link-line-height);
         height: auto;
 
         > * {
@@ -196,7 +195,7 @@ $input-wrapper-prefix: $input-prefix + '-affix-wrapper';
     .checkboxFilterLinks:hover {
         background: transparent;
         border: none;
-        color: $checkbox-filter-links-hover;
+        color: var(--checkbox-filter-links-hover);
         text-decoration: none;
     }
 

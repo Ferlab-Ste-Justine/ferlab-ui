@@ -4,7 +4,7 @@ import { Card, Col, Descriptions, Row } from 'antd';
 import Collapse, { CollapsePanel } from '../../../components/Collapse';
 import { IEntityDescriptionsItem } from '../EntityDescriptions';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export interface ISummaryProps {
     header?: React.ReactNode;

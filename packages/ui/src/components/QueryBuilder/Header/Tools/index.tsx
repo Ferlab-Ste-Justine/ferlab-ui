@@ -21,7 +21,7 @@ import { hasQueries, hasUnsavedChanges, isNewUnsavedFilter } from '../utils';
 import SavedFiltersMenu from './SavedFiltersMenu';
 import { deleteFilterConfirm } from './utils';
 
-import styles from './QueryBuilderHeaderTools.module.scss';
+import styles from './QueryBuilderHeaderTools.module.css';
 
 interface IQueryBuilderHeaderProps {
     config: IQueryBuilderHeaderConfig;

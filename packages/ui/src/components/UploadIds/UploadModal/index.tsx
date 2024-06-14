@@ -12,7 +12,7 @@ import { MatchTableItem, TFetchMatchFunc, TOnUpload, UnmatchTableItem, UploadIdD
 import MatchTable from './MatchTable';
 import UnmatchTable from './UnmatchTable';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 interface OwnProps {
     width?: number;

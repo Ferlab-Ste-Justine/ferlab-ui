@@ -1,0 +1,36 @@
+.fuiCollapse > #ant-collapse-item > #ant-collapse-header {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+.fuiCollapse > #ant-collapse-active > #ant-collapse-header {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.fuiCollapse #ant-collapse-content-box {
+  padding: 12px 16px;
+}
+.fuiCollapse.headerBorderOnly #ant-collapse-content {
+  background-color: white;
+  border-top: 1px solid var(--collapse-header-border-color);
+}
+.fuiCollapse.light #ant-collapse-header {
+  background-color: var(--collapse-light-background-color);
+}
+.fuiCollapse.shade #ant-collapse-header {
+  background-color: var(--collapse-shade-background-color);
+}
+.fuiCollapse.large > #ant-collapse-item > #ant-collapse-header {
+  padding: 16px 24px;
+  font-size: 16px;
+}
+.fuiCollapse.default > #ant-collapse-item > #ant-collapse-header {
+  font-size: 16px;
+}
+.fuiCollapse.small > #ant-collapse-item > #ant-collapse-header {
+  padding: 5.5px 16px;
+  font-size: 14px;
+}
+.fuiCollapse.small > #ant-collapse-item > #ant-collapse-header #ant-collapse-arrow {
+  padding-top: 5.5px;
+}

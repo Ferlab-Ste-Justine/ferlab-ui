@@ -1,5 +1,3 @@
-@import "theme.template";
-
 .transfer {
   div[class$='transfer-list'] {
     flex: 1 1 50%;
@@ -39,7 +37,7 @@
     }
 
     div[class$='-list-content-item-remove'] {
-      color: $gray-8;
+      color: var(--gray-8);
     }
   }
 

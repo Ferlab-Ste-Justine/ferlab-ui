@@ -1,0 +1,47 @@
+:root {
+  --default-font-size: 1.4rem;
+  --default-box-shadow: 0px 2px 4px var(--default-box-shadow-color);
+}
+
+/*ROOT font-size is declared on html*/
+html {
+  /*Defines what 1rem is.*/
+  font-size: 62.5%; /*Do not set to pixel otherwise it prevents user to use his personal browser settings*/
+  /*
+    Percentage is calculated based on the default of 16px -> 10px / 16px = 62.5%
+    We target a font-size of 10px for easy rem calculation (base 10)
+  */
+}
+
+body {
+  font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Oxygen, Ubuntu, Cantarell, open sans, helvetica neue, sans-serif;
+  font-weight: 400;
+  font-size: var(--default-font-size);
+  line-height: 2rem;
+  color: var(--gray-8);
+  box-sizing: border-box; /*means border + padding width no longer added to total width/height*/
+}
+
+pre, code {
+  font-family: "IBM Plex Mono", Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+a.link {
+  color: var(--blue-8);
+  text-decoration: underline;
+}
+a.link.small {
+  font-size: 1.2rem;
+}
+a.link:hover {
+  color: var(--blue-8);
+  text-decoration: none;
+}
