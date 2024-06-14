@@ -5,9 +5,9 @@ import { ColumnType } from 'antd/lib/table';
 import { ISqonGroupFilter } from '../../data/sqon/types';
 
 import {
+    BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
     DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY,
     IRequestBiospecimenDictionary,
-    BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
 } from './requestBiospecimen.utils';
 import RequestBiospecimenLimitModal from './RequestBiospecimenLimitModal';
 import RequestBiospecimenModal, { IGetSamples, IGetSavedSets } from './RequestBiospecimenModal';

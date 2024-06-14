@@ -8,11 +8,11 @@ import { ISqonGroupFilter } from '../../data/sqon/types';
 
 import NoSampleModal from './NoSampleModal';
 import {
+    BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
     DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY,
     IRequestBiospecimenDictionary,
     isNameExists,
     IUserSetOutput,
-    BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
 } from './requestBiospecimen.utils';
 import RequestBiospecimenTable, { IRequestBioDataRow } from './RequestBiospecimenTable';
 
