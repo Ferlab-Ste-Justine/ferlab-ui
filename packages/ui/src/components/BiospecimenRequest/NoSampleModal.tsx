@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Alert, Modal } from 'antd';
 
 import { DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY, IRequestBiospecimenDictionary } from './requestBiospecimen.utils';
@@ -12,10 +12,10 @@ type NoSampleModalProps = {
 };
 
 const NoSampleModal = ({
-    dictionary = DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY,
     closeModal,
+    dictionary = DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY,
     isOpen,
-}: NoSampleModalProps) => (
+}: NoSampleModalProps): ReactElement => (
     <Modal
         cancelButtonProps={{ style: { display: 'none' } }}
         okText={dictionary.modal.closeText}

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { WarningFilled } from '@ant-design/icons';
-import { ISqonGroupFilter } from '../../data/sqon/types';
 import { Alert, Form, Input, Modal, Typography } from 'antd';
 import { Store } from 'antd/lib/form/interface';
 import { ColumnType } from 'antd/lib/table';
 
+import { ISqonGroupFilter } from '../../data/sqon/types';
 import NoSampleModal from './NoSampleModal';
 import {
     DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY,
@@ -31,9 +31,9 @@ export interface IGetSavedSets {
 type RequestBiospecimenModalProps = {
     additionalHandleFinish?: () => void;
     closeModal: () => void;
+    columns: ColumnType<any>[];
     createAndFetchReport: (name: string) => void;
     dictionary: IRequestBiospecimenDictionary;
-    columns: ColumnType<any>[];
     getSamples: () => IGetSamples;
     getSavedSets: () => IGetSavedSets;
     isOpen: boolean;
@@ -46,15 +46,15 @@ const { Text } = Typography;
 const RequestBiospecimenModal = ({
     additionalHandleFinish,
     closeModal,
+    columns,
     createAndFetchReport,
     dictionary = DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY,
-    columns,
     getSamples,
     getSavedSets,
     isOpen,
     maxTitleLength = BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
     sqon,
-}: RequestBiospecimenModalProps) => {
+}: RequestBiospecimenModalProps): ReactElement => {
     const [editForm] = Form.useForm();
     const { isLoading, savedSets } = getSavedSets();
     const { error, loading, result } = getSamples();
@@ -67,8 +67,8 @@ const RequestBiospecimenModal = ({
         if (isNameExists(name, savedSets)) {
             editForm.setFields([
                 {
-                    name: 'name',
                     errors: [dictionary.modal.nameForm.existingNameError],
+                    name: 'name',
                 },
             ]);
         } else {
@@ -86,22 +86,22 @@ const RequestBiospecimenModal = ({
     return (
         <Modal
             cancelText={dictionary.modal.cancelText}
-            title={dictionary.modal.title}
-            open={isOpen}
+            okButtonProps={{ disabled: isLoading || error, loading: isLoading }}
+            onOk={() => editForm.submit()}
+            okText={dictionary.modal.okText}
             onCancel={() => {
                 editForm.resetFields();
                 closeModal();
             }}
-            okButtonProps={{ disabled: isLoading || error, loading: isLoading }}
-            okText={dictionary.modal.okText}
-            onOk={() => editForm.submit()}
+            open={isOpen}
+            title={dictionary.modal.title}
             width={680}
         >
             {error && (
                 <Alert
-                    type="error"
-                    message={<span className={styles.alertTitle}>{dictionary.modal.alert.errorMessage}</span>}
                     description={dictionary.modal.alert.errorDescription}
+                    message={<span className={styles.alertTitle}>{dictionary.modal.alert.errorMessage}</span>}
+                    type="error"
                 />
             )}
             {!error && (
@@ -123,7 +123,6 @@ const RequestBiospecimenModal = ({
                                 required={false}
                                 rules={[
                                     {
-                                        type: 'string',
                                         max: maxTitleLength,
                                         message: (
                                             <span>
@@ -131,6 +130,7 @@ const RequestBiospecimenModal = ({
                                                 {dictionary.modal.nameForm.maximumLength}
                                             </span>
                                         ),
+                                        type: 'string',
                                         validateTrigger: 'onSubmit',
                                     },
                                     {
@@ -145,7 +145,7 @@ const RequestBiospecimenModal = ({
                             </Form.Item>
                         </Form>
                     </div>
-                    <RequestBiospecimenTable data={samples} columns={columns} loading={loading} sqon={sqon} />
+                    <RequestBiospecimenTable columns={columns} data={samples} loading={loading} sqon={sqon} />
                 </div>
             )}
         </Modal>

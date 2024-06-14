@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 
@@ -24,19 +24,19 @@ const RequestBiospecimenTable = ({
     data: IRequestBioDataRow[];
     loading: boolean;
     sqon?: ISqonGroupFilter;
-}) => {
+}): ReactElement => {
     if (!sqon) return <></>;
 
     return (
         <Table
-            columns={columns}
-            dataSource={data.map((i) => ({ ...i, key: i.study_code }))}
-            data-testid={'reqBioTable'}
-            pagination={false}
-            size="small"
-            rowClassName={styles.notStriped}
             bordered
+            columns={columns}
+            data-testid={'reqBioTable'}
+            dataSource={data.map((i) => ({ ...i, key: i.study_code }))}
             loading={loading}
+            pagination={false}
+            rowClassName={styles.notStriped}
+            size="small"
         />
     );
 };

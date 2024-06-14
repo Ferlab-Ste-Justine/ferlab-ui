@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Button, Tooltip } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 
 import { ISqonGroupFilter } from '../../data/sqon/types';
 
-import RequestBiospecimenLimitModal from './RequestBiospecimenLimitModal';
-import RequestBiospecimenModal, { IGetSamples, IGetSavedSets } from './RequestBiospecimenModal';
 import {
     DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY,
     IRequestBiospecimenDictionary,
     BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
 } from './requestBiospecimen.utils';
+import RequestBiospecimenLimitModal from './RequestBiospecimenLimitModal';
+import RequestBiospecimenModal, { IGetSamples, IGetSavedSets } from './RequestBiospecimenModal';
 
 interface RequestBiospecimenButtonProps {
     additionalHandleClick?: () => void;
     additionalHandleFinish?: () => void;
+    columns: ColumnType<any>[];
     createAndFetchReport: (name: string) => void;
     dictionary: IRequestBiospecimenDictionary;
     disabled?: boolean;
-    columns: ColumnType<any>[];
     getSamples: () => IGetSamples;
     getSavedSets: () => IGetSavedSets;
     maxTitleLength?: number;
@@ -30,17 +30,17 @@ interface RequestBiospecimenButtonProps {
 const RequestBiospecimenButton = ({
     additionalHandleClick,
     additionalHandleFinish,
+    columns,
     createAndFetchReport,
     dictionary = DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY,
     disabled = false,
-    columns,
     getSamples,
     getSavedSets,
     maxTitleLength = BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
     nbBiospecimenSelected,
     type = 'default',
     sqon,
-}: RequestBiospecimenButtonProps) => {
+}: RequestBiospecimenButtonProps): ReactElement => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isLimitOpen, setIsLimitOpen] = useState<boolean>(false);
 
@@ -64,14 +64,14 @@ const RequestBiospecimenButton = ({
                 <RequestBiospecimenModal
                     additionalHandleFinish={additionalHandleFinish}
                     closeModal={() => setIsOpen(false)}
+                    columns={columns}
                     createAndFetchReport={createAndFetchReport}
                     dictionary={dictionary}
-                    columns={columns}
                     getSamples={getSamples}
                     getSavedSets={getSavedSets}
                     isOpen={isOpen}
-                    sqon={sqon}
                     maxTitleLength={maxTitleLength}
+                    sqon={sqon}
                 />
             )}
             {isLimitOpen && (

@@ -1,7 +1,7 @@
+import '@testing-library/jest-dom';
 import React from 'react';
 import { screen } from '@testing-library/dom';
 import { render } from '@testing-library/react';
-import '@testing-library/jest-dom';
 
 import { DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY } from './requestBiospecimen.utils';
 import RequestBiospecimenModal from './RequestBiospecimenModal';
@@ -16,16 +16,16 @@ const dictionary = DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY;
 
 const data = [
     {
+        nb_available_samples: 3,
+        nb_participants: 2,
         study_code: 'code 1',
         study_name: 'name 1',
-        nb_participants: 2,
-        nb_available_samples: 3,
     },
     {
+        nb_available_samples: 1,
+        nb_participants: 1,
         study_code: 'code 2',
         study_name: 'name 2',
-        nb_participants: 1,
-        nb_available_samples: 1,
     },
 ];
 

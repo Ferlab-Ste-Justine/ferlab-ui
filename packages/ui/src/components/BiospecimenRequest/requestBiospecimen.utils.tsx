@@ -58,30 +58,30 @@ export const DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY: IRequestBiospecimenDictiona
     buttonLabel: 'Request biospecimen',
     itemSelectionTooltip: 'You must select at least 1 item',
     modal: {
-        title: 'Request biospecimen',
-        okText: 'Download manifest',
+        alert: {
+            errorDescription:
+                'An error had occurred and we were unable to retrieve the data for your request. Please cancel and try again.',
+            errorMessage: 'Unable to process your request',
+            infoDescription:
+                'There are no biospecimen samples available for your selection. Please make different selection and try again.',
+            infoMessage: 'No available samples',
+            limitDescription:
+                'A maximum of 10,000 biospecimens can be included at once. Please narrow down your selection and try again.',
+            limitMessage: 'Maximum number exceeded',
+        },
         cancelText: 'Cancel',
         closeText: 'Close',
         description:
             'You are about to download the manifest and supporting documents needed to request the selected biospecimen. The report will include information on available samples from your selection.',
         nameForm: {
-            title: 'Provide a name for your request',
+            existingNameError: 'A biospecimen request with this name already exists',
+            maximumLength: 'characters maximum',
             note: 'This request will be saved to your dashboard for future reference.',
             placeholder: 'Biospecimen request name',
             requiredError: 'You must provide a name for this request.',
-            existingNameError: 'A biospecimen request with this name already exists',
-            maximumLength: 'characters maximum',
+            title: 'Provide a name for your request',
         },
-        alert: {
-            errorMessage: 'Unable to process your request',
-            errorDescription:
-                'An error had occurred and we were unable to retrieve the data for your request. Please cancel and try again.',
-            infoMessage: 'No available samples',
-            infoDescription:
-                'There are no biospecimen samples available for your selection. Please make different selection and try again.',
-            limitMessage: 'Maximum number exceeded',
-            limitDescription:
-                'A maximum of 10,000 biospecimens can be included at once. Please narrow down your selection and try again.',
-        },
+        okText: 'Download manifest',
+        title: 'Request biospecimen',
     },
 };

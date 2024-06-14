@@ -5,16 +5,16 @@ import RequestBiospecimenTable from './RequestBiospecimenTable';
 
 const data = [
     {
+        nb_available_samples: 3,
+        nb_participants: 2,
         study_code: 'code 1',
         study_name: 'name 1',
-        nb_participants: 2,
-        nb_available_samples: 3,
     },
     {
+        nb_available_samples: 1,
+        nb_participants: 1,
         study_code: 'code 2',
         study_name: 'name 2',
-        nb_participants: 1,
-        nb_available_samples: 1,
     },
 ];
 
@@ -31,19 +31,19 @@ const sqon = {
 
 export const columns = [
     {
+        dataIndex: 'study_code',
         key: 'study_code',
         title: 'Study Code',
-        dataIndex: 'study_code',
     },
     {
+        dataIndex: 'nb_participants',
         key: 'nb_participants',
         title: 'Particpants',
-        dataIndex: 'nb_participants',
     },
     {
+        dataIndex: 'nb_available_samples',
         key: 'nb_available_samples',
         title: 'Available Samples',
-        dataIndex: 'nb_available_samples',
     },
 ];
 

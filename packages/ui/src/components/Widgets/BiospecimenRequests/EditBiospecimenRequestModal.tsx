@@ -5,8 +5,8 @@ import { Store } from 'antd/lib/form/interface';
 
 import {
     BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
-    IUserSetOutput,
     isNameExists,
+    IUserSetOutput,
 } from '../../BiospecimenRequest/requestBiospecimen.utils';
 
 import styles from './EditBiospecimenRequestModal.module.scss';

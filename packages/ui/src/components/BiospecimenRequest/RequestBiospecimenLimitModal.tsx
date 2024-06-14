@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Alert, Modal, Typography } from 'antd';
 
-import styles from './requestBiospecimen.module.scss';
 import { IRequestBiospecimenDictionary } from './requestBiospecimen.utils';
+
+import styles from './requestBiospecimen.module.scss';
 
 const { Text } = Typography;
 
@@ -12,7 +13,11 @@ type RequestBiospecimenLimitModalProps = {
     isOpen: boolean;
 };
 
-const RequestBiospecimenLimitModal = ({ closeModal, dictionary, isOpen }: RequestBiospecimenLimitModalProps) => (
+const RequestBiospecimenLimitModal = ({
+    closeModal,
+    dictionary,
+    isOpen,
+}: RequestBiospecimenLimitModalProps): ReactElement => (
     <Modal
         cancelText={dictionary.modal.cancelText}
         okButtonProps={{
