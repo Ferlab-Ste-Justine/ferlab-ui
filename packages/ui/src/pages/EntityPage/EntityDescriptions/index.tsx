@@ -5,7 +5,7 @@ import { TABLE_EMPTY_PLACE_HOLDER } from '../../../common/constants';
 import Collapse, { CollapsePanel } from '../../../components/Collapse';
 import Empty from '../../../components/Empty';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 const { Title } = Typography;
 

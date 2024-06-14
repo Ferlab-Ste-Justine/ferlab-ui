@@ -1,0 +1,88 @@
+.transfer div[class$=transfer-list] {
+  flex: 1 1 50%;
+  width: auto;
+  height: auto;
+  min-height: 600px;
+}
+.transfer div[class$=transfer-list] .highlight {
+  background-color: yellow;
+  display: inherit;
+}
+.transfer div[class$=transfer-list] div[class$=-list-body-customize-wrapper] {
+  height: 100%;
+}
+.transfer div[class$=transfer-list] div[class$=-list-body-customize-wrapper] div[class^=ant-spin-] {
+  height: 100%;
+}
+.transfer div[class$=transfer-list]:last-child div[class$=-list-body-search-wrapper] {
+  display: none;
+}
+.transfer li[class$=-list-content-item] span[class$=-list-content-item-text] {
+  flex: unset;
+}
+.transfer li[class$=-list-content-item] span[class$=-list-content-item-text]:before {
+  content: "";
+  display: block;
+}
+.transfer li[class$=-list-content-item] div[class$=-list-content-item-remove] {
+  color: var(--gray-8);
+}
+.transfer :global(.ant-tree-list-holder-inner) {
+  display: block !important;
+}
+.transfer :global(.ant-tree-treenode) {
+  width: 100%;
+}
+.transfer :global(.ant-tree-node-content-wrapper) {
+  width: 100%;
+  display: block;
+}
+.transfer :global(.ant-tree-title) {
+  display: block;
+  width: 100%;
+}
+.transfer .treeNodeParticipants {
+  min-width: 100px;
+}
+.transfer .treeNodeParticipants .treeNodeParticipantsCount {
+  display: flex;
+  justify-content: center;
+}
+.transfer .treeNodeHeader {
+  padding-right: 4px;
+  margin-bottom: 12px;
+}
+
+.modalWrapper {
+  min-height: 600px;
+}
+.modalWrapper .modal {
+  width: 90% !important;
+  overflow: hidden;
+}
+
+.treeNodeTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.code {
+  margin-left: 4px;
+  font-size: 12px;
+}
+
+.loading {
+  display: flex;
+  flex-direction: row;
+  height: 700px;
+  width: 100%;
+}
+.loading :first-child {
+  margin-right: 16px;
+}
+.loading .skeleton {
+  display: flex;
+  width: 100%;
+}
+

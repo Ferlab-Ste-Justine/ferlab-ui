@@ -6,7 +6,7 @@ import { LegacyDataNode } from 'rc-tree-select/lib/TreeSelect';
 
 import { CAVATICA_ANALYSE_STATUS, ICavaticaBulkImportData, ICavaticaProjects } from './type';
 
-import styles from './CavaticaAnalyzeModal.module.scss';
+import styles from './CavaticaAnalyzeModal.module.css';
 
 export enum CAVATICA_TYPE {
     PROJECT = 'project',

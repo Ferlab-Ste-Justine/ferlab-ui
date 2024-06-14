@@ -1,0 +1,9 @@
+.addGene .addGeneButton {
+  padding: 0 4px;
+  border-radius: 2px;
+  color: var(--blue-8);
+}
+.addGene .addGeneButton:hover {
+  cursor: pointer;
+  background-color: var(--gray-4);
+}

@@ -8,7 +8,7 @@ import { reverseSortDirection } from '../utils';
 import { PaginationViewPerQuery } from './constants';
 import { getPaginationOptions } from './utils';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 const iconSize = 11;
 
