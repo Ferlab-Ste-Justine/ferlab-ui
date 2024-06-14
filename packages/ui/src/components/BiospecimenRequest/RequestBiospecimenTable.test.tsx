@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY } from './requestBiospecimen.utils';
 import RequestBiospecimenTable from './RequestBiospecimenTable';
 
 const data = [
@@ -18,6 +17,7 @@ const data = [
         nb_available_samples: 1,
     },
 ];
+
 const sqon = {
     content: [
         {
@@ -29,11 +29,33 @@ const sqon = {
     op: 'and',
 };
 
+export const columns = [
+    {
+        key: 'study_code',
+        title: 'Study Code',
+        dataIndex: 'study_code',
+    },
+    {
+        key: 'nb_participants',
+        title: 'Particpants',
+        dataIndex: 'nb_participants',
+    },
+    {
+        key: 'nb_available_samples',
+        title: 'Available Samples',
+        dataIndex: 'nb_available_samples',
+    },
+];
+
 describe('RequestBiospecimenTable', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     test('make sure RequestBiospecimenTable render correctly', () => {
         const props = {
+            columns,
             data,
-            getDataTypeColumns: jest.fn(),
             loading: false,
             sqon,
         };
@@ -44,8 +66,8 @@ describe('RequestBiospecimenTable', () => {
 
     test('make sure RequestBiospecimenTable render nothing without sqon', () => {
         const props = {
+            columns,
             data,
-            getDataTypeColumns: jest.fn(),
             loading: false,
             sqon: undefined,
         };

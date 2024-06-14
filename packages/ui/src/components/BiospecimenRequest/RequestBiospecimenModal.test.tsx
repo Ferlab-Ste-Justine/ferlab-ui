@@ -5,6 +5,7 @@ import '@testing-library/jest-dom';
 
 import { DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY } from './requestBiospecimen.utils';
 import RequestBiospecimenModal from './RequestBiospecimenModal';
+import { columns } from './RequestBiospecimenTable.test';
 
 jest.mock('./NoSampleModal', () => () => {
     const mockedNoSampleModal = <div>mocked no sample modal</div>;
@@ -37,9 +38,9 @@ describe('RequestBiospecimenModal', () => {
     it('make sure RequestBiospecimenModal render correctly', () => {
         const props = {
             closeModal: jest.fn(),
+            columns: columns,
             createAndFetchReport: jest.fn(),
             dictionary,
-            getDataTypeColumns: jest.fn(),
             getSamples: jest.fn().mockReturnValueOnce({ error: undefined, loading: false, result: data }),
             getSavedSets: jest.fn().mockReturnValueOnce({ isLoading: false, savedSets: [] }),
             isOpen: true,
@@ -58,9 +59,9 @@ describe('RequestBiospecimenModal', () => {
     it('make sure RequestBiospecimenModal render nothing if getSamples loading true', () => {
         const props = {
             closeModal: jest.fn(),
+            columns: columns,
             createAndFetchReport: jest.fn(),
             dictionary,
-            getDataTypeColumns: jest.fn(),
             getSamples: jest.fn().mockReturnValueOnce({ error: undefined, loading: true, result: data }),
             getSavedSets: jest.fn().mockReturnValueOnce({ isLoading: false, savedSets: [] }),
             isOpen: true,
@@ -73,9 +74,9 @@ describe('RequestBiospecimenModal', () => {
     it('should render NoSampleModal if getSamples has no error and no sample', () => {
         const props = {
             closeModal: jest.fn(),
+            columns: columns,
             createAndFetchReport: jest.fn(),
             dictionary,
-            getDataTypeColumns: jest.fn(),
             getSamples: jest.fn().mockReturnValueOnce({ error: undefined, loading: false, result: [] }),
             getSavedSets: jest.fn().mockReturnValueOnce({ isLoading: false, savedSets: [] }),
             isOpen: true,
@@ -89,9 +90,9 @@ describe('RequestBiospecimenModal', () => {
     it('should render RequestBiospecimenModal with alert if getSamples has error', () => {
         const props = {
             closeModal: jest.fn(),
+            columns: columns,
             createAndFetchReport: jest.fn(),
             dictionary,
-            getDataTypeColumns: jest.fn(),
             getSamples: jest.fn().mockReturnValueOnce({ error: 'error', loading: false, result: [] }),
             getSavedSets: jest.fn().mockReturnValueOnce({ isLoading: false, savedSets: [] }),
             isOpen: true,

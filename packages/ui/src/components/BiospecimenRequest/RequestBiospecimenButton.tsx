@@ -18,7 +18,7 @@ interface RequestBiospecimenButtonProps {
     createAndFetchReport: (name: string) => void;
     dictionary: IRequestBiospecimenDictionary;
     disabled?: boolean;
-    getDataTypeColumns: () => ColumnType<any>[];
+    columns: ColumnType<any>[];
     getSamples: () => IGetSamples;
     getSavedSets: () => IGetSavedSets;
     maxTitleLength?: number;
@@ -33,7 +33,7 @@ const RequestBiospecimenButton = ({
     createAndFetchReport,
     dictionary = DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY,
     disabled = false,
-    getDataTypeColumns,
+    columns,
     getSamples,
     getSavedSets,
     maxTitleLength = BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
@@ -66,7 +66,7 @@ const RequestBiospecimenButton = ({
                     closeModal={() => setIsOpen(false)}
                     createAndFetchReport={createAndFetchReport}
                     dictionary={dictionary}
-                    getDataTypeColumns={getDataTypeColumns}
+                    columns={columns}
                     getSamples={getSamples}
                     getSavedSets={getSavedSets}
                     isOpen={isOpen}

@@ -33,7 +33,7 @@ type RequestBiospecimenModalProps = {
     closeModal: () => void;
     createAndFetchReport: (name: string) => void;
     dictionary: IRequestBiospecimenDictionary;
-    getDataTypeColumns: () => ColumnType<any>[];
+    columns: ColumnType<any>[];
     getSamples: () => IGetSamples;
     getSavedSets: () => IGetSavedSets;
     isOpen: boolean;
@@ -48,7 +48,7 @@ const RequestBiospecimenModal = ({
     closeModal,
     createAndFetchReport,
     dictionary = DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY,
-    getDataTypeColumns,
+    columns,
     getSamples,
     getSavedSets,
     isOpen,
@@ -145,12 +145,7 @@ const RequestBiospecimenModal = ({
                             </Form.Item>
                         </Form>
                     </div>
-                    <RequestBiospecimenTable
-                        data={samples}
-                        getDataTypeColumns={getDataTypeColumns}
-                        loading={loading}
-                        sqon={sqon}
-                    />
+                    <RequestBiospecimenTable data={samples} columns={columns} loading={loading} sqon={sqon} />
                 </div>
             )}
         </Modal>

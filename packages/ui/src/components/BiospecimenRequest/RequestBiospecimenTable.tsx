@@ -15,13 +15,13 @@ export interface IRequestBioDataRow {
 }
 
 const RequestBiospecimenTable = ({
+    columns,
     data,
-    getDataTypeColumns,
     loading,
     sqon,
 }: {
+    columns: ColumnType<any>[];
     data: IRequestBioDataRow[];
-    getDataTypeColumns: () => ColumnType<any>[];
     loading: boolean;
     sqon?: ISqonGroupFilter;
 }) => {
@@ -29,7 +29,7 @@ const RequestBiospecimenTable = ({
 
     return (
         <Table
-            columns={getDataTypeColumns()}
+            columns={columns}
             dataSource={data.map((i) => ({ ...i, key: i.study_code }))}
             data-testid={'reqBioTable'}
             pagination={false}
