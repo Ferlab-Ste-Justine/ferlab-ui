@@ -5,6 +5,7 @@ import { Store } from 'antd/lib/form/interface';
 import { ColumnType } from 'antd/lib/table';
 
 import { ISqonGroupFilter } from '../../data/sqon/types';
+
 import NoSampleModal from './NoSampleModal';
 import {
     DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY,
@@ -88,11 +89,11 @@ const RequestBiospecimenModal = ({
             cancelText={dictionary.modal.cancelText}
             okButtonProps={{ disabled: isLoading || error, loading: isLoading }}
             okText={dictionary.modal.okText}
-            onOk={() => editForm.submit()}
             onCancel={() => {
                 editForm.resetFields();
                 closeModal();
             }}
+            onOk={() => editForm.submit()}
             open={isOpen}
             title={dictionary.modal.title}
             width={680}
