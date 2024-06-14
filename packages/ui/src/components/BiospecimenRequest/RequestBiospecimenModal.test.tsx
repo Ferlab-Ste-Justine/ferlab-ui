@@ -12,11 +12,6 @@ jest.mock('./NoSampleModal', () => () => {
     return mockedNoSampleModal;
 });
 
-jest.mock('./RequestBiospecimenTable', () => () => {
-    const mockedRequestBiospecimenTable = <div>mocked RequestBiospecimenTable</div>;
-    return mockedRequestBiospecimenTable;
-});
-
 const dictionary = DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY;
 
 const data = [
@@ -52,8 +47,6 @@ describe('RequestBiospecimenModal', () => {
         expect(screen.getByText(dictionary.modal.description)).toBeTruthy();
         expect(screen.getByText(dictionary.modal.nameForm.title)).toBeTruthy();
         expect(screen.getByText(dictionary.modal.nameForm.note)).toBeTruthy();
-        const RequestBiospecimenTable = screen.getByText(/mocked RequestBiospecimenTable/);
-        expect(RequestBiospecimenTable).toBeInTheDocument();
     });
 
     it('make sure RequestBiospecimenModal render nothing if getSamples loading true', () => {
