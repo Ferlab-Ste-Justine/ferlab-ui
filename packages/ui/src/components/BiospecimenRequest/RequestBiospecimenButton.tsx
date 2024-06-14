@@ -38,8 +38,8 @@ const RequestBiospecimenButton = ({
     getSavedSets,
     maxTitleLength = BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
     nbBiospecimenSelected,
-    type = 'default',
     sqon,
+    type = 'default',
 }: RequestBiospecimenButtonProps): ReactElement => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isLimitOpen, setIsLimitOpen] = useState<boolean>(false);

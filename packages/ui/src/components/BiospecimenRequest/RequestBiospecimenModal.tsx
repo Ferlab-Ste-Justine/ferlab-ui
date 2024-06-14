@@ -87,8 +87,8 @@ const RequestBiospecimenModal = ({
         <Modal
             cancelText={dictionary.modal.cancelText}
             okButtonProps={{ disabled: isLoading || error, loading: isLoading }}
-            onOk={() => editForm.submit()}
             okText={dictionary.modal.okText}
+            onOk={() => editForm.submit()}
             onCancel={() => {
                 editForm.resetFields();
                 closeModal();
