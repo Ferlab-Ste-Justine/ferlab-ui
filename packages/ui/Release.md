@@ -1,3 +1,6 @@
+### 9.20.1 2024-06-17
+- fix: SKFP-1119 unfocus see more/less in facet
+
 ### 9.20.0 2024-06-14
 - feat: SKFP-1030 add biospecimen request button and modal
 
