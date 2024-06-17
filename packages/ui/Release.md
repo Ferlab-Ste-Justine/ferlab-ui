@@ -1,3 +1,6 @@
+### 9.20.2 2024-06-17
+- fix: SKFP-1029 fix biospecimen requests handle share
+
 ### 9.20.1 2024-06-17
 - fix: SKFP-1119 unfocus see more/less in facet
 

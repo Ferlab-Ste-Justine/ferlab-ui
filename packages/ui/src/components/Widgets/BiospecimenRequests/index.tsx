@@ -148,7 +148,7 @@ const BiospecimenRequestsWidget = ({
                                         onShare={() => {
                                             Modal.confirm({
                                                 ...dictionary.modal.share,
-                                                onOk: handleListItemShare,
+                                                onOk: () => handleListItemShare(item.id),
                                                 width: 440,
                                             });
                                         }}
