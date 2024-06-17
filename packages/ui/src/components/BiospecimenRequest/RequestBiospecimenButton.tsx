@@ -48,6 +48,7 @@ const RequestBiospecimenButton = ({
         additionalHandleClick && additionalHandleClick();
         if (nbBiospecimenSelected <= 10000) {
             setIsOpen(true);
+            return;
         } else {
             setIsLimitOpen(true);
         }

@@ -1,12 +1,11 @@
 import React, { ReactElement } from 'react';
 import { WarningFilled } from '@ant-design/icons';
-import { Alert, Form, Input, Modal, Typography } from 'antd';
+import { Alert, Form, Input, Modal, Skeleton, Space, Typography } from 'antd';
 import { Store } from 'antd/lib/form/interface';
 import { ColumnType } from 'antd/lib/table';
 
 import { ISqonGroupFilter } from '../../data/sqon/types';
 
-import NoSampleModal from './NoSampleModal';
 import {
     BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
     DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY,
@@ -72,6 +71,7 @@ const RequestBiospecimenModal = ({
                     name: 'name',
                 },
             ]);
+            return;
         } else {
             // set creation and download zip
             createAndFetchReport(name);
@@ -79,33 +79,42 @@ const RequestBiospecimenModal = ({
         }
     };
 
-    if (loading) return <></>;
-
-    if (!error && !samples.length)
-        return <NoSampleModal closeModal={closeModal} dictionary={dictionary} isOpen={isOpen} />;
-
     return (
         <Modal
+            cancelButtonProps={{ hidden: !samples.length }}
             cancelText={dictionary.modal.cancelText}
-            okButtonProps={{ disabled: isLoading || error, loading: isLoading }}
-            okText={dictionary.modal.okText}
+            okButtonProps={{ disabled: isLoading || loading || error, loading: isLoading }}
+            okText={samples.length ? dictionary.modal.okText : dictionary.modal.closeText}
             onCancel={() => {
                 editForm.resetFields();
                 closeModal();
             }}
-            onOk={() => editForm.submit()}
+            onOk={() => {
+                samples.length ? editForm.submit() : closeModal();
+            }}
             open={isOpen}
             title={dictionary.modal.title}
             width={680}
         >
-            {error && (
+            {loading && <Skeleton active paragraph={{ rows: 2 }} />}
+            {/* No Sample */}
+            {!loading && !error && !samples.length && (
+                <Alert
+                    description={dictionary.modal.alert.infoDescription}
+                    message={<span className={styles.alertTitle}>{dictionary.modal.alert.infoMessage}</span>}
+                    type="info"
+                />
+            )}
+            {/* Error */}
+            {!loading && error && (
                 <Alert
                     description={dictionary.modal.alert.errorDescription}
                     message={<span className={styles.alertTitle}>{dictionary.modal.alert.errorMessage}</span>}
                     type="error"
                 />
             )}
-            {!error && (
+            {/* Available sample */}
+            {!loading && !error && samples.length > 0 && (
                 <div className={styles.modalWrapper}>
                     <div className={styles.description}>
                         <Text>{dictionary.modal.description}</Text>

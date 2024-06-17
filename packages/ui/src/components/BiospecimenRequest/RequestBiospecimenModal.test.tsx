@@ -8,10 +8,10 @@ import { DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY } from './requestBiospecimen.uti
 import RequestBiospecimenModal from './RequestBiospecimenModal';
 import { columns } from './RequestBiospecimenTable.test';
 
-jest.mock('./NoSampleModal', () => () => {
-    const mockedNoSampleModal = <div>mocked no sample modal</div>;
-    return mockedNoSampleModal;
-});
+// jest.mock('./NoSampleModal', () => () => {
+//     const mockedNoSampleModal = <div>mocked no sample modal</div>;
+//     return mockedNoSampleModal;
+// });
 
 const dictionary = DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY;
 
@@ -31,7 +31,7 @@ const data = [
 ];
 
 describe('RequestBiospecimenModal', () => {
-    it('make sure RequestBiospecimenModal render correctly', () => {
+    it('should render RequestBiospecimenModal correctly', () => {
         const props = {
             closeModal: jest.fn(),
             columns: columns,
@@ -50,7 +50,7 @@ describe('RequestBiospecimenModal', () => {
         expect(screen.getByText(dictionary.modal.nameForm.note)).toBeTruthy();
     });
 
-    it('make sure RequestBiospecimenModal render nothing if getSamples loading true', () => {
+    it('should render empty dom if getSamples loading true', () => {
         const props = {
             closeModal: jest.fn(),
             columns: columns,
@@ -65,7 +65,7 @@ describe('RequestBiospecimenModal', () => {
         expect(container).toBeEmptyDOMElement();
     });
 
-    it('should render NoSampleModal if getSamples has no error and no sample', () => {
+    it('should render no sample alert if getSamples has no error and no sample', () => {
         const props = {
             closeModal: jest.fn(),
             columns: columns,
@@ -77,8 +77,10 @@ describe('RequestBiospecimenModal', () => {
         };
 
         render(<RequestBiospecimenModal {...props} />);
-        const noSampleModal = screen.getByText(/mocked no sample modal/);
-        expect(noSampleModal).toBeInTheDocument();
+        expect(screen.getByText(dictionary.modal.alert.infoDescription)).toBeTruthy();
+        expect(screen.getByText(dictionary.modal.alert.infoMessage)).toBeTruthy();
+        expect(screen.getByText(dictionary.modal.closeText)).toBeTruthy();
+        expect(screen.queryByText(dictionary.modal.okText)).toBeFalsy();
     });
 
     it('should render RequestBiospecimenModal with alert if getSamples has error', () => {
