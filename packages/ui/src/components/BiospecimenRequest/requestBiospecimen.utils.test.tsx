@@ -1,4 +1,4 @@
-import { isNameExists } from './utils';
+import { isNameExists } from './requestBiospecimen.utils';
 
 describe('BiospecimenRequest utils', () => {
     test('isNameExists should find duplicate', () => {

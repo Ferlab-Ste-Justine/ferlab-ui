@@ -1,3 +1,6 @@
+### 9.20.0 2024-06-14
+- feat: SKFP-1030 add biospecimen request button and modal
+
 ### 9.19.1 2024-06-13
 - fix: CLIN-2635 adjust text button styles (add mixins to easily override QueryBuilder Header action buttons)
 
