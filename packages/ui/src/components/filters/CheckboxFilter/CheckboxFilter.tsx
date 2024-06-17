@@ -286,7 +286,10 @@ const CheckboxFilter = ({
                             bumpedFilters.length > maxShowing && (
                                 <Button
                                     className={styles.filtersTypesFooter}
-                                    onClick={() => setShowingMore(!isShowingMore)}
+                                    onClick={(e) => {
+                                        setShowingMore(!isShowingMore);
+                                        e.currentTarget.blur();
+                                    }}
                                     onKeyPress={() => setShowingMore(!isShowingMore)}
                                     tabIndex={0}
                                     type="link"
