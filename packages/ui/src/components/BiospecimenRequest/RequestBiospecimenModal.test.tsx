@@ -8,11 +8,6 @@ import { DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY } from './requestBiospecimen.uti
 import RequestBiospecimenModal from './RequestBiospecimenModal';
 import { columns } from './RequestBiospecimenTable.test';
 
-// jest.mock('./NoSampleModal', () => () => {
-//     const mockedNoSampleModal = <div>mocked no sample modal</div>;
-//     return mockedNoSampleModal;
-// });
-
 const dictionary = DEFAULT_REQUEST_BIOSPECIMEN_DICTIONARY;
 
 const data = [
