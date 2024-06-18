@@ -107,7 +107,7 @@ const QueryBuilderHeaderTools = ({
                     {...tooltipAlign}
                 >
                     <Button
-                        className={cx(styles.queryBuilderHeaderActionIconBtn, isDirty ? styles.dirty : '')}
+                        className={cx(styles.queryBuilderHeaderActionIconBtn, isDirty ? 'dirty' : '')}
                         disabled={isSaveButtonDisabled}
                         icon={<SaveOutlined />}
                         onClick={() => {

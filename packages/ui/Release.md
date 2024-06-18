@@ -1,3 +1,6 @@
+### 9.20.3 2024-06-18
+- fix: CLIN-2677 QueryBuilder component: move dirty class to global space
+
 ### 9.20.2 2024-06-17
 - fix: SKFP-1029 fix biospecimen requests handle share
 

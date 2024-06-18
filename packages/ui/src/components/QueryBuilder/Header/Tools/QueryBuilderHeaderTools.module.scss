@@ -10,7 +10,7 @@
             &:not(:disabled) {
                 color: $query-builder-header-tools-icon-color;
 
-                &.dirty {
+                &:global(.dirty) {
                     color: $query-builder-header-tools-icon-color-dirty;
 
                     &:not(span) {
