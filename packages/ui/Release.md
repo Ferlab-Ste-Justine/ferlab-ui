@@ -1,3 +1,6 @@
+### 9.20.4 2024-06-18
+- fix: CLIN-2635 ProTable Header: fix 'results' label when there is only 1 result
+
 ### 9.20.3 2024-06-18
 - fix: CLIN-2677 QueryBuilder component: move dirty class to global space
 
