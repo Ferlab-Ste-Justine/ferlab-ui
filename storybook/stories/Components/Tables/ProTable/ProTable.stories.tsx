@@ -33,6 +33,51 @@ const ProTableStory = ({
 
 /* BasicTable */
 export const BasicTable = ProTableStory.bind({});
+const itemPerPage = 2;
+const data = [
+    {
+        key: "1",
+        column_one: "test",
+        column_two: "test",
+        column_three: "test",
+        column_four: "test",
+    },
+    {
+        key: "2",
+        column_one: "test",
+        column_two: "test",
+        column_three: "test",
+        column_four: "test",
+    },
+    {
+        key: "3",
+        column_one: "test",
+        column_two: "test",
+        column_three: "test",
+        column_four: "test",
+    },
+    {
+        key: "4",
+        column_one: "test",
+        column_two: "test",
+        column_three: "test",
+        column_four: "test",
+    },
+    {
+        key: "5",
+        column_one: "test",
+        column_two: "test",
+        column_three: "test",
+        column_four: "test",
+    },
+    {
+        key: "6",
+        column_one: "test",
+        column_two: "test",
+        column_three: "test",
+        column_four: "test",
+    }
+];
 BasicTable.args = {
     columns: [
         {
@@ -76,55 +121,12 @@ BasicTable.args = {
             tooltip:"This is the tooltip content",
         },
     ],
-    dataSource: [
-        {
-            key: "1",
-            column_one: "test",
-            column_two: "test",
-            column_three: "test",
-            column_four: "test",
-        },
-        {
-            key: "2",
-            column_one: "test",
-            column_two: "test",
-            column_three: "test",
-            column_four: "test",
-        },
-        {
-            key: "3",
-            column_one: "test",
-            column_two: "test",
-            column_three: "test",
-            column_four: "test",
-        },
-        {
-            key: "4",
-            column_one: "test",
-            column_two: "test",
-            column_three: "test",
-            column_four: "test",
-        },
-        {
-            key: "5",
-            column_one: "test",
-            column_two: "test",
-            column_three: "test",
-            column_four: "test",
-        },
-        {
-            key: "6",
-            column_one: "test",
-            column_two: "test",
-            column_three: "test",
-            column_four: "test",
-        },
-    ],
+    dataSource: data,
     tableId: "test-table",
     pagination: {
-        pageSize: 2,
+        pageSize: itemPerPage,
         defaultPageSize: 2,
-        total: 4,
+        total: data.length,
     },
     headerConfig: {
         marginBtm: 12,
@@ -132,8 +134,8 @@ BasicTable.args = {
         enableColumnSort: true,
         itemCount: {
             pageIndex: 1,
-            pageSize: 2,
-            total: 4,
+            pageSize: itemPerPage,
+            total: data.length,
         },
         onClearSelection: () => {
             console.log("Clicked on clear selection");
