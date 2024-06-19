@@ -428,15 +428,15 @@ const deeplySetSqonValue = (sourceSqon: ISyntheticSqon, newSqon: IValueFilter, o
 };
 
 export const deepMergeFieldInActiveQuery = ({
-    queryBuilderId,
     field,
-    value,
     index,
+    isUploadedList,
     merge_strategy = MERGE_VALUES_STRATEGIES.APPEND_VALUES,
     operator = TermOperators.in,
     overrideValuesName,
-    isUploadedList,
+    queryBuilderId,
     remoteComponent,
+    value,
 }: {
     queryBuilderId: string;
     field: string;
@@ -501,11 +501,11 @@ export const generateQuery = ({
 
 export const generateValueFilter = ({
     field,
-    value,
     index = '',
     operator = TermOperators.in,
     overrideValuesName,
     rangeFilterNoData = false,
+    value,
 }: {
     field: string;
     value: string[];
@@ -533,10 +533,10 @@ export const generateValueFilter = ({
 
 export const generateWildCardValueFilter = ({
     fields,
-    value,
     index = '',
     operator = FilterOperators.filter,
     overrideValuesName,
+    value,
 }: {
     fields: string[];
     value: string[];
@@ -605,10 +605,10 @@ export const getUpdatedActiveQueryByFilterGroup = ({
     });
 
 export const getUpdatedActiveQuery = ({
-    queryBuilderId,
     field,
-    sqonContent,
     operator = BooleanOperators.and,
+    queryBuilderId,
+    sqonContent,
 }: {
     queryBuilderId: string;
     field: string;

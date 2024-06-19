@@ -1,17 +1,18 @@
 import React, { Key, useState } from 'react';
 import { BranchesOutlined, UserOutlined } from '@ant-design/icons';
 import { Col, Row, Tooltip, Transfer, Tree } from 'antd';
-import { debounce, isEmpty } from 'lodash';
+import { debounce, isEmpty, uniq } from 'lodash';
 
 import Empty from '../Empty';
 
 import { IOntologyDataNode, IOntologyTreeData } from './type';
 import {
     disableNodesInTree,
-    filterTransferTargetKeys,
+    filterChildrenKeysFromSelectedKeys as filterChildrenKeysFromTransferKeys,
     getChildrenKeysByKey,
-    getChildrenKeysByNode,
-    getSqonValuesChildrenKeys,
+    getChildrenTransferKeyByNode as getChildrenTransferKeyByNode,
+    getKeysByTransferKeys,
+    getSqonKeysAndChildrenKeys,
     ontologyTreeDataToOntologyDataNode,
     ontologyTreeToTransferData,
     searchInOntologyTree,
@@ -59,54 +60,83 @@ type TOntologyTree = {
     data: IOntologyTreeData[];
     transferTargetKeys: string[];
     setTransferTargetKeys: (transferTargetKeys: string[]) => void;
-    sqonValues: string[];
+    sqonTransferKeys: string[];
     dictionary?: TOntologyTreeDictionary;
 };
 
+/**
+ * OntologyTree manage 2 data structures
+ * - Transfer: An unique set of keys, all flatten and duplicate removed
+ * - Tree: Contains all data and their unique node path (parent-chid relations)
+ */
 export const OntologyTree = ({
     data,
     dictionary = DEFAULT_ONTOLOGY_TREE_DICTIONARY,
     setTransferTargetKeys,
-    sqonValues,
+    sqonTransferKeys,
     total,
     transferTargetKeys,
 }: TOntologyTree): JSX.Element => {
     const defaultTransferData = ontologyTreeToTransferData(data);
     const defaultTreeData = ontologyTreeDataToOntologyDataNode(data);
-
-    const sqonValuesKeys = getSqonValuesChildrenKeys(defaultTreeData[0], sqonValues);
+    const sqonValuesKeys = getKeysByTransferKeys(defaultTreeData[0], sqonTransferKeys);
+    const sqonValuesChildrenKeys = getSqonKeysAndChildrenKeys(defaultTreeData[0], sqonValuesKeys);
     const [currentTreeData, setCurrentTreeData] = useState<IOntologyDataNode[]>(
-        disableNodesInTree(defaultTreeData[0], sqonValuesKeys, sqonValues),
+        disableNodesInTree(defaultTreeData[0], sqonValuesChildrenKeys, sqonValuesKeys),
     );
     const rootNode = currentTreeData[0];
     const [treeExpandedKeys, setTreeExpandedKeys] = useState<string[]>(rootNode ? [rootNode.key] : []);
-    const [treeTargetKeys, setTreeTargetKeys] = useState<Key[]>(sqonValuesKeys as Key[]);
+    const [treeTargetKeys, setTreeTargetKeys] = useState<Key[]>(sqonValuesChildrenKeys as Key[]);
     const [transferSelectedCount, setTransferSelectedCount] = useState<number>(total);
 
     const onSearch = debounce((_, value) => {
+        const transferKeysNodepath = getKeysByTransferKeys(currentTreeData[0], transferTargetKeys);
+
         if (value && value.length >= MIN_SEARCH_TEXT_LENGTH) {
             const results = searchInOntologyTree(defaultTreeData[0], value);
-            setCurrentTreeData(disableNodesInTree(results.tree[0], treeTargetKeys as string[], transferTargetKeys));
+            setCurrentTreeData(disableNodesInTree(results.tree[0], treeTargetKeys as string[], transferKeysNodepath));
             setTreeExpandedKeys(results.keys);
             setTransferSelectedCount(results.selectedCount);
             return;
         }
         setTreeExpandedKeys([rootNode.key]);
-        setCurrentTreeData(disableNodesInTree(defaultTreeData[0], treeTargetKeys as string[], transferTargetKeys));
+        setCurrentTreeData(disableNodesInTree(defaultTreeData[0], treeTargetKeys as string[], transferKeysNodepath));
         setTransferSelectedCount(total);
     }, DEBOUNCE_TIMEOUT);
 
     const onTreeAction = (node: IOntologyDataNode) => {
-        // does the current node is the parent of an already selected node ?
-        const childrenKeys = getChildrenKeysByNode(node);
-        const selectedKeys = [node.key, ...childrenKeys] as Key[];
-        const checked = node.checked
-            ? treeTargetKeys.filter((e) => !selectedKeys.includes(e))
-            : treeTargetKeys.concat(selectedKeys);
-        const updatedTransferTargetKeys = filterTransferTargetKeys(transferTargetKeys, node, childrenKeys);
-        setCurrentTreeData(disableNodesInTree(rootNode, checked as string[], updatedTransferTargetKeys));
-        setTreeTargetKeys(checked);
-        setTransferTargetKeys(updatedTransferTargetKeys);
+        // Transfer update
+        // Node.checked can be misleading since a parent can be "checked" but not in the transferKeys list
+        // Transfer keys are managed with id e.g "furunculosis MONDO:0025419"
+        const checked = !transferTargetKeys.some((key) => key === node.transferKey);
+        const nodeChildrenTransferKeys = getChildrenTransferKeyByNode(node);
+        let newTransferKeys = transferTargetKeys;
+        if (checked) {
+            newTransferKeys.push(node.transferKey);
+        } else {
+            newTransferKeys = newTransferKeys.filter((key) => key != node.transferKey);
+        }
+        // remove child of node
+        newTransferKeys = newTransferKeys.filter((key) => !nodeChildrenTransferKeys.includes(key));
+
+        // Tree update
+        // Tree needs the complete key
+        // "disease or disorder MONDO:0000001"{Separator}...{Separator}"furunculosis MONDO:0025419"
+        const transferKeysNodepath = getKeysByTransferKeys(currentTreeData[0], newTransferKeys);
+        const newTreeTargetKeys = filterChildrenKeysFromTransferKeys(transferKeysNodepath, node, checked);
+
+        const checkedPath: string[] = [];
+        newTreeTargetKeys.forEach((key) => {
+            checkedPath.push(key);
+            getChildrenKeysByKey(currentTreeData[0], key).forEach((childKey) => {
+                checkedPath.push(childKey);
+            });
+        });
+
+        // update state
+        setCurrentTreeData(disableNodesInTree(rootNode, checkedPath as string[], transferKeysNodepath));
+        setTreeTargetKeys(checkedPath);
+        setTransferTargetKeys(newTransferKeys);
     };
 
     return (
@@ -119,11 +149,13 @@ export const OntologyTree = ({
             }}
             onChange={(newTargetKeys: string[], _, moveKeys: string[]) => {
                 // Since we only allow a single node to be deleted at the time
-                const selectedKeys = [moveKeys[0], ...getChildrenKeysByKey(rootNode, moveKeys[0])] as Key[];
+                const movedNodeKeys = getKeysByTransferKeys(currentTreeData[0], [moveKeys[0]])[0];
+                const newTargetNodePath = getKeysByTransferKeys(currentTreeData[0], newTargetKeys);
+                const selectedKeys = [movedNodeKeys, ...getChildrenKeysByKey(rootNode, movedNodeKeys)] as Key[];
                 setTransferTargetKeys(newTargetKeys);
                 const filteredTreeTargetKeys = treeTargetKeys.filter((e) => !selectedKeys.includes(e));
                 setTreeTargetKeys(filteredTreeTargetKeys);
-                setCurrentTreeData(disableNodesInTree(rootNode, filteredTreeTargetKeys as string[], newTargetKeys));
+                setCurrentTreeData(disableNodesInTree(rootNode, filteredTreeTargetKeys as string[], newTargetNodePath));
             }}
             onSearch={onSearch}
             oneWay

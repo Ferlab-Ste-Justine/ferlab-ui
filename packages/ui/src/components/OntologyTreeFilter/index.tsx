@@ -9,7 +9,7 @@ import Empty from '../Empty';
 
 import OntologyTree, { DEFAULT_ONTOLOGY_TREE_DICTIONARY, TOntologyTreeDictionary } from './OntologyTree';
 import { ILegacyOntologyTreeData } from './type';
-import { flattenTransferTargetKeys, getOntologySqonValues, legacyToNewOntologyTreeData } from './utils';
+import { getSqonTransferKeys, legacyToNewOntologyTreeData, rebuildTransferTargetKeys } from './utils';
 
 import styles from './index.module.scss';
 
@@ -55,11 +55,11 @@ const OntologyTreeModal = ({
     sqon,
 }: TOntologyTreeFilter): JSX.Element => {
     const newOntologyData = legacyToNewOntologyTreeData(data);
-    const sqonValues = getOntologySqonValues(newOntologyData, sqon, field);
-    const [transferTargetKeys, setTransferTargetKeys] = useState<string[]>(sqonValues);
+    const sqonTransferKeys = getSqonTransferKeys(newOntologyData, sqon, field);
+    const [transferTargetKeys, setTransferTargetKeys] = useState<string[]>(sqonTransferKeys);
 
     useEffect(() => {
-        setTransferTargetKeys(getOntologySqonValues(newOntologyData, sqon, field));
+        setTransferTargetKeys(getSqonTransferKeys(newOntologyData, sqon, field));
     }, [sqon]);
 
     return (
@@ -86,9 +86,9 @@ const OntologyTreeModal = ({
                                 },
                             ],
                             onClick: (e: MenuInfo) =>
-                                handleOnApply(flattenTransferTargetKeys(transferTargetKeys), e.key as TermOperators),
+                                handleOnApply(rebuildTransferTargetKeys(transferTargetKeys), e.key as TermOperators),
                         }}
-                        onClick={() => handleOnApply(flattenTransferTargetKeys(transferTargetKeys), TermOperators.in)}
+                        onClick={() => handleOnApply(rebuildTransferTargetKeys(transferTargetKeys), TermOperators.in)}
                         type="primary"
                     >
                         {dictionary.okText}
@@ -126,7 +126,7 @@ const OntologyTreeModal = ({
                     data={newOntologyData}
                     dictionary={dictionary.tree}
                     setTransferTargetKeys={setTransferTargetKeys}
-                    sqonValues={sqonValues}
+                    sqonTransferKeys={sqonTransferKeys}
                     total={data.length - 1 ?? 0}
                     transferTargetKeys={transferTargetKeys}
                 />

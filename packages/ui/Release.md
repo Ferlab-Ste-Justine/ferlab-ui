@@ -1,3 +1,6 @@
+### 9.20.5 2024-06-21
+- fix: SJIP-822 OntologyTree: improve behavior, fix issue on edit
+
 ### 9.20.4 2024-06-18
 - fix: CLIN-2635 ProTable Header: fix 'results' label when there is only 1 result
 
