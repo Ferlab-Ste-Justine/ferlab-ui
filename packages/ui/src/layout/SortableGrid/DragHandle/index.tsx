@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import cx from 'classnames';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 interface OwnProps {
     id: string;

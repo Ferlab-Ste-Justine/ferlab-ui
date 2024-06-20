@@ -3,7 +3,7 @@ import { Col, Row, Tag, Typography } from 'antd';
 
 import { cleanNodeKey, CODE_REGEX, extractCodeAndTitle, HP_CODE, MONDO_CODE } from './utils';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 type TSearchterm = {
     query: string;
