@@ -1,0 +1,31 @@
+.ProTableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ProTableHeader .extraCountInfo {
+  display: inline-block;
+}
+.ProTableHeader .extraCountInfo :global(.ant-divider) {
+  height: 22px;
+  margin: 0 12px;
+}
+.ProTableHeader .extraCountInfo > div {
+  display: inline-block;
+}
+
+.ProTableHeaderSelectAllBtn {
+  margin-left: 8px;
+}
+
+.ProTableHeaderClearSelectedBtn :not(span[role=img]) {
+  margin-left: 4px;
+}
+
+.clearFilterLink {
+  margin-left: 12px;
+  padding: 0;
+}
+.clearFilterLink :global(.anticon + span) {
+  margin-left: 4px;
+}

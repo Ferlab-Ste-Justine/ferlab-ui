@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './ScrollView.scss';
+import './ScrollView.css';
 
 export enum StackOrientation {
     Vertical = 'vertical',

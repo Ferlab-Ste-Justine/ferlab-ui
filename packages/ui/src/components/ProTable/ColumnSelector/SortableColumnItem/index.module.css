@@ -1,0 +1,6 @@
+.ProTableColumnDragHandle {
+  margin-right: 8px;
+}
+.ProTableColumnDragHandle:hover {
+  cursor: grab;
+}

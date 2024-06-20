@@ -1,0 +1,20 @@
+.wrapper {
+  background-color: var(--maintenance-page-bg);
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+.wrapper .title {
+  color: var(--maintenance-page-title);
+  font-weight: 600;
+  line-height: 28px;
+  font-size: 20px;
+}
+.wrapper .subtitle {
+  color: var(--maintenance-page-subtitle);
+  font-weight: 400;
+  font-size: 14px;
+}

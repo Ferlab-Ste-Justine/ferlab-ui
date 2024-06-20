@@ -1,0 +1,15 @@
+.item {
+  padding: 16px;
+  background-color: var(--gray-2);
+  margin-top: 24px;
+}
+.item .alert {
+  align-items: baseline;
+  margin-top: 16px;
+  width: 100%;
+}
+.item .switch {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}

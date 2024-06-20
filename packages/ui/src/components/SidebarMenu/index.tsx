@@ -11,7 +11,7 @@ import SearchIcon from './icons/SearchIcon';
 import QuickFilter, { IQuickFilter } from './QuickFilter';
 import SidebarMenuContentPanel from './SidebarMenuContentPanel';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export interface ISidebarMenuItem {
     key: string | number;

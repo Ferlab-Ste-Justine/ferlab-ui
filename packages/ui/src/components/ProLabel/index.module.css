@@ -1,0 +1,28 @@
+.fuiProLabel {
+  display: flex;
+  align-items: baseline;
+  font-weight: 500;
+}
+.fuiProLabel.requiredMark::before {
+  display: inline-block;
+  margin-right: 4px;
+  color: var(--prolabel-required-mark-color);
+  font-size: 14px;
+  font-family: SimSun, sans-serif;
+  line-height: 1;
+  content: "*";
+}
+.fuiProLabel .title {
+  margin-right: 2px;
+}
+.fuiProLabel .infoIconWrapper {
+  margin-right: 2px;
+  margin-left: 2px;
+}
+.fuiProLabel .colon {
+  margin: 0px 8px 0px 2px;
+}
+.fuiProLabel .small {
+  font-size: 12px;
+  line-height: 20px;
+}

@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TUnAssignAvatar = {
     canAssign?: boolean;
