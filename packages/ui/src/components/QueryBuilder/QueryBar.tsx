@@ -31,7 +31,7 @@ import {
     TOnChange,
 } from './types';
 
-import styles from './QueryBar.module.scss';
+import styles from './QueryBar.module.css';
 
 interface IQueryBarProps {
     id: string;

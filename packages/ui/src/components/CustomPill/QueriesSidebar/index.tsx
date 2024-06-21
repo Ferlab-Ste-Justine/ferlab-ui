@@ -11,7 +11,7 @@ import EmptyQueriesSidebar from './EmptyQueriesSidebar';
 import QueryPill from './QueryPill';
 import { IQueriesSidebarDictionary } from './types';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export interface IQueriesSidebarProps {
     customPills: ISavedFilter[];
@@ -42,23 +42,23 @@ const getSortedPill = (customPills: ISavedFilter[]): ISavedFilter[] =>
 
 const QueriesSidebar = ({
     customPills = [],
+    deletePill,
+    dictionary,
+    duplicatePill,
+    editCallback,
+    editMenuItems,
+    editPill,
+    facetFilterConfig = defaultFacetFilterConfig,
+    getFiltersByPill,
     hasError = false,
     isLoading = false,
-    dictionary,
-    editMenuItems,
+    learnMoreLink,
     queryBuilderId,
     queryDictionary,
     queryEditionQBId,
-    learnMoreLink,
-    showLabels = true,
-    facetFilterConfig = defaultFacetFilterConfig,
-    tag,
-    deletePill,
-    duplicatePill,
-    editCallback,
-    editPill,
-    getFiltersByPill,
     remoteComponentMapping,
+    showLabels = true,
+    tag,
     validateName,
 }: IQueriesSidebarProps): JSX.Element => {
     if (isLoading) {

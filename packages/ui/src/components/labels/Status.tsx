@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import { Typography } from 'antd';
 
-import './StatusLabel.scss';
+import './StatusLabel.css';
 
 export enum StatusOptions {
     Active = 'active',
