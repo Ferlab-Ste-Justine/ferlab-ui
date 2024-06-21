@@ -1,0 +1,26 @@
+.statuslabel__container {
+  vertical-align: middle;
+}
+.statuslabel__container > :first-child {
+  margin-right: 9px;
+  padding: 0;
+}
+.statuslabel__container.active {
+  color: var(--blue-8);
+}
+.statuslabel__container.completed {
+  color: var(--green-8);
+}
+.statuslabel__container.draft {
+  color: var(--gray-8);
+}
+.statuslabel__container.incomplete {
+  color: var(--magenta-7);
+}
+.statuslabel__container.revoked {
+  color: var(--red-8);
+}
+.statuslabel__container.submitted {
+  color: var(--orange-8);
+}
+

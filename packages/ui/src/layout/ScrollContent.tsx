@@ -2,7 +2,7 @@ import React from 'react';
 import SimpleBar from 'simplebar-react';
 
 import 'simplebar/dist/simplebar.min.css';
-import './ScrollContent.scss';
+import './ScrollContent.css';
 
 export enum StackOrientation {
     Vertical = 'vertical',

@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import Empty from '../../Empty';
 import { MatchTableItem, UploadIdDictionary } from '../types';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 interface OwnProps {
     matchItems: MatchTableItem[];

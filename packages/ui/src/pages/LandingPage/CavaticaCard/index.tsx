@@ -3,7 +3,7 @@ import { Button } from 'antd';
 
 import ExternalLinkIcon from '../../../components/ExternalLink/ExternalLinkIcon';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TCavaticaDictionary = {
     description: string;

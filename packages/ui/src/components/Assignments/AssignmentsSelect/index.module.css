@@ -1,0 +1,58 @@
+.selectInput {
+  width: 100%;
+}
+.selectInput :global(.ant-select-selection-overflow) {
+  gap: 4px 4px;
+}
+.selectInput :global(.anticon-loading) {
+  color: var(--blue-8);
+  font-size: 16px;
+}
+
+:global(.ant-select-multiple .ant-select-selector) {
+  padding: 2px;
+}
+
+.selectedOption {
+  padding: 4px 12px;
+}
+.selectedOption .noAssignments {
+  margin-top: 0px;
+}
+
+.assignmentOption:focus {
+  background: none;
+}
+
+.noAssignments {
+  font-size: 12px;
+  line-height: 20px;
+  padding: 0;
+  margin: 8px 0 2px 0;
+}
+.noAssignments span {
+  text-decoration: underline;
+}
+.noAssignments:hover:not([disabled]) {
+  color: var(--blue-8);
+}
+.noAssignments:hover:not([disabled]) span {
+  color: var(--blue-8);
+  background: transparent;
+  text-decoration: none;
+}
+
+.optionsList {
+  max-height: 170px;
+  width: 100%;
+  overflow-y: auto;
+}
+.optionsList.withMargin {
+  margin-bottom: 12px;
+}
+.optionsList button {
+  width: -webkit-fill-available;
+  padding: 0;
+  text-align: left;
+  height: 34px;
+}

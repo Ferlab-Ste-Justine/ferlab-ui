@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import useElementSize from '../../hooks/useElementSize';
 import useWindowSize from '../../hooks/useWindowSize';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 interface ITableDimension {
     x: number | string;

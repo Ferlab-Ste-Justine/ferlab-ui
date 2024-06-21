@@ -15,8 +15,8 @@ import ResizableGridCard from '../../../layout/ResizableGridLayout/ResizableGrid
 import { mondoDefaultGridConfig, observedPhenotypeDefaultGridConfig } from '../../../layout/ResizableGridLayout/utils';
 import { truncateString } from '../../../utils/stringUtils';
 
-import entityTableStyles from '../EntityTable/index.module.scss';
-import styles from './index.module.scss';
+import entityTableStyles from '../EntityTable/index.module.css';
+import styles from './index.module.css';
 
 const { Title } = Typography;
 

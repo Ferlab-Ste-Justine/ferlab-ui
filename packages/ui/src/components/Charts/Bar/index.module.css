@@ -1,0 +1,19 @@
+.barChartWrapper {
+  height: 100%;
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+.barChartWrapper .barChartContent {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.barChartWrapper *[class$=-typography] {
+  margin: 0;
+}
+.barChartWrapper .title {
+  font-size: 12px;
+  color: var(--chart-title-color);
+}

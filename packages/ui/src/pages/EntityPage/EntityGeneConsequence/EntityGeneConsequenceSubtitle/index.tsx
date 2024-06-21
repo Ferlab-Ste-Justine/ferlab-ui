@@ -5,7 +5,7 @@ import { removeUnderscoreAndCapitalize } from '../../../../utils/stringUtils';
 import { IGeneConsquenceTableGroup } from '../../type';
 import { sortConsequences } from '../../utils/consequences';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 interface IEntityGeneConsequenceSubtitle extends Omit<IGeneConsquenceTableGroup, 'ensembleGeneId'> {
     dictionary: {

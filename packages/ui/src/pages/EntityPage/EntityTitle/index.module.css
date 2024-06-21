@@ -1,0 +1,19 @@
+.titleHeader {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  color: var(--heading-color);
+}
+.titleHeader .title {
+  margin-left: 12px;
+  margin-bottom: 0;
+}
+.titleHeader .tag {
+  margin-left: 12px;
+}
+.titleHeader .extra {
+  margin-left: auto;
+}
+.titleHeader .icon {
+  font-size: var(--entity-icon-size);
+}

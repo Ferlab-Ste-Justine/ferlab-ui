@@ -24,7 +24,7 @@ import FencesAuthentificationModal, {
     TFencesAuthentificationModalDictionary,
 } from './FencesAuthentificationModal';
 
-import styles from '../widget.module.scss';
+import styles from '../widget.module.css';
 
 export enum FENCE_AUTHENTIFICATION_STATUS {
     connected = 'connected',

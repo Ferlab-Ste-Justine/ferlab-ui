@@ -9,7 +9,7 @@ import {
     IUserSetOutput,
 } from '../../BiospecimenRequest/requestBiospecimen.utils';
 
-import styles from './EditBiospecimenRequestModal.module.scss';
+import styles from './EditBiospecimenRequestModal.module.css';
 
 export const DEFAULT_EDIT_BIOSPECIMENT_REQUEST_MODAL = {
     errors: {
