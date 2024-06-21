@@ -24,8 +24,9 @@ export interface IOntologyTreeData {
 }
 
 export interface IOntologyDataNode extends Omit<DataNode, 'children' | 'key'> {
-    path: string;
-    key: string;
+    transferKey: string; // key e.g. node
+    path: string; // path to the node. e.g. parent/parent
+    key: string; // path + key e.g. parent/parent/node
     name: string;
     children: IOntologyDataNode[];
     checked?: boolean;

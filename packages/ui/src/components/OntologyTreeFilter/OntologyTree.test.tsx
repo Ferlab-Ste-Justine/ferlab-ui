@@ -14,7 +14,7 @@ describe('OntologyTree', () => {
             data,
             dictionary,
             setTransferTargetKeys: jest.fn(),
-            sqonValues: [],
+            sqonTransferKeys: [],
             total: data.length,
             transferTargetKeys: [],
         };
@@ -24,13 +24,13 @@ describe('OntologyTree', () => {
         expect(screen.getByText(`${props.total} unique items`)).toBeTruthy();
     });
 
-    test('make sure OntologyTree render correctly with sqonValues', () => {
+    test('make sure OntologyTree render correctly with sqonTransferKeys', () => {
         const data = legacyToNewOntologyTreeData(ONTOLOGY_TREE_MOCK_API_RESPONSE);
         const props = {
             data,
             dictionary,
             setTransferTargetKeys: jest.fn(),
-            sqonValues: ['Abnormal heart valve morphology (HP:0001654)'],
+            sqonTransferKeys: ['Abnormal heart valve morphology (HP:0001654)'],
             total: data.length,
             transferTargetKeys: [],
         };
@@ -45,7 +45,7 @@ describe('OntologyTree', () => {
             data: [],
             dictionary,
             setTransferTargetKeys: jest.fn(),
-            sqonValues: [],
+            sqonTransferKeys: [],
             total: 0,
             transferTargetKeys: [],
         };

@@ -15,6 +15,7 @@ export const CODE_PREFIX_REGEX = /(MONDO|HP)/gi;
 export const HP_CODE = 'hp:';
 export const MONDO_CODE = 'mondo:';
 export const ROOT_NODE_CODE = /(MONDO:0000001|HP:0000118)/g;
+export const SEPARATOR = '//';
 
 /**
  * Map server's responsive to contains both parent and child reference
@@ -69,7 +70,9 @@ export const ontologyTreeDataToOntologyDataNode = (data: IOntologyTreeData[]): I
             const participantsCount = child.doc_count ?? 0;
             const participantsWithExactTerm = child.filter_by_term?.doc_count ?? 0;
             const nodePath =
-                parentNodePath.length > 0 ? cleanNodeKey(`${parentNodePath}-${child.key}`) : cleanNodeKey(child.key);
+                parentNodePath.length > 0
+                    ? cleanNodeKey(`${parentNodePath}${SEPARATOR}${child.key}`)
+                    : cleanNodeKey(child.key);
 
             result.push({
                 children: recursiveNodeCreate(child, nodePath),
@@ -85,6 +88,7 @@ export const ontologyTreeDataToOntologyDataNode = (data: IOntologyTreeData[]): I
                         participantsWithExactTerm={participantsWithExactTerm}
                     />
                 ),
+                transferKey: cleanNodeKey(child.key),
             });
         });
         return result;
@@ -106,6 +110,7 @@ export const ontologyTreeDataToOntologyDataNode = (data: IOntologyTreeData[]): I
                 participantsWithExactTerm={participantsWithExactTerm}
             />
         ),
+        transferKey: cleanNodeKey(rootOntologyNode.key),
     } as IOntologyDataNode;
 
     return [rootNode];
@@ -114,6 +119,7 @@ export const ontologyTreeDataToOntologyDataNode = (data: IOntologyTreeData[]): I
 /**
  * Recursive algorithm to create a compatible Transfer compatible item list
  * @param data
+ * @param withNodePath
  * @returns
  */
 export const ontologyTreeToTransferData = (data: IOntologyTreeData[]): TransferItem[] => {
@@ -123,51 +129,33 @@ export const ontologyTreeToTransferData = (data: IOntologyTreeData[]): TransferI
     }
 
     const transferData: TransferItem[] = [];
-
-    const recursive = (node: IOntologyTreeData, parentNodePath: string): IOntologyDataNode[] => {
+    const recursive = (node: IOntologyTreeData): IOntologyDataNode[] => {
         const result: IOntologyDataNode[] = [];
         node.top_hits.children.forEach((key) => {
             const child = data.find((e) => e.key === key);
             if (!child) return;
-            const nodePath =
-                parentNodePath.length > 0 ? cleanNodeKey(`${parentNodePath}-${child.key}`) : cleanNodeKey(child.key);
 
             // Transfer Data
-            transferData.push({
-                key: nodePath,
-                title: child.key,
-            });
+            const formattedKey = cleanNodeKey(child.key);
+            if (!transferData.some((item) => item.key == formattedKey)) {
+                transferData.push({
+                    key: formattedKey,
+                    title: child.key,
+                });
+            }
 
-            recursive(child, nodePath);
+            recursive(child);
         });
         return result;
     };
 
-    recursive(rootOntologyNode, cleanNodeKey(rootOntologyNode.key));
+    recursive(rootOntologyNode);
     transferData.push({
         key: cleanNodeKey(rootOntologyNode.key),
         title: rootOntologyNode.key,
     });
 
     return transferData;
-};
-
-/**
- * sqonValues only contains the node keys, we needs to children to mark them as checked
- * @param rootNode
- * @param sqonValues
- * @returns
- */
-export const getSqonValuesChildrenKeys = (rootNode: IOntologyDataNode, sqonValues: string[]): string[] => {
-    const result: string[] = [];
-    sqonValues.forEach((key) => {
-        result.push(key);
-        getChildrenKeysByKey(rootNode, key).forEach((childrenKey) => {
-            result.push(childrenKey);
-        });
-    });
-
-    return result;
 };
 
 /**
@@ -250,13 +238,13 @@ export const searchInOntologyTree = (
 
     // Add all node path to the search results
     matchingNodes.forEach((nodeKey) => {
-        const nodePaths = nodeKey.split('-');
+        const nodePaths = nodeKey.split(SEPARATOR);
         nodePaths.pop();
         const currentNodePath: string[] = [];
 
         nodePaths.forEach((path) => {
             currentNodePath.push(path);
-            const result = allNodeKeys.find((node) => node === currentNodePath.join('-'));
+            const result = allNodeKeys.find((node) => node === currentNodePath.join(SEPARATOR));
             if (result) {
                 matchingNodePaths.push(result);
                 keys.push(result);
@@ -370,6 +358,65 @@ export const getChildrenKeysByNode = (node: IOntologyDataNode): string[] => {
 };
 
 /**
+ * Get all child transferKey
+ * @param node
+ * @returns
+ */
+export const getChildrenTransferKeyByNode = (node: IOntologyDataNode): string[] => {
+    if (!node) return [];
+    const transferKeys: string[] = [];
+    const recursive = (node: IOntologyDataNode) => {
+        transferKeys.push(node.transferKey);
+
+        node.children.forEach((child) => {
+            recursive(child);
+        });
+    };
+
+    node.children.forEach((child) => {
+        recursive(child);
+    });
+
+    return transferKeys;
+};
+
+/**
+ * Find all the keys that is associated to the transferKey
+ *
+ * e.g.
+ *  input: chromosomal disorder MONDO:0019040
+ *  output: [
+ *      "disease or disorder MONDO:0000001//Mendelian disease MONDO:0003847//chromosomal disorder MONDO:0019040",
+ *      "disease or disorder MONDO:0000001//disorder of development or morphogenesis MONDO:0021147//developmental defect during embryogenesis MONDO:0019755/chromosomal disorder MONDO:0019040"
+ *  ]
+ * @param rootNode
+ * @param transferKeys
+ * @returns
+ */
+export const getKeysByTransferKeys = (rootNode: IOntologyDataNode, transferKeys: string[]): string[] => {
+    if (!rootNode) return [];
+
+    const result: string[] = [];
+    const recursive = (node: IOntologyDataNode) => {
+        if (transferKeys.includes(node.transferKey)) {
+            result.push(node.key);
+        }
+
+        node.children.forEach((child) => {
+            recursive(child);
+        });
+    };
+    if (transferKeys.includes(rootNode.transferKey)) {
+        result.push(rootNode.key);
+    }
+    rootNode.children.forEach((child) => {
+        recursive(child);
+    });
+
+    return result;
+};
+
+/**
  * When removing a node from a Transfert component, we lost the node's reference. It must found in the
  * Tree structure to call getChildrenKeysByNode
  * @param rootNode
@@ -405,17 +452,21 @@ export const getChildrenKeysByKey = (rootNode: IOntologyDataNode, key: string): 
 };
 
 /**
- * Filter transfer keys
+ * If a child was previously selected and now the parent is clicked,
+ * children are removed
  * @param keys
  * @param node
- * @param childrenKeys
+ * @param checked
  * @returns
  */
-export const filterTransferTargetKeys = (keys: string[], node: IOntologyDataNode, childrenKeys: string[]): string[] => {
-    if (keys.includes(node.key)) {
-        return keys.filter((key) => key != node.key);
-    }
+export const filterChildrenKeysFromSelectedKeys = (
+    keys: string[],
+    node: IOntologyDataNode,
+    checked: boolean,
+): string[] => {
+    if (checked) return keys;
 
+    const childrenKeys = getChildrenKeysByNode(node);
     const keysToRemove: string[] = [];
     keys.forEach((key) => {
         if (childrenKeys.includes(key)) {
@@ -423,7 +474,7 @@ export const filterTransferTargetKeys = (keys: string[], node: IOntologyDataNode
         }
     });
 
-    return [...keys.filter((key) => !keysToRemove.includes(key)), node.key];
+    return keys.filter((key) => !keysToRemove.includes(key));
 };
 
 /**
@@ -431,17 +482,7 @@ export const filterTransferTargetKeys = (keys: string[], node: IOntologyDataNode
  * @param keys
  * @returns
  */
-export const flattenTransferTargetKeys = (keys: string[]): string[] => {
-    const result: string[] = [];
-    keys.map((key) => {
-        const phenotype = key.split('-').pop();
-        if (phenotype) {
-            result.push(rebuildNodeKey(phenotype));
-        }
-    });
-
-    return result;
-};
+export const rebuildTransferTargetKeys = (keys: string[]): string[] => keys.map((key) => rebuildNodeKey(key));
 
 /**
  * Extract title and code
@@ -469,7 +510,7 @@ export const extractCodeAndTitle = (value: string): { code: string; title: strin
 export const cleanNodeKey = (key: string): string => key.replaceAll(MATCH_SPECIAL_CHARACTERS_REGEX, '');
 
 /**
- * Rebuild key from xxxxx-xxxx to xxxxx (xxxxx)
+ * Rebuild key from xxxxx xxxx to xxxxx (xxxxx)
  * @param key
  */
 export const rebuildNodeKey = (key: string): string => {
@@ -482,18 +523,26 @@ export const rebuildNodeKey = (key: string): string => {
  * @param field
  * @returns
  */
-export const getOntologySqonValues = (data: IOntologyTreeData[], sqon: ISqonGroupFilter, field: string): string[] => {
-    const defaultTransferData = ontologyTreeToTransferData(data);
-    const result: string[] = [];
-    const sqonTransferKeys = (findSqonValueByField(`${field}.name`, sqon) ?? []).map((key: string) =>
-        cleanNodeKey(key),
+export const getSqonTransferKeys = (data: IOntologyTreeData[], sqon: ISqonGroupFilter, field: string): string[] => {
+    const sqonTransferKeys = (findSqonValueByField(`${field}.name`, sqon) ?? []).map((transferKey: string) =>
+        cleanNodeKey(transferKey),
     ) as string[];
+    return sqonTransferKeys;
+};
 
-    defaultTransferData.forEach((transferData) => {
-        sqonTransferKeys.forEach((sqonTransferKey) => {
-            if (cleanNodeKey(transferData.title ?? '') === sqonTransferKey) {
-                result.push(transferData.key ?? '');
-            }
+/**
+ * sqonKeys only contains the node keys, we needs to children to mark them as checked
+ * @param rootNode
+ * @param sqonKeys
+ * @returns
+ */
+export const getSqonKeysAndChildrenKeys = (rootNode: IOntologyDataNode, sqonKeys: string[]): string[] => {
+    const result: string[] = [];
+
+    sqonKeys.forEach((key) => {
+        result.push(key);
+        getChildrenKeysByKey(rootNode, key).forEach((childrenKey) => {
+            result.push(childrenKey);
         });
     });
 

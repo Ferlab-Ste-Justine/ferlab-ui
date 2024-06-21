@@ -2,17 +2,21 @@ import React from 'react';
 
 import OntologyTreeTitle from './OntologyTreeTitle';
 import {
+    cleanNodeKey,
     disableNodesInTree,
     extractCodeAndTitle,
-    filterTransferTargetKeys,
-    flattenTransferTargetKeys,
+    filterChildrenKeysFromSelectedKeys,
     getChildrenKeysByKey,
     getChildrenKeysByNode,
-    getOntologySqonValues,
+    getChildrenTransferKeyByNode,
+    getKeysByTransferKeys,
+    getSqonKeysAndChildrenKeys,
+    getSqonTransferKeys,
     legacyToNewOntologyTreeData,
     ontologyTreeDataToOntologyDataNode,
     ontologyTreeToTransferData,
     rebuildNodeKey,
+    rebuildTransferTargetKeys,
     searchInOntologyTree,
 } from './utils';
 
@@ -197,11 +201,11 @@ describe('OntologyTreeFilter utils', () => {
                         children: [
                             {
                                 children: [],
-                                key: 'Phenotypic abnormality HP:0000118-Abnormality of the nervous system HP:0000707-Abnormal nervous system physiology HP:0012638',
+                                key: 'Phenotypic abnormality HP:0000118//Abnormality of the nervous system HP:0000707//Abnormal nervous system physiology HP:0012638',
                                 name: 'Abnormal nervous system physiology (HP:0012638)',
                                 participantsCount: 4353,
                                 participantsWithExactTerm: 0,
-                                path: 'Phenotypic abnormality HP:0000118-Abnormality of the nervous system HP:0000707',
+                                path: 'Phenotypic abnormality HP:0000118//Abnormality of the nervous system HP:0000707',
                                 title: (
                                     <OntologyTreeTitle
                                         name="Abnormal nervous system physiology (HP:0012638)"
@@ -209,9 +213,10 @@ describe('OntologyTreeFilter utils', () => {
                                         participantsWithExactTerm={0}
                                     />
                                 ),
+                                transferKey: 'Abnormal nervous system physiology HP:0012638',
                             },
                         ],
-                        key: 'Phenotypic abnormality HP:0000118-Abnormality of the nervous system HP:0000707',
+                        key: 'Phenotypic abnormality HP:0000118//Abnormality of the nervous system HP:0000707',
                         name: 'Abnormality of the nervous system (HP:0000707)',
                         participantsCount: 4413,
                         participantsWithExactTerm: 308,
@@ -223,6 +228,7 @@ describe('OntologyTreeFilter utils', () => {
                                 participantsWithExactTerm={308}
                             />
                         ),
+                        transferKey: 'Abnormality of the nervous system HP:0000707',
                     },
                     {
                         children: [
@@ -232,11 +238,11 @@ describe('OntologyTreeFilter utils', () => {
                                         children: [
                                             {
                                                 children: [],
-                                                key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+                                                key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
                                                 name: 'Abnormal heart valve morphology (HP:0001654)',
                                                 participantsCount: 277,
                                                 participantsWithExactTerm: 18,
-                                                path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                                                path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                                                 title: (
                                                     <OntologyTreeTitle
                                                         name="Abnormal heart valve morphology (HP:0001654)"
@@ -244,13 +250,14 @@ describe('OntologyTreeFilter utils', () => {
                                                         participantsWithExactTerm={18}
                                                     />
                                                 ),
+                                                transferKey: 'Abnormal heart valve morphology HP:0001654',
                                             },
                                         ],
-                                        key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                                        key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                                         name: 'Abnormal heart morphology (HP:0001627)',
                                         participantsCount: 3556,
                                         participantsWithExactTerm: 985,
-                                        path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                                        path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                                         title: (
                                             <OntologyTreeTitle
                                                 name="Abnormal heart morphology (HP:0001627)"
@@ -258,13 +265,14 @@ describe('OntologyTreeFilter utils', () => {
                                                 participantsWithExactTerm={985}
                                             />
                                         ),
+                                        transferKey: 'Abnormal heart morphology HP:0001627',
                                     },
                                 ],
-                                key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                                key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                                 name: 'Abnormality of cardiovascular system morphology (HP:0030680)',
                                 participantsCount: 3729,
                                 participantsWithExactTerm: 202,
-                                path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                                path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                                 title: (
                                     <OntologyTreeTitle
                                         name="Abnormality of cardiovascular system morphology (HP:0030680)"
@@ -272,9 +280,10 @@ describe('OntologyTreeFilter utils', () => {
                                         participantsWithExactTerm={202}
                                     />
                                 ),
+                                transferKey: 'Abnormality of cardiovascular system morphology HP:0030680',
                             },
                         ],
-                        key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                        key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                         name: 'Abnormality of the cardiovascular system (HP:0001626)',
                         participantsCount: 4293,
                         participantsWithExactTerm: 253,
@@ -286,6 +295,7 @@ describe('OntologyTreeFilter utils', () => {
                                 participantsWithExactTerm={253}
                             />
                         ),
+                        transferKey: 'Abnormality of the cardiovascular system HP:0001626',
                     },
                 ],
                 key: 'Phenotypic abnormality HP:0000118',
@@ -300,6 +310,7 @@ describe('OntologyTreeFilter utils', () => {
                         participantsWithExactTerm={539}
                     />
                 ),
+                transferKey: 'Phenotypic abnormality HP:0000118',
             },
         ]);
     });
@@ -308,27 +319,27 @@ describe('OntologyTreeFilter utils', () => {
         const transferData = ontologyTreeToTransferData(LEGACY_ONTOLOGY_TREE_DATA);
         expect(transferData).toEqual([
             {
-                key: 'Phenotypic abnormality HP:0000118-Abnormality of the nervous system HP:0000707',
+                key: 'Abnormality of the nervous system HP:0000707',
                 title: 'Abnormality of the nervous system (HP:0000707)',
             },
             {
-                key: 'Phenotypic abnormality HP:0000118-Abnormality of the nervous system HP:0000707-Abnormal nervous system physiology HP:0012638',
+                key: 'Abnormal nervous system physiology HP:0012638',
                 title: 'Abnormal nervous system physiology (HP:0012638)',
             },
             {
-                key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                key: 'Abnormality of the cardiovascular system HP:0001626',
                 title: 'Abnormality of the cardiovascular system (HP:0001626)',
             },
             {
-                key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                key: 'Abnormality of cardiovascular system morphology HP:0030680',
                 title: 'Abnormality of cardiovascular system morphology (HP:0030680)',
             },
             {
-                key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                key: 'Abnormal heart morphology HP:0001627',
                 title: 'Abnormal heart morphology (HP:0001627)',
             },
             {
-                key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+                key: 'Abnormal heart valve morphology HP:0001654',
                 title: 'Abnormal heart valve morphology (HP:0001654)',
             },
             {
@@ -342,15 +353,15 @@ describe('OntologyTreeFilter utils', () => {
         const ontologyTreeData = ontologyTreeDataToOntologyDataNode(LEGACY_ONTOLOGY_TREE_DATA);
         expect(searchInOntologyTree(ontologyTreeData[0], 'heart')).toEqual({
             keys: [
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
                 'Phenotypic abnormality HP:0000118',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                 'Phenotypic abnormality HP:0000118',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                 'Phenotypic abnormality HP:0000118',
             ],
             selectedCount: 2,
@@ -366,11 +377,11 @@ describe('OntologyTreeFilter utils', () => {
                                                 {
                                                     children: [],
                                                     hasSearchTerm: true,
-                                                    key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+                                                    key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
                                                     name: 'Abnormal heart valve morphology (HP:0001654)',
                                                     participantsCount: 277,
                                                     participantsWithExactTerm: 18,
-                                                    path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                                                    path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                                                     title: (
                                                         <OntologyTreeTitle
                                                             name="Abnormal heart valve morphology (HP:0001654)"
@@ -385,14 +396,15 @@ describe('OntologyTreeFilter utils', () => {
                                                             }}
                                                         />
                                                     ),
+                                                    transferKey: 'Abnormal heart valve morphology HP:0001654',
                                                 },
                                             ],
                                             hasSearchTerm: true,
-                                            key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                                            key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                                             name: 'Abnormal heart morphology (HP:0001627)',
                                             participantsCount: 3556,
                                             participantsWithExactTerm: 985,
-                                            path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                                            path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                                             title: (
                                                 <OntologyTreeTitle
                                                     name="Abnormal heart morphology (HP:0001627)"
@@ -407,14 +419,15 @@ describe('OntologyTreeFilter utils', () => {
                                                     }}
                                                 />
                                             ),
+                                            transferKey: 'Abnormal heart morphology HP:0001627',
                                         },
                                     ],
                                     hasSearchTerm: true,
-                                    key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                                    key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                                     name: 'Abnormality of cardiovascular system morphology (HP:0030680)',
                                     participantsCount: 3729,
                                     participantsWithExactTerm: 202,
-                                    path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                                    path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                                     title: (
                                         <OntologyTreeTitle
                                             name="Abnormality of cardiovascular system morphology (HP:0030680)"
@@ -422,10 +435,11 @@ describe('OntologyTreeFilter utils', () => {
                                             participantsWithExactTerm={202}
                                         />
                                     ),
+                                    transferKey: 'Abnormality of cardiovascular system morphology HP:0030680',
                                 },
                             ],
                             hasSearchTerm: true,
-                            key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                            key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                             name: 'Abnormality of the cardiovascular system (HP:0001626)',
                             participantsCount: 4293,
                             participantsWithExactTerm: 253,
@@ -437,6 +451,7 @@ describe('OntologyTreeFilter utils', () => {
                                     participantsWithExactTerm={253}
                                 />
                             ),
+                            transferKey: 'Abnormality of the cardiovascular system HP:0001626',
                         },
                     ],
                     key: 'Phenotypic abnormality HP:0000118',
@@ -451,6 +466,7 @@ describe('OntologyTreeFilter utils', () => {
                             participantsWithExactTerm={539}
                         />
                     ),
+                    transferKey: 'Phenotypic abnormality HP:0000118',
                 },
             ],
         });
@@ -460,11 +476,11 @@ describe('OntologyTreeFilter utils', () => {
         const ontologyTreeData = ontologyTreeDataToOntologyDataNode(LEGACY_ONTOLOGY_TREE_DATA);
         expect(searchInOntologyTree(ontologyTreeData[0], 'HP:0001654')).toEqual({
             keys: [
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
                 'Phenotypic abnormality HP:0000118',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                 'Phenotypic abnormality HP:0000118',
             ],
             selectedCount: 1,
@@ -480,11 +496,11 @@ describe('OntologyTreeFilter utils', () => {
                                                 {
                                                     children: [],
                                                     hasSearchTerm: true,
-                                                    key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+                                                    key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
                                                     name: 'Abnormal heart valve morphology (HP:0001654)',
                                                     participantsCount: 277,
                                                     participantsWithExactTerm: 18,
-                                                    path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                                                    path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                                                     title: (
                                                         <OntologyTreeTitle
                                                             name="Abnormal heart valve morphology (HP:0001654)"
@@ -499,14 +515,15 @@ describe('OntologyTreeFilter utils', () => {
                                                             }}
                                                         />
                                                     ),
+                                                    transferKey: 'Abnormal heart valve morphology HP:0001654',
                                                 },
                                             ],
                                             hasSearchTerm: true,
-                                            key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                                            key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                                             name: 'Abnormal heart morphology (HP:0001627)',
                                             participantsCount: 3556,
                                             participantsWithExactTerm: 985,
-                                            path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                                            path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                                             title: (
                                                 <OntologyTreeTitle
                                                     name="Abnormal heart morphology (HP:0001627)"
@@ -514,14 +531,15 @@ describe('OntologyTreeFilter utils', () => {
                                                     participantsWithExactTerm={985}
                                                 />
                                             ),
+                                            transferKey: 'Abnormal heart morphology HP:0001627',
                                         },
                                     ],
                                     hasSearchTerm: true,
-                                    key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                                    key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                                     name: 'Abnormality of cardiovascular system morphology (HP:0030680)',
                                     participantsCount: 3729,
                                     participantsWithExactTerm: 202,
-                                    path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                                    path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                                     title: (
                                         <OntologyTreeTitle
                                             name="Abnormality of cardiovascular system morphology (HP:0030680)"
@@ -529,10 +547,11 @@ describe('OntologyTreeFilter utils', () => {
                                             participantsWithExactTerm={202}
                                         />
                                     ),
+                                    transferKey: 'Abnormality of cardiovascular system morphology HP:0030680',
                                 },
                             ],
                             hasSearchTerm: true,
-                            key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                            key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                             name: 'Abnormality of the cardiovascular system (HP:0001626)',
                             participantsCount: 4293,
                             participantsWithExactTerm: 253,
@@ -544,6 +563,7 @@ describe('OntologyTreeFilter utils', () => {
                                     participantsWithExactTerm={253}
                                 />
                             ),
+                            transferKey: 'Abnormality of the cardiovascular system HP:0001626',
                         },
                     ],
                     key: 'Phenotypic abnormality HP:0000118',
@@ -558,6 +578,7 @@ describe('OntologyTreeFilter utils', () => {
                             participantsWithExactTerm={539}
                         />
                     ),
+                    transferKey: 'Phenotypic abnormality HP:0000118',
                 },
             ],
         });
@@ -567,11 +588,11 @@ describe('OntologyTreeFilter utils', () => {
         const ontologyTreeData = ontologyTreeDataToOntologyDataNode(LEGACY_ONTOLOGY_TREE_DATA);
         expect(searchInOntologyTree(ontologyTreeData[0], 'morphology HP:0001654')).toEqual({
             keys: [
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
                 'Phenotypic abnormality HP:0000118',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                 'Phenotypic abnormality HP:0000118',
             ],
             selectedCount: 1,
@@ -587,11 +608,11 @@ describe('OntologyTreeFilter utils', () => {
                                                 {
                                                     children: [],
                                                     hasSearchTerm: true,
-                                                    key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+                                                    key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
                                                     name: 'Abnormal heart valve morphology (HP:0001654)',
                                                     participantsCount: 277,
                                                     participantsWithExactTerm: 18,
-                                                    path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                                                    path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                                                     title: (
                                                         <OntologyTreeTitle
                                                             name="Abnormal heart valve morphology (HP:0001654)"
@@ -606,14 +627,15 @@ describe('OntologyTreeFilter utils', () => {
                                                             }}
                                                         />
                                                     ),
+                                                    transferKey: 'Abnormal heart valve morphology HP:0001654',
                                                 },
                                             ],
                                             hasSearchTerm: true,
-                                            key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                                            key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                                             name: 'Abnormal heart morphology (HP:0001627)',
                                             participantsCount: 3556,
                                             participantsWithExactTerm: 985,
-                                            path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                                            path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                                             title: (
                                                 <OntologyTreeTitle
                                                     name="Abnormal heart morphology (HP:0001627)"
@@ -621,14 +643,15 @@ describe('OntologyTreeFilter utils', () => {
                                                     participantsWithExactTerm={985}
                                                 />
                                             ),
+                                            transferKey: 'Abnormal heart morphology HP:0001627',
                                         },
                                     ],
                                     hasSearchTerm: true,
-                                    key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                                    key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                                     name: 'Abnormality of cardiovascular system morphology (HP:0030680)',
                                     participantsCount: 3729,
                                     participantsWithExactTerm: 202,
-                                    path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                                    path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                                     title: (
                                         <OntologyTreeTitle
                                             name="Abnormality of cardiovascular system morphology (HP:0030680)"
@@ -636,10 +659,11 @@ describe('OntologyTreeFilter utils', () => {
                                             participantsWithExactTerm={202}
                                         />
                                     ),
+                                    transferKey: 'Abnormality of cardiovascular system morphology HP:0030680',
                                 },
                             ],
                             hasSearchTerm: true,
-                            key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                            key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                             name: 'Abnormality of the cardiovascular system (HP:0001626)',
                             participantsCount: 4293,
                             participantsWithExactTerm: 253,
@@ -651,6 +675,7 @@ describe('OntologyTreeFilter utils', () => {
                                     participantsWithExactTerm={253}
                                 />
                             ),
+                            transferKey: 'Abnormality of the cardiovascular system HP:0001626',
                         },
                     ],
                     key: 'Phenotypic abnormality HP:0000118',
@@ -665,16 +690,17 @@ describe('OntologyTreeFilter utils', () => {
                             participantsWithExactTerm={539}
                         />
                     ),
+                    transferKey: 'Phenotypic abnormality HP:0000118',
                 },
             ],
         });
         expect(searchInOntologyTree(ontologyTreeData[0], 'morphology (HP:0001654)')).toEqual({
             keys: [
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
                 'Phenotypic abnormality HP:0000118',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                 'Phenotypic abnormality HP:0000118',
             ],
             selectedCount: 1,
@@ -690,11 +716,11 @@ describe('OntologyTreeFilter utils', () => {
                                                 {
                                                     children: [],
                                                     hasSearchTerm: true,
-                                                    key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+                                                    key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
                                                     name: 'Abnormal heart valve morphology (HP:0001654)',
                                                     participantsCount: 277,
                                                     participantsWithExactTerm: 18,
-                                                    path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                                                    path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                                                     title: (
                                                         <OntologyTreeTitle
                                                             name="Abnormal heart valve morphology (HP:0001654)"
@@ -709,14 +735,15 @@ describe('OntologyTreeFilter utils', () => {
                                                             }}
                                                         />
                                                     ),
+                                                    transferKey: 'Abnormal heart valve morphology HP:0001654',
                                                 },
                                             ],
                                             hasSearchTerm: true,
-                                            key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                                            key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                                             name: 'Abnormal heart morphology (HP:0001627)',
                                             participantsCount: 3556,
                                             participantsWithExactTerm: 985,
-                                            path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                                            path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                                             title: (
                                                 <OntologyTreeTitle
                                                     name="Abnormal heart morphology (HP:0001627)"
@@ -724,14 +751,15 @@ describe('OntologyTreeFilter utils', () => {
                                                     participantsWithExactTerm={985}
                                                 />
                                             ),
+                                            transferKey: 'Abnormal heart morphology HP:0001627',
                                         },
                                     ],
                                     hasSearchTerm: true,
-                                    key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                                    key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                                     name: 'Abnormality of cardiovascular system morphology (HP:0030680)',
                                     participantsCount: 3729,
                                     participantsWithExactTerm: 202,
-                                    path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                                    path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                                     title: (
                                         <OntologyTreeTitle
                                             name="Abnormality of cardiovascular system morphology (HP:0030680)"
@@ -739,10 +767,11 @@ describe('OntologyTreeFilter utils', () => {
                                             participantsWithExactTerm={202}
                                         />
                                     ),
+                                    transferKey: 'Abnormality of cardiovascular system morphology HP:0030680',
                                 },
                             ],
                             hasSearchTerm: true,
-                            key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                            key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                             name: 'Abnormality of the cardiovascular system (HP:0001626)',
                             participantsCount: 4293,
                             participantsWithExactTerm: 253,
@@ -754,6 +783,7 @@ describe('OntologyTreeFilter utils', () => {
                                     participantsWithExactTerm={253}
                                 />
                             ),
+                            transferKey: 'Abnormality of the cardiovascular system HP:0001626',
                         },
                     ],
                     key: 'Phenotypic abnormality HP:0000118',
@@ -768,6 +798,7 @@ describe('OntologyTreeFilter utils', () => {
                             participantsWithExactTerm={539}
                         />
                     ),
+                    transferKey: 'Phenotypic abnormality HP:0000118',
                 },
             ],
         });
@@ -783,12 +814,12 @@ describe('OntologyTreeFilter utils', () => {
     test('disableNodesInTree should disable/enable nodes', () => {
         const ontologyTreeData = ontologyTreeDataToOntologyDataNode(LEGACY_ONTOLOGY_TREE_DATA);
         const treeTargetKeys = [
-            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
-            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
-            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
         ];
         const transferTargetKeys = [
-            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
         ];
         const result = searchInOntologyTree(ontologyTreeData[0], 'heart');
         expect(disableNodesInTree(result.tree[0], treeTargetKeys, transferTargetKeys)).toEqual([
@@ -805,11 +836,11 @@ describe('OntologyTreeFilter utils', () => {
                                                 disableCheckbox: true,
                                                 disabled: true,
                                                 hasSearchTerm: true,
-                                                key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+                                                key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
                                                 name: 'Abnormal heart valve morphology (HP:0001654)',
                                                 participantsCount: 277,
                                                 participantsWithExactTerm: 18,
-                                                path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                                                path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                                                 title: (
                                                     <OntologyTreeTitle
                                                         name="Abnormal heart valve morphology (HP:0001654)"
@@ -824,16 +855,17 @@ describe('OntologyTreeFilter utils', () => {
                                                         }}
                                                     />
                                                 ),
+                                                transferKey: 'Abnormal heart valve morphology HP:0001654',
                                             },
                                         ],
                                         disableCheckbox: true,
                                         disabled: true,
                                         hasSearchTerm: true,
-                                        key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
+                                        key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
                                         name: 'Abnormal heart morphology (HP:0001627)',
                                         participantsCount: 3556,
                                         participantsWithExactTerm: 985,
-                                        path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                                        path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                                         title: (
                                             <OntologyTreeTitle
                                                 name="Abnormal heart morphology (HP:0001627)"
@@ -848,16 +880,17 @@ describe('OntologyTreeFilter utils', () => {
                                                 }}
                                             />
                                         ),
+                                        transferKey: 'Abnormal heart morphology HP:0001627',
                                     },
                                 ],
                                 disableCheckbox: false,
                                 disabled: false,
                                 hasSearchTerm: true,
-                                key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
+                                key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                                 name: 'Abnormality of cardiovascular system morphology (HP:0030680)',
                                 participantsCount: 3729,
                                 participantsWithExactTerm: 202,
-                                path: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                                path: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                                 title: (
                                     <OntologyTreeTitle
                                         name="Abnormality of cardiovascular system morphology (HP:0030680)"
@@ -865,12 +898,13 @@ describe('OntologyTreeFilter utils', () => {
                                         participantsWithExactTerm={202}
                                     />
                                 ),
+                                transferKey: 'Abnormality of cardiovascular system morphology HP:0030680',
                             },
                         ],
                         disableCheckbox: false,
                         disabled: false,
                         hasSearchTerm: true,
-                        key: 'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                        key: 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                         name: 'Abnormality of the cardiovascular system (HP:0001626)',
                         participantsCount: 4293,
                         participantsWithExactTerm: 253,
@@ -882,6 +916,7 @@ describe('OntologyTreeFilter utils', () => {
                                 participantsWithExactTerm={253}
                             />
                         ),
+                        transferKey: 'Abnormality of the cardiovascular system HP:0001626',
                     },
                 ],
                 key: 'Phenotypic abnormality HP:0000118',
@@ -896,6 +931,7 @@ describe('OntologyTreeFilter utils', () => {
                         participantsWithExactTerm={539}
                     />
                 ),
+                transferKey: 'Phenotypic abnormality HP:0000118',
             },
         ]);
     });
@@ -903,12 +939,24 @@ describe('OntologyTreeFilter utils', () => {
     test('getChildrenKeysByNode should return all children keys related to a node', () => {
         const ontologyTreeData = ontologyTreeDataToOntologyDataNode(LEGACY_ONTOLOGY_TREE_DATA);
         expect(getChildrenKeysByNode(ontologyTreeData[0])).toEqual([
-            'Phenotypic abnormality HP:0000118-Abnormality of the nervous system HP:0000707',
-            'Phenotypic abnormality HP:0000118-Abnormality of the nervous system HP:0000707-Abnormal nervous system physiology HP:0012638',
-            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
-            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
-            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
-            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+            'Phenotypic abnormality HP:0000118//Abnormality of the nervous system HP:0000707',
+            'Phenotypic abnormality HP:0000118//Abnormality of the nervous system HP:0000707//Abnormal nervous system physiology HP:0012638',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
+        ]);
+    });
+
+    test('getChildrenTransferKeyByNode should return all children transfer key from a node', () => {
+        const ontologyTreeData = ontologyTreeDataToOntologyDataNode(LEGACY_ONTOLOGY_TREE_DATA);
+        expect(getChildrenTransferKeyByNode(ontologyTreeData[0])).toEqual([
+            'Abnormality of the nervous system HP:0000707',
+            'Abnormal nervous system physiology HP:0012638',
+            'Abnormality of the cardiovascular system HP:0001626',
+            'Abnormality of cardiovascular system morphology HP:0030680',
+            'Abnormal heart morphology HP:0001627',
+            'Abnormal heart valve morphology HP:0001654',
         ]);
     });
 
@@ -917,37 +965,37 @@ describe('OntologyTreeFilter utils', () => {
         expect(
             getChildrenKeysByKey(
                 ontologyTreeData[0],
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
             ),
         ).toEqual([
-            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680',
-            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627',
-            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626-Abnormality of cardiovascular system morphology HP:0030680-Abnormal heart morphology HP:0001627-Abnormal heart valve morphology HP:0001654',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
         ]);
     });
 
-    test('filterTransferTargetKeys should remove all transferTargetKeys', () => {
+    test('getKeysByTransferKeys should returl all children transferKeys related to a list of transferKeys', () => {
         const ontologyTreeData = ontologyTreeDataToOntologyDataNode(LEGACY_ONTOLOGY_TREE_DATA);
         expect(
-            filterTransferTargetKeys(
-                ['Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626'],
-                ontologyTreeData[0],
-                [
-                    'Phenotypic abnormality HP:0000118-Abnormality of the nervous system HP:0000707-Abnormal nervous system physiology HP:0012638',
-                ],
-            ),
-        ).toEqual([
-            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
-            'Phenotypic abnormality HP:0000118',
-        ]);
+            getKeysByTransferKeys(ontologyTreeData[0], ['Abnormality of the cardiovascular system HP:0001626']),
+        ).toEqual(['Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626']);
     });
 
-    test('flattenTransferTargetKeys should convert transfer keys to a search query friendly array', () => {
+    test('filterChildrenKeysFromSelectedKeys should filter children key from parent', () => {
+        const ontologyTreeData = ontologyTreeDataToOntologyDataNode(LEGACY_ONTOLOGY_TREE_DATA);
         expect(
-            flattenTransferTargetKeys([
-                'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
-            ]),
-        ).toEqual(['Abnormality of the cardiovascular system (HP:0001626)']);
+            filterChildrenKeysFromSelectedKeys(
+                ['Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626'],
+                ontologyTreeData[0],
+                true,
+            ),
+        ).toEqual(['Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626']);
+    });
+
+    test('rebuildTransferTargetKeys should convert transfer keys to a search query friendly array', () => {
+        expect(rebuildTransferTargetKeys(['Abnormality of the cardiovascular system HP:0001626'])).toEqual([
+            'Abnormality of the cardiovascular system (HP:0001626)',
+        ]);
     });
 
     test('extractCodeAndTitle should extract title and code from a string', () => {
@@ -962,12 +1010,21 @@ describe('OntologyTreeFilter utils', () => {
         });
     });
 
-    test('rebuildNodeKey should change code format XXXX XXXX CODE-XXXX to XXXX XXXX (CODE-XXXX)', () => {
+    test('cleanNodeKey should remove all unwanted characters from a string', () => {
+        expect(cleanNodeKey('Abnormality of the cardiovascular system (HP:0001626)')).toEqual(
+            'Abnormality of the cardiovascular system HP:0001626',
+        );
+        expect(cleanNodeKey('Abnormality of the cardiovascular system (MONDO:0001626)')).toEqual(
+            'Abnormality of the cardiovascular system MONDO:0001626',
+        );
+    });
+
+    test('rebuildNodeKey should change code format XXXX XXXX CODE//XXXX to XXXX XXXX (CODE//XXXX)', () => {
         expect(rebuildNodeKey('Phenotype HP:0000001')).toEqual('Phenotype (HP:0000001)');
         expect(rebuildNodeKey('Diagnosis MONDO:0000001')).toEqual('Diagnosis (MONDO:0000001)');
     });
 
-    test('getOntologySqonValues should return the correct transferKey', () => {
+    test('getSqonTransferKeys should return the correct transferKey', () => {
         const ontologyTreeData = legacyToNewOntologyTreeData(LEGACY_ONTOLOGY_TREE_DATA);
         const sqon = {
             content: [
@@ -990,8 +1047,22 @@ describe('OntologyTreeFilter utils', () => {
             op: 'and',
         };
 
-        expect(getOntologySqonValues(ontologyTreeData, sqon, 'observed_phenotype')).toEqual([
-            'Phenotypic abnormality HP:0000118-Abnormality of the cardiovascular system HP:0001626',
+        expect(getSqonTransferKeys(ontologyTreeData, sqon, 'observed_phenotype')).toEqual([
+            'Abnormality of the cardiovascular system HP:0001626',
+        ]);
+    });
+
+    test('getSqonKeysAndChildrenKeys', () => {
+        const ontologyTreeData = legacyToNewOntologyTreeData(LEGACY_ONTOLOGY_TREE_DATA);
+        const ontologyDataNode = ontologyTreeDataToOntologyDataNode(ontologyTreeData);
+        expect(getSqonKeysAndChildrenKeys(ontologyDataNode[0], ['Phenotypic abnormality HP:0000118'])).toEqual([
+            'Phenotypic abnormality HP:0000118',
+            'Phenotypic abnormality HP:0000118//Abnormality of the nervous system HP:0000707',
+            'Phenotypic abnormality HP:0000118//Abnormality of the nervous system HP:0000707//Abnormal nervous system physiology HP:0012638',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
+            'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627//Abnormal heart valve morphology HP:0001654',
         ]);
     });
 });
