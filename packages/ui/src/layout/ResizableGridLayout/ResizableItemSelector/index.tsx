@@ -2,7 +2,7 @@ import React from 'react';
 import { SettingOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Popover, Space, Tooltip } from 'antd';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 type TResizableItem = {
     id: string;

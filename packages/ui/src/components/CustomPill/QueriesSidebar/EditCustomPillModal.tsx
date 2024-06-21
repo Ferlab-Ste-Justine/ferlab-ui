@@ -17,7 +17,7 @@ import {
 import useQueryBuilderState, { setQueryBuilderState } from '../../QueryBuilder/utils/useQueryBuilderState';
 import SidebarMenu, { ISidebarMenuItem } from '../../SidebarMenu/index';
 
-import styles from './EditCustomPillModal.module.scss';
+import styles from './EditCustomPillModal.module.css';
 
 interface EditCustomPillModalProps {
     editCallback?: () => void;

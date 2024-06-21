@@ -1,0 +1,24 @@
+.ferlabui-stack-layout {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+}
+.ferlabui-stack-layout:not(.flexContent), .ferlabui-stack-layout:not(.flexOwn) {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.ferlabui-stack-layout.vertical {
+  flex-direction: column;
+}
+.ferlabui-stack-layout.flexContent {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.ferlabui-stack-layout.flexOwn {
+  flex-shrink: 1;
+}
+.ferlabui-stack-layout.center {
+  align-items: center;
+}
+

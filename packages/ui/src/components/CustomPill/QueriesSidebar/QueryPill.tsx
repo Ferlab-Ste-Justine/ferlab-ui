@@ -16,7 +16,7 @@ import { ISidebarMenuItem } from '../../SidebarMenu';
 
 import EditCustomPillModal from './EditCustomPillModal';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 interface IQueryPill {
     queryPill: ISavedFilter;

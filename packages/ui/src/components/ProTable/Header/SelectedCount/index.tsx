@@ -4,7 +4,7 @@ import { Button, Space, Typography } from 'antd';
 
 import { IProTableDictionary } from '../../types';
 
-import styles from '../index.module.scss';
+import styles from '../index.module.css';
 
 type Props = {
     className?: string;

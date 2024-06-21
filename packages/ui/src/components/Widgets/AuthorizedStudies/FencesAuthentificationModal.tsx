@@ -4,7 +4,7 @@ import Modal, { ModalFuncProps } from 'antd/lib/modal/Modal';
 
 import { FENCE_AUTHENTIFICATION_STATUS, IFence, IFenceService } from '.';
 
-import styles from './FencesAuthentificationModal.module.scss';
+import styles from './FencesAuthentificationModal.module.css';
 
 export const DEFAULT_FENCES_AUTHENTIFICATION_MODAL_DICTIONARY = {
     close: 'Close',
