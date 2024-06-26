@@ -1,3 +1,6 @@
+### 9.21.0 2024-06-26
+- fix: FLUI-135 QueryValue: use a different separator for operator All Of
+
 ### 9.20.5 2024-06-21
 - fix: SJIP-822 OntologyTree: improve behavior, fix issue on edit
 

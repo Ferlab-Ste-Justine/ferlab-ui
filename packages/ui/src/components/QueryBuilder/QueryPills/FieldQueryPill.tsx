@@ -8,7 +8,6 @@ import { IValueFilter } from '../../../data/sqon/types';
 import { isBooleanFilter, isRangeFilter } from '../../../data/sqon/utils';
 import ConditionalWrapper from '../../utils/ConditionalWrapper';
 import { QueryCommonContext } from '../context';
-import AndOperator from '../icons/AndOperator';
 import ElementOperator from '../icons/ElementOperator';
 import EqualOperator from '../icons/EqualOperator';
 import GreaterThanOperator from '../icons/GreaterThanOperator';
