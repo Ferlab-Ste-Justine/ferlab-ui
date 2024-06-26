@@ -5,7 +5,7 @@ import cx from 'classnames';
 import take from 'lodash/take';
 
 import { ArrangerValues, keyEnhance } from '../../data/arranger/formatting';
-import { FieldOperators } from '../../data/sqon/operators';
+import { FieldOperators, TermOperators } from '../../data/sqon/operators';
 import { IValueFilter, TFilterValue } from '../../data/sqon/types';
 import { isSet } from '../../data/sqon/utils';
 import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
@@ -16,6 +16,9 @@ import UnionOperator from './icons/UnionOperator';
 import { QueryCommonContext } from './context';
 
 import styles from './QueryValues.module.scss';
+
+const COMMA_SEPARATOR = ' , ';
+const AND_SEPARATOR = ' & ';
 
 interface IQueryValuesProps {
     valueFilter: IValueFilter;
@@ -42,11 +45,14 @@ const QueryValues = ({ isElement = false, onClick, valueFilter }: IQueryValuesPr
     };
 
     const getElementOfValueString = (values: TFilterValue) => {
+        const separator = valueFilter.op == TermOperators.all ? AND_SEPARATOR : COMMA_SEPARATOR;
         const hasValueMissing = values.some((val) => val === ArrangerValues.missing);
-        const filteredValues = values.filter((val) => val !== ArrangerValues.missing).join(' , ');
+        const filteredValues = values.filter((val) => val !== ArrangerValues.missing).join(separator);
         const formattedValues = valueFilter.op === FieldOperators.between ? `[${filteredValues}]` : filteredValues;
 
-        return `${formattedValues}${hasValueMissing ? ` , ${getValueName(keyEnhance(ArrangerValues.missing))}` : ''}`;
+        return `${formattedValues}${
+            hasValueMissing ? `${separator}${getValueName(keyEnhance(ArrangerValues.missing))}` : ''
+        }`;
     };
 
     useEffect(() => {
