@@ -17,10 +17,9 @@
   --query-builder-header-border-divider-color: #d8e1eb;
   --query-builder-collapse-content-box-padding: 12px 8px;
   --query-builder-content-padding: 24px;
-  --query-builder-header-tools-icon-color: black;
-  --query-builder-header-tools-icon-hover: black;
-  --query-builder-header-tools-icon-focus: black;
   --query-builder-header-tools-icon-color-dirty: #d16f13;
+  --query-builder-header-tools-icon-hover: var(--query-builder-header-tools-icon-color-dirty);
+  --query-builder-header-tools-icon-focus: black;
   --query-builder-header-tools-favorite-icon-color: #f5b800;
   --query-bar-bg: #f1f4f8;
   --query-bar-bg-active: #ffefc1;

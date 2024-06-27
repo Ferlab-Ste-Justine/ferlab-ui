@@ -45,24 +45,8 @@
 .QBHContainer .QBHActionContainer:hover {
   cursor: pointer;
 }
-.QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:focus, .QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:hover {
-  background-color: transparent;
-}
 .QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:focus-visible {
-  border: 1px solid !important;
-}
-.QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:not(:disabled) {
-  color: var(--query-builder-header-tools-icon-color);
-}
-.QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:not(:disabled) .QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:not(:disabled):hover {
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--query-builder-header-tools-icon-hover);
-}
-.QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:not(:disabled) .QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .iconBtnAction:not(:disabled):focus {
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--query-builder-header-tools-icon-focus);
+  border-color: var(--query-builder-header-tools-icon-focus);
 }
 .QBHContainer .QBHActionContainer.QBHOptionsActionsContainer .QBHOptionsFavoriteStar {
   color: var(--query-builder-header-tools-favorite-icon-color);
