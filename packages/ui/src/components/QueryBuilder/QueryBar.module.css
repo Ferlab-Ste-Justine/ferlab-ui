@@ -39,7 +39,7 @@
   border-color: var(--query-bar-border-color-active);
 }
 .queryBarContainer .selectionWrapper {
-  padding-left: var(--query-bar-padding-left)var(--query-bar-identifier-width);
+  padding-left: calc(var(--query-bar-padding-left) + var(--query-bar-identifier-width));
   border-right: 1px solid var(--query-bar-border-color);
 }
 .queryBarContainer .selectionWrapper .label {
