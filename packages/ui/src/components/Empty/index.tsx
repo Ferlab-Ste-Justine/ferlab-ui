@@ -5,7 +5,7 @@ import cx from 'classnames';
 import DefaultImageGrid from './icons/DefaultImageGrid';
 import DefaultImageRow from './icons/DefaultImageRow';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 type SizeTypes = 'mini' | 'default' | 'large';
 type IImageType = 'row' | 'grid';

@@ -4,7 +4,7 @@ import { Form, Input, Modal } from 'antd';
 
 import { QueryBuilderContext, QueryCommonContext } from '../../context';
 
-import styles from './QueryBuilderHeaderTools.module.scss';
+import styles from './QueryBuilderHeaderTools.module.css';
 
 interface OwnProps {
     visible: boolean;

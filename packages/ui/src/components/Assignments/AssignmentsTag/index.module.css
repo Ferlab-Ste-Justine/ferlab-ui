@@ -1,0 +1,37 @@
+.assignmentsTag {
+  background-color: var(--gray-3);
+  border-radius: 100px;
+  margin: 0;
+  padding: 0 8px 0 0;
+}
+.assignmentsTag :global(.ant-tag-close-icon) {
+  color: var(--gray-6);
+}
+.assignmentsTag :global(.ant-tag-close-icon):hover {
+  color: var(--gray-8);
+}
+
+.noBackground {
+  background-color: inherit;
+}
+
+.unAssignAvatar {
+  background-color: var(--gray-2);
+  border: 1px dashed var(--gray-6);
+  color: var(--gray-6);
+}
+.unAssignAvatar span {
+  font-size: 14px;
+}
+.unAssignAvatar:hover:not(.disabledAssignmentsPopOver) {
+  border: 1px dashed var(--gray-8);
+  color: var(--gray-8);
+}
+
+.userAvatar {
+  font-size: 12px !important;
+}
+
+.userInfo {
+  font-size: 12px;
+}

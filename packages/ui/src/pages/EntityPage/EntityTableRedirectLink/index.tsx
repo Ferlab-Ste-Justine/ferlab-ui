@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Space } from 'antd';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 type TEntityTableRedirectLink = {
     to: string;

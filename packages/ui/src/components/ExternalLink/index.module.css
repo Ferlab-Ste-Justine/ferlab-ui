@@ -1,0 +1,7 @@
+.fuiExternalLink {
+  text-decoration: underline;
+}
+.fuiExternalLink:hover {
+  text-decoration: none;
+  cursor: pointer;
+}

@@ -1,0 +1,28 @@
+.CavaticaListItem .itemMeta {
+  margin-bottom: 0px;
+}
+.CavaticaListItem .itemMeta *[class$=-meta-title] {
+  font-size: 14px;
+}
+.CavaticaListItem .externalIcon {
+  margin-left: 8px;
+  visibility: hidden;
+}
+.CavaticaListItem:hover .projectLink {
+  text-decoration: underline;
+}
+.CavaticaListItem:hover .projectLink:hover {
+  color: var(--gray-8);
+  text-decoration: none;
+}
+.CavaticaListItem:hover .projectLink .externalIcon {
+  visibility: visible;
+}
+.CavaticaListItem .members {
+  font-size: 12px;
+  color: var(--gray-7);
+}
+.CavaticaListItem .teamIcon {
+  font-size: 16px;
+  display: flex;
+}

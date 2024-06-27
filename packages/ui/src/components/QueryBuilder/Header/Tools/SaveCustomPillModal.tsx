@@ -5,7 +5,7 @@ import { Form, Input, Modal, Spin, Typography } from 'antd';
 import { QueryBuilderContext, QueryCommonContext } from '../../context';
 import { ISaveCustomPillResponse } from '../../types';
 
-import styles from './QueryBuilderHeaderTools.module.scss';
+import styles from './QueryBuilderHeaderTools.module.css';
 
 interface OwnProps {
     isLoading: boolean;

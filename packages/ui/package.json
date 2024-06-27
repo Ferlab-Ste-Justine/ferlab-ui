@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "9.21.0",
+    "version": "10.0.0-rc12",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -25,7 +25,6 @@
         "build:core": "tsc && tscp",
         "build:es": "tsc --declaration --sourceMap --outDir lib/es",
         "build:esnext": "tsc --declaration --declarationMap",
-        "build:scss": "sass ./themes:./lib/esnext",
         "lint": "eslint $(git diff-index --name-only --diff-filter=d HEAD ../../packages/ui | grep -E '\\.ts$|\\.tsx$|\\.js$|\\.jsx$' | xargs | sed 's/packages\\/ui\\///g')",
         "lint:all": "eslint",
         "lint:fix": "npm run lint -- --fix",
@@ -110,7 +109,6 @@
         "d3-svg-to-png": "^0.3.1",
         "history": "^4.9.0",
         "less": "^4.1.0",
-        "less2sass": "^1.0.3",
         "md5": "^2.3.0",
         "query-string": "^7.0.1",
         "react-grid-layout": "^1.4.4",

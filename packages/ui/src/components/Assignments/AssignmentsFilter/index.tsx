@@ -8,7 +8,7 @@ import StackLayout from '../../../layout/StackLayout';
 import AssignmentsTag from '../AssignmentsTag';
 import { IAssignmentsDictionary, TPractitionnerInfo, TPractitionnerName } from '../types';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TAssignmentsFilter = {
     dictionary?: IAssignmentsDictionary | Record<string, never>;
