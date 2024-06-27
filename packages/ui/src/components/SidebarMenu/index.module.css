@@ -18,14 +18,14 @@
   background-color: var(--sidebar-menu-background-color);
   transition: width 0.2s, min-width 0.2s;
 }
-.siderContainer .sider :global(.var(--menu-inline-prefix)-collapsed) {
+.siderContainer .sider :global(.ant-menu-item-collapsed) {
   width: var(--sidebar-menu-collapsed-width);
   min-width: var(--sidebar-menu-collapsed-width);
 }
-.siderContainer .sider :global(.var(--menu-inline-prefix)-collapsed) .sidebarMenuItem {
+.siderContainer .sider :global(.ant-menu-item-collapsed) .sidebarMenuItem {
   width: 100%;
 }
-.siderContainer .sider :global(.var(--menu-item-prefix)-icon) {
+.siderContainer .sider :global(.ant-menu-item-icon) {
   min-height: var(--sidebar-menu-item-icon-size);
   max-height: var(--sidebar-menu-item-icon-size);
   min-width: var(--sidebar-menu-item-icon-size);
@@ -113,7 +113,7 @@
   color: var(--sidebar-menu-item-active-color);
   background-color: var(--sidebar-menu-item-active-background-color);
 }
-.siderContainer .sider .sidebarMenu :global(.var(--menu-item-prefix)-selected) {
+.siderContainer .sider .sidebarMenu :global(.ant-menu-item-selected) {
   opacity: 1 !important;
   color: var(--sidebar-menu-item-active-color);
   background-color: var(--sidebar-menu-item-active-background-color);
