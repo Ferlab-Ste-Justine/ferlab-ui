@@ -12,7 +12,7 @@ import ResizableItemSelector from './ResizableItemSelector';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 type TResizableGridLayoutContext = {
     [key: string]: {

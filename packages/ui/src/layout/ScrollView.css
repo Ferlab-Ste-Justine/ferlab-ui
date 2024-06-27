@@ -1,0 +1,13 @@
+.ferlabui-scroll-view {
+  display: flex;
+  overflow: auto;
+}
+.ferlabui-scroll-view.vertical {
+  flex-direction: column;
+  overflow-x: hidden;
+}
+.ferlabui-scroll-view.horizontal {
+  flex-direction: row;
+  overflow-y: hidden;
+}
+

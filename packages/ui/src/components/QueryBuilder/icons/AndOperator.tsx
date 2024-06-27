@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { IDictionary } from '../types';
 
-import styles from './Operator.module.scss';
+import styles from './Operator.module.css';
 
 interface IAndOperatorProps {
     dictionary?: IDictionary;

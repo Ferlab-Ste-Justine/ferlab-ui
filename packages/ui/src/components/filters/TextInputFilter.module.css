@@ -1,0 +1,40 @@
+.fuiTIfContainer .fuiTIfLabelContainer {
+  margin-bottom: 0.4rem;
+}
+.fuiTIfContainer .fuiTIfLabelContainer .fuiTIfSectionTitle {
+  line-height: 20px;
+  font-weight: var(--font-weight-bold);
+  font-size: 12px;
+}
+.fuiTIfContainer .fuiTIfLabelContainer .fuiTIfLabelTooltipIcon {
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+}
+.fuiTIfContainer .fuiTIfLabelContainer .fuiTIfLabelTooltipIcon svg {
+  width: 12.25px;
+  height: 12.25px;
+}
+.fuiTIfContainer .inputError {
+  border-color: var(--filter-input-error-border-color);
+}
+.fuiTIfContainer .fuiTIfActions {
+  border-top: 1px solid var(--filter-actions-border-color);
+  justify-content: flex-end;
+  padding-top: 16px;
+  margin-top: 13px;
+}
+.fuiTIfContainer .fuiTIfActions .fuiTIfActionsClear:disabled {
+  color: var(--filter-actions-disabled-color);
+}
+.fuiTIfContainer .fuiTIfActions .fuiTIfActionsClear:disabled span {
+  text-decoration: none;
+  color: var(--filter-actions-disabled-color);
+}
+.fuiTIfContainer .fuiTIfActions .fuiTIfActionsApply button:disabled {
+  color: var(--filter-actions-disabled-color);
+}
+.fuiTIfContainer .fuiTIfActions .fuiTIfActionsApply button:disabled span {
+  text-decoration: none;
+  color: var(--filter-actions-disabled-color);
+}

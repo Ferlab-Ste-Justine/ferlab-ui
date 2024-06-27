@@ -1,0 +1,16 @@
+.ProTableWrapper {
+  width: 100%;
+}
+
+.row {
+  background-color: var(--summary-bg-color);
+}
+
+.cell {
+  font-weight: 500;
+  color: var(--heading-color);
+}
+
+.dotted {
+  border-bottom: 1px dotted;
+}

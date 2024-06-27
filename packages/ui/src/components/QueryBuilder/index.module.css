@@ -1,0 +1,17 @@
+.queryBuilderWrapper .queryBuilderContainer {
+  padding: var(--query-builder-content-padding);
+  background: var(--query-builder-bg);
+  border: 1px solid var(--query-builder-border-color);
+  border-top: 1px solid var(--query-builder-header-border-divider-color);
+}
+
+.queryBuilderContainer {
+  border-radius: 2px;
+  padding: var(--query-builder-collapse-content-box-padding);
+}
+.queryBuilderContainer .queryBars {
+  flex-direction: column;
+}
+.queryBuilderContainer .queryBars > *:not(:last-child) {
+  margin-bottom: 8px;
+}

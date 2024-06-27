@@ -15,7 +15,7 @@ import IntersectionOperator from './icons/IntersectionOperator';
 import UnionOperator from './icons/UnionOperator';
 import { QueryCommonContext } from './context';
 
-import styles from './QueryValues.module.scss';
+import styles from './QueryValues.module.css';
 
 const COMMA_SEPARATOR = ' , ';
 const AND_SEPARATOR = ' & ';

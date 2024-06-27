@@ -20,7 +20,7 @@ import {
     TProTableProps,
 } from './types';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export const getTitleByType = (column: ProColumnType): React.ReactNode => {
     let titleToUse = column.iconTitle || column.title;

@@ -1,0 +1,6 @@
+.icon, .text {
+  color: var(--query-icon-operator-color);
+}
+.icon:hover, .icon:active, .text:hover, .text:active {
+  color: var(--query-icon-operator-color-hover);
+}

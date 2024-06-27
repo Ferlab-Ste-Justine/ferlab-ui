@@ -2,7 +2,7 @@ import React from 'react';
 import Anchor, { AnchorProps } from 'antd/lib/anchor';
 import { AnchorContainer } from 'antd/lib/anchor/Anchor';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 const { Link } = Anchor;
 
