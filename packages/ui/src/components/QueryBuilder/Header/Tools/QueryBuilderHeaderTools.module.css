@@ -1,18 +1,10 @@
-.queryBuilderHeaderTools .toolsContainer .queryBuilderHeaderActionIconBtn:focus-visible {
-  border: 1px solid !important;
+.queryBuilderHeaderTools .toolsContainer .queryBuilderHeaderActionIconBtn:not(:disabled):focus-visible {
+  border-color: var(--query-builder-header-tools-icon-border);
 }
-.queryBuilderHeaderTools .toolsContainer .queryBuilderHeaderActionIconBtn:not(:disabled) {
-  color: var(--query-builder-header-tools-icon-color);
+.queryBuilderHeaderTools .toolsContainer .queryBuilderHeaderActionIconBtn:not(:disabled):hover, .queryBuilderHeaderTools .toolsContainer .queryBuilderHeaderActionIconBtn:not(:disabled):focus-visible {
+  color: var(--query-builder-header-tools-icon-hover);
 }
 .queryBuilderHeaderTools .toolsContainer .queryBuilderHeaderActionIconBtn:not(:disabled):global(.dirty) {
-  color: var(--query-builder-header-tools-icon-color-dirty);
-}
-.queryBuilderHeaderTools .toolsContainer .queryBuilderHeaderActionIconBtn:not(:disabled):global(.dirty):not(span):hover, .queryBuilderHeaderTools .toolsContainer .queryBuilderHeaderActionIconBtn:not(:disabled):global(.dirty):not(span):focus {
-  border: var(--query-builder-header-tools-icon-color-dirty);
-  color: var(--query-builder-header-tools-icon-color-dirty);
-}
-.queryBuilderHeaderTools .toolsContainer .queryBuilderHeaderActionIconBtn:not(:disabled):not(span):hover, .queryBuilderHeaderTools .toolsContainer .queryBuilderHeaderActionIconBtn:not(:disabled):not(span):focus-visible {
-  border: var(--query-builder-header-tools-icon-color-dirty);
   color: var(--query-builder-header-tools-icon-color-dirty);
 }
 .queryBuilderHeaderTools .extra {
