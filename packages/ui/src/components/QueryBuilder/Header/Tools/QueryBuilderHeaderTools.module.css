@@ -1,5 +1,5 @@
 .queryBuilderHeaderTools .toolsContainer .queryBuilderHeaderActionIconBtn:focus-visible {
-  border: 1px solid !important;
+  border: var(--query-builder-header-tools-button-focus-visible);
 }
 .queryBuilderHeaderTools .toolsContainer .queryBuilderHeaderActionIconBtn:not(:disabled) {
   color: var(--query-builder-header-tools-icon-color);

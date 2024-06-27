@@ -17,6 +17,7 @@
   --query-builder-header-border-divider-color: #d8e1eb;
   --query-builder-collapse-content-box-padding: 12px 8px;
   --query-builder-content-padding: 24px;
+  --query-builder-header-tools-button-focus-visible: 1px solid !important;
   --query-builder-header-tools-icon-color: black;
   --query-builder-header-tools-icon-hover: black;
   --query-builder-header-tools-icon-focus: black;
