@@ -4,7 +4,7 @@ import Studies from '@ferlab/ui/core/pages/LandingPage/Studies';
 import KFLogo from '../assets/studies/study-logo-KF.svg'
 import DefaultLogo from '../assets/studies/study-logo-default.svg'
 import DSCLogo from '../assets/studies/study-logo-DSC.png'
-import styles from './index.module.scss'
+import styles from './index.module.css'
 
 export default {
     title: '@ferlab/Pages/LandingPage/Studies',

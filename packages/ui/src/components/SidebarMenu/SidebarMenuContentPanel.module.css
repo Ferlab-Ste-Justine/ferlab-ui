@@ -1,0 +1,23 @@
+.contentPanel {
+  background-color: var(--sidebar-content-panel-background-color);
+  border-right: var(--sidebar-content-panel-right-border);
+  width: var(--sidebar-content-panel-width);
+  margin-left: calc(-1 * var(--sidebar-content-panel-width));
+  padding: var(--sidebar-content-panel-padding);
+  padding-bottom: 0;
+  display: flex;
+  flex-flow: column;
+  transition: margin-left 0.3s;
+}
+.contentPanel.opened {
+  margin-left: 0;
+}
+.contentPanel .contentPanelHeader {
+  display: flex;
+  justify-content: flex-end;
+}
+.contentPanel .contentPanelHeader .closeIcon {
+  height: var(--sidebar-content-panel-close-icon-width);
+  width: var(--sidebar-content-panel-close-icon-width);
+  color: var(--sidebar-content-panel-close-icon-color);
+}

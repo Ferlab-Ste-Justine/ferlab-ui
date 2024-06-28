@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { WarningFilled } from '@ant-design/icons';
-import { Alert, Form, Input, Modal, Skeleton, Space, Typography } from 'antd';
+import { Alert, Form, Input, Modal, Skeleton, Typography } from 'antd';
 import { Store } from 'antd/lib/form/interface';
 import { ColumnType } from 'antd/lib/table';
 
@@ -15,7 +15,7 @@ import {
 } from './requestBiospecimen.utils';
 import RequestBiospecimenTable, { IRequestBioDataRow } from './RequestBiospecimenTable';
 
-import styles from './requestBiospecimen.module.scss';
+import styles from './requestBiospecimen.module.css';
 
 export interface IGetSamples {
     error: any;

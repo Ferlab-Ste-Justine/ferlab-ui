@@ -6,7 +6,7 @@ import GeneIcon from '../../../components/Icons/FuturoSpot/GeneSpotIcon';
 import { numberFormat } from '../../../utils/numberUtils';
 import TextIcon from '../TextIcon';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TVariantDictionaryProps = {
     title: string;

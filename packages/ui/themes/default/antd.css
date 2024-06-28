@@ -1,0 +1,5 @@
+.ant-space-compact-block {
+  display: inline-flex;
+  width: unset;
+  max-width: 100%;
+}

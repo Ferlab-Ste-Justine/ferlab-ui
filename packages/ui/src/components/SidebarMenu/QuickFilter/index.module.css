@@ -1,0 +1,181 @@
+.searchMenuItem {
+  margin: 0 5px;
+  height: var(--sidebar-menu-item-height);
+  padding: 2px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+}
+.searchMenuItem *,
+.searchMenuItem ::placeholder {
+  color: var(--sidebar-quick-filter-input-placeholder-color);
+}
+.searchMenuItem :global(.ant-input) {
+  color: var(--sidebar-quick-filter-input-text-color);
+}
+.searchMenuItem :global(.ant-input-suffix) {
+  max-width: 16px;
+  font-size: 16px;
+}
+.searchMenuItem :global(.ant-input-prefix) {
+  max-width: 16px;
+  font-size: 16px;
+}
+.searchMenuItem :global(.ant-input-affix-wrapper):hover,
+.searchMenuItem :global(.ant-input-affix-wrapper):focus {
+  border-color: transparent;
+}
+.searchMenuItem .ant-input-affix-wrapper:hover {
+  box-shadow: var(--sidebar-quick-filter-input-box-shadow-hover);
+  border-color: transparent;
+  border-radius: 2px;
+}
+.searchMenuItem :global(.ant-input-affix-wrapper-focused) {
+  box-shadow: var(--sidebar-quick-filter-input-box-shadow-focus);
+  border-color: var(--sidebar-quick-filter-input-border-color-focus);
+  border-radius: 2px;
+}
+
+.popoverWrapper {
+  padding-top: 4px;
+  max-height: 420px;
+  width: max-content;
+  overflow: auto;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+}
+.popoverWrapper :global(.ant-popover-title) {
+  padding: 6px 12px;
+}
+.popoverWrapper :global(.ant-popover-inner) {
+  box-shadow: none;
+}
+.popoverWrapper :global(.ant-popover-inner-content) {
+  padding: 0;
+}
+
+.popoverTitle {
+  color: var(--gray-7);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.popoverFacetTitle {
+  color: var(--geekblue-7);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.facetNameWrapper {
+  padding: 5px 12px;
+}
+.facetNameWrapper:not(:first-child) {
+  border-top: 1px solid var(--gray-4);
+}
+.facetNameWrapper:hover {
+  background-color: var(--gray-3);
+}
+.facetNameWrapper .facetNameBtn {
+  color: var(--geekblue-7);
+  font-weight: 600;
+  padding: 0;
+  width: 100%;
+}
+.facetNameWrapper .facetNameBtn span {
+  text-decoration: none;
+}
+.facetNameWrapper :global(.ant-btn) {
+  text-align: left;
+}
+
+.facetValueWrapper {
+  padding: 5px 16px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  flex: auto 0;
+}
+.facetValueWrapper .tag {
+  height: fit-content;
+  margin-right: 0px;
+}
+
+.popoverFooter {
+  text-align: right;
+  padding: 12px 16px;
+  border-top: 1px solid var(--gray-4);
+}
+
+.scrollContentLevel1 {
+  width: 380px;
+  max-height: 327px;
+  overflow-y: auto;
+}
+
+.scrollContentLevel2 {
+  padding: 8px 16px;
+  width: 380px;
+  max-height: 324px;
+}
+
+.checboxFilterSelector {
+  max-height: 314px;
+}
+
+.clearBtn {
+  margin-right: 8px;
+}
+
+.applyBtn {
+  padding: 1px 8px;
+}
+
+.highlight {
+  background-color: var(--sidebar-quick-filter-higlight-color);
+  padding: 2px 0;
+}
+
+.spinnerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  width: 380px;
+}
+
+.actionBar {
+  margin: 10px 0 10px 12px;
+  align-items: center;
+  font-size: 12px;
+}
+.actionBar .separator {
+  height: 1.2rem;
+  align-self: center;
+  background: var(--checkbox-filter-actions-separator-background);
+  margin: 0 0.5rem;
+}
+.actionBar .checkboxFilterLinks {
+  border: none;
+  color: var(--checkbox-filter-actions-separator-links);
+  padding: 0;
+  font-size: var(--checkbox-filter-link-font-size);
+  line-height: var(--checkbox-filter-link-line-height);
+  height: auto;
+}
+.actionBar .checkboxFilterLinks > * {
+  text-decoration: underline;
+}
+.actionBar .checkboxFilterLinks:hover > * {
+  background: transparent;
+  text-decoration: none;
+}
+.actionBar .checkboxFilterLinks:hover {
+  background: transparent;
+  border: none;
+  color: var(--checkbox-filter-links-hover);
+  text-decoration: none;
+}
+.actionBar .checkboxFilterLinks:focus {
+  background: transparent;
+  border: none;
+}

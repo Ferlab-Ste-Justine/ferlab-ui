@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { ApiOutlined } from '@ant-design/icons';
 import { Button, ButtonProps, Space, Typography } from 'antd';
 
-import styles from './GridCardConnectPlaceholder.module.scss';
+import styles from './GridCardConnectPlaceholder.module.css';
 
 export const DEFAULT_CARD_CONNECT_PLACEHOLDER_DICTIONARY: TCardConnectPlaceholderDictionary = {
     action: 'Connect',
