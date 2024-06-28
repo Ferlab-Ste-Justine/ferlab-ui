@@ -1,0 +1,42 @@
+.fuiUploadIdsModalWrapper .space {
+  width: 100%;
+}
+.fuiUploadIdsModalWrapper .space .ListItem .paperClipIcon {
+  font-size: 18px;
+  display: flex;
+}
+.fuiUploadIdsModalWrapper .space .ListItem .ListItemText {
+  display: flex;
+  gap: 5px;
+}
+.fuiUploadIdsModalWrapper .space .ListItem .ListItemDefault {
+  color: var(--file-upload-item-color);
+}
+.fuiUploadIdsModalWrapper .upload {
+  display: flex;
+  flex-direction: column;
+}
+.fuiUploadIdsModalWrapper .upload :global(.ant-upload-list) {
+  margin-top: 8px;
+}
+.fuiUploadIdsModalWrapper .matchUnmatch {
+  margin-top: 32px;
+}
+.fuiUploadIdsModalWrapper .tablesMessages {
+  margin-bottom: 12px;
+}
+.fuiUploadIdsModalWrapper td.tableCell {
+  text-align: left !important;
+}
+.fuiUploadIdsModalWrapper .tableCell {
+  width: 50%;
+}
+.fuiUploadIdsModalWrapper .tablePagination {
+  margin-bottom: 0;
+}
+.fuiUploadIdsModalWrapper .tabs :global(.ant-tabs-tab) {
+  padding-top: 0;
+}
+.fuiUploadIdsModalWrapper .tabs :global(.ant-tabs-tab-btn) {
+  font-weight: 500;
+}

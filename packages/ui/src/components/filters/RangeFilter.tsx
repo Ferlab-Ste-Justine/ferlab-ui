@@ -23,7 +23,7 @@ import {
     onChangeType,
 } from './types';
 
-import styles from './RangeFilter.module.scss';
+import styles from './RangeFilter.module.css';
 
 const { Option } = Select;
 const { Text } = Typography;

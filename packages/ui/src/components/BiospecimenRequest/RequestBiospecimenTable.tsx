@@ -4,7 +4,7 @@ import { ColumnType } from 'antd/lib/table';
 
 import { ISqonGroupFilter } from '../../data/sqon/types';
 
-import styles from './requestBiospecimen.module.scss';
+import styles from './requestBiospecimen.module.css';
 
 export interface IRequestBioDataRow {
     study_code: string;

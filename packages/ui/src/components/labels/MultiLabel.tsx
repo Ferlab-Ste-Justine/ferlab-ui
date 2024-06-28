@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import './MultiLabel.scss';
+import './MultiLabel.css';
 
 export enum MultiLabelTypeEnum {
     Inline = 'inline',

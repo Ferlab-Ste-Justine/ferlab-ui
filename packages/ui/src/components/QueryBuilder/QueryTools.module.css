@@ -1,0 +1,32 @@
+.queryTools {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.queryTools .leftTools, .queryTools .rightTools {
+  display: flex;
+}
+.queryTools .leftTools > *:not(:first-child), .queryTools .rightTools > *:not(:first-child) {
+  margin-left: 15px;
+}
+.queryTools .leftTools .switch.withLabel, .queryTools .rightTools .switch.withLabel {
+  display: flex;
+  align-items: center;
+}
+.queryTools .leftTools .switch.withLabel .label, .queryTools .rightTools .switch.withLabel .label {
+  margin-left: 5px;
+}
+.queryTools .leftTools .button, .queryTools .rightTools .button {
+  display: flex;
+  align-items: center;
+}
+.queryTools .leftTools .button > *:not(:only-child):first-child, .queryTools .rightTools .button > *:not(:only-child):first-child {
+  margin-right: 2.5px;
+}
+.queryTools .leftTools .button:first-child, .queryTools .rightTools .button:first-child {
+  margin-left: 0;
+}
+.queryTools .leftTools .button:last-child:not(:first-child), .queryTools .rightTools .button:last-child:not(:first-child) {
+  margin-left: 10px;
+}

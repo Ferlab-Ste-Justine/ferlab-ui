@@ -1,0 +1,30 @@
+:root {
+  --prefix-ant-collapse: "ant-collapse";
+}
+
+.filtersContainerHeader {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+}
+.filtersContainerHeader .titleContainer {
+  display: flex;
+  align-items: center;
+}
+.filtersContainerHeader .titleContainer .hasFilterIcon {
+  color: var(--filter-container-header-has-filter-icon-color);
+  fill: var(--filter-container-header-has-filter-icon-color);
+}
+.filtersContainerHeader .titleContainer .title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin-right: 0.5rem;
+}
+
+.filterContainer {
+  width: 100%;
+}
+.filterContainer .filterContainerCollapse {
+  margin-top: 8px;
+}

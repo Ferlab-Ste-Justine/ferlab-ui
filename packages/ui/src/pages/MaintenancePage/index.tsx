@@ -3,7 +3,7 @@ import { Space, Typography } from 'antd';
 
 import MaintenanceIcon from './MaintenanceIcon';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TMaintenancePage = {
     title: string;
