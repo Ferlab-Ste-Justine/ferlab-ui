@@ -12,7 +12,7 @@ import ModerateBadgeIcon from '../Icons/ModerateBadgeIcon';
 import ModifierBadgeIcon from '../Icons/ModifierBadgeIcon';
 import { renderTemporaryAAChange } from '../utils';
 
-import style from './index.module.scss';
+import style from './index.module.css';
 
 export const NO_GENE = 'NO_GENE';
 

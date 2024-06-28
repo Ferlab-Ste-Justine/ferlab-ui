@@ -3,7 +3,7 @@ import { Button, ButtonProps } from 'antd';
 
 import ExternalLink from '../ExternalLink';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 type TPopoverContentLink = {
     className?: string;

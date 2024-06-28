@@ -13,7 +13,7 @@ import {
     TProTableSummary,
 } from '../../../components/ProTable/types';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 const { Title } = Typography;
 
 export interface IEntityTable {
