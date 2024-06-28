@@ -1,3 +1,6 @@
+### 10.0.0-rc12 2024-06-18
+- fix: SKFP-1097 adjust auth studies allowed files count
+
 ### 9.21.0 2024-06-26
 - fix: FLUI-135 QueryValue: use a different separator for operator All Of
 
@@ -90,7 +93,7 @@
 
 ### 9.16.2 2024-05-23
 - feat: SKFP-1078 Add facet title click in Quick filter
-- 
+-
 ### 9.16.1 2024-05-23
 - feat: SKFP-1043 Refactor Quick filter component
 

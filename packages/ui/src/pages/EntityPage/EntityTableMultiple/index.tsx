@@ -7,7 +7,7 @@ import ProTable from '../../../components/ProTable';
 import { IProTableDictionary, ProColumnType, TColumnStates, THeaderConfig } from '../../../components/ProTable/types';
 import { numberFormat } from '../../../utils/numberUtils';
 
-import styles from '../EntityTable/index.module.scss';
+import styles from '../EntityTable/index.module.css';
 
 const { Title } = Typography;
 

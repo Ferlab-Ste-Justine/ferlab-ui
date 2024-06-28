@@ -5,7 +5,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { Checkbox } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TSortableColumnItem = {
     id: string;
