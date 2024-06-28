@@ -1,0 +1,105 @@
+.queryBarWrapper {
+  display: flex;
+}
+
+.identifier {
+  border: none;
+  padding: 0;
+  min-width: var(--query-bar-identifier-width);
+  background: var(--query-bar-identifier);
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+.identifier.active {
+  background: var(--query-bar-identifier-active);
+}
+
+.queryBarContainer {
+  display: flex;
+  width: 100%;
+  background: var(--query-bar-bg);
+  height: var(--query-bar-height);
+  border-radius: 2px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border: 1px solid var(--query-bar-border-color);
+  overflow: hidden;
+}
+.queryBarContainer > * {
+  padding: var(--query-bar-padding);
+  align-items: center;
+}
+.queryBarContainer.selected {
+  background: var(--query-bar-bg-active);
+  border-color: var(--query-bar-border-color-active);
+}
+.queryBarContainer.selected > *,
+.queryBarContainer.selected .selectionWrapper,
+.queryBarContainer.selected .actions {
+  border-color: var(--query-bar-border-color-active);
+}
+.queryBarContainer .selectionWrapper {
+  padding-left: calc(var(--query-bar-padding-left) + var(--query-bar-identifier-width));
+  border-right: 1px solid var(--query-bar-border-color);
+}
+.queryBarContainer .selectionWrapper .label {
+  font-size: 12px;
+  padding-left: 4px;
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  padding-top: 0;
+  line-height: 16px;
+}
+.queryBarContainer .selectionWrapper .label > span:first-child {
+  top: 0;
+}
+.queryBarContainer .queryContent {
+  justify-content: space-between;
+  color: var(--query-total-color);
+  display: flex;
+  width: 100%;
+}
+.queryBarContainer .queryContent .queryValues {
+  flex-wrap: wrap;
+}
+.queryBarContainer .queryContent .total {
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  margin-left: 6px;
+  height: 24px;
+  margin-left: 24px;
+}
+.queryBarContainer .queryContent .total > :first-child {
+  margin-right: 5px;
+}
+.queryBarContainer .queryContent .total img,
+.queryBarContainer .queryContent .total svg {
+  vertical-align: middle;
+}
+.queryBarContainer .actions {
+  border-left: 1px solid var(--query-bar-border-color);
+}
+.queryBarContainer .actions .actionButton {
+  height: auto;
+  color: var(--query-default-action-hover-color);
+}
+.queryBarContainer .actions .actionButton:active {
+  border: 1px solid transparent;
+}
+.queryBarContainer .actions .actionButton:focus-visible {
+  box-shadow: 0 0 0pt 1px var(--query-default-action-hover-color);
+}
+.queryBarContainer .actions .actionButton:hover {
+  color: var(--query-default-action-hover-color);
+  background: none;
+  opacity: 0.7;
+}
+.queryBarContainer .actions .actionButton:focus {
+  color: var(--query-default-action-focus-color);
+  background-color: transparent;
+}
+.queryBarContainer .actions .actionButtonWithTooltip:hover {
+  border-width: 0;
+}

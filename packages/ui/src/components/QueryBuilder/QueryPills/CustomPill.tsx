@@ -9,7 +9,7 @@ import EditCustomPillModal from '../../CustomPill/QueriesSidebar/EditCustomPillM
 import { QueryBuilderContext } from '../context';
 import { ISavedFilter } from '../types';
 
-import styles from './QueryPill.module.scss';
+import styles from './QueryPill.module.css';
 
 interface ICustomPillProps {
     valueFilter: IValueQuery;

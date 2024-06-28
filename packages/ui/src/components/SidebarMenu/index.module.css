@@ -1,0 +1,120 @@
+:root {
+  --input-prefix: "ant-input";
+  --input-wrapper-prefix: var(--input-prefix) + "-affix-wrapper";
+  --menu-prefix: "ant-menu";
+  --menu-inline-prefix: "ant-menu-inline";
+  --menu-item-prefix: var(--menu-prefix) + "-item";
+  --select-prefix: "ant-select";
+}
+
+.siderContainer {
+  display: flex;
+  flex-direction: row;
+}
+.siderContainer .sider {
+  z-index: 5;
+  width: var(--sidebar-menu-width);
+  min-width: var(--sidebar-menu-width);
+  background-color: var(--sidebar-menu-background-color);
+  transition: width 0.2s, min-width 0.2s;
+}
+.siderContainer .sider :global(.ant-menu-item-collapsed) {
+  width: var(--sidebar-menu-collapsed-width);
+  min-width: var(--sidebar-menu-collapsed-width);
+}
+.siderContainer .sider :global(.ant-menu-item-collapsed) .sidebarMenuItem {
+  width: 100%;
+}
+.siderContainer .sider :global(.ant-menu-item-icon) {
+  min-height: var(--sidebar-menu-item-icon-size);
+  max-height: var(--sidebar-menu-item-icon-size);
+  min-width: var(--sidebar-menu-item-icon-size);
+  max-width: var(--sidebar-menu-item-icon-size);
+  font-size: var(--sidebar-menu-item-icon-size) !important;
+  line-height: var(--sidebar-menu-item-icon-size);
+  margin: 0;
+}
+.siderContainer .sider[data-collapsed=true] {
+  width: var(--sidebar-menu-collapsed-width);
+  min-width: var(--sidebar-menu-collapsed-width);
+}
+.siderContainer .sider[data-collapsed=true] .sidebarToggleIconContainer,
+.siderContainer .sider[data-collapsed=true] .sidebarToggleIconContainer > div {
+  text-align: center;
+  align-items: center;
+}
+.siderContainer .sider[data-collapsed=true] .sidebarMenu .searchMenuItem {
+  padding: 0 10px;
+  margin-bottom: 10px;
+}
+.siderContainer .sider[data-collapsed=true] .sidebarMenu .sidebarMenuItem .sidebarMenuItemTitle {
+  display: none;
+}
+.siderContainer .sider[data-collapsed=true] .sidebarMenu .sidebarMenuItem img,
+.siderContainer .sider[data-collapsed=true] .sidebarMenu .sidebarMenuItem span[role=img],
+.siderContainer .sider[data-collapsed=true] .sidebarMenu .sidebarMenuItem svg {
+  margin-right: 0;
+  display: flex;
+}
+.siderContainer .sider .sidebarToggleIconContainer {
+  margin: 10px 14px 10px 14px;
+}
+.siderContainer .sider .sidebarToggleIconContainer,
+.siderContainer .sider .sidebarToggleIconContainer > div {
+  display: flex;
+}
+.siderContainer .sider .sidebarToggleIconContainer .sidebarToggleIcon:hover {
+  cursor: pointer;
+}
+.siderContainer .sider .sidebarToggleIconContainer .sidebarToggleIcon * {
+  min-height: var(--sidebar-menu-toggle-icon-size);
+  max-height: var(--sidebar-menu-toggle-icon-size);
+  min-width: var(--sidebar-menu-toggle-icon-size);
+  max-width: var(--sidebar-menu-toggle-icon-size);
+  font-size: var(--sidebar-menu-toggle-icon-size);
+  line-height: var(--sidebar-menu-toggle-icon-size);
+  color: white;
+}
+.siderContainer .sider .sidebarMenu {
+  transition: background 0s;
+  background-color: transparent;
+  border: none;
+  color: var(--sidebar-menu-item-text-color);
+  font-weight: var(--font-weight-semibold);
+  font-size: 14px;
+}
+.siderContainer .sider .sidebarMenu .sidebarMenuItem {
+  margin: 0;
+  height: var(--sidebar-menu-item-height);
+  line-height: var(--sidebar-menu-item-height);
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 0 13px !important;
+}
+.siderContainer .sider .sidebarMenu .sidebarMenuItem .sidebarMenuItemTitle {
+  margin-left: 15px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.siderContainer .sider .sidebarMenu .sidebarMenuItem:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0pt 2px var(--sidebar-menu-item-border-focus-color);
+}
+.siderContainer .sider .sidebarMenu .sidebarMenuItem:hover {
+  color: var(--sidebar-menu-item-hover-color);
+  opacity: var(--sidebar-menu-item-hover-opacity);
+}
+.siderContainer .sider .sidebarMenu .sidebarMenuItem::after {
+  border-right: none;
+}
+.siderContainer .sider .sidebarMenu .sidebarMenuItem:active {
+  opacity: 1;
+  color: var(--sidebar-menu-item-active-color);
+  background-color: var(--sidebar-menu-item-active-background-color);
+}
+.siderContainer .sider .sidebarMenu :global(.ant-menu-item-selected) {
+  opacity: 1 !important;
+  color: var(--sidebar-menu-item-active-color);
+  background-color: var(--sidebar-menu-item-active-background-color);
+}

@@ -8,7 +8,7 @@ import OrOperator from './icons/OrOperator';
 import { QueryCommonContext } from './context';
 import { CombinerEnum } from './types';
 
-import styles from './Combiner.module.scss';
+import styles from './Combiner.module.css';
 
 interface ICombinerProps {
     type: TSqonGroupOp;

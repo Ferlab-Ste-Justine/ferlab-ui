@@ -3,7 +3,7 @@ import React, { ReactElement, ReactNode } from 'react';
 import Carousel from './Carousel';
 import Summary from './Summary';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TStudiesDictionary = {
     title: string;
