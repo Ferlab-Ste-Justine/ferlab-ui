@@ -58,7 +58,9 @@
 
     &.QBHOptionsActionsContainer {
       .iconBtnAction {
-        @include query-builder-header-icon-button-action;
+        &:focus-visible {
+            border-color: $query-builder-header-tools-icon-focus;
+        }
       }
 
       .QBHOptionsFavoriteStar {

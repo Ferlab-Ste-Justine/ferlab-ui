@@ -3,29 +3,18 @@
 .queryBuilderHeaderTools {
     .toolsContainer {
         .queryBuilderHeaderActionIconBtn {
-            &:focus-visible {
-                @include query-builder-header-button-focus-visible;
-            }
-
+           
             &:not(:disabled) {
-                color: $query-builder-header-tools-icon-color;
+                &:focus-visible {
+                    border-color: $query-builder-header-tools-icon-hover;
+                }
+                
+                &:hover, &:focus-visible {
+                    color: $query-builder-header-tools-icon-hover;
+                }
 
                 &:global(.dirty) {
                     color: $query-builder-header-tools-icon-color-dirty;
-
-                    &:not(span) {
-                        &:hover,
-                        &:focus {
-                            @include query-builder-header-button-dirty-focus;
-                        }
-                    }
-                }
-
-                &:not(span) {
-                    &:hover,
-                    &:focus-visible {
-                        @include query-builder-header-button-nested-focus-visible;
-                    }
                 }
             }
         }
