@@ -1,4 +1,4 @@
-import { MutableRefObject, ReactNode, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import React from 'react';
 import { HolderOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { Popover, PopoverProps, Space, Tooltip, Typography } from 'antd';
@@ -38,7 +38,7 @@ const GridCardHeader = ({
     title,
     titleTruncateThresholdWidth,
     withHandle = false,
-}: OwnProps): JSX.Element => {
+}: OwnProps): ReactElement => {
     const [truncated, setTruncated] = useState(false);
     const [titleWidth, setTitleWidth] = useState('100%');
     const headerContainerRef = useRef() as MutableRefObject<HTMLSpanElement>;
@@ -74,13 +74,14 @@ const GridCardHeader = ({
                     {
                         <div className={styles.titleContainer} style={{ width: titleWidth }}>
                             <Tooltip title={truncated ? title : undefined}>
-                                <Typography.Text
+                                <Title
                                     ellipsis={titleTruncateThresholdWidth ? { onEllipsis: setTruncated } : {}}
-                                    style={{ width: titleWidth }}
+                                    level={4}
+                                    style={{ marginBottom: 0, width: titleWidth }}
                                     tabIndex={0}
                                 >
                                     {title}
-                                </Typography.Text>
+                                </Title>
                             </Tooltip>
                         </div>
                     }

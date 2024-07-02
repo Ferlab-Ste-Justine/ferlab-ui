@@ -1,3 +1,6 @@
+### 9.21.1 2024-07-02
+- fix: SKFP-1152 Make use of title styling in GridCardHeader
+
 ### 9.21.0 2024-06-26
 - fix: FLUI-135 QueryValue: use a different separator for operator All Of
 
