@@ -172,8 +172,4 @@
   --query-default-action-focus-color:var(--gray-8);
 
   --small-font: 1.2rem;
-
-  --checkbox-filter-item-font-size: var(--small-font);
-  --checkbox-filter-link-font-size: var(--small-font);
-
 }
