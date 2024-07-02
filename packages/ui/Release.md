@@ -1,3 +1,6 @@
+### 9.21.2 2024-07-02
+- fix: SKFP-1010 Widget: change error state style
+
 ### 9.21.1 2024-07-02
 - fix: SKFP-1152 Make use of title styling in GridCardHeader
 
