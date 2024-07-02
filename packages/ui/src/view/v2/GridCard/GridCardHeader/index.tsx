@@ -26,7 +26,7 @@ interface OwnProps {
     withHandle?: boolean;
 }
 
-const { Title } = Typography;
+const { Text, Title } = Typography;
 
 const GridCardHeader = ({
     className,
@@ -74,14 +74,14 @@ const GridCardHeader = ({
                     {
                         <div className={styles.titleContainer} style={{ width: titleWidth }}>
                             <Tooltip title={truncated ? title : undefined}>
-                                <Title
+                                <Text
+                                    className={styles.title}
                                     ellipsis={titleTruncateThresholdWidth ? { onEllipsis: setTruncated } : {}}
-                                    level={4}
-                                    style={{ marginBottom: 0, width: titleWidth }}
+                                    style={{ width: titleWidth }}
                                     tabIndex={0}
                                 >
                                     {title}
-                                </Title>
+                                </Text>
                             </Tooltip>
                         </div>
                     }
