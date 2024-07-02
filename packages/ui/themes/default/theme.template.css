@@ -10,8 +10,8 @@
   --main-header-height: 64px;
   --heading-color: var(--gray-9);
   --query-default-action-default-color: rgb(90, 70, 70);
-  --query-default-action-hover-color: black;
-  --query-default-action-focus-color: black;
+  --query-default-action-hover-color:var(--blue-7);
+  --query-default-action-focus-color:var(--gray-8);
   --query-builder-bg: var(--white);
   --query-builder-border-color: #d8e1eb;
   --query-builder-header-border-divider-color: #d8e1eb;
@@ -168,12 +168,5 @@
   --landing-spot-icon-color-light: var(--blue-8);
   --landing-spot-icon-color-dark: var(--blue-3);
 
-  --query-default-action-hover-color:var(--blue-7);
-  --query-default-action-focus-color:var(--gray-8);
-
   --small-font: 1.2rem;
-
-  --checkbox-filter-item-font-size: var(--small-font);
-  --checkbox-filter-link-font-size: var(--small-font);
-
 }

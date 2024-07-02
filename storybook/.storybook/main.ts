@@ -29,22 +29,6 @@ const config: StorybookConfig = {
             ],
         });
 
-        //config.module?.rules?.push({
-        //    test: /\.scss$/,
-        //    use: [
-        //        'style-loader',
-        //        'css-loader',
-        //        {
-        //            loader: 'sass-loader',
-        //            options: {
-        //                sassOptions: {
-        //                    includePaths: [path.resolve(__dirname, '../../packages/ui/themes/default')],
-        //                },
-        //            },
-        //        },
-        //    ],
-        //});
-
         if (config.resolve) {
             config.resolve.plugins = [
                 new TsconfigPathsPlugin({
