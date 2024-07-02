@@ -156,7 +156,7 @@ const CavaticaWidget = ({
                     <>
                         {/* Error */}
                         {state === WIDGET_STATE.error && (
-                            <div className={styles.content}>
+                            <div className={cx(styles.content, styles.error)}>
                                 <Result
                                     status="error"
                                     subTitle={

@@ -30,6 +30,10 @@
     display: flex;
     flex-direction: column;
     padding: 0 24px 24px;
+
+    &.error {
+      padding: 24px;
+    }
   }
 
   .listContent {
