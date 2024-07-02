@@ -3,7 +3,7 @@ import { Typography } from 'antd';
 import cx from 'classnames';
 import { get } from 'lodash';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export interface IExpandableCellDict {
     'see.less': string;

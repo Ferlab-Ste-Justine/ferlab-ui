@@ -4,7 +4,7 @@ import ScrollContent from '../../layout/ScrollContent';
 
 import CloseIcon from './icons/CloseIcon';
 
-import styles from './SidebarMenuContentPanel.module.scss';
+import styles from './SidebarMenuContentPanel.module.css';
 
 type ISidebarMenuContentPanelProps = {
     className?: string;

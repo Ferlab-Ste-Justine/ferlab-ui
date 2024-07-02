@@ -1,0 +1,38 @@
+.container {
+  max-width: 1600px;
+  margin-bottom: 40px;
+}
+.container .title {
+  margin-bottom: 16px;
+}
+.container .collapse .panel .card {
+  border: none;
+}
+.container .collapse .panel .card *[class$=-card-body] {
+  padding: 0;
+}
+.container .collapse .panel .card .content {
+  width: 100%;
+}
+.container .collapse .panel .card .content *[class$=-space-item] {
+  width: 100%;
+}
+.container .collapse .panel .card .content .subTitle {
+  font-size: 14px;
+  font-weight: 600;
+}
+.container .collapse .panel .card .notStriped {
+  background-color: inherit !important;
+}
+.container .tableHeader {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.contentTable {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}

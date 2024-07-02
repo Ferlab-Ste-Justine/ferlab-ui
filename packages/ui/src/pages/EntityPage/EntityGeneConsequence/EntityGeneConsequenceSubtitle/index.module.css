@@ -1,0 +1,25 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  margin: 16px 0 12px;
+}
+.wrapper:first-of-type {
+  margin-top: 0;
+}
+.wrapper span {
+  margin-right: 4px;
+}
+.wrapper span.separator {
+  color: var(--gray-5);
+}
+
+.link {
+  text-decoration: underline;
+}
+.link:hover {
+  text-decoration: none;
+}
+
+.bold {
+  font-weight: 500;
+}

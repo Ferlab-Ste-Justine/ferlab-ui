@@ -5,7 +5,7 @@ import { IAnchorLink } from '../../components/AnchorMenu';
 import Empty from '../../components/Empty';
 import ScrollContent from '../../layout/ScrollContent';
 
-import styles from './EntityPage.module.scss';
+import styles from './EntityPage.module.css';
 
 export interface IEntityPage {
     children: React.ReactNode;

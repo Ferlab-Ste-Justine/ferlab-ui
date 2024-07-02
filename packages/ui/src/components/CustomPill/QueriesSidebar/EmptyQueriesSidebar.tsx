@@ -3,7 +3,7 @@ import { BarChartOutlined, DotChartOutlined, FundOutlined, PieChartOutlined } fr
 
 import ExternalLink from '../../ExternalLink';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 interface IEmptyQueriesSidebar {
     emptyText: string;
