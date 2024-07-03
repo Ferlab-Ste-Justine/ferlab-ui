@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 import { IIconProps } from '../type';
 
-import style from './icon.module.scss';
+import style from './icon.module.css';
 
 const FamilySpotIcon = ({ className = '', height = 48, spotClassName = '', width = 48 }: IIconProps): JSX.Element => (
     <svg

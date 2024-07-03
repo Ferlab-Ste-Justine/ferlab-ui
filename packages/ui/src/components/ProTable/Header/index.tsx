@@ -7,7 +7,7 @@ import { IProTableDictionary } from '../types';
 import { ItemsCount } from './ItemsCount';
 import { SelectedCount } from './SelectedCount';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 interface OwnProps {
     extra?: React.ReactNode[];

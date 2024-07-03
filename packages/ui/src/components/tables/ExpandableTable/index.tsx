@@ -5,7 +5,7 @@ import { TableProps } from 'antd/lib/table';
 import { getTitleByType } from '../../ProTable';
 import { ProColumnType, ProColumnTypes } from '../../ProTable/types';
 
-import styles from './index.module.scss';
+import styles from './index.module.css';
 
 export type TExpandableTableProps = TableProps<any> & {
     nOfElementsWhenCollapsed?: number;

@@ -4,8 +4,7 @@ import { Collapse as AntCollapse, CollapsePanelProps, CollapseProps } from 'antd
 import cx from 'classnames';
 import { isUndefined } from 'lodash';
 
-import styles from './index.module.scss';
-
+import styles from './index.module.css';
 export type TCollapseProps = CollapseProps & {
     children?: React.ReactNode;
     size?: 'large' | 'default' | 'small';

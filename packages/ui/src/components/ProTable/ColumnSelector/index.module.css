@@ -1,0 +1,16 @@
+.ProTablePopoverColumn div[class$=-inner-content] {
+  padding: 12px;
+}
+
+.ProTablePopoverColumnResetBtnWrapper {
+  text-align: right;
+}
+
+.ProTablePopoverColumnResetBtn {
+  padding: 0;
+}
+
+.ProTablePopoverColumnListWrapper {
+  max-height: 315px;
+  overflow: auto;
+}
