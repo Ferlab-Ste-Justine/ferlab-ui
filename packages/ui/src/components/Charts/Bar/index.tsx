@@ -13,6 +13,21 @@ type TBarChart = Omit<BarSvgProps<BarDatum>, 'width' | 'height'> & {
 
 const { Title } = Typography;
 
+/**
+ * A padding of 0.1 will make the bar take as much space as needed.
+ * It can result to some wide result with a small set of data.
+ * That why ajust needs for data set that have less than 9 elements
+ * @param length
+ * @returns
+ */
+const getPadding = (length: number): number => {
+    if (length < 9) {
+        return 1 - length / 10;
+    }
+
+    return 0.1;
+};
+
 const BarChart = ({
     colorBy = 'indexValue',
     enableLabel = true,
@@ -54,6 +69,7 @@ const BarChart = ({
                         }
                         e.target.style.cursor = 'pointer';
                     }}
+                    padding={getPadding(rest.data.length)}
                     role="application"
                     valueFormat={valueFormat}
                     {...rest}
