@@ -1,3 +1,6 @@
+### 10.0.1 2024-07-05
+- fix: SKFP-1172 Improve performance for big datasets
+
 ### 10.0.0 2024-07-03
 - feat: FLUI-132 remove sass, migrate to vanilla css and custom properties 
 

@@ -240,12 +240,16 @@ export const searchInOntologyTree = (
     matchingNodes.forEach((nodeKey) => {
         const nodePaths = nodeKey.split(SEPARATOR);
         nodePaths.pop();
-        const currentNodePath: string[] = [];
+        const currentNodePaths: string[] = [];
 
         nodePaths.forEach((path) => {
-            currentNodePath.push(path);
-            const result = allNodeKeys.find((node) => node === currentNodePath.join(SEPARATOR));
-            if (result) {
+            currentNodePaths.push(path);
+            const nodePath = currentNodePaths.join(SEPARATOR);
+            if (matchingNodePaths.includes(nodePath)) {
+                return;
+            }
+            const result = allNodeKeys.find((node) => node === nodePath);
+            if (result && !matchingNodePaths.includes(result) && !keys.includes(result)) {
                 matchingNodePaths.push(result);
                 keys.push(result);
             }
@@ -265,7 +269,6 @@ export const searchInOntologyTree = (
 
     // Update tree with matching index
     const [before, term, after] = rootNode.name.split(searchRegex);
-    keys.push(rootNode.key);
     tree.push({
         ...rootNode,
         children: recursiveIndexSearch(rootNode),

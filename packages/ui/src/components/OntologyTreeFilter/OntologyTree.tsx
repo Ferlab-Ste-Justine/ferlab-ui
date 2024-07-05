@@ -1,7 +1,7 @@
 import React, { Key, useState } from 'react';
 import { BranchesOutlined, UserOutlined } from '@ant-design/icons';
 import { Col, Row, Tooltip, Transfer, Tree } from 'antd';
-import { debounce, isEmpty, uniq } from 'lodash';
+import { debounce, isEmpty } from 'lodash';
 
 import Empty from '../Empty';
 
@@ -20,8 +20,14 @@ import {
 
 import styles from './index.module.css';
 
+enum Status {
+    PRISTINE,
+    SEARCHING,
+}
+
 export const DEFAULT_ONTOLOGY_TREE_DICTIONARY = {
     emptySelection: 'Select items from the left-hand panel in order to add to your query.',
+    matchingCount: (count: number): string => `${count} matching items`,
     participantsCountTooltip: 'Participants with this exact term',
     participantsWithExactTermTooltip: 'Participants including descendant terms',
     searchPlaceholder: 'Search for ontology term  - Min 3 characters',
@@ -53,6 +59,7 @@ export type TOntologyTreeDictionary = {
     searchPlaceholder?: string;
     emptySelection?: string;
     selectedCount?: (count: number) => string;
+    matchingCount?: (count: number) => string;
 };
 
 type TOntologyTree = {
@@ -88,20 +95,22 @@ export const OntologyTree = ({
     const [treeExpandedKeys, setTreeExpandedKeys] = useState<string[]>(rootNode ? [rootNode.key] : []);
     const [treeTargetKeys, setTreeTargetKeys] = useState<Key[]>(sqonValuesChildrenKeys as Key[]);
     const [transferSelectedCount, setTransferSelectedCount] = useState<number>(total);
+    const [status, setStatus] = useState<Status>(Status.PRISTINE);
 
     const onSearch = debounce((_, value) => {
         const transferKeysNodepath = getKeysByTransferKeys(currentTreeData[0], transferTargetKeys);
-
         if (value && value.length >= MIN_SEARCH_TEXT_LENGTH) {
             const results = searchInOntologyTree(defaultTreeData[0], value);
             setCurrentTreeData(disableNodesInTree(results.tree[0], treeTargetKeys as string[], transferKeysNodepath));
             setTreeExpandedKeys(results.keys);
             setTransferSelectedCount(results.selectedCount);
+            setStatus(Status.SEARCHING);
             return;
         }
         setTreeExpandedKeys([rootNode.key]);
         setCurrentTreeData(disableNodesInTree(defaultTreeData[0], treeTargetKeys as string[], transferKeysNodepath));
         setTransferSelectedCount(total);
+        setStatus(Status.PRISTINE);
     }, DEBOUNCE_TIMEOUT);
 
     const onTreeAction = (node: IOntologyDataNode) => {
@@ -164,9 +173,12 @@ export const OntologyTree = ({
             selectAllLabels={[
                 (_) => (
                     <>
-                        {dictionary.selectedCount
-                            ? dictionary.selectedCount(transferSelectedCount)
-                            : transferSelectedCount}
+                        {status === Status.PRISTINE &&
+                            dictionary?.selectedCount &&
+                            dictionary.selectedCount(transferSelectedCount)}
+                        {status === Status.SEARCHING &&
+                            dictionary?.matchingCount &&
+                            dictionary.matchingCount(transferSelectedCount)}
                     </>
                 ),
             ]}
