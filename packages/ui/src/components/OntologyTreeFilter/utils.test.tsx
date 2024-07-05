@@ -358,11 +358,6 @@ describe('OntologyTreeFilter utils', () => {
                 'Phenotypic abnormality HP:0000118',
                 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
-                'Phenotypic abnormality HP:0000118',
-                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
-                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
-                'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
-                'Phenotypic abnormality HP:0000118',
             ],
             selectedCount: 2,
             tree: [
@@ -481,7 +476,6 @@ describe('OntologyTreeFilter utils', () => {
                 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
-                'Phenotypic abnormality HP:0000118',
             ],
             selectedCount: 1,
             tree: [
@@ -593,7 +587,6 @@ describe('OntologyTreeFilter utils', () => {
                 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
-                'Phenotypic abnormality HP:0000118',
             ],
             selectedCount: 1,
             tree: [
@@ -701,7 +694,6 @@ describe('OntologyTreeFilter utils', () => {
                 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626',
                 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680',
                 'Phenotypic abnormality HP:0000118//Abnormality of the cardiovascular system HP:0001626//Abnormality of cardiovascular system morphology HP:0030680//Abnormal heart morphology HP:0001627',
-                'Phenotypic abnormality HP:0000118',
             ],
             selectedCount: 1,
             tree: [
