@@ -1,12 +1,13 @@
 {
     "name": "@ferlab/ui",
-    "version": "10.0.1",
+    "version": "10.1.0",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
     },
     "bin": {
-        "ferlabui-script": "themes/bin/style-script.js"
+        "ferlabui-script": "themes/bin/style-script.js",
+        "ferlabui-less2css": "themes/bin/less2css.js"
     },
     "repository": {
         "type": "git",
