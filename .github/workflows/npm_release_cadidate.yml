@@ -1,8 +1,7 @@
 name: Publish Release Candidate Package to npmjs
 on:
   pull_request:
-      branches:
-          - master
+      branches: [ master, ui-v9 ]
 jobs:
   publish-release-candidate-to-npm:
     runs-on: ubuntu-latest
