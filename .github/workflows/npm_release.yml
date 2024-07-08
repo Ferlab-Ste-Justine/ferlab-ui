@@ -1,8 +1,7 @@
 name: Publish Package to npmjs
 on:
   push:
-    branches:
-      - master
+    branches: [ master, ui-v9 ]
 jobs:
   create-tag:
     runs-on: ubuntu-latest
