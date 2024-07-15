@@ -13,6 +13,7 @@
   height: auto;
   font-size: 12px;
   margin-top: 5px;
+  align-self: flex-start;
 }
 .checkboxFilter .filtersTypesFooter:not(.readOnly) > * {
   text-decoration: underline;
