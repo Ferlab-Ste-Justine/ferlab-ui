@@ -30,3 +30,6 @@ export const toKebabCase = (str: string): string => {
 
 export const truncateString = (text: string, maxLength: number) =>
     `${text.substring(0, maxLength)}${text.length > maxLength ? '...' : ''}`;
+
+export const formatUserName = (user: { first_name: string; last_name: string; email: string }): string =>
+    user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : user.email;

@@ -1,0 +1,33 @@
+.filtersContainer {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.searchBarContainer {
+  width: 100%;
+}
+.searchBarContainer .filterContentWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.filterMultiSelect {
+  width: 300px;
+}
+
+.filterTag {
+  display: flex;
+  align-items: center;
+  background-color: var(--blue-8);
+  color: var(--gray-1);
+}
+.filterTag > * {
+  color: var(--gray-1);
+}
+.filterTag .filterTagText {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
