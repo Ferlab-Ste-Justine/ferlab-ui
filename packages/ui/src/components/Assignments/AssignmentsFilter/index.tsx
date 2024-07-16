@@ -114,7 +114,7 @@ const AssignmentsFilter = ({
                     disabled={selectedOption.length === 0 ? true : false}
                     onClick={() => setSelectedOption([])}
                     size="small"
-                    type="text"
+                    type="link"
                 >
                     {dictionary?.filter?.actions?.reset || 'Reset'}
                 </Button>
