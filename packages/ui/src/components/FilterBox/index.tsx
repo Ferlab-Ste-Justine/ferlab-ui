@@ -39,15 +39,15 @@ export type TFilterBoxDictionary = {
     sorter: TSorterDictionary;
 };
 
-export type TFilterBoxListOptions = {
+export type TMemberListOptions = {
     label: string;
     value: string;
 };
 
 export type TFilterBoxOptions = {
-    roles: TFilterBoxListOptions[];
-    usages?: TFilterBoxListOptions[];
-    interests?: TFilterBoxListOptions[];
+    roles: TMemberListOptions[];
+    usages?: TMemberListOptions[];
+    interests?: TMemberListOptions[];
 };
 
 interface IFiltersBox {

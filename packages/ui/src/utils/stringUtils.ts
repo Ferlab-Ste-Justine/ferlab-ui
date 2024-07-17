@@ -1,3 +1,5 @@
+import { IUser } from '../pages/CommunityPage/type';
+
 export const removeUnderscoreAndCapitalize = (word: string): string => {
     const frags = word.split('_');
     for (let i = 0; i < frags.length; i++) {
@@ -31,5 +33,5 @@ export const toKebabCase = (str: string): string => {
 export const truncateString = (text: string, maxLength: number) =>
     `${text.substring(0, maxLength)}${text.length > maxLength ? '...' : ''}`;
 
-export const formatUserName = (user: { first_name: string; last_name: string; email: string }): string =>
-    user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : user.email;
+export const formatUserName = (user: IUser): string =>
+    user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : user.email ?? '';

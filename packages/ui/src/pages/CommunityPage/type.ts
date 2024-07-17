@@ -26,6 +26,8 @@ export interface IUser {
     commercial_use_reason: string;
     config: TUserConfig;
     linkedin?: string;
+    website?: string;
+    areas_of_interest?: string[];
     research_area_description?: string;
     profile_image_key?: string | null;
 }

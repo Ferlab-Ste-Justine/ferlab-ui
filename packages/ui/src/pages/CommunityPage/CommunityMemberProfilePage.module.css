@@ -1,0 +1,80 @@
+.communityMemberWrapper {
+  padding: 24px;
+}
+
+.communityMember {
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+  position: relative;
+  border-radius: 4px;
+  background-color: white;
+}
+.communityMember .contentWrapper {
+  width: 100%;
+  padding: 40px;
+  margin-top: -110px;
+  border: 1px solid var(--gray-4);
+  border-top: none;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+.communityMember .banner {
+  height: 200px;
+  width: 100%;
+  padding: 24px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 1px solid var(--gray-4);
+  border-bottom: none;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+.communityMember .bannerActions {
+  display: flex;
+  justify-content: space-between;
+}
+.communityMember .bannerActions .communityBtn {
+  padding: 0;
+  color: var(--blue-5);
+}
+.communityMember .bannerActions .editButton {
+  color: var(--blue-5);
+}
+.communityMember .memberName {
+  margin-bottom: 0;
+}
+.communityMember .avatarContainer {
+  width: 100%;
+}
+.communityMember .divider {
+  border-width: 1.5px;
+  margin: 35px 0;
+}
+.communityMember .infoList {
+  background-color: transparent;
+  margin-left: 14px;
+}
+.communityMember .infoList.empty {
+  margin-left: 0;
+}
+.communityMember .infoList :global(.ant-list-empty-text) {
+  padding: 0;
+}
+.communityMember .infoList ul {
+  list-style: disc;
+}
+.communityMember .memberNameSkeleton {
+  width: 200px;
+}
+.communityMember .memberAssoSkeleton {
+  width: 100px;
+}
+
+.notFoundMember {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}

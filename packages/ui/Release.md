@@ -1,3 +1,6 @@
+### 10.3.0 2024-07-18
+- feat: SKFP-334 add community member profile page
+
 ### 10.2.0 2024-07-16
 - feat: SKFP-334 add community members page
 
