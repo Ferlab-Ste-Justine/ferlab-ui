@@ -4,7 +4,6 @@ import { List, Space, Typography } from 'antd';
 import FiltersBox, {
     DEFAULT_FILTER_BOX_DICTIONARY,
     TFilterBoxDictionary,
-    TFilterBoxListOptions,
     TFilterBoxOptions,
 } from '../../components/FilterBox';
 import TableHeader from '../../components/ProTable/Header';
