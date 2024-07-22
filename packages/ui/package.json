@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "10.3.1",
+    "version": "10.4.0",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -104,6 +104,7 @@
         "@nivo/core": "^0.84.0",
         "@nivo/pie": "^0.84.0",
         "@nivo/tooltip": "^0.84.0",
+        "antd-img-crop": "^4.2.4",
         "classnames": "^2.2.6",
         "command-line-args": "^5.1.1",
         "cross-spawn": "^7.0.3",
