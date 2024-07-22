@@ -78,7 +78,7 @@ export default {
     ],
 } as Meta;
 
-const QueriesSidebarStory = ({ title, ...props }: { title: string; props: IQueriesSidebarProps }) => (
+const QueriesSidebarStory = ({ title, ...props }: IQueriesSidebarProps & { title: string }) => (
     <>
         <h3>{title}</h3>
         <div
@@ -110,6 +110,7 @@ export const WithPills = QueriesSidebarStory.bind({});
 WithPills.args = {
     title: 'Custom pill sidebar with pills',
     customPills: [customPillOne, customPillTwo],
+    getFiltersByPill: () => { return {data: {}}},
     dictionary: {
         emptyText:
             'Vous pouvez créer des requêtes personnalisées en ajoutant des critères à la barre de requêtes et en cliquant sur le bouton sauvegarder.',
