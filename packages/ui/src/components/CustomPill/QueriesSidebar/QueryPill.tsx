@@ -51,6 +51,11 @@ const QueryPill = ({
     const [isLoadingFilters, setIsLoadingFilters] = useState<boolean>(false);
     const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
 
+    const deleteCustomPillMessage: string[] = (
+        dictionary.queriesSidebar?.deleteCustomPill?.modal?.message ||
+        'You are about to delete the custom query "{title}", which may affect your results.'
+    ).split('{title}');
+
     return (
         <div className={styles.queryPillWrapper}>
             <Button
@@ -90,13 +95,9 @@ const QueryPill = ({
                             className: styles.deleteCustomPillModal,
                             content: (
                                 <Spin spinning={isLoadingFilters}>
-                                    <Typography.Text>
-                                        {dictionary.queriesSidebar?.deleteCustomPill?.modal?.message.replace(
-                                            '{title}',
-                                            queryPill.title,
-                                        ) ||
-                                            'You are about to delete the custom query "{title}", which may affect your results.'}
-                                    </Typography.Text>
+                                    <Typography.Text>{deleteCustomPillMessage[0]}</Typography.Text>
+                                    <b>{queryPill.title}</b>
+                                    <Typography.Text>{deleteCustomPillMessage[1]}</Typography.Text>
                                     {(data?.length > 0 || error) && (
                                         <div className={styles.existingFilters}>
                                             <Typography.Text strong>
