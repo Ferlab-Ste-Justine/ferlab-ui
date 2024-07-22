@@ -1,10 +1,13 @@
+### 10.3.1 2024-07-22
+- feat: CLIN-2288 display queryPill name in bold
+
 ### 10.3.0 2024-07-18
 - feat: SKFP-334 add community member profile page
 
 ### 10.2.0 2024-07-16
 - feat: SKFP-334 add community members page
 
-### 10.0.1 2024-07-05
+### 10.1.1 2024-07-19
 - fix: CLIN-2868 use a link button to reset assignement filter to be iso with other default filters
 - fix: CLIN-2868 fix 'more items' button of facets filters style to have the correct width on focus-visible
 
