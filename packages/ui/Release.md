@@ -1,3 +1,6 @@
+### 10.4.0 2024-07-22
+- feat: SKFP-334 add community profile grid card
+
 ### 10.3.1 2024-07-22
 - feat: CLIN-2288 display queryPill name in bold
 
