@@ -11,6 +11,7 @@ import {
     CommunityMemberProfile,
     DEFAULT_COMMUNITY_MEMBER_PROFILE_DICTIONARY,
     TCommunityMemberProfileDictionary,
+    TCommunityMemberProfileOptions,
 } from './CommunityMemberProfile';
 import { IUser } from './type';
 
@@ -26,7 +27,7 @@ export type TCommunityMemberProfilePageDictionary = {
     profile: TCommunityMemberProfileDictionary;
 };
 
-interface ICommunityMemberProfile {
+interface ICommunityMemberProfilePage {
     dictionary?: TCommunityMemberProfilePageDictionary;
     user?: IUser;
     loading: boolean;
@@ -34,6 +35,7 @@ interface ICommunityMemberProfile {
     avatar?: {
         src: string;
     };
+    options: TCommunityMemberProfileOptions;
 }
 
 export const CommunityMemberProfilePage = ({
@@ -41,8 +43,9 @@ export const CommunityMemberProfilePage = ({
     banner,
     dictionary = DEFAULT_COMMUNITY_MEMBER_PROFILE_PAGE_DICTIONARY,
     loading,
+    options,
     user,
-}: ICommunityMemberProfile): JSX.Element => (
+}: ICommunityMemberProfilePage): JSX.Element => (
     <div className={styles.communityMemberWrapper}>
         <div className={styles.communityMember}>
             <CommunityBanner {...banner} dictionary={dictionary.banner} />
@@ -52,7 +55,7 @@ export const CommunityMemberProfilePage = ({
                 {loading ? (
                     <Skeleton active paragraph={{ rows: 6 }} />
                 ) : (
-                    <CommunityMemberProfile dictionary={dictionary.profile} user={user} />
+                    <CommunityMemberProfile dictionary={dictionary.profile} options={options} user={user} />
                 )}
             </div>
         </div>

@@ -1,3 +1,6 @@
+### 10.4.2 2024-07-23
+- feat: SKFP-374 fix profile roles and interests display
+
 ### 10.4.1 2024-07-23
 - feat: CLIN-2288 display queryPill name in bold (fix font weight)
 

@@ -9,6 +9,40 @@ describe('CommunityMemberProfile', () => {
     test('make sure CommunityMemberProfile render correctly', () => {
         const props = {
             dictionary,
+            options: {
+                interests: [
+                    {
+                        label: 'Adolescent Idiopathic Scoliosis',
+                        value: 'adolescent idiopathic scoliosis',
+                    },
+                    {
+                        label: 'Bladder Exstrophy-Epispadias Complex',
+                        value: 'bladder exstrophy-epispadias complex',
+                    },
+                    {
+                        label: 'Congenital Diaphragmatic Hernia',
+                        value: 'congenital diaphragmatic hernia',
+                    },
+                ],
+                roles: [
+                    {
+                        label: 'Researcher',
+                        value: 'research',
+                    },
+                    {
+                        label: 'Healthcare Professional',
+                        value: 'health',
+                    },
+                    {
+                        label: 'Patient/Family Member',
+                        value: 'patient',
+                    },
+                    {
+                        label: 'Community Member',
+                        value: 'community',
+                    },
+                ],
+            },
             user: {
                 accepted_terms: true,
                 areas_of_interest: ['bladder exstrophy-epispadias complex', 'congenital diaphragmatic hernia'],
