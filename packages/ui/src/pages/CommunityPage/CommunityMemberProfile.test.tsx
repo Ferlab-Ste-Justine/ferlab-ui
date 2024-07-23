@@ -56,7 +56,7 @@ describe('CommunityMemberProfile', () => {
                 keycloak_id: 'keycloak_id',
                 last_name: 'Doe',
                 linkedin: 'linked.com',
-                roles: ['Research', 'Patient'],
+                roles: ['research', 'patient'],
                 understand_disclaimer: true,
                 updated_date: new Date('2020-05-12T23:50:21.817Z'),
                 website: 'website.com',
@@ -64,10 +64,10 @@ describe('CommunityMemberProfile', () => {
         };
 
         render(<CommunityMemberProfile {...props} />);
-        expect(screen.getByText(props.user.roles[0])).toBeTruthy();
-        expect(screen.getByText(props.user.roles[1])).toBeTruthy();
-        expect(screen.getByText(props.user.areas_of_interest[0])).toBeTruthy();
-        expect(screen.getByText(props.user.areas_of_interest[1])).toBeTruthy();
+        expect(screen.getByText(props.options.roles[0].label)).toBeTruthy();
+        expect(screen.getByText(props.options.roles[2].label)).toBeTruthy();
+        expect(screen.getByText(props.options.interests[1].label)).toBeTruthy();
+        expect(screen.getByText(props.options.interests[2].label)).toBeTruthy();
         expect(screen.getByText(dictionary.linkedin)).toBeTruthy();
         expect(screen.getByText(dictionary.website)).toBeTruthy();
     });
