@@ -96,7 +96,7 @@ const QueryPill = ({
                             content: (
                                 <Spin spinning={isLoadingFilters}>
                                     <Typography.Text>{deleteCustomPillMessage[0]}</Typography.Text>
-                                    <b>{queryPill.title}</b>
+                                    <Typography.Text strong>{queryPill.title}</Typography.Text>
                                     <Typography.Text>{deleteCustomPillMessage[1]}</Typography.Text>
                                     {(data?.length > 0 || error) && (
                                         <div className={styles.existingFilters}>
