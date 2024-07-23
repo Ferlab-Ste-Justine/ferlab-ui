@@ -35,13 +35,25 @@ export type TCommunityMemberProfileDictionary = {
     linkedin: string;
 };
 
+type TOption = {
+    label: string;
+    value: string;
+};
+
+export type TCommunityMemberProfileOptions = {
+    roles: TOption[];
+    interests?: TOption[];
+};
+
 export interface ICommunityMemberProfile {
     user?: IUser;
     dictionary?: TCommunityMemberProfileDictionary;
+    options: TCommunityMemberProfileOptions;
 }
 
 export const CommunityMemberProfile = ({
     dictionary = DEFAULT_COMMUNITY_MEMBER_PROFILE_DICTIONARY,
+    options,
     user,
 }: ICommunityMemberProfile): JSX.Element => (
     <Row gutter={[80, 28]}>
@@ -53,14 +65,14 @@ export const CommunityMemberProfile = ({
                         className={cx(styles.infoList, {
                             [styles.empty]: (user?.roles?.length ?? []) === 0,
                         })}
-                        dataSource={user?.roles}
+                        dataSource={options.roles.filter((role) => user?.roles?.includes(role.value))}
                         itemLayout="horizontal"
                         locale={{
                             emptyText: (
                                 <Empty align="left" description={dictionary.roles.noRole} noPadding showImage={false} />
                             ),
                         }}
-                        renderItem={(role, index) => <li key={index}>{role}</li>}
+                        renderItem={(role, index) => <li key={index}>{role.label}</li>}
                     />
                 </Col>
                 {(user?.areas_of_interest ?? []).length > 0 && (
@@ -70,7 +82,9 @@ export const CommunityMemberProfile = ({
                             className={cx(styles.infoList, {
                                 [styles.empty]: (user?.areas_of_interest?.length ?? []) === 0,
                             })}
-                            dataSource={user?.areas_of_interest}
+                            dataSource={(options.interests ?? []).filter((interest) =>
+                                user?.areas_of_interest?.includes(interest.value),
+                            )}
                             itemLayout="horizontal"
                             locale={{
                                 emptyText: (
@@ -82,7 +96,7 @@ export const CommunityMemberProfile = ({
                                     />
                                 ),
                             }}
-                            renderItem={(interest, index) => <li key={index}>{interest}</li>}
+                            renderItem={(interest, index) => <li key={index}>{interest.label}</li>}
                         />
                     </Col>
                 )}
