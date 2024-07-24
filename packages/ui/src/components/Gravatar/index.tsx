@@ -3,7 +3,7 @@ import { CSSProperties } from 'react';
 import md5 from 'md5';
 
 export interface IGravatarProps {
-    email: string;
+    id: string;
     circle?: boolean;
     placeholder?: string | 'robohash' | 'retro' | 'wavatar' | 'monsterid' | 'identicon' | 'mp' | '404';
     size?: number;
@@ -17,7 +17,7 @@ const BASE_URL = 'https://www.gravatar.com/avatar';
 const Gravatar = ({
     alt = 'Gravatar',
     circle = false,
-    email = '',
+    id = '',
     placeholder = 'retro',
     size = 100,
     ...props
@@ -40,7 +40,7 @@ const Gravatar = ({
         <img
             {...props}
             alt={alt}
-            src={`${BASE_URL}/${md5(email.trim().toLowerCase())}${getQueryParams()}`}
+            src={`${BASE_URL}/${md5(id.trim().toLowerCase())}${getQueryParams()}`}
             style={
                 circle
                     ? {

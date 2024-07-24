@@ -36,10 +36,10 @@
 }
 .communityMember .bannerActions .communityBtn {
   padding: 0;
-  color: var(--blue-5);
+  color: var(--community-profile-banner-btn);
 }
 .communityMember .bannerActions .editButton {
-  color: var(--blue-5);
+  color: var(--community-profile-banner-btn);
 }
 .communityMember .memberName {
   margin-bottom: 0;

@@ -1,3 +1,6 @@
+### 10.4.4 2024-07-24
+- fix: SKFP-335 fix styles issue for community
+
 ### 10.4.3 2024-07-24
 - fix: SKFP-1190 fix apply button alignment
 

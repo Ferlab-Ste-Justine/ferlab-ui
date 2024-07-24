@@ -30,6 +30,8 @@ export interface IUser {
     areas_of_interest?: string[];
     research_area_description?: string;
     profile_image_key?: string | null;
+    location_state?: string;
+    location_country?: string;
 }
 
 export type TUserTableConfig = {

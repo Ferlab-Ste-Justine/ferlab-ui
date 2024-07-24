@@ -35,3 +35,15 @@ export const truncateString = (text: string, maxLength: number) =>
 
 export const formatUserName = (user: IUser): string =>
     user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : user.email ?? '';
+
+export const formatCountryAndState = (user: IUser): string => {
+    if (user.location_state && user.location_country) {
+        return `${user.location_state}, ${user.location_country}`;
+    }
+
+    if (user.location_state) {
+        return `${user.location_state}`;
+    }
+
+    return `${user.location_country}`;
+};
