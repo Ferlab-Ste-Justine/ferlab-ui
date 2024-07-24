@@ -167,6 +167,7 @@
   --landing-text-icon-color-dark: var(--gray-8);
   --landing-spot-icon-color-light: var(--blue-8);
   --landing-spot-icon-color-dark: var(--blue-3);
+  --community-profile-banner-btn: var(--blue-5);
 
   --small-font: 1.2rem;
 }

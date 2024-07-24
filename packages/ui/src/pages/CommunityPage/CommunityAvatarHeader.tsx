@@ -2,7 +2,7 @@ import React from 'react';
 import { Skeleton, Space, Typography } from 'antd';
 
 import Gravatar from '../../components/Gravatar';
-import { formatUserName } from '../../utils/stringUtils';
+import { formatCountryAndState, formatUserName } from '../../utils/stringUtils';
 
 import CommunityUserAvatar from './CommunityUserAvatar';
 import { IUser } from './type';
@@ -33,7 +33,7 @@ const CommunityAvatarHeader = ({ loading = false, src, user }: ICommunityAvatarH
             {user?.profile_image_key ? (
                 <CommunityUserAvatar shape="round" size={140} src={src} />
             ) : (
-                <Gravatar circle email={user?.email ?? ''} size={140} />
+                <Gravatar circle id={`${user.first_name}${user.last_name}`} size={140} />
             )}
             <Space align="center" direction="vertical" size={8}>
                 <>
@@ -41,6 +41,9 @@ const CommunityAvatarHeader = ({ loading = false, src, user }: ICommunityAvatarH
                         {formatUserName(user)}
                     </Typography.Title>
                     {user?.affiliation && <Typography.Text type="secondary">{user?.affiliation}</Typography.Text>}
+                    {(user?.location_country || user?.location_state) && (
+                        <Typography.Text type="secondary">{formatCountryAndState(user)}</Typography.Text>
+                    )}
                 </>
             </Space>
         </Space>

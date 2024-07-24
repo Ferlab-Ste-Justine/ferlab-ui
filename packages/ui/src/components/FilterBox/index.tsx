@@ -108,16 +108,7 @@ const FiltersBox = ({
                             onClear={() => setRoleFilter([])}
                             onDeselect={(value: string) => setRoleFilter((prev) => prev.filter((val) => val !== value))}
                             onSelect={(value: string) => setRoleFilter([...roleFilter, value])}
-                            options={[
-                                ...options.roles.map((option) => ({
-                                    label: option.label,
-                                    value: option.value,
-                                })),
-                                {
-                                    label: dictionary.select.other,
-                                    value: 'other',
-                                },
-                            ]}
+                            options={options.roles}
                             placeholder={dictionary.select.placeholder}
                             tagRender={({ label, onClose }) => (
                                 <Tag className={styles.filterTag} closable onClose={onClose} style={{ marginRight: 3 }}>
