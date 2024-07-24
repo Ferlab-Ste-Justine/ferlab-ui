@@ -1,3 +1,6 @@
+### 10.4.3 2024-07-24
+- fix: SKFP-1190 fix apply button alignment
+
 ### 10.4.2 2024-07-23
 - feat: SKFP-374 fix profile roles and interests display
 
