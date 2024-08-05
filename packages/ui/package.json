@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "10.4.4",
+    "version": "10.4.5",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -43,7 +43,6 @@
         "@testing-library/dom": "^10.1.0",
         "@testing-library/jest-dom": "^6.4.5",
         "@testing-library/react": "^16.0.0",
-        "@types/antd": "^1.0.0",
         "@types/classnames": "^2.2.11",
         "@types/jest": "^29.2.3",
         "@types/lodash": "^4.14.168",
@@ -80,6 +79,7 @@
         "webpack": "^5.89.0"
     },
     "peerDependencies": {
+        "@sentry/react": "^8.23.0",
         "antd": "^4.24.11",
         "date-fns": "^2.29.3",
         "rc-tree-select": "^5.4.0",
