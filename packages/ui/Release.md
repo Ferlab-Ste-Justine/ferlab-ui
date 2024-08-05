@@ -1,3 +1,6 @@
+### 10.4.5 2024-08-05
+- feat: FLUI-138 add sentry local storage integration
+
 ### 10.4.4 2024-07-24
 - fix: SKFP-335 fix styles issue for community
 
@@ -30,7 +33,7 @@
 - fix: SKFP-1172 Improve performance for big datasets
 
 ### 10.0.0 2024-07-03
-- feat: FLUI-132 remove sass, migrate to vanilla css and custom properties 
+- feat: FLUI-132 remove sass, migrate to vanilla css and custom properties
 
 ### 9.21.4 2024-07-04
 - fix: SKFP-1134 Adjust chart bar width for smaller dataset
