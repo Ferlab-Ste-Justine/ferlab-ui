@@ -236,6 +236,10 @@ interface IQueryBuilderHeaderDictionnary {
         error?: {
             fieldRequired: React.ReactNode;
         };
+        pattern?: {
+            regex: RegExp;
+            message: string;
+        };
     };
     notification?: {
         savedTitle: React.ReactNode;

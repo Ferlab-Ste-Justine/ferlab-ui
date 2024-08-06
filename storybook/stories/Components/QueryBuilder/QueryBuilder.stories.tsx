@@ -590,6 +590,80 @@ WithHeaderAndTools.args = {
     IconTotal: <MdPeople />,
 };
 
+/* with header and tools and pattern */
+export const WithHeaderAndToolsAndPattern = QueryBuilderStory.bind({});
+const withHeaderAndToolsAndPatternQbID = QB_ID + 'WithHeaderAndToolsAndPattern';
+setQueryBuilderState(withHeaderAndToolsAndPatternQbID, {
+    state: [
+        {
+            op: 'and',
+            content: [
+                {
+                    content: {
+                        value: ['something'],
+                        field: 'test',
+                    },
+                    op: 'in',
+                },
+            ],
+            total: 1500,
+            id: '1',
+        },
+    ],
+    active: '1',
+});
+WithHeaderAndToolsAndPattern.args = {
+    id: withHeaderAndToolsAndPatternQbID,
+    title: 'With header, tools and pattern (Can\'t use $ in the filter name)',
+    getResolvedQueryForCount: defaultResolveCountPromise,
+    fetchQueryCount: defaultFetchQuerCount,
+    headerConfig: {
+        showHeader: true,
+        showTools: true,
+        defaultTitle: 'Untitled Query',
+        options: {
+            enableDuplicate: true,
+            enableEditTitle: true,
+            enableShare: true,
+            enableUndoChanges: true,
+        },
+        savedFilters: [
+            {
+                title: 'My query',
+                op: 'and',
+                content: [
+                    {
+                        content: {
+                            value: ['something'],
+                            field: 'test',
+                            op: 'in',
+                        },
+                    },
+                ],
+                total: 1500,
+                id: '1',
+                updated_date: '2022-09-23T03:02:01.286Z',
+            },
+        ],
+        onSaveQuery: (filter: any) => {},
+        onDuplicateQuery: (filter: any) => {},
+        onDeleteQuery: (filter: any) => {},
+    },
+    dictionary: {
+        queryBuilderHeader: {
+            form: {
+                pattern: {
+                    message: "Can't use $",
+                    regex: '^.[^$]+$',
+                }
+            }
+        }
+    },
+    onRemoveFacet: (f: any) => f,
+    onChangeQuery: (f: any) => f,
+    IconTotal: <MdPeople />,
+};
+
 /* with name mapping */
 export const WithNameMapping = QueryBuilderStory.bind({});
 const withNameMappingQbId = QB_ID + 'WithNameMapping';
