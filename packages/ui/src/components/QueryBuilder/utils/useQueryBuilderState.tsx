@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { isEmpty } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import { v4 } from 'uuid';
 
 import { BooleanOperators, RangeOperators, TermOperators } from '../../../data/sqon/operators';
@@ -17,6 +17,7 @@ import {
     getDefaultSyntheticSqon,
     getUpdatedActiveQuery,
     getUpdatedActiveQueryByFilterGroup,
+    isBooleanOperator,
     removeFieldFromActiveQuery,
 } from '../../../data/sqon/utils';
 import { IFilter, IFilterGroup } from '../../filters/types';
@@ -215,7 +216,11 @@ export const removePillFromQueryBuilder = (pillId: string, queryBuilderId: strin
 
 export const addPillToQueryBuilder = (pill: IValueQuery, queryBuilderId: string): void => {
     const activeQuery = getActiveQuery(queryBuilderId);
-    updateQuery({ query: { ...activeQuery, content: [...activeQuery.content, pill] }, queryBuilderId });
+    let newPill = pill;
+    if (isBooleanOperator(pill) && pill.content.length === 1) {
+      newPill = { ...pill, content: get(pill.content[0], 'content', []) };
+    }
+    updateQuery({ query: { ...activeQuery, content: [...activeQuery.content, newPill] }, queryBuilderId });
 };
 
 /**
