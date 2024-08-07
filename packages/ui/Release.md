@@ -1,8 +1,8 @@
+### 10.4.6 2024-08-07
+- feat: CQDG-830 add pattern restriction for name of Sets and Filters
+
 ### 10.4.5 2024-08-05
 - feat: FLUI-138 add sentry local storage integration
-
-### 10.4.5 2024-07-24
-- feat: CQDG-830 add pattern restriction for name of Sets and Filters
 
 ### 10.4.4 2024-07-24
 - fix: SKFP-335 fix styles issue for community
