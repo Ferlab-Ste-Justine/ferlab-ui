@@ -1,3 +1,6 @@
+### 10.4.6-rc2 2024-08-07
+- fix: CLIN-2916 saving custom filter after adding saved custom pill to it
+
 ### 10.4.5 2024-08-05
 - feat: FLUI-138 add sentry local storage integration
 
