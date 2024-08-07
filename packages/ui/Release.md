@@ -1,3 +1,6 @@
+### 10.4.7-rc1 2024-08-07
+- fix: CLIN-2916 saving custom filter after adding saved custom pill to it
+
 ### 10.4.6 2024-08-07
 - feat: CQDG-830 add pattern restriction for name of Sets and Filters
 
@@ -36,7 +39,7 @@
 - fix: SKFP-1172 Improve performance for big datasets
 
 ### 10.0.0 2024-07-03
-- feat: FLUI-132 remove sass, migrate to vanilla css and custom properties 
+- feat: FLUI-132 remove sass, migrate to vanilla css and custom properties
 
 ### 9.21.4 2024-07-04
 - fix: SKFP-1134 Adjust chart bar width for smaller dataset
