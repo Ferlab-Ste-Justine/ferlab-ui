@@ -1,6 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import { WarningFilled } from '@ant-design/icons';
 import { Form, Input, Modal } from 'antd';
+import type { Rule } from 'rc-field-form/lib/interface';
 
 import { QueryBuilderContext, QueryCommonContext } from '../../context';
 
@@ -40,6 +41,34 @@ const EditFilterModal = ({
         [visible],
     );
 
+    const defaultFormRules: Rule[] = [
+        {
+            message: (
+                <span>{dictionary.queryBuilderHeader?.form?.error?.fieldRequired || 'This field is required'}</span>
+            ),
+            required: true,
+            type: 'string',
+        },
+        {
+            max: headerConfig.maxNameCapSavedQuery || DEFAULT_TITLE_MAX_LENGTH,
+            message: (
+                <span>
+                    <WarningFilled /> {headerConfig.maxNameCapSavedQuery || DEFAULT_TITLE_MAX_LENGTH}{' '}
+                    {dictionary.queryBuilderHeader?.modal?.edit?.input.maximumLength || 'characters maximum'}
+                </span>
+            ),
+            required: false,
+            type: 'string',
+        },
+    ];
+
+    const patternFormRule: Rule = {
+        message: dictionary.queryBuilderHeader?.form?.pattern?.message || 'Unauthorized characters',
+        pattern: new RegExp(dictionary.queryBuilderHeader?.form?.pattern?.regex || '', 'ui'),
+        type: 'string',
+        validateTrigger: 'onSubmit',
+    };
+
     return (
         <Modal
             cancelText={dictionary.queryBuilderHeader?.modal?.edit?.cancelText || 'Cancel'}
@@ -76,31 +105,11 @@ const EditFilterModal = ({
                             label={dictionary.queryBuilderHeader?.modal?.edit?.input.label || 'Filter name'}
                             name="title"
                             required={false}
-                            rules={[
-                                {
-                                    message: (
-                                        <span>
-                                            {dictionary.queryBuilderHeader?.form?.error?.fieldRequired ||
-                                                'This field is required'}
-                                        </span>
-                                    ),
-                                    required: true,
-                                    type: 'string',
-                                },
-                                {
-                                    max: headerConfig.maxNameCapSavedQuery || DEFAULT_TITLE_MAX_LENGTH,
-                                    message: (
-                                        <span>
-                                            <WarningFilled />{' '}
-                                            {headerConfig.maxNameCapSavedQuery || DEFAULT_TITLE_MAX_LENGTH}{' '}
-                                            {dictionary.queryBuilderHeader?.modal?.edit?.input.maximumLength ||
-                                                'characters maximum'}
-                                        </span>
-                                    ),
-                                    required: false,
-                                    type: 'string',
-                                },
-                            ]}
+                            rules={
+                                dictionary.queryBuilderHeader?.form?.pattern
+                                    ? [...defaultFormRules, patternFormRule]
+                                    : defaultFormRules
+                            }
                         >
                             <Input
                                 placeholder={
