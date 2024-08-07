@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty, get } from 'lodash';
 import { v4 } from 'uuid';
 
 import { BooleanOperators, RangeOperators, TermOperators } from '../../../data/sqon/operators';
@@ -12,6 +12,7 @@ import {
 } from '../../../data/sqon/types';
 import { ISyntheticSqon, MERGE_VALUES_STRATEGIES } from '../../../data/sqon/types';
 import {
+    isBooleanOperator,
     createInlineFilters,
     deepMergeFieldInActiveQuery,
     getDefaultSyntheticSqon,
@@ -215,7 +216,11 @@ export const removePillFromQueryBuilder = (pillId: string, queryBuilderId: strin
 
 export const addPillToQueryBuilder = (pill: IValueQuery, queryBuilderId: string): void => {
     const activeQuery = getActiveQuery(queryBuilderId);
-    updateQuery({ query: { ...activeQuery, content: [...activeQuery.content, pill] }, queryBuilderId });
+    let newPill = pill;
+    if (isBooleanOperator(pill) && pill.content.length === 1) {
+      newPill = { ...pill, content: get(pill.content[0], 'content', []) };
+    }
+    updateQuery({ query: { ...activeQuery, content: [...activeQuery.content, newPill] }, queryBuilderId });
 };
 
 /**
@@ -227,7 +232,7 @@ export const addPillToQueryBuilder = (pill: IValueQuery, queryBuilderId: string)
  * ```
  */
 export const setQueryBuilderState = (queryBuilderId: string, value: IQueryBuilderState): void => {
-    const QBUpdateEvent: TQBStateUpdateEvent = new Event(QB_UPDATE_EVENT_KEY);
+    const QBUpdateEvent: TQBStateUpdateEvent = new Event(QB_UPDATE_EVENT_KEY); //
 
     QBUpdateEvent.qbID = queryBuilderId;
     QBUpdateEvent.value = value;
@@ -271,6 +276,7 @@ const useQueryBuilderState = (queryBuilderId: string) => {
 
     useEffect(() => {
         const listener = (event: TQBStateUpdateEvent) => {
+          console.log('### useQueryBuilderState listener event.timeStamp', event.timeStamp);
             if (event.qbID === queryBuilderId) {
                 setState({
                     active: event.value?.active ?? v4(),
