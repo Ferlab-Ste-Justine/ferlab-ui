@@ -90,12 +90,13 @@ export default {
     // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
     moduleNameMapper: {
         '^.+\\.(css|less|scss)$': 'babel-jest',
+        'd3-svg-to-png': require.resolve('d3-svg-to-png'),
+        '^d3-(.+)$': '<rootDir>/node_modules/d3-$1/dist/d3-$1.js',
         '^uuid$': require.resolve('uuid'),
-        nivo: require.resolve('@nivo/bar'),
     },
 
     // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
-    // modulePathIgnorePatterns: [],
+    // modulePathIgnorePatterns: ['d3-svg-to-png'],
 
     // Activates notifications for test results
     // notify: false,
