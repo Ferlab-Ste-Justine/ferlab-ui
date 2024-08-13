@@ -1,0 +1,19 @@
+.fl-auto-complete {
+  width: 100%;
+  padding: 8px 0;
+}
+
+.fl-auto-complete_highlight{
+  color: var(--gray-7)
+}
+
+.fl-auto-complete_highlight strong{
+  font-weight: normal;
+  background-color: var(--blue-2);
+  color: var(--blue-10)
+}
+
+.fl-auto-complete_highlight_id{
+  margin-left: 8px;
+  color: var(--gray-6)
+}
