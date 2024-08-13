@@ -30,7 +30,7 @@ export default {
     },
 } as Meta;
 
-const QueryBuilderStory = ({ title, ...props }: { title: string; props: Story<IQueryBuilderProps> }) => (
+const QueryBuilderStory = ({ title, ...props }: { title: string; props: IQueryBuilderProps }) => (
     <>
         <h3>{title}</h3>
         <QueryBuilder {...props} />

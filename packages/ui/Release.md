@@ -1,3 +1,6 @@
+### 10.6.0 2024-08-15
+- feat: CLIN-3027 add an autocomplete component
+
 ### 10.5.1 2024-08-14
 - fix: FLUI-131 fix basic-bordered theme for description
 
