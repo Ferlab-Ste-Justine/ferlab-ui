@@ -95,6 +95,32 @@
   margin-bottom: 12px;
 }
 
+.leftSection {
+  display: flex;
+}
+
+.leftSection :global(.ant-descriptions):first-child {
+  margin-right: 12px;
+}
+
+.leftSection :global(.ant-descriptions):last-child {
+  margin-left: 12px;
+}
+
+.basicBordered {
+  width: 100%;
+}
+
+.basicBordered :global(.ant-descriptions-view) {
+  border: none;
+}
+
+.basicBordered :global(.ant-descriptions-item-label) {
+  background: none;
+  border-right: none;
+  padding: 4px 0 !important;
+}
+
 @media (max-width: 1024px) {
   .bannerWrapper {
     grid-template-columns: repeat(3, 1fr);

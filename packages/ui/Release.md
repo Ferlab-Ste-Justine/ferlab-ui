@@ -1,3 +1,6 @@
+### 10.5.0 2024-08-12
+- feat: FLUI-131 add basic-bordered theme for description
+
 ### 10.4.6 2024-08-07
 - feat: CQDG-830 add pattern restriction for name of Sets and Filters
 

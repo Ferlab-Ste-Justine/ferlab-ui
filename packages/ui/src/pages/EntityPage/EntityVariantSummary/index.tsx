@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
-import { Card, Descriptions, Space, Typography } from 'antd';
+import { Card, Descriptions, DescriptionsProps, Space, Typography } from 'antd';
+import cx from 'classnames';
 
 import Empty from '../../../components/Empty';
 
@@ -27,14 +28,42 @@ export interface IVariantSummaryData {
     };
 }
 
+type TTheme = 'basic' | 'basic-bordered';
+
 export interface ISummaryProps {
     id: string;
     loading: boolean;
     noDataLabel: string;
     data?: IVariantSummaryData;
+    theme?: TTheme;
 }
 
-export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummaryProps): JSX.Element => {
+const getDescriptionPropsBasedOnTheme = (theme: TTheme): DescriptionsProps => {
+    let props: DescriptionsProps = {};
+    switch (theme) {
+        case 'basic-bordered':
+            props = {
+                bordered: true,
+                className: style.basicBordered,
+            };
+            break;
+        default:
+            props = {
+                bordered: false,
+            };
+            break;
+    }
+
+    return props;
+};
+
+export const EntityVariantSummary = ({
+    data,
+    id,
+    loading,
+    noDataLabel,
+    theme = 'basic',
+}: ISummaryProps): JSX.Element => {
     let detailsLeftSectionLength = data?.details.leftSection.items.length || 0;
     if (detailsLeftSectionLength % 2 != 0) detailsLeftSectionLength++;
     const detailsLeftSectionCol1 = data?.details.leftSection.items.slice(0, detailsLeftSectionLength / 2);
@@ -42,6 +71,7 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
         detailsLeftSectionLength / 2,
         detailsLeftSectionLength,
     );
+    const descriptionProps = getDescriptionPropsBasedOnTheme(theme);
 
     return (
         <div className={style.summaryWrapper} id={id}>
@@ -73,8 +103,8 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                             <div className={style.detailsWrapper}>
                                 <div className={style.score}>
                                     <div className={style.detailsTitle}>{data.details.leftSection.title}</div>
-                                    <Space align="start" direction="horizontal" size="middle">
-                                        <Descriptions column={1}>
+                                    <div className={style.leftSection}>
+                                        <Descriptions {...descriptionProps} column={1}>
                                             {detailsLeftSectionCol1?.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
                                                     key={index}
@@ -84,7 +114,7 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                                 </Descriptions.Item>
                                             ))}
                                         </Descriptions>
-                                        <Descriptions column={1}>
+                                        <Descriptions {...descriptionProps} column={1}>
                                             {detailsLeftSectionCol2?.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
                                                     key={index}
@@ -94,12 +124,15 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                                 </Descriptions.Item>
                                             ))}
                                         </Descriptions>
-                                    </Space>
+                                    </div>
                                 </div>
                                 <div className={style.geneSplice}>
                                     {data.details.middleSection.map((detail: IDetailData, index: number) => (
                                         <Descriptions
-                                            className={style.detailsItem}
+                                            {...descriptionProps}
+                                            className={cx(style.detailsItem, {
+                                                [style.basicBordered]: theme === 'basic-bordered',
+                                            })}
                                             column={1}
                                             key={index}
                                             title={<span className={style.detailsTitle}>{detail.title}</span>}
@@ -117,6 +150,7 @@ export const EntityVariantSummary = ({ data, id, loading, noDataLabel }: ISummar
                                 </div>
                                 <div className={style.omim}>
                                     <Descriptions
+                                        {...descriptionProps}
                                         column={1}
                                         title={
                                             <span className={style.detailsTitle}>
