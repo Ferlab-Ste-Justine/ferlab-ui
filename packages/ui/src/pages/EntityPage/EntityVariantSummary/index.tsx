@@ -38,14 +38,16 @@ export interface ISummaryProps {
     theme?: TTheme;
 }
 
-const getDescriptionPropsBasedOnTheme = (theme: TTheme): DescriptionsProps => {
+const getDescriptionPropsBasedOnTheme = (theme: TTheme): { delimiter: string; props: DescriptionsProps } => {
     let props: DescriptionsProps = {};
+    let delimiter = '';
     switch (theme) {
         case 'basic-bordered':
             props = {
                 bordered: true,
                 className: style.basicBordered,
             };
+            delimiter = ':';
             break;
         default:
             props = {
@@ -54,8 +56,17 @@ const getDescriptionPropsBasedOnTheme = (theme: TTheme): DescriptionsProps => {
             break;
     }
 
-    return props;
+    return { delimiter, props };
 };
+
+const formatLabel = (label: ReactNode, delimiter = ''): ReactNode =>
+    delimiter ? (
+        <>
+            {label} {delimiter}
+        </>
+    ) : (
+        label
+    );
 
 export const EntityVariantSummary = ({
     data,
@@ -71,7 +82,8 @@ export const EntityVariantSummary = ({
         detailsLeftSectionLength / 2,
         detailsLeftSectionLength,
     );
-    const descriptionProps = getDescriptionPropsBasedOnTheme(theme);
+    const { delimiter, props: descriptionProps } = getDescriptionPropsBasedOnTheme(theme);
+    console.log('delimiter', delimiter); //TODO: to remove
 
     return (
         <div className={style.summaryWrapper} id={id}>
@@ -83,7 +95,7 @@ export const EntityVariantSummary = ({
                                 {data.banner.map((item: IDataItem, index: number) => (
                                     <Space direction="vertical" key={index} size={4}>
                                         <div>
-                                            <Text type="secondary">{item.label}</Text>
+                                            <Text type="secondary">{formatLabel(item.label, delimiter)}</Text>
                                         </div>
                                         <div>{item.value}</div>
                                     </Space>
@@ -108,7 +120,11 @@ export const EntityVariantSummary = ({
                                             {detailsLeftSectionCol1?.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
                                                     key={index}
-                                                    label={<Text type="secondary">{item.label}</Text>}
+                                                    label={
+                                                        <Text type="secondary">
+                                                            {formatLabel(item.label, delimiter)}
+                                                        </Text>
+                                                    }
                                                 >
                                                     {item.value}
                                                 </Descriptions.Item>
@@ -118,7 +134,11 @@ export const EntityVariantSummary = ({
                                             {detailsLeftSectionCol2?.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
                                                     key={index}
-                                                    label={<Text type="secondary">{item.label}</Text>}
+                                                    label={
+                                                        <Text type="secondary">
+                                                            {formatLabel(item.label, delimiter)}
+                                                        </Text>
+                                                    }
                                                 >
                                                     {item.value}
                                                 </Descriptions.Item>
@@ -140,7 +160,15 @@ export const EntityVariantSummary = ({
                                             {detail.items.map((item: IDataItem, index: number) => (
                                                 <Descriptions.Item
                                                     key={index}
-                                                    label={<span>{<Text type="secondary">{item.label}</Text>}</span>}
+                                                    label={
+                                                        <span>
+                                                            {
+                                                                <Text type="secondary">
+                                                                    {formatLabel(item.label, delimiter)}
+                                                                </Text>
+                                                            }
+                                                        </span>
+                                                    }
                                                 >
                                                     <span className={style.detailsItemValue}>{item.value}</span>
                                                 </Descriptions.Item>
@@ -159,7 +187,7 @@ export const EntityVariantSummary = ({
                                         }
                                     >
                                         {data.details.rightSection.items.map((item: IDataItem, index: number) => (
-                                            <Descriptions.Item key={index}>
+                                            <Descriptions.Item key={index} label={item.label}>
                                                 <span className={style.detailsItemValue}>{item.value}</span>
                                             </Descriptions.Item>
                                         ))}
