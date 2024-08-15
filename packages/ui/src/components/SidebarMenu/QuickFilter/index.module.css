@@ -101,6 +101,8 @@
 }
 
 .popoverFooter {
+  display: flex;
+  justify-content: flex-end;
   text-align: right;
   padding: 12px 16px;
   border-top: 1px solid var(--gray-4);
@@ -128,6 +130,7 @@
 
 .applyBtn {
   padding: 1px 8px;
+  width: auto;
 }
 
 .highlight {

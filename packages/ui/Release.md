@@ -1,3 +1,6 @@
+### 10.6.1 2024-08-15
+- fix: SKFP-1235 fix apply button for level 2 quick filter
+
 ### 10.6.0 2024-08-15
 - feat: CLIN-3027 add an autocomplete component
 
