@@ -1,3 +1,6 @@
+### 10.6.2 2024-08-16
+- feat: CLIN-3027 update autocomplete highlight style
+
 ### 10.6.1 2024-08-15
 - fix: SKFP-1235 fix apply button for level 2 quick filter
 
