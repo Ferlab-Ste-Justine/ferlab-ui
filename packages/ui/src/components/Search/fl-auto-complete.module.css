@@ -9,11 +9,15 @@
 
 .fl-auto-complete_highlight strong{
   font-weight: normal;
-  background-color: var(--blue-2);
+  background-color: var(--autocomplete-highlight-background);
   color: var(--blue-10)
 }
 
-.fl-auto-complete_highlight_id{
+.fl-auto-complete_highlight em{
   margin-left: 8px;
   color: var(--gray-6)
+}
+
+.fl-auto-complete_highlight em strong{
+  color: var(--blue-9)
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { AutoComplete, Select } from 'antd';
 import { debounce } from 'lodash';
 
@@ -30,14 +30,18 @@ const FLAutoComplete: React.FC<FLAutoCompleteProps> = ({
     const [hits, setHits] = useState<FLAutoCompleteOption[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
 
-    const search = debounce(async (term = '') => {
-        try {
-            const resultHits = await getResults(term.toLowerCase().trim());
-            setHits(resultHits);
-        } catch (e: any) {
-            throw new Error(`cannot search for highlights: ${e.message}`);
-        }
-    }, debounceInterval || DEFAULT_DEBOUNCE_INTERVAL);
+    const search = useCallback(
+        debounce(async (term = '') => {
+            try {
+                const resultHits = await getResults(term.toLowerCase().trim());
+                setHits(resultHits);
+            } catch (e: any) {
+                setHits([]);
+                throw new Error(`cannot search for highlights: ${e.message}`);
+            }
+        }, debounceInterval || DEFAULT_DEBOUNCE_INTERVAL),
+        [],
+    );
 
     return (
         <AutoComplete
