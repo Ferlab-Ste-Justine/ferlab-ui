@@ -46,16 +46,20 @@ export interface IQuickFilter {
         option: TitleQFOption,
     ) => void;
     handleOnApply?: (options: CheckboxQFOption[], operator: TermOperators) => void;
+    handleClear?: () => void;
     isLoading?: boolean;
     inputPrefixIcon?: ReactNode;
     inputSuffixIcon?: ReactNode;
     menuIcon?: ReactNode;
     searchInputRef?: React.RefObject<InputRef>;
+    forceClose?: boolean;
 }
 
 const QuickFilter = ({
     dictionary,
+    forceClose,
     getSuggestionsList,
+    handleClear,
     handleFacetClick,
     handleOnApply,
     inputPrefixIcon,
@@ -105,6 +109,10 @@ const QuickFilter = ({
         setQFOptions([]);
         setSelectedOptions([]);
         setSelectedFacetOptions([]);
+
+        if (handleClear) {
+            handleClear();
+        }
     };
 
     const applyFilters = (operator: TermOperators) => {
@@ -197,6 +205,13 @@ const QuickFilter = ({
             clearFilters();
         }
     }, [isOpenPopover]);
+
+    useEffect(() => {
+        if (forceClose) {
+            setOpenPopover(false);
+            clearFilters();
+        }
+    }, [forceClose]);
 
     return (
         <div className={styles.searchMenuItem}>
