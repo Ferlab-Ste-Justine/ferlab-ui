@@ -1,3 +1,6 @@
+### 10.7.0 2024-08-20
+- feat: SKFP-1136 add quickfilter forceClose and handleClear
+
 ### 10.6.2 2024-08-16
 - feat: CLIN-3027 update autocomplete highlight style
 
