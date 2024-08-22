@@ -1,3 +1,7 @@
+### 10.7.1 2024-08-22
+- feat: CLIN-3098 Update autocomplete component according to UI design
+- fix start script to allow css module files watch
+
 ### 10.7.0 2024-08-20
 - feat: SKFP-1136 add quickfilter forceClose and handleClear
 

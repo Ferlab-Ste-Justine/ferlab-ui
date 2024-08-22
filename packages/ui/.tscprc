@@ -1,5 +1,5 @@
 {
   "ignored_files": ["node_modules"],
   "compiled_files": [], 
-  "use_ts_exclude": true,
+  "use_ts_exclude": true
 }

@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "10.7.0",
+    "version": "10.7.1",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -29,7 +29,7 @@
         "lint": "eslint $(git diff-index --name-only --diff-filter=d HEAD ../../packages/ui | grep -E '\\.ts$|\\.tsx$|\\.js$|\\.jsx$' | xargs | sed 's/packages\\/ui\\///g')",
         "lint:all": "eslint",
         "lint:fix": "npm run lint -- --fix",
-        "start": "tsc -w --declaration && tscp -w --declaration",
+        "start": "tsc -w --declaration & tscp -w",
         "test": "jest ./src",
         "test:watch": "jest --watch",
         "test:github": "jest --coverage --watchAll=false --no-watchma  --coverageReporters=\"text-summary\"",

@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { AutoComplete, Select } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import { AutoComplete, Input, Select, Typography } from 'antd';
 import { debounce } from 'lodash';
 
 import styles from './fl-auto-complete.module.css';
@@ -18,25 +19,29 @@ export interface FLAutoCompleteProps {
     onSelect: (option: FLAutoCompleteOption) => void;
     placeholder?: string;
     showIds?: boolean;
+    allowClear?: boolean;
+    setSelectedValue?: (selectedOption: FLAutoCompleteOption) => string;
 }
 
 const FLAutoComplete: React.FC<FLAutoCompleteProps> = ({
+    allowClear,
     debounceInterval,
     getResults,
     onSelect,
     placeholder,
+    setSelectedValue = (option) => option.id,
     showIds,
 }) => {
-    const [hits, setHits] = useState<FLAutoCompleteOption[]>([]);
+    const [options, setOptions] = useState<FLAutoCompleteOption[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
 
     const search = useCallback(
         debounce(async (term = '') => {
             try {
                 const resultHits = await getResults(term.toLowerCase().trim());
-                setHits(resultHits);
+                setOptions(resultHits);
             } catch (e: any) {
-                setHits([]);
+                setOptions([]);
                 throw new Error(`cannot search for highlights: ${e.message}`);
             }
         }, debounceInterval || DEFAULT_DEBOUNCE_INTERVAL),
@@ -44,34 +49,34 @@ const FLAutoComplete: React.FC<FLAutoCompleteProps> = ({
     );
 
     return (
-        <AutoComplete
-            allowClear={true}
-            className={styles['fl-auto-complete']}
-            onClear={() => {
-                setHits([]);
-            }}
-            onSearch={(term) => {
-                search(term);
-                setSearchTerm(term);
-            }}
-            onSelect={(optionId) => {
-                onSelect(hits.find(({ id }) => id === optionId)!);
-                setSearchTerm(''); // Set term to empty string to avoid displaying the id (because the select use the value of the option)
-                setHits([]);
-            }}
-            placeholder={placeholder || 'Search'}
-            value={searchTerm}
-        >
-            {hits.map(({ highlight = '', id }) => (
-                <Select.Option key={id} value={id}>
-                    <span
-                        className={styles['fl-auto-complete_highlight']}
-                        dangerouslySetInnerHTML={{ __html: highlight }}
-                    />
-                    {showIds && <em className={styles['fl-auto-complete_highlight_id']}>{id}</em>}
-                </Select.Option>
-            ))}
-        </AutoComplete>
+        <div className={styles['fl-auto-complete']}>
+            <AutoComplete
+                allowClear={allowClear}
+                onClear={() => {
+                    setOptions([]);
+                }}
+                onSearch={(term) => {
+                    search(term);
+                    setSearchTerm(term);
+                }}
+                onSelect={(optionId) => {
+                    const selectedOption = options.find(({ id }) => id === optionId)!;
+                    onSelect(selectedOption);
+                    setSearchTerm(setSelectedValue(selectedOption)); // Set term to empty string to avoid displaying the id (because the select use the value of the option)
+                    setOptions([]);
+                }}
+                placeholder={placeholder || 'Search'}
+                value={searchTerm}
+            >
+                {options.map(({ highlight = '', id }) => (
+                    <Select.Option className={styles['fl-auto-complete_highlight']} key={id} value={id}>
+                        <span dangerouslySetInnerHTML={{ __html: highlight }} />
+                        {showIds && <span className="fl-auto-complete_highlight_id">( {id} )</span>}
+                    </Select.Option>
+                ))}
+            </AutoComplete>
+            {!searchTerm && <SearchOutlined />}
+        </div>
     );
 };
 
