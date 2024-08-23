@@ -1,23 +1,52 @@
 .fl-auto-complete {
+  position: relative;
+}
+
+.fl-auto-complete :global(.ant-select-auto-complete){
   width: 100%;
   padding: 8px 0;
 }
 
+.fl-auto-complete :global(.ant-select-auto-complete) :global(.ant-select-selector),
+.fl-auto-complete :global(.ant-select-auto-complete):hover :global(.ant-select-selector){
+  border: 1px solid var(--gray-5);
+  border-radius: 2px;
+}
+
+.fl-auto-complete :global(.ant-select.ant-select-auto-complete.ant-select-focused) :global(.ant-select-selector){
+  border-color: var(--blue-7);
+  box-shadow: 0 0 0 2px var(--blue-4);
+}
+
+.fl-auto-complete :global(.anticon-search){
+  --autoCompleteIconSize: 16px;
+  width: var(--autoCompleteIconSize);
+  height: var(--autoCompleteIconSize);
+  position: absolute;
+  right: 8px;
+  top: calc(50% - var(--autoCompleteIconSize) / 2);
+  pointer-events: none;
+  color: var(--gray-6);
+}
+
 .fl-auto-complete_highlight{
-  color: var(--gray-7)
+  color: var(--gray-8);
+  letter-spacing: 0.25px;
 }
 
 .fl-auto-complete_highlight strong{
   font-weight: normal;
-  background-color: var(--autocomplete-highlight-background);
-  color: var(--blue-10)
+  background-color: var(--blue-2);
 }
 
-.fl-auto-complete_highlight em{
-  margin-left: 8px;
-  color: var(--gray-6)
+/* global, to allow usage of this class in inherited projects */
+:global(.fl-auto-complete_highlight_id){
+  color: var(--gray-7);
+  font-size: 12px;
+  letter-spacing: 0.4px;
 }
 
-.fl-auto-complete_highlight em strong{
-  color: var(--blue-9)
+.fl-auto-complete_highlight :global(.fl-auto-complete_highlight_id) strong{
+  color: var(--blue-9);
 }
+
