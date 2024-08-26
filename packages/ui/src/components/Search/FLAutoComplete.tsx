@@ -15,6 +15,7 @@ export interface FLAutoCompleteOption {
 
 export interface FLAutoCompleteProps {
     debounceInterval?: number;
+    minTermLength?: number;
     getResults: (term: string) => Promise<FLAutoCompleteOption[]>;
     onSelect: (option: FLAutoCompleteOption) => void;
     placeholder?: string;
@@ -27,6 +28,7 @@ const FLAutoComplete: React.FC<FLAutoCompleteProps> = ({
     allowClear,
     debounceInterval,
     getResults,
+    minTermLength = 3,
     onSelect,
     placeholder,
     setSelectedValue = (option) => option.id,
@@ -35,18 +37,17 @@ const FLAutoComplete: React.FC<FLAutoCompleteProps> = ({
     const [options, setOptions] = useState<FLAutoCompleteOption[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
 
-    const search = useCallback(
-        debounce(async (term = '') => {
-            try {
-                const resultHits = await getResults(term.toLowerCase().trim());
-                setOptions(resultHits);
-            } catch (e: any) {
-                setOptions([]);
-                throw new Error(`cannot search for highlights: ${e.message}`);
-            }
-        }, debounceInterval || DEFAULT_DEBOUNCE_INTERVAL),
-        [],
-    );
+    const search = useCallback(async (term = '') => {
+        try {
+            const resultHits = await getResults(term.toLowerCase().trim());
+            setOptions(resultHits);
+        } catch (e: any) {
+            setOptions([]);
+            throw new Error(`cannot search for highlights: ${e.message}`);
+        }
+    }, []);
+
+    const debounceSearch = useCallback(debounce(search, debounceInterval || DEFAULT_DEBOUNCE_INTERVAL), []);
 
     return (
         <div className={styles['fl-auto-complete']}>
@@ -55,8 +56,12 @@ const FLAutoComplete: React.FC<FLAutoCompleteProps> = ({
                 onClear={() => {
                     setOptions([]);
                 }}
+                onKeyDown={(event) => {
+                    if (event.key === 'Enter' && searchTerm.length >= minTermLength) search(searchTerm);
+                }}
                 onSearch={(term) => {
-                    search(term);
+                    if (term.length >= minTermLength) debounceSearch(term);
+                    else setOptions([]);
                     setSearchTerm(term);
                 }}
                 onSelect={(optionId) => {

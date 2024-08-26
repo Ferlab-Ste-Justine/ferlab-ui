@@ -1,3 +1,6 @@
+### 10.7.2 2024-08-26
+- feat: CLIN-3098 Update autocomplete component (manage enter press, and add a minimum length props for search term)
+
 ### 10.7.1 2024-08-22
 - feat: CLIN-3098 Update autocomplete component according to UI design
 - fix start script to allow css module files watch
