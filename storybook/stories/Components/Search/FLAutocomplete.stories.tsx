@@ -24,7 +24,7 @@ const highlights = [{
     id: "HPO:000001",
     highlight:"This is a test text"
 },{
-    id: "HPO:0005146",
+    id: "HPO:0005145",
     highlight:"Some highlight text"
 },{
     id: "HPO:0005146",
