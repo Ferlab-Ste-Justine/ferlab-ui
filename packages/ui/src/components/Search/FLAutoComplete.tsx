@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Input, Select, Typography } from 'antd';
-import { debounce } from 'lodash';
+import { AutoComplete, Select } from 'antd';
+import debounce from 'lodash/debounce';
 
 import styles from './fl-auto-complete.module.css';
 
@@ -15,7 +15,10 @@ export interface FLAutoCompleteOption {
 
 export interface FLAutoCompleteProps {
     debounceInterval?: number;
+    defaultValue?: string;
+    minTermLength?: number;
     getResults: (term: string) => Promise<FLAutoCompleteOption[]>;
+    onClear?: () => void;
     onSelect: (option: FLAutoCompleteOption) => void;
     placeholder?: string;
     showIds?: boolean;
@@ -26,37 +29,55 @@ export interface FLAutoCompleteProps {
 const FLAutoComplete: React.FC<FLAutoCompleteProps> = ({
     allowClear,
     debounceInterval,
+    defaultValue = '',
     getResults,
+    minTermLength = 3,
+    onClear = () => null,
     onSelect,
     placeholder,
     setSelectedValue = (option) => option.id,
     showIds,
 }) => {
     const [options, setOptions] = useState<FLAutoCompleteOption[]>([]);
-    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [searchTerm, setSearchTerm] = useState<string>(defaultValue);
+    const [inputElement, setInputElement] = useState<HTMLInputElement>();
 
-    const search = useCallback(
-        debounce(async (term = '') => {
-            try {
-                const resultHits = await getResults(term.toLowerCase().trim());
-                setOptions(resultHits);
-            } catch (e: any) {
-                setOptions([]);
-                throw new Error(`cannot search for highlights: ${e.message}`);
-            }
-        }, debounceInterval || DEFAULT_DEBOUNCE_INTERVAL),
-        [],
-    );
+    const search = useCallback(async (term = '') => {
+        try {
+            const resultHits = await getResults(term.toLowerCase().trim());
+            setOptions(resultHits);
+        } catch (e: any) {
+            setOptions([]);
+            throw new Error(`cannot search for highlights: ${e.message}`);
+        }
+    }, []);
+
+    const debounceSearch = useCallback(debounce(search, debounceInterval || DEFAULT_DEBOUNCE_INTERVAL), []);
+
+    // Get input dom element to allow text selection
+    const elRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        setInputElement(elRef.current?.getElementsByTagName('input')[0] as HTMLInputElement);
+    }, [elRef.current]);
 
     return (
-        <div className={styles['fl-auto-complete']}>
+        <div className={styles['fl-auto-complete']} ref={elRef}>
             <AutoComplete
                 allowClear={allowClear}
+                defaultValue={defaultValue}
                 onClear={() => {
                     setOptions([]);
+                    onClear();
+                }}
+                onFocus={() => {
+                    inputElement?.select();
+                }}
+                onKeyDown={(event) => {
+                    if (event.key === 'Enter' && searchTerm.length >= minTermLength) search(searchTerm);
                 }}
                 onSearch={(term) => {
-                    search(term);
+                    if (term.length >= minTermLength) debounceSearch(term);
+                    else setOptions([]);
                     setSearchTerm(term);
                 }}
                 onSelect={(optionId) => {
