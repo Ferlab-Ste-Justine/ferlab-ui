@@ -1,3 +1,6 @@
+### 10.7.3 2024-08-27
+- fix: SJIP-952 allow quick filter button facet color theme
+
 ### 10.7.2 2024-08-26
 - feat: CLIN-3098 Update autocomplete component
     + manage enter press
