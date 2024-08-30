@@ -1,3 +1,6 @@
+### 10.7.4 2024-08-30
+- fix: SJIP-952 allow quick filter title facet color theme
+
 ### 10.7.3 2024-08-27
 - fix: SJIP-952 allow quick filter button facet color theme
 
