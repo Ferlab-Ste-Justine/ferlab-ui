@@ -1,0 +1,23 @@
+ 
+  .flagContainer {
+    width: 184px;
+    padding: 8px 12px;
+  }
+  
+  .optionFlag :global(.anticon) {
+    font-size: 16px;
+  } 
+
+
+  .filterFooter {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border-top: 1px solid var(--gray-4);
+    padding: 8px;
+  }
+  
+  .tagContainer {
+    height: 24px;
+  }
+  
