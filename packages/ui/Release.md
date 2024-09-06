@@ -1,3 +1,6 @@
+### 10.7.5 2024-09-06
+- fix: CLIN-3047 fix facet filters with accents
+
 ### 10.7.4 2024-08-30
 - fix: SJIP-952 allow quick filter title facet color theme
 
@@ -71,7 +74,7 @@
 - fix: SKFP-1172 Improve performance for big datasets
 
 ### 10.0.0 2024-07-03
-- feat: FLUI-132 remove sass, migrate to vanilla css and custom properties 
+- feat: FLUI-132 remove sass, migrate to vanilla css and custom properties
 
 ### 9.21.4 2024-07-04
 - fix: SKFP-1134 Adjust chart bar width for smaller dataset
