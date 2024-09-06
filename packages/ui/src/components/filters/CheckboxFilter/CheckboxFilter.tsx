@@ -119,7 +119,7 @@ const CheckboxFilter = ({
 
     const bumpCheckedFilterFirst = () => {
         if (search) {
-            return filteredFilters;
+            return filteredFilters.length ? filteredFilters : filters;
         }
 
         const filterIdsToBump = selectedFilters.map((value: IFilter) => value.id);
