@@ -48,6 +48,7 @@ describe('Relative date', () => {
         const formatAm = {
             today: 'today {ampm}',
         };
+        setLocale('fr');
         const today = new Date();
         today.setHours(9, 0, 0, 0);
         expect(getRelativeDate(today, formatAm)).not.toMatch(/am/);
