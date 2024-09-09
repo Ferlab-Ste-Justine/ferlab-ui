@@ -49,3 +49,23 @@
 .userAvatar {
   font-size: 12px !important;
 }
+
+.flagIcon{
+  font-size: 16px;
+  color: #D4380D;
+}
+
+.pinIcon{
+  font-size: 16px;
+  color: #FA8C16;
+}
+
+.starIcon{
+  font-size: 16px;
+  color: #2F54EB;
+}
+
+.noneIcon{
+  font-size: 16px;
+  color: #8b9db2;
+}

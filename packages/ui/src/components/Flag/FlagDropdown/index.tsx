@@ -29,13 +29,13 @@ export enum FlagOption {
 export const getOptionIcon = (option: string): ReactElement | undefined => {
     switch (option) {
         case FlagOption.FLAG:
-            return <FlagFilled style={{ color: '#D4380D', fontSize: '16px' }} />;
+            return <FlagFilled className={styles.flagIcon} />;
         case FlagOption.PIN:
-            return <PushpinFilled style={{ color: '#FA8C16', fontSize: '16px' }} />;
+            return <PushpinFilled className={styles.pinIcon} />;
         case FlagOption.STAR:
-            return <StarFilled style={{ color: '#2F54EB', fontSize: '16px' }} />;
+            return <StarFilled className={styles.starIcon} />;
         case FlagOption.NONE:
-            return <FlagOutlined style={{ color: '#8b9db2', fontSize: '16px' }} />;
+            return <FlagOutlined className={styles.noneIcon} />;
         default:
             break;
     }
@@ -94,14 +94,6 @@ export const Flag = ({
         },
     ];
 
-    const handleDropDownOpenChange = (flag: boolean) => {
-        setOpen(flag);
-    };
-
-    const handleDropDownMenuClick: MenuProps['onClick'] = (e: any) => {
-        handleSelect(e.key);
-    };
-
     const popOverContent = () => {
         const name = history?.[0]?.name ? getPractitionnerName(history[0].name) : undefined;
         return (
@@ -128,11 +120,11 @@ export const Flag = ({
             menu={{
                 defaultSelectedKeys: options,
                 items: dropdownOption,
-                onClick: handleDropDownMenuClick,
+                onClick: (e: any) => handleSelect(e.key),
                 selectable: true,
                 selectedKeys: options,
             }}
-            onOpenChange={handleDropDownOpenChange}
+            onOpenChange={(flag: boolean) => setOpen(flag)}
             open={open}
             overlayClassName={styles.flagDropdown}
             trigger={['click']}

@@ -16,16 +16,6 @@ export type TFlagFilter = {
     isClear: boolean;
 };
 
-const handleSelect = (
-    value: string,
-    selectedKeys: React.Key[],
-    setSelectedKeys: (selectedKeys: React.Key[]) => void,
-) => {
-    selectedKeys.includes(value)
-        ? setSelectedKeys(selectedKeys.filter((item: React.Key) => item !== value))
-        : setSelectedKeys([value, ...selectedKeys]);
-};
-
 const FlagFilter = ({ confirm, dictionary, isClear, selectedKeys, setSelectedKeys }: TFlagFilter): ReactElement => {
     const [selectedOption, setSelectedOption] = useState<React.Key[]>(selectedKeys ? selectedKeys : []);
 
@@ -43,8 +33,12 @@ const FlagFilter = ({ confirm, dictionary, isClear, selectedKeys, setSelectedKey
         }
     }, [isClear]);
 
-    const handleSearch = (confirm?: (param?: FilterConfirmProps) => void) => {
-        confirm && confirm();
+    const handleSelect = (value: string) => {
+        if (selectedKeys && setSelectedKeys) {
+            selectedKeys.includes(value)
+                ? setSelectedKeys(selectedKeys.filter((item: React.Key) => item !== value))
+                : setSelectedKeys([value, ...selectedKeys]);
+        }
     };
 
     return (
@@ -56,7 +50,7 @@ const FlagFilter = ({ confirm, dictionary, isClear, selectedKeys, setSelectedKey
                             checked={selectedOption.includes(FlagOption.FLAG) ? true : false}
                             key={FlagOption.FLAG}
                             onChange={(e) => {
-                                handleSelect(e.target.value, selectedOption, setSelectedOption);
+                                handleSelect(e.target.value);
                             }}
                             type="checkbox"
                             value={FlagOption.FLAG}
@@ -70,7 +64,7 @@ const FlagFilter = ({ confirm, dictionary, isClear, selectedKeys, setSelectedKey
                             checked={selectedOption.includes(FlagOption.PIN) ? true : false}
                             key={FlagOption.PIN}
                             onChange={(e) => {
-                                handleSelect(e.target.value, selectedOption, setSelectedOption);
+                                handleSelect(e.target.value);
                             }}
                             type="checkbox"
                             value={FlagOption.PIN}
@@ -84,7 +78,7 @@ const FlagFilter = ({ confirm, dictionary, isClear, selectedKeys, setSelectedKey
                             checked={selectedOption.includes(FlagOption.STAR) ? true : false}
                             key={FlagOption.STAR}
                             onChange={(e) => {
-                                handleSelect(e.target.value, selectedOption, setSelectedOption);
+                                handleSelect(e.target.value);
                             }}
                             type="checkbox"
                             value={FlagOption.STAR}
@@ -98,7 +92,7 @@ const FlagFilter = ({ confirm, dictionary, isClear, selectedKeys, setSelectedKey
                             checked={selectedOption.includes(FlagOption.NONE) ? true : false}
                             key={FlagOption.NONE}
                             onChange={(e) => {
-                                handleSelect(e.target.value, selectedOption, setSelectedOption);
+                                handleSelect(e.target.value);
                             }}
                             type="checkbox"
                             value={FlagOption.NONE}
@@ -124,7 +118,7 @@ const FlagFilter = ({ confirm, dictionary, isClear, selectedKeys, setSelectedKey
                 </Button>
                 <Button
                     onClick={() => {
-                        handleSearch(confirm);
+                        confirm;
                     }}
                     size="small"
                     type="primary"
