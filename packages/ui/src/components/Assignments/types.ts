@@ -5,6 +5,7 @@ export type TPractitionnerInfo = {
     name: TPractitionnerName;
     email?: string;
     ldm: string;
+    practitioner?: string;
 };
 
 export type TPractitionnerName = [

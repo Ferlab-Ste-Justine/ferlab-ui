@@ -1,3 +1,9 @@
+
+### 10.7.6 2024-09-06
+- feat: CLIN-2982 Flag Cell components
+    + Flag cell dropdown
+    + Flag filter
+
 ### 10.7.5 2024-09-06
 - fix: CLIN-3047 fix facet filters with accents
 

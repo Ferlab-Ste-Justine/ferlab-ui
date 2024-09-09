@@ -1,0 +1,71 @@
+
+.flagDropdown{
+  width: 136px;
+}
+
+.flagOption{
+  display: flex;
+  justify-content: space-between;
+}
+
+.flagOption :global(.anticon) {
+  color: var(--blue-6);
+}
+
+
+:global(.ant-timeline-item-head) {
+  left: -16px;
+}
+
+.timelineDot {
+  width: 56px;
+  justify-content: end;
+}
+
+.optionsList {
+  max-height: 204px;
+  width: 100%;
+  overflow-y: auto;
+  padding-top: 8px;
+  padding-left: 48px;
+}
+
+:global(.ant-timeline-item):last-child {
+  padding-bottom: 0;
+}
+
+:global(.ant-timeline-item):last-child :global(.ant-timeline-item-tail){
+  display: none;
+}
+
+.viewHistoryButton{
+  width: 18px;
+  height: 22px;
+}
+
+.historyIcon{
+  color: var(--gray-8);
+}
+.userAvatar {
+  font-size: 12px !important;
+}
+
+.flagIcon{
+  font-size: 16px;
+  color: #D4380D;
+}
+
+.pinIcon{
+  font-size: 16px;
+  color: #FA8C16;
+}
+
+.starIcon{
+  font-size: 16px;
+  color: #2F54EB;
+}
+
+.noneIcon{
+  font-size: 16px;
+  color: #8b9db2;
+}
