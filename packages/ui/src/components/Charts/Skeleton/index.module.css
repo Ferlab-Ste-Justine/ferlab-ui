@@ -1,0 +1,21 @@
+.skeletonGraph {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  gap: 16px;
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skeletonChart {
+  margin-top: 16px;
+  height: 100%;
+  position: relative;
+}
+
