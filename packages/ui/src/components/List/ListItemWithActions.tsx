@@ -13,6 +13,7 @@ export type TListItemWithActionsProps = {
     onClick?: (e: any) => void;
     onShare?: () => void;
     extra?: ReactNode;
+    extraActions?: ReactNode[];
     className?: string;
     title: ReactNode;
     titleClassName?: string;
@@ -25,6 +26,7 @@ const ListItemWithActions = ({
     className = '',
     description,
     extra,
+    extraActions = [],
     onClick,
     onDelete,
     onEdit,
@@ -34,6 +36,7 @@ const ListItemWithActions = ({
 }: TListItemWithActionsProps): JSX.Element => (
     <List.Item
         actions={[
+            ...extraActions,
             onShare && (
                 <Button
                     className={styles.actionBtn}
@@ -60,7 +63,7 @@ const ListItemWithActions = ({
                 size="small"
                 type="text"
             />,
-        ]}
+        ].filter(Boolean)}
         className={cx(styles.fuiListItemWithActions, className)}
         extra={extra && <div className={styles.extra}>{extra}</div>}
     >

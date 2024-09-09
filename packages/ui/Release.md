@@ -1,3 +1,6 @@
+### 10.7.8 2024-09-06
+- feat: CQDG-840 add extraActions to ListItemWithActions
+
 ### 10.7.7 2024-09-10
 - feat: CLIN-2982 version increment problem
 
