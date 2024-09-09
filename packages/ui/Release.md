@@ -1,3 +1,6 @@
+### 10.9.0 2024-09-19
+- fix: SJIP-954 add analytics page, scatterplot and swarmplot charts
+
 ### 10.8.2 2024-09-12
 - fix: CLIN-3047 accent replacer function to fix facet filters with accents
 
