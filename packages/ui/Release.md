@@ -1,3 +1,5 @@
+### 10.7.7 2024-09-10
+- feat: CLIN-2982 version increment problem
 
 ### 10.7.6 2024-09-06
 - feat: CLIN-2982 Flag Cell components
