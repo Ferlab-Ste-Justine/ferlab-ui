@@ -125,6 +125,7 @@ export type THeaderConfig<RecordType> = {
     hideItemsCount?: boolean;
     hasFilter?: boolean;
     clearFilter?: () => void;
+    columnSelectorHeader?: ReactNode;
 };
 
 export type TColumnStates = Array<{

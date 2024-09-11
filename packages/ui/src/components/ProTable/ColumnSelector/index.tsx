@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
 import {
     closestCenter,
@@ -10,7 +10,7 @@ import {
     useSensors,
 } from '@dnd-kit/core';
 import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { Button, Popover, Space, Tooltip } from 'antd';
+import { Button, Divider, Popover, Space, Tooltip } from 'antd';
 import { isEqual } from 'lodash';
 
 import { IProTableDictionary, ProColumnType, TColumnStates } from '../types';
@@ -26,11 +26,13 @@ interface OwnProps<T = any> {
     columnStates: TColumnStates;
     onChange: (newColumnState: TColumnStates) => void;
     dictionary?: IProTableDictionary;
+    columnSelectorHeader?: ReactNode;
 }
 
 const ColumnSelector = ({
     className = '',
     columns,
+    columnSelectorHeader,
     columnStates,
     dictionary = {},
     onChange,
@@ -60,7 +62,6 @@ const ColumnSelector = ({
     }, [columnStates]);
 
     useEffect(() => {
-        // Ensure onChange is not call on load
         if (localColumns.saveIndex > -1) {
             let firstIndex = localColumns.state[0].index;
             const updatedColumns: TColumnStates = localColumns.state.map((localState) => ({
@@ -91,11 +92,11 @@ const ColumnSelector = ({
     };
 
     const List = ({ children }: any) => (
-        // Needs to be defined here else it breaks the grid
         <Space className={className} direction="vertical">
             {children}
         </Space>
     );
+
     return (
         <Popover
             align={{
@@ -103,6 +104,13 @@ const ColumnSelector = ({
             }}
             content={
                 <Space direction="vertical">
+                    {columnSelectorHeader && (
+                        <>
+                            {columnSelectorHeader}
+                            <Divider style={{ marginBottom: 8, marginTop: 8 }} />
+                        </>
+                    )}
+
                     <div className={styles.ProTablePopoverColumnListWrapper}>
                         <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd} sensors={sensors}>
                             <SortableContext
@@ -137,7 +145,6 @@ const ColumnSelector = ({
                                                         },
                                                     ];
 
-                                                    // DnD list use array order and not index
                                                     newStates.sort((a, b) => a.index - b.index);
 
                                                     onChange(newStates);
@@ -149,6 +156,7 @@ const ColumnSelector = ({
                             </SortableContext>
                         </DndContext>
                     </div>
+
                     <div className={styles.ProTablePopoverColumnResetBtnWrapper}>
                         <Button
                             className={styles.ProTablePopoverColumnResetBtn}
