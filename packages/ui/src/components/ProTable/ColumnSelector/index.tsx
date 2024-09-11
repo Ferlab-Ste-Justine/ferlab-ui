@@ -62,6 +62,7 @@ const ColumnSelector = ({
     }, [columnStates]);
 
     useEffect(() => {
+        // Ensure onChange is not call on load
         if (localColumns.saveIndex > -1) {
             let firstIndex = localColumns.state[0].index;
             const updatedColumns: TColumnStates = localColumns.state.map((localState) => ({
@@ -92,6 +93,7 @@ const ColumnSelector = ({
     };
 
     const List = ({ children }: any) => (
+        // Needs to be defined here else it breaks the grid
         <Space className={className} direction="vertical">
             {children}
         </Space>
