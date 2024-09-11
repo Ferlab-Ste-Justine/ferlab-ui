@@ -112,7 +112,6 @@ const ColumnSelector = ({
                             <Divider style={{ marginBottom: 8, marginTop: 8 }} />
                         </>
                     )}
-
                     <div className={styles.ProTablePopoverColumnListWrapper}>
                         <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd} sensors={sensors}>
                             <SortableContext
@@ -147,6 +146,7 @@ const ColumnSelector = ({
                                                         },
                                                     ];
 
+                                                    // DnD list use array order and not index
                                                     newStates.sort((a, b) => a.index - b.index);
 
                                                     onChange(newStates);
@@ -158,7 +158,6 @@ const ColumnSelector = ({
                             </SortableContext>
                         </DndContext>
                     </div>
-
                     <div className={styles.ProTablePopoverColumnResetBtnWrapper}>
                         <Button
                             className={styles.ProTablePopoverColumnResetBtn}
