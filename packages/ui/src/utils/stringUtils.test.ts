@@ -1,4 +1,10 @@
-import { addUnderscoreAndLowercase, removeUnderscoreAndCapitalize, titleCase, toKebabCase } from './stringUtils';
+import {
+    addUnderscoreAndLowercase,
+    removeAccents,
+    removeUnderscoreAndCapitalize,
+    titleCase,
+    toKebabCase,
+} from './stringUtils';
 
 describe('removeUnderscoreAndCapitalize', () => {
     test('removes underscores and capitalizes each word', () => {
@@ -29,5 +35,13 @@ describe('toKebabCase', () => {
         expect(toKebabCase('kebab-case-string')).toBe('kebab-case-string');
         expect(toKebabCase('PascalCaseString')).toBe('pascal-case-string');
         expect(toKebabCase('snake_case_string')).toBe('snake-case-string');
+    });
+});
+
+describe('removeAccents', () => {
+    test('converts accented characters to non accented characters', () => {
+        expect(removeAccents('un caractère')).toBe('un caractere');
+        expect(removeAccents('message approuvé et bien reçu')).toBe('message approuve et bien recu');
+        expect(removeAccents('_test_message_')).toBe('_test_message_');
     });
 });
