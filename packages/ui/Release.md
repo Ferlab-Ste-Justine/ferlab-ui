@@ -1,3 +1,6 @@
+### 10.8.1-rc1 2024-09-11
+- fix: CLIN-3047 accent replacer function to fix facet filters with accents
+
 ### 10.8.0 2024-09-11
 - feat: SKFP-1246 add an optional header props in the datatable column selector
 
