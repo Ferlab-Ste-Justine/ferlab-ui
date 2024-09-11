@@ -109,7 +109,7 @@ const ColumnSelector = ({
                     {columnSelectorHeader && (
                         <>
                             {columnSelectorHeader}
-                            <Divider style={{ marginBottom: 8, marginTop: 8 }} />
+                            <Divider className={styles.ProTablePopoverColumnHeaderDivider} />
                         </>
                     )}
                     <div className={styles.ProTablePopoverColumnListWrapper}>

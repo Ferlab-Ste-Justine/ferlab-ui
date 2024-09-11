@@ -1,3 +1,8 @@
+.ProTablePopoverColumnHeaderDivider {
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
 .ProTablePopoverColumn div[class$=-inner-content] {
   padding: 12px;
 }
