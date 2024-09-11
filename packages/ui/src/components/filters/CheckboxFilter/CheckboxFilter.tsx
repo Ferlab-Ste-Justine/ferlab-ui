@@ -14,6 +14,7 @@ import { numberFormat } from '../../../utils/numberUtils';
 import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from '../types';
 
 import { getMappedName, TGetMappedNameParams } from './CheckboxFilter.utils';
+import { removeAccents } from '../../../utils/stringUtils';
 
 import styles from './CheckboxFilter.module.css';
 
@@ -119,7 +120,7 @@ const CheckboxFilter = ({
 
     const bumpCheckedFilterFirst = () => {
         if (search) {
-            return filteredFilters.length ? filteredFilters : filters;
+            return filteredFilters;
         }
 
         const filterIdsToBump = selectedFilters.map((value: IFilter) => value.id);
@@ -168,12 +169,13 @@ const CheckboxFilter = ({
     };
 
     useEffect(() => {
-        const newFilters = bumpCheckedFilterFirst()
+        const initFiltered = bumpCheckedFilterFirst();
+        const newFilters = (initFiltered.length ? initFiltered : filters)
             .filter((f) => !isEmpty(f.data))
             .filter(
                 ({ data, name }) =>
                     data.key.toLowerCase().includes(search.toLowerCase()) ||
-                    (typeof name === 'string' && name.toLowerCase().includes(search.toLowerCase())),
+                    (typeof name === 'string' && removeAccents(name.toLowerCase()).includes(removeAccents(search.toLowerCase()))),
             );
         setFilteredFilters(newFilters);
     }, [filters, search]);

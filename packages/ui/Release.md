@@ -1,3 +1,6 @@
+### 10.7.9-rc1 2024-09-11
+- fix: CLIN-3047 accent replacer function to fix facet filters with accents
+
 ### 10.7.8 2024-09-06
 - feat: CQDG-840 add extraActions to ListItemWithActions
 
