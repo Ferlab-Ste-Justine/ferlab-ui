@@ -1,4 +1,7 @@
-### 10.7.8 2024-09-06
+### 10.8.0 2024-09-11
+- feat: SKFP-1246 add an optional header props in the datatable column selector
+
+### 10.7.8 2024-09-10
 - feat: CQDG-840 add extraActions to ListItemWithActions
 
 ### 10.7.7 2024-09-10

@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
 import {
     closestCenter,
@@ -10,7 +10,7 @@ import {
     useSensors,
 } from '@dnd-kit/core';
 import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { Button, Popover, Space, Tooltip } from 'antd';
+import { Button, Divider, Popover, Space, Tooltip } from 'antd';
 import { isEqual } from 'lodash';
 
 import { IProTableDictionary, ProColumnType, TColumnStates } from '../types';
@@ -26,11 +26,13 @@ interface OwnProps<T = any> {
     columnStates: TColumnStates;
     onChange: (newColumnState: TColumnStates) => void;
     dictionary?: IProTableDictionary;
+    columnSelectorHeader?: ReactNode;
 }
 
 const ColumnSelector = ({
     className = '',
     columns,
+    columnSelectorHeader,
     columnStates,
     dictionary = {},
     onChange,
@@ -96,6 +98,7 @@ const ColumnSelector = ({
             {children}
         </Space>
     );
+
     return (
         <Popover
             align={{
@@ -103,6 +106,12 @@ const ColumnSelector = ({
             }}
             content={
                 <Space direction="vertical">
+                    {columnSelectorHeader && (
+                        <>
+                            {columnSelectorHeader}
+                            <Divider className={styles.ProTablePopoverColumnHeaderDivider} />
+                        </>
+                    )}
                     <div className={styles.ProTablePopoverColumnListWrapper}>
                         <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd} sensors={sensors}>
                             <SortableContext

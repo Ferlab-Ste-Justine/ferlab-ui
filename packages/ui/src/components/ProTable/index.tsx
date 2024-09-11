@@ -216,6 +216,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         if (headerConfig.enableColumnSort && columnsState) {
             customExtra = customExtra.concat(
                 <ColumnSelector
+                    columnSelectorHeader={headerConfig.columnSelectorHeader}
                     columnStates={columnsState}
                     columns={columns}
                     dictionary={dictionary}
@@ -381,7 +382,7 @@ const ProTable = <RecordType extends object & { key: string } = any>({
                 <Pagination
                     {...(pagination as IPaginationProps)}
                     dictionary={dictionary}
-                    loading={loading ? true : false}
+                    loading={!!loading}
                     onPageChange={() => {
                         if (selectedAllResults) {
                             handleOnSelectRowsChange([], []);
