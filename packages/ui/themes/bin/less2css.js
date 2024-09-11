@@ -8,6 +8,7 @@ const path = require('path');
 // eslint-disable-next-line no-undef
 const lessPath = process.argv[2];
 const lessFile = process.argv[3];
+const outputPath = process.argv[4] || path.join(process.argv[2], 'dist');
 
 if (lessPath === undefined || lessFile === undefined) {
     console.log('Error no less specified');
@@ -17,7 +18,8 @@ if (lessPath === undefined || lessFile === undefined) {
 }
 const STYLE_PATH = path.join(process.cwd(), lessPath);
 const LESS_INPUT_FILE = path.join(STYLE_PATH, lessFile);
-const CSS_OUTPUT_FILE = path.join(STYLE_PATH, 'dist', lessFile.replace('.less', '.css'));
+const OUTPUT_PATH = path.join(process.cwd(), outputPath);
+const CSS_OUTPUT_FILE = path.join(OUTPUT_PATH, lessFile.replace('.less', '.css'));
 
 // Get less file
 const less = fs.readFileSync(LESS_INPUT_FILE);

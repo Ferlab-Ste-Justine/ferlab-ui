@@ -1,3 +1,6 @@
+### 10.8.1 2024-09-11
+- feat: CLIN-3172 update less2css script to add 3rd parameter
+
 ### 10.8.0 2024-09-11
 - feat: SKFP-1246 add an optional header props in the datatable column selector
 
