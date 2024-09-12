@@ -1,3 +1,6 @@
+### 10.8.2 2024-09-12
+- fix: CLIN-3047 accent replacer function to fix facet filters with accents
+
 ### 10.8.1 2024-09-11
 - feat: CLIN-3172 update less2css script to add 3rd parameter
 

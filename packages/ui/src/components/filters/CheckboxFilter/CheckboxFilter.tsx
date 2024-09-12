@@ -11,6 +11,7 @@ import { formatExtraFilters, hasExtraFilterSelected } from '../../../data/sqon/u
 import ScrollContent from '../../../layout/ScrollContent';
 import StackLayout from '../../../layout/StackLayout';
 import { numberFormat } from '../../../utils/numberUtils';
+import { removeAccents } from '../../../utils/stringUtils';
 import { IDictionary, IFilter, IFilterCheckboxConfig, IFilterCount, IFilterGroup, onChangeType } from '../types';
 
 import { getMappedName, TGetMappedNameParams } from './CheckboxFilter.utils';
@@ -119,7 +120,7 @@ const CheckboxFilter = ({
 
     const bumpCheckedFilterFirst = () => {
         if (search) {
-            return filteredFilters.length ? filteredFilters : filters;
+            return filteredFilters;
         }
 
         const filterIdsToBump = selectedFilters.map((value: IFilter) => value.id);
@@ -168,13 +169,14 @@ const CheckboxFilter = ({
     };
 
     useEffect(() => {
-        const newFilters = bumpCheckedFilterFirst()
-            .filter((f) => !isEmpty(f.data))
-            .filter(
-                ({ data, name }) =>
-                    data.key.toLowerCase().includes(search.toLowerCase()) ||
-                    (typeof name === 'string' && name.toLowerCase().includes(search.toLowerCase())),
-            );
+        const initFiltered = bumpCheckedFilterFirst();
+        const newFilters = (initFiltered.length ? initFiltered : filters).filter(
+            ({ data, name }) =>
+                !isEmpty(data) &&
+                (data.key.toLowerCase().includes(search.toLowerCase()) ||
+                    (typeof name === 'string' &&
+                        removeAccents(name.toLowerCase()).includes(removeAccents(search.toLowerCase())))),
+        );
         setFilteredFilters(newFilters);
     }, [filters, search]);
 

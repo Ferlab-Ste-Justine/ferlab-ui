@@ -47,3 +47,6 @@ export const formatCountryAndState = (user: IUser): string => {
 
     return `${user.location_country}`;
 };
+
+const DIACRITIC_REGEX = /\p{Diacritic}/gu;
+export const removeAccents = (text: string): string => (text || '').normalize('NFD').replace(DIACRITIC_REGEX, '');
