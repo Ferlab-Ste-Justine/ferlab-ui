@@ -47,3 +47,23 @@ export const formatCountryAndState = (user: IUser): string => {
 
     return `${user.location_country}`;
 };
+
+export const removeAccents = (text: string): string => {
+    const accentsMap: Map<string, RegExp> = new Map([
+        ['a', new RegExp('á|à|ã|â|ä', 'g')],
+        ['e', new RegExp('é|è|ê|ë', 'g')],
+        ['i', new RegExp('í|ì|î|ï', 'g')],
+        ['o', new RegExp('ó|ò|ô|õ|ö', 'g')],
+        ['u', new RegExp('ú|ù|û|ü', 'g')],
+        ['c', new RegExp('ç', 'g')],
+        ['n', new RegExp('ñ', 'g')],
+    ]);
+
+    let result = text;
+
+    accentsMap.forEach((value, key) => {
+        result = result.replaceAll(value, key);
+    });
+
+    return result;
+};
