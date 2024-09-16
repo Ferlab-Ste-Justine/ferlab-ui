@@ -1,0 +1,43 @@
+.scatterPlot {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  gap: 48px;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  justify-content: end;
+  width: 100%;
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chartContainer {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  flex: 1;
+  flex-direction: column;
+}
+
+.chartWrapper {
+  text-align: center;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.chart {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
