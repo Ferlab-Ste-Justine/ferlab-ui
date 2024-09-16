@@ -1,13 +1,13 @@
-import ScatterPlotChart from '@ferlab/ui/core/components/Charts/ScatterPlot/svg';
-import volcano from './mocks/volcano_plot';
+import ScatterPlotChartCanvas from '@ferlab/ui/core/components/Charts/ScatterPlot/Canvas';
+import volcano from './mocks/volcano_plot_large';
 import { Meta } from "@storybook/react";
 import React from "react";
 import { Typography } from 'antd';
 
 
 export default {
-    title: "@ferlab/Components/Charts/ScatterPlot",
-    component: ScatterPlotChart,
+    title: "@ferlab/Components/Charts/ScatterPlotCanvas",
+    component: ScatterPlotChartCanvas,
     decorators: [
         (Story) => (
             <>
@@ -19,16 +19,18 @@ export default {
 } as Meta;
 
 
-export const ScatterPlotChartBasic = () => (
+export const ScatterPlotCanvasChartBasic = () => (
     <>
         <h2>Scatter Plot Chart</h2>
         <div style={{
             display: 'flex', 
+            width: '1200px', 
             margin: '0 auto',
             maxWidth: '1200px',
-            height: '800px'
+            minHeight: '1000px',
+            height: '1200px'
         }}>
-            <ScatterPlotChart
+            <ScatterPlotChartCanvas
                 title={<Typography.Title level={4}>Scatter Plot Chart Title</Typography.Title>}
                 data={volcano}
                 xScale={{ type: 'linear', min: -4, max: 4 }}
