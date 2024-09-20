@@ -7,6 +7,7 @@ import { getRelativeDate } from '../../../utils/dateUtils';
 import { getPractitionnerName } from '../../Assignments/utils';
 import UserAvatar from '../../UserAvatar';
 import { IFlagDictionary, TFlagHistory } from '../types';
+import { sortFlags } from '../utils';
 
 import styles from './index.module.css';
 
@@ -162,7 +163,7 @@ export const Flag = ({
                                 dot={
                                     <Space className={styles.timelineDot} size={4}>
                                         {h?.options?.length > 0
-                                            ? h.options?.map((o: string) => getOptionIcon(o))
+                                            ? sortFlags(h.options)?.map((o: string) => getOptionIcon(o))
                                             : getOptionIcon(FlagOption.NONE)}
                                     </Space>
                                 }

@@ -1,3 +1,6 @@
+### 10.8.3 2024-09-19
+- fix: CLIN-3047 add sort function for flag
+
 ### 10.8.2 2024-09-12
 - fix: CLIN-3047 accent replacer function to fix facet filters with accents
 
