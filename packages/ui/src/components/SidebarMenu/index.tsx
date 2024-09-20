@@ -2,6 +2,7 @@ import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'reac
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { InputRef, Menu } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
+import cx from 'classnames';
 import { get } from 'lodash';
 
 import ScrollView from '../../layout/ScrollView';
@@ -24,6 +25,7 @@ export interface ISidebarMenuProps {
     className?: string;
     contentPanelClassName?: string;
     style?: React.CSSProperties;
+    ghost?: boolean;
     menuItems: Array<ISidebarMenuItem>;
     toggleIcon?: {
         open?: ReactNode;
@@ -39,6 +41,7 @@ const Sidebar = ({
     className = '',
     contentPanelClassName = '',
     defaultSelectedKey = undefined,
+    ghost = false,
     menuItems,
     quickFilter = {
         dictionary: {},
@@ -125,7 +128,12 @@ const Sidebar = ({
     }, [defaultSelectedKey]);
 
     return (
-        <div className={`${styles.siderContainer} ${className}`} style={style}>
+        <div
+            className={cx(styles.siderContainer, className, {
+                [styles.ghost]: ghost,
+            })}
+            style={style}
+        >
             <div className={styles.sider} data-collapsed={collapsed}>
                 <StackLayout center={false} className={styles.siderStackLayout} flexContent vertical>
                     <div className={styles.sidebarToggleIconContainer}>

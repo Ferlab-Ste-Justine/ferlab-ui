@@ -1,0 +1,16 @@
+.basicDescription {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-start;
+  text-align: left;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.label {
+  color: var(--gray-7);
+}
+
+.text {
+  color: var(--gray-8);
+}

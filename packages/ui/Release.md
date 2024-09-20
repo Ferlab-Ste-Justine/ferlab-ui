@@ -1,3 +1,6 @@
+### 10.9.0 2024-09-20
+- fix: SJIP-954 add analytics page, scatterplot and swarmplot charts
+
 ### 10.8.3 2024-09-19
 - fix: CLIN-3047 add sort function for flag
 
