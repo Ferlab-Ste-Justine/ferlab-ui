@@ -1,3 +1,6 @@
+### 10.9.0 2024-09-24
+- fix: SJIP-954 fix scatterplot and swarmplot charts zoom
+
 ### 10.9.0 2024-09-20
 - fix: SJIP-954 add analytics page, scatterplot and swarmplot charts
 

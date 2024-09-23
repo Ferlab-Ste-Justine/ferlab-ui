@@ -18,9 +18,9 @@ export type TSwarmPlotMedianSvgLayer = {
 const OUTER_LINE_SIZE = 20;
 
 const sortY = (a: ComputedDatum<SwarmRawDatum>, b: ComputedDatum<SwarmRawDatum>) => {
-    if (a.data.y < b.data.y) {
+    if (a.y < b.y) {
         return -1;
-    } else if (a.data.y > b.data.y) {
+    } else if (a.y > b.y) {
         return 1;
     }
     return 0;
@@ -61,11 +61,20 @@ const SwarmPlotLimitLineSvgLayer = ({ active, groups, nodes, theme }: TSwarmPlot
                     return <></>;
                 }
 
-                const minY = groupedNodesY[0].y;
-                const maxY = groupedNodesY[groupedNodesY.length - 1].y;
-                const minX = groupedNodesX[0].x;
-                const maxX = groupedNodesX[groupedNodesX.length - 1].x;
+                // SVG are computed from top to bottom
+                const minYNode = groupedNodesY[groupedNodesY.length - 1];
+                const maxYNode = groupedNodesY[0];
+                const minXNode = groupedNodesX[0];
+                const maxXNode = groupedNodesX[groupedNodesX.length - 1];
+
+                const marginY = minYNode.size / 2;
+
+                const minY = minYNode.y + marginY;
+                const maxY = maxYNode.y - marginY;
+                const minX = minXNode.x;
+                const maxX = maxXNode.x;
                 const medianX = minX + (maxX - minX) / 2;
+
                 return <Limit theme={theme[group]} x={medianX} y1={minY} y2={maxY} />;
             })}
         </>

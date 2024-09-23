@@ -84,7 +84,7 @@ const SwarmPlot = ({
             return false;
         }
 
-        return getZoomInEnabled({ data, step: controls.zoom.step, zoom: zoom + controls.zoom.step });
+        return getZoomInEnabled({ data: [...data], step: controls.zoom.step, zoom: zoom + controls.zoom.step });
     }, [loading, data, zoom]);
 
     useEffect(() => {
@@ -141,6 +141,7 @@ const SwarmPlot = ({
                     <div className={styles.chart}>
                         <ResponsiveSwarmPlot
                             {...props}
+                            // data={data}
                             data={data.filter((node) => node.y >= range.min && node.y <= range.max)}
                             groups={groups}
                             margin={margin}

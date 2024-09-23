@@ -22,7 +22,7 @@ import { getRegion } from '../utils';
 import styles from '../index.module.css';
 
 const ZOOM_STEP = 1.0;
-const DEFAULT_ZOOM = 1.0;
+const DEFAULT_ZOOM = 1;
 const MAX_ZOOM = 4.0;
 const MIN_ZOOM = DEFAULT_ZOOM;
 const SCALE_MARGIN = 0.1;
@@ -48,6 +48,7 @@ const ScatterPlotCanvasChart = ({
             step: ZOOM_STEP,
         },
     },
+    data,
     extraControls = [],
     loading = false,
     margin = { bottom: 64, left: 64, right: 64, top: 64 },
@@ -56,7 +57,7 @@ const ScatterPlotCanvasChart = ({
     tooltip,
     ...props
 }: TScatterPlotCanvasChart): JSX.Element => {
-    const [region, setRegion] = useState<TRegion>(getRegion({ data: props.data, zoom: DEFAULT_ZOOM }));
+    const [region, setRegion] = useState<TRegion>(getRegion({ data: data, zoom: DEFAULT_ZOOM }));
     const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM);
     const [selectedNodes, setSelectedNodes] = useState<TNodesList>([]);
     const scale = {
@@ -72,7 +73,7 @@ const ScatterPlotCanvasChart = ({
 
     const reset = () => {
         setZoom(DEFAULT_ZOOM);
-        setRegion(getRegion({ data: props.data, zoom: DEFAULT_ZOOM }));
+        setRegion(getRegion({ data: data, zoom: DEFAULT_ZOOM }));
     };
 
     // Canvas Layer need to be reset after the first render
@@ -95,7 +96,7 @@ const ScatterPlotCanvasChart = ({
         return <ChartSkeleton />;
     }
 
-    if (props.data.length === 0) {
+    if (data.length === 0) {
         return <Empty />;
     }
 
@@ -105,18 +106,20 @@ const ScatterPlotCanvasChart = ({
                 {title}
                 <div className={styles.controls}>
                     <Button
+                        disabled={zoom == controls.zoom.max + DEFAULT_ZOOM}
                         icon={<ZoomInOutlined />}
                         onClick={() => {
                             const newZoom = zoom + controls.zoom.step;
-                            if (newZoom > controls.zoom.max) return;
+                            if (newZoom > controls.zoom.max + controls.zoom.step) return;
 
-                            const newRegion = getRegion({ data: props.data, nodes: selectedNodes, zoom: newZoom });
+                            const newRegion = getRegion({ data: data, nodes: selectedNodes, zoom: newZoom });
                             setZoom(newZoom);
                             setRegion(newRegion);
                         }}
                         type="text"
                     />
                     <Button
+                        disabled={zoom == DEFAULT_ZOOM}
                         icon={<ZoomOutOutlined />}
                         onClick={() => {
                             const newZoom = zoom - controls.zoom.step;
@@ -124,11 +127,11 @@ const ScatterPlotCanvasChart = ({
 
                             if (newZoom === DEFAULT_ZOOM) {
                                 setZoom(DEFAULT_ZOOM);
-                                setRegion(getRegion({ data: props.data, zoom: DEFAULT_ZOOM }));
+                                setRegion(getRegion({ data: data, zoom: DEFAULT_ZOOM }));
                                 return;
                             }
 
-                            const newRegion = getRegion({ data: props.data, nodes: selectedNodes, zoom: newZoom });
+                            const newRegion = getRegion({ data: data, nodes: selectedNodes, zoom: newZoom });
                             setZoom(newZoom);
                             setRegion(newRegion);
                         }}
@@ -144,6 +147,17 @@ const ScatterPlotCanvasChart = ({
                         <ResponsiveScatterPlotCanvas
                             margin={margin}
                             {...props}
+                            data={data.map((group) => ({
+                                data: group.data.filter(
+                                    (node) =>
+                                        (node.x as number) > scale.x.min &&
+                                        (node.x as number) < scale.x.max &&
+                                        (node.y as number) > scale.y.min &&
+                                        (node.y as number) < scale.y.max,
+                                ),
+
+                                id: group.id,
+                            }))}
                             onClick={(node, event) => {
                                 if (selectedNodes.find(({ id }) => id === node.id)) {
                                     setSelectedNodes(selectedNodes.filter(({ id }) => id !== node.id));
