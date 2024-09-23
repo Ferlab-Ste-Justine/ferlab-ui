@@ -53,12 +53,15 @@ const MedianBox = ({
 );
 
 const SwarmPlotMedianBoxSvgLayer = ({ active, groups, nodes, theme }: TSwarmPlotMedianSvgLayer): React.ReactElement => {
-    if (!active) return <></>;
+    if (!active || nodes.length === 0) return <></>;
 
     return (
         <>
             {groups.map((group) => {
                 const groupedNodes = nodes.filter((node) => node.group === group).sort(sort);
+                if (groupedNodes.length === 0) {
+                    return;
+                }
                 let minX = groupedNodes[0].x;
                 let maxX = groupedNodes[0].x;
                 groupedNodes.forEach((node) => {
@@ -70,10 +73,12 @@ const SwarmPlotMedianBoxSvgLayer = ({ active, groups, nodes, theme }: TSwarmPlot
                     }
                 });
 
-                const q1Index = groupedNodes.length * 0.25;
-                const medianIndex = groupedNodes.length * 0.5;
-                const q3Index = groupedNodes.length * 0.75;
-
+                const q1Index = Math.round(groupedNodes.length * 0.25);
+                const medianIndex = Math.floor(groupedNodes.length * 0.5);
+                const q3Index = Math.round(groupedNodes.length * 0.75);
+                if (q3Index >= groupedNodes.length) {
+                    return <></>;
+                }
                 const quartile1 = groupedNodes[q1Index].y;
                 const median = groupedNodes[medianIndex].y;
                 const quartile3 = groupedNodes[q3Index].y;

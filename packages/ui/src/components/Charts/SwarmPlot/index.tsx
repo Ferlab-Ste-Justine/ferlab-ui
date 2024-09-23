@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { LineChartOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons';
+import { TRange } from '@ferlab/ui/components/Charts/type';
 import { ComputedDatum, ResponsiveSwarmPlot, SwarmPlotSvgProps } from '@nivo/swarmplot';
 import { BasicTooltip } from '@nivo/tooltip';
 import { Button } from 'antd';
@@ -8,18 +9,17 @@ import Empty from '../../Empty';
 import ChartSkeleton from '../Skeleton';
 
 import { SwarmRawDatum } from './type';
-import { getRange } from './utils';
+import { getRange, getZoomInEnabled } from './utils';
 
 import styles from './index.module.css';
 
 /**
  * Compute zoom between 100% to 200%
  */
-const ZOOM_STEP = 1.0;
-const DEFAULT_ZOOM = 1.0;
-const MAX_ZOOM = 2.0;
+const ZOOM_STEP = 0.1;
+const DEFAULT_ZOOM = 1;
+const MAX_ZOOM = 2;
 const MIN_ZOOM = DEFAULT_ZOOM;
-const RANGE_MARGIN = 2;
 
 export type TSwarmPlotExtraProps = {
     data?: SwarmRawDatum[];
@@ -33,7 +33,7 @@ export type TSwarmPlotExtraProps = {
         right: number;
     };
     loading?: boolean;
-    controls: {
+    controls?: {
         zoom: {
             step: number;
             max: number;
@@ -70,11 +70,21 @@ const SwarmPlot = ({
     ...props
 }: TSwarmPlotChart): JSX.Element => {
     const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM);
-    const range = useMemo(() => {
+    const range: TRange = useMemo(() => {
         if (loading || data.length === 0) {
-            return {};
+            return {
+                max: 1,
+                min: 0,
+            };
         }
-        return getRange({ data: [...data], margin: RANGE_MARGIN, zoom });
+        return getRange({ data: [...data], step: controls.zoom.step, zoom });
+    }, [loading, data, zoom]);
+    const zoomInEnabled: boolean = useMemo(() => {
+        if (loading || data.length === 0) {
+            return false;
+        }
+
+        return getZoomInEnabled({ data: [...data], step: controls.zoom.step, zoom: zoom + controls.zoom.step });
     }, [loading, data, zoom]);
 
     useEffect(() => {
@@ -92,6 +102,7 @@ const SwarmPlot = ({
                 {title}
                 <div className={styles.controls}>
                     <Button
+                        disabled={!zoomInEnabled}
                         icon={<ZoomInOutlined />}
                         onClick={() => {
                             const newZoom = zoom + controls.zoom.step;
@@ -101,6 +112,7 @@ const SwarmPlot = ({
                         type="text"
                     />
                     <Button
+                        disabled={zoom == DEFAULT_ZOOM}
                         icon={<ZoomOutOutlined />}
                         onClick={() => {
                             const newZoom = zoom - controls.zoom.step;
@@ -129,11 +141,17 @@ const SwarmPlot = ({
                     <div className={styles.chart}>
                         <ResponsiveSwarmPlot
                             {...props}
-                            data={data}
+                            // data={data}
+                            data={data.filter((node) => node.y >= range.min && node.y <= range.max)}
                             groups={groups}
                             margin={margin}
                             tooltip={(value) => (tooltip ? <BasicTooltip id={tooltip(value)} /> : <></>)}
-                            valueScale={{ ...range, type: 'linear' }}
+                            valueScale={{
+                                clamp: true,
+                                max: range.valueScale?.max ? range.valueScale.max : 'auto',
+                                min: range.valueScale?.min ? range.valueScale.min : 'auto',
+                                type: 'linear',
+                            }}
                         />
                     </div>
                 </div>
