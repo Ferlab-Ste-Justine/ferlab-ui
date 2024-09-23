@@ -17,10 +17,19 @@ export type TSwarmPlotMedianSvgLayer = {
 
 const OUTER_LINE_SIZE = 20;
 
-const sort = (a: ComputedDatum<SwarmRawDatum>, b: ComputedDatum<SwarmRawDatum>) => {
+const sortY = (a: ComputedDatum<SwarmRawDatum>, b: ComputedDatum<SwarmRawDatum>) => {
     if (a.data.y < b.data.y) {
         return -1;
     } else if (a.data.y > b.data.y) {
+        return 1;
+    }
+    return 0;
+};
+
+const sortX = (a: ComputedDatum<SwarmRawDatum>, b: ComputedDatum<SwarmRawDatum>) => {
+    if (a.x < b.x) {
+        return -1;
+    } else if (a.x > b.x) {
         return 1;
     }
     return 0;
@@ -40,15 +49,24 @@ const Limit = ({ theme, x, y1, y2 }: { theme: TTheme; x: number; y1: number; y2:
  * - upper and lower limits,
  */
 const SwarmPlotLimitLineSvgLayer = ({ active, groups, nodes, theme }: TSwarmPlotMedianSvgLayer): React.ReactElement => {
-    if (!active) return <></>;
+    if (!active || nodes.length === 0) return <></>;
 
     return (
         <>
             {groups.map((group) => {
-                const groupedNodes = nodes.filter((node) => node.group === group).sort(sort);
-                const min = groupedNodes[0];
-                const max = groupedNodes[groupedNodes.length - 1];
-                return <Limit theme={theme[group]} x={max.x} y1={min.y} y2={max.y} />;
+                const groupedNodesY = nodes.filter((node) => node.group === group).sort(sortY);
+                const groupedNodesX = nodes.filter((node) => node.group === group).sort(sortX);
+
+                if (groupedNodesY.length === 0) {
+                    return <></>;
+                }
+
+                const minY = groupedNodesY[0].y;
+                const maxY = groupedNodesY[groupedNodesY.length - 1].y;
+                const minX = groupedNodesX[0].x;
+                const maxX = groupedNodesX[groupedNodesX.length - 1].x;
+                const medianX = minX + (maxX - minX) / 2;
+                return <Limit theme={theme[group]} x={medianX} y1={minY} y2={maxY} />;
             })}
         </>
     );

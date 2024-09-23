@@ -18,4 +18,8 @@ export type TRegion = {
 export type TRange = {
     min: number;
     max: number;
+    valueScale?: {
+        min: number;
+        max: number;
+    };
 };
