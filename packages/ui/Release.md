@@ -1,4 +1,7 @@
-### 10.9.0 2024-09-24
+### 10.10.0 2024-09-24
+- fix: SJIP-958 feat add bordered style to basic description
+
+### 10.9.1 2024-09-24
 - fix: SJIP-954 fix scatterplot and swarmplot charts zoom
 
 ### 10.9.0 2024-09-20
