@@ -1,5 +1,3 @@
-import { ScatterPlotDatum, ScatterPlotNodeData } from '@nivo/scatterplot';
-
 import { TCanvasLayer } from './type';
 
 type TMarkerCanvasLayer = TCanvasLayer & {
@@ -10,11 +8,17 @@ type TMarkerCanvasLayer = TCanvasLayer & {
     font: string;
 };
 
+const DIRECTION_THRESHOLD = 60;
+
 /**
  * Try to replicate svg's annotation behavior
  *
+ * Chart must have a padding top of at least the size of the radius
+ *
+ * e.g.radius is 12px, chart must have a padding-top of 12 px.
+ *  If not, the top element will be cut when rendering
+ *
  * Nivo's doc said that annotation props is supported but it was a lie
- * @returns
  */
 const MarkerCanvasLayer = ({
     ctx,
@@ -31,7 +35,8 @@ const MarkerCanvasLayer = ({
     const target = props.nodes.find((node) => node.id === selectedNodeId);
     if (!target) return;
 
-    const textPosition = { x: target.x + 30, y: target.y - 30 };
+    const direction = target.y < DIRECTION_THRESHOLD ? -1 : 1;
+    const textPosition = { x: target.x + 30, y: target.y - 30 * direction };
     const underlineOffset = { x: 7, y: 7 };
     const underlineLength = 45;
     ctx.beginPath();
