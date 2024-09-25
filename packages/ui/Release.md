@@ -1,3 +1,6 @@
+### 10.10.1 2024-09-24
+- fix: SJIP-954 adjust marker layer annotation position
+
 ### 10.10.0 2024-09-24
 - fix: SJIP-958 feat add bordered style to basic description
 
