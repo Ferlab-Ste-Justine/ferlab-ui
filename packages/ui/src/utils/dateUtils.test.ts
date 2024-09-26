@@ -1,4 +1,4 @@
-import { getRelativeDate } from './dateUtils';
+import getRelativeDate from './dateUtils';
 import { setLocale } from './localeUtils';
 
 describe('Relative date', () => {
@@ -52,5 +52,59 @@ describe('Relative date', () => {
         const today = new Date();
         today.setHours(9, 0, 0, 0);
         expect(getRelativeDate(today, formatAm)).not.toMatch(/am/);
+    });
+    test('should return correct time am en', () => {
+        const formatTime = {
+            yesteday: 'Yesteday at {hour}{ampm}',
+        };
+        setLocale('en');
+
+        const yesteday = new Date();
+        yesteday.setDate(yesteday.getDate() - 1);
+        yesteday.setHours(11);
+        yesteday.setMinutes(52);
+
+        expect(getRelativeDate(yesteday, formatTime)).toEqual('Yesteday at 11:52am');
+    });
+    test('should return correct time am fr', () => {
+        const formatTime = {
+            yesteday: 'Hier à {hour}{ampm}',
+        };
+        setLocale('fr');
+
+        const yesteday = new Date();
+        yesteday.setDate(yesteday.getDate() - 1);
+        yesteday.setHours(11);
+        yesteday.setMinutes(52);
+
+        expect(getRelativeDate(yesteday, formatTime)).toEqual('Hier à 11h52');
+    });
+
+    test('should return correct time pm en', () => {
+        const formatTime = {
+            yesteday: 'Yesteday at {hour}{ampm}',
+        };
+        setLocale('en');
+
+        const yesteday = new Date();
+        yesteday.setDate(yesteday.getDate() - 1);
+        yesteday.setHours(16);
+        yesteday.setMinutes(52);
+
+        expect(getRelativeDate(yesteday, formatTime)).toEqual('Yesteday at 4:52pm');
+    });
+
+    test('should return correct time pm fr', () => {
+        const formatTime = {
+            yesteday: 'Hier à {hour}{ampm}',
+        };
+        setLocale('fr');
+
+        const yesteday = new Date();
+        yesteday.setDate(yesteday.getDate() - 1);
+        yesteday.setHours(16);
+        yesteday.setMinutes(52);
+
+        expect(getRelativeDate(yesteday, formatTime)).toEqual('Hier à 16h52');
     });
 });
