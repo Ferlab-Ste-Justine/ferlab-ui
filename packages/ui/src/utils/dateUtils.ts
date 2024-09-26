@@ -46,39 +46,28 @@ export default (
         return format?.now;
     } else if (date.toDateString() === now.toDateString()) {
         // Today
-        if (locale === 'en-US') {
-            return format?.today?.replace('{hour}', formatTimeToLocal(date, locale)).replace('{ampm}', ampm);
-        }
-        return format?.today?.replace('{hour}', formatTimeToLocal(date, locale)).replace('{ampm}', '');
+        return format?.today
+            ?.replace('{hour}', formatTimeToLocal(date, locale))
+            .replace('{ampm}', locale === 'en-US' ? ampm : '');
     } else if (date.toDateString() === yesteday.toDateString()) {
         //Yesteday
-        if (locale === 'en-US') {
-            return format?.yesteday?.replace('{hour}', formatTimeToLocal(date, locale)).replace('{ampm}', ampm);
-        }
-        return format?.yesteday?.replace('{hour}', formatTimeToLocal(date, locale)).replace('{ampm}', '');
+        return format?.yesteday
+            ?.replace('{hour}', formatTimeToLocal(date, locale))
+            .replace('{ampm}', locale === 'en-US' ? ampm : '');
     } else if (date.getFullYear() === now.getFullYear()) {
         // This year
         const month = new Intl.DateTimeFormat(locale, { month: 'long' }).format(date);
-        if (locale === 'en-US') {
-            return format?.thisYear
-                ?.replace('{day}', date.getDate().toString())
-                .replace('{month}', month)
-                .replace('{time}', formatTimeToLocal(date, locale))
-                .replace('{ampm}', ampm);
-        }
         return format?.thisYear
             ?.replace('{day}', date.getDate().toString())
             .replace('{month}', month)
             .replace('{time}', formatTimeToLocal(date, locale))
-            .replace('{ampm}', '');
+            .replace('{ampm}', locale === 'en-US' ? ampm : '');
     } else {
         //Past Years
         const month = new Intl.DateTimeFormat(locale, { month: 'long' }).format(date);
         return format?.pastYear
             ?.replace('{day}', date.getDate().toString())
             .replace('{month}', month)
-            .replace('{year}', date.getFullYear().toString())
-            .replace('{ampm}', ampm)
-            .replace('{ampm}', '');
+            .replace('{year}', date.getFullYear().toString());
     }
 };
