@@ -135,6 +135,7 @@
 
 .highlight {
   background-color: var(--sidebar-quick-filter-higlight-color);
+  color: var(--sidebar-quick-filter-highlight-text);
   padding: 2px 0;
 }
 
