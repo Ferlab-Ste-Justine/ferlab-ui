@@ -3,7 +3,7 @@ import { CheckOutlined, FlagFilled, FlagOutlined, HistoryOutlined, PushpinFilled
 import { Button, Dropdown, MenuProps, Modal, Popover, Space, Timeline, Tooltip, Typography } from 'antd';
 
 import ScrollContent from '../../../layout/ScrollContent';
-import { getRelativeDate } from '../../../utils/dateUtils';
+import getRelativeDate from '../../../utils/dateUtils';
 import { getPractitionnerName } from '../../Assignments/utils';
 import UserAvatar from '../../UserAvatar';
 import { IFlagDictionary, TFlagHistory } from '../types';
