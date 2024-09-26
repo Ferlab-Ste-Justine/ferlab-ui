@@ -1,3 +1,6 @@
+### 10.10.3 2024-09-26
+- fix: CLIN-3217 & CLIN-3218 fix DateUtils format
+
 ### 10.10.2 2024-09-25
 - fix: SJIP-954 regroup layer to one box plot layer
 
