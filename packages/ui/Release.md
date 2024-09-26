@@ -1,3 +1,6 @@
+### 10.10.4 2024-09-26
+- fix: CLIN-3216 & CLIN-3219 fix flags style
+
 ### 10.10.3 2024-09-26
 - fix: CLIN-3217 & CLIN-3218 fix DateUtils format
 
