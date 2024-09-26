@@ -108,7 +108,7 @@ export const Flag = ({
                             className={styles.viewHistoryButton}
                             icon={<HistoryOutlined className={styles.historyIcon} style={{ fontSize: '16px' }} />}
                             onClick={() => setIsModalOpen(true)}
-                            type="link"
+                            type="text"
                         />
                     </Tooltip>
                 </Space>
