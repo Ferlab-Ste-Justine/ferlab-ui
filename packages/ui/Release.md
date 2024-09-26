@@ -1,3 +1,6 @@
+### 10.10.2 2024-09-25
+- fix: SJIP-954 regroup layer to one box plot layer
+
 ### 10.10.1 2024-09-24
 - fix: SJIP-954 adjust marker layer annotation position
 
