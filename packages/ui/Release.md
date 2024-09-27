@@ -1,3 +1,6 @@
+### 10.10.5 2024-09-26
+- fix: CLIN-849 add sidebar-quick-filter-highlight-text
+
 ### 10.10.4 2024-09-26
 - fix: CLIN-3216 & CLIN-3219 fix flags style
 

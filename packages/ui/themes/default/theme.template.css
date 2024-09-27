@@ -108,6 +108,7 @@
   --sidebar-quick-filter-input-text-color: #383f72;
   --sidebar-quick-filter-input-border-color-focus: #007694;
   --sidebar-quick-filter-higlight-color: var(--blue-2);
+  --sidebar-quick-filter-highlight-text: var(--gray-8);
   --sidebar-quick-filter-facet-name-btn: var(--geekblue-7);
   --sidebar-quick-filter-popover-border: var(--gray-4);
   --sidebar-quick-filter-popover-placeholder: var(--gray-7);
