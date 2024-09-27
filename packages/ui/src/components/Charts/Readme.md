@@ -1,7 +1,7 @@
 # Chart
 
 ## Documentation and issues
-Nivo provide some great [examples](https://nivo.rocks/) but for some case, the documentation has not been updated or is false. Usualy, the false informations are for the canvas version of the chart.
+Nivo provide some great [examples](https://nivo.rocks/) but for some cases, the documentation has not been updated or is false. Usualy, the false informations are for the canvas version of the chart.
 
 e.g. if you check at the [swarm plot doc](https://nivo.rocks/scatterplot/canvas/), annotation should be supported. They are not. That why a MarkerLayer has been created.
 
@@ -176,7 +176,7 @@ Everything rendered inside the canvas needs to use `ctx`.
     ctx.stroke();
 ```
 
-There is some unknow side effects from using `ctx` like the canvas can refresh itself without any warning making `SelectBoxLayer` harder to code since we loose the mouse listener when the canvas refresh.
+There is some unknown side effects from using `ctx` like the canvas can refresh itself without any warning making `SelectBoxLayer` harder to code since we loose the mouse listener when the canvas refresh.
 
 When adding a custom layer inside a canvas, take in account that can't render anything from outside the canvas. You should take in account every element that can be rendered at the limit of the chart. 
 
@@ -194,7 +194,74 @@ But, if you needs to use react-spring, it's better to create the layer in the cl
 The issue is related to webpack and could be fixed by ejecting the projet and update the webpack config BUT ejecting a project can be time consuming and produce some unwanted side effects.
 
 
-## SwarmPlot unwanted behavior
-The swarm plot chart can place item at unwanted place. e.g. an item with an y value of 0.00 can be placed under the 0 y axis. If an explanation is found for this issue, you should document it right here.
+## SwarmPlot unwanted behavior (don't use SwarmPlot)
+The swarm plot chart can place item at unwanted places. e.g. an item with an y value of 0.00 can be placed under the 0 y axis. The same can happen with an item with a value of 0.12 to be under a value of 0.
 
-That why we use nivo's y value for the box plot layer and not data.y value. It ensure the node are not in the same line.
+It seems to related to how the swarm plot manager his strength and iteration. Here an answer of [Nivo's main maintener](https://github.com/plouc/nivo/issues/2654#issuecomment-2379626072)
+
+```
+The swarmplot uses some forces to position the points, the initial position of the points (before the forces are applied) is accurate, but then they're moved according to the force, there's no way to change this with the current implementation, what you can try though is to modify the force strength/iterations, but there's no guarantee.
+If you want something completely accurate, you might want to use another chart type, a scatterplot for example.
+I'm closing this as it's not really a bug, just a limitation of this chart type.
+```
+
+So don't use an SwarmPlot when you needs accurate data. It can be usefull for a quick overview or with data that have a greater discrepancy. You should prioritise a SwarmPlot instead.
+
+### Oh no! I used an SwarmPlot by I need a ScatterPlot instead. How to migrate it ?1
+
+First of all don't panic, both chart are pretty similar. The main difference is taht a ScatterPlot need valid Vector2D to work (x and y)while the swarm plot only use one value. 
+
+The first step to migrate would be to change the api. It should regroup the data with the `{id: 'group', data:[...]}` structure. It should also add X axis to the data. If it can't, we can manage those data in
+the front end, but the result on the X axis will change.
+
+Here an example where the API cannot be update. Example is taken from sampleGeneExp api
+
+```typescript
+{
+    "data": [
+        {
+            "sample_id": "bs-jst2ps9n",
+            "x": 1, // t21 group
+            "y": 0.49654263520237263
+        },
+        {
+            "sample_id": "bs-ejvr34hd",
+            "x": 0,
+            "y": 1.0559434634989615
+        },
+        ...
+}
+```
+
+
+It will need to be changed for (see diffGeneExp)
+
+```typescript
+[
+  {
+    id: 't21',
+    data: [{
+      "sample_id": "bs-jst2ps9n",
+      x: 1.2,
+      "y": 0.49654263520237263
+    }]
+  },
+  {
+    id: 'control',
+    data: [{
+      "sample_id": "bs-ejvr34hd",
+      "x": 1.8,
+      "y": 1.0559434634989615
+    }]
+  }
+]
+```
+
+### Does Swarm's Layer works with Scatter plot ?
+It should works since layers are pretty agnostic about their owner. The only change should be about how the data is readed by the layer. A middleware could be create to change the data and add a generic svg component (SelectBox, BoxPlot etc.).
+
+
+### Any warning?
+At the time, we needs to investigate about how to make the scatter plot categorical. This doc should be updated when done. 
+
+Possible solution: Since legend are just common svg data, you could compute the median on the X axis of all group and create the legend based on this data.
