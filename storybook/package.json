@@ -43,6 +43,7 @@
     "dependencies": {
         "@ferlab/ui": "file:../packages/ui",
         "antd": "^4.24.10",
+        "clin-portal-theme": "github:Ferlab-Ste-Justine/clin-portal-theme",
         "react": "^18.2.0",
         "react-dom": "^18.2.0"
     }
