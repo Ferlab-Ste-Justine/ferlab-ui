@@ -740,7 +740,7 @@ const tsqonFromRangeFilter = (
 
     switch (selectedRange.data.operator) {
         case RangeOperators.between:
-            return selectedRange.data.min && selectedRange.data.max
+            return selectedRange.data.min !== undefined && selectedRange.data.max !== undefined
                 ? createContentValue(
                       [selectedRange.data.min, selectedRange.data.max],
                       RangeOperators[selectedRange.data.operator],
@@ -748,12 +748,12 @@ const tsqonFromRangeFilter = (
                 : null;
         case RangeOperators['<']:
         case RangeOperators['<=']:
-            return selectedRange.data.max
+            return selectedRange.data.max !== undefined
                 ? createContentValue([selectedRange.data.max], RangeOperators[selectedRange.data.operator])
                 : null;
         case RangeOperators['>']:
         case RangeOperators['>=']:
-            return selectedRange.data.min
+            return selectedRange.data.min !== undefined
                 ? createContentValue([selectedRange.data.min], RangeOperators[selectedRange.data.operator])
                 : null;
     }

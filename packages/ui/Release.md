@@ -1,3 +1,6 @@
+### 10.10.6 2024-10-02
+- fix: CLIN-2673 Allow SelectRange filtering on 0 value
+
 ### 10.10.5 2024-09-26
 - fix: CLIN-849 add sidebar-quick-filter-highlight-text
 
