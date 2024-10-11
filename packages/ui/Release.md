@@ -1,3 +1,6 @@
+### 10.10.7 2024-10-11
+- feat: CLIN-2989 Filter flag dropdown and querybuilder not includes tablefitler
+
 ### 10.10.6 2024-10-02
 - fix: CLIN-2673 Allow SelectRange filtering on 0 value
 

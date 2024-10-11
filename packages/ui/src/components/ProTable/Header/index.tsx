@@ -78,7 +78,9 @@ const TableHeader = ({
                 <Button
                     className={styles.clearFilterLink}
                     icon={<CloseOutlined />}
-                    onClick={clearFilter}
+                    onClick={() => {
+                        clearFilter();
+                    }}
                     size="small"
                     type="link"
                 >
