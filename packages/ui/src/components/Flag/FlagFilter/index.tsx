@@ -117,10 +117,8 @@ const FlagFilter = ({
             <StackLayout className={styles.filterFooter} horizontal>
                 <Button
                     className={styles.resetButton}
-                    disabled={selectedOption?.length === 0 ? true : false}
-                    onClick={() => {
-                        setSelectedOption([]);
-                    }}
+                    disabled={selectedOption.length === 0 ? true : false}
+                    onClick={() => setSelectedOption([])}
                     size="small"
                     type="link"
                 >
