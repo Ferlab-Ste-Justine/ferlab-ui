@@ -11,36 +11,44 @@ import styles from './index.module.css';
 export type TFlagFilter = {
     dictionary?: IFlagDictionary | Record<string, never>;
     confirm?: (param?: FilterConfirmProps) => void;
-    selectedKeys?: React.Key[];
-    setSelectedKeys?: (selectedKeys: React.Key[]) => void;
+    selectedKeys: React.Key[];
+    setSelectedKeys: (selectedKeys: React.Key[]) => void;
+    selectedFilter?: string[];
     isClear: boolean;
 };
 
-const FlagFilter = ({ confirm, dictionary, isClear, selectedKeys, setSelectedKeys }: TFlagFilter): ReactElement => {
-    const [selectedOption, setSelectedOption] = useState<React.Key[]>(selectedKeys ? selectedKeys : []);
+const FlagFilter = ({
+    confirm,
+    dictionary,
+    isClear,
+    selectedFilter,
+    selectedKeys,
+    setSelectedKeys,
+}: TFlagFilter): ReactElement => {
+    const [selectedOption, setSelectedOption] = useState<React.Key[]>(selectedFilter ? selectedFilter : []);
+    useEffect(() => {
+        setSelectedOption(selectedFilter ? selectedFilter : []);
+    }, [selectedFilter]);
 
     useEffect(() => {
         if (selectedKeys && setSelectedKeys) {
             setSelectedKeys(selectedOption);
         }
     }, [selectedOption]);
-
     useEffect(() => {
         if (isClear) {
-            setSelectedOption([]);
             setSelectedKeys && setSelectedKeys([]);
             confirm && confirm();
         }
     }, [isClear]);
 
     const handleSelect = (value: string) => {
-        if (selectedKeys && setSelectedKeys) {
-            selectedKeys.includes(value)
-                ? setSelectedKeys(selectedKeys.filter((item: React.Key) => item !== value))
-                : setSelectedKeys([value, ...selectedKeys]);
+        if (selectedOption?.includes(value)) {
+            setSelectedOption(selectedOption.filter((item: React.Key) => item !== value));
+        } else {
+            setSelectedOption([value, ...selectedOption]);
         }
     };
-
     return (
         <>
             <div className={styles.flagContainer}>
@@ -118,7 +126,7 @@ const FlagFilter = ({ confirm, dictionary, isClear, selectedKeys, setSelectedKey
                 </Button>
                 <Button
                     onClick={() => {
-                        confirm;
+                        confirm && confirm();
                     }}
                     size="small"
                     type="primary"

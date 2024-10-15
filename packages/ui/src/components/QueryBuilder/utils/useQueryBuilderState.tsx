@@ -170,7 +170,7 @@ export const updateActiveQueryField = ({
         queryBuilderId,
     });
 
-const updateQuery = ({ query, queryBuilderId }: { queryBuilderId: string; query: ISyntheticSqon }) => {
+export const updateQuery = ({ query, queryBuilderId }: { queryBuilderId: string; query: ISyntheticSqon }) => {
     const qbState = getQueryBuilderState(queryBuilderId);
     const queryToUpdate = qbState?.state?.find(({ id }) => id === query.id);
     if (queryToUpdate) {

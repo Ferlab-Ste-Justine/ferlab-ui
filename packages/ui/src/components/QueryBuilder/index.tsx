@@ -17,7 +17,7 @@ import {
 } from '../../data/sqon/utils';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
 
-import { isQueryStateEqual } from './utils/helper';
+import { isQueryStateEqual, removeIgnoreFieldFromQueryContent } from './utils/helper';
 import useQueryBuilderState, { setQueryBuilderState } from './utils/useQueryBuilderState';
 import {
     defaultCustomPillConfig,
@@ -61,6 +61,7 @@ export interface IQueryBuilderProps {
     fetchQueryCount: IFetchQueryCount;
     getResolvedQueryForCount: IGetResolvedQueryForCount;
     remoteComponentMapping?: (props: IRemoteComponent) => void;
+    filterQueryToIgnore?: string[];
 }
 
 const QueryBuilder = ({
@@ -73,6 +74,7 @@ const QueryBuilder = ({
     enableSingleQuery = false,
     facetFilterConfig = defaultFacetFilterConfig,
     fetchQueryCount,
+    filterQueryToIgnore,
     getResolvedQueryForCount,
     headerConfig = defaultHeaderConfig,
     IconTotal = null,
@@ -82,32 +84,41 @@ const QueryBuilder = ({
     remoteComponentMapping,
     total = 0,
 }: IQueryBuilderProps): JSX.Element => {
+    const removeIgnoreFieldFromQueryList = (sqon: ISyntheticSqon[]) => {
+        const queries = cloneDeep(sqon);
+        const newQuery: ISyntheticSqon[] = [];
+        queries.map((q) => {
+            newQuery.push(removeIgnoreFieldFromQueryContent(q, filterQueryToIgnore));
+        });
+        return newQuery;
+    };
     const [selectedSavedFilter, setSelectedSavedFilter] = useState(headerConfig?.selectedSavedFilter || null);
     const { state: queryBuilderState } = useQueryBuilderState(id);
     const [queriesState, setQueriesState] = useState<IQueriesState>({
         activeId: queryBuilderState?.active || v4(),
         queries: queryBuilderState?.state || [],
     });
+    const queryStateQueriesWithoutFilter = removeIgnoreFieldFromQueryList(queriesState.queries);
     const [showLabels, setShowLabels] = useState(initialShowLabelState);
     const [selectedQueryIndices, setSelectedQueryIndices] = useState<number[]>([]);
-    const emptyQueries = queriesState.queries.filter((sqon) => isEmptySqon(sqon));
-    const noQueries = queriesState.queries.length === emptyQueries.length;
-    const queryCount = queriesState.queries.length - emptyQueries.length;
+    const emptyQueries = queryStateQueriesWithoutFilter.filter((sqon) => isEmptySqon(sqon));
+    const noQueries = queryStateQueriesWithoutFilter.length === emptyQueries.length;
+    const queryCount = queryStateQueriesWithoutFilter.length - emptyQueries.length;
     const hasEmptyQuery = emptyQueries.length >= 1;
-    const getQueryIndexById = (id: string) => queriesState.queries.findIndex((obj) => obj.id === id);
+    const getQueryIndexById = (id: string) => queryStateQueriesWithoutFilter.findIndex((obj) => obj.id === id);
     const canCombine =
-        queriesState.queries.filter((sqon) => isNotEmptySqon(sqon)).length >= 2 && selectedQueryIndices.length >= 2;
+        queryStateQueriesWithoutFilter.filter((sqon) => isNotEmptySqon(sqon)).length >= 2 &&
+        selectedQueryIndices.length >= 2;
     const currentActiveSqonIndex = getQueryIndexById(queriesState.activeId);
-    const selectedSyntheticSqon = queriesState.queries[currentActiveSqonIndex];
+    const selectedSyntheticSqon = queryStateQueriesWithoutFilter[currentActiveSqonIndex];
     const getColorForReference = (refIndex: number) => referenceColors[refIndex % referenceColors.length];
-
     const updateQueryById = (id: string, newQuery: ISyntheticSqon) => {
         if (!id) return;
         if (isEmpty(newQuery.content)) {
             deleteQueryAndSetNext(id);
         } else {
             const currentQueryIndex = getQueryIndexById(id);
-            const updatedQueries = cloneDeep(queriesState.queries);
+            const updatedQueries = cloneDeep(queryStateQueriesWithoutFilter);
             updatedQueries[currentQueryIndex] = {
                 ...newQuery,
                 content: newQuery.content,
@@ -144,11 +155,11 @@ const QueryBuilder = ({
     };
 
     const deleteQueryAndSetNext = (id: string) => {
-        if (queriesState.queries.length === 1) {
+        if (queryStateQueriesWithoutFilter.length === 1) {
             resetQueries(id);
         } else {
             const currentQueryIndex = getQueryIndexById(id);
-            const updatedQueries = cleanUpQueries(removeSqonAtIndex(currentQueryIndex, queriesState.queries));
+            const updatedQueries = cleanUpQueries(removeSqonAtIndex(currentQueryIndex, queryStateQueriesWithoutFilter));
 
             if (updatedQueries.length) {
                 const nextSelectedIndex = findNextSelectedQuery(updatedQueries, currentQueryIndex);
@@ -178,7 +189,7 @@ const QueryBuilder = ({
         const newQuery = { content: content, id: id, op: op };
         setQueriesState({
             activeId: id,
-            queries: cleanUpQueries(cloneDeep([...queriesState.queries, newQuery])),
+            queries: cleanUpQueries(cloneDeep([...queryStateQueriesWithoutFilter, newQuery])),
         });
     };
 
@@ -225,7 +236,7 @@ const QueryBuilder = ({
 
     useEffect(() => {
         if (
-            isEmpty(queriesState.queries) &&
+            isEmpty(queryStateQueriesWithoutFilter) &&
             isEmptySqon(currentQuery) &&
             total === 0 &&
             !headerConfig.savedFilters?.length
@@ -237,7 +248,7 @@ const QueryBuilder = ({
     useEffect(() => {
         if (isEmptySqon(currentQuery) && total === 0) return;
 
-        if (queriesState.queries.length === 0) {
+        if (queryStateQueriesWithoutFilter.length === 0) {
             setQueriesState({
                 ...queriesState,
                 queries: [
@@ -249,13 +260,13 @@ const QueryBuilder = ({
                 ],
             });
         } else {
-            const index = queriesState.queries.findIndex((obj) => obj.id == queriesState.activeId);
-            const current = queriesState.queries[index];
+            const index = queryStateQueriesWithoutFilter.findIndex((obj) => obj.id == queriesState.activeId);
+            const current = queryStateQueriesWithoutFilter[index];
 
             if (current.content && current.content.length > 0 && isEmpty(currentQuery)) {
                 deleteQueryAndSetNext(queriesState.activeId);
             } else {
-                const tmpQuery = queriesState.queries.map((obj) => {
+                const tmpQuery = queryStateQueriesWithoutFilter.map((obj) => {
                     // Ensure there is always a op and content
                     if (obj.id === queriesState.activeId) {
                         return {
@@ -295,7 +306,7 @@ const QueryBuilder = ({
             if (!isQueryStateEqual(queryBuilderState, queriesState)) {
                 setQueryBuilderState(id, {
                     active: queriesState.activeId,
-                    state: queriesState.queries,
+                    state: queryStateQueriesWithoutFilter,
                 });
             }
         }
@@ -335,7 +346,7 @@ const QueryBuilder = ({
                 >
                     <div className={`${styles.queryBuilderContainer} ${className}`}>
                         <div className={styles.queryBars}>
-                            {queriesState.queries.map((sqon, i) => (
+                            {queryStateQueriesWithoutFilter.map((sqon, i) => (
                                 <QueryBar
                                     Icon={IconTotal}
                                     actionDisabled={isEmptySqon(sqon)}
@@ -358,7 +369,7 @@ const QueryBuilder = ({
                                         }));
                                     }}
                                     onCombineChange={(id, combinator) => {
-                                        const updatedQueries = cloneDeep(queriesState.queries);
+                                        const updatedQueries = cloneDeep(queryStateQueriesWithoutFilter);
                                         const currentQueryIndex = getQueryIndexById(id);
                                         const currentQuery = updatedQueries[currentQueryIndex];
                                         const newQuery = changeCombineOperator(combinator, currentQuery);
@@ -399,9 +410,9 @@ const QueryBuilder = ({
                                     query={sqon}
                                     remoteComponentMapping={remoteComponentMapping}
                                     selectionDisabled={
-                                        queriesState.queries.length === 1 ||
+                                        queryStateQueriesWithoutFilter.length === 1 ||
                                         !enableCombine ||
-                                        queriesState.queries[i].content.length === 0
+                                        queryStateQueriesWithoutFilter[i].content.length === 0
                                     }
                                     updateQueryById={updateQueryById}
                                 />
