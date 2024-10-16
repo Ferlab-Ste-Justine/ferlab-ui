@@ -1,3 +1,6 @@
+### 10.10.8 2024-10-16
+- fix: CLIN-3284 fix error 500 query
+
 ### 10.10.7 2024-10-11
 - feat: CLIN-2989 Filter flag dropdown and querybuilder not includes tablefitler
 
