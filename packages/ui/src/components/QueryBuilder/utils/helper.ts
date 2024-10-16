@@ -28,9 +28,7 @@ export const removeIgnoreFieldFromQueryContent = (
 ): ISyntheticSqon => {
     const queryToRemove = query.content.filter((c) => {
         let toKeep = false;
-        console.log('filter query', query);
         if (!Array.isArray((c as IValueFilter).content)) {
-            console.log('filter c', c);
             if ((c as IValueFilter).content) {
                 if (!filterQueryToIgnore?.includes(((c as IValueFilter).content as IValueContent).field)) {
                     toKeep = true;
