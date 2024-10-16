@@ -28,18 +28,29 @@ export const removeIgnoreFieldFromQueryContent = (
 ): ISyntheticSqon => {
     const queryToRemove = query.content.filter((c) => {
         let toKeep = false;
-        if (((c as IValueFilter).content as unknown as IValueContent[]).length !== 0) {
-            if (!filterQueryToIgnore?.includes(((c as IValueFilter).content as IValueContent).field)) {
+        if (!Array.isArray((c as IValueFilter).content)) {
+            if ((c as IValueFilter).content) {
+                if (!filterQueryToIgnore?.includes(((c as IValueFilter).content as IValueContent).field)) {
+                    toKeep = true;
+                }
+            } else {
                 toKeep = true;
             }
-            if (Array.isArray((c as IValueFilter).content)) {
-                const { field } = ((c as IValueFilter).content as unknown as IValueFilter[])[0]
-                    .content as IValueContent;
-                if (filterQueryToIgnore?.includes(field)) {
-                    toKeep = false;
+        } else {
+            if (((c as IValueFilter).content as unknown as IValueContent[]).length !== 0) {
+                if (!filterQueryToIgnore?.includes(((c as IValueFilter).content as IValueContent).field)) {
+                    toKeep = true;
+                }
+                if (Array.isArray((c as IValueFilter).content)) {
+                    const { field } = ((c as IValueFilter).content as unknown as IValueFilter[])[0]
+                        .content as IValueContent;
+                    if (filterQueryToIgnore?.includes(field)) {
+                        toKeep = false;
+                    }
                 }
             }
         }
+
         return toKeep;
     });
     return {
