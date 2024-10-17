@@ -250,32 +250,48 @@ const QuickFilter = ({
                                                 >
                                                     {get(dictionary, 'actions.clear', 'Clear')}
                                                 </Button>
-                                                <Dropdown.Button
-                                                    className={styles.applyBtn}
-                                                    disabled={selectedFacet && !selectedFacetOptions.length}
-                                                    menu={{
-                                                        items: [
-                                                            {
-                                                                key: TermOperators.in,
-                                                                label: get(dictionary, 'operators.anyOf', 'Any of'),
-                                                            },
-                                                            {
-                                                                key: TermOperators.all,
-                                                                label: get(dictionary, 'operators.allOf', 'All of'),
-                                                            },
-                                                            {
-                                                                key: TermOperators['not-in'],
-                                                                label: get(dictionary, 'operators.noneOf', 'None of'),
-                                                            },
-                                                        ],
-                                                        onClick: (e) => applyFacetFilters(e.key as TermOperators),
-                                                    }}
-                                                    onClick={() => applyFacetFilters(TermOperators.in)}
-                                                    size="small"
-                                                    type="primary"
-                                                >
-                                                    {get(dictionary, 'actions.apply', 'Apply')}
-                                                </Dropdown.Button>
+                                                {qfFacetOptions?.filterGroup.type != VisualType.Range ? (
+                                                    <Dropdown.Button
+                                                        className={styles.applyBtn}
+                                                        disabled={selectedFacet && !selectedFacetOptions.length}
+                                                        menu={{
+                                                            items: [
+                                                                {
+                                                                    key: TermOperators.in,
+                                                                    label: get(dictionary, 'operators.anyOf', 'Any of'),
+                                                                },
+                                                                {
+                                                                    key: TermOperators.all,
+                                                                    label: get(dictionary, 'operators.allOf', 'All of'),
+                                                                },
+                                                                {
+                                                                    key: TermOperators['not-in'],
+                                                                    label: get(
+                                                                        dictionary,
+                                                                        'operators.noneOf',
+                                                                        'None of',
+                                                                    ),
+                                                                },
+                                                            ],
+                                                            onClick: (e) => applyFacetFilters(e.key as TermOperators),
+                                                        }}
+                                                        onClick={() => applyFacetFilters(TermOperators.in)}
+                                                        size="small"
+                                                        type="primary"
+                                                    >
+                                                        {get(dictionary, 'actions.apply', 'Apply')}
+                                                    </Dropdown.Button>
+                                                ) : (
+                                                    <Button
+                                                        className={styles.applyBtn}
+                                                        disabled={selectedFacet && !selectedFacetOptions.length}
+                                                        onClick={() => applyFacetFilters(TermOperators.in)}
+                                                        size="small"
+                                                        type="primary"
+                                                    >
+                                                        {get(dictionary, 'actions.apply', 'Apply')}
+                                                    </Button>
+                                                )}
                                             </div>
                                         </>
                                     ) : (

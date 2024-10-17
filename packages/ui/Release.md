@@ -1,3 +1,6 @@
+### 10.10.8 2024-10-17
+- fix: SJIP-959 Range should not show a button dropdown in quickfilter
+
 ### 10.10.8 2024-10-16
 - fix: CLIN-3284 fix error 500 query
 
