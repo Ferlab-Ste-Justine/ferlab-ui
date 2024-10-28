@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { useState } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, PopoverProps } from 'antd';
+import { Button, ButtonProps, PopoverProps } from 'antd';
 import cx from 'classnames';
 
 import { TFetchMatchFunc, TOnUpload, UploadIdDictionary } from './types';
@@ -11,6 +11,7 @@ import styles from './index.module.css';
 
 export interface UploadIdsProps {
     className?: string;
+    buttonProps?: ButtonProps;
     fetchMatch: TFetchMatchFunc;
     popoverProps?: PopoverProps;
     dictionary: UploadIdDictionary;
@@ -22,6 +23,7 @@ export interface UploadIdsProps {
 }
 
 const UploadIds = ({
+    buttonProps,
     className = '',
     dictionary,
     fetchMatch,
@@ -41,6 +43,7 @@ const UploadIds = ({
                 icon={<UploadOutlined />}
                 onClick={() => setModalVisible(true)}
                 type="primary"
+                {...buttonProps}
             >
                 {dictionary.uploadBtnText}
             </Button>
