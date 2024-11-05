@@ -172,15 +172,15 @@ const RangeFilter = ({
         noDataSelected = false,
         selectedMax = undefined,
         selectedMin = undefined,
-        selectedOperator = operatorsList[0].value,
+        selectedOperator = undefined,
         selectedRangeType = rangeTypes?.length ? rangeTypes[0].key : undefined,
     } = getConfig(selectedFilters);
 
     const defaultStateValue = {
-        max: selectedMax,
-        min: selectedMin,
+        max: selectedMax || range?.defaultMax,
+        min: selectedMin || range?.defaultMin,
         noDataSelected,
-        operator: selectedOperator,
+        operator: selectedOperator || range?.defaultOperator || operatorsList[0].value,
         rangeType: selectedRangeType,
     };
 

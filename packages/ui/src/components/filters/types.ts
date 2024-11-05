@@ -48,6 +48,8 @@ export interface IFilterRangeConfig {
     operators?: IRangeOperatorConfig[];
     rangeTypes?: IFilterRangeTypes[];
     defaultOperator?: RangeOperators;
+    defaultMin?: number;
+    defaultMax?: number;
     noDataInputOption?: boolean;
     intervalDecimal?: number;
 }
@@ -63,9 +65,18 @@ export interface IFilterTextInputConfig {
 
 export type TFilterGroupConfig = IFilterRangeConfig | IFilterTextInputConfig | IFilterCheckboxConfig;
 
+export interface IFilterGroupDefaultsRange {
+    min: number;
+    max: number;
+    operator: string;
+}
+
+export type TFilterGroupDefaults = IFilterGroupDefaultsRange;
+
 export interface IFilterGroup<T extends TFilterGroupConfig = any> {
     field: string;
     config?: T;
+    defaults?: TFilterGroupDefaults;
     title: ReactNode;
     type: VisualType;
     headerTooltip?: string;

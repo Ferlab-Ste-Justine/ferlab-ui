@@ -61,6 +61,46 @@ Basic.args = {
     onChange: () => undefined,
 };
 
+export const WithDefaultValue = RangeFilterStory.bind({});
+WithDefaultValue.args = {
+    title: 'RangeFilter with default Values and between operator',
+    filterGroup: {
+        type: VisualType.Range,
+        field: 'this.field',
+        config: {
+            step: 0.00001,
+            min: 0.000029,
+            max: 0.99999,
+            defaultMin: 0.2,
+            defaultMax: 0.8,
+            defaultOperator: 'between',
+        },
+        title: 'title_filter_group',
+    },
+    filters: rangeFilters,
+    onChange: () => undefined,
+};
+
+export const WithDefaultValueInOperator = RangeFilterStory.bind({});
+WithDefaultValueInOperator.args = {
+    title: 'RangeFilter with default Values and >= operator',
+    filterGroup: {
+        type: VisualType.Range,
+        field: 'this.field',
+        config: {
+            step: 0.00001,
+            min: 0.000029,
+            max: 0.99999,
+            defaultMin: 0.2,
+            defaultMax: 0.8,
+            defaultOperator: '>=',
+        },
+        title: 'title_filter_group',
+    },
+    filters: rangeFilters,
+    onChange: () => undefined,
+};
+
 export const WithFrenchTranslation = RangeFilterStory.bind({});
 WithFrenchTranslation.args = {
     title: 'RangeFilter French',

@@ -19,7 +19,9 @@ export const getRangeSelection = (filters: ISyntheticSqon, filterGroup: IFilterG
     let rangeSelection: IFilterRange = {
         max: undefined,
         min: undefined,
-        operator: RangeOperators['<'],
+        operator: filterGroup.config?.defaultOperator
+            ? RangeOperators[filterGroup.config?.defaultOperator as RangeOperators]
+            : RangeOperators['<'],
         rangeType: undefined,
     };
     for (const filter of filters.content) {
