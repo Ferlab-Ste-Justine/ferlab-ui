@@ -120,6 +120,7 @@ type config = {
 };
 
 const getConfig = (selectedFilters: IFilter[] | undefined): config => {
+    console.log('getConfig : ', selectedFilters);
     if (!selectedFilters || selectedFilters?.length === 0) {
         return {
             noDataSelected: false,
@@ -177,8 +178,8 @@ const RangeFilter = ({
     } = getConfig(selectedFilters);
 
     const defaultStateValue = {
-        max: selectedMax,
-        min: selectedMin,
+        max: selectedMax || range?.defaultMax,
+        min: selectedMin || range?.defaultMin,
         noDataSelected,
         operator: selectedOperator,
         rangeType: selectedRangeType,
