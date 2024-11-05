@@ -2,7 +2,14 @@ import { isEmpty } from 'lodash';
 import get from 'lodash/get';
 import qs from 'query-string';
 
-import { IFacetDictionary, IFilter, IFilterGroup, TExtendedMapping, VisualType } from '../../components/filters/types';
+import {
+    IFacetDictionary,
+    IFilter,
+    IFilterGroup,
+    TExtendedMapping,
+    TFilterGroupDefaults,
+    VisualType,
+} from '../../components/filters/types';
 import { BooleanOperators } from '../sqon/operators';
 import { ISyntheticSqon, TSqonGroupOp, TSyntheticSqonContent } from '../sqon/types';
 import { createSQONFromFilters, isReference } from '../sqon/utils';
@@ -217,10 +224,12 @@ interface IGetFilterGroup {
     dictionary?: IFacetDictionary;
     noDataInputOption?: boolean;
     intervalDecimal?: number;
+    defaults?: TFilterGroupDefaults;
 }
 
 export const getFilterGroup = ({
     aggregation,
+    defaults,
     dictionary,
     extendedMapping,
     filterFooter,
@@ -232,6 +241,9 @@ export const getFilterGroup = ({
     if (isRangeAgg(aggregation)) {
         return {
             config: {
+                defaultMax: defaults?.max,
+                defaultMin: defaults?.min,
+                defaultOperator: defaults?.operator,
                 intervalDecimal,
                 max: aggregation.stats.max,
                 min: aggregation.stats.min,
