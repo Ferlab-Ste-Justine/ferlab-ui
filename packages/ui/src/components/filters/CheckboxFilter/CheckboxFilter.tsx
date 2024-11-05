@@ -169,7 +169,7 @@ const CheckboxFilter = ({
     };
 
     useEffect(() => {
-        const initFiltered = bumpCheckedFilterFirst();
+        const initFiltered = !search ? bumpCheckedFilterFirst() : filters;
         const newFilters = (initFiltered.length ? initFiltered : filters).filter(
             ({ data, name }) =>
                 !isEmpty(data) &&

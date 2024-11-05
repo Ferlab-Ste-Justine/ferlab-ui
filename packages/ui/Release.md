@@ -1,3 +1,6 @@
+### 10.11.1 2024-11-05
+- fix: SKFP-1274 fix search in checkbox facet
+
 ### 10.11.0 2024-10-28
 - feat: SJIP-1049 Add buttonprops props for uploadIds
 
