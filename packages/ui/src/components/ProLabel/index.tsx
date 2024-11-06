@@ -28,10 +28,10 @@ const ProLabel = ({
     className = '',
     colon = false,
     popoverProps,
-    tooltipProps,
     requiredMark = false,
     size = 'default',
     title,
+    tooltipProps,
 }: IProLabelProps): ReactElement => (
     <Text className={cx(styles.fuiProLabel, requiredMark ? styles.requiredMark : '', className)}>
         <span>
