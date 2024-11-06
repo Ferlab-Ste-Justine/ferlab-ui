@@ -1,11 +1,9 @@
-import QueryBuilder, {
-    IQueryBuilderProps,
-} from "@ferlab/ui/core/components/QueryBuilder";
-import { setQueryBuilderState } from "@ferlab/ui/core/components/QueryBuilder/utils/useQueryBuilderState";
-import { IRemoteComponent } from "@ferlab/ui/core/data/sqon/types";
-import { Meta, Story } from "@storybook/react";
-import React from "react";
-import { MdPeople } from "react-icons/md";
+import QueryBuilder, { IQueryBuilderProps } from '@ferlab/ui/core/components/QueryBuilder';
+import { setQueryBuilderState } from '@ferlab/ui/core/components/QueryBuilder/utils/useQueryBuilderState';
+import { IRemoteComponent } from '@ferlab/ui/core/data/sqon/types';
+import { Meta, Story } from '@storybook/react';
+import React from 'react';
+import { MdPeople } from 'react-icons/md';
 
 export default {
     title: '@ferlab/Components/QueryBuilder/QueryBuilder',
@@ -614,7 +612,7 @@ setQueryBuilderState(withHeaderAndToolsAndPatternQbID, {
 });
 WithHeaderAndToolsAndPattern.args = {
     id: withHeaderAndToolsAndPatternQbID,
-    title: 'With header, tools and pattern (Can\'t use $ in the filter name)',
+    title: "With header, tools and pattern (Can't use $ in the filter name)",
     getResolvedQueryForCount: defaultResolveCountPromise,
     fetchQueryCount: defaultFetchQuerCount,
     headerConfig: {
@@ -655,9 +653,9 @@ WithHeaderAndToolsAndPattern.args = {
                 pattern: {
                     message: "Can't use $",
                     regex: '^.[^$]+$',
-                }
-            }
-        }
+                },
+            },
+        },
     },
     onRemoveFacet: (f: any) => f,
     onChangeQuery: (f: any) => f,
