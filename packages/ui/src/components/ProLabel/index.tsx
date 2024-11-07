@@ -5,22 +5,23 @@ import cx from 'classnames';
 
 import styles from './index.module.css';
 
+interface IProLabelWithPopover {
+    popoverProps?: PopoverProps;
+    tooltipProps?: never;
+}
+
+interface IProLabelWithTooltip {
+    popoverProps?: never;
+    tooltipProps?: TooltipProps;
+}
+
 export type IProLabelProps = {
     title: string;
     className?: string;
     colon?: boolean;
     size?: 'small' | 'default';
     requiredMark?: boolean;
-} & (
-    | {
-          popoverProps?: PopoverProps;
-          tooltipProps?: never;
-      }
-    | {
-          popoverProps?: never;
-          tooltipProps?: TooltipProps;
-      }
-);
+} & (IProLabelWithPopover | IProLabelWithTooltip);
 
 const { Text } = Typography;
 
