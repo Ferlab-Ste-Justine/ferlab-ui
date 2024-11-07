@@ -1,4 +1,4 @@
-### 10.11.2 2024-11-06
+### 10.13.0 2024-11-06
 - feat: CLIN-2923 Improve Pro Label by adding tooltip option
 
 ### 10.11.1 2024-11-05
