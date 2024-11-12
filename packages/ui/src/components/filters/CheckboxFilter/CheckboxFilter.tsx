@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { FileImageOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Divider, Dropdown, Input, Space, Switch, Tag, Typography } from 'antd';
 import cx from 'classnames';
 import get from 'lodash/get';
@@ -195,6 +196,7 @@ const CheckboxFilter = ({
     const showDictionaryOption = filterGroup.config?.extraFilterDictionary && extraFilters.length > 0;
     const showActionBar = isEmpty(bumpedFilters) ? showDictionaryOption : showSelectAll || showDictionaryOption;
     const searchPlaceholder = (dictionary?.checkBox?.searchPlaceholder as string) || 'Search...';
+    const showCategoryIcon = filterGroup.config?.categoryIcon;
 
     return (
         <Fragment>
@@ -242,7 +244,7 @@ const CheckboxFilter = ({
                             </StackLayout>
                         )}
                         {showDictionaryOption && (
-                            <StackLayout className={styles.checkboxDictAction}>
+                            <StackLayout className={styles.switchDictAction}>
                                 <Space>
                                     <Text>{get(dictionary, 'actions.dictionary', 'Dictionary')}</Text>
                                     <Switch
@@ -255,6 +257,11 @@ const CheckboxFilter = ({
                                         size="small"
                                     />
                                 </Space>
+                            </StackLayout>
+                        )}
+                        {showCategoryIcon && (
+                            <StackLayout className={styles.categoryIcon}>
+                                <Space>{showCategoryIcon}</Space>
                             </StackLayout>
                         )}
                     </StackLayout>

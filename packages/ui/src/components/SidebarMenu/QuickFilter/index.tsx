@@ -1,5 +1,6 @@
 import React, { MouseEvent, ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import Highlighter from 'react-highlight-words';
+import { FileExclamationOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Dropdown, Input, InputRef, Popover, Spin, Tag, Typography } from 'antd';
 import { get } from 'lodash';
 
@@ -17,6 +18,7 @@ export type TitleQFOption = {
     label: string;
     type: VisualType | 'title';
     index: string;
+    categoryIcon?: ReactNode;
 };
 
 export type CheckboxQFOption = TitleQFOption & {
@@ -154,6 +156,7 @@ const QuickFilter = ({
                                 searchWords={[search]}
                                 textToHighlight={option.label}
                             />
+                            {option.categoryIcon && option.categoryIcon}
                         </Button>
                     </div>
                 ) : (

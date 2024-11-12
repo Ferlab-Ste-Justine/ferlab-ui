@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { isEmpty } from 'lodash';
 import get from 'lodash/get';
 import qs from 'query-string';
@@ -225,10 +226,12 @@ interface IGetFilterGroup {
     noDataInputOption?: boolean;
     intervalDecimal?: number;
     defaults?: TFilterGroupDefaults;
+    categoryIcon?: ReactNode;
 }
 
 export const getFilterGroup = ({
     aggregation,
+    categoryIcon,
     defaults,
     dictionary,
     extendedMapping,
@@ -264,6 +267,7 @@ export const getFilterGroup = ({
 
     return {
         config: {
+            categoryIcon,
             withFooter: filterFooter,
         },
         field: extendedMapping?.field || '',

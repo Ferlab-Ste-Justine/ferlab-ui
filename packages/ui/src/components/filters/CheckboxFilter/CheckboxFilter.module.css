@@ -1,148 +1,149 @@
 .checkboxFilter .checkboxFiltersContent {
-  max-height: 250px;
-  overflow-y: auto;
+    max-height: 250px;
+    overflow-y: auto;
 }
 .checkboxFilter .checkboxFiltersContent.withMargin {
-  margin-bottom: 12px;
+    margin-bottom: 12px;
 }
 .checkboxFilter .filtersTypesFooter {
-  border: none;
-  color: var(--checkbox-filter-types-mc-footer);
-  padding: 0;
-  text-align: left;
-  height: auto;
-  font-size: 12px;
-  margin-top: 5px;
-  align-self: flex-start;
+    border: none;
+    color: var(--checkbox-filter-types-mc-footer);
+    padding: 0;
+    text-align: left;
+    height: auto;
+    font-size: 12px;
+    margin-top: 5px;
+    align-self: flex-start;
 }
 .checkboxFilter .filtersTypesFooter:not(.readOnly) > * {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 .checkboxFilter .filtersTypesFooter:not(.readOnly):hover > * {
-  text-decoration: none;
+    text-decoration: none;
 }
 .checkboxFilter .fuiMcItemCheckbox {
-  text-overflow: ellipsis;
-  display: flex;
-  flex: 1;
-  line-height: var(--checkbox-filter-item-line-height);
-  width: 75%;
-  align-items: baseline;
+    text-overflow: ellipsis;
+    display: flex;
+    flex: 1;
+    line-height: var(--checkbox-filter-item-line-height);
+    width: 75%;
+    align-items: baseline;
 }
 .checkboxFilter .fuiMcItemCheckbox > span {
-  align-items: center;
-  display: flex;
-  min-height: inherit;
-  line-height: var(--checkbox-filter-item-line-height);
+    align-items: center;
+    display: flex;
+    min-height: inherit;
+    line-height: var(--checkbox-filter-item-line-height);
 }
 .checkboxFilter .fuiMcItemCheckbox > span + span {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  display: inline-block;
-  vertical-align: middle;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .fuiCbfActions {
-  border-top: 1px solid var(--filter-actions-border-color);
-  justify-content: flex-end;
-  padding-top: 16px;
-  margin-top: 13px;
+    border-top: 1px solid var(--filter-actions-border-color);
+    justify-content: flex-end;
+    padding-top: 16px;
+    margin-top: 13px;
 }
 .fuiCbfActions .fuiCbfActionsClear:disabled {
-  color: var(--filter-actions-disabled-color);
+    color: var(--filter-actions-disabled-color);
 }
 .fuiCbfActions .fuiCbfActionsClear:disabled span {
-  text-decoration: none;
-  color: var(--filter-actions-disabled-color);
+    text-decoration: none;
+    color: var(--filter-actions-disabled-color);
 }
 .fuiCbfActions .fuiCbfActionsApply button:disabled {
-  color: var(--filter-actions-disabled-color);
+    color: var(--filter-actions-disabled-color);
 }
 .fuiCbfActions .fuiCbfActionsApply button:disabled span {
-  text-decoration: none;
-  color: var(--filter-actions-disabled-color);
+    text-decoration: none;
+    color: var(--filter-actions-disabled-color);
 }
 .fuiCbfActions > * {
-  text-transform: capitalize;
-  margin-left: 8px !important;
-  width: auto;
+    text-transform: capitalize;
+    margin-left: 8px !important;
+    width: auto;
 }
 
 .filterSearchWrapper {
-  margin-bottom: 0.8rem;
+    margin-bottom: 0.8rem;
 }
 .filterSearchWrapper .filterSearchInput {
-  width: 100%;
+    width: 100%;
 }
 
 .filtersTypesFooter:hover,
 .checkboxSelectActions .checkboxFilterLinks:hover {
-  background: transparent;
-  border: none;
-  color: var(--checkbox-filter-links-hover);
-  text-decoration: none;
+    background: transparent;
+    border: none;
+    color: var(--checkbox-filter-links-hover);
+    text-decoration: none;
 }
 
 .filtersTypesFooter:focus,
 .checkboxSelectActions .checkboxFilterLinks:focus {
-  background: transparent;
-  border: none;
+    background: transparent;
+    border: none;
 }
 
 .checkboxFilterItem {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  flex: auto 0;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    flex: auto 0;
 }
 .checkboxFilterItem .tag {
-  height: fit-content;
-  margin-right: 0px;
+    height: fit-content;
+    margin-right: 0px;
 }
 
 .checkboxFilterItem:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .actionBar {
-  margin-bottom: 1.5rem;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 12px;
+    margin-bottom: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
 }
-.actionBar .checkboxDictAction {
-  margin-left: auto;
+.actionBar .switchDictAction,
+.actionBar .categoryIcon {
+    margin-left: auto;
 }
 .actionBar .checkboxSelectActions {
-  margin-right: auto;
+    margin-right: auto;
 }
 .actionBar .checkboxSelectActions .separator {
-  height: 1.2rem;
-  align-self: center;
-  background: var(--checkbox-filter-actions-separator-background);
-  margin: 0 0.5rem;
+    height: 1.2rem;
+    align-self: center;
+    background: var(--checkbox-filter-actions-separator-background);
+    margin: 0 0.5rem;
 }
 .actionBar .checkboxSelectActions .checkboxFilterLinks {
-  border: none;
-  color: var(--checkbox-filter-actions-separator-links);
-  padding: 0;
-  font-size: var(--checkbox-filter-link-font-size);
-  line-height: var(--checkbox-filter-link-line-height);
-  height: auto;
+    border: none;
+    color: var(--checkbox-filter-actions-separator-links);
+    padding: 0;
+    font-size: var(--checkbox-filter-link-font-size);
+    line-height: var(--checkbox-filter-link-line-height);
+    height: auto;
 }
 .actionBar .checkboxSelectActions .checkboxFilterLinks > * {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 .actionBar .checkboxSelectActions .checkboxFilterLinks:hover > * {
-  background: transparent;
-  text-decoration: none;
+    background: transparent;
+    text-decoration: none;
 }
 
 .noResultsText {
-  background: var(--filter-no-results-text-background-color);
-  color: var(--filter-no-results-text-color);
-  font-size: 14px;
-  line-height: 22px;
-  padding: 8px 16px;
-  width: 100%;
+    background: var(--filter-no-results-text-background-color);
+    color: var(--filter-no-results-text-color);
+    font-size: 14px;
+    line-height: 22px;
+    padding: 8px 16px;
+    width: 100%;
 }
