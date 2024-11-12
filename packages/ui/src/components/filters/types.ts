@@ -39,6 +39,7 @@ export interface IFilterCheckboxConfig {
     withFooter?: boolean;
     extraFilterDictionary?: string[];
     facetTranslate?: (value: string) => string;
+    categoryIcon?: ReactNode;
 }
 
 export interface IFilterRangeConfig {
