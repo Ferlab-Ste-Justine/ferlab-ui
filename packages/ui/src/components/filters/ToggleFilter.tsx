@@ -3,6 +3,7 @@ import { Button, Radio, Space, Tag } from 'antd';
 import { isEmpty } from 'lodash';
 import get from 'lodash/get';
 
+import StackLayout from '../../layout/StackLayout';
 import { numberFormat } from '../../utils/numberUtils';
 import { removeUnderscoreAndCapitalize } from '../../utils/stringUtils';
 
@@ -48,12 +49,20 @@ const ToggleFilter = ({
         };
     });
 
+    const showCategoryIcon = filterGroup.config?.categoryIcon;
+
     return isEmpty(options) ? (
         <Space className={styles.noResultsText} direction="vertical">
             {get(dictionary, 'messages.errorNoData', 'No values found for this request')}
         </Space>
     ) : (
         <>
+            {showCategoryIcon && (
+                <StackLayout className={styles.categoryIcon}>
+                    <Space>{showCategoryIcon}</Space>
+                </StackLayout>
+            )}
+
             <Radio.Group
                 className={styles.radioGroup}
                 onChange={(e) => {
