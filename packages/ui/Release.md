@@ -1,5 +1,8 @@
+### 10.13.2 2024-11-13
+- feat: FLUI-144 Add category icon in toggle facet
+
 ### 10.13.1 2024-11-12
-- feat: SJIP-281 Add category icon in facet and quick filter
+- feat: SJIP-281 Add category icon in checkbox facet and quick filter
 
 ### 10.13.0 2024-11-06
 - feat: CLIN-2923 Improve Pro Label by adding tooltip option

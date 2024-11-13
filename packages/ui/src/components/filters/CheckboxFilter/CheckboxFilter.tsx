@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { FileImageOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Divider, Dropdown, Input, Space, Switch, Tag, Typography } from 'antd';
 import cx from 'classnames';
 import get from 'lodash/get';
