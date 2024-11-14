@@ -5,7 +5,7 @@ import { Button, ButtonProps, PopoverProps } from 'antd';
 import cx from 'classnames';
 
 import { TFetchMatchFunc, TOnUpload, UploadIdDictionary } from './types';
-import UploadModal from './UploadModal';
+import UploadModal, { TextTransformMode } from './UploadModal';
 
 import styles from './index.module.css';
 
@@ -20,6 +20,7 @@ export interface UploadIdsProps {
     modalWidth?: number;
     mimeTypes?: string;
     limitItem?: number;
+    textTransformMode?: TextTransformMode;
 }
 
 const UploadIds = ({
@@ -33,6 +34,7 @@ const UploadIds = ({
     onUpload,
     placeHolder,
     popoverProps,
+    textTransformMode = TextTransformMode.IGNORE,
 }: UploadIdsProps): ReactElement => {
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -56,6 +58,7 @@ const UploadIds = ({
                 placeHolder={placeHolder}
                 popoverProps={popoverProps}
                 setVisible={setModalVisible}
+                textTransformMode={textTransformMode}
                 visible={modalVisible}
                 width={modalWidth}
             />

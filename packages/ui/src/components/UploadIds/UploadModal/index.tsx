@@ -14,6 +14,12 @@ import UnmatchTable from './UnmatchTable';
 
 import styles from './index.module.css';
 
+export enum TextTransformMode {
+    LOWER,
+    UPPER,
+    IGNORE,
+}
+
 interface OwnProps {
     width?: number;
     visible: boolean;
@@ -26,6 +32,7 @@ interface OwnProps {
     mimeTypes?: string;
     fetchMatch: TFetchMatchFunc;
     limitItem?: number;
+    textTransformMode: TextTransformMode;
 }
 
 const defaultRenderMatchTabTitle = (matchCount: number) => `Matched (${matchCount})`;
@@ -44,6 +51,7 @@ const UploadModal = ({
     placeHolder,
     popoverProps,
     setVisible,
+    textTransformMode,
     visible,
     width = 945,
 }: OwnProps): ReactElement => {
@@ -54,7 +62,17 @@ const UploadModal = ({
     const [unmatch, setUnmatch] = useState<UnmatchTableItem[] | undefined>(undefined);
     const debouncedValue = useDebounce(value, 500);
 
-    const getRawValueList = () => value.split(/[\n,\r ]/).filter((val) => !!val);
+    const getRawValueList = () => {
+        let result = value.split(/[\n,\r ]/).filter((val) => !!val);
+
+        if (textTransformMode === TextTransformMode.LOWER) {
+            result = result.map((val) => val.toLowerCase());
+        } else if (textTransformMode === TextTransformMode.UPPER) {
+            result = result.map((val) => val.toUpperCase());
+        }
+
+        return result;
+    };
     const getValueList = () => uniq(getRawValueList());
 
     const getUnmatchList = (results: MatchTableItem[]) =>
@@ -71,13 +89,6 @@ const UploadModal = ({
             uniqBy(match, ({ matchTo }) => matchTo).map(({ matchTo }) => matchTo),
             undefined,
         ).length;
-
-    // Unused
-    // const getSubmittedIdsCount = (match: MatchTableItem[]) =>
-    //     without(
-    //         uniqBy(match, ({ submittedId }) => submittedId).map(({ submittedId }) => submittedId),
-    //         undefined,
-    //     ).length;
 
     const onClear = () => {
         setUnmatch(undefined);
