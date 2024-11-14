@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "10.13.2",
+    "version": "10.14.0",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -80,7 +80,7 @@
     },
     "peerDependencies": {
         "@sentry/react": "^8.23.0",
-        "antd": "^4.24.11",
+        "antd": "^4.24.16",
         "date-fns": "^2.29.3",
         "rc-tree-select": "^5.4.0",
         "react": "^18.3.1",

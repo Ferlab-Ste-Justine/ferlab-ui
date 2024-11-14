@@ -1,3 +1,6 @@
+### 10.14.0 2024-11-14
+- feat: SJIP-1090 Add text transform mode to uploads modal. Update antd to 4.24.16
+
 ### 10.13.2 2024-11-13
 - feat: FLUI-144 Add category icon in toggle facet
 
