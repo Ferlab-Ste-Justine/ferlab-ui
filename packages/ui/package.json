@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "10.14.0",
+    "version": "10.14.1",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -117,7 +117,7 @@
         "md5": "^2.3.0",
         "npm": "^10.8.2",
         "query-string": "^7.0.1",
-        "react-grid-layout": "^1.4.4",
+        "react-grid-layout": "^1.5.0",
         "react-highlight-words": "^0.18.0",
         "react-icons": "^4.2.0",
         "react-sizeme": "^3.0.2",
