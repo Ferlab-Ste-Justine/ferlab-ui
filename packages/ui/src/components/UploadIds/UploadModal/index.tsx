@@ -62,27 +62,37 @@ const UploadModal = ({
     const [unmatch, setUnmatch] = useState<UnmatchTableItem[] | undefined>(undefined);
     const debouncedValue = useDebounce(value, 500);
 
-    const getRawValueList = () => {
-        let result = value.split(/[\n,\r ]/).filter((val) => !!val);
+    const getRawValueList = () => value.split(/[\n,\r ]/).filter((val) => !!val);
+    const getValueList = () =>
+        uniq(
+            getRawValueList().map((val) => {
+                if (textTransformMode === TextTransformMode.LOWER) {
+                    return val.toLowerCase();
+                } else if (textTransformMode === TextTransformMode.UPPER) {
+                    return val.toUpperCase();
+                }
+                return val;
+            }),
+        );
 
-        if (textTransformMode === TextTransformMode.LOWER) {
-            result = result.map((val) => val.toLowerCase());
-        } else if (textTransformMode === TextTransformMode.UPPER) {
-            result = result.map((val) => val.toUpperCase());
-        }
-
-        return result;
-    };
-    const getValueList = () => uniq(getRawValueList());
-
-    const getUnmatchList = (results: MatchTableItem[]) =>
-        difference(
+    const getUnmatchList = (results: MatchTableItem[]) => {
+        const rawList = getRawValueList();
+        const unmatchs = difference(
             getValueList(),
             results.map((item) => item.submittedId),
         ).map((id, index) => ({
             key: index,
             submittedId: id,
         }));
+
+        return unmatchs.map((unmatch) => {
+            const submittedId = rawList.find((val) => val.toLowerCase() === unmatch.submittedId.toLowerCase());
+            return {
+                key: unmatch.key,
+                submittedId: submittedId ?? unmatch.submittedId,
+            };
+        });
+    };
 
     const getMatchToCount = (match: MatchTableItem[]) =>
         without(
@@ -103,6 +113,8 @@ const UploadModal = ({
                 setIsLoading(true);
                 const results = await fetchMatch(getValueList());
                 setMatch(results);
+
+                // use raw list
                 setUnmatch(getUnmatchList(results));
                 setIsLoading(false);
             })();

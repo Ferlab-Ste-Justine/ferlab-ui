@@ -1,3 +1,6 @@
+### 10.14.1 2024-11-14
+- fix: SJIP-1091 display raw input for upload ids
+
 ### 10.14.0 2024-11-14
 - feat: SJIP-1090 Add text transform mode to uploads modal. Update antd to 4.24.16
 
