@@ -1,23 +1,23 @@
 .container {
-  max-width: 360px;
-  width: 100%;
-  background: var(--landing-card-gradient);
-  padding: 48px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  gap: 24px;
+    max-width: 360px;
+    width: 100%;
+    background: var(--landing-card-gradient);
+    padding: 48px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 24px;
 }
 
 .description {
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--gray-1);
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--gray-1);
 }
 
 @media (max-width: 1024px) {
-  .container {
-    max-width: 100%;
-    padding: 40px;
-  }
+    .container {
+        max-width: 100%;
+        padding: 40px;
+    }
 }
