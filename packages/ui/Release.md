@@ -1,3 +1,6 @@
+### 10.14.2 2024-12-04
+- feat: SJIP-1103 add view all studies btn in landing page
+
 ### 10.14.1 2024-11-14
 - fix: SJIP-1091 display raw input for upload ids
 
