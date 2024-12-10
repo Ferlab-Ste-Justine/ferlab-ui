@@ -1,3 +1,6 @@
+### 10.14.3 2024-12-10
+- fix: SJIP-1127 fix submitted id case when displayed for matching results
+
 ### 10.14.2 2024-12-04
 - feat: SJIP-1103 add view all studies btn in landing page
 
