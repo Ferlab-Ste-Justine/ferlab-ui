@@ -94,6 +94,17 @@ const UploadModal = ({
         });
     };
 
+    const getMatchList = (results: MatchTableItem[]): MatchTableItem[] => {
+        const rawList = getRawValueList();
+        return results.map((result) => {
+            const submittedId = rawList.find((val) => val.toLowerCase() === result.submittedId.toLowerCase());
+            return {
+                ...result,
+                submittedId: submittedId ?? result.submittedId,
+            };
+        });
+    };
+
     const getMatchToCount = (match: MatchTableItem[]) =>
         without(
             uniqBy(match, ({ matchTo }) => matchTo).map(({ matchTo }) => matchTo),
@@ -112,8 +123,7 @@ const UploadModal = ({
             (async () => {
                 setIsLoading(true);
                 const results = await fetchMatch(getValueList());
-                setMatch(results);
-
+                setMatch(getMatchList(results));
                 // use raw list
                 setUnmatch(getUnmatchList(results));
                 setIsLoading(false);
