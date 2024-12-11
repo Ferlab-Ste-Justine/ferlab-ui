@@ -147,6 +147,7 @@ const CavaticaCreateProjectModal = ({
     return (
         <Modal
             cancelText={dictionary.cancelText}
+            className={styles.cavaticaCreateProjectModal}
             destroyOnClose
             okButtonProps={{ disabled: !isValid }}
             okText={dictionary.okText}

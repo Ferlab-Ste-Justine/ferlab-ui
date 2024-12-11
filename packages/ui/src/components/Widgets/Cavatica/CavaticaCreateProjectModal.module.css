@@ -1,7 +1,8 @@
-.cavaticaCreateProjectModal .billingGroupItem {
-  margin-bottom: 0;
-}
-
 .modalSubtitle {
   margin-right: 4px;
+}
+
+.cavaticaCreateProjectModal :global(.ant-select-selection-item),
+.cavaticaCreateProjectModal label {
+  pointer-events: none;
 }

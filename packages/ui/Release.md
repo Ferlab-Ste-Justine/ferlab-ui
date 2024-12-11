@@ -1,3 +1,6 @@
+### 10.14.4 2024-12-11
+- fix: SJIP-1057 remove label and input native tooltips
+
 ### 10.14.3 2024-12-10
 - fix: SJIP-1127 fix submitted id case when displayed for matching results
 
