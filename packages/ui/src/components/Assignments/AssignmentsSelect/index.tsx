@@ -16,6 +16,7 @@ export type TAssignmentsSelect = {
     assignedPractionnerRoles: string[];
     dictionary?: IAssignmentsDictionary | Record<string, never>;
     loading?: boolean;
+    showLdm?: boolean;
 };
 
 const tagRender =
@@ -57,6 +58,7 @@ const renderOptions = (
     setSearchValue: React.Dispatch<React.SetStateAction<string | undefined>>,
     selectedItems: TPractitionnerInfo[],
     setSelectedItems: React.Dispatch<React.SetStateAction<TPractitionnerInfo[]>>,
+    showLdm: boolean,
 ) =>
     options?.map((value: TPractitionnerInfo) => (
         <Button
@@ -73,6 +75,7 @@ const renderOptions = (
                 email={value.email ? value.email : ''}
                 name={getPractitionnerName(value.name)}
                 organization={value.ldm}
+                showLdm={showLdm}
             />
         </Button>
     ));
@@ -83,6 +86,7 @@ export const AssignmentsSelect = ({
     handleSelect,
     loading,
     options,
+    showLdm = true,
     visibleOptions = false,
 }: TAssignmentsSelect): ReactElement => {
     const noAssignDefaultValue = [
@@ -164,6 +168,7 @@ export const AssignmentsSelect = ({
                     setSearchValue,
                     selectedItems,
                     setSelectedItems,
+                    showLdm,
                 )}
             </ScrollContent>
         </div>

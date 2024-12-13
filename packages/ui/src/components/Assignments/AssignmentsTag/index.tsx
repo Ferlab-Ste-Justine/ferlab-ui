@@ -17,6 +17,7 @@ export type TAssignmentsTag = {
     handleClose?: () => void;
     unAssign?: boolean;
     dictionary?: IAssignmentsDictionary | Record<string, never>;
+    showLdm?: boolean;
 };
 
 const onPreventMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -31,6 +32,7 @@ export const AssignmentsTag = ({
     handleClose,
     name,
     organization,
+    showLdm = true,
     unAssign = false,
 }: TAssignmentsTag): ReactElement => {
     const { Text } = Typography;
@@ -54,7 +56,7 @@ export const AssignmentsTag = ({
                         <UserAvatar className={styles.userAvatar} size={24} userName={name} />
                         <Space className={styles.userInfo} size={4}>
                             <Text strong>{name}</Text>
-                            <Text type="secondary">{organization}</Text>
+                            {showLdm && <Text type="secondary">{organization}</Text>}
                         </Space>
                     </>
                 )}
