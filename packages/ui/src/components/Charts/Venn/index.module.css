@@ -1,0 +1,56 @@
+.chartWrapper {
+  height: 100%;
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.chartWrapper .chartContent {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.venn {
+  display: flex;
+  flex-direction: row;
+}
+
+.venn .chart {
+  display: flex;
+  flex: 1;
+}
+
+.venn .chart .outline {
+  fill: var(--venn-chart-outline);
+}
+
+.venn .chart .fillColor {
+  fill: var(--venn-chart-fill);
+}
+
+.venn .chart .fillColor:hover {
+  fill: var(--venn-chart-fill-hover);
+}
+
+.venn .chart .fillColor.active {
+  fill: var(--venn-chart-fill-hover);
+}
+
+.venn .chart .legend {
+  fill: var(--venn-chart-legend);
+  pointer-events: none;
+}
+
+.venn .tables {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 16px;
+}
+
+.footer {
+  display: flex;
+  justify-content: end;
+  margin-top: 8px;
+}
