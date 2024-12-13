@@ -1,3 +1,6 @@
+### 10.14.5 2024-12-13
+- feat: PRESC-341 option show ldm assigment
+
 ### 10.14.4 2024-12-11
 - fix: SJIP-1057 remove label and input native tooltips
 
