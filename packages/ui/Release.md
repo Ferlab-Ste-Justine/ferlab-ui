@@ -1,3 +1,6 @@
+### 10.14.6 2024-12-17
+- fix: FLUI-61 facet default operator min and max not required
+
 ### 10.14.5 2024-12-13
 - feat: PRESC-341 option show ldm assigment
 
