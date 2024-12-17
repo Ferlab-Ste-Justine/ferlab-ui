@@ -67,8 +67,8 @@ export interface IFilterTextInputConfig {
 export type TFilterGroupConfig = IFilterRangeConfig | IFilterTextInputConfig | IFilterCheckboxConfig;
 
 export interface IFilterGroupDefaultsRange {
-    min: number;
-    max: number;
+    min?: number;
+    max?: number;
     operator: string;
 }
 
