@@ -4,6 +4,14 @@
   gap: 16px;
 }
 
+.input {
+  bottom: 16px;
+  display: block;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
 .skeleton .tables {
   display: flex;
   flex-direction: column;
