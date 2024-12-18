@@ -177,7 +177,7 @@
   --venn-chart-outline: var(--gray-6);
   --venn-chart-fill: var(--gray-1);
   --venn-chart-fill-hover: var(--blue-1);
-  --venn-chart-fill-active: var(--blue-1);
+  --venn-chart-fill-active: var(--blue-3);
   --venn-chart-legend: var(--gray-8);
 
   --small-font: 1.2rem;

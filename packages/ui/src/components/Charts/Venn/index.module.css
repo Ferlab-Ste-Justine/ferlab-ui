@@ -34,7 +34,7 @@
 }
 
 .venn .chart .fillColor.active {
-  fill: var(--venn-chart-fill-hover);
+  fill: var(--venn-chart-fill-active);
 }
 
 .venn .chart .legend {
