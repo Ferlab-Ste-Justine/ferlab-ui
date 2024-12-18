@@ -1,3 +1,6 @@
+### 10.15.1 2024-12-18
+- fix: FLUI-145 change color between active and hover for venn chart
+
 ### 10.15.0 2024-12-18
 - fix: FLUI-145 Add Venn chart
 
