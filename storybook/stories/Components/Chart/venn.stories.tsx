@@ -68,13 +68,13 @@ export const VennChartWithTwoSets = () => (
                 operations={[
                     {
                         alias: 'S₁',
-                        operation: '(S₁)-(S₂∩S₃)',
+                        operation: '(S₁)-(S₁∩S₂)',
                         sqon,
                         count: 900
                     }, 
                     {
                         alias: 'S₂',
-                        operation: '(S₂)-(S₁∩S₃)',
+                        operation: '(S₂)-(S₁∩S₂)',
                         sqon,
                         count: 1100
                     },

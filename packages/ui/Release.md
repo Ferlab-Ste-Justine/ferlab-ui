@@ -1,3 +1,6 @@
+### 10.15.0 2024-12-18
+- fix: FLUI-145 Add Venn chart
+
 ### 10.14.6 2024-12-17
 - fix: FLUI-61 facet default operator min and max not required
 
