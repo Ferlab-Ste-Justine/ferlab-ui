@@ -1,3 +1,6 @@
+### 10.15.2 2025-01-02
+- fix: SKFP-1379 fis JS errors in graph
+
 ### 10.15.1 2024-12-18
 - fix: FLUI-145 change color between active and hover for venn chart
 
