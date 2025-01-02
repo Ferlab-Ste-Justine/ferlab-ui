@@ -23,7 +23,7 @@ describe('Relative date', () => {
         yesterday.setDate(today.getDate() - 1);
         expect(getRelativeDate(yesterday, format)).toEqual('yesteday');
     });
-    // FLUI-146 failed the sevent first days of a year
+    // FLUI-146 failed the seven first days of a year
     // test('should return this years date', () => {
     //     const today = new Date();
     //     const pastDate = new Date(today);
