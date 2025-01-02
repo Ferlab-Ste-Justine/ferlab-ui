@@ -104,7 +104,7 @@ const FieldQueryPill = ({
                     wrapper={(children) => (
                         <Dropdown
                             getPopupContainer={(trigger) => trigger.parentElement!}
-                            onVisibleChange={(visible) => {
+                            onOpenChange={(visible) => {
                                 if (visible) {
                                     setDropdownContent(undefined);
                                 }
