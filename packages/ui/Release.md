@@ -1,3 +1,6 @@
+### 10.15.3 2025-01-07
+- fix: FLUI-146 fix test + typo yesterday
+
 ### 10.15.2 2025-01-02
 - fix: SKFP-1379 fis JS errors in graph
 
