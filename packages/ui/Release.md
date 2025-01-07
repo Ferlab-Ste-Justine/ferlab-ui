@@ -1,3 +1,6 @@
+### 10.27.6 2025-10-08
+- fix: FLUI-146 fix test + typo yesterday
+
 ### 10.27.5 2025-10-02
 - feat: CLIN-5163 StatusTag ajout status onholdHybrid
 
