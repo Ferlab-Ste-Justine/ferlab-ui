@@ -23,7 +23,7 @@ describe('Relative date', () => {
         yesterday.setDate(today.getDate() - 1);
         expect(getRelativeDate(yesterday, format)).toEqual('yesterday');
     });
-    test('should return this years date', () => {
+    test('should return this year date', () => {
         const today = new Date();
         const startYear = new Date(today.getFullYear(), 0, 1);
         const endPeriodTime = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2);
