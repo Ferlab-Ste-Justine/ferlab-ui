@@ -118,6 +118,7 @@ export const Flag = ({
 
     const dropdown = (
         <Dropdown
+            className={styles.flagList}
             menu={{
                 defaultSelectedKeys: options,
                 items: dropdownOption,
@@ -131,11 +132,11 @@ export const Flag = ({
             trigger={['click']}
         >
             {options.length > 0 ? (
-                <div>
+                <Space size={2}>
                     {options.includes(FlagOption.FLAG) && getOptionIcon(FlagOption.FLAG)}
                     {options.includes(FlagOption.PIN) && getOptionIcon(FlagOption.PIN)}
                     {options.includes(FlagOption.STAR) && getOptionIcon(FlagOption.STAR)}
-                </div>
+                </Space>
             ) : (
                 getOptionIcon(FlagOption.NONE)
             )}
