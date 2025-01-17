@@ -1,3 +1,6 @@
+### 10.15.3 2025-01-17
+- fix: CLIN-3751 style flag
+
 ### 10.15.2 2025-01-02
 - fix: SKFP-1379 fis JS errors in graph
 
