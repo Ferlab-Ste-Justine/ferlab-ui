@@ -1,0 +1,18 @@
+.vennQueryPill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.op {
+  color: var(--gray-7);
+  margin-right: 8px;
+}
+
+.value {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

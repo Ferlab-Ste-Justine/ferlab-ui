@@ -7,10 +7,8 @@
 .queryTools .leftTools, .queryTools .rightTools {
   display: flex;
 }
-.queryTools .leftTools > *:not(:first-child), .queryTools .rightTools > *:not(:first-child) {
-  margin-left: 15px;
-}
 .queryTools .leftTools .switch.withLabel, .queryTools .rightTools .switch.withLabel {
+  margin-left: 15px;
   display: flex;
   align-items: center;
 }
@@ -21,12 +19,14 @@
   display: flex;
   align-items: center;
 }
-.queryTools .leftTools .button > *:not(:only-child):first-child, .queryTools .rightTools .button > *:not(:only-child):first-child {
-  margin-right: 2.5px;
-}
 .queryTools .leftTools .button:first-child, .queryTools .rightTools .button:first-child {
   margin-left: 0;
 }
 .queryTools .leftTools .button:last-child:not(:first-child), .queryTools .rightTools .button:last-child:not(:first-child) {
   margin-left: 10px;
+}
+.compare {
+  color: var(--gray-8);
+  display: flex !important;
+  align-items: center !important;
 }

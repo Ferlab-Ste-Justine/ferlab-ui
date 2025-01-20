@@ -1,8 +1,8 @@
-import React from "react";
-import VennChart from '@ferlab/ui/core/components/Charts/Venn';
-import { Meta } from "@storybook/react";
+import React from 'react';
+import VennChart, { ISetOperation } from '@ferlab/ui/core/components/Charts/Venn';
+import { Meta } from '@storybook/react';
 
-const sqon = {
+const qbSqon = {
     op: 'and',
     content: [
         {
@@ -16,12 +16,144 @@ const sqon = {
             content: { value: ['false'], field: 'test1' },
             op: 'in',
         },
-    ]
+    ],
 };
 
+const summary2 = [
+    {
+        operation: 'Q₁',
+        qbSqon,
+        entityCount: 1000,
+    },
+    {
+        operation: 'Q₂',
+        qbSqon,
+        entityCount: 1200,
+    },
+];
+
+const summary3 = [
+    ...summary2,
+    {
+        operation: 'Q₃',
+        qbSqon,
+        entityCount: 700,
+    },
+];
+
+const operations2 = [
+    {
+        setId: 'Q₁',
+        operation: '(Q₁)-(Q₁∩Q₂)',
+        entitySqon: qbSqon,
+        entityCount: 900,
+    },
+    {
+        setId: 'Q₂',
+        operation: '(Q₂)-(Q₁∩Q₂)',
+        entitySqon: qbSqon,
+        entityCount: 1100,
+    },
+    {
+        setId: 'Q₁∩Q₂',
+        operation: '(Q₁∩Q₂)',
+        entitySqon: qbSqon,
+        entityCount: 300,
+    },
+];
+
+const operations3 = [
+    {
+        setId: 'Q₁',
+        operation: '(Q₁)-(Q₂∩Q₃)',
+        entitySqon: qbSqon,
+        entityCount: 900,
+    },
+    {
+        setId: 'Q₂',
+        operation: '(Q₂)-(Q₁∩Q₃)',
+        entitySqon: qbSqon,
+        entityCount: 1100,
+    },
+    {
+        setId: 'Q₃',
+        operation: '(Q₃)-(Q₁∩Q₃)',
+        entitySqon: qbSqon,
+        entityCount: 400,
+    },
+    {
+        setId: 'Q₁∩Q₂',
+        operation: '(Q₁∩Q₂)-(Q₃)',
+        entitySqon: qbSqon,
+        entityCount: 300,
+    },
+    {
+        setId: 'Q₂∩Q₃',
+        operation: '(Q₂∩Q₃)-(Q₁)',
+        entitySqon: qbSqon,
+        entityCount: 400,
+    },
+    {
+        setId: 'Q₁∩Q₃',
+        operation: '(Q₁∩Q₃)-(Q₂)',
+        entitySqon: qbSqon,
+        entityCount: 500,
+    },
+    {
+        setId: 'Q₁∩Q₂∩Q₃',
+        operation: '(Q₁∩Q₂∩Q₃)',
+        entitySqon: qbSqon,
+        entityCount: 100,
+    },
+];
+
+const operations3With0 = [
+    {
+        setId: 'Q₁',
+        operation: '(Q₁)-(Q₂∩Q₃)',
+        entitySqon: qbSqon,
+        entityCount: 900,
+    },
+    {
+        setId: 'Q₂',
+        operation: '(Q₂)-(Q₁∩Q₃)',
+        entitySqon: qbSqon,
+        entityCount: 0,
+    },
+    {
+        setId: 'Q₃',
+        operation: '(Q₃)-(Q₁∩Q₃)',
+        entitySqon: qbSqon,
+        entityCount: 400,
+    },
+    {
+        setId: 'Q₁∩Q₂',
+        operation: '(Q₁∩Q₂)-(Q₃)',
+        entitySqon: qbSqon,
+        entityCount: 300,
+    },
+    {
+        setId: 'Q₂∩Q₃',
+        operation: '(Q₂∩Q₃)-(Q₁)',
+        entitySqon: qbSqon,
+        entityCount: 0,
+    },
+    {
+        setId: 'Q₁∩Q₃',
+        operation: '(Q₁∩Q₃)-(Q₂)',
+        entitySqon: qbSqon,
+        entityCount: 0,
+    },
+    {
+        setId: 'Q₁∩Q₂∩Q₃',
+        operation: '(Q₁∩Q₂∩Q₃)',
+        entitySqon: qbSqon,
+        entityCount: 100,
+    },
+];
 
 export default {
-    title: "@ferlab/Components/Charts/Venn",
+    title: '@ferlab/Components/Charts/Venn',
     component: VennChart,
     decorators: [
         (Story) => (
@@ -36,134 +168,100 @@ export default {
 export const VennLoading = () => (
     <>
         <h2>Venn Chart</h2>
-        <div style={{width: '1200px', height: '600px' }}>
-            <VennChart 
+        <div style={{ width: '1200px', height: '600px' }}>
+            <VennChart
                 loading={true}
-                handleSubmit={(sets) => {
-                    console.log('sets', sets); //TODO: to remove
+                handleIndexChange={function (queries, index): void {
+                    throw new Error('Function not implemented.');
+                }}
+                handleClose={function (): void {
+                    throw new Error('Function not implemented.');
+                }}
+                savedSets={[]}
+                handleSubmit={function (props: {
+                    index: string;
+                    name: string;
+                    sets: ISetOperation[];
+                    persistent: boolean;
+                    callback: () => void;
+                }): void {
+                    throw new Error('Function not implemented.');
                 }}
             />
         </div>
     </>
-)
-
+);
 
 export const VennChartWithTwoSets = () => (
     <>
         <h2>Venn Chart with 2 sets</h2>
-        <div style={{width: '1200px', height: '600px' }}>
-            <VennChart 
-                summary={[
-                    {
-                        alias: 'S₁',
-                        name: 'proband = true and ethnicity = Hispanic or Latino',
-                        count: 1000
-                    }, 
-                    {
-                        alias: 'S₂',
-                        name: 'proband = false and ethnicity = Unknow',
-                        count: 1200
-                    }
-                ]}
-                operations={[
-                    {
-                        alias: 'S₁',
-                        operation: '(S₁)-(S₁∩S₂)',
-                        sqon,
-                        count: 900
-                    }, 
-                    {
-                        alias: 'S₂',
-                        operation: '(S₂)-(S₁∩S₂)',
-                        sqon,
-                        count: 1100
-                    },
-                    {
-                        alias: 'S₁∩S₂',
-                        operation: '(S₁∩S₂)',
-                        sqon,
-                        count: 300
-                    },
-                ]}
-                handleSubmit={(sets) => {
-                    console.log('sets', sets); //TODO: to remove
+        <div style={{ width: '1200px', height: '600px' }}>
+            <VennChart
+                summary={summary2}
+                operations={operations2}
+                handleIndexChange={function (queries, index): void {
+                    throw new Error('Function not implemented.');
+                }}
+                handleClose={function (): void {
+                    throw new Error('Function not implemented.');
                 }}
             />
         </div>
     </>
-)
+);
 
 export const VennChartWithThreeSets = () => (
     <>
         <h2>Venn Chart with 3 sets</h2>
-        <div style={{width: '1200px', height: '600px' }}>
-            <VennChart 
-                summary={[
-                    {
-                        alias: 'S₁',
-                        name: 'proband = true and ethnicity = Hispanic or Latino',
-                        count: 1000
-                    }, 
-                    {
-                        alias: 'S₂',
-                        name: 'proband = false and ethnicity = Unknow',
-                        count: 1200
-                    },
-                    {
-                        alias: 'S₃',
-                        name: 'proband = true and ethnicity = Not Hispanic or Latino',
-                        count: 700
-                    }
-                ]}
-                operations={[
-                    {
-                        alias: 'S₁',
-                        operation: '(S₁)-(S₂∩S₃)',
-                        sqon,
-                        count: 900
-                    }, 
-                    {
-                        alias: 'S₂',
-                        operation: '(S₂)-(S₁∩S₃)',
-                        sqon,
-                        count: 1100
-                    },
-                    {
-                        alias: 'S₃',
-                        operation: '(S₃)-(S₁∩S₃)',
-                        sqon,
-                        count: 400
-                    },
-                    {
-                        alias: 'S₁∩S₂',
-                        operation: '(S₁∩S₂)-(S₃)',
-                        sqon,
-                        count: 300
-                    },
-                    {
-                        alias: 'S₂∩S₃',
-                        operation: '(S₂∩S₃)-(S₁)',
-                        sqon,
-                        count: 400
-                    },
-                    {
-                        alias: 'S₁∩S₃',
-                        operation: '(S₁∩S₃)-(S₂)',
-                        sqon,
-                        count: 500
-                    },
-                    {
-                        alias: 'S₁∩S₂∩S₃',
-                        operation: '(S₁∩S₂∩S₃)',
-                        sqon,
-                        count: 100
-                    }
-                ]}
-                handleSubmit={(sets) => {
-                    console.log('sets', sets); //TODO: to remove
+        <div style={{ width: '1200px', height: '600px' }}>
+            <VennChart
+                summary={summary3}
+                operations={operations3}
+                handleIndexChange={function (queries, index): void {
+                    throw new Error('Function not implemented.');
+                }}
+                handleClose={function (): void {
+                    throw new Error('Function not implemented.');
+                }}
+                savedSets={[]}
+                handleSubmit={function (props: {
+                    index: string;
+                    name: string;
+                    sets: ISetOperation[];
+                    persistent: boolean;
+                    callback: () => void;
+                }): void {
+                    throw new Error('Function not implemented.');
                 }}
             />
         </div>
     </>
-)
+);
 
+export const VennChartWithThreeSetsAnd0Values = () => (
+    <>
+        <h2>Venn Chart with 3 sets</h2>
+        <div style={{ width: '1200px', height: '600px' }}>
+            <VennChart
+                summary={summary3}
+                operations={operations3With0}
+                handleIndexChange={function (queries, index): void {
+                    throw new Error('Function not implemented.');
+                }}
+                handleClose={function (): void {
+                    throw new Error('Function not implemented.');
+                }}
+                savedSets={[]}
+                handleSubmit={function (props: {
+                    index: string;
+                    name: string;
+                    sets: ISetOperation[];
+                    persistent: boolean;
+                    callback: () => void;
+                }): void {
+                    throw new Error('Function not implemented.');
+                }}
+            />
+        </div>
+    </>
+);

@@ -1,3 +1,6 @@
+### 10.16.0 2025-02-06
+- feat: SJIP-1116 add POC settings for venn chart
+
 ### 10.15.6 2025-01-31
 - fix: CLIN-2484 Remove title attribute from ProTable pagination
 

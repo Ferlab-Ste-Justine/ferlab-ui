@@ -1,8 +1,10 @@
 import React from 'react';
 import { useContext } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { Button, Dropdown, Modal, Space, Switch } from 'antd';
+import { Button, Dropdown, Modal, Space, Switch, Tooltip } from 'antd';
+import cx from 'classnames';
 
+import AndOrIcon from '../../components/Icons/AndOrIcon';
 import { BooleanOperators } from '../../data/sqon/operators';
 
 import AndOperator from './icons/AndOperator';
@@ -13,7 +15,10 @@ import styles from './QueryTools.module.css';
 
 export interface IQueryToolsProps {
     queryCount: number;
+    selectedQueryCount: number;
     onCombineClick: (operator: BooleanOperators) => void;
+    enableCompare?: boolean;
+    handleCompare?: () => void;
     onDeleteAll: () => void;
     addNewQuery: () => void;
     setShowLabels: (value: boolean) => void;
@@ -21,15 +26,19 @@ export interface IQueryToolsProps {
 
 const QueryTools = ({
     addNewQuery,
+    enableCompare = false,
+    handleCompare,
     onCombineClick,
     onDeleteAll,
     queryCount,
+    selectedQueryCount,
     setShowLabels,
 }: IQueryToolsProps): JSX.Element => {
     const { canCombine, enableCombine, enableShowHideLabels, enableSingleQuery, hasEmptyQuery, noQueries } =
         useContext(QueryBuilderContext);
 
     const { dictionary, showLabels } = useContext(QueryCommonContext);
+    const isCompareBtnDisabled = selectedQueryCount < 2 || selectedQueryCount > 3;
 
     return (
         <Space className={styles.queryTools} direction="horizontal">
@@ -47,30 +56,45 @@ const QueryTools = ({
                     </Button>
                 )}
                 {enableCombine && canCombine && (
-                    <Dropdown.Button
-                        className={styles.button}
-                        disabled={!canCombine}
-                        menu={{
-                            items: [
-                                {
-                                    key: BooleanOperators.and,
-                                    label: <AndOperator dictionary={dictionary} />,
-                                    onClick: () => onCombineClick(BooleanOperators.and),
-                                },
-                                {
-                                    key: BooleanOperators.or,
-                                    label: <OrOperator dictionary={dictionary} />,
-                                    onClick: () => onCombineClick(BooleanOperators.or),
-                                },
-                            ],
-                        }}
-                        onClick={() => onCombineClick(BooleanOperators.and)}
-                        size="small"
-                        trigger={['click']}
-                        type="primary"
-                    >
-                        {dictionary.actions?.combine || 'Combine'}
-                    </Dropdown.Button>
+                    <>
+                        <Dropdown.Button
+                            className={styles.button}
+                            disabled={!canCombine}
+                            menu={{
+                                items: [
+                                    {
+                                        key: BooleanOperators.and,
+                                        label: <AndOperator dictionary={dictionary} />,
+                                        onClick: () => onCombineClick(BooleanOperators.and),
+                                    },
+                                    {
+                                        key: BooleanOperators.or,
+                                        label: <OrOperator dictionary={dictionary} />,
+                                        onClick: () => onCombineClick(BooleanOperators.or),
+                                    },
+                                ],
+                            }}
+                            onClick={() => onCombineClick(BooleanOperators.and)}
+                            size="small"
+                            trigger={['click']}
+                            type="primary"
+                        >
+                            {dictionary.actions?.combine || 'Combine'}
+                        </Dropdown.Button>
+                        {enableCompare && handleCompare && (
+                            <Tooltip title={isCompareBtnDisabled ? dictionary.actions?.compareTooltips : undefined}>
+                                <Button
+                                    className={cx(styles.button, styles.compare)}
+                                    disabled={isCompareBtnDisabled}
+                                    icon={<AndOrIcon />}
+                                    onClick={handleCompare}
+                                    size="small"
+                                >
+                                    {dictionary.actions?.compare || 'Compare'}
+                                </Button>
+                            </Tooltip>
+                        )}
+                    </>
                 )}
                 {enableShowHideLabels && !canCombine && (
                     <span className={`${styles.switch} ${styles.withLabel}`}>

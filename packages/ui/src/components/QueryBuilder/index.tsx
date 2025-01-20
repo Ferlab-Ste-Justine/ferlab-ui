@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import { v4 } from 'uuid';
 
 import { BooleanOperators } from '../../data/sqon/operators';
-import { IRemoteComponent, ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
+import { IRemoteComponent, ISqonGroupFilter, ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import {
     changeCombineOperator,
     getDefaultSyntheticSqon,
@@ -50,8 +50,9 @@ export interface IQueryBuilderProps {
     total?: number;
     IconTotal?: React.ReactNode;
     currentQuery?: ISyntheticSqon | Record<string, never>;
-    enableCombine?: boolean;
     enableSingleQuery?: boolean;
+    enableCombine?: boolean;
+    handleCompare?: (queries: ISyntheticSqon[]) => void;
     enableShowHideLabels?: boolean;
     initialShowLabelState?: boolean;
     referenceColors?: ArrayTenOrMore<string>;
@@ -76,6 +77,7 @@ const QueryBuilder = ({
     fetchQueryCount,
     filterQueryToIgnore,
     getResolvedQueryForCount,
+    handleCompare,
     headerConfig = defaultHeaderConfig,
     IconTotal = null,
     id = '',
@@ -421,12 +423,21 @@ const QueryBuilder = ({
                         {showQueryTools() && (
                             <QueryTools
                                 addNewQuery={addNewQuery}
+                                enableCompare={handleCompare !== undefined}
+                                handleCompare={() => {
+                                    const queriesToCompare = queryStateQueriesWithoutFilter.filter((_, index) =>
+                                        selectedQueryIndices.includes(index),
+                                    );
+                                    handleCompare && handleCompare(queriesToCompare);
+                                    setSelectedQueryIndices([]);
+                                }}
                                 onCombineClick={onCombineClick}
                                 onDeleteAll={() => {
                                     setSelectedQueryIndices([]);
                                     resetQueries(queriesState.activeId);
                                 }}
                                 queryCount={queryCount}
+                                selectedQueryCount={selectedQueryIndices.length}
                                 setShowLabels={setShowLabels}
                             />
                         )}
