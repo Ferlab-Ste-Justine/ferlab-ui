@@ -23,6 +23,7 @@ const tagRender =
     (
         selectedItems: TPractitionnerInfo[],
         setSelectedItems: React.Dispatch<React.SetStateAction<TPractitionnerInfo[]>>,
+        showLdm: boolean,
         dictionary?: IAssignmentsDictionary | Record<string, never>,
     ) =>
     (props: CustomTagProps) => {
@@ -40,6 +41,7 @@ const tagRender =
                 handleClose={handleClose}
                 name={practitionerInfo?.name ? getPractitionnerName(practitionerInfo.name) : value}
                 organization={practitionerInfo?.ldm ? practitionerInfo.ldm : ''}
+                showLdm={showLdm}
             />
         );
     };
@@ -196,7 +198,7 @@ export const AssignmentsSelect = ({
                 placeholder={dictionary?.select?.textInfo?.searchPlaceholder || 'Search'}
                 searchValue={searchValue}
                 style={{ width: '100%' }}
-                tagRender={tagRender(selectedItems, setSelectedItems, dictionary)}
+                tagRender={tagRender(selectedItems, setSelectedItems, showLdm, dictionary)}
                 value={selectedOptions.length > 0 || visibleOptions ? selectedOptions : noAssignValue}
             />
             {visibleOptions && dropdownContent()}
