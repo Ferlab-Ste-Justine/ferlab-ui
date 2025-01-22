@@ -1,3 +1,6 @@
+### 10.15.4 2025-01-22
+- feat: PRESC-341 fix showldm assigment
+
 ### 10.15.3 2025-01-17
 - fix: CLIN-3751 style flag
 
