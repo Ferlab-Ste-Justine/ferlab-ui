@@ -1,3 +1,6 @@
+### 10.15.5 2025-01-24
+- feat: PRESC-341 no show user in assignment option
+
 ### 10.15.4 2025-01-22
 - feat: PRESC-341 fix showldm assigment
 
