@@ -17,6 +17,7 @@ export type TAssignmentsSelect = {
     dictionary?: IAssignmentsDictionary | Record<string, never>;
     loading?: boolean;
     showLdm?: boolean;
+    userIdToRemove?: string;
 };
 
 const tagRender =
@@ -61,8 +62,10 @@ const renderOptions = (
     selectedItems: TPractitionnerInfo[],
     setSelectedItems: React.Dispatch<React.SetStateAction<TPractitionnerInfo[]>>,
     showLdm: boolean,
-) =>
-    options?.map((value: TPractitionnerInfo) => (
+    userIdToRemove?: string,
+) => {
+    const optionWithoutUser = userIdToRemove ? options.filter((o) => o.practitioner !== userIdToRemove) : options;
+    return optionWithoutUser?.map((value: TPractitionnerInfo) => (
         <Button
             className={styles.assignmentOption}
             key={value.practitionerRoles_Id}
@@ -81,6 +84,7 @@ const renderOptions = (
             />
         </Button>
     ));
+};
 
 export const AssignmentsSelect = ({
     assignedPractionnerRoles,
@@ -89,6 +93,7 @@ export const AssignmentsSelect = ({
     loading,
     options,
     showLdm = true,
+    userIdToRemove,
     visibleOptions = false,
 }: TAssignmentsSelect): ReactElement => {
     const noAssignDefaultValue = [
@@ -171,6 +176,7 @@ export const AssignmentsSelect = ({
                     selectedItems,
                     setSelectedItems,
                     showLdm,
+                    userIdToRemove,
                 )}
             </ScrollContent>
         </div>
