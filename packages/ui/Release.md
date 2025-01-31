@@ -1,3 +1,6 @@
+### 10.15.6 2025-01-31
+- fix: CLIN-2484 Remove title attribute from ProTable pagination
+
 ### 10.15.5 2025-01-24
 - feat: PRESC-341 no show user in assignment option
 
