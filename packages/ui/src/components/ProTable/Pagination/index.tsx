@@ -50,9 +50,16 @@ const Pagination = ({
                     onViewQueryChange?.(viewPerQuery);
                     onShowSizeChange();
                 }}
-                options={getPaginationOptions(dictionary?.pagination?.view || '{value} / view', customPagination)}
                 size="small"
-            />
+            >
+                {getPaginationOptions(dictionary?.pagination?.view || '{value} / view', customPagination).map(
+                    (option) => (
+                        <Select.Option key={option.value} title={''} value={option.value}>
+                            {option.label}
+                        </Select.Option>
+                    ),
+                )}
+            </Select>
 
             <Button
                 disabled={isDisabled}
