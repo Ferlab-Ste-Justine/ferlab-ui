@@ -75,6 +75,11 @@ export type TUserConfig = {
             variants?: TUserTableConfig;
         };
     };
+    variants_somatic?: {
+        tables?: {
+            variants?: TUserTableConfig;
+        };
+    };
     study?: {
         tables?: {
             study?: TUserTableConfig;

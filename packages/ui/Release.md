@@ -1,3 +1,6 @@
+### 10.16.1 2025-02-07
+- feat: SKFP-1429 add variant somatic to user config
+
 ### 10.16.0 2025-02-06
 - feat: SJIP-1116 add POC settings for venn chart
 
