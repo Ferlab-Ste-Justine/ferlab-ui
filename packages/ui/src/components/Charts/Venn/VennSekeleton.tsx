@@ -24,7 +24,7 @@ const VennSekeleton = ({ height, width }: TVennSkeleton): JSX.Element => (
                 />
             </div>
             <div className={styles.tables}>
-                <div style={{ height: height / 2 - 8, position: 'relative', width }}>
+                <div style={{ height: height / 2 - 8, position: 'relative', width: width * 0.7 }}>
                     <Skeleton.Input
                         active
                         style={{
@@ -36,7 +36,7 @@ const VennSekeleton = ({ height, width }: TVennSkeleton): JSX.Element => (
                         }}
                     />
                 </div>
-                <div style={{ height: height / 2 - 8, position: 'relative', width }}>
+                <div style={{ height: height / 2 - 8, position: 'relative', width: width * 0.7 }}>
                     <Skeleton.Input
                         active
                         style={{
@@ -49,9 +49,6 @@ const VennSekeleton = ({ height, width }: TVennSkeleton): JSX.Element => (
                     />
                 </div>
             </div>
-        </div>
-        <div className={styles.footer}>
-            <Skeleton.Input active />
         </div>
     </div>
 );

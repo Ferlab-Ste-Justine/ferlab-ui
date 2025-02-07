@@ -23,6 +23,10 @@ export type TQueryBuilderContextType = {
     customPillConfig: ICustomPillConfig;
 };
 
+export type TQueryDictionaryContext = {
+    dictionary: IDictionary;
+};
+
 export type TQueryCommonContext = {
     dictionary: IDictionary;
     facetFilterConfig: IFacetFilterConfig;
@@ -99,4 +103,8 @@ export const QueryCommonContext = createContext<TQueryCommonContext>({
     dictionary: {},
     facetFilterConfig: defaultFacetFilterConfig,
     showLabels: false,
+});
+
+export const QueryDictionaryContext = createContext<TQueryDictionaryContext>({
+    dictionary: {},
 });

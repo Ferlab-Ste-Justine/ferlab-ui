@@ -1,5 +1,27 @@
+.vennChart {
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+}
+
+.selectWrapper {
+  display: flex;
+  justify-content: end;
+  align-items: center;;
+  gap: 8px;
+}
+
+.selectLabel {
+  font-weight: 600;
+  color: var(--gray-8);
+}
+
+.select {
+  min-width: 173px; 
+}
+
 .chartWrapper {
-  height: 100%;
+  height: 498px;
   position: relative;
   width: 100%;
   text-align: center;
@@ -18,7 +40,8 @@
 
 .venn .chart {
   display: flex;
-  flex: 1;
+  align-items: center;
+  width: 540px;
 }
 
 .venn .chart .outline {
@@ -31,10 +54,21 @@
 
 .venn .chart .fillColor:hover {
   fill: var(--venn-chart-fill-hover);
+  cursor: pointer;
 }
 
 .venn .chart .fillColor.active {
   fill: var(--venn-chart-fill-active);
+}
+
+.venn .chart .fillColor.disabled {
+  fill: var(--venn-chart-fill-disabled);
+  cursor: initial;
+}
+
+.venn .chart .fillColor.disabled:hover {
+  fill: var(--venn-chart-fill-disabled);
+  cursor: initial;
 }
 
 .venn .chart .legend {
@@ -42,15 +76,62 @@
   pointer-events: none;
 }
 
+.venn .chart .legend.disabled {
+  fill: var(--venn-chart-legend-disabled);
+  pointer-events: none;
+}
+
 .venn .tables {
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 16px;
+  gap: 24px;
+}
+
+.venn :global(.ant-table) :global(.ant-table-cell) {
+  vertical-align: middle;
+}
+
+.venn .tables :global(.ant-table-tbody > tr:nth-child(even):not(.ant-table-row-selected) td) {
+  background-color: var(--gray-1) !important;
+}
+
+.venn :global(.ant-table-summary) {
+  background-color: var(--summary-bg-color);
 }
 
 .footer {
   display: flex;
   justify-content: end;
   margin-top: 8px;
+}
+
+.venn .tableTitle {
+  color: var(--gray-9);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.venn .divider {
+  color: var(--gray-4);
+  margin-top: 8px;
+}
+
+.venn .icon {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button {
+  width: 16px;
+}
+
+.saveForm .saveDescription {
+  margin-bottom: 24px;
+}
+
+.saveForm :global(.ant-form-item):last-child {
+  margin-bottom: 0;
 }

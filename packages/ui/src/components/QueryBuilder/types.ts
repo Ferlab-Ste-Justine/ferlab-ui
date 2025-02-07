@@ -127,6 +127,8 @@ export interface ISaveCustomPillResponse {
 interface IActions {
     addQuery?: React.ReactNode;
     combine?: React.ReactNode;
+    compare?: React.ReactNode;
+    compareTooltips?: React.ReactNode;
     labels?: React.ReactNode;
     clear?: IClearTranslation;
     delete?: IDeleteTranslation;
