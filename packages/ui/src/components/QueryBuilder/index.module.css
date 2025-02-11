@@ -15,3 +15,8 @@
 .queryBuilderContainer .queryBars > *:not(:last-child) {
   margin-bottom: 8px;
 }
+
+.scrollQueryBar{
+  max-height: 30vh;
+  overflow: auto;
+}

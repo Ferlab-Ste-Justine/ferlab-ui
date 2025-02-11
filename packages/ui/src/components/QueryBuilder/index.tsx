@@ -63,6 +63,7 @@ export interface IQueryBuilderProps {
     getResolvedQueryForCount: IGetResolvedQueryForCount;
     remoteComponentMapping?: (props: IRemoteComponent) => void;
     filterQueryToIgnore?: string[];
+    scrollQueryContainer?: boolean;
 }
 
 const QueryBuilder = ({
@@ -84,6 +85,7 @@ const QueryBuilder = ({
     initialShowLabelState = true,
     referenceColors = defaultReferenceColors,
     remoteComponentMapping,
+    scrollQueryContainer = false,
     total = 0,
 }: IQueryBuilderProps): JSX.Element => {
     const removeIgnoreFieldFromQueryList = (sqon: ISyntheticSqon[]) => {
@@ -347,7 +349,7 @@ const QueryBuilder = ({
                     }
                 >
                     <div className={`${styles.queryBuilderContainer} ${className}`}>
-                        <div className={styles.queryBars}>
+                        <div className={`${styles.queryBars} ${scrollQueryContainer && styles.scrollQueryBar}`}>
                             {queryStateQueriesWithoutFilter.map((sqon, i) => (
                                 <QueryBar
                                     Icon={IconTotal}
