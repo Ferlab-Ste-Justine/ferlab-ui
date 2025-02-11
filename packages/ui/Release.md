@@ -1,3 +1,6 @@
+### 10.16.2 2025-02-11
+- feat: CLIN-3887 add scroll option querybuilder
+
 ### 10.16.1 2025-02-07
 - feat: SKFP-1429 add variant somatic to user config
 
