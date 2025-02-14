@@ -1,3 +1,6 @@
+### 10.16.3 2025-02-14
+- style: SKFP-1432 rework entity variant summary
+
 ### 10.16.2 2025-02-11
 - feat: CLIN-3887 add scroll option querybuilder
 
