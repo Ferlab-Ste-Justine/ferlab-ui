@@ -1,3 +1,6 @@
+### 10.16.4 2025-02-18
+- feat: SJIP-1116 add invisible set support to venn diagram
+
 ### 10.16.3 2025-02-14
 - style: SKFP-1432 rework entity variant summary
 

@@ -107,12 +107,12 @@ const operations3 = [
     },
 ];
 
-const operations3With0 = [
+const operations3WithInvalids = [
     {
         setId: 'Q₁',
         operation: '(Q₁)-(Q₂∩Q₃)',
         entitySqon: qbSqon,
-        entityCount: 900,
+        entityCount: 5001,
     },
     {
         setId: 'Q₂',
@@ -124,13 +124,13 @@ const operations3With0 = [
         setId: 'Q₃',
         operation: '(Q₃)-(Q₁∩Q₃)',
         entitySqon: qbSqon,
-        entityCount: 400,
+        entityCount: 5000,
     },
     {
         setId: 'Q₁∩Q₂',
         operation: '(Q₁∩Q₂)-(Q₃)',
         entitySqon: qbSqon,
-        entityCount: 300,
+        entityCount: 10001,
     },
     {
         setId: 'Q₂∩Q₃',
@@ -178,13 +178,7 @@ export const VennLoading = () => (
                     throw new Error('Function not implemented.');
                 }}
                 savedSets={[]}
-                handleSubmit={function (props: {
-                    index: string;
-                    name: string;
-                    sets: ISetOperation[];
-                    persistent: boolean;
-                    callback: () => void;
-                }): void {
+                handleSubmit={function (): void {
                     throw new Error('Function not implemented.');
                 }}
             />
@@ -203,6 +197,10 @@ export const VennChartWithTwoSets = () => (
                     throw new Error('Function not implemented.');
                 }}
                 handleClose={function (): void {
+                    throw new Error('Function not implemented.');
+                }}
+                savedSets={[]}
+                handleSubmit={function (): void {
                     throw new Error('Function not implemented.');
                 }}
             />
@@ -224,13 +222,7 @@ export const VennChartWithThreeSets = () => (
                     throw new Error('Function not implemented.');
                 }}
                 savedSets={[]}
-                handleSubmit={function (props: {
-                    index: string;
-                    name: string;
-                    sets: ISetOperation[];
-                    persistent: boolean;
-                    callback: () => void;
-                }): void {
+                handleSubmit={function (): void {
                     throw new Error('Function not implemented.');
                 }}
             />
@@ -238,13 +230,13 @@ export const VennChartWithThreeSets = () => (
     </>
 );
 
-export const VennChartWithThreeSetsAnd0Values = () => (
+export const VennChartWithThreeSetsWithInvalidValues = () => (
     <>
         <h2>Venn Chart with 3 sets</h2>
         <div style={{ width: '1200px', height: '600px' }}>
             <VennChart
                 summary={summary3}
-                operations={operations3With0}
+                operations={operations3WithInvalids}
                 handleIndexChange={function (queries, index): void {
                     throw new Error('Function not implemented.');
                 }}
@@ -252,13 +244,7 @@ export const VennChartWithThreeSetsAnd0Values = () => (
                     throw new Error('Function not implemented.');
                 }}
                 savedSets={[]}
-                handleSubmit={function (props: {
-                    index: string;
-                    name: string;
-                    sets: ISetOperation[];
-                    persistent: boolean;
-                    callback: () => void;
-                }): void {
+                handleSubmit={function (): void {
                     throw new Error('Function not implemented.');
                 }}
             />
