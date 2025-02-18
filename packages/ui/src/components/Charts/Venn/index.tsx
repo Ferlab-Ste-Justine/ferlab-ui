@@ -34,6 +34,7 @@ enum Index {
 const PADDING_OFFSET = 24;
 const MAX_TITLE_LENGTH = 200;
 const LABELS = ['Q₁', 'Q₂', 'Q₃'];
+const MAX_COUNT = 10000;
 
 export const DEFAULT_VENN_CHART_DICTIONARY: TVennChartDictionary = {
     biospecimens: 'Biospecimens',
@@ -64,6 +65,7 @@ export const DEFAULT_VENN_CHART_DICTIONARY: TVennChartDictionary = {
     set: {
         column: 'Set definition',
         footer: 'Union of selected sets',
+        max: 'Max 10,000 at a time',
         title: 'Set definitions',
         tooltips: 'View in exploration',
     },
@@ -92,6 +94,7 @@ export type TVennChartDictionary = {
         column: string;
         footer: string;
         tooltips: string;
+        max: string;
     };
     save: {
         placeholder: (entity: string) => string;
@@ -119,7 +122,7 @@ type THandleSubmit = {
     index: string;
     name: string;
     sets: ISetOperation[];
-    persistent: boolean;
+    invisible: boolean;
     callback: () => void;
 };
 
@@ -181,6 +184,7 @@ const getOperationColumns = ({
         dataIndex: 'operation',
         key: 'operation',
         title: dictionary.set.column,
+        width: 430,
     },
     {
         align: 'right',
@@ -192,10 +196,10 @@ const getOperationColumns = ({
     {
         key: 'open',
         render: (record) => (
-            <Tooltip title={dictionary.set.tooltips}>
+            <Tooltip title={record.entityCount > MAX_COUNT ? dictionary.set.max : dictionary.set.tooltips}>
                 <Button
                     className={styles.button}
-                    disabled={record.entityCount === 0}
+                    disabled={isEntityCountInvalid(record.entityCount)}
                     icon={<ExternalLinkIcon />}
                     onClick={() => onClick(record)}
                     type="link"
@@ -206,10 +210,8 @@ const getOperationColumns = ({
     },
 ];
 
-/**
- * @TODO Add OR operator when combine operation set
- * @TODO Check query builder, select two query, add same logic here
- */
+const isEntityCountInvalid = (entityCount: number) => entityCount === 0 || entityCount > MAX_COUNT;
+
 const VennChart = ({
     dictionary = DEFAULT_VENN_CHART_DICTIONARY,
     factor = 0.75,
@@ -279,7 +281,10 @@ const VennChart = ({
             .attr('clip-path', `url(#${circle1})`)
             .attr('width', '100%')
             .attr('height', '100%')
-            .attr('class', classnames(styles.fillColor, { [styles.disabled]: operations[0].entityCount === 0 }));
+            .attr(
+                'class',
+                classnames(styles.fillColor, { [styles.disabled]: isEntityCountInvalid(operations[0].entityCount) }),
+            );
         // Insert 'Q₁' text to the left of Circle1
         svg.append('text')
             .attr('x', cx + Math.sin((Math.PI * 300) / 180) * 2.5 * radius * factor)
@@ -292,7 +297,10 @@ const VennChart = ({
             .attr('x', cx + Math.sin((Math.PI * 300) / 180) * 1.1 * radius * factor)
             .attr('y', cy - Math.cos((Math.PI * 300) / 180) * 1.0 * radius * factor)
             .attr('text-anchor', 'end')
-            .attr('class', classnames(styles.legend, { [styles.disabled]: operations[0].entityCount === 0 }))
+            .attr(
+                'class',
+                classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[0].entityCount) }),
+            )
             .text(operations[0].entityCount);
 
         /**
@@ -320,7 +328,10 @@ const VennChart = ({
             .attr('clip-path', `url(#${circle2})`)
             .attr('width', '100%')
             .attr('height', '100%')
-            .attr('class', classnames(styles.fillColor, { [styles.disabled]: operations[1].entityCount === 0 }));
+            .attr(
+                'class',
+                classnames(styles.fillColor, { [styles.disabled]: isEntityCountInvalid(operations[1].entityCount) }),
+            );
         // Insert 'Q₂' text to the right of Circle2
         svg.append('text')
             .attr('x', cx + Math.sin((Math.PI * 60) / 180) * 2.5 * radius * factor)
@@ -333,7 +344,10 @@ const VennChart = ({
             .attr('x', cx + Math.sin((Math.PI * 60) / 180) * 1.1 * radius * factor)
             .attr('y', cy - Math.cos((Math.PI * 60) / 180) * 1.0 * radius * factor)
             .attr('text-anchor', 'start')
-            .attr('class', classnames(styles.legend, { [styles.disabled]: operations[1].entityCount === 0 }))
+            .attr(
+                'class',
+                classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[1].entityCount) }),
+            )
             .text(operations[1].entityCount);
 
         /**
@@ -358,12 +372,20 @@ const VennChart = ({
                 .attr('clip-path', `url(#${circle2})`)
                 .attr('width', '100%')
                 .attr('height', '100%')
-                .attr('class', classnames(styles.fillColor, { [styles.disabled]: operations[2].entityCount === 0 }));
+                .attr(
+                    'class',
+                    classnames(styles.fillColor, {
+                        [styles.disabled]: isEntityCountInvalid(operations[2].entityCount),
+                    }),
+                );
             svg.append('text')
                 .attr('x', cx + Math.sin((Math.PI * 360) / 180) * 0.85 * radius * factor)
                 .attr('y', cy - Math.cos((Math.PI * 360) / 180) * 0.5 * radius * factor)
                 .attr('text-anchor', 'middle')
-                .attr('class', classnames(styles.legend, { [styles.disabled]: operations[2].entityCount === 0 }))
+                .attr(
+                    'class',
+                    classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[2].entityCount) }),
+                )
                 .text(operations[2].entityCount);
         }
 
@@ -379,7 +401,12 @@ const VennChart = ({
                 .attr('clip-path', `url(#${circle2})`)
                 .attr('width', '100%')
                 .attr('height', '100%')
-                .attr('class', classnames(styles.fillColor, { [styles.disabled]: operations[3].entityCount === 0 }));
+                .attr(
+                    'class',
+                    classnames(styles.fillColor, {
+                        [styles.disabled]: isEntityCountInvalid(operations[3].entityCount),
+                    }),
+                );
 
             /**
              * Circle3 'Q₃' is placed at the bottom middle position
@@ -409,7 +436,12 @@ const VennChart = ({
                 .attr('clip-path', `url(#${circle3})`)
                 .attr('width', '100%')
                 .attr('height', '100%')
-                .attr('class', classnames(styles.fillColor, { [styles.disabled]: operations[2].entityCount === 0 }));
+                .attr(
+                    'class',
+                    classnames(styles.fillColor, {
+                        [styles.disabled]: isEntityCountInvalid(operations[2].entityCount),
+                    }),
+                );
             // Insert 'Q₃' text bottom Circle3
             svg.append('text')
                 .attr('x', cx + Math.sin((Math.PI * 180) / 180) * 2.6 * radius * factor)
@@ -422,7 +454,10 @@ const VennChart = ({
                 .attr('x', cx + Math.sin((Math.PI * 180) / 180) * 1.1 * radius * factor)
                 .attr('y', cy - Math.cos((Math.PI * 180) / 180) * 1.1 * radius * factor)
                 .attr('text-anchor', 'middle')
-                .attr('class', classnames(styles.legend, { [styles.disabled]: operations[2].entityCount === 0 }))
+                .attr(
+                    'class',
+                    classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[2].entityCount) }),
+                )
                 .text(operations[2].entityCount);
 
             // Insert count value of (Q₂∩Q₃)-(Q₁)
@@ -430,7 +465,10 @@ const VennChart = ({
                 .attr('x', cx + Math.sin((Math.PI * 360) / 180) * 0.85 * radius * factor)
                 .attr('y', cy - Math.cos((Math.PI * 360) / 180) * 0.85 * radius * factor)
                 .attr('text-anchor', 'middle')
-                .attr('class', classnames(styles.legend, { [styles.disabled]: operations[3].entityCount === 0 }))
+                .attr(
+                    'class',
+                    classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[3].entityCount) }),
+                )
                 .text(operations[3].entityCount);
 
             /**
@@ -450,13 +488,21 @@ const VennChart = ({
                 .attr('clip-path', `url(#${circle3})`)
                 .attr('width', '100%')
                 .attr('height', '100%')
-                .attr('class', classnames(styles.fillColor, { [styles.disabled]: operations[4].entityCount === 0 }));
+                .attr(
+                    'class',
+                    classnames(styles.fillColor, {
+                        [styles.disabled]: isEntityCountInvalid(operations[4].entityCount),
+                    }),
+                );
             // Insert count value of '(Q₃)-(Q₁∩Q₃)'
             svg.append('text')
                 .attr('x', cx + Math.sin((Math.PI * 120) / 180) * 0.85 * radius * factor)
                 .attr('y', cy - Math.cos((Math.PI * 120) / 180) * 0.85 * radius * factor)
                 .attr('text-anchor', 'middle')
-                .attr('class', classnames(styles.legend, { [styles.disabled]: operations[4].entityCount === 0 }))
+                .attr(
+                    'class',
+                    classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[4].entityCount) }),
+                )
                 .text(operations[4].entityCount);
 
             /**
@@ -477,7 +523,12 @@ const VennChart = ({
                 .attr('clip-path', `url(#${circle1})`)
                 .attr('width', '100%')
                 .attr('height', '100%')
-                .attr('class', classnames(styles.fillColor, { [styles.disabled]: operations[5].entityCount === 0 }));
+                .attr(
+                    'class',
+                    classnames(styles.fillColor, {
+                        [styles.disabled]: isEntityCountInvalid(operations[5].entityCount),
+                    }),
+                );
 
             /**
              * Intersection 'Q₁∩Q₃' between Circle1 and Circle3
@@ -496,7 +547,10 @@ const VennChart = ({
                 .attr('x', cx + Math.sin((Math.PI * 240) / 180) * 0.85 * radius * factor)
                 .attr('y', cy - Math.cos((Math.PI * 240) / 180) * 0.85 * radius * factor)
                 .attr('text-anchor', 'middle')
-                .attr('class', classnames(styles.legend, { [styles.disabled]: operations[5].entityCount === 0 }))
+                .attr(
+                    'class',
+                    classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[5].entityCount) }),
+                )
                 .text(operations[5].entityCount);
 
             /**
@@ -511,13 +565,21 @@ const VennChart = ({
                 .attr('clip-path', `url(#${circle1})`)
                 .attr('width', '100%')
                 .attr('height', '100%')
-                .attr('class', classnames(styles.fillColor, { [styles.disabled]: operations[6].entityCount === 0 }));
+                .attr(
+                    'class',
+                    classnames(styles.fillColor, {
+                        [styles.disabled]: isEntityCountInvalid(operations[6].entityCount),
+                    }),
+                );
             // Insert count value of '(Q₁∩Q₂∩Q₃)'
             svg.append('text')
                 .attr('x', cx)
                 .attr('y', cy)
                 .attr('text-anchor', 'middle')
-                .attr('class', classnames(styles.legend, { [styles.disabled]: operations[6].entityCount === 0 }))
+                .attr(
+                    'class',
+                    classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[6].entityCount) }),
+                )
                 .text(operations[6].entityCount);
         }
     }, [loading, ref]);
@@ -609,8 +671,8 @@ const VennChart = ({
                         handleSubmit({
                             callback: handleClose,
                             index,
+                            invisible: values[PERSISTENT_KEY] !== true,
                             name: values[SET_NAME_KEY],
-                            persistent: values[PERSISTENT_KEY] === 'checked',
                             sets: selectedSets,
                         });
                         setIsSaving(true);
@@ -647,17 +709,15 @@ const VennChart = ({
                     >
                         <Input placeholder={dictionary.save.placeholder(index)} />
                     </Form.Item>
-                    <Form.Item name={PERSISTENT_KEY}>
-                        <Checkbox.Group>
-                            <Checkbox value="checked">
-                                <Space size={8}>
-                                    {dictionary.save.checkbox.label}
-                                    <Tooltip title={dictionary.save.checkbox.tooltips}>
-                                        <InfoCircleOutlined />
-                                    </Tooltip>
-                                </Space>
-                            </Checkbox>
-                        </Checkbox.Group>
+                    <Form.Item name={PERSISTENT_KEY} valuePropName="checked">
+                        <Checkbox>
+                            <Space size={8}>
+                                {dictionary.save.checkbox.label}
+                                <Tooltip title={dictionary.save.checkbox.tooltips}>
+                                    <InfoCircleOutlined />
+                                </Tooltip>
+                            </Space>
+                        </Checkbox>
                     </Form.Item>
                 </Form>
             </Modal>
@@ -730,7 +790,9 @@ const VennChart = ({
                                 pagination={false}
                                 rowClassName={styles.row}
                                 rowSelection={{
-                                    getCheckboxProps: (record) => ({ disabled: record.entityCount === 0 }),
+                                    getCheckboxProps: (record) => ({
+                                        disabled: isEntityCountInvalid(record.entityCount),
+                                    }),
                                     onChange: (selectedRowKeys: React.Key[], selectedRows: ISetOperation[]) => {
                                         setTableSelectedSets(selectedRows);
                                         d3.selectAll(`.${styles.fillColor}`).classed(styles.active, false);
@@ -752,20 +814,28 @@ const VennChart = ({
                                             <Table.Summary.Cell colSpan={2} index={0}>
                                                 {dictionary.set.footer}
                                             </Table.Summary.Cell>
-                                            <Table.Summary.Cell align="right" colSpan={1} index={1}>
+                                            <Table.Summary.Cell align="right" index={1}>
                                                 {total()}
                                             </Table.Summary.Cell>
-                                            <Table.Summary.Cell colSpan={1} index={2}>
-                                                <Button
-                                                    className={styles.button}
-                                                    disabled={total() === 0}
-                                                    icon={<ExternalLinkIcon />}
-                                                    onClick={() => {
-                                                        setSelectedSets(tableSelectedSets);
-                                                        setSaveModalOpen(true);
-                                                    }}
-                                                    type="link"
-                                                />
+                                            <Table.Summary.Cell index={2}>
+                                                <Tooltip
+                                                    title={
+                                                        total() > MAX_COUNT
+                                                            ? dictionary.set.max
+                                                            : dictionary.set.tooltips
+                                                    }
+                                                >
+                                                    <Button
+                                                        className={styles.button}
+                                                        disabled={isEntityCountInvalid(total())}
+                                                        icon={<ExternalLinkIcon />}
+                                                        onClick={() => {
+                                                            setSelectedSets(tableSelectedSets);
+                                                            setSaveModalOpen(true);
+                                                        }}
+                                                        type="link"
+                                                    />
+                                                </Tooltip>
                                             </Table.Summary.Cell>
                                         </Table.Summary.Row>
                                     </Table.Summary>
