@@ -96,6 +96,10 @@
   background-color: var(--gray-1) !important;
 }
 
+.venn .tables :global(.ant-table-tbody > tr:nth-child(even):not(.ant-table-row-selected) td.ant-table-cell-row-hover) {
+  background-color: var(--gray-3) !important;
+}
+
 .venn :global(.ant-table-summary) {
   background-color: var(--summary-bg-color);
 }

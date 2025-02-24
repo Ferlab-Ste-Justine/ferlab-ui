@@ -181,6 +181,20 @@ export const VennLoading = () => (
                 handleSubmit={function (): void {
                     throw new Error('Function not implemented.');
                 }}
+                analytics={{
+                    trackVennViewInExploration: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennClickOnSections: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennViewSet: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennViewEntityCounts: function (type: string, entityCount: number): void {
+                        throw new Error('Function not implemented.');
+                    },
+                }}
             />
         </div>
     </>
@@ -202,6 +216,20 @@ export const VennChartWithTwoSets = () => (
                 savedSets={[]}
                 handleSubmit={function (): void {
                     throw new Error('Function not implemented.');
+                }}
+                analytics={{
+                    trackVennViewInExploration: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennClickOnSections: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennViewSet: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennViewEntityCounts: function (type: string, entityCount: number): void {
+                        throw new Error('Function not implemented.');
+                    },
                 }}
             />
         </div>
@@ -225,6 +253,20 @@ export const VennChartWithThreeSets = () => (
                 handleSubmit={function (): void {
                     throw new Error('Function not implemented.');
                 }}
+                analytics={{
+                    trackVennViewInExploration: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennClickOnSections: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennViewSet: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennViewEntityCounts: function (type: string, entityCount: number): void {
+                        throw new Error('Function not implemented.');
+                    },
+                }}
             />
         </div>
     </>
@@ -246,6 +288,20 @@ export const VennChartWithThreeSetsWithInvalidValues = () => (
                 savedSets={[]}
                 handleSubmit={function (): void {
                     throw new Error('Function not implemented.');
+                }}
+                analytics={{
+                    trackVennViewInExploration: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennClickOnSections: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennViewSet: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennViewEntityCounts: function (type: string, entityCount: number): void {
+                        throw new Error('Function not implemented.');
+                    },
                 }}
             />
         </div>

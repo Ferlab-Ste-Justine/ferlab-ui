@@ -53,13 +53,17 @@ export const DEFAULT_VENN_CHART_DICTIONARY: TVennChartDictionary = {
             tooltips:
                 'A saved set is a collection of one or more entity IDs which can be saved and revisited for later use.',
         },
+        entity: {
+            biospecimens: (count: number) => `You have selected ${count} biospecimens.`,
+            files: (count: number) => `You have selected ${count} files.`,
+            participants: (count: number) => `You have selected ${count} participants.`,
+        },
         label: 'Set name',
         maximumLength: `${MAX_TITLE_LENGTH}characters maximum`,
         ok: 'View set',
         permittedCharacters: 'Permitted characters: A-Z a-z 0-9 ()[]-_:|.,',
         placeholder: (entity: string) => `My ${entity} set`,
         requiredField: 'This field is required',
-        selected: (count: number) => `You have selected ${count} entities.`,
         title: 'View in Data Exploration',
     },
     set: {
@@ -102,7 +106,11 @@ export type TVennChartDictionary = {
         permittedCharacters: string;
         requiredField: string;
         title: string;
-        selected: (count: number) => string;
+        entity: {
+            participants: (count: number) => string;
+            biospecimens: (count: number) => string;
+            files: (count: number) => string;
+        };
         label: string;
         checkbox: {
             label: string;
@@ -138,6 +146,12 @@ export type TVennChart = {
     factor?: number;
     summary?: ISummaryData[];
     operations?: ISetOperation[];
+    analytics: {
+        trackVennViewInExploration: () => void;
+        trackVennClickOnSections: () => void;
+        trackVennViewSet: () => void;
+        trackVennViewEntityCounts: (type: string, entityCount: number) => void;
+    };
 };
 
 const getIcon = (mode: Index) => {
@@ -148,6 +162,16 @@ const getIcon = (mode: Index) => {
             return <ExperimentOutlined />;
         case Index.file:
             return <FileTextOutlined />;
+    }
+};
+
+const getEntitySelectedText = (index: Index, entityCount: number, dictionary: TVennChartDictionary) => {
+    if (index === Index.biospecimen) {
+        return dictionary.save.entity.biospecimens(entityCount);
+    } else if (index === Index.file) {
+        return dictionary.save.entity.files(entityCount);
+    } else {
+        return dictionary.save.entity.participants(entityCount);
     }
 };
 
@@ -213,6 +237,7 @@ const getOperationColumns = ({
 const isEntityCountInvalid = (entityCount: number) => entityCount === 0 || entityCount > MAX_COUNT;
 
 const VennChart = ({
+    analytics,
     dictionary = DEFAULT_VENN_CHART_DICTIONARY,
     factor = 0.75,
     handleClose,
@@ -594,6 +619,7 @@ const VennChart = ({
         d3.select(`#${chartId}`)
             .selectAll(`.${styles.fillColor}`)
             .on('click', (d) => {
+                analytics.trackVennClickOnSections();
                 const element = d3.select(d.srcElement);
                 const active = element.classed(styles.active) ? false : true;
                 element.classed(styles.active, active);
@@ -617,6 +643,8 @@ const VennChart = ({
         dictionary,
         mode: index,
         onClick: (record: ISetOperation) => {
+            analytics.trackVennViewInExploration();
+            analytics.trackVennViewEntityCounts(index, record.entityCount);
             setSelectedSets([record]);
             setSaveModalOpen(true);
         },
@@ -668,6 +696,7 @@ const VennChart = ({
                             ]);
                             return;
                         }
+                        analytics.trackVennViewSet();
                         handleSubmit({
                             callback: handleClose,
                             index,
@@ -678,7 +707,13 @@ const VennChart = ({
                         setIsSaving(true);
                     }}
                 >
-                    <div className={styles.saveDescription}>{dictionary.save.selected(selectedSets.length)}</div>
+                    <div className={styles.saveDescription}>
+                        {getEntitySelectedText(
+                            index,
+                            selectedSets.reduce((count, set) => count + set.entityCount, 0),
+                            dictionary,
+                        )}
+                    </div>
                     <Form.Item
                         className={styles.filterEditFormItem}
                         label={dictionary.save.label}
@@ -830,7 +865,9 @@ const VennChart = ({
                                                         disabled={isEntityCountInvalid(total())}
                                                         icon={<ExternalLinkIcon />}
                                                         onClick={() => {
+                                                            analytics.trackVennViewInExploration();
                                                             setSelectedSets(tableSelectedSets);
+                                                            analytics.trackVennViewEntityCounts(index, total());
                                                             setSaveModalOpen(true);
                                                         }}
                                                         type="link"
