@@ -1,3 +1,6 @@
+### 10.16.5 2025-02-25
+- fix: SJIP-1116 add analytics, fix typo and styles
+
 ### 10.16.4 2025-02-18
 - feat: SJIP-1116 add invisible set support to venn diagram
 
