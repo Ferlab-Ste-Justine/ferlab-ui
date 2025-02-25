@@ -13,6 +13,7 @@ import * as d3 from 'd3';
 import { v4 } from 'uuid';
 
 import { ISyntheticSqon } from '../../../data/sqon/types';
+import { numberFormat } from '../../../utils/numberUtils';
 import { IUserSetOutput } from '../../BiospecimenRequest/requestBiospecimen.utils';
 import ExternalLinkIcon from '../../ExternalLink/ExternalLinkIcon';
 
@@ -188,8 +189,8 @@ const getSummaryColumns = (mode: Index, dictionary: TVennChartDictionary): Colum
     },
     {
         align: 'right',
-        dataIndex: 'entityCount',
         key: 'entityCount',
+        render: (record) => numberFormat(record.entityCount),
         title: getIcon(mode),
         width: 100,
     },
@@ -212,8 +213,8 @@ const getOperationColumns = ({
     },
     {
         align: 'right',
-        dataIndex: 'entityCount',
         key: 'entityCount',
+        render: (record) => numberFormat(record.entityCount),
         title: getIcon(mode),
         width: 100,
     },
@@ -326,7 +327,7 @@ const VennChart = ({
                 'class',
                 classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[0].entityCount) }),
             )
-            .text(operations[0].entityCount);
+            .text(numberFormat(operations[0].entityCount));
 
         /**
          * Circle2 'Q₂' is placed at the top left
@@ -373,7 +374,7 @@ const VennChart = ({
                 'class',
                 classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[1].entityCount) }),
             )
-            .text(operations[1].entityCount);
+            .text(numberFormat(operations[1].entityCount));
 
         /**
          * Intersection 'Q₁∩Q₂' between Circle1 and Circle2
@@ -411,7 +412,7 @@ const VennChart = ({
                     'class',
                     classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[2].entityCount) }),
                 )
-                .text(operations[2].entityCount);
+                .text(numberFormat(operations[2].entityCount));
         }
 
         /**
@@ -483,7 +484,7 @@ const VennChart = ({
                     'class',
                     classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[2].entityCount) }),
                 )
-                .text(operations[2].entityCount);
+                .text(numberFormat(operations[2].entityCount));
 
             // Insert count value of (Q₂∩Q₃)-(Q₁)
             svg.append('text')
@@ -494,7 +495,7 @@ const VennChart = ({
                     'class',
                     classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[3].entityCount) }),
                 )
-                .text(operations[3].entityCount);
+                .text(numberFormat(operations[3].entityCount));
 
             /**
              * Intersection 'Q₂∩Q₃' between Circle2 and Circle3
@@ -528,7 +529,7 @@ const VennChart = ({
                     'class',
                     classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[4].entityCount) }),
                 )
-                .text(operations[4].entityCount);
+                .text(numberFormat(operations[4].entityCount));
 
             /**
              * Intersection 'Q₁∩Q₃' between Circle1 and Circle2 and Circle3
@@ -576,7 +577,7 @@ const VennChart = ({
                     'class',
                     classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[5].entityCount) }),
                 )
-                .text(operations[5].entityCount);
+                .text(numberFormat(operations[5].entityCount));
 
             /**
              * Intersection 'Q₁∩Q₂∩Q₃' between Circle1 and Circle2 and Circle3
@@ -605,7 +606,7 @@ const VennChart = ({
                     'class',
                     classnames(styles.legend, { [styles.disabled]: isEntityCountInvalid(operations[6].entityCount) }),
                 )
-                .text(operations[6].entityCount);
+                .text(numberFormat(operations[6].entityCount));
         }
     }, [loading, ref]);
 
@@ -850,7 +851,7 @@ const VennChart = ({
                                                 {dictionary.set.footer}
                                             </Table.Summary.Cell>
                                             <Table.Summary.Cell align="right" index={1}>
-                                                {total()}
+                                                {numberFormat(total())}
                                             </Table.Summary.Cell>
                                             <Table.Summary.Cell index={2}>
                                                 <Tooltip
