@@ -622,6 +622,9 @@ const VennChart = ({
             .on('click', (d) => {
                 analytics.trackVennClickOnSections();
                 const element = d3.select(d.srcElement);
+                const disabled = element.classed(styles.disabled) ? true : false;
+                if (disabled) return;
+
                 const active = element.classed(styles.active) ? false : true;
                 element.classed(styles.active, active);
                 const { id } = d.srcElement;

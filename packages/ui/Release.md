@@ -1,4 +1,7 @@
-### 10.16.6 2025-02-26
+### 10.16.7 2025-02-26
+- fix: SJIP-1116 prevent active a disabled section
+
+### 10.16.6 2025-02-25
 - fix: SJIP-1116 format entity count
 
 ### 10.16.5 2025-02-25
