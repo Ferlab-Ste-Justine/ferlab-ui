@@ -318,7 +318,7 @@ const VennChart = ({
             .attr('text-anchor', 'end')
             .attr('class', styles.legend)
             .text(LABELS[0]);
-        // Insert count of (Q₁)-(Q₂∩Q₃)
+        // Insert count of Q₁-(Q₂∪Q₃)
         svg.append('text')
             .attr('x', cx + Math.sin((Math.PI * 300) / 180) * 1.1 * radius * factor)
             .attr('y', cy - Math.cos((Math.PI * 300) / 180) * 1.0 * radius * factor)
@@ -365,7 +365,7 @@ const VennChart = ({
             .attr('text-anchor', 'start')
             .attr('class', styles.legend)
             .text(LABELS[1]);
-        // Insert count value of (Q₂)-(Q₁∩Q₃)
+        // Insert count value of Q₂-(Q₁∪Q₃)
         svg.append('text')
             .attr('x', cx + Math.sin((Math.PI * 60) / 180) * 1.1 * radius * factor)
             .attr('y', cy - Math.cos((Math.PI * 60) / 180) * 1.0 * radius * factor)
@@ -475,7 +475,7 @@ const VennChart = ({
                 .attr('text-anchor', 'middle')
                 .attr('class', styles.legend)
                 .text(LABELS[2]);
-            // Insert count value of '(Q₃)-(Q₁∩Q₃)'
+            // Insert count value of 'Q₃-(Q₁∪Q₂)'
             svg.append('text')
                 .attr('x', cx + Math.sin((Math.PI * 180) / 180) * 1.1 * radius * factor)
                 .attr('y', cy - Math.cos((Math.PI * 180) / 180) * 1.1 * radius * factor)
