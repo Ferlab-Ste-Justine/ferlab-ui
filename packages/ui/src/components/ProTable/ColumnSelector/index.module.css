@@ -18,4 +18,5 @@
 .ProTablePopoverColumnListWrapper {
   max-height: 315px;
   overflow: auto;
+  scrollbar-gutter: stable;
 }

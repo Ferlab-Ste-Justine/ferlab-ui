@@ -1,3 +1,6 @@
+### 10.16.8 2025-03-05
+- fix: CLIN-3908 Add scrollbar-gutter popover columnsort protable
+
 ### 10.16.7 2025-02-26
 - fix: SJIP-1116 prevent active a disabled section
 
