@@ -1,6 +1,7 @@
 import React from 'react';
-import VennChart, { ISetOperation } from '@ferlab/ui/core/components/Charts/Venn';
+import VennChart from '@ferlab/ui/core/components/Charts/Venn';
 import { Meta } from '@storybook/react';
+import { ExperimentOutlined, FileTextOutlined, UserOutlined } from '@ant-design/icons';
 
 const qbSqon = {
     op: 'and',
@@ -174,6 +175,28 @@ export const VennLoading = () => (
                 handleIndexChange={function (queries, index): void {
                     throw new Error('Function not implemented.');
                 }}
+                defaultOption={'participant'}
+                options={[
+                    {
+                        label: 'Participants',
+                        value: 'participant',
+                        tabId: 'participants',
+                        icon: <UserOutlined size={16} />,
+                    },
+                    {
+                        label: 'Biospecimens',
+                        value: 'biospecimen',
+                        tabId: 'biospecimens',
+                        icon: <ExperimentOutlined size={16} />,
+                    },
+
+                    {
+                        label: 'Data files',
+                        value: 'file',
+                        tabId: 'data files',
+                        icon: <FileTextOutlined size={16} />,
+                    },
+                ]}
                 handleClose={function (): void {
                     throw new Error('Function not implemented.');
                 }}
@@ -217,6 +240,28 @@ export const VennChartWithTwoSets = () => (
                 handleSubmit={function (): void {
                     throw new Error('Function not implemented.');
                 }}
+                defaultOption={'participant'}
+                options={[
+                    {
+                        label: 'Participants',
+                        value: 'participant',
+                        tabId: 'participants',
+                        icon: <UserOutlined size={16} />,
+                    },
+                    {
+                        label: 'Biospecimens',
+                        value: 'biospecimen',
+                        tabId: 'biospecimens',
+                        icon: <ExperimentOutlined size={16} />,
+                    },
+
+                    {
+                        label: 'Data files',
+                        value: 'file',
+                        tabId: 'data files',
+                        icon: <FileTextOutlined size={16} />,
+                    },
+                ]}
                 analytics={{
                     trackVennViewInExploration: function (): void {
                         throw new Error('Function not implemented.');
@@ -253,6 +298,28 @@ export const VennChartWithThreeSets = () => (
                 handleSubmit={function (): void {
                     throw new Error('Function not implemented.');
                 }}
+                defaultOption={'participant'}
+                options={[
+                    {
+                        label: 'Participants',
+                        value: 'participant',
+                        tabId: 'participants',
+                        icon: <UserOutlined size={16} />,
+                    },
+                    {
+                        label: 'Biospecimens',
+                        value: 'biospecimen',
+                        tabId: 'biospecimens',
+                        icon: <ExperimentOutlined size={16} />,
+                    },
+
+                    {
+                        label: 'Data files',
+                        value: 'file',
+                        tabId: 'data files',
+                        icon: <FileTextOutlined size={16} />,
+                    },
+                ]}
                 analytics={{
                     trackVennViewInExploration: function (): void {
                         throw new Error('Function not implemented.');
@@ -289,6 +356,86 @@ export const VennChartWithThreeSetsWithInvalidValues = () => (
                 handleSubmit={function (): void {
                     throw new Error('Function not implemented.');
                 }}
+                defaultOption={'participant'}
+                options={[
+                    {
+                        label: 'Participants',
+                        value: 'participant',
+                        tabId: 'participants',
+                        icon: <UserOutlined size={16} />,
+                    },
+                    {
+                        label: 'Biospecimens',
+                        value: 'biospecimen',
+                        tabId: 'biospecimens',
+                        icon: <ExperimentOutlined size={16} />,
+                    },
+
+                    {
+                        label: 'Data files',
+                        value: 'file',
+                        tabId: 'data files',
+                        icon: <FileTextOutlined size={16} />,
+                    },
+                ]}
+                analytics={{
+                    trackVennViewInExploration: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennClickOnSections: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennViewSet: function (): void {
+                        throw new Error('Function not implemented.');
+                    },
+                    trackVennViewEntityCounts: function (type: string, entityCount: number): void {
+                        throw new Error('Function not implemented.');
+                    },
+                }}
+            />
+        </div>
+    </>
+);
+
+export const VennChartWithEntitySwitchedByDefault = () => (
+    <>
+        <h2>Venn Chart with 3 sets</h2>
+        <div style={{ width: '1200px', height: '600px' }}>
+            <VennChart
+                summary={summary3}
+                operations={operations3WithInvalids}
+                handleIndexChange={function (queries, index): void {
+                    throw new Error('Function not implemented.');
+                }}
+                handleClose={function (): void {
+                    throw new Error('Function not implemented.');
+                }}
+                savedSets={[]}
+                handleSubmit={function (): void {
+                    throw new Error('Function not implemented.');
+                }}
+                defaultOption={'biospecimen'}
+                options={[
+                    {
+                        label: 'Participants',
+                        value: 'participant',
+                        tabId: 'participants',
+                        icon: <UserOutlined size={16} />,
+                    },
+                    {
+                        label: 'Biospecimens',
+                        value: 'biospecimen',
+                        tabId: 'biospecimens',
+                        icon: <ExperimentOutlined size={16} />,
+                    },
+
+                    {
+                        label: 'Data files',
+                        value: 'file',
+                        tabId: 'data files',
+                        icon: <FileTextOutlined size={16} />,
+                    },
+                ]}
                 analytics={{
                     trackVennViewInExploration: function (): void {
                         throw new Error('Function not implemented.');

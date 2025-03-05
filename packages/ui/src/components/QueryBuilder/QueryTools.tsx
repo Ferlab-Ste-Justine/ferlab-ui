@@ -86,7 +86,13 @@ const QueryTools = ({
                                 <Button
                                     className={cx(styles.button, styles.compare)}
                                     disabled={isCompareBtnDisabled}
-                                    icon={<AndOrIcon />}
+                                    icon={
+                                        <AndOrIcon
+                                            className={cx(styles.andOrIcon, {
+                                                [styles.disabled]: isCompareBtnDisabled,
+                                            })}
+                                        />
+                                    }
                                     onClick={handleCompare}
                                     size="small"
                                 >
