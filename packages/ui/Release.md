@@ -1,3 +1,6 @@
+### 10.16.9 2025-03-05
+- feat: SKFP-1469 Manage long title in entity title
+
 ### 10.16.8 2025-03-05
 - fix: CLIN-3908 Add scrollbar-gutter popover columnsort protable
 
