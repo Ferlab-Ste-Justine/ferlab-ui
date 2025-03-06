@@ -1,3 +1,6 @@
+### 10.17.0 2025-03-06
+- feat: UNIC-36 fix vulne on cross-spawn 7 0 3 and fix bad import on EntityStatistics
+
 ### 10.16.9 2025-03-05
 - feat: SKFP-1469 Manage long title in entity title
 

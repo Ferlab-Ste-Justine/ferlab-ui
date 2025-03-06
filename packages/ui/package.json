@@ -1,6 +1,6 @@
 {
     "name": "@ferlab/ui",
-    "version": "10.16.9",
+    "version": "10.17.0",
     "description": "Core components for scientific research data portals",
     "publishConfig": {
         "access": "public"
@@ -110,7 +110,7 @@
         "antd-img-crop": "^4.2.4",
         "classnames": "^2.2.6",
         "command-line-args": "^5.1.1",
-        "cross-spawn": "^7.0.3",
+        "cross-spawn": "^7.0.6",
         "d3": "^7.9.0",
         "d3-svg-to-png": "^0.3.1",
         "history": "^4.9.0",

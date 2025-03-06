@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { TDownloadDictionary } from '@ferlab/ui/layout/ResizableGridLayout/ResizableGridCard/utils';
 import { BarDatum } from '@nivo/bar';
 import { LegendProps } from '@nivo/legends';
 import { DefaultRawDatum } from '@nivo/pie';
@@ -12,6 +11,7 @@ import Collapse, { CollapsePanel } from '../../../components/Collapse';
 import Empty from '../../../components/Empty';
 import ResizableGridLayout, { serialize } from '../../../layout/ResizableGridLayout';
 import ResizableGridCard from '../../../layout/ResizableGridLayout/ResizableGridCard';
+import { TDownloadDictionary } from '../../../layout/ResizableGridLayout/ResizableGridCard/utils';
 import { mondoDefaultGridConfig, observedPhenotypeDefaultGridConfig } from '../../../layout/ResizableGridLayout/utils';
 import { truncateString } from '../../../utils/stringUtils';
 
