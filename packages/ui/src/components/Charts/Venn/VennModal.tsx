@@ -28,6 +28,7 @@ type VennModalProps = TVennChart & {
 
 const VennModal = ({
     analytics,
+    defaultOption,
     dictionary = DEFAULT_VENN_MODAL_DICTIONARY,
     error = false,
     handleClose,
@@ -36,6 +37,7 @@ const VennModal = ({
     loading = true,
     open = false,
     operations,
+    options,
     queryPillDictionary = {},
     savedSets,
     summary,
@@ -57,12 +59,14 @@ const VennModal = ({
             {!error && (
                 <VennChart
                     analytics={analytics}
+                    defaultOption={defaultOption}
                     dictionary={dictionary}
                     handleClose={handleClose}
                     handleIndexChange={handleIndexChange}
                     handleSubmit={handleSubmit}
                     loading={loading}
                     operations={operations}
+                    options={options}
                     savedSets={savedSets}
                     summary={summary}
                 />

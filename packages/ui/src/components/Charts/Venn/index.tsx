@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-    ExperimentOutlined,
-    FileTextOutlined,
-    InfoCircleOutlined,
-    UserOutlined,
-    WarningFilled,
-} from '@ant-design/icons';
+import { InfoCircleOutlined, WarningFilled } from '@ant-design/icons';
 import { Button, Checkbox, Divider, Form, Input, Modal, Select, Space, Table, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import classnames from 'classnames';
@@ -54,16 +48,20 @@ export const DEFAULT_VENN_CHART_DICTIONARY: TVennChartDictionary = {
             tooltips:
                 'A saved set is a collection of one or more entity IDs which can be saved and revisited for later use.',
         },
-        entity: {
-            biospecimens: (count: number) => `You have selected ${count} biospecimens.`,
-            files: (count: number) => `You have selected ${count} files.`,
-            participants: (count: number) => `You have selected ${count} participants.`,
+        getEntityText: (index, entityCount) => {
+            if (index === Index.biospecimen) {
+                return `You have selected ${entityCount} biospecimens.`;
+            } else if (index === Index.file) {
+                return `You have selected ${entityCount} files.`;
+            } else {
+                return `You have selected ${entityCount} participants.`;
+            }
         },
         label: 'Set name',
         maximumLength: `${MAX_TITLE_LENGTH}characters maximum`,
+        nameTemplate: 'Combinet set',
         ok: 'View set',
         permittedCharacters: 'Permitted characters: A-Z a-z 0-9 ()[]-_:|.,',
-        placeholder: (entity: string) => `My ${entity} set`,
         requiredField: 'This field is required',
         title: 'View in Data Exploration',
     },
@@ -75,19 +73,6 @@ export const DEFAULT_VENN_CHART_DICTIONARY: TVennChartDictionary = {
         tooltips: 'View in exploration',
     },
 };
-
-export interface ISummaryData {
-    operation: string;
-    entityCount: number;
-    qbSqon: ISyntheticSqon;
-}
-
-export interface ISetOperation {
-    operation: string;
-    entityCount: number;
-    entitySqon: ISyntheticSqon;
-    setId: string;
-}
 
 export type TVennChartDictionary = {
     query: {
@@ -102,16 +87,12 @@ export type TVennChartDictionary = {
         max: string;
     };
     save: {
-        placeholder: (entity: string) => string;
+        nameTemplate: string;
         maximumLength: string;
         permittedCharacters: string;
         requiredField: string;
         title: string;
-        entity: {
-            participants: (count: number) => string;
-            biospecimens: (count: number) => string;
-            files: (count: number) => string;
-        };
+        getEntityText: (index: string, entityCount: number) => string;
         label: string;
         checkbox: {
             label: string;
@@ -127,6 +108,19 @@ export type TVennChartDictionary = {
     files: string;
 };
 
+export interface ISummaryData {
+    operation: string;
+    entityCount: number;
+    qbSqon: ISyntheticSqon;
+}
+
+export interface ISetOperation {
+    operation: string;
+    entityCount: number;
+    entitySqon: ISyntheticSqon;
+    setId: string;
+}
+
 type THandleSubmit = {
     index: string;
     name: string;
@@ -135,9 +129,18 @@ type THandleSubmit = {
     callback: () => void;
 };
 
+type TOption = {
+    label: string;
+    value: string;
+    icon: React.ReactNode;
+    tabId?: string;
+};
+
 export type TVennChart = {
     savedSets: IUserSetOutput[];
     dictionary?: TVennChartDictionary;
+    defaultOption?: string;
+    options: TOption[];
     loading?: boolean;
     handleIndexChange: (qbSqons: ISyntheticSqon[], index: string) => void;
     handleClose: () => void;
@@ -155,28 +158,11 @@ export type TVennChart = {
     };
 };
 
-const getIcon = (mode: Index) => {
-    switch (mode) {
-        case Index.participant:
-            return <UserOutlined />;
-        case Index.biospecimen:
-            return <ExperimentOutlined />;
-        case Index.file:
-            return <FileTextOutlined />;
-    }
-};
-
-const getEntitySelectedText = (index: Index, entityCount: number, dictionary: TVennChartDictionary) => {
-    if (index === Index.biospecimen) {
-        return dictionary.save.entity.biospecimens(entityCount);
-    } else if (index === Index.file) {
-        return dictionary.save.entity.files(entityCount);
-    } else {
-        return dictionary.save.entity.participants(entityCount);
-    }
-};
-
-const getSummaryColumns = (mode: Index, dictionary: TVennChartDictionary): ColumnsType<ISummaryData> => [
+const getSummaryColumns = (
+    entity: string,
+    options: TOption[],
+    dictionary: TVennChartDictionary,
+): ColumnsType<ISummaryData> => [
     {
         dataIndex: 'operation',
         key: 'operation',
@@ -191,17 +177,19 @@ const getSummaryColumns = (mode: Index, dictionary: TVennChartDictionary): Colum
         align: 'right',
         key: 'entityCount',
         render: (record) => numberFormat(record.entityCount),
-        title: getIcon(mode),
+        title: options.find((option) => option.value === entity)?.icon,
         width: 100,
     },
 ];
 
 const getOperationColumns = ({
     dictionary,
-    mode,
+    entity,
     onClick,
+    options,
 }: {
-    mode: Index;
+    entity: string;
+    options: TOption[];
     onClick: (record: ISetOperation) => void;
     dictionary: TVennChartDictionary;
 }): ColumnsType<ISetOperation> => [
@@ -215,7 +203,7 @@ const getOperationColumns = ({
         align: 'right',
         key: 'entityCount',
         render: (record) => numberFormat(record.entityCount),
-        title: getIcon(mode),
+        title: options.find((option) => option.value === entity)?.icon,
         width: 100,
     },
     {
@@ -239,6 +227,7 @@ const isEntityCountInvalid = (entityCount: number) => entityCount === 0 || entit
 
 const VennChart = ({
     analytics,
+    defaultOption,
     dictionary = DEFAULT_VENN_CHART_DICTIONARY,
     factor = 0.75,
     handleClose,
@@ -246,6 +235,7 @@ const VennChart = ({
     handleSubmit,
     loading,
     operations = [],
+    options,
     outlineWidth = 1.5,
     radius = 130,
     savedSets,
@@ -254,7 +244,10 @@ const VennChart = ({
     const [form] = Form.useForm();
     const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
     const [isSaving, setIsSaving] = useState<boolean>(false);
-    const [index, setIndex] = useState<Index>(Index.participant);
+    const [entity, setEntity] = useState<string>(
+        options.find((option) => option.value === defaultOption || option.tabId === defaultOption)?.value ??
+            options[0].value,
+    );
     const [tableSelectedSets, setTableSelectedSets] = useState<ISetOperation[]>([]);
     const [selectedSets, setSelectedSets] = useState<ISetOperation[]>([]);
     const total = useCallback(() => {
@@ -645,13 +638,14 @@ const VennChart = ({
 
     const operationColumnsParams = {
         dictionary,
-        mode: index,
+        entity,
         onClick: (record: ISetOperation) => {
             analytics.trackVennViewInExploration();
-            analytics.trackVennViewEntityCounts(index, record.entityCount);
+            analytics.trackVennViewEntityCounts(entity, record.entityCount);
             setSelectedSets([record]);
             setSaveModalOpen(true);
         },
+        options,
     };
 
     return (
@@ -680,30 +674,34 @@ const VennChart = ({
             >
                 <Form
                     className={styles.saveForm}
+                    disabled={isSaving}
                     fields={[
                         {
                             name: [SET_NAME_KEY],
-                            value: form.getFieldValue(SET_NAME_KEY),
+                            value: form.getFieldValue(SET_NAME_KEY) ?? dictionary.save.nameTemplate,
                         },
                     ]}
                     form={form}
                     layout="vertical"
                     name={FORM_NAME}
                     onFinish={(values) => {
-                        const existingTagNames = savedSets.map((s) => s.tag);
-                        if (existingTagNames.includes(values[SET_NAME_KEY])) {
-                            form.setFields([
-                                {
-                                    errors: [dictionary.save.alreadyExist],
-                                    name: SET_NAME_KEY,
-                                },
-                            ]);
-                            return;
+                        const existingTagNames = savedSets.filter((s) => !s.is_invisible).map((s) => s.tag);
+                        if (values[PERSISTENT_KEY]) {
+                            if (existingTagNames.includes(values[SET_NAME_KEY])) {
+                                form.setFields([
+                                    {
+                                        errors: [dictionary.save.alreadyExist],
+                                        name: SET_NAME_KEY,
+                                    },
+                                ]);
+                                return;
+                            }
                         }
+
                         analytics.trackVennViewSet();
                         handleSubmit({
                             callback: handleClose,
-                            index,
+                            index: entity,
                             invisible: values[PERSISTENT_KEY] !== true,
                             name: values[SET_NAME_KEY],
                             sets: selectedSets,
@@ -712,10 +710,9 @@ const VennChart = ({
                     }}
                 >
                     <div className={styles.saveDescription}>
-                        {getEntitySelectedText(
-                            index,
+                        {dictionary.save.getEntityText(
+                            entity,
                             selectedSets.reduce((count, set) => count + set.entityCount, 0),
-                            dictionary,
                         )}
                     </div>
                     <Form.Item
@@ -746,7 +743,11 @@ const VennChart = ({
                             },
                         ]}
                     >
-                        <Input placeholder={dictionary.save.placeholder(index)} />
+                        <Input
+                            autoFocus
+                            placeholder={dictionary.save.nameTemplate}
+                            value={dictionary.save.nameTemplate}
+                        />
                     </Form.Item>
                     <Form.Item name={PERSISTENT_KEY} valuePropName="checked">
                         <Checkbox>
@@ -766,7 +767,7 @@ const VennChart = ({
                     <Select
                         className={styles.select}
                         onChange={(value) => {
-                            setIndex(value as Index);
+                            setEntity(value);
                             setSelectedSets([]);
                             setTableSelectedSets([]);
                             handleIndexChange(
@@ -774,23 +775,15 @@ const VennChart = ({
                                 value,
                             );
                         }}
-                        options={[
-                            {
-                                label: dictionary.participants,
-                                value: Index.participant,
-                            },
-                            {
-                                label: dictionary.biospecimens,
-                                value: Index.biospecimen,
-                            },
-
-                            {
-                                label: dictionary.files,
-                                value: Index.file,
-                            },
-                        ]}
-                        value={index}
-                    />
+                        value={entity}
+                    >
+                        {options.map((option) => (
+                            <option value={option.value}>
+                                <span className={styles.optionIcon}>{option.icon}</span>
+                                <span>{option.label}</span>
+                            </option>
+                        ))}
+                    </Select>
                 </div>
                 <div className={styles.venn}>
                     <div className={styles.chart}>
@@ -808,7 +801,7 @@ const VennChart = ({
                             <Divider className={styles.divider} />
                             <Table<ISummaryData>
                                 bordered
-                                columns={getSummaryColumns(index, dictionary)}
+                                columns={getSummaryColumns(entity, options, dictionary)}
                                 dataSource={summary}
                                 pagination={false}
                                 size="small"
@@ -871,7 +864,7 @@ const VennChart = ({
                                                         onClick={() => {
                                                             analytics.trackVennViewInExploration();
                                                             setSelectedSets(tableSelectedSets);
-                                                            analytics.trackVennViewEntityCounts(index, total());
+                                                            analytics.trackVennViewEntityCounts(entity, total());
                                                             setSaveModalOpen(true);
                                                         }}
                                                         type="link"

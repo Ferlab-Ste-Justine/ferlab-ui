@@ -8,6 +8,7 @@ export type IUserSetOutput = {
     tag: string;
     size: number;
     setType: SetType | string;
+    is_invisible?: boolean;
 };
 
 export enum SetType {

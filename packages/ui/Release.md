@@ -1,3 +1,6 @@
+### 10.17.1 2025-03-06
+- feat: SJIP-1243 Add tab switching, icons and various bugsfix
+
 ### 10.17.0 2025-03-06
 - feat: UNIC-36 fix vulne on cross-spawn 7 0 3 and fix bad import on EntityStatistics
 

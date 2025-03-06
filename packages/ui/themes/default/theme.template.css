@@ -183,4 +183,6 @@
   --venn-chart-fill-disabled: var(--gray-3);
 
   --small-font: 1.2rem;
+
+  --text-disabled: #92a7c3;
 }

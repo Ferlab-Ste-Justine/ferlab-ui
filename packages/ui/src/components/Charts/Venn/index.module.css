@@ -20,6 +20,10 @@
   min-width: 173px; 
 }
 
+.optionIcon {
+  margin-right: 8px;
+}
+
 .chartWrapper {
   height: 498px;
   position: relative;
