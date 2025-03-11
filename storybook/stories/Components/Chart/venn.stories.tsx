@@ -218,6 +218,10 @@ export const VennLoading = () => (
                         throw new Error('Function not implemented.');
                     },
                 }}
+                size={{
+                    width: 540,
+                    height: 498,
+                }}
             />
         </div>
     </>
@@ -275,6 +279,10 @@ export const VennChartWithTwoSets = () => (
                     trackVennViewEntityCounts: function (type: string, entityCount: number): void {
                         throw new Error('Function not implemented.');
                     },
+                }}
+                size={{
+                    width: 540,
+                    height: 498,
                 }}
             />
         </div>
@@ -334,6 +342,10 @@ export const VennChartWithThreeSets = () => (
                         throw new Error('Function not implemented.');
                     },
                 }}
+                size={{
+                    width: 540,
+                    height: 498,
+                }}
             />
         </div>
     </>
@@ -392,6 +404,10 @@ export const VennChartWithThreeSetsWithInvalidValues = () => (
                         throw new Error('Function not implemented.');
                     },
                 }}
+                size={{
+                    width: 540,
+                    height: 498,
+                }}
             />
         </div>
     </>
@@ -449,6 +465,10 @@ export const VennChartWithEntitySwitchedByDefault = () => (
                     trackVennViewEntityCounts: function (type: string, entityCount: number): void {
                         throw new Error('Function not implemented.');
                     },
+                }}
+                size={{
+                    width: 540,
+                    height: 498,
                 }}
             />
         </div>

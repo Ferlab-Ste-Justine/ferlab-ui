@@ -1,3 +1,6 @@
+### 10.17.3 2025-03-11
+- fix: SJIP-1257 force static width, height for venn to prevent getBoundingRect issue
+
 ### 10.17.2 2025-03-11
 - fix: SJIP-1248 fix an issue where combined operators will make venn diagram crash
 
