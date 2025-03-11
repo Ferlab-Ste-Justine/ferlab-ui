@@ -1,3 +1,6 @@
+### 10.18.0 2025-03-11
+- feat: SJIP-1235 Add custom content entity component
+
 ### 10.17.3 2025-03-11
 - fix: SJIP-1257 force static width, height for venn to prevent getBoundingRect issue
 

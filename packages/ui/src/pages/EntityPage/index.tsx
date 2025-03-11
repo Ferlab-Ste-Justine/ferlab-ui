@@ -4,6 +4,7 @@ import HpoConditionCell from './EntityConditionsCell/HpoConditionCell';
 import OmimConditionCell from './EntityConditionsCell/OmimConditionCell';
 import OrphanetConditionCell from './EntityConditionsCell/OrphanetConditionCell';
 import EntityGeneConsequenceSubtitle from './EntityGeneConsequence/EntityGeneConsequenceSubtitle';
+import EntityCustomContent, { IEntityCustomContent } from './EntityCustomContent';
 import EntityDataset from './EntityDataset';
 import EntityDescriptions, { IEntityDescriptions, IEntityDescriptionsItem } from './EntityDescriptions';
 import EntityExpandableTableMultiple from './EntityExpandableTableMultiple';
@@ -20,6 +21,7 @@ import EntityTitleLogo, { IEntityTitleLogo } from './EntityTitleLogo';
 export {
     CosmicConditionCell,
     DddConditionCell,
+    EntityCustomContent,
     EntityDataset,
     EntityDescriptions,
     EntityExpandableTableMultiple,
@@ -34,6 +36,7 @@ export {
     EntityTitle,
     EntityTitleLogo,
     HpoConditionCell,
+    IEntityCustomContent,
     IEntityDescriptions,
     IEntityDescriptionsItem,
     IEntityTable,
