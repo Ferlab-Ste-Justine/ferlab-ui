@@ -18,12 +18,16 @@ type VennModalDictionary = TVennChartDictionary & {
     ok: string;
 };
 
-type VennModalProps = TVennChart & {
+type VennModalProps = Omit<TVennChart, 'size'> & {
     queryPillDictionary?: IDictionary;
     dictionary?: VennModalDictionary;
     open?: boolean;
     error?: boolean;
     width?: number;
+    vennSize: {
+        width: number;
+        height: number;
+    };
 };
 
 const VennModal = ({
@@ -41,6 +45,7 @@ const VennModal = ({
     queryPillDictionary = {},
     savedSets,
     summary,
+    vennSize,
     width = 1338,
 }: VennModalProps): JSX.Element => (
     <QueryDictionaryContext.Provider value={{ dictionary: queryPillDictionary }}>
@@ -68,6 +73,7 @@ const VennModal = ({
                     operations={operations}
                     options={options}
                     savedSets={savedSets}
+                    size={vennSize}
                     summary={summary}
                 />
             )}

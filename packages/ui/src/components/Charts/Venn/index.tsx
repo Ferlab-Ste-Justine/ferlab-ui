@@ -150,6 +150,10 @@ export type TVennChart = {
     factor?: number;
     summary?: ISummaryData[];
     operations?: ISetOperation[];
+    size: {
+        width: number;
+        height: number;
+    };
     analytics: {
         trackVennViewInExploration: () => void;
         trackVennClickOnSections: () => void;
@@ -239,6 +243,7 @@ const VennChart = ({
     outlineWidth = 1.5,
     radius = 130,
     savedSets,
+    size,
     summary = [],
 }: TVennChart): JSX.Element => {
     const [form] = Form.useForm();
@@ -261,15 +266,14 @@ const VennChart = ({
     const chartId = `venn-chart-${v4()}`;
 
     useEffect(() => {
-        if (!ref?.current) return;
-        if (loading) return;
+        if (loading || !ref?.current) return;
 
+        const { height, width } = size;
         const circle1 = `circle1-${v4()}`;
         const circle1out = `circle1_out-${v4()}`;
         const circle2 = `circle2-${v4()}`;
         const circle2out = `circle2_out-${v4()}`;
 
-        const { height, width } = ref.current.getBoundingClientRect();
         const cy = (1.0 / summary.length) * height + PADDING_OFFSET;
         const cx = 0.48 * width;
         const svg = d3.select(`#${chartId}`);
