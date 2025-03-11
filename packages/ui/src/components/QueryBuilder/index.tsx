@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import { v4 } from 'uuid';
 
 import { BooleanOperators } from '../../data/sqon/operators';
-import { IRemoteComponent, ISqonGroupFilter, ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
+import { IRemoteComponent, ISyntheticSqon, TSyntheticSqonContent } from '../../data/sqon/types';
 import {
     changeCombineOperator,
     getDefaultSyntheticSqon,
@@ -14,6 +14,7 @@ import {
     removeContentFromSqon,
     removeQueryFromSqon,
     removeSqonAtIndex,
+    resolveSyntheticSqon,
 } from '../../data/sqon/utils';
 import ConditionalWrapper from '../utils/ConditionalWrapper';
 
@@ -427,9 +428,15 @@ const QueryBuilder = ({
                                 addNewQuery={addNewQuery}
                                 enableCompare={handleCompare !== undefined}
                                 handleCompare={() => {
-                                    const queriesToCompare = queryStateQueriesWithoutFilter.filter((_, index) =>
-                                        selectedQueryIndices.includes(index),
-                                    );
+                                    const queriesToCompare = queryStateQueriesWithoutFilter
+                                        .filter((_, index) => selectedQueryIndices.includes(index))
+                                        .map((query) => ({
+                                            ...query,
+                                            content: resolveSyntheticSqon(queryStateQueriesWithoutFilter, query)
+                                                .content,
+                                            op: query.op || BooleanOperators.and,
+                                        }));
+
                                     handleCompare && handleCompare(queriesToCompare);
                                     setSelectedQueryIndices([]);
                                 }}
