@@ -1,3 +1,6 @@
+### 10.18.1 2025-03-17
+- feat: SJIP-1235 Add size props to request biospecimen button
+
 ### 10.18.0 2025-03-11
 - feat: SJIP-1235 Add custom content entity component
 

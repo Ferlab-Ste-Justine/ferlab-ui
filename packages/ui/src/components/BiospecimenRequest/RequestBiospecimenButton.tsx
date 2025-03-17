@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { Button, Tooltip } from 'antd';
+import { SizeType } from 'antd/lib/config-provider/SizeContext';
 import { ColumnType } from 'antd/lib/table';
 
 import { ISqonGroupFilter } from '../../data/sqon/types';
@@ -23,6 +24,7 @@ interface RequestBiospecimenButtonProps {
     getSavedSets: () => IGetSavedSets;
     maxTitleLength?: number;
     nbBiospecimenSelected: number;
+    size?: SizeType;
     sqon?: ISqonGroupFilter;
     type?: 'default' | 'primary';
 }
@@ -38,6 +40,7 @@ const RequestBiospecimenButton = ({
     getSavedSets,
     maxTitleLength = BIOSPECIMENT_REQUEST_MAX_TITLE_LENGTH,
     nbBiospecimenSelected,
+    size = undefined,
     sqon,
     type = 'default',
 }: RequestBiospecimenButtonProps): ReactElement => {
@@ -57,7 +60,7 @@ const RequestBiospecimenButton = ({
     return (
         <>
             <Tooltip title={disabled ? dictionary.itemSelectionTooltip : undefined}>
-                <Button disabled={disabled} onClick={handleClick} type={type}>
+                <Button disabled={disabled} onClick={handleClick} size={size} type={type}>
                     {dictionary.buttonLabel}
                 </Button>
             </Tooltip>
