@@ -26,7 +26,6 @@
   margin-left: 10px;
 }
 .compare {
-  color: var(--gray-8);
   display: flex !important;
   align-items: center !important;
 }

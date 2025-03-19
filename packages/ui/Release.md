@@ -1,5 +1,8 @@
+### 10.18.2 2025-03-19
+- fix: SKFP-1399 Fix an issue where title color couldn't be redefined
+
 ### 10.18.2 2025-03-17
-- fix: SJIP-1399 Fix an issue where select both is too wide
+- fix: SKFP-1399 Fix an issue where select both is too wide
 
 ### 10.18.1 2025-03-17
 - feat: SJIP-1235 Add size props to request biospecimen button
