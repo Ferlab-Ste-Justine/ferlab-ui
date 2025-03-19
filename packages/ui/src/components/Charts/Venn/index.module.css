@@ -115,7 +115,7 @@
 }
 
 .venn .tableTitle {
-  color: var(--gray-9);
+  color: var(--venn-chart-table-title);
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
