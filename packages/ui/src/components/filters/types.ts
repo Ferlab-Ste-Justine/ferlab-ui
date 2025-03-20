@@ -164,6 +164,7 @@ export interface IQuickFilter {
     emptyMessage?: ReactNode;
     menuTitle?: ReactNode;
     placeholder?: string;
+    placeholderError?: string;
     results?: ReactNode;
 }
 

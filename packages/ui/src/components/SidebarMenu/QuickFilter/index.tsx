@@ -1,7 +1,7 @@
 import React, { MouseEvent, ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import Highlighter from 'react-highlight-words';
-import { FileExclamationOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Dropdown, Input, InputRef, Popover, Spin, Tag, Typography } from 'antd';
+import cx from 'classnames';
 import { get } from 'lodash';
 
 import { TermOperators } from '../../../data/sqon/operators';
@@ -55,10 +55,12 @@ export interface IQuickFilter {
     menuIcon?: ReactNode;
     searchInputRef?: React.RefObject<InputRef>;
     forceClose?: boolean;
+    forbiddenChars?: string[];
 }
 
 const QuickFilter = ({
     dictionary,
+    forbiddenChars,
     forceClose,
     getSuggestionsList,
     handleClear,
@@ -77,18 +79,27 @@ const QuickFilter = ({
     const [selectedOptions, setSelectedOptions] = useState<CheckboxQFOption[]>([]);
     const [selectedFacet, setSelectedFacet] = useState<TitleQFOption | undefined>(undefined);
     const [selectedFacetOptions, setSelectedFacetOptions] = useState<IFilter[]>(qfFacetOptions?.selectedFilters || []);
+    const [hasError, setHasError] = useState(false);
 
     const handleOpenChange = (newOpen: boolean) => setOpenPopover(newOpen);
 
     const handleSearchChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const searchText = e.target.value;
-            setSelectedFacet(undefined);
-            setSearch(searchText);
-            if (searchText.length >= 3 && getSuggestionsList) {
-                getSuggestionsList(searchText, setQFOptions, setTotal, setSelectedOptions);
+            if (forbiddenChars && forbiddenChars.some((char) => searchText.includes(char))) {
+                console.log('forbidden character');
+                setHasError(true);
+                setSearch(searchText);
+                return;
             } else {
-                setQFOptions([]);
+                setHasError(false);
+                setSelectedFacet(undefined);
+                setSearch(searchText);
+                if (searchText.length >= 3 && getSuggestionsList) {
+                    getSuggestionsList(searchText, setQFOptions, setTotal, setSelectedOptions);
+                } else {
+                    setQFOptions([]);
+                }
             }
         },
         [getSuggestionsList],
@@ -111,6 +122,7 @@ const QuickFilter = ({
         setQFOptions([]);
         setSelectedOptions([]);
         setSelectedFacetOptions([]);
+        setHasError(false);
 
         if (handleClear) {
             handleClear();
@@ -183,6 +195,14 @@ const QuickFilter = ({
     );
 
     const renderTitle = (): ReactElement => {
+        if (hasError) {
+            return (
+                <Typography.Text className={styles.popoverTitleError}>
+                    {get(dictionary, 'quickFilter.placeholderError', 'Forbidden character')}
+                </Typography.Text>
+            );
+        }
+
         if (selectedFacet) {
             return <Typography.Text className={styles.popoverFacetTitle}>{selectedFacet.label}</Typography.Text>;
         }
@@ -217,7 +237,7 @@ const QuickFilter = ({
     }, [forceClose]);
 
     return (
-        <div className={styles.searchMenuItem}>
+        <div className={cx(styles.searchMenuItem, hasError && styles.error)}>
             <Popover
                 content={
                     isLoading ? (
@@ -226,7 +246,7 @@ const QuickFilter = ({
                         </div>
                     ) : (
                         <>
-                            {(search.length >= 3 || selectedFacet) && (
+                            {!hasError && (search.length >= 3 || selectedFacet) && (
                                 <>
                                     {selectedFacet && qfFacetOptions ? (
                                         <>

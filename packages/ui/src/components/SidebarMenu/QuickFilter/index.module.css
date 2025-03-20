@@ -36,6 +36,10 @@
     border-color: var(--sidebar-quick-filter-input-border-color-focus);
     border-radius: 2px;
 }
+.searchMenuItem.error :global(.ant-input-affix-wrapper-focused) {
+    box-shadow: var(--sidebar-quick-filter-input-box-shadow-focus-error);
+    border-color: var(--sidebar-quick-filter-input-border-color-focus-error);
+}
 
 .popoverWrapper {
     padding-top: 4px;
@@ -56,6 +60,12 @@
 
 .popoverTitle {
     color: var(--sidebar-quick-filter-popover-placeholder);
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.popoverTitleError {
+    color: var(--sidebar-quick-filter-popover-placeholder-error);
     font-size: 12px;
     font-weight: 400;
 }
