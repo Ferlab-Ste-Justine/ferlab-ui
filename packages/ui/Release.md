@@ -1,3 +1,6 @@
+### 10.18.3 2025-03-120
+- fix: SKFP-1485 Add validation on quick filter input
+
 ### 10.18.2 2025-03-19
 - fix: SKFP-1399 Fix an issue where title color couldn't be redefined
 
