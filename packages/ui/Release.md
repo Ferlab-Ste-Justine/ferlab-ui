@@ -1,4 +1,4 @@
-### 10.18.4 2025-03-120
+### 10.18.4 2025-03-20
 - fix: SKFP-1485 Add validation on quick filter input
 
 ### 10.18.3 2025-03-19
