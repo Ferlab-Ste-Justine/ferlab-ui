@@ -87,7 +87,6 @@ const QuickFilter = ({
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const searchText = e.target.value;
             if (forbiddenChars && forbiddenChars.some((char) => searchText.includes(char))) {
-                console.log('forbidden character');
                 setHasError(true);
                 setSearch(searchText);
                 return;
