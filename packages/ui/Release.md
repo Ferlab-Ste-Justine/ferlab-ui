@@ -1,3 +1,6 @@
+### 10.19.0 2025-03-26
+- feat: SJIP-1254 Add PageHeader layout component
+
 ### 10.18.4 2025-03-20
 - fix: SKFP-1485 Add validation on quick filter input
 
