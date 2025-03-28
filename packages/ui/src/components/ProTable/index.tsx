@@ -257,8 +257,15 @@ const ProTable = <RecordType extends object & { key: string } = any>({
         tablePropsExtra.summary = () => (
             <Table.Summary>
                 <Table.Summary.Row className={styles.row}>
-                    {summaryColumns.map((e) => (
-                        <Table.Summary.Cell className={styles.cell} index={e.index} key={e.index}>
+                    {summaryColumns.map((e, i) => (
+                        <Table.Summary.Cell
+                            className={cx(styles.cell, {
+                                [styles.noBorder]: !e.bordered && i != summaryColumns.length - 1,
+                            })}
+                            colSpan={e.colSpan}
+                            index={e.index}
+                            key={e.index}
+                        >
                             {e.value}
                         </Table.Summary.Cell>
                     ))}

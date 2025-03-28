@@ -11,6 +11,10 @@
   color: var(--heading-color);
 }
 
+.cell.noBorder {
+  border-right: none !important;
+}
+
 .dotted {
   border-bottom: 1px dotted;
 }

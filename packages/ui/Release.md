@@ -1,3 +1,6 @@
+### 10.20.0 2025-03-28
+- feat: SJIP-1190 Allow summaryColumns to support ReactNode
+
 ### 10.19.0 2025-03-26
 - feat: SJIP-1254 Add PageHeader layout component
 
