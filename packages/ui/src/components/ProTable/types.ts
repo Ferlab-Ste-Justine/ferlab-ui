@@ -85,7 +85,9 @@ export type TPropsTablePropsExtra = {
 
 export type TProTableSummary = {
     index: number;
-    value: any;
+    colSpan?: number;
+    bordered?: boolean;
+    value: any | ReactNode;
 };
 
 export type TProTableProps<RecordType> = Omit<TableProps<RecordType>, 'columns' | 'pagination' | 'summary'> & {
@@ -128,10 +130,12 @@ export type THeaderConfig<RecordType> = {
     columnSelectorHeader?: ReactNode;
 };
 
-export type TColumnStates = Array<{
+export type TColumnState = {
     index: number;
     key: string;
     visible: boolean;
-}>;
+};
+
+export type TColumnStates = Array<TColumnState>;
 
 export type TColumnSettingChangeCb = <RecordType>(columns: ProColumnsType<RecordType>) => void;
