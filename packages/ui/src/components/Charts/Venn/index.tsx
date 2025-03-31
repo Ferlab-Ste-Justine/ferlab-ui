@@ -11,14 +11,11 @@ import { numberFormat } from '../../../utils/numberUtils';
 import { IUserSetOutput } from '../../BiospecimenRequest/requestBiospecimen.utils';
 import ExternalLinkIcon from '../../ExternalLink/ExternalLinkIcon';
 
+import SaveModal from './SaveModal';
 import VennQueryPill from './VennQueryPill';
 import VennSekeleton from './VennSekeleton';
 
 import styles from './index.module.css';
-
-const FORM_NAME = 'save-set';
-const SET_NAME_KEY = 'nameSet';
-const PERSISTENT_KEY = 'persistent';
 
 enum Index {
     participant = 'participant',
@@ -86,26 +83,28 @@ export type TVennChartDictionary = {
         tooltips: string;
         max: string;
     };
-    save: {
-        nameTemplate: string;
-        maximumLength: string;
-        permittedCharacters: string;
-        requiredField: string;
-        title: string;
-        getEntityText: (index: string, entityCount: number) => string;
-        label: string;
-        checkbox: {
-            label: string;
-            tooltips: string;
-        };
-        alreadyExist: string;
-        ok: string;
-        cancel: string;
-    };
+    save: TVennChartSaveDictionary;
     count: string;
     participants: string;
     biospecimens: string;
     files: string;
+};
+
+export type TVennChartSaveDictionary = {
+    nameTemplate: string;
+    maximumLength: string;
+    permittedCharacters: string;
+    requiredField: string;
+    title: string;
+    getEntityText: (index: string, entityCount: number) => string;
+    label: string;
+    checkbox: {
+        label: string;
+        tooltips: string;
+    };
+    alreadyExist: string;
+    ok: string;
+    cancel: string;
 };
 
 export interface ISummaryData {
@@ -121,7 +120,7 @@ export interface ISetOperation {
     setId: string;
 }
 
-type THandleSubmit = {
+export type THandleSubmit = {
     index: string;
     name: string;
     sets: ISetOperation[];
@@ -244,9 +243,7 @@ const VennChart = ({
     size,
     summary = [],
 }: TVennChart): JSX.Element => {
-    const [form] = Form.useForm();
     const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
-    const [isSaving, setIsSaving] = useState<boolean>(false);
     const [entity, setEntity] = useState<string>(options[0].value);
     const [tableSelectedSets, setTableSelectedSets] = useState<ISetOperation[]>([]);
     const [selectedSets, setSelectedSets] = useState<ISetOperation[]>([]);
@@ -649,117 +646,20 @@ const VennChart = ({
 
     return (
         <>
-            <Modal
-                afterClose={() => {
-                    form.resetFields();
-                    setIsSaving(false);
-                }}
-                cancelText={dictionary.save.cancel}
-                destroyOnClose
-                okButtonProps={{
-                    loading: isSaving,
-                }}
-                okText={dictionary.save.ok}
-                onCancel={() => {
-                    setSelectedSets([]);
-                    setSaveModalOpen(false);
-                }}
-                onOk={() => {
-                    form.submit();
-                }}
-                open={saveModalOpen}
-                style={{ top: 200 }}
-                title={dictionary.save.title}
-            >
-                <Form
-                    className={styles.saveForm}
-                    disabled={isSaving}
-                    fields={[
-                        {
-                            name: [SET_NAME_KEY],
-                            value: form.getFieldValue(SET_NAME_KEY) ?? dictionary.save.nameTemplate,
-                        },
-                    ]}
-                    form={form}
-                    layout="vertical"
-                    name={FORM_NAME}
-                    onFinish={(values) => {
-                        const existingTagNames = savedSets.filter((s) => !s.is_invisible).map((s) => s.tag);
-                        if (values[PERSISTENT_KEY]) {
-                            if (existingTagNames.includes(values[SET_NAME_KEY])) {
-                                form.setFields([
-                                    {
-                                        errors: [dictionary.save.alreadyExist],
-                                        name: SET_NAME_KEY,
-                                    },
-                                ]);
-                                return;
-                            }
-                        }
-
-                        analytics.trackVennViewSet();
-                        handleSubmit({
-                            callback: handleClose || (() => undefined),
-                            index: entity,
-                            invisible: values[PERSISTENT_KEY] !== true,
-                            name: values[SET_NAME_KEY],
-                            sets: selectedSets,
-                        });
-                        setIsSaving(true);
-                    }}
-                >
-                    <div className={styles.saveDescription}>
-                        {dictionary.save.getEntityText(
-                            entity,
-                            selectedSets.reduce((count, set) => count + set.entityCount, 0),
-                        )}
-                    </div>
-                    <Form.Item
-                        className={styles.filterEditFormItem}
-                        label={dictionary.save.label}
-                        name={SET_NAME_KEY}
-                        required={false}
-                        rules={[
-                            {
-                                max: MAX_TITLE_LENGTH,
-                                message: (
-                                    <span>
-                                        <WarningFilled /> {MAX_TITLE_LENGTH} {dictionary.save.maximumLength}
-                                    </span>
-                                ),
-                                type: 'string',
-                            },
-                            {
-                                message: dictionary.save.permittedCharacters,
-                                pattern: new RegExp(/^[a-zA-Z0-9 ()[\]\-_:|.,]+$/i),
-                                type: 'string',
-                            },
-                            {
-                                message: dictionary.save.requiredField,
-                                required: true,
-                                type: 'string',
-                                validateTrigger: 'onSubmit',
-                            },
-                        ]}
-                    >
-                        <Input
-                            autoFocus
-                            placeholder={dictionary.save.nameTemplate}
-                            value={dictionary.save.nameTemplate}
-                        />
-                    </Form.Item>
-                    <Form.Item name={PERSISTENT_KEY} valuePropName="checked">
-                        <Checkbox>
-                            <Space size={8}>
-                                {dictionary.save.checkbox.label}
-                                <Tooltip title={dictionary.save.checkbox.tooltips}>
-                                    <InfoCircleOutlined />
-                                </Tooltip>
-                            </Space>
-                        </Checkbox>
-                    </Form.Item>
-                </Form>
-            </Modal>
+            {saveModalOpen && (
+                <SaveModal
+                    dictionary={dictionary.save}
+                    entity={entity}
+                    handleClose={handleClose}
+                    handleSubmit={handleSubmit}
+                    isOpen={saveModalOpen}
+                    savedSets={savedSets}
+                    selectedSets={selectedSets}
+                    setOpen={(isOpen: boolean) => setSaveModalOpen(isOpen)}
+                    setSelectedSets={(sets: ISetOperation[]) => setSelectedSets(sets)}
+                    viewSetAnalytics={analytics.trackVennViewSet}
+                />
+            )}
             <div className={styles.vennChart}>
                 <div className={styles.selectWrapper}>
                     <label className={styles.selectLabel}>{dictionary.count}</label>
