@@ -139,7 +139,6 @@ type TOption = {
 export type TVennChart = {
     savedSets: IUserSetOutput[];
     dictionary?: TVennChartDictionary;
-    defaultOption?: string;
     options: TOption[];
     loading?: boolean;
     handleIndexChange: (qbSqons: ISyntheticSqon[], index: string) => void;
@@ -231,7 +230,6 @@ const isEntityCountInvalid = (entityCount: number) => entityCount === 0 || entit
 
 const VennChart = ({
     analytics,
-    defaultOption,
     dictionary = DEFAULT_VENN_CHART_DICTIONARY,
     factor = 0.75,
     handleClose,
@@ -249,10 +247,7 @@ const VennChart = ({
     const [form] = Form.useForm();
     const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
     const [isSaving, setIsSaving] = useState<boolean>(false);
-    const [entity, setEntity] = useState<string>(
-        options.find((option) => option.value === defaultOption || option.tabId === defaultOption)?.value ??
-            options[0].value,
-    );
+    const [entity, setEntity] = useState<string>(options[0].value);
     const [tableSelectedSets, setTableSelectedSets] = useState<ISetOperation[]>([]);
     const [selectedSets, setSelectedSets] = useState<ISetOperation[]>([]);
     const total = useCallback(() => {
