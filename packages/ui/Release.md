@@ -1,3 +1,6 @@
+### 10.20.1 2025-03-31
+- fix: SJIP-1190 Add SummarySumCell
+
 ### 10.20.0 2025-03-28
 - feat: SJIP-1190 Allow summaryColumns to support ReactNode
 
