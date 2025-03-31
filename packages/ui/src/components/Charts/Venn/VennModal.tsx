@@ -6,7 +6,7 @@ import { IDictionary } from '../..//QueryBuilder/types';
 import { QueryDictionaryContext } from '../../QueryBuilder/context';
 
 import { TVennChartDictionary } from './utils';
-import VennChartExplo, { DEFAULT_VENN_CHART_DICTIONARY, TVennChartExplo } from '.';
+import VennChartWithSelect, { DEFAULT_VENN_CHART_DICTIONARY, TVennChartWithSelect } from './VennChartWithSelect';
 
 const DEFAULT_VENN_MODAL_DICTIONARY = {
     ...DEFAULT_VENN_CHART_DICTIONARY,
@@ -19,7 +19,7 @@ type VennModalDictionary = TVennChartDictionary & {
     ok: string;
 };
 
-type VennModalProps = Omit<TVennChartExplo, 'size'> & {
+type VennModalProps = Omit<TVennChartWithSelect, 'size'> & {
     queryPillDictionary?: IDictionary;
     dictionary?: VennModalDictionary;
     open?: boolean;
@@ -62,7 +62,7 @@ const VennModal = ({
             {error && <CardErrorPlaceholder />}
 
             {!error && (
-                <VennChartExplo
+                <VennChartWithSelect
                     analytics={analytics}
                     dictionary={dictionary}
                     handleClose={handleClose}
