@@ -4,14 +4,14 @@ import { Checkbox, Form, Input, Modal, Space, Tooltip } from 'antd';
 
 import { IUserSetOutput } from '../../BiospecimenRequest/requestBiospecimen.utils';
 
-import { ISetOperation, THandleSubmit, TVennChartSaveDictionary } from '.';
+import { ISetOperation, THandleSubmit, TVennChartSaveDictionary } from './utils';
 
 import styles from './index.module.css';
 
+export const MAX_TITLE_LENGTH = 200;
 const FORM_NAME = 'save-set';
 const SET_NAME_KEY = 'nameSet';
 const PERSISTENT_KEY = 'persistent';
-const MAX_TITLE_LENGTH = 200;
 
 type SaveModalProps = {
     dictionary: TVennChartSaveDictionary;

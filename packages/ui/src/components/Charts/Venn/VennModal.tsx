@@ -5,7 +5,8 @@ import CardErrorPlaceholder from '../../../view/v2/GridCard/GridCardErrorPlaceho
 import { IDictionary } from '../..//QueryBuilder/types';
 import { QueryDictionaryContext } from '../../QueryBuilder/context';
 
-import VennChart, { DEFAULT_VENN_CHART_DICTIONARY, TVennChart, TVennChartDictionary } from '.';
+import { TVennChartDictionary } from './utils';
+import VennChartExplo, { DEFAULT_VENN_CHART_DICTIONARY, TVennChartExplo } from '.';
 
 const DEFAULT_VENN_MODAL_DICTIONARY = {
     ...DEFAULT_VENN_CHART_DICTIONARY,
@@ -18,7 +19,7 @@ type VennModalDictionary = TVennChartDictionary & {
     ok: string;
 };
 
-type VennModalProps = Omit<TVennChart, 'size'> & {
+type VennModalProps = Omit<TVennChartExplo, 'size'> & {
     queryPillDictionary?: IDictionary;
     dictionary?: VennModalDictionary;
     open?: boolean;
@@ -61,7 +62,7 @@ const VennModal = ({
             {error && <CardErrorPlaceholder />}
 
             {!error && (
-                <VennChart
+                <VennChartExplo
                     analytics={analytics}
                     dictionary={dictionary}
                     handleClose={handleClose}
