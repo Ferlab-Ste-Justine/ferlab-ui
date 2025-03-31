@@ -142,7 +142,7 @@ export type TVennChart = {
     options: TOption[];
     loading?: boolean;
     handleIndexChange: (qbSqons: ISyntheticSqon[], index: string) => void;
-    handleClose: () => void;
+    handleClose?: () => void;
     handleSubmit: (props: THandleSubmit) => void;
     outlineWidth?: number;
     radius?: number;
@@ -699,7 +699,7 @@ const VennChart = ({
 
                         analytics.trackVennViewSet();
                         handleSubmit({
-                            callback: handleClose,
+                            callback: handleClose || (() => undefined),
                             index: entity,
                             invisible: values[PERSISTENT_KEY] !== true,
                             name: values[SET_NAME_KEY],
