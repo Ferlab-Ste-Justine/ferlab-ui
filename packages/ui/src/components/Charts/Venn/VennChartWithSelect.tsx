@@ -21,6 +21,15 @@ export const DEFAULT_VENN_CHART_DICTIONARY: TVennChartDictionary = {
     biospecimens: 'Biospecimens',
     count: 'Count :',
     files: 'Files',
+    filters: {
+        compareButton: 'Compare',
+        compareDisabledTooltip: 'Available with 2 or 3 sets selected',
+        optionDisabledTooltip: 'Not enought set to compare',
+        selectEntity: 'Select Entity',
+        selectEntityPlaceholder: 'Select entity type',
+        selectSet: 'Select sets',
+        selectSetPlaceholder: 'Select sets',
+    },
     participants: 'Participants',
     query: {
         column: 'Query definition',

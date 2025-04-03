@@ -17,6 +17,15 @@ export type TVennChartDictionary = {
     participants: string;
     biospecimens: string;
     files: string;
+    filters?: {
+        compareButton: string;
+        compareDisabledTooltip: string;
+        optionDisabledTooltip: string;
+        selectEntity: string;
+        selectEntityPlaceholder: string;
+        selectSet: string;
+        selectSetPlaceholder: string;
+    };
 };
 
 export type TVennChartSaveDictionary = {
