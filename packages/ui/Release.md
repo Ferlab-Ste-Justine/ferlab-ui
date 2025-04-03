@@ -1,3 +1,6 @@
+### 10.20.2 2025-04-03
+- feat: CLIN-4209 Added text to flag's show history button for more visibility
+
 ### 10.20.1 2025-03-31
 - fix: SJIP-1190 Add SummarySumCell
 
