@@ -50,7 +50,9 @@
 }
 
 .viewHistoryButton{
-  width: 18px;
+  padding-top: 0;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
   height: 22px;
 }
 
