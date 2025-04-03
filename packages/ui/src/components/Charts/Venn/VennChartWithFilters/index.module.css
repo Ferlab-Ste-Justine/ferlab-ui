@@ -1,0 +1,71 @@
+.vennChart {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+}
+
+.filtersWrapper {
+    display: flex;
+    padding: 16px 16px 0px 16px;
+    align-items: flex-end;
+    gap: 16px;
+    border-top: 1px solid var(--gray-4);
+}
+.selectEntityWrapper {
+    display: flex;
+    max-width: 300px;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1 0 0;
+}
+.selectSetWrapper {
+    display: flex;
+    max-width: 900px;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1 0 0;
+}
+.inputLabel {
+    padding-bottom: 4px;
+}
+.select {
+    width: 100%;
+}
+
+.labelOption {
+    color: var(--gray-9);
+}
+.disabledOption {
+    color: var(--gray-6) !important;
+}
+
+.iconOption {
+    margin-right: 8px;
+    color: var(--gray-7);
+    font-size: 16px;
+}
+
+.filterTag {
+    display: flex;
+    align-items: center;
+    background-color: var(--blue-8);
+    color: var(--gray-1);
+    margin-right: 3px !important;
+}
+.filterTag > * {
+    color: var(--gray-1);
+}
+.filterTag .filterTagText {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vennWrapper {
+    border-radius: 2px;
+    border: 1px solid var(--gray-4);
+    background: var(--gray-1);
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+}
