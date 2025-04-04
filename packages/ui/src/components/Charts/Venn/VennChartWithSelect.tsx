@@ -59,14 +59,16 @@ export const DEFAULT_VENN_CHART_DICTIONARY: TVennChartDictionary = {
         ok: 'View set',
         permittedCharacters: 'Permitted characters: A-Z a-z 0-9 ()[]-_:|.,',
         requiredField: 'This field is required',
-        title: 'View in Data Exploration',
+        titleData: 'View in Data Exploration',
+        titleVariant: 'View in Variant Exploration',
     },
     set: {
         column: 'Set definition',
         footer: 'Union of selected sets',
         max: 'Max 10,000 at a time',
         title: 'Set definitions',
-        tooltips: 'View in exploration',
+        tooltipDataExplo: 'View in data exploration',
+        tooltipVariantExplo: 'View in variant exploration',
     },
 };
 
