@@ -103,13 +103,13 @@ export const Flag = ({
                     <UserAvatar className={styles.userAvatar} size={24} userName={name} />
                     <Text strong>{name}</Text>
                     <Text type="secondary">{getRelativeDate(new Date(history[0].date), dictionary?.date)}</Text>
-                    <Tooltip title={dictionary?.modal?.tooltip || 'View history'}>
+                    <Tooltip placement="right" title={dictionary?.modal?.tooltip || 'View history'}>
                         <>
                             <Button
                                 className={styles.viewHistoryButton}
                                 icon={<HistoryOutlined className={styles.historyIcon} style={{ fontSize: '16px' }} />}
                                 onClick={() => setIsModalOpen(true)}
-                                type="text"
+                                type="link"
                             >
                                 {dictionary?.modal?.title}
                             </Button>
