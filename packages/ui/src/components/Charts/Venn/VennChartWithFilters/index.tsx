@@ -1,4 +1,5 @@
 import React, { ReactNode, useState } from 'react';
+import { UndoOutlined } from '@ant-design/icons';
 import { Button, Select, Tag, Tooltip, Typography } from 'antd';
 import cx from 'classnames';
 
@@ -78,6 +79,8 @@ const VennChartWithFilters = ({
     const [setIdsSelected, setSetIdsSelected] = useState<string[]>(idsSelected);
     const [tableSelectedSets, setTableSelectedSets] = useState<ISetOperation[]>([]);
     const [selectedSets, setSelectedSets] = useState<ISetOperation[]>([]);
+    const [entityCompared, setEntityCompared] = useState<string>(entitySelected);
+    const [setIdsCompared, setSetIdsCompared] = useState<string[]>(idsSelected);
 
     if (loading) {
         return <VennWithFilterSkeleton />;
@@ -178,10 +181,25 @@ const VennChartWithFilters = ({
                                 })}
                         </Select>
                     </div>
+                    <Tooltip title={dictionary.filters?.resetTooltip}>
+                        <Button
+                            className={styles.resetButton}
+                            onClick={() => {
+                                setSetIdsSelected(setIdsCompared);
+                                setEntity(entityCompared);
+                            }}
+                        >
+                            <UndoOutlined size={16} />
+                        </Button>
+                    </Tooltip>
                     <Tooltip title={setIdsSelected.length < 2 && dictionary.filters?.compareDisabledTooltip}>
                         <Button
                             disabled={setIdsSelected.length < 2}
-                            onClick={() => handleCompare(setIdsSelected, entity)}
+                            onClick={() => {
+                                handleCompare(setIdsSelected, entity);
+                                setSetIdsCompared(setIdsSelected);
+                                setEntityCompared(entity);
+                            }}
                             type="primary"
                         >
                             <AndOrIcon />

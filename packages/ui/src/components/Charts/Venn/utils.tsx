@@ -21,6 +21,7 @@ export type TVennChartDictionary = {
         compareButton: string;
         compareDisabledTooltip: string;
         optionDisabledTooltip: string;
+        resetTooltip: string;
         selectEntity: string;
         selectEntityPlaceholder: string;
         selectSet: string;

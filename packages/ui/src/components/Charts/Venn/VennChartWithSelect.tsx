@@ -25,6 +25,7 @@ export const DEFAULT_VENN_CHART_DICTIONARY: TVennChartDictionary = {
         compareButton: 'Compare',
         compareDisabledTooltip: 'Available with 2 or 3 sets selected',
         optionDisabledTooltip: 'Not enought set to compare',
+        resetTooltip: 'Reset',
         selectEntity: 'Select Entity',
         selectEntityPlaceholder: 'Select entity type',
         selectSet: 'Select sets',
