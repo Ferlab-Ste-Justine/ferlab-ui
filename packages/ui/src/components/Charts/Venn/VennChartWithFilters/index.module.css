@@ -69,3 +69,7 @@
     display: flex;
     justify-content: center;
 }
+
+.resetButton {
+    padding: 4px 8px;
+}
