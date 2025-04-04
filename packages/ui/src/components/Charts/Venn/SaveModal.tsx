@@ -62,7 +62,7 @@ const SaveModal = ({
             }}
             open={isOpen}
             style={{ top: 200 }}
-            title={dictionary.title}
+            title={entity === 'variants' ? dictionary.titleVariant : dictionary.titleData}
         >
             <Form
                 className={styles.saveForm}

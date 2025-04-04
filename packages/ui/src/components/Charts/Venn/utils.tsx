@@ -9,7 +9,8 @@ export type TVennChartDictionary = {
         title: string;
         column: string;
         footer: string;
-        tooltips: string;
+        tooltipDataExplo: string;
+        tooltipVariantExplo?: string;
         max: string;
     };
     save: TVennChartSaveDictionary;
@@ -34,7 +35,8 @@ export type TVennChartSaveDictionary = {
     maximumLength: string;
     permittedCharacters: string;
     requiredField: string;
-    title: string;
+    titleData: string;
+    titleVariant?: string;
     getEntityText: (index: string, entityCount: number) => string;
     label: string;
     checkbox: {

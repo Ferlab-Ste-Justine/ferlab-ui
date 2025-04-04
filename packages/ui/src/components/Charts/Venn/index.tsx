@@ -94,7 +94,15 @@ const getOperationColumns = ({
     {
         key: 'open',
         render: (record) => (
-            <Tooltip title={record.entityCount > MAX_COUNT ? dictionary.set.max : dictionary.set.tooltips}>
+            <Tooltip
+                title={
+                    record.entityCount > MAX_COUNT
+                        ? dictionary.set.max
+                        : entity === 'variants'
+                        ? dictionary.set.tooltipVariantExplo
+                        : dictionary.set.tooltipDataExplo
+                }
+            >
                 <Button
                     className={styles.button}
                     disabled={isEntityCountInvalid(record.entityCount)}
@@ -585,7 +593,13 @@ const VennChart = ({
                                     </Table.Summary.Cell>
                                     <Table.Summary.Cell index={2}>
                                         <Tooltip
-                                            title={total() > MAX_COUNT ? dictionary.set.max : dictionary.set.tooltips}
+                                            title={
+                                                total() > MAX_COUNT
+                                                    ? dictionary.set.max
+                                                    : entity === 'variants'
+                                                    ? dictionary.set.tooltipVariantExplo
+                                                    : dictionary.set.tooltipDataExplo
+                                            }
                                         >
                                             <Button
                                                 className={styles.button}
