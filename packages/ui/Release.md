@@ -1,3 +1,6 @@
+### 10.20.3 2025-04-03
+- fix: CLIN-4209 use type link for flag's show history button
+
 ### 10.20.2 2025-04-03
 - feat: CLIN-4209 Added text to flag's show history button for more visibility
 
