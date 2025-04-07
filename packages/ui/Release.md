@@ -1,3 +1,6 @@
+### 10.21.0 2025-04-07
+- feat: SJIP-1254 add venn with filters
+
 ### 10.20.3 2025-04-03
 - fix: CLIN-4209 use type link for flag's show history button
 

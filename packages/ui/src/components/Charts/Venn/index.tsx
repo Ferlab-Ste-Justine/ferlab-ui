@@ -1,165 +1,46 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { InfoCircleOutlined, WarningFilled } from '@ant-design/icons';
-import { Button, Checkbox, Divider, Form, Input, Modal, Select, Space, Table, Tooltip, Typography } from 'antd';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { Button, Divider, Table, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import classnames from 'classnames';
 import * as d3 from 'd3';
 import { v4 } from 'uuid';
 
-import { ISyntheticSqon } from '../../../data/sqon/types';
 import { numberFormat } from '../../../utils/numberUtils';
-import { IUserSetOutput } from '../../BiospecimenRequest/requestBiospecimen.utils';
 import ExternalLinkIcon from '../../ExternalLink/ExternalLinkIcon';
 
+import { ISetOperation, ISummaryData, TOption, TVennChartDictionary } from './utils';
 import VennQueryPill from './VennQueryPill';
-import VennSekeleton from './VennSekeleton';
 
 import styles from './index.module.css';
 
-const FORM_NAME = 'save-set';
-const SET_NAME_KEY = 'nameSet';
-const PERSISTENT_KEY = 'persistent';
-
-enum Index {
-    participant = 'participant',
-    biospecimen = 'biospecimen',
-    file = 'file',
-}
-
-const PADDING_OFFSET = 24;
-const MAX_TITLE_LENGTH = 200;
-const LABELS = ['Q₁', 'Q₂', 'Q₃'];
 const MAX_COUNT = 10000;
+const PADDING_OFFSET = 24;
+const LABELS = ['Q₁', 'Q₂', 'Q₃'];
 
-export const DEFAULT_VENN_CHART_DICTIONARY: TVennChartDictionary = {
-    biospecimens: 'Biospecimens',
-    count: 'Count :',
-    files: 'Files',
-    participants: 'Participants',
-    query: {
-        column: 'Query definition',
-        title: 'Selected queries',
-    },
-    save: {
-        alreadyExist: 'A set with this name already exists',
-        cancel: 'Cancel',
-        checkbox: {
-            label: 'Save this set for future reference',
-            tooltips:
-                'A saved set is a collection of one or more entity IDs which can be saved and revisited for later use.',
-        },
-        getEntityText: (index, entityCount) => {
-            if (index === Index.biospecimen) {
-                return `You have selected ${entityCount} biospecimens.`;
-            } else if (index === Index.file) {
-                return `You have selected ${entityCount} files.`;
-            } else {
-                return `You have selected ${entityCount} participants.`;
-            }
-        },
-        label: 'Set name',
-        maximumLength: `${MAX_TITLE_LENGTH}characters maximum`,
-        nameTemplate: 'Combinet set',
-        ok: 'View set',
-        permittedCharacters: 'Permitted characters: A-Z a-z 0-9 ()[]-_:|.,',
-        requiredField: 'This field is required',
-        title: 'View in Data Exploration',
-    },
-    set: {
-        column: 'Set definition',
-        footer: 'Union of selected sets',
-        max: 'Max 10,000 at a time',
-        title: 'Set definitions',
-        tooltips: 'View in exploration',
-    },
-};
-
-export type TVennChartDictionary = {
-    query: {
-        title: string;
-        column: string;
-    };
-    set: {
-        title: string;
-        column: string;
-        footer: string;
-        tooltips: string;
-        max: string;
-    };
-    save: {
-        nameTemplate: string;
-        maximumLength: string;
-        permittedCharacters: string;
-        requiredField: string;
-        title: string;
-        getEntityText: (index: string, entityCount: number) => string;
-        label: string;
-        checkbox: {
-            label: string;
-            tooltips: string;
-        };
-        alreadyExist: string;
-        ok: string;
-        cancel: string;
-    };
-    count: string;
-    participants: string;
-    biospecimens: string;
-    files: string;
-};
-
-export interface ISummaryData {
-    operation: string;
-    entityCount: number;
-    qbSqon: ISyntheticSqon;
-}
-
-export interface ISetOperation {
-    operation: string;
-    entityCount: number;
-    entitySqon: ISyntheticSqon;
-    setId: string;
-}
-
-type THandleSubmit = {
-    index: string;
-    name: string;
-    sets: ISetOperation[];
-    invisible: boolean;
-    callback: () => void;
-};
-
-type TOption = {
-    label: string;
-    value: string;
-    icon: React.ReactNode;
-    tabId?: string;
-};
-
-export type TVennChart = {
-    savedSets: IUserSetOutput[];
-    dictionary?: TVennChartDictionary;
-    defaultOption?: string;
-    options: TOption[];
-    loading?: boolean;
-    handleIndexChange: (qbSqons: ISyntheticSqon[], index: string) => void;
-    handleClose: () => void;
-    handleSubmit: (props: THandleSubmit) => void;
-    outlineWidth?: number;
-    radius?: number;
-    factor?: number;
-    summary?: ISummaryData[];
-    operations?: ISetOperation[];
-    size: {
-        width: number;
-        height: number;
-    };
+type VennChartProps = {
     analytics: {
         trackVennViewInExploration: () => void;
         trackVennClickOnSections: () => void;
         trackVennViewSet: () => void;
         trackVennViewEntityCounts: (type: string, entityCount: number) => void;
     };
+    dictionary: TVennChartDictionary;
+    entity: string;
+    factor?: number;
+    loading?: boolean;
+    operations?: ISetOperation[];
+    options: TOption[];
+    outlineWidth?: number;
+    radius?: number;
+    setSaveModalOpen: (isOpen: boolean) => void;
+    setSelectedSets: (sets: ISetOperation[]) => void;
+    setTableSelectedSets: (sets: ISetOperation[]) => void;
+    size: {
+        width: number;
+        height: number;
+    };
+    summary?: ISummaryData[];
+    tableSelectedSets: ISetOperation[];
 };
 
 const getSummaryColumns = (
@@ -213,7 +94,15 @@ const getOperationColumns = ({
     {
         key: 'open',
         render: (record) => (
-            <Tooltip title={record.entityCount > MAX_COUNT ? dictionary.set.max : dictionary.set.tooltips}>
+            <Tooltip
+                title={
+                    record.entityCount > MAX_COUNT
+                        ? dictionary.set.max
+                        : entity === 'variants'
+                        ? dictionary.set.tooltipVariantExplo
+                        : dictionary.set.tooltipDataExplo
+                }
+            >
                 <Button
                     className={styles.button}
                     disabled={isEntityCountInvalid(record.entityCount)}
@@ -227,34 +116,28 @@ const getOperationColumns = ({
     },
 ];
 
-const isEntityCountInvalid = (entityCount: number) => entityCount === 0 || entityCount > MAX_COUNT;
+const isEntityCountInvalid = (entityCount: number): boolean => entityCount === 0 || entityCount > MAX_COUNT;
 
 const VennChart = ({
     analytics,
-    defaultOption,
-    dictionary = DEFAULT_VENN_CHART_DICTIONARY,
+    dictionary,
+    entity,
     factor = 0.75,
-    handleClose,
-    handleIndexChange,
-    handleSubmit,
     loading,
     operations = [],
     options,
     outlineWidth = 1.5,
     radius = 130,
-    savedSets,
+    setSaveModalOpen,
+    setSelectedSets,
+    setTableSelectedSets,
     size,
     summary = [],
-}: TVennChart): JSX.Element => {
-    const [form] = Form.useForm();
-    const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
-    const [isSaving, setIsSaving] = useState<boolean>(false);
-    const [entity, setEntity] = useState<string>(
-        options.find((option) => option.value === defaultOption || option.tabId === defaultOption)?.value ??
-            options[0].value,
-    );
-    const [tableSelectedSets, setTableSelectedSets] = useState<ISetOperation[]>([]);
-    const [selectedSets, setSelectedSets] = useState<ISetOperation[]>([]);
+    tableSelectedSets,
+}: VennChartProps): JSX.Element => {
+    const ref = useRef<HTMLDivElement>(null);
+    const chartId = `venn-chart-${v4()}`;
+
     const total = useCallback(() => {
         let sum = 0;
         tableSelectedSets.forEach((set) => {
@@ -262,8 +145,6 @@ const VennChart = ({
         });
         return sum;
     }, [tableSelectedSets]);
-    const ref = useRef<HTMLDivElement>(null);
-    const chartId = `venn-chart-${v4()}`;
 
     useEffect(() => {
         if (loading || !ref?.current) return;
@@ -636,10 +517,6 @@ const VennChart = ({
             });
     }, [loading, ref, tableSelectedSets]);
 
-    if (loading) {
-        return <VennSekeleton height={600} width={800} />;
-    }
-
     const operationColumnsParams = {
         dictionary,
         entity,
@@ -653,237 +530,98 @@ const VennChart = ({
     };
 
     return (
-        <>
-            <Modal
-                afterClose={() => {
-                    form.resetFields();
-                    setIsSaving(false);
-                }}
-                cancelText={dictionary.save.cancel}
-                destroyOnClose
-                okButtonProps={{
-                    loading: isSaving,
-                }}
-                okText={dictionary.save.ok}
-                onCancel={() => {
-                    setSelectedSets([]);
-                    setSaveModalOpen(false);
-                }}
-                onOk={() => {
-                    form.submit();
-                }}
-                open={saveModalOpen}
-                style={{ top: 200 }}
-                title={dictionary.save.title}
-            >
-                <Form
-                    className={styles.saveForm}
-                    disabled={isSaving}
-                    fields={[
-                        {
-                            name: [SET_NAME_KEY],
-                            value: form.getFieldValue(SET_NAME_KEY) ?? dictionary.save.nameTemplate,
-                        },
-                    ]}
-                    form={form}
-                    layout="vertical"
-                    name={FORM_NAME}
-                    onFinish={(values) => {
-                        const existingTagNames = savedSets.filter((s) => !s.is_invisible).map((s) => s.tag);
-                        if (values[PERSISTENT_KEY]) {
-                            if (existingTagNames.includes(values[SET_NAME_KEY])) {
-                                form.setFields([
-                                    {
-                                        errors: [dictionary.save.alreadyExist],
-                                        name: SET_NAME_KEY,
-                                    },
-                                ]);
-                                return;
-                            }
-                        }
-
-                        analytics.trackVennViewSet();
-                        handleSubmit({
-                            callback: handleClose,
-                            index: entity,
-                            invisible: values[PERSISTENT_KEY] !== true,
-                            name: values[SET_NAME_KEY],
-                            sets: selectedSets,
-                        });
-                        setIsSaving(true);
-                    }}
-                >
-                    <div className={styles.saveDescription}>
-                        {dictionary.save.getEntityText(
-                            entity,
-                            selectedSets.reduce((count, set) => count + set.entityCount, 0),
-                        )}
-                    </div>
-                    <Form.Item
-                        className={styles.filterEditFormItem}
-                        label={dictionary.save.label}
-                        name={SET_NAME_KEY}
-                        required={false}
-                        rules={[
-                            {
-                                max: MAX_TITLE_LENGTH,
-                                message: (
-                                    <span>
-                                        <WarningFilled /> {MAX_TITLE_LENGTH} {dictionary.save.maximumLength}
-                                    </span>
-                                ),
-                                type: 'string',
-                            },
-                            {
-                                message: dictionary.save.permittedCharacters,
-                                pattern: new RegExp(/^[a-zA-Z0-9 ()[\]\-_:|.,]+$/i),
-                                type: 'string',
-                            },
-                            {
-                                message: dictionary.save.requiredField,
-                                required: true,
-                                type: 'string',
-                                validateTrigger: 'onSubmit',
-                            },
-                        ]}
-                    >
-                        <Input
-                            autoFocus
-                            placeholder={dictionary.save.nameTemplate}
-                            value={dictionary.save.nameTemplate}
-                        />
-                    </Form.Item>
-                    <Form.Item name={PERSISTENT_KEY} valuePropName="checked">
-                        <Checkbox>
-                            <Space size={8}>
-                                {dictionary.save.checkbox.label}
-                                <Tooltip title={dictionary.save.checkbox.tooltips}>
-                                    <InfoCircleOutlined />
-                                </Tooltip>
-                            </Space>
-                        </Checkbox>
-                    </Form.Item>
-                </Form>
-            </Modal>
-            <div className={styles.vennChart}>
-                <div className={styles.selectWrapper}>
-                    <label className={styles.selectLabel}>{dictionary.count}</label>
-                    <Select
-                        className={styles.select}
-                        onChange={(value) => {
-                            setEntity(value);
-                            setSelectedSets([]);
-                            setTableSelectedSets([]);
-                            handleIndexChange(
-                                summary.map((data) => data.qbSqon),
-                                value,
-                            );
-                        }}
-                        value={entity}
-                    >
-                        {options.map((option) => (
-                            <option value={option.value}>
-                                <span className={styles.optionIcon}>{option.icon}</span>
-                                <span>{option.label}</span>
-                            </option>
-                        ))}
-                    </Select>
-                </div>
-                <div className={styles.venn}>
-                    <div className={styles.chart}>
-                        <div className={styles.chartWrapper}>
-                            <div className={styles.chartContent} ref={ref}>
-                                <svg height="100%" id={chartId} width="100%" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.tables}>
-                        <div>
-                            <Typography.Title className={styles.tableTitle} level={2}>
-                                {dictionary.query.title}
-                            </Typography.Title>
-                            <Divider className={styles.divider} />
-                            <Table<ISummaryData>
-                                bordered
-                                columns={getSummaryColumns(entity, options, dictionary)}
-                                dataSource={summary}
-                                pagination={false}
-                                size="small"
-                            />
-                        </div>
-                        <div>
-                            <Typography.Title className={styles.tableTitle} level={2}>
-                                {dictionary.set.title}
-                            </Typography.Title>
-                            <Divider className={styles.divider} />
-                            <Table<ISetOperation>
-                                bordered
-                                columns={getOperationColumns(operationColumnsParams)}
-                                dataSource={operations.map((operation) => ({
-                                    ...operation,
-                                    key: operation.setId,
-                                }))}
-                                pagination={false}
-                                rowClassName={styles.row}
-                                rowSelection={{
-                                    getCheckboxProps: (record) => ({
-                                        disabled: isEntityCountInvalid(record.entityCount),
-                                    }),
-                                    onChange: (selectedRowKeys: React.Key[], selectedRows: ISetOperation[]) => {
-                                        setTableSelectedSets(selectedRows);
-                                        d3.selectAll(`.${styles.fillColor}`).classed(styles.active, false);
-                                        selectedRowKeys.forEach((key: React.Key) => {
-                                            const element = d3.select(`#${key}`);
-                                            element.classed(
-                                                styles.active,
-                                                element.classed(styles.active) ? false : true,
-                                            );
-                                        });
-                                    },
-                                    selectedRowKeys: tableSelectedSets.map((set) => set.setId),
-                                    type: 'checkbox',
-                                }}
-                                size="small"
-                                summary={() => (
-                                    <Table.Summary>
-                                        <Table.Summary.Row>
-                                            <Table.Summary.Cell colSpan={2} index={0}>
-                                                {dictionary.set.footer}
-                                            </Table.Summary.Cell>
-                                            <Table.Summary.Cell align="right" index={1}>
-                                                {numberFormat(total())}
-                                            </Table.Summary.Cell>
-                                            <Table.Summary.Cell index={2}>
-                                                <Tooltip
-                                                    title={
-                                                        total() > MAX_COUNT
-                                                            ? dictionary.set.max
-                                                            : dictionary.set.tooltips
-                                                    }
-                                                >
-                                                    <Button
-                                                        className={styles.button}
-                                                        disabled={isEntityCountInvalid(total())}
-                                                        icon={<ExternalLinkIcon />}
-                                                        onClick={() => {
-                                                            analytics.trackVennViewInExploration();
-                                                            setSelectedSets(tableSelectedSets);
-                                                            analytics.trackVennViewEntityCounts(entity, total());
-                                                            setSaveModalOpen(true);
-                                                        }}
-                                                        type="link"
-                                                    />
-                                                </Tooltip>
-                                            </Table.Summary.Cell>
-                                        </Table.Summary.Row>
-                                    </Table.Summary>
-                                )}
-                            />
-                        </div>
+        <div className={styles.venn}>
+            <div className={styles.chart}>
+                <div className={styles.chartWrapper}>
+                    <div className={styles.chartContent} ref={ref}>
+                        <svg height="100%" id={chartId} width="100%" />
                     </div>
                 </div>
             </div>
-        </>
+            <div className={styles.tables}>
+                <div>
+                    <Typography.Title className={styles.tableTitle} level={2}>
+                        {dictionary.query.title}
+                    </Typography.Title>
+                    <Divider className={styles.divider} />
+                    <Table<ISummaryData>
+                        bordered
+                        columns={getSummaryColumns(entity, options, dictionary)}
+                        dataSource={summary}
+                        pagination={false}
+                        size="small"
+                    />
+                </div>
+                <div>
+                    <Typography.Title className={styles.tableTitle} level={2}>
+                        {dictionary.set.title}
+                    </Typography.Title>
+                    <Divider className={styles.divider} />
+                    <Table<ISetOperation>
+                        bordered
+                        columns={getOperationColumns(operationColumnsParams)}
+                        dataSource={operations.map((operation) => ({
+                            ...operation,
+                            key: operation.setId,
+                        }))}
+                        pagination={false}
+                        rowClassName={styles.row}
+                        rowSelection={{
+                            getCheckboxProps: (record) => ({
+                                disabled: isEntityCountInvalid(record.entityCount),
+                            }),
+                            onChange: (selectedRowKeys: React.Key[], selectedRows: ISetOperation[]) => {
+                                setTableSelectedSets(selectedRows);
+                                d3.selectAll(`.${styles.fillColor}`).classed(styles.active, false);
+                                selectedRowKeys.forEach((key: React.Key) => {
+                                    const element = d3.select(`#${key}`);
+                                    element.classed(styles.active, element.classed(styles.active) ? false : true);
+                                });
+                            },
+                            selectedRowKeys: tableSelectedSets.map((set) => set.setId),
+                            type: 'checkbox',
+                        }}
+                        size="small"
+                        summary={() => (
+                            <Table.Summary>
+                                <Table.Summary.Row>
+                                    <Table.Summary.Cell colSpan={2} index={0}>
+                                        {dictionary.set.footer}
+                                    </Table.Summary.Cell>
+                                    <Table.Summary.Cell align="right" index={1}>
+                                        {numberFormat(total())}
+                                    </Table.Summary.Cell>
+                                    <Table.Summary.Cell index={2}>
+                                        <Tooltip
+                                            title={
+                                                total() > MAX_COUNT
+                                                    ? dictionary.set.max
+                                                    : entity === 'variants'
+                                                    ? dictionary.set.tooltipVariantExplo
+                                                    : dictionary.set.tooltipDataExplo
+                                            }
+                                        >
+                                            <Button
+                                                className={styles.button}
+                                                disabled={isEntityCountInvalid(total())}
+                                                icon={<ExternalLinkIcon />}
+                                                onClick={() => {
+                                                    analytics.trackVennViewInExploration();
+                                                    setSelectedSets(tableSelectedSets);
+                                                    analytics.trackVennViewEntityCounts(entity, total());
+                                                    setSaveModalOpen(true);
+                                                }}
+                                                type="link"
+                                            />
+                                        </Tooltip>
+                                    </Table.Summary.Cell>
+                                </Table.Summary.Row>
+                            </Table.Summary>
+                        )}
+                    />
+                </div>
+            </div>
+        </div>
     );
 };
 
