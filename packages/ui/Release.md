@@ -1,3 +1,6 @@
+### 10.21.1 2025-04-07
+- feat: FLUI-149 FLUI-148 add futuro icons
+
 ### 10.21.0 2025-04-07
 - feat: SJIP-1254 add venn with filters
 
