@@ -81,7 +81,7 @@ const VennChartWithFilters = ({
     const [selectedSets, setSelectedSets] = useState<ISetOperation[]>([]);
     const [entityCompared, setEntityCompared] = useState<string>(entitySelected);
     const [setIdsCompared, setSetIdsCompared] = useState<string[]>(idsSelected);
-
+    console.log('selected ids', idsSelected);
     if (loading) {
         return <VennWithFilterSkeleton />;
     }
@@ -175,7 +175,7 @@ const VennChartWithFilters = ({
                                             key={option.id}
                                             value={option.id}
                                         >
-                                            {option.tag}
+                                            {`${option.tag} (${option.size})`}
                                         </Select.Option>
                                     );
                                 })}
