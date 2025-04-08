@@ -81,6 +81,7 @@ const VennChartWithFilters = ({
     const [selectedSets, setSelectedSets] = useState<ISetOperation[]>([]);
     const [entityCompared, setEntityCompared] = useState<string>(entitySelected);
     const [setIdsCompared, setSetIdsCompared] = useState<string[]>(idsSelected);
+    const [openSetsDropdown, setOpenSetsDropdown] = useState<boolean>(false);
 
     if (loading) {
         return <VennWithFilterSkeleton />;
@@ -100,6 +101,7 @@ const VennChartWithFilters = ({
                             onChange={(value) => {
                                 setEntity(value);
                                 setSetIdsSelected([]);
+                                setOpenSetsDropdown(true);
                             }}
                             placeholder={dictionary.filters?.selectEntityPlaceholder}
                             value={entity}
@@ -153,9 +155,11 @@ const VennChartWithFilters = ({
                                 const ids = setIdsSelected.filter((val) => val !== value);
                                 setSetIdsSelected(ids);
                             }}
+                            onDropdownVisibleChange={(open) => setOpenSetsDropdown(open)}
                             onSelect={(value: string) => {
                                 setSetIdsSelected([...setIdsSelected, value]);
                             }}
+                            open={openSetsDropdown}
                             placeholder={dictionary.filters?.selectSetPlaceholder}
                             tagRender={({ label, onClose }) => (
                                 <Tag className={styles.filterTag} closable onClose={onClose}>

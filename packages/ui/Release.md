@@ -1,3 +1,6 @@
+### 10.21.2 2025-04-08
+- fix: SJIP-1297 manage dropdown in venn with filters
+
 ### 10.21.1 2025-04-07
 - feat: FLUI-149 FLUI-148 add futuro icons
 
