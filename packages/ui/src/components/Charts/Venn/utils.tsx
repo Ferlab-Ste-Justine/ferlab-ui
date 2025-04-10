@@ -17,6 +17,11 @@ export type TVennChartDictionary = {
     count: string;
     participants: string;
     biospecimens: string;
+    download: {
+        png: string;
+        fileNameTemplate?: string;
+        fileNameDateFormat?: string;
+    };
     files: string;
     filters?: {
         compareButton: string;

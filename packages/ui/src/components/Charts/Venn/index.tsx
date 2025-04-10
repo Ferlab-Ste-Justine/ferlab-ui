@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useRef } from 'react';
+import { DownloadOutlined } from '@ant-design/icons';
 import { Button, Divider, Table, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import classnames from 'classnames';
 import * as d3 from 'd3';
+import d3ToPng from 'd3-svg-to-png';
 import { v4 } from 'uuid';
 
+import { DownloadType, fileNameFormatter } from '../../../layout/ResizableGridLayout/ResizableGridCard/utils';
 import { numberFormat } from '../../../utils/numberUtils';
 import ExternalLinkIcon from '../../ExternalLink/ExternalLinkIcon';
 
@@ -16,6 +19,14 @@ import styles from './index.module.css';
 const MAX_COUNT = 10000;
 const PADDING_OFFSET = 24;
 const LABELS = ['Q₁', 'Q₂', 'Q₃'];
+
+const EXPORT_SETTINGS = {
+    background: 'white',
+    quality: 1,
+    scale: 2,
+};
+const DEFAULT_FILENAME_TEMPLATE = '%name-%type-%date%extension';
+const DEFAULT_FILENAME_DATE_FORMAT = 'yyyy-MM-dd';
 
 type VennChartProps = {
     analytics: {
@@ -534,7 +545,25 @@ const VennChart = ({
             <div className={styles.chart}>
                 <div className={styles.chartWrapper}>
                     <div className={styles.chartContent} ref={ref}>
-                        <svg height="100%" id={chartId} width="100%" />
+                        <svg className={styles.svg} id={chartId} />
+                        <Button
+                            icon={<DownloadOutlined />}
+                            onClick={() => {
+                                const fileName = fileNameFormatter(
+                                    dictionary.download.fileNameTemplate ?? DEFAULT_FILENAME_TEMPLATE,
+                                    DownloadType.chart,
+                                    dictionary.download.fileNameDateFormat ?? DEFAULT_FILENAME_DATE_FORMAT,
+                                    'venn',
+                                    '',
+                                );
+                                d3ToPng(`#${chartId}`, fileName, {
+                                    ...EXPORT_SETTINGS,
+                                    format: 'png',
+                                });
+                            }}
+                        >
+                            {dictionary.download.png}
+                        </Button>
                     </div>
                 </div>
             </div>
