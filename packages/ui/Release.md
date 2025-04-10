@@ -1,3 +1,6 @@
+### 10.22.0 2025-04-08
+- feat: SJIP-1299 add download button for venn chart
+
 ### 10.21.2 2025-04-08
 - fix: SJIP-1297 manage dropdown in venn with filters
 

@@ -20,6 +20,9 @@ enum Index {
 export const DEFAULT_VENN_CHART_DICTIONARY: TVennChartDictionary = {
     biospecimens: 'Biospecimens',
     count: 'Count :',
+    download: {
+        png: 'Download PNG',
+    },
     files: 'Files',
     filters: {
         compareButton: 'Compare',
