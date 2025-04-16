@@ -1,3 +1,6 @@
+### 10.22.1 2025-04-16
+- feat: SKFP-1504 add Somatic set type
+
 ### 10.22.0 2025-04-08
 - feat: SJIP-1299 add download button for venn chart
 
