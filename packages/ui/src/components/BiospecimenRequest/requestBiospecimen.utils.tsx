@@ -17,6 +17,7 @@ export enum SetType {
     BIOSPECIMEN = 'biospecimen',
     BIOSPECIMEN_REQUEST = 'biospecimen-request',
     VARIANT = 'variants',
+    SOMATIC = 'variants_somatic',
 }
 
 export const isNameExists = (newSetName: string, savedSets: IUserSetOutput[]): boolean => {
