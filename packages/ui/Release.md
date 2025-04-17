@@ -1,3 +1,6 @@
+### 10.23.1 2025-04-17
+- fix: SKFP-1504 manage somatic in venn diagram
+
 ### 10.23.0 2025-04-17
 - feat: SJIP-1318 add preview version of clinical trial timeline chart
 

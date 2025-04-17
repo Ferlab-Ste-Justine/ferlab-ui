@@ -9,6 +9,7 @@ import { v4 } from 'uuid';
 
 import { DownloadType, fileNameFormatter } from '../../../layout/ResizableGridLayout/ResizableGridCard/utils';
 import { numberFormat } from '../../../utils/numberUtils';
+import { SetType } from '../../BiospecimenRequest/requestBiospecimen.utils';
 import ExternalLinkIcon from '../../ExternalLink/ExternalLinkIcon';
 
 import { ISetOperation, ISummaryData, TOption, TVennChartDictionary } from './utils';
@@ -109,7 +110,7 @@ const getOperationColumns = ({
                 title={
                     record.entityCount > MAX_COUNT
                         ? dictionary.set.max
-                        : entity === 'variants'
+                        : entity === SetType.VARIANT || entity === SetType.SOMATIC
                         ? dictionary.set.tooltipVariantExplo
                         : dictionary.set.tooltipDataExplo
                 }
