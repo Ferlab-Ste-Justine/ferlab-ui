@@ -1,3 +1,6 @@
+### 10.23.0 2025-04-17
+- feat: SJIP-1318 add preview version of clinical trial timeline chart
+
 ### 10.22.1 2025-04-16
 - feat: SKFP-1504 add Somatic set type
 
