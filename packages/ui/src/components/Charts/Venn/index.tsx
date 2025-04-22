@@ -3,6 +3,7 @@ import { DownloadOutlined } from '@ant-design/icons';
 import { Button, Divider, Table, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import classnames from 'classnames';
+import cx from 'classnames';
 import * as d3 from 'd3';
 import d3ToPng from 'd3-svg-to-png';
 import { v4 } from 'uuid';
@@ -19,7 +20,8 @@ import styles from './index.module.css';
 
 const MAX_COUNT = 10000;
 const PADDING_OFFSET = 24;
-const LABELS = ['Q₁', 'Q₂', 'Q₃'];
+const QUERIES_LABELS = ['Q₁', 'Q₂', 'Q₃'];
+const SETS_LABELS = ['S₁', 'S₂', 'S₃'];
 
 const EXPORT_SETTINGS = {
     background: 'white',
@@ -36,9 +38,11 @@ type VennChartProps = {
         trackVennViewSet: () => void;
         trackVennViewEntityCounts: (type: string, entityCount: number) => void;
     };
+    chartClassname?: string;
     dictionary: TVennChartDictionary;
     entity: string;
     factor?: number;
+    isSetsView?: boolean;
     loading?: boolean;
     operations?: ISetOperation[];
     options: TOption[];
@@ -59,10 +63,12 @@ const getSummaryColumns = (
     entity: string,
     options: TOption[],
     dictionary: TVennChartDictionary,
+    isSetsView: boolean,
 ): ColumnsType<ISummaryData> => [
     {
         dataIndex: 'operation',
         key: 'operation',
+        render: (operation: string) => (!isSetsView ? operation : operation.replace('Q', 'S')),
     },
     {
         dataIndex: 'qbSqon',
@@ -82,6 +88,7 @@ const getSummaryColumns = (
 const getOperationColumns = ({
     dictionary,
     entity,
+    isSetsView,
     onClick,
     options,
 }: {
@@ -89,10 +96,12 @@ const getOperationColumns = ({
     options: TOption[];
     onClick: (record: ISetOperation) => void;
     dictionary: TVennChartDictionary;
+    isSetsView: boolean;
 }): ColumnsType<ISetOperation> => [
     {
         dataIndex: 'operation',
         key: 'operation',
+        render: (operation: string) => (!isSetsView ? operation : operation.replaceAll('Q', 'S')),
         title: dictionary.set.column,
         width: 430,
     },
@@ -132,9 +141,11 @@ const isEntityCountInvalid = (entityCount: number): boolean => entityCount === 0
 
 const VennChart = ({
     analytics,
+    chartClassname = '',
     dictionary,
     entity,
     factor = 0.75,
+    isSetsView = false,
     loading,
     operations = [],
     options,
@@ -207,7 +218,7 @@ const VennChart = ({
             .attr('y', cy - Math.cos((Math.PI * 300) / 180) * 2.5 * radius * factor)
             .attr('text-anchor', 'end')
             .attr('class', styles.legend)
-            .text(LABELS[0]);
+            .text(!isSetsView ? QUERIES_LABELS[0] : SETS_LABELS[0]);
         // Insert count of Q₁-(Q₂∪Q₃)
         svg.append('text')
             .attr('x', cx + Math.sin((Math.PI * 300) / 180) * 1.1 * radius * factor)
@@ -254,7 +265,7 @@ const VennChart = ({
             .attr('y', cy - Math.cos((Math.PI * 60) / 180) * 2.5 * radius * factor)
             .attr('text-anchor', 'start')
             .attr('class', styles.legend)
-            .text(LABELS[1]);
+            .text(!isSetsView ? QUERIES_LABELS[1] : SETS_LABELS[1]);
         // Insert count value of Q₂-(Q₁∪Q₃)
         svg.append('text')
             .attr('x', cx + Math.sin((Math.PI * 60) / 180) * 1.1 * radius * factor)
@@ -364,7 +375,7 @@ const VennChart = ({
                 .attr('y', cy - Math.cos((Math.PI * 180) / 180) * 2.6 * radius * factor)
                 .attr('text-anchor', 'middle')
                 .attr('class', styles.legend)
-                .text(LABELS[2]);
+                .text(!isSetsView ? QUERIES_LABELS[2] : SETS_LABELS[2]);
             // Insert count value of 'Q₃-(Q₁∪Q₂)'
             svg.append('text')
                 .attr('x', cx + Math.sin((Math.PI * 180) / 180) * 1.1 * radius * factor)
@@ -532,6 +543,7 @@ const VennChart = ({
     const operationColumnsParams = {
         dictionary,
         entity,
+        isSetsView,
         onClick: (record: ISetOperation) => {
             analytics.trackVennViewInExploration();
             analytics.trackVennViewEntityCounts(entity, record.entityCount);
@@ -543,7 +555,7 @@ const VennChart = ({
 
     return (
         <div className={styles.venn}>
-            <div className={styles.chart}>
+            <div className={cx(styles.chart, chartClassname)}>
                 <div className={styles.chartWrapper}>
                     <div className={styles.chartContent} ref={ref}>
                         <svg className={styles.svg} id={chartId} />
@@ -576,7 +588,7 @@ const VennChart = ({
                     <Divider className={styles.divider} />
                     <Table<ISummaryData>
                         bordered
-                        columns={getSummaryColumns(entity, options, dictionary)}
+                        columns={getSummaryColumns(entity, options, dictionary, isSetsView)}
                         dataSource={summary}
                         pagination={false}
                         size="small"

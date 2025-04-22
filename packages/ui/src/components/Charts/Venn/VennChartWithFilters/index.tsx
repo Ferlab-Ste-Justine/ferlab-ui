@@ -46,6 +46,8 @@ export type TVennChartWithFilters = {
     idsSelected: string[];
     error?: boolean;
     queryPillDictionary?: IDictionary;
+    isSetsView?: boolean;
+    chartClassname?: string;
 };
 
 const getDisabledOption = (option: IUserSetOutput, setIdsSelected: string[]): boolean => {
@@ -55,6 +57,7 @@ const getDisabledOption = (option: IUserSetOutput, setIdsSelected: string[]): bo
 
 const VennChartWithFilters = ({
     analytics,
+    chartClassname = '',
     dictionary = DEFAULT_VENN_CHART_DICTIONARY,
     entityOptions,
     entitySelected,
@@ -64,6 +67,7 @@ const VennChartWithFilters = ({
     handleCompare,
     handleSubmit,
     idsSelected,
+    isSetsView = false,
     loading,
     operations,
     options,
@@ -222,9 +226,11 @@ const VennChartWithFilters = ({
                     {!error && (
                         <VennChart
                             analytics={analytics}
+                            chartClassname={chartClassname}
                             dictionary={dictionary}
                             entity={entity}
                             factor={factor}
+                            isSetsView={isSetsView}
                             loading={loading}
                             operations={operations}
                             options={options}
