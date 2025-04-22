@@ -1,4 +1,7 @@
 ### 10.23.1 2025-04-17
+- feat: SJIP-1334 always display compare button
+
+### 10.23.1 2025-04-17
 - fix: SKFP-1504 manage somatic in venn diagram
 
 ### 10.23.0 2025-04-17
