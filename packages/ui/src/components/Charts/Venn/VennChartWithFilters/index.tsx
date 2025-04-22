@@ -185,17 +185,23 @@ const VennChartWithFilters = ({
                                 })}
                         </Select>
                     </div>
-                    <Tooltip title={dictionary.filters?.resetTooltip}>
-                        <Button
-                            className={styles.resetButton}
-                            onClick={() => {
-                                setSetIdsSelected(setIdsCompared);
-                                setEntity(entityCompared);
-                            }}
-                        >
-                            <UndoOutlined size={16} />
-                        </Button>
-                    </Tooltip>
+                    <div className={styles.resetWrapper}>
+                        <Tooltip title={dictionary.filters?.resetTooltip}>
+                            <Button
+                                disabled={
+                                    entityCompared === entity &&
+                                    JSON.stringify(setIdsCompared.slice().sort()) ===
+                                        JSON.stringify(setIdsSelected.slice().sort())
+                                }
+                                onClick={() => {
+                                    setSetIdsSelected(setIdsCompared);
+                                    setEntity(entityCompared);
+                                }}
+                            >
+                                <UndoOutlined size={16} />
+                            </Button>
+                        </Tooltip>
+                    </div>
                     <Tooltip title={setIdsSelected.length < 2 && dictionary.filters?.compareDisabledTooltip}>
                         <Button
                             disabled={setIdsSelected.length < 2}
