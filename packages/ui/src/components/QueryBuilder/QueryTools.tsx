@@ -81,26 +81,27 @@ const QueryTools = ({
                         >
                             {dictionary.actions?.combine || 'Combine'}
                         </Dropdown.Button>
-                        {enableCompare && handleCompare && (
-                            <Tooltip title={isCompareBtnDisabled ? dictionary.actions?.compareTooltips : undefined}>
-                                <Button
-                                    className={cx(styles.button, styles.compare)}
-                                    disabled={isCompareBtnDisabled}
-                                    icon={
-                                        <AndOrIcon
-                                            className={cx(styles.andOrIcon, {
-                                                [styles.disabled]: isCompareBtnDisabled,
-                                            })}
-                                        />
-                                    }
-                                    onClick={handleCompare}
-                                    size="small"
-                                >
-                                    {dictionary.actions?.compare || 'Compare'}
-                                </Button>
-                            </Tooltip>
-                        )}
                     </>
+                )}
+
+                {enableCompare && handleCompare && (
+                    <Tooltip title={isCompareBtnDisabled ? dictionary.actions?.compareTooltips : undefined}>
+                        <Button
+                            className={cx(styles.button, styles.compare)}
+                            disabled={isCompareBtnDisabled}
+                            icon={
+                                <AndOrIcon
+                                    className={cx(styles.andOrIcon, {
+                                        [styles.disabled]: isCompareBtnDisabled,
+                                    })}
+                                />
+                            }
+                            onClick={handleCompare}
+                            size="small"
+                        >
+                            {dictionary.actions?.compare || 'Compare'}
+                        </Button>
+                    </Tooltip>
                 )}
                 {enableShowHideLabels && !canCombine && (
                     <span className={`${styles.switch} ${styles.withLabel}`}>
