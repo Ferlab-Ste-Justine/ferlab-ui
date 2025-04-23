@@ -1,3 +1,6 @@
+### 10.24.2 2025-04-23
+- fix: SJIP-1336 fix select all page behavior on table
+
 ### 10.24.1 2025-04-23
 - feat: SJIP-1332 various fixes on ven chart with filters
 
