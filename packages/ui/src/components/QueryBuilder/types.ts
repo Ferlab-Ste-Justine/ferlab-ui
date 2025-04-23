@@ -128,7 +128,8 @@ interface IActions {
     addQuery?: React.ReactNode;
     combine?: React.ReactNode;
     compare?: React.ReactNode;
-    compareTooltips?: React.ReactNode;
+    compareLessTooltips?: React.ReactNode;
+    compareGreaterTooltips?: React.ReactNode;
     labels?: React.ReactNode;
     clear?: IClearTranslation;
     delete?: IDeleteTranslation;

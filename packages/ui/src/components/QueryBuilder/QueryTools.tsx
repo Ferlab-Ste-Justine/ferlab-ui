@@ -39,6 +39,8 @@ const QueryTools = ({
 
     const { dictionary, showLabels } = useContext(QueryCommonContext);
     const isCompareBtnDisabled = selectedQueryCount < 2 || selectedQueryCount > 3;
+    const compareTooltips =
+        selectedQueryCount < 2 ? dictionary.actions?.compareLessTooltips : dictionary.actions?.compareGreaterTooltips;
 
     return (
         <Space className={styles.queryTools} direction="horizontal">
@@ -85,7 +87,7 @@ const QueryTools = ({
                 )}
 
                 {enableCompare && handleCompare && (
-                    <Tooltip title={isCompareBtnDisabled ? dictionary.actions?.compareTooltips : undefined}>
+                    <Tooltip title={isCompareBtnDisabled ? compareTooltips : undefined}>
                         <Button
                             className={cx(styles.button, styles.compare)}
                             disabled={isCompareBtnDisabled}
