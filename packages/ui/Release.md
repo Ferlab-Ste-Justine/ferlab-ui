@@ -1,3 +1,6 @@
+### 10.24.3 2025-04-23
+- fix: SKFP-1508 fix venn save modal title for somatic
+
 ### 10.24.2 2025-04-23
 - fix: SJIP-1336 fix select all page behavior on table
 

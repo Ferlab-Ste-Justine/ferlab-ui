@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { InfoCircleOutlined, WarningFilled } from '@ant-design/icons';
 import { Checkbox, Form, Input, Modal, Space, Tooltip } from 'antd';
 
-import { IUserSetOutput } from '../../BiospecimenRequest/requestBiospecimen.utils';
+import { IUserSetOutput, SetType } from '../../BiospecimenRequest/requestBiospecimen.utils';
 
 import { ISetOperation, THandleSubmit, TVennChartSaveDictionary } from './utils';
 
@@ -62,7 +62,11 @@ const SaveModal = ({
             }}
             open={isOpen}
             style={{ top: 200 }}
-            title={entity === 'variants' ? dictionary.titleVariant : dictionary.titleData}
+            title={
+                entity === SetType.VARIANT || entity === SetType.SOMATIC
+                    ? dictionary.titleVariant
+                    : dictionary.titleData
+            }
         >
             <Form
                 className={styles.saveForm}
