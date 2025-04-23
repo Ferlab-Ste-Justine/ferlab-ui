@@ -1,150 +1,151 @@
 .vennChart {
-  display: flex;
-  gap: 24px;
-  flex-direction: column;
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
 }
 
 .selectWrapper {
-  display: flex;
-  justify-content: end;
-  align-items: center;;
-  gap: 8px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 8px;
 }
 
 .selectLabel {
-  font-weight: 600;
-  color: var(--gray-8);
+    font-weight: 600;
+    color: var(--gray-8);
 }
 
 .select {
-  width: 173px; 
+    width: 173px;
 }
 
 .optionIcon {
-  margin-right: 8px;
+    margin-right: 8px;
 }
 
 .chartWrapper {
-  height: 498px;
-  position: relative;
-  width: 100%;
-  text-align: center;
+    height: 498px;
+    position: relative;
+    width: 100%;
+    text-align: center;
 }
 
 .chartWrapper .chartContent {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
 .venn {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
 }
 
 .venn .chart {
-  display: flex;
-  align-items: center;
-  width: 540px;
+    display: flex;
+    align-items: center;
+    width: 540px;
 }
 
 .venn .chart .outline {
-  fill: var(--venn-chart-outline);
+    fill: var(--venn-chart-outline);
 }
 
 .venn .chart .fillColor {
-  fill: var(--venn-chart-fill);
+    fill: var(--venn-chart-fill);
 }
 
 .venn .chart .fillColor:hover {
-  fill: var(--venn-chart-fill-hover);
-  cursor: pointer;
+    fill: var(--venn-chart-fill-hover);
+    cursor: pointer;
 }
 
 .venn .chart .fillColor.active {
-  fill: var(--venn-chart-fill-active);
+    fill: var(--venn-chart-fill-active);
 }
 
 .venn .chart .fillColor.disabled {
-  fill: var(--venn-chart-fill-disabled);
-  cursor: initial;
+    fill: var(--venn-chart-fill-disabled);
+    cursor: initial;
 }
 
 .venn .chart .fillColor.disabled:hover {
-  fill: var(--venn-chart-fill-disabled);
-  cursor: initial;
+    fill: var(--venn-chart-fill-disabled);
+    cursor: initial;
 }
 
 .venn .chart .legend {
-  fill: var(--venn-chart-legend);
-  pointer-events: none;
+    fill: var(--venn-chart-legend);
+    pointer-events: none;
 }
 
 .venn .chart .legend.disabled {
-  fill: var(--venn-chart-legend-disabled);
-  pointer-events: none;
+    fill: var(--venn-chart-legend-disabled);
+    pointer-events: none;
 }
 
 .venn .tables {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 24px;
 }
 
 .venn :global(.ant-table) :global(.ant-table-cell) {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 .venn .tables :global(.ant-table-tbody > tr:nth-child(even):not(.ant-table-row-selected) td) {
-  background-color: var(--gray-1) !important;
+    background-color: var(--gray-1) !important;
 }
 
 .venn .tables :global(.ant-table-tbody > tr:nth-child(even):not(.ant-table-row-selected) td.ant-table-cell-row-hover) {
-  background-color: var(--gray-3) !important;
+    background-color: var(--gray-3) !important;
 }
 
 .venn :global(.ant-table-summary) {
-  background-color: var(--summary-bg-color);
+    background-color: var(--summary-bg-color);
 }
 
 .footer {
-  display: flex;
-  justify-content: end;
-  margin-top: 8px;
+    display: flex;
+    justify-content: end;
+    margin-top: 8px;
 }
 
 .venn .tableTitle {
-  color: var(--venn-chart-table-title);
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 24px;
+    color: var(--venn-chart-table-title);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
 }
 
 .venn .divider {
-  color: var(--gray-4);
-  margin-top: 8px;
+    color: var(--gray-4);
+    margin-top: 8px;
 }
 
 .venn .icon {
-  display: flex;
-  justify-content: flex-end;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .button {
-  width: 16px;
+    width: 16px;
 }
 
 .saveForm .saveDescription {
-  margin-bottom: 24px;
+    margin-bottom: 24px;
 }
 
 .saveForm :global(.ant-form-item):last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .venn .svg {
-  width: 100%;
-  height: calc(100% - 43px);
+    width: 100%;
+    height: calc(100% - 43px);
 }

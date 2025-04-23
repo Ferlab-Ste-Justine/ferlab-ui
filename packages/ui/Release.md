@@ -1,4 +1,7 @@
-### 10.23.1 2025-04-17
+### 10.24.1 2025-04-23
+- feat: SJIP-1332 various fixes on ven chart with filters
+
+### 10.24.0 2025-04-22
 - feat: SJIP-1334 always display compare button
 
 ### 10.23.1 2025-04-17
