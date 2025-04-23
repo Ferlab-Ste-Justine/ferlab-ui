@@ -1,3 +1,6 @@
+### 10.24.4 2025-04-23
+- fix: SJIP-1334 fix tooltips on compare button
+
 ### 10.24.3 2025-04-23
 - fix: SKFP-1508 fix venn save modal title for somatic
 
