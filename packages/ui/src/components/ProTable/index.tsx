@@ -171,6 +171,12 @@ const ProTable = <RecordType extends object & { key: string } = any>({
     }, [columns.length, initialColumnState]);
 
     useEffect(() => {
+        if (selectedAllResults) {
+            setSelectedAllResults(false);
+        }
+    }, [selectedRowKeys]);
+
+    useEffect(() => {
         setSelectedRowKeys(initialSelectedKey);
     }, [JSON.stringify(initialSelectedKey)]);
 
