@@ -32,10 +32,6 @@ export type TVennChartWithFilters = {
     factor?: number;
     summary?: ISummaryData[];
     operations?: ISetOperation[];
-    size: {
-        width: number;
-        height: number;
-    };
     analytics: {
         trackVennViewInExploration: () => void;
         trackVennClickOnSections: () => void;
@@ -75,7 +71,6 @@ const VennChartWithFilters = ({
     queryPillDictionary = {},
     radius,
     savedSets,
-    size,
     summary = [],
 }: TVennChartWithFilters): JSX.Element => {
     const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
@@ -239,7 +234,6 @@ const VennChartWithFilters = ({
                             setSaveModalOpen={(isOpen: boolean) => setSaveModalOpen(isOpen)}
                             setSelectedSets={(sets: ISetOperation[]) => setSelectedSets(sets)}
                             setTableSelectedSets={(sets: ISetOperation[]) => setTableSelectedSets(sets)}
-                            size={size}
                             summary={summary}
                             tableSelectedSets={tableSelectedSets}
                         />

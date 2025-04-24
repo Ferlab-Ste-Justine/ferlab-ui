@@ -88,10 +88,6 @@ export type TVennChartWithSelect = {
     factor?: number;
     summary?: ISummaryData[];
     operations?: ISetOperation[];
-    size: {
-        width: number;
-        height: number;
-    };
     analytics: {
         trackVennViewInExploration: () => void;
         trackVennClickOnSections: () => void;
@@ -113,7 +109,6 @@ const VennChartWithSelect = ({
     outlineWidth,
     radius,
     savedSets,
-    size,
     summary = [],
 }: TVennChartWithSelect): JSX.Element => {
     const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
@@ -175,10 +170,13 @@ const VennChartWithSelect = ({
                     options={options}
                     outlineWidth={outlineWidth}
                     radius={radius}
+                    scale={{
+                        max: 1.25,
+                        min: 1.0,
+                    }}
                     setSaveModalOpen={(isOpen: boolean) => setSaveModalOpen(isOpen)}
                     setSelectedSets={(sets: ISetOperation[]) => setSelectedSets(sets)}
                     setTableSelectedSets={(sets: ISetOperation[]) => setTableSelectedSets(sets)}
-                    size={size}
                     summary={summary}
                     tableSelectedSets={tableSelectedSets}
                 />
