@@ -45,7 +45,6 @@ const VennModal = ({
     queryPillDictionary = {},
     savedSets,
     summary,
-    vennSize,
     width = 1338,
 }: VennModalProps): JSX.Element => (
     <QueryDictionaryContext.Provider value={{ dictionary: queryPillDictionary }}>
@@ -72,7 +71,6 @@ const VennModal = ({
                     operations={operations}
                     options={options}
                     savedSets={savedSets}
-                    size={vennSize}
                     summary={summary}
                 />
             )}

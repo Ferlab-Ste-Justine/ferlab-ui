@@ -1,3 +1,6 @@
+### 10.24.5 2025-04-24
+- fix: SJIP-1339 fix venn to be responsive
+
 ### 10.24.4 2025-04-23
 - fix: SJIP-1334 fix tooltips on compare button
 

@@ -353,10 +353,6 @@ export const VennLoading = () => (
                         throw new Error('Function not implemented.');
                     },
                 }}
-                size={{
-                    width: 540,
-                    height: 498,
-                }}
                 entitySelected={SetType.PARTICIPANT}
                 entityOptions={entityOptions}
                 idsSelected={['idParticipant1', 'idParticipant2']}
@@ -413,10 +409,6 @@ export const VennChartWithTwoSets = () => (
                     trackVennViewEntityCounts: function (type: string, entityCount: number): void {
                         throw new Error('Function not implemented.');
                     },
-                }}
-                size={{
-                    width: 540,
-                    height: 498,
                 }}
                 entitySelected={SetType.PARTICIPANT}
                 entityOptions={entityOptions}
@@ -478,10 +470,6 @@ export const VennChartWithThreeSets = () => (
                         throw new Error('Function not implemented.');
                     },
                 }}
-                size={{
-                    width: 540,
-                    height: 498,
-                }}
                 entitySelected={SetType.PARTICIPANT}
                 entityOptions={entityOptions}
                 idsSelected={['idParticipant1', 'idParticipant2', 'idParticipant3']}
@@ -541,10 +529,6 @@ export const VennChartWithThreeSetsWithInvalidValues = () => (
                     trackVennViewEntityCounts: function (type: string, entityCount: number): void {
                         throw new Error('Function not implemented.');
                     },
-                }}
-                size={{
-                    width: 540,
-                    height: 498,
                 }}
                 entitySelected={SetType.PARTICIPANT}
                 entityOptions={entityOptions}

@@ -19,7 +19,8 @@ import VennQueryPill from './VennQueryPill';
 import styles from './index.module.css';
 
 const MAX_COUNT = 10000;
-const PADDING_OFFSET = 24;
+const MIN_PADDING_OFFSET = 24;
+const MAX_PADDING_OFFSET = 80;
 const QUERIES_LABELS = ['Q₁', 'Q₂', 'Q₃'];
 const SETS_LABELS = ['S₁', 'S₂', 'S₃'];
 
@@ -30,6 +31,12 @@ const EXPORT_SETTINGS = {
 };
 const DEFAULT_FILENAME_TEMPLATE = '%name-%type-%date%extension';
 const DEFAULT_FILENAME_DATE_FORMAT = 'yyyy-MM-dd';
+
+// keep a aspect ratio of 4/3
+const MIN_SET_WIDTH = 600;
+const MIN_SET_HEIGHT = 400;
+const MAX_SET_WIDTH = 800;
+const MAX_SET_HEIGHT = 600;
 
 type VennChartProps = {
     analytics: {
@@ -51,9 +58,9 @@ type VennChartProps = {
     setSaveModalOpen: (isOpen: boolean) => void;
     setSelectedSets: (sets: ISetOperation[]) => void;
     setTableSelectedSets: (sets: ISetOperation[]) => void;
-    size: {
-        width: number;
-        height: number;
+    scale?: {
+        min: number;
+        max: number;
     };
     summary?: ISummaryData[];
     tableSelectedSets: ISetOperation[];
@@ -151,10 +158,13 @@ const VennChart = ({
     options,
     outlineWidth = 1.5,
     radius = 130,
+    scale = {
+        max: 1.0,
+        min: 1.0,
+    },
     setSaveModalOpen,
     setSelectedSets,
     setTableSelectedSets,
-    size,
     summary = [],
     tableSelectedSets,
 }: VennChartProps): JSX.Element => {
@@ -172,15 +182,25 @@ const VennChart = ({
     useEffect(() => {
         if (loading || !ref?.current) return;
 
-        const { height, width } = size;
         const circle1 = `circle1-${v4()}`;
         const circle1out = `circle1_out-${v4()}`;
         const circle2 = `circle2-${v4()}`;
         const circle2out = `circle2_out-${v4()}`;
 
-        const cy = (1.0 / summary.length) * height + PADDING_OFFSET;
-        const cx = 0.48 * width;
+        let width = MIN_SET_WIDTH / scale.min;
+        let height = MIN_SET_HEIGHT / scale.min;
+        let paddingOffset = MIN_PADDING_OFFSET / scale.min;
+
+        if (summary.length > 2) {
+            width = MAX_SET_WIDTH / scale.max;
+            height = MAX_SET_HEIGHT / scale.max;
+            paddingOffset = MAX_PADDING_OFFSET / scale.max;
+        }
+
+        const cy = (1.0 / summary.length) * height + paddingOffset;
+        const cx = 0.5 * width;
         const svg = d3.select(`#${chartId}`);
+        svg.attr('viewBox', `0 0 ${width} ${height}`);
         const defs = svg.append('svg:defs');
 
         /**
@@ -439,8 +459,8 @@ const VennChart = ({
                 .attr('clip-path', `url(#${circle3out})`)
                 .append('svg:rect')
                 .attr('clip-path', `url(#${circle1out})`)
-                .attr('width', width)
-                .attr('height', height)
+                .attr('width', '100%')
+                .attr('height', '100%')
                 .attr('class', styles.outline);
             // Insert count value of '(S₁∩S₃)-(S₂)'
             svg.append('svg:g')

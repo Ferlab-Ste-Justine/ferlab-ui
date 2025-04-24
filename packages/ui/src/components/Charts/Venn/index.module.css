@@ -1,3 +1,10 @@
+.venn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
 .vennChart {
     display: flex;
     gap: 24px;
@@ -25,7 +32,7 @@
 }
 
 .chartWrapper {
-    height: 498px;
+    height: 100%;
     position: relative;
     width: 100%;
     text-align: center;
@@ -37,16 +44,10 @@
     height: 100%;
 }
 
-.venn {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-}
-
 .venn .chart {
     display: flex;
     align-items: center;
-    width: 540px;
+    flex: 1;
 }
 
 .venn .chart .outline {
