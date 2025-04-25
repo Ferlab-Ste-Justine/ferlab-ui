@@ -1,3 +1,6 @@
+### 10.24.6 2025-04-25
+- fix: SJIP-1318 make chart responsive
+
 ### 10.24.5 2025-04-24
 - fix: SJIP-1339 fix venn to be responsive
 

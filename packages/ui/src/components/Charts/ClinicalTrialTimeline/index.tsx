@@ -80,8 +80,7 @@ const ClinicalTrialTimelineChart = ({
         const svg = d3
             .select(`#${chartId}`)
             .append('svg')
-            .attr('width', width + margin.left + margin.right)
-            .attr('height', height + margin.top + margin.bottom)
+            .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
             .append('g')
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
@@ -316,7 +315,7 @@ const ClinicalTrialTimelineChart = ({
             .text((d) => `${d.duration.toFixed(2)}`);
     }, [loading, ref, activities, dictionary]);
 
-    return <div id={chartId} ref={ref} style={{ height: height, width: width }}></div>;
+    return <div id={chartId} ref={ref} style={{ maxHeight: height, maxWidth: width }}></div>;
 };
 
 export default ClinicalTrialTimelineChart;
