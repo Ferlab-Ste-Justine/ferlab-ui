@@ -105,7 +105,7 @@ export default {
 export const TimelineChartBasic = () => (
     <>
         <h2>Timeline Chart</h2>
-        <div style={{ width: '600px', height: '600px' }}>
+        <div>
             <ClinicalTrialTimelineChart title="Tofacitinib" data={data} loading={false} height={350} width={600} />
         </div>
     </>
