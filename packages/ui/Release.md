@@ -1,3 +1,6 @@
+### 10.24.7 2025-05-08
+- feat: SJIP-1354 add avatar to list item with actions
+
 ### 10.24.6 2025-04-25
 - fix: SJIP-1318 make chart responsive
 

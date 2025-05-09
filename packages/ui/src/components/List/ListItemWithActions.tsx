@@ -8,6 +8,7 @@ import ConditionalWrapper from '../utils/ConditionalWrapper';
 import styles from './ListItemWithActions.module.css';
 
 export type TListItemWithActionsProps = {
+    avatar?: ReactNode;
     onEdit: () => void;
     onDelete: () => void;
     onClick?: (e: any) => void;
@@ -23,6 +24,7 @@ export type TListItemWithActionsProps = {
 const { Text } = Typography;
 
 const ListItemWithActions = ({
+    avatar,
     className = '',
     description,
     extra,
@@ -68,6 +70,7 @@ const ListItemWithActions = ({
         extra={extra && <div className={styles.extra}>{extra}</div>}
     >
         <List.Item.Meta
+            avatar={avatar}
             className={styles.itemMeta}
             description={description && <Text type="secondary">{description}</Text>}
             title={
