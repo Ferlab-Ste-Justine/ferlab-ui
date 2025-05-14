@@ -93,7 +93,7 @@ const VennQueryPill = ({ sqon }: TVennQueryPill): JSX.Element => {
         <>
             {valueFilter.map(({ field, op, value }, index) => (
                 <>
-                    <PillTag dictionary={dictionary} field={field} operator={op} value={value} />
+                    <PillTag dictionary={dictionary} field={field} key={field} operator={op} value={value} />
                     {index < valueFilter.length - 1 && <span className={styles.op}>{sqon.op}</span>}
                 </>
             ))}

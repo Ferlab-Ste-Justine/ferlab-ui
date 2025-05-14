@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { UndoOutlined } from '@ant-design/icons';
 import { Button, Select, Tag, Tooltip, Typography } from 'antd';
 import cx from 'classnames';
@@ -81,6 +81,10 @@ const VennChartWithFilters = ({
     const [entityCompared, setEntityCompared] = useState<string>(entitySelected);
     const [setIdsCompared, setSetIdsCompared] = useState<string[]>(idsSelected);
     const [openSetsDropdown, setOpenSetsDropdown] = useState<boolean>(false);
+
+    useEffect(() => {
+        setTableSelectedSets([]);
+    }, [loading]);
 
     if (loading) {
         return <VennWithFilterSkeleton />;
