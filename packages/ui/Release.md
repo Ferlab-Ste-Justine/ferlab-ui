@@ -1,3 +1,6 @@
+### 10.24.8 2025-05-14
+- fix: SJIP-1356 reset select table set when venn chart is reloaded
+
 ### 10.24.7 2025-05-08
 - feat: SJIP-1354 add avatar to list item with actions
 

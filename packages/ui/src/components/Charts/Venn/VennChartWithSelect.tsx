@@ -153,10 +153,10 @@ const VennChartWithSelect = ({
                         value={entity}
                     >
                         {options.map((option) => (
-                            <option value={option.value}>
+                            <Select.Option key={option.value} value={option.value}>
                                 <span className={styles.optionIcon}>{option.icon}</span>
                                 <span>{option.label}</span>
-                            </option>
+                            </Select.Option>
                         ))}
                     </Select>
                 </div>
