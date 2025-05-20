@@ -1,3 +1,6 @@
+### 10.24.9 2025-05-14
+- fix: SKFP-1524 fix an issue where vennQueryPill display the wrong tooltips for savedSet
+
 ### 10.24.8 2025-05-14
 - fix: SJIP-1356 reset select table set when venn chart is reloaded
 

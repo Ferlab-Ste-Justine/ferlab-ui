@@ -61,21 +61,24 @@ const flattenSqon = (filters: any[], sqonContent: TSyntheticSqonContentValue, op
     }
 };
 
-const PillTag = ({ dictionary, field, operator, value }: TPillTag) => (
-    <Tag>
-        <div className={styles.vennQueryPill}>
-            <span>{dictionary.query?.facet ? dictionary.query?.facet(field) : field}</span>
-            {isSet(value) ? <Operator type={FieldOperators.between} /> : <Operator type={operator} />}
-            <Tooltip style={{ zIndex: 100000 }} title={value.join(JOIN_STRING)}>
-                <span className={styles.value}>
-                    {isSet(value) && dictionary.query?.setNameResolver
-                        ? dictionary.query?.setNameResolver(value.toString())
-                        : value.join(JOIN_STRING)}
-                </span>
-            </Tooltip>
-        </div>
-    </Tag>
-);
+const PillTag = ({ dictionary, field, operator, value }: TPillTag) => {
+    const valueText =
+        isSet(value) && dictionary.query?.setNameResolver
+            ? dictionary.query?.setNameResolver(value.toString())
+            : value.join(JOIN_STRING);
+
+    return (
+        <Tag>
+            <div className={styles.vennQueryPill}>
+                <span>{dictionary.query?.facet ? dictionary.query?.facet(field) : field}</span>
+                {isSet(value) ? <Operator type={FieldOperators.between} /> : <Operator type={operator} />}
+                <Tooltip style={{ zIndex: 100000 }} title={valueText}>
+                    <span className={styles.value}>{valueText}</span>
+                </Tooltip>
+            </div>
+        </Tag>
+    );
+};
 
 const VennQueryPill = ({ sqon }: TVennQueryPill): JSX.Element => {
     const { dictionary } = useContext(QueryDictionaryContext);
