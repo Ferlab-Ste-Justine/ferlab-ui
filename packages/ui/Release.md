@@ -1,3 +1,6 @@
+### 10.24.10 2025-05-23
+- fix: SKFP-1527 use custom legend with patterns
+
 ### 10.24.9 2025-05-14
 - fix: SKFP-1524 fix an issue where vennQueryPill display the wrong tooltips for savedSet
 
