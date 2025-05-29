@@ -1,3 +1,6 @@
+### 10.25.0 2025-05-29
+- feat: SKFP-1530 remove warning for request biospecimen
+
 ### 10.24.10 2025-05-23
 - fix: SKFP-1527 use custom legend with patterns
 

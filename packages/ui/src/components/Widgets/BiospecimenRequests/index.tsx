@@ -32,13 +32,6 @@ export const DEFAULT_BIOSPECIMEN_REQUESTS_WIDGET_DICTIONARY: TBiospecimenRequest
             title: 'Permanently delete this biospecimen request?',
         },
         edit: DEFAULT_EDIT_BIOSPECIMENT_REQUEST_MODAL,
-        share: {
-            cancelText: 'Cancel',
-            content:
-                'Note that anyone with this link will have access to: The biospecimen request title The list of biospecimens in the request',
-            okText: 'Copy Link',
-            title: 'Share link to biospecimen request?',
-        },
     },
     noBiospecimenRequests:
         'A history of your biospecimen requests will be listed here. You can make your first request from Data Exploration.',
@@ -62,12 +55,6 @@ type TBiospecimenRequestsWidgetDictionary = {
     modal: {
         edit: TEditBiospecimenRequestModalDictionary;
         delete: {
-            title: string;
-            okText: string;
-            content: string;
-            cancelText: string;
-        };
-        share: {
             title: string;
             okText: string;
             content: string;
@@ -146,11 +133,7 @@ const BiospecimenRequestsWidget = ({
                                         }}
                                         onEdit={() => setEditedBiospecimenRequest(item)}
                                         onShare={() => {
-                                            Modal.confirm({
-                                                ...dictionary.modal.share,
-                                                onOk: () => handleListItemShare(item.id),
-                                                width: 440,
-                                            });
+                                            handleListItemShare(item.id);
                                         }}
                                         title={item.tag}
                                         titleClassName={styles.listItemTitle}
