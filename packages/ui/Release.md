@@ -1,3 +1,6 @@
+### 10.25.1 2025-06-11
+- fix: SJIP-1370 increase legend width for demographic chart
+
 ### 10.25.0 2025-05-29
 - feat: SKFP-1530 remove warning for request biospecimen
 
