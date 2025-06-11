@@ -518,7 +518,7 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                                                 anchor: 'bottom',
                                                 direction: 'column',
                                                 itemHeight: LEGEND_ITEM_HEIGHT,
-                                                itemWidth: 100,
+                                                itemWidth: 210,
                                                 translateX: 0,
                                                 translateY:
                                                     (LEGEND_ITEM_HEIGHT * statistic.demography.race.length - 1) / 2,
