@@ -1,3 +1,6 @@
+### 10.25.2 2025-06-16
+- feat: SJIP-1378 entity statistics download optionnal
+
 ### 10.25.1 2025-06-11
 - fix: SJIP-1370 increase legend width for demographic chart
 
