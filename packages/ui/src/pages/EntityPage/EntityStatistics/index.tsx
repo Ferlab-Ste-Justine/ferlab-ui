@@ -140,6 +140,7 @@ export interface IEntityStatistics {
     header: string;
     statistic: TStatistic;
     dictionary: TEntityStatisticsDictionary;
+    withDownload?: boolean;
 }
 
 const resizableCardCommonsSettings = {
@@ -148,6 +149,15 @@ const resizableCardCommonsSettings = {
         png: true,
         svg: true,
         tsv: true,
+    },
+    withHandle: false,
+};
+const resizableCardCommonsWithoutDownloadSettings = {
+    closeHandle: false,
+    downloadSettings: {
+        png: false,
+        svg: false,
+        tsv: false,
     },
     withHandle: false,
 };
@@ -222,7 +232,9 @@ const applyFilter = ({ data, filter }: TStatisticBarChart | TStatisticPieChart, 
 
 const LEGEND_ITEM_HEIGHT = 18;
 
-const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatisticsDictionary) => {
+type getStatisticLayouts = { statistic: TStatistic; dictionary: TEntityStatisticsDictionary; withDownload?: boolean };
+
+const getStatisticLayouts = ({ dictionary, statistic, withDownload = true }: getStatisticLayouts) => {
     const phenotypesData = applyFilter(statistic.phenotype, 'label');
     const mondoData = applyFilter(statistic.mondo, 'label');
     const downSyndromeStatusData = applyFilter(statistic.downSyndromeStatus);
@@ -230,6 +242,10 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
     const sampleAvailabilityData = applyFilter(statistic.sampleAvailability);
     const dataCategoryData = applyFilter(statistic.dataCategory);
     const dataTypeData = applyFilter(statistic.dataType);
+
+    const resizableCardSettings = withDownload
+        ? resizableCardCommonsSettings
+        : resizableCardCommonsWithoutDownloadSettings;
 
     return [
         // Phenotypes (HPO) (Vertical Bar Chart)
@@ -318,7 +334,7 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                         data: [phenotypesData],
                         headers: ['Value', 'Count'],
                     }}
-                    {...resizableCardCommonsSettings}
+                    {...resizableCardSettings}
                 />
             ),
             id: 'phenotypes',
@@ -416,7 +432,7 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                         data: [mondoData],
                         headers: ['Value', 'Count'],
                     }}
-                    {...resizableCardCommonsSettings}
+                    {...resizableCardSettings}
                 />
             ),
             id: 'mondo',
@@ -556,7 +572,7 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                     tsvSettings={{
                         data: [statistic.demography.sex, statistic.demography.race, statistic.demography.ethnicity],
                     }}
-                    {...resizableCardCommonsSettings}
+                    {...resizableCardSettings}
                 />
             ),
             id: 'demography',
@@ -626,7 +642,7 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                     tsvSettings={{
                         data: [downSyndromeStatusData],
                     }}
-                    {...resizableCardCommonsSettings}
+                    {...resizableCardSettings}
                 />
             ),
             id: 'down_syndrome',
@@ -696,7 +712,7 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                     tsvSettings={{
                         data: [sampleTypeData],
                     }}
-                    {...resizableCardCommonsSettings}
+                    {...resizableCardSettings}
                 />
             ),
             id: 'sample_type',
@@ -766,7 +782,7 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                     tsvSettings={{
                         data: [sampleAvailabilityData],
                     }}
-                    {...resizableCardCommonsSettings}
+                    {...resizableCardSettings}
                 />
             ),
             id: 'sample_availability',
@@ -879,7 +895,7 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                     tsvSettings={{
                         data: [dataCategoryData],
                     }}
-                    {...resizableCardCommonsSettings}
+                    {...resizableCardSettings}
                 />
             ),
             id: 'data-category',
@@ -992,7 +1008,7 @@ const getStatisticLayouts = (statistic: TStatistic, dictionary: TEntityStatistic
                     tsvSettings={{
                         data: [dataTypeData],
                     }}
-                    {...resizableCardCommonsSettings}
+                    {...resizableCardSettings}
                 />
             ),
             id: 'data-type',
@@ -1038,8 +1054,9 @@ const EntityStatistics = ({
     statistic,
     title,
     titleExtra,
+    withDownload = true,
 }: IEntityStatistics): React.ReactElement => {
-    const defaultLayouts = getStatisticLayouts(statistic, dictionary);
+    const defaultLayouts = getStatisticLayouts({ dictionary, statistic, withDownload });
     const layouts = serialize(defaultLayouts);
 
     return (
