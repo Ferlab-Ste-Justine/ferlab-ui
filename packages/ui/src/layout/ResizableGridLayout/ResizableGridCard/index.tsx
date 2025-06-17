@@ -31,7 +31,7 @@ type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
         height: number;
     };
     tsvSettings?: {
-        headers?: string[];
+        headers?: string[] | string[][];
         contentMap?: string[];
         data: any[];
     };
@@ -156,14 +156,26 @@ const ResizableGridCard = ({
             if (!tsvSettings) {
                 return;
             }
-            tsvSettings.data.forEach((datum) => {
-                let tsvContent = `${tsvSettings.headers?.join('\t') ?? DEFAULT_TSV_HEADERS.join('\t')}\n`;
+            tsvSettings.data.forEach((datum, index) => {
+                let tsvContent = '';
+                // Manage specific headers for multiple data
+                if (tsvSettings.headers && typeof tsvSettings.headers[0] === 'string') {
+                    tsvContent = `${tsvSettings.headers?.join('\t')}\n`;
+                } else if (tsvSettings.headers && Array.isArray(tsvSettings.headers[0])) {
+                    const headerRow = tsvSettings.headers[index] as string[];
+                    tsvContent = `${headerRow.join('\t')}\n`;
+                } else {
+                    tsvContent = `${DEFAULT_TSV_HEADERS.join('\t')}\n`;
+                }
+
                 const tsvDataMapping = tsvSettings.contentMap ?? DEFAULT_TSV_CONTENT_MAP;
 
                 datum.forEach((e: any) => {
-                    tsvDataMapping.forEach((key) => {
-                        if (e[key]) {
+                    tsvDataMapping.forEach((key, index) => {
+                        if (e[key] && index < tsvDataMapping.length - 1) {
                             tsvContent += `${e[key]}\t`;
+                        } else if (e[key] && index == tsvDataMapping.length - 1) {
+                            tsvContent += `${e[key]}`;
                         }
                     });
                     tsvContent += `\n`;
