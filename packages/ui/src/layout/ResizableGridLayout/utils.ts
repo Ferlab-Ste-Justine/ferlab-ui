@@ -21,9 +21,8 @@ export const formatAggregationChartData = (data: any[]): any[] =>
                 ...d,
                 frequency: d.frequency.toFixed(2),
             };
-        } else {
-            return d;
         }
+        return d;
     });
 
 export const treeNodeToChartData = (buckets: any[] = []): any[] =>
