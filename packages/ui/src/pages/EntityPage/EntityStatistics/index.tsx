@@ -12,7 +12,11 @@ import Empty from '../../../components/Empty';
 import ResizableGridLayout, { serialize } from '../../../layout/ResizableGridLayout';
 import ResizableGridCard from '../../../layout/ResizableGridLayout/ResizableGridCard';
 import { TDownloadDictionary } from '../../../layout/ResizableGridLayout/ResizableGridCard/utils';
-import { mondoDefaultGridConfig, observedPhenotypeDefaultGridConfig } from '../../../layout/ResizableGridLayout/utils';
+import {
+    formatAggregationChartData,
+    mondoDefaultGridConfig,
+    observedPhenotypeDefaultGridConfig,
+} from '../../../layout/ResizableGridLayout/utils';
 import { truncateString } from '../../../utils/stringUtils';
 
 import entityTableStyles from '../EntityTable/index.module.css';
@@ -332,7 +336,7 @@ const getStatisticLayouts = ({ dictionary, statistic, withDownload = true }: get
                     tsvSettings={{
                         contentMap: ['label', 'value'],
                         data: [phenotypesData],
-                        headers: ['Value', 'Count'],
+                        headers: ['Phenotype (HPO)', 'Count'],
                     }}
                     {...resizableCardSettings}
                 />
@@ -430,7 +434,7 @@ const getStatisticLayouts = ({ dictionary, statistic, withDownload = true }: get
                     tsvSettings={{
                         contentMap: ['label', 'value'],
                         data: [mondoData],
-                        headers: ['Value', 'Count'],
+                        headers: ['Diagnosis (MONDO)', 'Count'],
                     }}
                     {...resizableCardSettings}
                 />
@@ -570,7 +574,17 @@ const getStatisticLayouts = ({ dictionary, statistic, withDownload = true }: get
                     }
                     theme="shade"
                     tsvSettings={{
-                        data: [statistic.demography.sex, statistic.demography.race, statistic.demography.ethnicity],
+                        contentMap: ['label', 'value', 'frequency'],
+                        data: [
+                            formatAggregationChartData(statistic.demography.sex),
+                            formatAggregationChartData(statistic.demography.race),
+                            formatAggregationChartData(statistic.demography.ethnicity),
+                        ],
+                        headers: [
+                            ['Sex', 'Count', 'Frequency'],
+                            ['Race', 'Count', 'Frequency'],
+                            ['Ethnicity', 'Count', 'Frequency'],
+                        ],
                     }}
                     {...resizableCardSettings}
                 />
@@ -640,7 +654,9 @@ const getStatisticLayouts = ({ dictionary, statistic, withDownload = true }: get
                     theme="shade"
                     titleTruncateThresholdWidth={100}
                     tsvSettings={{
-                        data: [downSyndromeStatusData],
+                        contentMap: ['label', 'value', 'frequency'],
+                        data: [formatAggregationChartData(downSyndromeStatusData)],
+                        headers: ['Down Syndrome Status', 'Count', 'Frequency'],
                     }}
                     {...resizableCardSettings}
                 />
@@ -710,7 +726,9 @@ const getStatisticLayouts = ({ dictionary, statistic, withDownload = true }: get
                     theme="shade"
                     titleTruncateThresholdWidth={100}
                     tsvSettings={{
-                        data: [sampleTypeData],
+                        contentMap: ['label', 'value', 'frequency'],
+                        data: [formatAggregationChartData(sampleTypeData)],
+                        headers: ['Sample Type', 'Count', 'Frequency'],
                     }}
                     {...resizableCardSettings}
                 />
@@ -780,7 +798,9 @@ const getStatisticLayouts = ({ dictionary, statistic, withDownload = true }: get
                     theme="shade"
                     titleTruncateThresholdWidth={100}
                     tsvSettings={{
-                        data: [sampleAvailabilityData],
+                        contentMap: ['label', 'value', 'frequency'],
+                        data: [formatAggregationChartData(sampleAvailabilityData)],
+                        headers: ['Sample Availability', 'Count', 'Frequency'],
                     }}
                     {...resizableCardSettings}
                 />
@@ -893,7 +913,9 @@ const getStatisticLayouts = ({ dictionary, statistic, withDownload = true }: get
                     }
                     theme="shade"
                     tsvSettings={{
-                        data: [dataCategoryData],
+                        contentMap: ['label', 'value', 'frequency'],
+                        data: [formatAggregationChartData(dataCategoryData)],
+                        headers: ['Data Category', 'Count', 'Frequency'],
                     }}
                     {...resizableCardSettings}
                 />
@@ -1006,7 +1028,9 @@ const getStatisticLayouts = ({ dictionary, statistic, withDownload = true }: get
                     }
                     theme="shade"
                     tsvSettings={{
-                        data: [dataTypeData],
+                        contentMap: ['label', 'value', 'frequency'],
+                        data: [formatAggregationChartData(dataTypeData)],
+                        headers: ['Data Type', 'Count', 'Frequency'],
                     }}
                     {...resizableCardSettings}
                 />

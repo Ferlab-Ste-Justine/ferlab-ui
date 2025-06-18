@@ -14,6 +14,17 @@ export const aggregationToChartData = (buckets: any[] = [], total?: number): any
     });
 };
 
+export const formatAggregationChartData = (data: any[]): any[] =>
+    data.map((d) => {
+        if (d.frequency) {
+            return {
+                ...d,
+                frequency: d.frequency.toFixed(2),
+            };
+        }
+        return d;
+    });
+
 export const treeNodeToChartData = (buckets: any[] = []): any[] =>
     buckets.map(({ exactTagCount, key, name }) => ({
         id: key,

@@ -1,3 +1,6 @@
+### 10.25.3 2025-06-17
+- feat: SJIP-1379 improve statistic download data 
+
 ### 10.25.2 2025-06-16
 - feat: SJIP-1378 entity statistics download optionnal
 
