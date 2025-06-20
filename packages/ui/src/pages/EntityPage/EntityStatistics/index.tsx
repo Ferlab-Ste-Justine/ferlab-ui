@@ -121,8 +121,8 @@ type TStatisticPieChart = {
 };
 
 type TStatistic = {
-    phenotype: TStatisticBarChart;
-    mondo: TStatisticBarChart;
+    phenotype?: TStatisticBarChart;
+    mondo?: TStatisticBarChart;
     demography: {
         loading: boolean;
         sex: DefaultRawDatum[];
@@ -145,6 +145,7 @@ export interface IEntityStatistics {
     statistic: TStatistic;
     dictionary: TEntityStatisticsDictionary;
     withDownload?: boolean;
+    withHpoMondo?: boolean;
 }
 
 const resizableCardCommonsSettings = {
@@ -236,11 +237,21 @@ const applyFilter = ({ data, filter }: TStatisticBarChart | TStatisticPieChart, 
 
 const LEGEND_ITEM_HEIGHT = 18;
 
-type getStatisticLayouts = { statistic: TStatistic; dictionary: TEntityStatisticsDictionary; withDownload?: boolean };
+type getStatisticLayouts = {
+    statistic: TStatistic;
+    dictionary: TEntityStatisticsDictionary;
+    withDownload?: boolean;
+    withHpoMondo?: boolean;
+};
 
-const getStatisticLayouts = ({ dictionary, statistic, withDownload = true }: getStatisticLayouts) => {
-    const phenotypesData = applyFilter(statistic.phenotype, 'label');
-    const mondoData = applyFilter(statistic.mondo, 'label');
+const getStatisticLayouts = ({
+    dictionary,
+    statistic,
+    withDownload = true,
+    withHpoMondo = true,
+}: getStatisticLayouts) => {
+    const phenotypesData = (withHpoMondo && statistic.phenotype && applyFilter(statistic.phenotype, 'label')) || [];
+    const mondoData = (withHpoMondo && statistic.mondo && applyFilter(statistic.mondo, 'label')) || [];
     const downSyndromeStatusData = applyFilter(statistic.downSyndromeStatus);
     const sampleTypeData = applyFilter(statistic.sampleType);
     const sampleAvailabilityData = applyFilter(statistic.sampleAvailability);
@@ -251,203 +262,210 @@ const getStatisticLayouts = ({ dictionary, statistic, withDownload = true }: get
         ? resizableCardCommonsSettings
         : resizableCardCommonsWithoutDownloadSettings;
 
+    const statisticsLayout = [];
+    if (withHpoMondo) {
+        statisticsLayout.push(
+            // Phenotypes (HPO) (Vertical Bar Chart)
+            {
+                ...observedPhenotypeDefaultGridConfig,
+                base: {
+                    ...observedPhenotypeDefaultGridConfig.base,
+                    isDraggable: false,
+                },
+                component: (
+                    <ResizableGridCard
+                        content={
+                            <>
+                                {isEmpty(phenotypesData) ? (
+                                    <Empty imageType="grid" />
+                                ) : (
+                                    <BarChart
+                                        axisBottom={{
+                                            legend: dictionary.phenotype.legendAxisBottom,
+                                            legendOffset: 35,
+                                            legendPosition: 'middle',
+                                        }}
+                                        axisLeft={{
+                                            format: (label: string) => {
+                                                const title = label
+                                                    .replace(/\(HP:\d+\)/g, '')
+                                                    .split('-')
+                                                    .pop();
+                                                return truncateString(title ?? '', 15);
+                                            },
+                                            legend: dictionary.phenotype.legendAxisLeft,
+                                            legendOffset: -125,
+                                            legendPosition: 'middle',
+                                        }}
+                                        data={phenotypesData}
+                                        layout="horizontal"
+                                        margin={{
+                                            bottom: 45,
+                                            left: 145,
+                                            right: 12,
+                                            top: 12,
+                                        }}
+                                        {...barCharCommonsSettings}
+                                    />
+                                )}
+                            </>
+                        }
+                        dictionary={dictionary.download}
+                        gridUID="phenotypes"
+                        headerTitle={dictionary.phenotype.headerTitle}
+                        loading={statistic.phenotype?.loading}
+                        loadingType="spinner"
+                        modalContent={
+                            <BarChart
+                                axisBottom={{
+                                    legend: dictionary.phenotype.legendAxisBottom,
+                                    legendOffset: 35,
+                                    legendPosition: 'middle',
+                                }}
+                                axisLeft={{
+                                    format: (label: string) => {
+                                        const title = label
+                                            .replace(/\(HP:\d+\)/g, '')
+                                            .split('-')
+                                            .pop();
+                                        return truncateString(title ?? '', 15);
+                                    },
+                                    legend: dictionary.phenotype.legendAxisLeft,
+                                    legendOffset: -125,
+                                    legendPosition: 'middle',
+                                }}
+                                data={phenotypesData}
+                                layout="horizontal"
+                                margin={{
+                                    bottom: 45,
+                                    left: 145,
+                                    right: 12,
+                                    top: 12,
+                                }}
+                                {...barCharCommonsSettings}
+                            />
+                        }
+                        theme="shade"
+                        tsvSettings={{
+                            contentMap: ['label', 'value'],
+                            data: [phenotypesData],
+                            headers: ['Phenotype (HPO)', 'Count'],
+                        }}
+                        {...resizableCardSettings}
+                    />
+                ),
+                id: 'phenotypes',
+                sm: {
+                    h: 4,
+                    w: 6,
+                    x: 0,
+                    y: 0,
+                },
+                title: dictionary.phenotype.headerTitle,
+            },
+            // Mondo (Vertical Bar Chart)
+            {
+                ...mondoDefaultGridConfig,
+                base: {
+                    ...mondoDefaultGridConfig.base,
+                    isDraggable: false,
+                },
+                component: (
+                    <ResizableGridCard
+                        content={
+                            <>
+                                {isEmpty(mondoData) ? (
+                                    <Empty imageType="grid" />
+                                ) : (
+                                    <BarChart
+                                        axisBottom={{
+                                            legend: dictionary.mondo.legendAxisBottom,
+                                            legendOffset: 35,
+                                            legendPosition: 'middle',
+                                        }}
+                                        axisLeft={{
+                                            format: (label: string) => {
+                                                const title = label
+                                                    .replace(/\(MONDO:\d+\)/g, '')
+                                                    .split('-')
+                                                    .pop();
+                                                return truncateString(title ?? '', 15);
+                                            },
+                                            legend: dictionary.mondo.legendAxisLeft,
+                                            legendOffset: -125,
+                                            legendPosition: 'middle',
+                                        }}
+                                        data={mondoData}
+                                        layout="horizontal"
+                                        margin={{
+                                            bottom: 45,
+                                            left: 145,
+                                            right: 12,
+                                            top: 12,
+                                        }}
+                                        {...barCharCommonsSettings}
+                                    />
+                                )}
+                            </>
+                        }
+                        dictionary={dictionary.download}
+                        gridUID="mondo"
+                        headerTitle={dictionary.mondo.headerTitle}
+                        loading={statistic.mondo?.loading}
+                        loadingType="spinner"
+                        modalContent={
+                            <BarChart
+                                axisBottom={{
+                                    legend: dictionary.mondo.legendAxisBottom,
+                                    legendOffset: 35,
+                                    legendPosition: 'middle',
+                                }}
+                                axisLeft={{
+                                    format: (label: string) => {
+                                        const title = label
+                                            .replace(/\(MONDO:\d+\)/g, '')
+                                            .split('-')
+                                            .pop();
+                                        return truncateString(title ?? '', 15);
+                                    },
+                                    legend: dictionary.mondo.legendAxisLeft,
+                                    legendOffset: -125,
+                                    legendPosition: 'middle',
+                                }}
+                                data={mondoData}
+                                layout="horizontal"
+                                margin={{
+                                    bottom: 45,
+                                    left: 145,
+                                    right: 12,
+                                    top: 12,
+                                }}
+                                {...barCharCommonsSettings}
+                            />
+                        }
+                        theme="shade"
+                        tsvSettings={{
+                            contentMap: ['label', 'value'],
+                            data: [mondoData],
+                            headers: ['Diagnosis (MONDO)', 'Count'],
+                        }}
+                        {...resizableCardSettings}
+                    />
+                ),
+                id: 'mondo',
+                sm: {
+                    h: 4,
+                    w: 6,
+                    x: 6,
+                    y: 0,
+                },
+                title: dictionary.mondo.headerTitle,
+            },
+        );
+    }
+
     return [
-        // Phenotypes (HPO) (Vertical Bar Chart)
-        {
-            ...observedPhenotypeDefaultGridConfig,
-            base: {
-                ...observedPhenotypeDefaultGridConfig.base,
-                isDraggable: false,
-            },
-            component: (
-                <ResizableGridCard
-                    content={
-                        <>
-                            {isEmpty(phenotypesData) ? (
-                                <Empty imageType="grid" />
-                            ) : (
-                                <BarChart
-                                    axisBottom={{
-                                        legend: dictionary.phenotype.legendAxisBottom,
-                                        legendOffset: 35,
-                                        legendPosition: 'middle',
-                                    }}
-                                    axisLeft={{
-                                        format: (label: string) => {
-                                            const title = label
-                                                .replace(/\(HP:\d+\)/g, '')
-                                                .split('-')
-                                                .pop();
-                                            return truncateString(title ?? '', 15);
-                                        },
-                                        legend: dictionary.phenotype.legendAxisLeft,
-                                        legendOffset: -125,
-                                        legendPosition: 'middle',
-                                    }}
-                                    data={phenotypesData}
-                                    layout="horizontal"
-                                    margin={{
-                                        bottom: 45,
-                                        left: 145,
-                                        right: 12,
-                                        top: 12,
-                                    }}
-                                    {...barCharCommonsSettings}
-                                />
-                            )}
-                        </>
-                    }
-                    dictionary={dictionary.download}
-                    gridUID="phenotypes"
-                    headerTitle={dictionary.phenotype.headerTitle}
-                    loading={statistic.phenotype.loading}
-                    loadingType="spinner"
-                    modalContent={
-                        <BarChart
-                            axisBottom={{
-                                legend: dictionary.phenotype.legendAxisBottom,
-                                legendOffset: 35,
-                                legendPosition: 'middle',
-                            }}
-                            axisLeft={{
-                                format: (label: string) => {
-                                    const title = label
-                                        .replace(/\(HP:\d+\)/g, '')
-                                        .split('-')
-                                        .pop();
-                                    return truncateString(title ?? '', 15);
-                                },
-                                legend: dictionary.phenotype.legendAxisLeft,
-                                legendOffset: -125,
-                                legendPosition: 'middle',
-                            }}
-                            data={phenotypesData}
-                            layout="horizontal"
-                            margin={{
-                                bottom: 45,
-                                left: 145,
-                                right: 12,
-                                top: 12,
-                            }}
-                            {...barCharCommonsSettings}
-                        />
-                    }
-                    theme="shade"
-                    tsvSettings={{
-                        contentMap: ['label', 'value'],
-                        data: [phenotypesData],
-                        headers: ['Phenotype (HPO)', 'Count'],
-                    }}
-                    {...resizableCardSettings}
-                />
-            ),
-            id: 'phenotypes',
-            sm: {
-                h: 4,
-                w: 6,
-                x: 0,
-                y: 0,
-            },
-            title: dictionary.phenotype.headerTitle,
-        },
-        // Mondo (Vertical Bar Chart)
-        {
-            ...mondoDefaultGridConfig,
-            base: {
-                ...mondoDefaultGridConfig.base,
-                isDraggable: false,
-            },
-            component: (
-                <ResizableGridCard
-                    content={
-                        <>
-                            {isEmpty(mondoData) ? (
-                                <Empty imageType="grid" />
-                            ) : (
-                                <BarChart
-                                    axisBottom={{
-                                        legend: dictionary.mondo.legendAxisBottom,
-                                        legendOffset: 35,
-                                        legendPosition: 'middle',
-                                    }}
-                                    axisLeft={{
-                                        format: (label: string) => {
-                                            const title = label
-                                                .replace(/\(MONDO:\d+\)/g, '')
-                                                .split('-')
-                                                .pop();
-                                            return truncateString(title ?? '', 15);
-                                        },
-                                        legend: dictionary.mondo.legendAxisLeft,
-                                        legendOffset: -125,
-                                        legendPosition: 'middle',
-                                    }}
-                                    data={mondoData}
-                                    layout="horizontal"
-                                    margin={{
-                                        bottom: 45,
-                                        left: 145,
-                                        right: 12,
-                                        top: 12,
-                                    }}
-                                    {...barCharCommonsSettings}
-                                />
-                            )}
-                        </>
-                    }
-                    dictionary={dictionary.download}
-                    gridUID="mondo"
-                    headerTitle={dictionary.mondo.headerTitle}
-                    loading={statistic.mondo.loading}
-                    loadingType="spinner"
-                    modalContent={
-                        <BarChart
-                            axisBottom={{
-                                legend: dictionary.mondo.legendAxisBottom,
-                                legendOffset: 35,
-                                legendPosition: 'middle',
-                            }}
-                            axisLeft={{
-                                format: (label: string) => {
-                                    const title = label
-                                        .replace(/\(MONDO:\d+\)/g, '')
-                                        .split('-')
-                                        .pop();
-                                    return truncateString(title ?? '', 15);
-                                },
-                                legend: dictionary.mondo.legendAxisLeft,
-                                legendOffset: -125,
-                                legendPosition: 'middle',
-                            }}
-                            data={mondoData}
-                            layout="horizontal"
-                            margin={{
-                                bottom: 45,
-                                left: 145,
-                                right: 12,
-                                top: 12,
-                            }}
-                            {...barCharCommonsSettings}
-                        />
-                    }
-                    theme="shade"
-                    tsvSettings={{
-                        contentMap: ['label', 'value'],
-                        data: [mondoData],
-                        headers: ['Diagnosis (MONDO)', 'Count'],
-                    }}
-                    {...resizableCardSettings}
-                />
-            ),
-            id: 'mondo',
-            sm: {
-                h: 4,
-                w: 6,
-                x: 6,
-                y: 0,
-            },
-            title: dictionary.mondo.headerTitle,
-        },
+        ...statisticsLayout,
         // Demography (Pie Chart)
         {
             base: {
@@ -1079,8 +1097,9 @@ const EntityStatistics = ({
     title,
     titleExtra,
     withDownload = true,
+    withHpoMondo = true,
 }: IEntityStatistics): React.ReactElement => {
-    const defaultLayouts = getStatisticLayouts({ dictionary, statistic, withDownload });
+    const defaultLayouts = getStatisticLayouts({ dictionary, statistic, withDownload, withHpoMondo });
     const layouts = serialize(defaultLayouts);
 
     return (

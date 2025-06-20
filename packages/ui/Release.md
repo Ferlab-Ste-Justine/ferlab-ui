@@ -1,3 +1,6 @@
+### 10.25.4 2025-06-20
+- feat: SJIP-1372 entity statistic hpo and mondo optionnal
+
 ### 10.25.3 2025-06-17
 - feat: SJIP-1379 improve statistic download data 
 
