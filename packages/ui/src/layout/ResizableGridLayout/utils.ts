@@ -26,10 +26,11 @@ export const formatAggregationChartData = (data: any[]): any[] =>
     });
 
 export const treeNodeToChartData = (buckets: any[] = []): any[] =>
-    buckets.map(({ exactTagCount, key, name }) => ({
+    buckets.map(({ exactTagCount, key, name, results }) => ({
         id: key,
         label: name,
         value: exactTagCount,
+        valueWithDescendants: results,
     }));
 
 export const observedPhenotypeDefaultGridConfig = {

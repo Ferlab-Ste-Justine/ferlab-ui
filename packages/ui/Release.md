@@ -1,3 +1,6 @@
+### 10.25.5 2025-06-30
+- feat: SJIP-1335 add data in tree node to chart
+
 ### 10.25.4 2025-06-20
 - feat: SJIP-1372 entity statistic hpo and mondo optionnal
 
