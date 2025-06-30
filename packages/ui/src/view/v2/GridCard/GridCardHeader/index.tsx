@@ -10,7 +10,7 @@ import DragHandle from '../../../../layout/SortableGrid/DragHandle';
 
 import styles from './GridCardHeader.module.css';
 
-interface IInfoPopover extends PopoverProps {
+export interface IInfoPopover extends PopoverProps {
     iconClassName?: string;
 }
 
@@ -18,6 +18,7 @@ interface OwnProps {
     id: string;
     title: string;
     infoPopover?: IInfoPopover;
+    isResizable?: boolean;
     className?: string;
     handleClassName?: string;
     extraClassName?: string;
@@ -35,6 +36,7 @@ const GridCardHeader = ({
     handleClassName,
     id,
     infoPopover,
+    isResizable = true,
     title,
     titleTruncateThresholdWidth,
     withHandle = false,
@@ -43,7 +45,7 @@ const GridCardHeader = ({
     const [titleWidth, setTitleWidth] = useState('100%');
     const headerContainerRef = useRef() as MutableRefObject<HTMLSpanElement>;
     const onCardResize = throttle(() => {
-        if (!titleTruncateThresholdWidth) {
+        if (!titleTruncateThresholdWidth || !isResizable) {
             return;
         }
         const headerWidth = headerContainerRef?.current?.clientWidth;
