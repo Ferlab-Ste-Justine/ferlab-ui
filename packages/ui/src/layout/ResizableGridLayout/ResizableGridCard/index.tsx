@@ -1,5 +1,6 @@
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { CloseOutlined, DownloadOutlined } from '@ant-design/icons';
+import { IInfoPopover } from '@ferlab/ui/view/v2/GridCard/GridCardHeader';
 import { Button, Dropdown, Modal, Tooltip } from 'antd';
 import d3ToPng from 'd3-svg-to-png';
 import { v4 } from 'uuid';
@@ -39,6 +40,8 @@ type TResizableGridCard = Omit<TGridCard, 'title' | 'resizable'> & {
     downloadSettings?: TDownloadSettings;
     onRemoveClick?: () => void;
     titleTruncateThresholdWidth?: number;
+    infoPopover?: IInfoPopover;
+    isResizable?: boolean;
     /**
      * This will affect whether or not the handle is shown.
      */
@@ -65,6 +68,8 @@ const ResizableGridCard = ({
     gridUID,
     headerTitle,
     id,
+    infoPopover,
+    isResizable = true,
     modalContent,
     modalSettings = { height: 600, width: 800 },
     titleTruncateThresholdWidth = CARD_HEADER_TITLE_TRUNCATE_THRESHOLD_WIDTH,
@@ -232,6 +237,8 @@ const ResizableGridCard = ({
                         extra={extra}
                         extraClassName={styles.extra}
                         id={headerTitle}
+                        infoPopover={infoPopover}
+                        isResizable={isResizable}
                         key={toKebabCase(headerTitle)}
                         title={headerTitle}
                         titleTruncateThresholdWidth={titleTruncateThresholdWidth}

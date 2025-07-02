@@ -1,3 +1,6 @@
+### 10.25.6 2025-06-30
+- feat: SJIP-1275 add infoPopover props in resizable grid card
+
 ### 10.25.5 2025-06-30
 - feat: SJIP-1335 add data in tree node to chart
 
