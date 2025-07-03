@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import CommunityMembersPage, { DEFAULT_COMMINUTY_PAGE_DICTIONARY, ISearchParams } from '.';
+import CommunityMembersPage, { DEFAULT_COMMUNITY_PAGE_DICTIONARY } from '.';
 
-const dictionary = DEFAULT_COMMINUTY_PAGE_DICTIONARY;
+const dictionary = DEFAULT_COMMUNITY_PAGE_DICTIONARY;
 
 describe('CommunityMembersPage', () => {
     test('make sure CommunityMembersPage render correctly', () => {
