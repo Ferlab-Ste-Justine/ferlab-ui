@@ -15,11 +15,12 @@ import styles from './index.module.css';
 
 const { Title } = Typography;
 
-export const DEFAULT_COMMINUTY_PAGE_DICTIONARY = {
+export const DEFAULT_COMMUNITY_PAGE_DICTIONARY = {
     filterBox: DEFAULT_FILTER_BOX_DICTIONARY,
     noResults: 'no result',
     result: 'result',
     results: 'results',
+    resultSuffix: '',
     title: 'Community',
     totalMembers: (members: number): string => `${members} Total Members`,
 };
@@ -31,6 +32,7 @@ export type TCommunityPageDictionary = {
     noResults: string;
     filterBox: TFilterBoxDictionary;
     totalMembers: (members: number) => string;
+    resultSuffix: string;
 };
 
 export interface ISearchParams {
@@ -59,7 +61,7 @@ interface ICommunityPage {
 
 const CommunityMembersPage = ({
     activeFilter,
-    dictionary = DEFAULT_COMMINUTY_PAGE_DICTIONARY,
+    dictionary = DEFAULT_COMMUNITY_PAGE_DICTIONARY,
     handleActiveFilter,
     handlePageChange,
     loading,
@@ -97,6 +99,7 @@ const CommunityMembersPage = ({
                             of: '',
                             result: dictionary.result,
                             results: dictionary.results,
+                            resultSuffix: dictionary.resultSuffix,
                             selectAllResults: '',
                             selected: '',
                             selectedPlural: '',
