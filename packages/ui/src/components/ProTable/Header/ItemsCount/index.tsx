@@ -55,6 +55,7 @@ export const ItemsCount = ({
                         {dictionnary.itemCount?.results || 'Results'} <strong>{formattedFrom}</strong> -{' '}
                         <strong>{formattedTo}</strong> {dictionnary.itemCount?.of || 'of'}{' '}
                         <strong>{formatNumber()}</strong>
+                        {dictionnary.itemCount?.resultSuffix && <span> {dictionnary.itemCount?.resultSuffix}</span>}
                     </span>
                 </Typography.Text>
             )}

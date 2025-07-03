@@ -1,3 +1,6 @@
+### 10.25.7 2025-07-03
+- feat: SKFP-1537 add result suffix to pro table results
+
 ### 10.25.6 2025-06-30
 - feat: SJIP-1275 add infoPopover props in resizable grid card
 

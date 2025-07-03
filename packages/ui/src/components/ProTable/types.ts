@@ -39,6 +39,7 @@ export interface IProTableDictionary {
         selectAllResults: ReactNode;
         clear: ReactNode;
         clearFilters: ReactNode;
+        resultSuffix?: ReactNode;
     };
     tooltips?: {
         tableExport: ReactNode;
