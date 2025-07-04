@@ -1,3 +1,6 @@
+### 10.25.8 2025-07-04
+- feat: SKFP-1549 add pro table props to EntityTable
+
 ### 10.25.7 2025-07-03
 - feat: SKFP-1537 add result suffix to pro table results
 

@@ -26,10 +26,12 @@ export interface IEntityTable {
     id: string;
     initialColumnState?: TColumnStates;
     loading: boolean;
+    onChange?: (pagination: any, filters: any, sorter: any) => void;
     size?: SizeType;
     title?: string;
     titleExtra?: ReactNode[];
     total?: number;
+    showSorterTooltip?: boolean;
     summaryColumns?: TProTableSummary[];
     emptyMessage?: string;
 }
@@ -45,6 +47,8 @@ const EntityTable = ({
     id,
     initialColumnState,
     loading,
+    onChange,
+    showSorterTooltip = true,
     size = 'small',
     summaryColumns = [],
     title,
@@ -99,8 +103,10 @@ const EntityTable = ({
                                 }}
                                 initialColumnState={initialColumnState}
                                 loading={loading}
+                                onChange={onChange}
                                 rowClassName={styles.notStriped}
                                 scroll={scroll}
+                                showSorterTooltip={showSorterTooltip}
                                 size={size}
                                 summaryColumns={summaryColumns}
                                 tableHeaderClassName={styles.tableHeader}
