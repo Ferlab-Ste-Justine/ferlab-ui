@@ -32,7 +32,7 @@ export type TCommunityPageDictionary = {
     noResults: string;
     filterBox: TFilterBoxDictionary;
     totalMembers: (members: number) => string;
-    resultSuffix: string;
+    resultSuffix?: string;
 };
 
 export interface ISearchParams {
