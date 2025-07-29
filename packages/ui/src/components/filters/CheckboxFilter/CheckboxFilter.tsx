@@ -107,6 +107,9 @@ const CheckboxFilter = ({
     const showMoreReadOnly = get(filterGroup.config, 'showMoreReadOnly', false);
     const showSelectAll = get(filterGroup.config, 'showSelectAll', true);
 
+    const compareFiltersCountDescending = (filterA: IFilter<IFilterCount>, filterB: IFilter<IFilterCount>) =>
+        filterB.data.count - filterA.data.count;
+
     const handleOnChange = (newFilter: IFilter[]) => {
         if (withFooter) {
             setLocalSelectedFilters(newFilter);
@@ -125,6 +128,7 @@ const CheckboxFilter = ({
 
         const filterIdsToBump = selectedFilters.map((value: IFilter) => value.id);
         const cleanedFilteredFilters = filters.filter((value: IFilter) => !filterIdsToBump.includes(value.id));
+        cleanedFilteredFilters.sort(compareFiltersCountDescending);
 
         const currentFilterList = [...selectedFilters, ...cleanedFilteredFilters];
 
