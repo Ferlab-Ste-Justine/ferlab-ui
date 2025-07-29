@@ -1,3 +1,6 @@
+### 10.25.9 2025-07-04
+- fix: CLIN-4148 sort checkbox filters by count
+
 ### 10.25.8 2025-07-04
 - feat: SKFP-1549 add pro table props to EntityTable
 
@@ -14,7 +17,7 @@
 - feat: SJIP-1372 entity statistic hpo and mondo optionnal
 
 ### 10.25.3 2025-06-17
-- feat: SJIP-1379 improve statistic download data 
+- feat: SJIP-1379 improve statistic download data
 
 ### 10.25.2 2025-06-16
 - feat: SJIP-1378 entity statistics download optionnal
