@@ -1,3 +1,6 @@
+### 10.25.11 2025-07-31
+- fix: CLIN-4898 update assignment filter
+
 ### 10.25.10 2025-07-29
 - fix: CLIN-4148 sort checkbox filters by count
 
