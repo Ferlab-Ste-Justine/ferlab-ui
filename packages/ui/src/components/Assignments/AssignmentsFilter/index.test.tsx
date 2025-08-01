@@ -42,9 +42,11 @@ const options: TPractitionnerInfo[] = [
     },
 ];
 
+const isClear = false;
+
 describe('Assignation Filter', () => {
     test('make sure Checkbox Filter is correctly rendered', () => {
-        render(<AssignmentsFilter options={options} />);
+        render(<AssignmentsFilter isClear={isClear} options={options} />);
 
         expect(screen.queryByText(getPractitionnerName(options[0].name))).toBeTruthy();
         expect(screen.queryByText(getPractitionnerName(options[1].name))).toBeTruthy();

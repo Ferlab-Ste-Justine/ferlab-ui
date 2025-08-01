@@ -15,32 +15,38 @@ export type TAssignmentsFilter = {
     options: TPractitionnerInfo[];
     confirm?: (param?: FilterConfirmProps) => void;
     selectedKeys?: React.Key[];
+    selectedFilter?: string[];
     setSelectedKeys?: (selectedKeys: React.Key[]) => void;
+    isClear: boolean;
 };
 
 export const getPractitionnerName = (name: TPractitionnerName): string =>
     `${name[0].given.join(' ')} ${name[0].family}`;
 
-const handleSelect = (
-    value: string,
-    selectedKeys: React.Key[],
-    setSelectedKeys: (selectedKeys: React.Key[]) => void,
-) => {
-    selectedKeys.includes(value)
-        ? setSelectedKeys(selectedKeys.filter((item: React.Key) => item !== value))
-        : setSelectedKeys([value, ...selectedKeys]);
-};
-
 const AssignmentsFilter = ({
     confirm,
     dictionary,
+    isClear,
     options,
+    selectedFilter,
     selectedKeys,
     setSelectedKeys,
 }: TAssignmentsFilter): ReactElement => {
     const [searchValue, setSearchValue] = useState<string | undefined>();
     const [filteredOption, setFilteredOption] = useState<TPractitionnerInfo[]>([]);
     const [selectedOption, setSelectedOption] = useState<React.Key[]>(selectedKeys ? selectedKeys : []);
+
+    useEffect(() => {
+        setSelectedOption(selectedFilter ? selectedFilter : []);
+    }, [selectedFilter]);
+
+    useEffect(() => {
+        if (isClear) {
+            setSelectedKeys && setSelectedKeys([]);
+            confirm && confirm();
+        }
+    }, [isClear]);
+
     useEffect(() => {
         searchValue
             ? setFilteredOption(
@@ -58,6 +64,14 @@ const AssignmentsFilter = ({
     useEffect(() => {
         !searchValue && setFilteredOption(options);
     }, [options]);
+
+    const handleSelect = (value: string) => {
+        if (selectedOption?.includes(value)) {
+            setSelectedOption(selectedOption.filter((item: React.Key) => item !== value));
+        } else {
+            setSelectedOption([value, ...selectedOption]);
+        }
+    };
 
     const handleSearch = (confirm?: (param?: FilterConfirmProps) => void) => {
         confirm && confirm();
@@ -78,7 +92,7 @@ const AssignmentsFilter = ({
                                 checked={selectedKeys?.includes('noAssign') ? true : false}
                                 key={'noAssign'}
                                 onChange={(e) => {
-                                    handleSelect(e.target.value, selectedOption, setSelectedOption);
+                                    handleSelect(e.target.value);
                                 }}
                                 type="checkbox"
                                 value={'noAssign'}
@@ -91,7 +105,7 @@ const AssignmentsFilter = ({
                                 checked={selectedOption.includes(value.practitionerRoles_Id) ? true : false}
                                 key={value.practitionerRoles_Id}
                                 onChange={(e) => {
-                                    handleSelect(e.target.value, selectedOption, setSelectedOption);
+                                    handleSelect(e.target.value);
                                 }}
                                 type="checkbox"
                                 value={value.practitionerRoles_Id}
