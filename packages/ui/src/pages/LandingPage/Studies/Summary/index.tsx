@@ -12,15 +12,16 @@ type TSummaryProps = {
     dictionary: TStudiesDictionary;
     studiesBtnOnClick?: () => void;
     studiesCount: number;
+    studiesBtnGhost?: boolean;
 };
 
-const Summary = ({ dictionary, studiesBtnOnClick, studiesCount }: TSummaryProps): ReactElement => (
+const Summary = ({ dictionary, studiesBtnGhost, studiesBtnOnClick, studiesCount }: TSummaryProps): ReactElement => (
     <div className={styles.container}>
         <TextIcon IconComponent={StudyIcon} size="large" subtitle={dictionary.title} title={studiesCount} />
         <div className={styles.description}>{dictionary.summary}</div>
         {studiesBtnOnClick && (
             <div>
-                <Button onClick={() => studiesBtnOnClick()} size="large" type="primary">
+                <Button ghost={studiesBtnGhost} onClick={() => studiesBtnOnClick()} size="large" type="primary">
                     {dictionary.viewAllBtn || 'View all studies'}
                     <ArrowRightOutlined />
                 </Button>
