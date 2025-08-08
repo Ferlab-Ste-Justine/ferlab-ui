@@ -1,3 +1,6 @@
+### 10.25.12 2025-08-08
+- fix: CQDG-1157 add studiesBtnGhost on Studies Summary on Landing page
+
 ### 10.25.11 2025-07-31
 - fix: CLIN-4898 update assignment filter
 

@@ -25,17 +25,24 @@ export type TStudiesProps = {
     studies: TStudy[];
     studiesBtnOnClick?: () => void;
     studiesCount: number;
+    studiesBtnGhost?: boolean;
 };
 
 const Studies = ({
     autoplaySpeed,
     dictionary,
     studies,
+    studiesBtnGhost,
     studiesBtnOnClick,
     studiesCount,
 }: TStudiesProps): ReactElement => (
     <div className={styles.container}>
-        <Summary dictionary={dictionary} studiesBtnOnClick={studiesBtnOnClick} studiesCount={studiesCount} />
+        <Summary
+            dictionary={dictionary}
+            studiesBtnGhost={studiesBtnGhost}
+            studiesBtnOnClick={studiesBtnOnClick}
+            studiesCount={studiesCount}
+        />
         <Carousel autoplaySpeed={autoplaySpeed} studies={studies} />
     </div>
 );
