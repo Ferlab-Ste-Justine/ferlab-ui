@@ -27,7 +27,7 @@ const SETS_LABELS = ['S₁', 'S₂', 'S₃'];
 const EXPORT_SETTINGS = {
     background: 'white',
     quality: 1,
-    scale: 2,
+    scale: 1,
 };
 const DEFAULT_FILENAME_TEMPLATE = '%name-%type-%date%extension';
 const DEFAULT_FILENAME_DATE_FORMAT = 'yyyy-MM-dd';
