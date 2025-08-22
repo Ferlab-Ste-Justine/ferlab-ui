@@ -8,6 +8,7 @@ import FieldQueryPill from './FieldQueryPill';
 
 interface IIsolatedBooleanQueryPillProps {
     isBarActive?: boolean;
+    isCustomPillEdition?: boolean;
     onRemove: () => void;
     contentValue: ISqonGroupFilter;
 }
@@ -15,6 +16,7 @@ interface IIsolatedBooleanQueryPillProps {
 const IsolatedBooleanQueryPill = ({
     contentValue,
     isBarActive,
+    isCustomPillEdition,
     onRemove,
 }: IIsolatedBooleanQueryPillProps): JSX.Element => {
     const newQueryDict: { [content: string]: any } = {};
@@ -45,6 +47,7 @@ const IsolatedBooleanQueryPill = ({
     return (
         <FieldQueryPill
             isBarActive={isBarActive}
+            isCustomPillEdition={isCustomPillEdition}
             onRemove={onRemove}
             valueFilter={newQuery.content[0] as IValueFilter}
         />
