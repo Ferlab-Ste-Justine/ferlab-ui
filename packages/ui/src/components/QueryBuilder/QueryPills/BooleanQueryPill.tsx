@@ -52,6 +52,7 @@ const BooleanQueryPill = (props: IBooleanQueryPillProps): JSX.Element => (
                     <IsolatedBooleanQueryPill
                         contentValue={f as ISqonGroupFilter}
                         isBarActive={props.isActive}
+                        isCustomPillEdition={props.isCustomPillEdition}
                         onRemove={() =>
                             props.onRemoveFacet(
                                 ((f as ISqonGroupFilter).content[0].content as IValueContent).field,

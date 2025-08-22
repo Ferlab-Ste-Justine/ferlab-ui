@@ -1,3 +1,6 @@
+### 10.25.14 2025-08-22
+- feat: CLIN-5051 managed no data value in custom pill edition
+
 ### 10.25.13 2025-08-18
 - fix: FLUI-152 downloaded venn chart png zoomed
 
