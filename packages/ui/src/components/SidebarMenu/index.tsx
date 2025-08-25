@@ -1,7 +1,6 @@
 import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { InputRef, Menu } from 'antd';
-import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import cx from 'classnames';
 import { get } from 'lodash';
 
@@ -19,6 +18,7 @@ export interface ISidebarMenuItem {
     title: string | ReactNode;
     icon: ReactNode;
     panelContent: (() => ReactNode) | ReactNode;
+    followedByDivider?: boolean;
 }
 
 export interface ISidebarMenuProps {
@@ -79,7 +79,7 @@ const Sidebar = ({
     };
 
     const getMenuItems = () => {
-        const items: ItemType[] = [];
+        const items = [];
 
         if (enableQuickFilter && collapsed) {
             items.push({
@@ -94,16 +94,19 @@ const Sidebar = ({
             });
         }
 
-        items.push(
-            ...menuItems.map((menuItem) => ({
+        menuItems.forEach((menuItem) => {
+            items.push({
                 className: styles.sidebarMenuItem,
                 'data-cy': `SidebarMenuItem_${menuItem.title}`,
                 'data-key': menuItem.key,
                 icon: menuItem.icon,
-                key: menuItem.key,
+                key: menuItem.key.toString(),
                 label: <span className={styles.sidebarMenuItemTitle}>{menuItem.title}</span>,
-            })),
-        );
+            });
+            if (menuItem.followedByDivider) {
+                items.push({ className: styles.withDivider, type: 'divider' });
+            }
+        });
 
         return items;
     };
