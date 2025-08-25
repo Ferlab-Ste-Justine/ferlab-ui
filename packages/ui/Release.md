@@ -1,3 +1,6 @@
+### 10.25.15 2025-08-25
+- feat: CLIN-5055 add divider in sidebar
+
 ### 10.25.14 2025-08-22
 - feat: CLIN-5051 managed no data value in custom pill edition
 
