@@ -96,17 +96,14 @@ const Sidebar = ({
         }
 
         items.push(
-            ...menuItems.map((menuItem: ISidebarMenuItem) => {
-                console.log('menuItem', menuItem);
-                return {
-                    className: cx(styles.sidebarMenuItem, menuItem.withDivider && styles.withDivider),
-                    'data-cy': `SidebarMenuItem_${menuItem.title}`,
-                    'data-key': menuItem.key,
-                    icon: menuItem.icon,
-                    key: menuItem.key,
-                    label: <span className={styles.sidebarMenuItemTitle}>{menuItem.title}</span>,
-                };
-            }),
+            ...menuItems.map((menuItem: ISidebarMenuItem) => ({
+                className: cx(styles.sidebarMenuItem, menuItem.withDivider && styles.withDivider),
+                'data-cy': `SidebarMenuItem_${menuItem.title}`,
+                'data-key': menuItem.key,
+                icon: menuItem.icon,
+                key: menuItem.key,
+                label: <span className={styles.sidebarMenuItemTitle}>{menuItem.title}</span>,
+            })),
         );
 
         return items;
