@@ -92,8 +92,8 @@
     align-items: center;
     padding: 0 13px !important;
 }
-.siderContainer .sider .sidebarMenu .sidebarMenuItem.withDivider {
-    border-bottom: 1px solid var(--sidebar-menu-item-divider-color);
+.siderContainer .sider .sidebarMenu .withDivider {
+    border-color: var(--sidebar-menu-item-divider-color);
 }
 .siderContainer .sider .sidebarMenu .sidebarMenuItem .sidebarMenuItemTitle {
     margin-left: 15px;
