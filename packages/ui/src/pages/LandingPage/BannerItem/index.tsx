@@ -18,16 +18,26 @@ export type TBannerItemProps = {
     color?: 'light' | 'dark';
     dictionary: TBannerItemDictionary;
     buttonProps?: ButtonProps;
+    additionalButtons?: React.ReactNode[];
 };
-const BannerItem = ({ buttonProps, color = 'light', dictionary, IconComponent }: TBannerItemProps) => (
+const BannerItem = ({
+    additionalButtons,
+    buttonProps,
+    color = 'light',
+    dictionary,
+    IconComponent,
+}: TBannerItemProps): JSX.Element => (
     <div className={styles.container}>
         <TextIcon IconComponent={IconComponent} color={color} size="medium" title={dictionary.title} />
         <div className={styles.text}>{dictionary.description}</div>
-        <div>
+        <div className={styles.buttonContainer}>
             <Button size="large" {...buttonProps}>
                 {dictionary.button}
                 <ExternalLinkIcon height="14" width="14" />
             </Button>
+            {additionalButtons?.map((button, index) => (
+                <React.Fragment key={index}>{button}</React.Fragment>
+            ))}
         </div>
     </div>
 );

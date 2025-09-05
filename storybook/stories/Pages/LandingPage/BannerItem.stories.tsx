@@ -1,5 +1,6 @@
 import React from 'react';
 import {Meta} from '@storybook/react';
+import { Button } from 'antd';
 import BannerItem, {TBannerItemProps} from '@ferlab/ui/core/pages/LandingPage/BannerItem';
 import Icon from '@ferlab/ui/core/components/Icons/FuturoSpot/CloudComputingSpotIcon'
 
@@ -25,3 +26,22 @@ const props = {
 } as TBannerItemProps;
 
 export const BannerItemStory = () => <BannerItem {...props} />;
+
+export const BannerItemWithAdditionalButtons = () => (
+  <BannerItem 
+    {...props} 
+    additionalButtons={[
+      <Button key="secondary" type="default" size="large">Secondary Action</Button>,
+      <Button key="tertiary" type="link" size="large">Learn More</Button>
+    ]} 
+  />
+);
+
+export const BannerItemWithSingleAdditionalButton = () => (
+  <BannerItem 
+    {...props} 
+    additionalButtons={[
+      <Button key="secondary" type="default" size="large">Secondary Action</Button>
+    ]} 
+  />
+);
