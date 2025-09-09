@@ -4,13 +4,19 @@ import styles from './index.module.css';
 
 export type TFooterProps = {
     logos: string[];
+    policies?: string;
 };
 
-const Footer = ({ logos }: TFooterProps): ReactElement => (
+const Footer = ({ logos, policies }: TFooterProps): ReactElement => (
     <footer className={styles.footerContainer}>
-        {logos.map((logo) => (
-            <img alt="Footer Logo" className={styles.image} src={logo} />
+        {logos.map((logo, index) => (
+            <img key={index} alt="Footer Logo" className={styles.image} src={logo} />
         ))}
+        {policies && (
+            <div className={styles.policiesText}>
+                {policies}
+            </div>
+        )}
     </footer>
 );
 
