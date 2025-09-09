@@ -12,3 +12,13 @@
   max-height: 60px;
   max-width: 200px;
 }
+
+.policiesText {
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.4;
+  margin-top: 16px;
+  padding-top: 16px;
+  flex-basis: 100%;
+  border-top: 1px solid var(--query-pill-bg);
+}
