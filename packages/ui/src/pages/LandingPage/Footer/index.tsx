@@ -10,13 +10,9 @@ export type TFooterProps = {
 const Footer = ({ logos, policies }: TFooterProps): ReactElement => (
     <footer className={styles.footerContainer}>
         {logos.map((logo, index) => (
-            <img key={index} alt="Footer Logo" className={styles.image} src={logo} />
+            <img alt="Footer Logo" className={styles.image} key={index} src={logo} />
         ))}
-        {policies && (
-            <div className={styles.policiesText}>
-                {policies}
-            </div>
-        )}
+        {policies && <div className={styles.policiesText}>{policies}</div>}
     </footer>
 );
 
