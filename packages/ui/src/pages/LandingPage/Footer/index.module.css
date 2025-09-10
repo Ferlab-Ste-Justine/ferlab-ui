@@ -17,8 +17,7 @@
   font-size: 12px;
   text-align: justify;
   line-height: 1.4;
-  margin-top: 16px;
-  padding-top: 16px;
+  padding: 24px;
   flex-basis: 100%;
   border-top: 1px solid var(--query-pill-bg);
 }
