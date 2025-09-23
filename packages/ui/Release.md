@@ -1,3 +1,6 @@
+### 10.27.3 2025-09-23
+- feat: CLIN-5163 add customTag
+
 ### 10.25.15 2025-08-25
 - feat: CLIN-5055 add divider in sidebar
 
