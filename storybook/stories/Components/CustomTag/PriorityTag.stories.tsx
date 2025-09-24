@@ -19,7 +19,7 @@ export const PriorityTagStory = () => (
     <>
         <h3>Priority Tag Story</h3>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <PriorityTag priority={PrioritesOptions.Asap} />
+            <PriorityTag priority={PrioritesOptions.Asap}/>
             <PriorityTag priority={PrioritesOptions.Routine} />
             <PriorityTag priority={PrioritesOptions.Stat} />
             <PriorityTag priority={PrioritesOptions.Urgent} />

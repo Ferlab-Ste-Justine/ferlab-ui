@@ -2,6 +2,9 @@ import React from 'react';
 import { Tag, Tooltip } from 'antd';
 import get from 'lodash/get';
 
+import { getComponentDictionnary } from '../../../utils/localeUtils';
+
+import defaultDictionary from './locales';
 import { IPriorityTagDictionary } from './types';
 
 export enum PrioritesOptions {
@@ -13,10 +16,12 @@ export enum PrioritesOptions {
 
 export type PriorityTagProps = {
     priority: string;
+    intl?: any;
     dictionary?: IPriorityTagDictionary;
 };
 
-const PriorityTag = ({ dictionary, priority }: PriorityTagProps) => {
+const PriorityTag = ({ dictionary, intl, priority }: PriorityTagProps) => {
+    dictionary = getComponentDictionnary(intl, defaultDictionary, dictionary);
     let tagColor = 'default';
     switch (priority) {
         case PrioritesOptions.Asap:
