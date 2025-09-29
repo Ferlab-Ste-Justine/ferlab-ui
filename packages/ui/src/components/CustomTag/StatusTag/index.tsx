@@ -1,8 +1,9 @@
 import React from 'react';
 import { CheckCircleOutlined, FormOutlined, SyncOutlined, WarningOutlined } from '@ant-design/icons';
-import { getComponentDictionnary } from '@ferlab/ui/utils/localeUtils';
 import { Tag } from 'antd';
 import get from 'lodash/get';
+
+import { getComponentDictionnary } from '../../../utils/localeUtils';
 
 import defaultDictionary from './locales';
 import { IStatusTagDictionary } from './types';
