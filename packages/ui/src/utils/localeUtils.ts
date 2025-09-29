@@ -7,7 +7,7 @@ export function getComponentDictionnary(
     defaultDictionary: Record<string, any> = {},
     dictionary: Record<string, any> = {},
 ): Record<string, any> {
-    const { currentLocale } = intl?.getInitOptions() || { currentLocale: 'fr' };
+    const { currentLocale } = intl?.getInitOptions() || { currentLocale: 'en' };
     return {
         ...defaultDictionary[currentLocale],
         ...dictionary,

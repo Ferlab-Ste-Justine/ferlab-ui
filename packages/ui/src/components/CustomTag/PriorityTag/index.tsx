@@ -40,13 +40,13 @@ const PriorityTag = ({ dictionary, intl, priority }: PriorityTagProps) => {
     return (
         <Tooltip
             title={
-                priority ? get(dictionary, `options.tooltip.${priority}`, priority || '') : dictionary?.options?.unknown
+                priority
+                    ? get(dictionary, `options.tooltip.${priority}`, priority || '')
+                    : dictionary?.options?.tooltip.unknown
             }
         >
             <Tag color={tagColor}>
-                {priority
-                    ? get(dictionary, `options.${priority}`, priority || '')
-                    : dictionary?.options?.tooltip.unknown}
+                {priority ? get(dictionary, `options.${priority}`, priority || '') : dictionary?.options?.unknown}
             </Tag>
         </Tooltip>
     );
