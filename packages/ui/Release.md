@@ -1,3 +1,6 @@
+### 10.27.4 2025-09-29
+- feat: CLIN-5163 refactor statusTag
+
 ### 10.27.3 2025-09-23
 - feat: CLIN-5163 add customTag
 
