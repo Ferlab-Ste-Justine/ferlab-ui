@@ -51,7 +51,6 @@ export const StatusLabelElement = (status: string, dictionary: IStatusTagDiction
                 </Tag>
             );
         default:
-            console.log('status', status);
             return (
                 <Tag color="error" icon={<WarningOutlined />}>
                     {get(dictionary, `options.${StatusOptions.Unknown}`, StatusOptions.Unknown)}
@@ -62,7 +61,6 @@ export const StatusLabelElement = (status: string, dictionary: IStatusTagDiction
 
 const StatusTag = ({ dictionary, intl, status }: StatusLabelProps) => {
     dictionary = getComponentDictionnary(intl, defaultDictionary, dictionary);
-    console.log('status t', status.toLowerCase());
     return StatusLabelElement(status ? status.toLowerCase() : StatusOptions.Unknown, dictionary);
 };
 
