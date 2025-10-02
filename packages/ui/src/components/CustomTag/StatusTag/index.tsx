@@ -12,6 +12,7 @@ export enum StatusOptions {
     Active = 'active',
     Draft = 'draft',
     OnHold = 'on-hold',
+    OnHoldHybrid = 'onhold',
     Completed = 'completed',
     Unknown = 'unknown',
 }
@@ -37,6 +38,7 @@ export const StatusLabelElement = (status: string, dictionary: IStatusTagDiction
                 </Tag>
             );
         case StatusOptions.OnHold:
+        case StatusOptions.OnHoldHybrid:
             return (
                 <Tag color="blue" icon={<SyncOutlined />}>
                     {get(dictionary, `options.${status}`, status || '')}
@@ -49,6 +51,7 @@ export const StatusLabelElement = (status: string, dictionary: IStatusTagDiction
                 </Tag>
             );
         default:
+            console.log('status', status);
             return (
                 <Tag color="error" icon={<WarningOutlined />}>
                     {get(dictionary, `options.${StatusOptions.Unknown}`, StatusOptions.Unknown)}
@@ -59,6 +62,7 @@ export const StatusLabelElement = (status: string, dictionary: IStatusTagDiction
 
 const StatusTag = ({ dictionary, intl, status }: StatusLabelProps) => {
     dictionary = getComponentDictionnary(intl, defaultDictionary, dictionary);
+    console.log('status t', status.toLowerCase());
     return StatusLabelElement(status ? status.toLowerCase() : StatusOptions.Unknown, dictionary);
 };
 

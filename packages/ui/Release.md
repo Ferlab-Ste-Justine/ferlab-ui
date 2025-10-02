@@ -1,3 +1,6 @@
+### 10.27.5 2025-10-02
+- feat: CLIN-5163 StatusTag ajout status onholdHybrid
+
 ### 10.27.4 2025-09-29
 - feat: CLIN-5163 refactor statusTag
 
