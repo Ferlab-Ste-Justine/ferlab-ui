@@ -12,6 +12,7 @@ export enum StatusOptions {
     Active = 'active',
     Draft = 'draft',
     OnHold = 'on-hold',
+    OnHoldHybrid = 'onhold',
     Completed = 'completed',
     Unknown = 'unknown',
 }
@@ -37,6 +38,7 @@ export const StatusLabelElement = (status: string, dictionary: IStatusTagDiction
                 </Tag>
             );
         case StatusOptions.OnHold:
+        case StatusOptions.OnHoldHybrid:
             return (
                 <Tag color="blue" icon={<SyncOutlined />}>
                     {get(dictionary, `options.${status}`, status || '')}
