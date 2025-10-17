@@ -16,7 +16,7 @@ export type TCavaticaCardProps = {
     logo: ReactNode;
 };
 
-const CavaticaCard = ({ dictionary, logo }: TCavaticaCardProps) => (
+const CavaticaCard = ({ dictionary, logo }: TCavaticaCardProps): React.ReactElement => (
     <div className={styles.container}>
         {logo}
         <div className={styles.description}>{dictionary.description}</div>
