@@ -20,7 +20,7 @@ export type TVariantCardProps = {
     buttonProps?: ButtonProps;
 };
 
-const VariantCard = ({ buttonProps, dictionary, variantsCount }: TVariantCardProps) => (
+const VariantCard = ({ buttonProps, dictionary, variantsCount }: TVariantCardProps): React.ReactElement => (
     <div className={styles.container}>
         <TextIcon
             IconComponent={GeneIcon}

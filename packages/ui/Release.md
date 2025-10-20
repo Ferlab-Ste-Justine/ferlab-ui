@@ -1,3 +1,6 @@
+### 10.28.0 2025-10-17
+- feat: SJIP-1462 Add GenericCard for landing page
+
 ### 10.27.5 2025-10-02
 - feat: CLIN-5163 StatusTag ajout status onholdHybrid
 
