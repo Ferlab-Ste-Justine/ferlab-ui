@@ -3,22 +3,6 @@ on:
   push:
     branches: [ master, ui-v9 ]
 jobs:
-  create-tag:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: |
-          cd packages/ui
-          current_version=ui@$(node -p -e "require('./package.json').version")
-          # exit if tag already exists
-          if [[ $(git tag -l "$current_version") ]]; then
-            echo "Skipping tag creation for RC release"
-            exit 0
-          fi
-          echo "creating tag $current_version"
-          git tag $current_version
-          git push --tags
-
   publish-to-npm:
     runs-on: ubuntu-latest
     steps:
