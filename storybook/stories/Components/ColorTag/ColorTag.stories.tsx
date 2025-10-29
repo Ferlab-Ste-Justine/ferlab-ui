@@ -43,6 +43,19 @@ export const ColorTagGenderStory = () => (
     </>
 );
 
+export const ColorTagTumorType = () => (
+    <>
+        <h3>ColorTag Tumor Type Story</h3>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <ColorTag type={ColorTagType.TumorType} value="normal" />
+            <ColorTag type={ColorTagType.TumorType} value="tumor" />
+            <ColorTag type={ColorTagType.TumorType} value="tumor">tumor alternate text</ColorTag>
+            <ColorTag type={ColorTagType.TumorType} value="other" />
+        </div>
+    </>
+);
+
+
 export const ColorTagFamilyStory = () => (
     <>
         <h3>ColorTag Family Story</h3>

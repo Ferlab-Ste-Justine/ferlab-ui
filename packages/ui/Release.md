@@ -1,3 +1,6 @@
+### 10.29.0 2025-10-29
+- feat: CQDG-1197 Add Tumor type Color Tag
+
 ### 10.28.0 2025-10-17
 - feat: SJIP-1462 Add GenericCard for landing page
 

@@ -58,6 +58,18 @@
   color: var(--color-tag-benign-color);
 }
 
+.tumorTypeNormal {
+    background-color: var(--color-tag-tumor-type-normal-bg);
+    border: 1px solid var(--color-tag-tumor-type-normal-bg);
+    color: var(--color-tag-tumor-type-normal-color);
+}
+
+.tumorTypeTumor {
+    background-color: var(--color-tag-tumor-type-tumor-bg);
+    border: 1px solid var(--color-tag-tumor-type-tumor-bg);
+    color: var(--color-tag-tumor-type-tumor-color);
+}
+
 .default {
   background-color: var(--color-tag-default-bg);
   border: 1px solid var(--color-tag-default-bg);
