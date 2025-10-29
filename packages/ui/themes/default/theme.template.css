@@ -150,6 +150,10 @@
     --color-tag-gender-female-color: var(--magenta-9);
     --color-tag-gender-male-bg: var(--blue-2);
     --color-tag-gender-male-color: var(--blue-9);
+    --color-tag-tumor-type-tumor-bg: var(--blue-2);
+    --color-tag-tumor-type-tumor-color: var(--blue-9);
+    --color-tag-tumor-type-normal-bg: var(--green-polar-2);
+    --color-tag-tumor-type-normal-color: var(--green-9);
     --color-tag-family-bg: var(--cyan-2);
     --color-tag-family-color: var(--cyan-9);
     --color-tag-position-proband-bg: var(--purple-2);

@@ -12,6 +12,7 @@ export enum ColorTagType {
     VitalStatus = 'vitalStatus',
     Interpretation = 'interpretation',
     Pathogenic = 'pathogenic',
+    TumorType = 'tumorType',
     Benign = 'benign',
     Other = 'other',
 }
@@ -53,6 +54,11 @@ const TAGS_STYLE: any = {
     },
     [ColorTagType.Benign]: {
         default: styles.benign,
+    },
+    [ColorTagType.TumorType]: {
+        default: styles.default,
+        normal: styles.tumorTypeNormal,
+        tumor: styles.tumorTypeTumor,
     },
     [ColorTagType.Other]: {
         default: styles.default,
