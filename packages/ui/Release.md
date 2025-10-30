@@ -1,3 +1,6 @@
+### 10.30.0 2025-10-30
+- feat: CQDG-1197 Add status to StatusTag
+
 ### 10.29.0 2025-10-29
 - feat: CQDG-1197 Add Tumor type Color Tag
 

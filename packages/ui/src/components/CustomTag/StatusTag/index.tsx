@@ -1,5 +1,14 @@
 import React from 'react';
-import { CheckCircleOutlined, FormOutlined, SyncOutlined, WarningOutlined } from '@ant-design/icons';
+import {
+    CheckCircleOutlined,
+    CloseCircleOutlined,
+    EyeOutlined,
+    FormOutlined,
+    HistoryOutlined,
+    HourglassOutlined,
+    SyncOutlined,
+    WarningOutlined,
+} from '@ant-design/icons';
 import { Tag } from 'antd';
 import get from 'lodash/get';
 
@@ -12,8 +21,11 @@ export enum StatusOptions {
     Active = 'active',
     Draft = 'draft',
     OnHold = 'on-hold',
-    OnHoldHybrid = 'onhold',
     Completed = 'completed',
+    Revoked = 'revoked',
+    Analysis = 'analysis',
+    Review = 'review',
+    ReAnalysis = 're-analysis',
     Unknown = 'unknown',
 }
 
@@ -23,45 +35,52 @@ export type StatusLabelProps = {
     status: string;
 };
 
-export const StatusLabelElement = (status: string, dictionary: IStatusTagDictionary) => {
+const StatusTag = ({ dictionary, intl, status }: StatusLabelProps): React.ReactElement => {
+    dictionary = getComponentDictionnary(intl, defaultDictionary, dictionary);
+    let className, color, icon;
     switch (status) {
         case StatusOptions.Active:
-            return (
-                <Tag color="green" icon={<CheckCircleOutlined />}>
-                    {get(dictionary, `options.${status}`, status || '')}
-                </Tag>
-            );
+            color = 'green';
+            icon = <CheckCircleOutlined />;
+            break;
         case StatusOptions.Draft:
-            return (
-                <Tag color="default" icon={<FormOutlined />}>
-                    {get(dictionary, `options.${status}`, status || '')}
-                </Tag>
-            );
+            className = 'white';
+            icon = <FormOutlined />;
+            break;
         case StatusOptions.OnHold:
-        case StatusOptions.OnHoldHybrid:
-            return (
-                <Tag color="blue" icon={<SyncOutlined />}>
-                    {get(dictionary, `options.${status}`, status || '')}
-                </Tag>
-            );
+            color = 'default';
+            icon = <HourglassOutlined />;
+            break;
         case StatusOptions.Completed:
-            return (
-                <Tag color="green" icon={<CheckCircleOutlined />}>
-                    {get(dictionary, `options.${status}`, status || '')}
-                </Tag>
-            );
+            color = 'green';
+            icon = <CheckCircleOutlined />;
+            break;
+        case StatusOptions.Revoked:
+            color = 'red';
+            icon = <CloseCircleOutlined />;
+            break;
+        case StatusOptions.Analysis:
+            color = 'blue';
+            icon = <SyncOutlined />;
+            break;
+        case StatusOptions.ReAnalysis:
+            color = 'geekblue';
+            icon = <HistoryOutlined />;
+            break;
+        case StatusOptions.Review:
+            color = 'lime';
+            icon = <EyeOutlined />;
+            break;
         default:
-            return (
-                <Tag color="error" icon={<WarningOutlined />}>
-                    {get(dictionary, `options.${StatusOptions.Unknown}`, StatusOptions.Unknown)}
-                </Tag>
-            );
+            color = 'error';
+            icon = <WarningOutlined />;
+            break;
     }
-};
-
-const StatusTag = ({ dictionary, intl, status }: StatusLabelProps) => {
-    dictionary = getComponentDictionnary(intl, defaultDictionary, dictionary);
-    return StatusLabelElement(status ? status.toLowerCase() : StatusOptions.Unknown, dictionary);
+    return (
+        <Tag className={className ? `status-tag-${className}` : undefined} color={color} icon={icon}>
+            {get(dictionary, `options.${status || 'unknown'}`)}
+        </Tag>
+    );
 };
 
 export default StatusTag;

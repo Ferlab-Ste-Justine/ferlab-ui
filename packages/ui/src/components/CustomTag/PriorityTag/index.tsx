@@ -20,7 +20,7 @@ export type PriorityTagProps = {
     dictionary?: IPriorityTagDictionary;
 };
 
-const PriorityTag = ({ dictionary, intl, priority }: PriorityTagProps) => {
+const PriorityTag = ({ dictionary, intl, priority }: PriorityTagProps): React.ReactElement => {
     dictionary = getComponentDictionnary(intl, defaultDictionary, dictionary);
     let tagColor = 'default';
     switch (priority) {
@@ -38,16 +38,8 @@ const PriorityTag = ({ dictionary, intl, priority }: PriorityTagProps) => {
             break;
     }
     return (
-        <Tooltip
-            title={
-                priority
-                    ? get(dictionary, `options.tooltip.${priority}`, priority || '')
-                    : dictionary?.options?.tooltip.unknown
-            }
-        >
-            <Tag color={tagColor}>
-                {priority ? get(dictionary, `options.${priority}`, priority || '') : dictionary?.options?.unknown}
-            </Tag>
+        <Tooltip title={get(dictionary, `options.tooltip.${priority || 'unknown'}`)}>
+            <Tag color={tagColor}>{get(dictionary, `options.${priority || 'unknown'}`)}</Tag>
         </Tooltip>
     );
 };
