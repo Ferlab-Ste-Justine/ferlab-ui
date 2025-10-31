@@ -23,6 +23,10 @@ export const StatusTagStory = () => (
             <StatusTag status={StatusOptions.Draft} />
             <StatusTag status={StatusOptions.OnHold} />
             <StatusTag status={StatusOptions.Completed} />
+            <StatusTag status={StatusOptions.Revoked} />
+            <StatusTag status={StatusOptions.Analysis} />
+            <StatusTag status={StatusOptions.ReAnalysis} />
+            <StatusTag status={StatusOptions.Review} />
             <StatusTag status={StatusOptions.Unknown} />
         </div>
     </>

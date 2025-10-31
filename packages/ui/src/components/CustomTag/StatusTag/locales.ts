@@ -4,21 +4,27 @@ import { type IStatusTagDictionary } from './types';
 export default {
     en: {
         options: {
-            active: 'Completed',
+            active: 'Active',
             draft: 'Draft',
             'on-hold': 'Submitted',
-            onhold: 'Submitted',
             completed: 'Completed',
+            revoked: 'Revoked',
+            analysis: 'Analysis',
+            're-analysis': 'Reanalysis',
+            review: 'Review',
             unknown: 'Unknown',
         },
     } as IStatusTagDictionary,
     fr: {
         options: {
-            active: 'Complétée',
+            active: 'Active',
             draft: 'Brouillon',
             'on-hold': 'Soumise',
-            onhold: 'Soumise',
             completed: 'Complétée',
+            revoked: 'Refusée',
+            analysis: 'En analyse',
+            're-analysis': 'En réanalyse',
+            review: 'En révision',
             unknown: 'Inconnu',
         },
     } as IStatusTagDictionary,
