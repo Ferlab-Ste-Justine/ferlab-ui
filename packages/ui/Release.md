@@ -1,5 +1,8 @@
+### 10.30.1 2025-11-05
+- feat: CLIN-5297 Change label for StatusTag
+
 ### 10.30.0 2025-10-30
-- feat: CQDG-1197 Add status to StatusTag
+- feat: CLIN-5297 Add status to StatusTag
 
 ### 10.29.0 2025-10-29
 - feat: CQDG-1197 Add Tumor type Color Tag
