@@ -11,7 +11,7 @@ export default {
             revoked: 'Revoked',
             analysis: 'Analysis',
             're-analysis': 'Reanalysis',
-            review: 'Review',
+            review: 'In review',
             unknown: 'Unknown',
         },
     } as IStatusTagDictionary,
