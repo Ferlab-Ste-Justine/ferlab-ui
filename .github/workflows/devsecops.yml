@@ -1,0 +1,9 @@
+---
+name: Ferlab DevSecOps rules
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  ferlab-devsecops-rules:
+    uses: Ferlab-Ste-Justine/devsecops-actions/.github/workflows/devsecops.yml@main
