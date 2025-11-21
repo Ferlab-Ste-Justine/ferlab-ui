@@ -41,16 +41,5 @@ jobs:
               run: |
                   cd packages/ui
                   npm i
-            - name: Run tests
-              id: tests
-              run: |
-                  cd packages/ui
-                  echo " " >> results.log
-                  echo "## Project Coverage and Test" >> results.log
-                  echo "" >> results.log
-                  echo "`npm run test:github  2>&1 | sed 's/=//g' | tail -n 11`" >> results.log
-                  echo " " >> results.log
-            - uses: marocchino/sticky-pull-request-comment@v2
-              with:
-                  header: Project Coverage and Test
-                  path: packages/ui/results.log
+            - name: Run Project Coverage and Test
+              run: cd packages/ui && npm run test:github
