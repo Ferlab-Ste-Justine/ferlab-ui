@@ -1,3 +1,6 @@
+### 10.31.0 2025-11-21
+- feat: CLIN-5098 Add dropdown option statusTag
+
 ### 10.30.1 2025-11-05
 - feat: CLIN-5297 Change label for StatusTag
 

@@ -1,0 +1,12 @@
+.statusButton {
+  padding: 0;
+  height: auto;
+  line-height: 0;
+}
+.statusButton:hover {
+  background-color: var(--gray-10);
+}
+.statusTag {
+  opacity: 0.95;
+  border-radius: 0;
+}
