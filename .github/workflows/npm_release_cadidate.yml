@@ -3,7 +3,28 @@ on:
   pull_request:
       branches: [ master, ui-v9 ]
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.16.1'
+      - name: Install Dependencies
+        run: |
+            npm ci
+            rm -rf ./core .lib
+            npm run build
+            npm pack
+        working-directory: packages/ui
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-tarball
+          path: packages/ui/*.tgz
+
   publish-release-candidate-to-npm:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -11,16 +32,17 @@ jobs:
         with:
           node-version: '18.16.1'
           registry-url: 'https://registry.npmjs.org'
-      - name: Install Dependencies
-        run: |
-            npm ci
-            rm -rf ./core .lib
-            npm run build
-        working-directory: packages/ui
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: package-tarball
+          path: packages/ui
       - name: Publish to NPM
+        id: publish
         run: |
             current_version=ui@$(node -p -e "require('./package.json').version")
             # exit if tag already exists
+            git fetch --tags
             if [[ $(git tag -l "$current_version") ]]; then
               echo "::info:: tag $current_version already exists, skip publish"
               exit 0
@@ -29,15 +51,30 @@ jobs:
             nodescript="const reg = /(-rc\d+)/g; const m = '$current_version'.match(reg); m ? m[0] : '';"
             rc_release=$(node -p -e "$nodescript")
             if [[ $rc_release ]]; then
-              echo "::info:: create tag $current_version"
-              git tag $current_version
-              git push --tags
               echo "::info:: publish npm package"
-              npm publish --tag rc
+              npm publish $(ls *.tgz) --tag rc
             else
               echo "::info:: no rc release found, skip publish"
               exit 0
             fi
+            echo "current_version=$current_version" >> $GITHUB_OUTPUT
         working-directory: packages/ui
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    outputs:
+      current_version: ${{ steps.publish.outputs.current_version }}
+
+  create-tag:
+    needs: publish-release-candidate-to-npm
+    if: ${{ needs.publish-release-candidate-to-npm.outputs.current_version != '' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create tag
+        run: |
+          current_version=${{ needs.publish-release-candidate-to-npm.outputs.current_version }}
+          echo "::info:: create tag $current_version"
+          git tag $current_version
+          git push --tags

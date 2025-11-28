@@ -8,3 +8,4 @@ storybook-static/
 .DS_Store
 docs
 packages/ui/tsconfig.tsbuildinfo
+*.tgz

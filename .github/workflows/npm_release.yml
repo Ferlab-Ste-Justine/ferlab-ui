@@ -3,7 +3,28 @@ on:
   push:
     branches: [ master, ui-v9 ]
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.16.1'
+      - name: Install Dependencies
+        run: |
+            npm ci
+            rm -rf ./core .lib
+            npm run build
+            npm pack
+        working-directory: packages/ui
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-tarball
+          path: packages/ui/*.tgz
+
   publish-to-npm:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -11,26 +32,29 @@ jobs:
         with:
           node-version: '18.16.1'
           registry-url: 'https://registry.npmjs.org'
-      - name: Install Dependencies
-        run: |
-            npm ci
-            rm -rf ./core .lib
-            npm run build
-        working-directory: packages/ui
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: package-tarball
+          path: packages/ui
       - name: Publish to NPM
         run: |
             current_version=ui@$(node -p -e "require('./package.json').version")
             # exit if tag already exists
-            [[ $(git tag -l "$current_version") ]] && exit 0
+            git fetch --tags
+            if [[ $(git tag -l "$current_version") ]]; then
+              echo "Exit if tag already exists"
+              exit 0
+            fi
             re="(-rc\d+)"
             nodescript="const reg = /(-rc\d+)/g; const m = '$current_version'.match(reg); m ? m[0] : '';"
             rc_release=$(node -p -e "$nodescript")
             if [[ $rc_release ]]; then
               echo "Publishing RC release $current_version"
-              npm publish --tag rc
+              npm publish $(ls *.tgz) --tag rc
             else
               echo "Publishing stable release $current_version"
-              npm publish
+              npm publish $(ls *.tgz)
             fi
         working-directory: packages/ui
         env:
