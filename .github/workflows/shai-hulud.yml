@@ -11,8 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Shai-Hulud scan-project.sh
-        if: ${{ hashFiles('**/package-lock.json') != '' }}
-        run: |
-          rm -rf $GITHUB_WORKSPACE/.github  # disable workflow scan
-          curl -s https://raw.githubusercontent.com/sngular/shai-hulud-integrity-scanner/refs/heads/main/scan-project.sh | bash /dev/stdin $GITHUB_WORKSPACE
-        #  continue-on-error: true
+        run: sh $GITHUB_WORKSPACE/.github/workflows/shai-hulud-check.sh $GITHUB_WORKSPACE
