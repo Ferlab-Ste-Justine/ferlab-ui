@@ -40,21 +40,19 @@ jobs:
       - name: Publish to NPM
         run: |
             current_version=ui@$(node -p -e "require('./package.json').version")
-            # exit if tag already exists
-            git fetch --tags
-            if [[ $(git tag -l "$current_version") ]]; then
-              echo "Exit if tag already exists"
-              exit 0
-            fi
-            re="(-rc\d+)"
-            nodescript="const reg = /(-rc\d+)/g; const m = '$current_version'.match(reg); m ? m[0] : '';"
-            rc_release=$(node -p -e "$nodescript")
-            if [[ $rc_release ]]; then
-              echo "Publishing RC release $current_version"
-              npm publish $(ls *.tgz) --tag rc
+            if [ -z "$(npm view @ferlab/"${current_version}" version)" ]; then
+              re="(-rc\d+)"
+              nodescript="const reg = /(-rc\d+)/g; const m = '$current_version'.match(reg); m ? m[0] : '';"
+              rc_release=$(node -p -e "$nodescript")
+              if [[ $rc_release ]]; then
+                echo "Publishing RC release $current_version"
+                npm publish $(ls *.tgz) --tag rc
+              else
+                echo "Publishing stable release $current_version"
+                npm publish $(ls *.tgz)
+              fi
             else
-              echo "Publishing stable release $current_version"
-              npm publish $(ls *.tgz)
+              echo "Release $current_version already published, skip publish"
             fi
         working-directory: packages/ui
         env:
