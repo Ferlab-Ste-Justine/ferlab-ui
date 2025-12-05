@@ -1,0 +1,14 @@
+---
+name: Shai-Hulud detection
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  shai-hulud-scanner:  # https://github.com/sngular/shai-hulud-integrity-scanner/tree/main
+    runs-on: ubuntu-latest
+    name: Detect known Shai-Hulud signatures
+    steps:
+      - uses: actions/checkout@v2
+      - name: Shai-Hulud scan-project.sh
+        run: sh $GITHUB_WORKSPACE/.github/workflows/shai-hulud-check.sh $GITHUB_WORKSPACE
