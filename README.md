@@ -41,3 +41,23 @@ Storybook static site will be automaticaly deploy when you push or merge on mast
 Interactive set of components available in ferlab-ui through storybook
 
 On each update on the main branch, a new release of Storybooks if generated with the [updated components on github Pages](https://ferlab-ste-justine.github.io/ferlab-ui/)
+
+## Github actions
+
+### Shai-Hulud
+This action check for the Shai-Hulud vulnerability.
+It checks for:
+- the vulnerability itself
+- unallowed env var exposure
+- malicious patterns
+
+> ℹ️ You can acces the project repository to check the targeted patterns: https://github.com/sngular/shai-hulud-integrity-scanner/blob/9ecc202020ef894cef77449ba0c6972bb3f65979/scan-project.sh#L296 
+
+To remove files that should be ignored by the action, edit the ```shai-hulud-check.sh``` script, to add the files path (in the dedicated section)
+
+To be efficient, you should not remove code files, but parse them to remove allowed patterns. 
+This can be achived by:
+- adding the patterns in the ```shai-hulud-allowed-patterns.txt``` file (you must let an empty new line at the end of the file)
+- adding the files by editing the ```shai-hulud-check.sh``` script, to add the files path (in the dedicated section) 
+
+You can check if the scan is valid locally running the make target: ```make check```
