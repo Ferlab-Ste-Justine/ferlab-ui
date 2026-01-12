@@ -1,3 +1,6 @@
+### 10.32.0 2026-01-12
+- feat: FLUI-156 Upgrade dependencies
+
 ### 10.31.0 2025-11-21
 - feat: CLIN-5098 Add dropdown option statusTag
 
