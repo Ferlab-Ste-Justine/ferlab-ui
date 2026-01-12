@@ -1,14 +1,15 @@
 import type { StorybookConfig } from '@storybook/react-webpack5';
 import path from 'path';
 
-import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 const config: StorybookConfig = {
     stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
     addons: [
         '@storybook/addon-links',
         '@storybook/addon-essentials',
-        '@storybook/addon-onboarding',
+        // need to upgrade to storybook 8 to use this addon
+        // '@storybook/addon-onboarding',
         '@storybook/addon-interactions',
     ],
 
@@ -32,7 +33,7 @@ const config: StorybookConfig = {
         if (config.resolve) {
             config.resolve.plugins = [
                 new TsconfigPathsPlugin({
-                    configFile: path.resolve(__dirname, "../tsconfig.json"),
+                    configFile: path.resolve(__dirname, '../tsconfig.json'),
                 }),
             ];
 
