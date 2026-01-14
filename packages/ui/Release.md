@@ -1,3 +1,6 @@
+### 10.33.0 2026-01-14
+- feat: CLIN-5096 add history statusTag
+
 ### 10.32.0 2026-01-12
 - feat: FLUI-156 Upgrade dependencies
 
