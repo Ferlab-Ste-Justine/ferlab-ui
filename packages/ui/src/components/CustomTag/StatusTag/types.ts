@@ -11,7 +11,7 @@ export interface IStatusTagDictionary {
     date?: {
         now?: string;
         today?: string;
-        yesteday?: string;
+        yesterday?: string;
         thisYear?: string;
         pastYear?: string;
     };

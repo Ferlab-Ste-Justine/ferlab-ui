@@ -17,7 +17,7 @@ export default {
         date: {
             now: 'Now',
             today: 'Today at {hour}{ampm}',
-            yesteday: 'Yesterday at {hour}{ampm}',
+            yesterday: 'Yesterday at {hour}{ampm}',
             thisYear: '{month} {day}th at {time}{ampm}',
             pastYear: '{month} {day}th {year}',
         },
@@ -42,7 +42,7 @@ export default {
         date: {
             now: 'Maintenant',
             today: "Aujourd'hui à {hour}",
-            yesteday: 'Hier à {hour}',
+            yesterday: 'Hier à {hour}',
             thisYear: 'le {day} {month} à {time}',
             pastYear: 'le {day} {month} {year}',
         },

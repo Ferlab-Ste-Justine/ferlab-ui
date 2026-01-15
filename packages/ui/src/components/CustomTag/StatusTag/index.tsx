@@ -51,18 +51,18 @@ export type StatusLabelProps = {
     status: string;
     readOnly?: boolean;
     handleSelect?: (key: string) => Promise<void>;
-    history?: any[];
-    handlePopOverHover: (open: boolean) => void;
-    isPopOverOpen: boolean;
+    history?: { name: { first_name: string; last_name: string }; date: string; options: string }[];
+    handlePopOverHover?: (open: boolean) => void;
+    isPopOverOpen?: boolean;
 };
 
 const StatusTag = ({
     dictionary,
-    handlePopOverHover,
+    handlePopOverHover = () => {},
     handleSelect,
     history,
     intl,
-    isPopOverOpen,
+    isPopOverOpen = false,
     readOnly = true,
     status,
 }: StatusLabelProps): React.ReactElement => {
@@ -128,8 +128,10 @@ const StatusTag = ({
             color = 'error';
             break;
     }
+
+    const getName = (name: { first_name: string; last_name: string }) => `${name.first_name} ${name.last_name}`;
     const popOverContent = () => {
-        const name = `${history?.[0].name.first_name} ${history?.[0].name.last_name}`;
+        const name = history ? getName(history?.[0]?.name) : undefined;
         return (
             history?.[0] && (
                 <Space size={8}>
@@ -137,16 +139,14 @@ const StatusTag = ({
                     <Text strong>{name}</Text>
                     <Text type="secondary">{getRelativeDate(new Date(history[0].date), dictionary?.date)}</Text>
                     <Tooltip placement="right" title={dictionary?.modal?.tooltip || 'View history'}>
-                        <>
-                            <Button
-                                className={styles.viewHistoryButton}
-                                icon={<HistoryOutlined className={styles.historyIcon} style={{ fontSize: '16px' }} />}
-                                onClick={() => setIsModalOpen(true)}
-                                type="link"
-                            >
-                                {dictionary?.modal?.title}
-                            </Button>
-                        </>
+                        <Button
+                            className={styles.viewHistoryButton}
+                            icon={<HistoryOutlined className={styles.historyIcon} style={{ fontSize: '16px' }} />}
+                            onClick={() => setIsModalOpen(true)}
+                            type="link"
+                        >
+                            {dictionary?.modal?.title}
+                        </Button>
                     </Tooltip>
                 </Space>
             )
@@ -193,8 +193,9 @@ const StatusTag = ({
             >
                 <Timeline>
                     <ScrollContent className={styles.optionsList}>
-                        {history?.map((h: any) => (
+                        {history?.map((h: any, index: number) => (
                             <Timeline.Item
+                                key={index}
                                 dot={
                                     <Space className={styles.timelineDot} size={4}>
                                         {STATUS_ICON_MAP[h.options as StatusOptions]}
@@ -203,12 +204,8 @@ const StatusTag = ({
                                 }
                             >
                                 <Space size={8}>
-                                    <UserAvatar
-                                        className={styles.userAvatar}
-                                        size={24}
-                                        userName={`${h.name.first_name} ${h.name.last_name}`}
-                                    />
-                                    <Text strong>{`${h.name.first_name} ${h.name.last_name}`}</Text>
+                                    <UserAvatar className={styles.userAvatar} size={24} userName={getName(h.name)} />
+                                    <Text strong>{getName(h.name)}</Text>
                                     <Text type="secondary">{getRelativeDate(new Date(h.date), dictionary?.date)}</Text>
                                 </Space>
                             </Timeline.Item>
