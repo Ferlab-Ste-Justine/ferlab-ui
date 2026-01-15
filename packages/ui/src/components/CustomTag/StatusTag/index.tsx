@@ -58,7 +58,7 @@ export type StatusLabelProps = {
 
 const StatusTag = ({
     dictionary,
-    handlePopOverHover = () => {},
+    handlePopOverHover,
     handleSelect,
     history,
     intl,
@@ -195,13 +195,13 @@ const StatusTag = ({
                     <ScrollContent className={styles.optionsList}>
                         {history?.map((h: any, index: number) => (
                             <Timeline.Item
-                                key={index}
                                 dot={
                                     <Space className={styles.timelineDot} size={4}>
                                         {STATUS_ICON_MAP[h.options as StatusOptions]}
                                         {get(dictionary, `options.${h.options || 'unknown'}`)}
                                     </Space>
                                 }
+                                key={index}
                             >
                                 <Space size={8}>
                                     <UserAvatar className={styles.userAvatar} size={24} userName={getName(h.name)} />
