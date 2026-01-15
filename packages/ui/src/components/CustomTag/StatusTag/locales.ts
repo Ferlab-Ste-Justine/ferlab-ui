@@ -14,6 +14,18 @@ export default {
             review: 'In review',
             unknown: 'Unknown',
         },
+        date: {
+            now: 'Now',
+            today: 'Today at {hour}{ampm}',
+            yesterday: 'Yesterday at {hour}{ampm}',
+            thisYear: '{month} {day}th at {time}{ampm}',
+            pastYear: '{month} {day}th {year}',
+        },
+        modal: {
+            title: 'History',
+            close: 'Close',
+            tooltip: 'View history',
+        },
     } as IStatusTagDictionary,
     fr: {
         options: {
@@ -26,6 +38,18 @@ export default {
             're-analysis': 'En réanalyse',
             review: 'En révision',
             unknown: 'Inconnu',
+        },
+        date: {
+            now: 'Maintenant',
+            today: "Aujourd'hui à {hour}",
+            yesterday: 'Hier à {hour}',
+            thisYear: 'le {day} {month} à {time}',
+            pastYear: 'le {day} {month} {year}',
+        },
+        modal: {
+            title: 'Historique',
+            close: 'Fermer',
+            tooltip: "Voir l'historique",
         },
     } as IStatusTagDictionary,
 };

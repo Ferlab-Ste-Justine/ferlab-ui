@@ -30,14 +30,14 @@ export default (
         pastYear: '{month} {day}th {year}',
         thisYear: '{month} {day}th at {time}{ampm}',
         today: 'Today at {hour}{ampm}',
-        yesteday: 'Yesterday at {hour}{ampm}',
+        yesterday: 'Yesterday at {hour}{ampm}',
     },
 ): string | undefined => {
     const diff = Math.round((new Date().getTime() - new Date(date).getTime()) / 1000);
     const now = new Date();
     const hours = date.getHours();
-    const yesteday = new Date();
-    yesteday.setDate(yesteday.getDate() - 1);
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
     const locale = localStorage.getItem('locale') === 'fr' ? 'fr-CA' : 'en-US';
     const ampm = hours >= 12 ? 'pm' : 'am';
 
@@ -49,9 +49,9 @@ export default (
         return format?.today
             ?.replace('{hour}', formatTimeToLocal(date, locale))
             .replace('{ampm}', locale === 'en-US' ? ampm : '');
-    } else if (date.toDateString() === yesteday.toDateString()) {
-        //Yesteday
-        return format?.yesteday
+    } else if (date.toDateString() === yesterday.toDateString()) {
+        //Yesterday
+        return format?.yesterday
             ?.replace('{hour}', formatTimeToLocal(date, locale))
             .replace('{ampm}', locale === 'en-US' ? ampm : '');
     } else if (date.getFullYear() === now.getFullYear()) {

@@ -152,6 +152,7 @@ export const Flag = ({
                 {dropdown}
             </Popover>
             <Modal
+                className={styles.flagHistoryModal}
                 footer={[
                     <Button key="close" onClick={() => setIsModalOpen(false)} type="primary">
                         {dictionary?.modal?.close || 'Close'}

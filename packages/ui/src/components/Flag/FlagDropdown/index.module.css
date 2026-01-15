@@ -24,7 +24,7 @@
 }
 
 
-:global(.ant-timeline-item-head) {
+.flagHistoryModal :global(.ant-timeline-item-head) {
   left: -16px;
 }
 
@@ -41,11 +41,11 @@
   padding-left: 48px;
 }
 
-:global(.ant-timeline-item):last-child {
+.flagHistoryModal :global(.ant-timeline-item):last-child {
   padding-bottom: 0;
 }
 
-:global(.ant-timeline-item):last-child :global(.ant-timeline-item-tail){
+.flagHistoryModal :global(.ant-timeline-item):last-child :global(.ant-timeline-item-tail){
   display: none;
 }
 

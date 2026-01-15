@@ -1,12 +1,40 @@
 .statusButton {
-  padding: 0;
-  height: auto;
-  line-height: 0;
+    padding: 0;
+    height: auto;
+    line-height: 0;
 }
 .statusButton:hover {
-  background-color: var(--gray-10);
+    background-color: var(--gray-10);
 }
 .statusTag {
-  opacity: 0.95;
-  border-radius: 0;
+    opacity: 0.95;
+    border-radius: 0;
+}
+.userAvatar {
+    font-size: 12px !important;
+}
+
+.timelineDot {
+    justify-content: end;
+    color: var(--gray-8);
+}
+
+.optionsList {
+    max-height: 204px;
+    width: 100%;
+    overflow-y: auto;
+    padding-top: 8px;
+    padding-left: 48px;
+}
+
+.statusHistoryModal :global(.ant-timeline-item-content) {
+    margin: 0px 0 0 62px;
+}
+
+.statusHistoryModal :global(.ant-timeline-item):last-child {
+    padding-bottom: 0;
+}
+
+.statusHistoryModal :global(.ant-timeline-item):last-child :global(.ant-timeline-item-tail) {
+    display: none;
 }

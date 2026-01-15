@@ -8,4 +8,16 @@ export interface IStatusTagDictionary {
         completed: string | ReactNode;
         unknown: string | ReactNode;
     };
+    date?: {
+        now?: string;
+        today?: string;
+        yesterday?: string;
+        thisYear?: string;
+        pastYear?: string;
+    };
+    modal?: {
+        title: ReactNode;
+        close: ReactNode;
+        tooltip: ReactNode;
+    };
 }
