@@ -1,5 +1,4 @@
 import getRelativeDate from './dateUtils';
-import { setLocale } from './localeUtils';
 
 describe('Relative date', () => {
     const format = {
@@ -40,7 +39,6 @@ describe('Relative date', () => {
         const formatAm = {
             today: 'today {ampm}',
         };
-        setLocale('en');
         const today = new Date();
         today.setHours(9, 0, 0, 0);
         expect(getRelativeDate(today, formatAm)).toMatch(/am/);
@@ -49,16 +47,14 @@ describe('Relative date', () => {
         const formatAm = {
             today: 'today {ampm}',
         };
-        setLocale('fr');
         const today = new Date();
         today.setHours(9, 0, 0, 0);
-        expect(getRelativeDate(today, formatAm)).not.toMatch(/am/);
+        expect(getRelativeDate(today, formatAm, 'fr')).not.toMatch(/am/);
     });
     test('should return correct time am en', () => {
         const formatTime = {
             yesterday: 'Yesterday at {hour}{ampm}',
         };
-        setLocale('en');
 
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
@@ -71,22 +67,18 @@ describe('Relative date', () => {
         const formatTime = {
             yesterday: 'Hier à {hour}{ampm}',
         };
-        setLocale('fr');
-
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
         yesterday.setHours(11);
         yesterday.setMinutes(52);
 
-        expect(getRelativeDate(yesterday, formatTime)).toEqual('Hier à 11h52');
+        expect(getRelativeDate(yesterday, formatTime, 'fr')).toEqual('Hier à 11h52');
     });
 
     test('should return correct time pm en', () => {
         const formatTime = {
             yesterday: 'Yesterday at {hour}{ampm}',
         };
-        setLocale('en');
-
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
         yesterday.setHours(16);
@@ -99,13 +91,11 @@ describe('Relative date', () => {
         const formatTime = {
             yesterday: 'Hier à {hour}{ampm}',
         };
-        setLocale('fr');
-
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
         yesterday.setHours(16);
         yesterday.setMinutes(52);
 
-        expect(getRelativeDate(yesterday, formatTime)).toEqual('Hier à 16h52');
+        expect(getRelativeDate(yesterday, formatTime, 'fr')).toEqual('Hier à 16h52');
     });
 });
