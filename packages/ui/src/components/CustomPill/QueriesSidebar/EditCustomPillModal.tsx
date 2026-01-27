@@ -111,7 +111,7 @@ const EditCustomPillModal = ({
 
     return (
         <Modal
-            bodyStyle={{ height: '100vh', padding: 0, width: '100vw' }}
+            bodyStyle={{ height: '100vh', maxHeight: '100vh', padding: 0, width: '100vw' }}
             cancelButtonProps={{ style: { display: 'none' } }}
             className={styles.modalContainer}
             closable={false}

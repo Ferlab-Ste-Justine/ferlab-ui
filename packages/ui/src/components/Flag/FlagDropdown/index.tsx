@@ -12,6 +12,7 @@ import { sortFlags } from '../utils';
 import styles from './index.module.css';
 
 export type TFlag = {
+    intl: any;
     options: string[];
     dictionary?: IFlagDictionary | Record<string, never>;
     handleSelect: (optionFlag: string) => void;
@@ -47,6 +48,7 @@ export const Flag = ({
     handlePopOverHover,
     handleSelect,
     history,
+    intl,
     isPopOverOpen,
     options,
 }: TFlag): ReactElement => {
@@ -94,6 +96,7 @@ export const Flag = ({
             label: <div className={styles.flagOption}>{dictionary?.options?.none || 'None'}</div>,
         },
     ];
+    const currentLocale = intl?.getInitOptions().currentLocale || 'en';
 
     const popOverContent = () => {
         const name = history?.[0]?.name ? getPractitionnerName(history[0].name) : undefined;
@@ -102,7 +105,9 @@ export const Flag = ({
                 <Space size={8}>
                     <UserAvatar className={styles.userAvatar} size={24} userName={name} />
                     <Text strong>{name}</Text>
-                    <Text type="secondary">{getRelativeDate(new Date(history[0].date), dictionary?.date)}</Text>
+                    <Text type="secondary">
+                        {getRelativeDate(new Date(history[0].date), dictionary?.date, currentLocale)}
+                    </Text>
                     <Tooltip placement="right" title={dictionary?.modal?.tooltip || 'View history'}>
                         <>
                             <Button
@@ -181,7 +186,9 @@ export const Flag = ({
                                         userName={h.name && getPractitionnerName(h.name)}
                                     />
                                     <Text strong>{h.name && getPractitionnerName(h.name)}</Text>
-                                    <Text type="secondary">{getRelativeDate(new Date(h.date), dictionary?.date)}</Text>
+                                    <Text type="secondary">
+                                        {getRelativeDate(new Date(h.date), dictionary?.date, currentLocale)}
+                                    </Text>
                                 </Space>
                             </Timeline.Item>
                         ))}

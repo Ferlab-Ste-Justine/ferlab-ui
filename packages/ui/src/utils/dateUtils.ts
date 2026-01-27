@@ -32,13 +32,14 @@ export default (
         today: 'Today at {hour}{ampm}',
         yesterday: 'Yesterday at {hour}{ampm}',
     },
+    currentLocale?: string,
 ): string | undefined => {
     const diff = Math.round((new Date().getTime() - new Date(date).getTime()) / 1000);
     const now = new Date();
     const hours = date.getHours();
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    const locale = localStorage.getItem('locale') === 'fr' ? 'fr-CA' : 'en-US';
+    const locale = currentLocale === 'fr' ? 'fr-CA' : 'en-US';
     const ampm = hours >= 12 ? 'pm' : 'am';
 
     if (diff < 30) {

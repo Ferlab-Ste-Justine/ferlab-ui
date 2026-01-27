@@ -129,6 +129,7 @@ const StatusTag = ({
             break;
     }
 
+    const currentLocale = intl?.getInitOptions().currentLocale || 'en';
     const getName = (name: { first_name: string; last_name: string }) => `${name.first_name} ${name.last_name}`;
     const popOverContent = () => {
         const name = history ? getName(history?.[0]?.name) : undefined;
@@ -137,7 +138,9 @@ const StatusTag = ({
                 <Space size={8}>
                     <UserAvatar className={styles.userAvatar} size={24} userName={name} />
                     <Text strong>{name}</Text>
-                    <Text type="secondary">{getRelativeDate(new Date(history[0].date), dictionary?.date)}</Text>
+                    <Text type="secondary">
+                        {getRelativeDate(new Date(history[0].date), dictionary?.date, currentLocale)}
+                    </Text>
                     <Tooltip placement="right" title={dictionary?.modal?.tooltip || 'View history'}>
                         <Button
                             className={styles.viewHistoryButton}
@@ -206,7 +209,9 @@ const StatusTag = ({
                                 <Space size={8}>
                                     <UserAvatar className={styles.userAvatar} size={24} userName={getName(h.name)} />
                                     <Text strong>{getName(h.name)}</Text>
-                                    <Text type="secondary">{getRelativeDate(new Date(h.date), dictionary?.date)}</Text>
+                                    <Text type="secondary">
+                                        {getRelativeDate(new Date(h.date), dictionary?.date, currentLocale)}
+                                    </Text>
                                 </Space>
                             </Timeline.Item>
                         ))}
