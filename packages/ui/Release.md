@@ -1,4 +1,4 @@
-### 10.34.0 2026-01-14
+### 10.34.0 2026-01-27
 - feat: CLIN-5096 change local getRelativeDate
 - feat: CLIN-5484 add maxHeight modal customPill
 

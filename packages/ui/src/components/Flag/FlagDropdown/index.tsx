@@ -96,6 +96,7 @@ export const Flag = ({
             label: <div className={styles.flagOption}>{dictionary?.options?.none || 'None'}</div>,
         },
     ];
+    const currentLocale = intl?.getInitOptions().currentLocale || 'en';
 
     const popOverContent = () => {
         const name = history?.[0]?.name ? getPractitionnerName(history[0].name) : undefined;
@@ -105,11 +106,7 @@ export const Flag = ({
                     <UserAvatar className={styles.userAvatar} size={24} userName={name} />
                     <Text strong>{name}</Text>
                     <Text type="secondary">
-                        {getRelativeDate(
-                            new Date(history[0].date),
-                            dictionary?.date,
-                            intl?.getInitOptions().currentLocale || 'en',
-                        )}
+                        {getRelativeDate(new Date(history[0].date), dictionary?.date, currentLocale)}
                     </Text>
                     <Tooltip placement="right" title={dictionary?.modal?.tooltip || 'View history'}>
                         <>
@@ -190,11 +187,7 @@ export const Flag = ({
                                     />
                                     <Text strong>{h.name && getPractitionnerName(h.name)}</Text>
                                     <Text type="secondary">
-                                        {getRelativeDate(
-                                            new Date(h.date),
-                                            dictionary?.date,
-                                            intl?.getInitOptions().currentLocale || 'en',
-                                        )}
+                                        {getRelativeDate(new Date(h.date), dictionary?.date, currentLocale)}
                                     </Text>
                                 </Space>
                             </Timeline.Item>
