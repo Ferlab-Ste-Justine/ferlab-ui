@@ -137,7 +137,13 @@ const StatusTag = ({
                 <Space size={8}>
                     <UserAvatar className={styles.userAvatar} size={24} userName={name} />
                     <Text strong>{name}</Text>
-                    <Text type="secondary">{getRelativeDate(new Date(history[0].date), dictionary?.date)}</Text>
+                    <Text type="secondary">
+                        {getRelativeDate(
+                            new Date(history[0].date),
+                            dictionary?.date,
+                            intl?.getInitOptions().currentLocale || 'en',
+                        )}
+                    </Text>
                     <Tooltip placement="right" title={dictionary?.modal?.tooltip || 'View history'}>
                         <Button
                             className={styles.viewHistoryButton}
@@ -206,7 +212,13 @@ const StatusTag = ({
                                 <Space size={8}>
                                     <UserAvatar className={styles.userAvatar} size={24} userName={getName(h.name)} />
                                     <Text strong>{getName(h.name)}</Text>
-                                    <Text type="secondary">{getRelativeDate(new Date(h.date), dictionary?.date)}</Text>
+                                    <Text type="secondary">
+                                        {getRelativeDate(
+                                            new Date(h.date),
+                                            dictionary?.date,
+                                            intl?.getInitOptions().currentLocale || 'en',
+                                        )}
+                                    </Text>
                                 </Space>
                             </Timeline.Item>
                         ))}

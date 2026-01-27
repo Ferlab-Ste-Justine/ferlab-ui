@@ -1,3 +1,7 @@
+### 10.34.0 2026-01-14
+- feat: CLIN-5096 change local getRelativeDate
+- feat: CLIN-5484 add maxHeight modal customPill
+
 ### 10.33.0 2026-01-14
 - feat: CLIN-5096 add history statusTag
 
