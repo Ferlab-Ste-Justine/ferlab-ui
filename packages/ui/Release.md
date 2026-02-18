@@ -1,3 +1,6 @@
+### 10.35.0 2026-02-18
+- feat: CLIN-5096 add onChange FLAutoComplete
+
 ### 10.34.0 2026-01-27
 - feat: CLIN-5096 change local getRelativeDate
 - feat: CLIN-5484 add maxHeight modal customPill

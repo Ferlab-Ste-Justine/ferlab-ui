@@ -87,3 +87,15 @@ FLAutoCompleteWithCustomValue.args = {
     allowClear: true,
     setValue: (option: FLAutoCompleteOption) => highlights.find(h => h.id = option.id)?.highlight
 };
+
+export const FLAutoCompleteWithOnChange = FLAutoCompleteStory.bind({});
+FLAutoCompleteWithOnChange.args = {
+    getResults: async (term: string) => (highlights.map(h => ({
+        ...h,
+        highlight: highlightText(h.highlight, term)
+    }))),
+    onSelect: alert,
+    title: "Autocomplete",
+    allowClear: true,
+    onChange: (value: string) => console.log('value', value)
+};
