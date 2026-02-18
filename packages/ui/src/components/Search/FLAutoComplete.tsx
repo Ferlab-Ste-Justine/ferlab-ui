@@ -20,6 +20,7 @@ export interface FLAutoCompleteProps {
     getResults: (term: string) => Promise<FLAutoCompleteOption[]>;
     onClear?: () => void;
     onSelect: (option: FLAutoCompleteOption) => void;
+    onChange?: (value: string) => void;
     placeholder?: string;
     showIds?: boolean;
     allowClear?: boolean;
@@ -32,6 +33,7 @@ const FLAutoComplete: React.FC<FLAutoCompleteProps> = ({
     defaultValue = '',
     getResults,
     minTermLength = 3,
+    onChange = () => null,
     onClear = () => null,
     onSelect,
     placeholder,
@@ -65,6 +67,7 @@ const FLAutoComplete: React.FC<FLAutoCompleteProps> = ({
             <AutoComplete
                 allowClear={allowClear}
                 defaultValue={defaultValue}
+                onChange={(value) => onChange(value)}
                 onClear={() => {
                     setOptions([]);
                     onClear();
