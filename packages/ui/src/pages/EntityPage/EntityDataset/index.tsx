@@ -51,10 +51,12 @@ export interface IEntityDatasetProps {
         files?: string;
     };
     containerClassName?: string;
+    defaultCollapsed?: boolean;
 }
 
 const EntityDataset = ({
     containerClassName,
+    defaultCollapsed = false,
     descriptions,
     dictionnary,
     file_count,
@@ -71,7 +73,7 @@ const EntityDataset = ({
                 {title}
             </Title>
         )}
-        <Collapse arrowIcon="caretFilled" className={styles.collapse} defaultActiveKey={['1']}>
+        <Collapse arrowIcon="caretFilled" className={styles.collapse} defaultActiveKey={defaultCollapsed ? [] : ['1']}>
             <CollapsePanel className={styles.panel} extra={titleExtra} header={header} key="1">
                 <Card className={styles.card} loading={loading}>
                     <div className={styles.rowDataset}>

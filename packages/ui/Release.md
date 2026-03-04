@@ -1,3 +1,6 @@
+### 10.35.1 2026-03-04
+- feat: SJIP-1517 add default collapse to Entity Dataset
+
 ### 10.35.0 2026-02-18
 - feat: CLIN-5096 add onChange FLAutoComplete
 
