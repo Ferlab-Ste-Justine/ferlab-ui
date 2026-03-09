@@ -2,7 +2,7 @@
     background: var(--landing-cavatica-gradient);
     width: 100%;
     height: 100%;
-    padding: 48px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -33,6 +33,7 @@
 .gzOas5aXB4iqCQXk_o30 {
     display: flex;
     gap: 8px;
+    margin-top: auto;
 }
 
 @media (max-width: 1024px) {
@@ -40,11 +41,11 @@
         padding: 40px;
     }
 }
-`,"",{version:3,sources:["webpack://./../packages/ui/core/pages/LandingPage/CavaticaCard/index.module.css"],names:[],mappings:"AAAA;IACI,4CAA4C;IAC5C,WAAW;IACX,YAAY;IACZ,aAAa;IACb,aAAa;IACb,sBAAsB;IACtB,2BAA2B;IAC3B,SAAS;IACT,oBAAoB;IACpB,kBAAkB;AACtB;;AAEA;IACI,eAAe;IACf,iBAAiB;AACrB;;AAEA;IACI,yBAAyB;IACzB,qBAAqB;AACzB;AACA;IACI,yBAAyB;IACzB,qBAAqB;AACzB;AACA;IACI,yBAAyB;IACzB,+BAA+B;IAC/B,gDAAgD;AACpD;;AAEA;IACI,aAAa;IACb,QAAQ;AACZ;;AAEA;IACI;QACI,aAAa;IACjB;AACJ",sourcesContent:[`.container {
+`,"",{version:3,sources:["webpack://./../packages/ui/core/pages/LandingPage/CavaticaCard/index.module.css"],names:[],mappings:"AAAA;IACI,4CAA4C;IAC5C,WAAW;IACX,YAAY;IACZ,aAAa;IACb,aAAa;IACb,sBAAsB;IACtB,2BAA2B;IAC3B,SAAS;IACT,oBAAoB;IACpB,kBAAkB;AACtB;;AAEA;IACI,eAAe;IACf,iBAAiB;AACrB;;AAEA;IACI,yBAAyB;IACzB,qBAAqB;AACzB;AACA;IACI,yBAAyB;IACzB,qBAAqB;AACzB;AACA;IACI,yBAAyB;IACzB,+BAA+B;IAC/B,gDAAgD;AACpD;;AAEA;IACI,aAAa;IACb,QAAQ;IACR,gBAAgB;AACpB;;AAEA;IACI;QACI,aAAa;IACjB;AACJ",sourcesContent:[`.container {
     background: var(--landing-cavatica-gradient);
     width: 100%;
     height: 100%;
-    padding: 48px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -75,6 +76,7 @@
 .buttonContainer {
     display: flex;
     gap: 8px;
+    margin-top: auto;
 }
 
 @media (max-width: 1024px) {
@@ -97,4 +99,4 @@
 
 /*# sourceMappingURL=index.module.css.map */
 `],sourceRoot:""}]),___CSS_LOADER_EXPORT___.locals={logo:"supc37P759eZXgRz_9m_"};let __WEBPACK_DEFAULT_EXPORT__=___CSS_LOADER_EXPORT___},"./stories/Pages/LandingPage/CavaticaCard/CavaticaCard.stories.tsx"(__unused_webpack_module,__webpack_exports__,__webpack_require__){"use strict";__webpack_require__.r(__webpack_exports__),__webpack_require__.d(__webpack_exports__,{CavaticaCardStory:()=>CavaticaCardStory,__namedExportsOrder:()=>__namedExportsOrder,default:()=>CavaticaCard_stories});var react=__webpack_require__("./node_modules/react/index.js"),CavaticaCard=__webpack_require__("../packages/ui/core/pages/LandingPage/CavaticaCard/index.js"),CavaticaCard_default=__webpack_require__.n(CavaticaCard);let cavatica_logo_namespaceObject=__webpack_require__.p+"static/media/cavatica-logo.d50cdab4.png";var injectStylesIntoStyleTag=__webpack_require__("./node_modules/@storybook/builder-webpack5/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js"),injectStylesIntoStyleTag_default=__webpack_require__.n(injectStylesIntoStyleTag),styleDomAPI=__webpack_require__("./node_modules/@storybook/builder-webpack5/node_modules/style-loader/dist/runtime/styleDomAPI.js"),styleDomAPI_default=__webpack_require__.n(styleDomAPI),insertBySelector=__webpack_require__("./node_modules/@storybook/builder-webpack5/node_modules/style-loader/dist/runtime/insertBySelector.js"),insertBySelector_default=__webpack_require__.n(insertBySelector),setAttributesWithoutAttributes=__webpack_require__("./node_modules/@storybook/builder-webpack5/node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js"),setAttributesWithoutAttributes_default=__webpack_require__.n(setAttributesWithoutAttributes),insertStyleElement=__webpack_require__("./node_modules/@storybook/builder-webpack5/node_modules/style-loader/dist/runtime/insertStyleElement.js"),insertStyleElement_default=__webpack_require__.n(insertStyleElement),styleTagTransform=__webpack_require__("./node_modules/@storybook/builder-webpack5/node_modules/style-loader/dist/runtime/styleTagTransform.js"),styleTagTransform_default=__webpack_require__.n(styleTagTransform),index_module=__webpack_require__("./node_modules/@storybook/builder-webpack5/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[8].use[1]!./stories/Pages/LandingPage/CavaticaCard/index.module.css"),options={};options.styleTagTransform=styleTagTransform_default(),options.setAttributes=setAttributesWithoutAttributes_default(),options.insert=insertBySelector_default().bind(null,"head"),options.domAPI=styleDomAPI_default(),options.insertStyleElement=insertStyleElement_default(),injectStylesIntoStyleTag_default()(index_module.A,options);let CavaticaCard_index_module=index_module.A&&index_module.A.locals?index_module.A.locals:void 0,CavaticaCard_stories={title:"@ferlab/Pages/LandingPage/CavaticaCard",component:CavaticaCard_default(),decorators:[function(Story){return react.createElement(Story,null)}]};var props={dictionary:{description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus, velit et hendrerit dapibus, nunc metus iaculis nunc, ut pretium massa turpis at metus. Fusce facilisis eget eros in laoreet. Proin velit erat, euismod id convallis ultricies, vulputate sed lectus. Quisque faucibus, erat blandit auctor egestas, lacus diam blandit massa, ac malesuada nulla est rutrum justo. In tincidunt elit at erat maximus consectetur. Mauris a risus ac eros consectetur tristique. Nam tempus aliquet maximus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In magna nunc, ornare ac orci a, tincidunt fringilla magna. Morbi ultrices vulputate gravida. Ut pulvinar enim sed nibh tempor gravida. Suspendisse ac nisl lacus.",learnMore:"Learn More",login:"Login"},logo:react.createElement("img",{src:cavatica_logo_namespaceObject,alt:"Cavatica Logo",className:CavaticaCard_index_module.logo})},CavaticaCardStory=function CavaticaCardStory(){return react.createElement(CavaticaCard_default(),props)};CavaticaCardStory.parameters={...CavaticaCardStory.parameters,docs:{...CavaticaCardStory.parameters?.docs,source:{originalSource:"() => <CavaticaCard {...props} />",...CavaticaCardStory.parameters?.docs?.source}}};let __namedExportsOrder=["CavaticaCardStory"]}}]);
-//# sourceMappingURL=Pages-LandingPage-CavaticaCard-CavaticaCard-stories.bf8db033.iframe.bundle.js.map
+//# sourceMappingURL=Pages-LandingPage-CavaticaCard-CavaticaCard-stories.8a357c58.iframe.bundle.js.map
