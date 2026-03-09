@@ -1,3 +1,6 @@
+### 10.35.2 2026-03-09
+- feat: SJIP-1492 style variant, cavatica and generic card
+
 ### 10.35.1 2026-03-04
 - feat: SJIP-1517 add default collapse to Entity Dataset
 
