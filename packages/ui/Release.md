@@ -1,3 +1,6 @@
+### 10.35.3 2026-03-11
+- feat: SJIP-1518 add tags to entity title logo
+
 ### 10.35.2 2026-03-09
 - feat: SJIP-1492 style variant, cavatica and generic card
 

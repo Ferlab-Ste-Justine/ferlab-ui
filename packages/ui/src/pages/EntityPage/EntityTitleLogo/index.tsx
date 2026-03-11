@@ -9,9 +9,10 @@ export interface IEntityTitleLogo {
     loading?: boolean;
     logo: React.ReactNode;
     title?: string;
+    titleTags?: React.ReactNode;
 }
 
-const EntityTitleLogo: React.FC<IEntityTitleLogo> = ({ extra, loading, logo, title }) => {
+const EntityTitleLogo: React.FC<IEntityTitleLogo> = ({ extra, loading, logo, title, titleTags }) => {
     if (loading) return <Skeleton loading={loading} paragraph={{ rows: 0 }} />;
 
     return (
@@ -30,6 +31,7 @@ const EntityTitleLogo: React.FC<IEntityTitleLogo> = ({ extra, loading, logo, tit
                             </Title>
                         </div>
                     )}
+                    {titleTags && <div className={styles.tagsWrapper}>{titleTags}</div>}
                 </div>
             }
             {extra && <div className={styles.extra}>{extra}</div>}
