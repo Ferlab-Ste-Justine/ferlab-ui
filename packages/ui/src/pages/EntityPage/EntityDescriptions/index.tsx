@@ -18,6 +18,7 @@ export interface IEntityDescriptions {
     subheader?: React.ReactNode;
     title?: string;
     titleExtra?: ReactNode[];
+    contentExtra?: ReactNode;
 }
 
 export interface IEntityDescriptionsItem {
@@ -27,6 +28,7 @@ export interface IEntityDescriptionsItem {
 }
 
 const EntityDescriptions: React.FC<IEntityDescriptions> = ({
+    contentExtra,
     descriptions,
     header,
     id = '',
@@ -46,16 +48,22 @@ const EntityDescriptions: React.FC<IEntityDescriptions> = ({
             <CollapsePanel className={styles.panel} extra={titleExtra} header={header} key="1">
                 <Card className={styles.card} loading={loading}>
                     {descriptions.length > 0 ? (
-                        <Space className={styles.content} direction="vertical" size={0}>
-                            {subheader}
-                            <Descriptions bordered column={1} size="small">
-                                {descriptions.map((description, index) => (
-                                    <Descriptions.Item key={`${description.label}:${index}`} label={description.label}>
-                                        {description.value || TABLE_EMPTY_PLACE_HOLDER}
-                                    </Descriptions.Item>
-                                ))}
-                            </Descriptions>
-                        </Space>
+                        <>
+                            <Space className={styles.content} direction="vertical" size={0}>
+                                {subheader}
+                                <Descriptions bordered column={1} size="small">
+                                    {descriptions.map((description, index) => (
+                                        <Descriptions.Item
+                                            key={`${description.label}:${index}`}
+                                            label={description.label}
+                                        >
+                                            {description.value || TABLE_EMPTY_PLACE_HOLDER}
+                                        </Descriptions.Item>
+                                    ))}
+                                </Descriptions>
+                            </Space>
+                            {contentExtra}
+                        </>
                     ) : (
                         <Empty align="left" description={noDataLabel} noPadding showImage={false} />
                     )}
