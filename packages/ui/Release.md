@@ -1,3 +1,6 @@
+### 10.35.4 2026-03-12
+- feat: SJIP-1519 add extra content in entity descriptions
+
 ### 10.35.3 2026-03-11
 - feat: SJIP-1518 add tags to entity title logo
 
