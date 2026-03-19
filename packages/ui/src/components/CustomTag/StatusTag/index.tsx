@@ -24,6 +24,7 @@ import styles from './index.module.css';
 export enum StatusOptions {
     Active = 'active',
     Draft = 'draft',
+    Processing = 'processing',
     OnHold = 'on-hold',
     Completed = 'completed',
     Revoked = 'revoked',
@@ -36,6 +37,7 @@ export enum StatusOptions {
 export const STATUS_ICON_MAP = {
     [StatusOptions.Active]: <CheckCircleOutlined />,
     [StatusOptions.Draft]: <FormOutlined />,
+    [StatusOptions.Processing]: <HourglassOutlined />,
     [StatusOptions.OnHold]: <HourglassOutlined />,
     [StatusOptions.Completed]: <CheckCircleOutlined />,
     [StatusOptions.Revoked]: <CloseCircleOutlined />,
@@ -102,6 +104,9 @@ const StatusTag = ({
     switch (status) {
         case StatusOptions.Active:
             color = 'green';
+            break;
+        case StatusOptions.Processing:
+            color = 'orange';
             break;
         case StatusOptions.Draft:
             className = 'white';

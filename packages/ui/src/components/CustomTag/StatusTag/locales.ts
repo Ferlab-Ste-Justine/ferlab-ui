@@ -13,6 +13,7 @@ export default {
             're-analysis': 'Reanalysis',
             review: 'In review',
             unknown: 'Unknown',
+            processing: 'Processing',
         },
         date: {
             now: 'Now',
@@ -38,6 +39,7 @@ export default {
             're-analysis': 'En réanalyse',
             review: 'En révision',
             unknown: 'Inconnu',
+            processing: 'En traitement',
         },
         date: {
             now: 'Maintenant',

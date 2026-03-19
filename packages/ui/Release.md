@@ -1,3 +1,6 @@
+### 10.35.5 2026-03-19
+- feat: CLIN-5758 add processing status tag
+
 ### 10.35.4 2026-03-12
 - feat: SJIP-1519 add extra content in entity descriptions
 
