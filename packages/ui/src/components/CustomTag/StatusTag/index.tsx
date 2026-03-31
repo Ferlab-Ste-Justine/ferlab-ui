@@ -56,6 +56,7 @@ export type StatusLabelProps = {
     history?: { name: { first_name: string; last_name: string }; date: string; options: string }[];
     handlePopOverHover?: (open: boolean) => void;
     isPopOverOpen?: boolean;
+    tooltip?: string;
 };
 
 const StatusTag = ({
@@ -67,10 +68,12 @@ const StatusTag = ({
     isPopOverOpen = false,
     readOnly = true,
     status,
+    tooltip,
 }: StatusLabelProps): React.ReactElement => {
     dictionary = getComponentDictionnary(intl, defaultDictionary, dictionary);
     const { Text } = Typography;
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const systemStatus = [StatusOptions.Processing, StatusOptions.OnHold];
 
     const dropdownItems: MenuProps['items'] = [
         {
@@ -162,13 +165,20 @@ const StatusTag = ({
     };
 
     return readOnly ? (
-        <Tag className={className ? `status-tag-${className}` : undefined} color={color} icon={icon}>
-            {get(dictionary, `options.${status || 'unknown'}`)}
-        </Tag>
+        <Tooltip title={tooltip}>
+            <Tag className={className ? `status-tag-${className}` : undefined} color={color} icon={icon}>
+                {get(dictionary, `options.${status || 'unknown'}`)}
+            </Tag>
+        </Tooltip>
     ) : (
         <>
-            <Popover content={popOverContent} onOpenChange={handlePopOverHover} open={isPopOverOpen}>
+            <Popover
+                content={popOverContent}
+                onOpenChange={handlePopOverHover}
+                open={isPopOverOpen && !systemStatus.includes(status as StatusOptions)}
+            >
                 <Dropdown
+                    disabled={systemStatus.includes(status as StatusOptions)}
                     menu={{
                         defaultSelectedKeys: [status],
                         items: dropdownItems,
@@ -177,15 +187,17 @@ const StatusTag = ({
                     }}
                     trigger={['click']}
                 >
-                    <Button className={styles.statusButton} size="small">
-                        <Tag
-                            className={`${styles.statusTag} ${className ? `status-tag-${className}` : ''}`}
-                            color={color}
-                            icon={icon}
-                        >
-                            {get(dictionary, `options.${status || 'unknown'}`)}
-                        </Tag>
-                    </Button>
+                    <Tooltip title={tooltip}>
+                        <Button className={styles.statusButton} size="small">
+                            <Tag
+                                className={`${styles.statusTag} ${className ? `status-tag-${className}` : ''}`}
+                                color={color}
+                                icon={icon}
+                            >
+                                {get(dictionary, `options.${status || 'unknown'}`)}
+                            </Tag>
+                        </Button>
+                    </Tooltip>
                 </Dropdown>
             </Popover>
             <Modal
