@@ -1,3 +1,6 @@
+### 10.35.6 2026-03-31
+- feat: CLIN-5758 add tooltip option status tag
+
 ### 10.35.5 2026-03-19
 - feat: CLIN-5758 add processing status tag
 
