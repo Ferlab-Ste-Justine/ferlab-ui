@@ -3,70 +3,88 @@
 }`,"",{version:3,sources:["webpack://./../packages/ui/core/components/FilterBox/Sorter.module.css"],names:[],mappings:"AAAA;EACE,mBAAmB;AACrB",sourcesContent:[`.sortTrigger :global(.ant-space-item):first-child {
   white-space: nowrap;
 }`],sourceRoot:""}]),___CSS_LOADER_EXPORT___.locals={sortTrigger:"vAoFBB7apNOiIdTtcQHn"};let __WEBPACK_DEFAULT_EXPORT__=___CSS_LOADER_EXPORT___},"./node_modules/@storybook/builder-webpack5/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[8].use[1]!../packages/ui/core/components/FilterBox/index.module.css"(module,__webpack_exports__,__webpack_require__){"use strict";__webpack_require__.d(__webpack_exports__,{A:()=>__WEBPACK_DEFAULT_EXPORT__});var _storybook_node_modules_storybook_builder_webpack5_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__=__webpack_require__("./node_modules/@storybook/builder-webpack5/node_modules/css-loader/dist/runtime/sourceMaps.js"),_storybook_node_modules_storybook_builder_webpack5_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default=__webpack_require__.n(_storybook_node_modules_storybook_builder_webpack5_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__),_storybook_node_modules_storybook_builder_webpack5_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__=__webpack_require__("./node_modules/@storybook/builder-webpack5/node_modules/css-loader/dist/runtime/api.js"),___CSS_LOADER_EXPORT___=__webpack_require__.n(_storybook_node_modules_storybook_builder_webpack5_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__)()(_storybook_node_modules_storybook_builder_webpack5_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());___CSS_LOADER_EXPORT___.push([module.id,`.wGAr_tAGDwtXUp2ZyKE9 {
-  width: 100%;
-  max-width: 1200px;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .LQGBCptCoOujH6WpgBYS {
-  width: 100%;
+    width: 100%;
 }
 .LQGBCptCoOujH6WpgBYS ._DvDjnFeq2msCPdgrPfk {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
 }
 
 .AhU1dLe8i2X0afedmeUr {
-  width: 300px;
+    width: 300px;
+}
+/* Force the native "+ N ..." rest indicator to match the custom tags height (22px) */
+.AhU1dLe8i2X0afedmeUr .ant-select-selection-item {
+    height: 22px;
+    line-height: 20px;
+    margin-block: 0;
 }
 
 .hgC1Gqho47HrrGLNQ3S3 {
-  display: flex;
-  align-items: center;
-  background-color: var(--blue-8);
-  color: var(--gray-1);
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    line-height: 1;
+    margin-block: 0;
+    background-color: var(--blue-8);
+    color: var(--gray-1);
 }
 .hgC1Gqho47HrrGLNQ3S3 > * {
-  color: var(--gray-1);
+    color: var(--gray-1);
 }
 .hgC1Gqho47HrrGLNQ3S3 .x_Iwt7r5F03du78AChl3 {
-  max-width: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-`,"",{version:3,sources:["webpack://./../packages/ui/core/components/FilterBox/index.module.css"],names:[],mappings:"AAAA;EACE,WAAW;EACX,iBAAiB;AACnB;;AAEA;EACE,WAAW;AACb;AACA;EACE,aAAa;EACb,mBAAmB;EACnB,mBAAmB;EACnB,SAAS;AACX;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,aAAa;EACb,mBAAmB;EACnB,+BAA+B;EAC/B,oBAAoB;AACtB;AACA;EACE,oBAAoB;AACtB;AACA;EACE,gBAAgB;EAChB,gBAAgB;EAChB,uBAAuB;AACzB",sourcesContent:[`.filtersContainer {
-  width: 100%;
-  max-width: 1200px;
+`,"",{version:3,sources:["webpack://./../packages/ui/core/components/FilterBox/index.module.css"],names:[],mappings:"AAAA;IACI,WAAW;IACX,iBAAiB;AACrB;;AAEA;IACI,WAAW;AACf;AACA;IACI,aAAa;IACb,mBAAmB;IACnB,mBAAmB;IACnB,SAAS;AACb;;AAEA;IACI,YAAY;AAChB;AACA,qFAAqF;AACrF;IACI,YAAY;IACZ,iBAAiB;IACjB,eAAe;AACnB;;AAEA;IACI,oBAAoB;IACpB,mBAAmB;IACnB,YAAY;IACZ,cAAc;IACd,eAAe;IACf,+BAA+B;IAC/B,oBAAoB;AACxB;AACA;IACI,oBAAoB;AACxB;AACA;IACI,gBAAgB;IAChB,gBAAgB;IAChB,uBAAuB;AAC3B",sourcesContent:[`.filtersContainer {
+    width: 100%;
+    max-width: 1200px;
 }
 
 .searchBarContainer {
-  width: 100%;
+    width: 100%;
 }
 .searchBarContainer .filterContentWrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
 }
 
 .filterMultiSelect {
-  width: 300px;
+    width: 300px;
+}
+/* Force the native "+ N ..." rest indicator to match the custom tags height (22px) */
+.filterMultiSelect :global(.ant-select-selection-item) {
+    height: 22px;
+    line-height: 20px;
+    margin-block: 0;
 }
 
 .filterTag {
-  display: flex;
-  align-items: center;
-  background-color: var(--blue-8);
-  color: var(--gray-1);
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    line-height: 1;
+    margin-block: 0;
+    background-color: var(--blue-8);
+    color: var(--gray-1);
 }
 .filterTag > * {
-  color: var(--gray-1);
+    color: var(--gray-1);
 }
 .filterTag .filterTagText {
-  max-width: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 `],sourceRoot:""}]),___CSS_LOADER_EXPORT___.locals={filtersContainer:"wGAr_tAGDwtXUp2ZyKE9",searchBarContainer:"LQGBCptCoOujH6WpgBYS",filterContentWrapper:"_DvDjnFeq2msCPdgrPfk",filterMultiSelect:"AhU1dLe8i2X0afedmeUr",filterTag:"hgC1Gqho47HrrGLNQ3S3",filterTagText:"x_Iwt7r5F03du78AChl3"};let __WEBPACK_DEFAULT_EXPORT__=___CSS_LOADER_EXPORT___},"./node_modules/@storybook/builder-webpack5/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[8].use[1]!../packages/ui/core/components/ProLabel/index.module.css"(module,__webpack_exports__,__webpack_require__){"use strict";__webpack_require__.d(__webpack_exports__,{A:()=>__WEBPACK_DEFAULT_EXPORT__});var _storybook_node_modules_storybook_builder_webpack5_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__=__webpack_require__("./node_modules/@storybook/builder-webpack5/node_modules/css-loader/dist/runtime/sourceMaps.js"),_storybook_node_modules_storybook_builder_webpack5_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default=__webpack_require__.n(_storybook_node_modules_storybook_builder_webpack5_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__),_storybook_node_modules_storybook_builder_webpack5_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__=__webpack_require__("./node_modules/@storybook/builder-webpack5/node_modules/css-loader/dist/runtime/api.js"),___CSS_LOADER_EXPORT___=__webpack_require__.n(_storybook_node_modules_storybook_builder_webpack5_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__)()(_storybook_node_modules_storybook_builder_webpack5_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());___CSS_LOADER_EXPORT___.push([module.id,`.o7tUyykyGqJ8SdQMLZ2w {
   display: flex;
@@ -291,4 +309,4 @@
   margin-bottom: 24px;
 }
 `],sourceRoot:""}]),___CSS_LOADER_EXPORT___.locals={communityWrapper:"Hmfj70eYfxmKdHegGF0Z",tableWrapper:"sfbtPNkT_KeEYqvfWczd",title:"iFoki6V1zRd8AkqOhDDi",usagesWrapper:"YwWL5xdbrI8av05EqAC6",commercialUseWrapper:"QPf_vJUZ0QCLURk_rT64",usagesListTitle:"viX5cFPobMbDwB_ZLvXp",usagesList:"vPp3fmmbTn2JrVFevWjA",commercialUseReason:"wU4aQTumcQ7EOBbXPqQp",usersListWrapper:"GmlbdqgB9AcoHBnpPH_q",membersList:"NE04tmgul1_8Al2W8jQw",memberListItem:"jOayvNCxWD8MvdR0raZw"};let __WEBPACK_DEFAULT_EXPORT__=___CSS_LOADER_EXPORT___},"./stories/Pages/CommunityPage/CommunityMembers.stories.tsx"(__unused_webpack_module,__webpack_exports__,__webpack_require__){"use strict";__webpack_require__.r(__webpack_exports__),__webpack_require__.d(__webpack_exports__,{CommunityMembersPageStory:()=>CommunityMembersPageStory,__namedExportsOrder:()=>__namedExportsOrder,default:()=>__WEBPACK_DEFAULT_EXPORT__});var react__WEBPACK_IMPORTED_MODULE_0__=__webpack_require__("./node_modules/react/index.js"),_ferlab_ui_core_pages_CommunityPage__WEBPACK_IMPORTED_MODULE_1__=__webpack_require__("../packages/ui/core/pages/CommunityPage/index.js"),_ferlab_ui_core_pages_CommunityPage__WEBPACK_IMPORTED_MODULE_1___default=__webpack_require__.n(_ferlab_ui_core_pages_CommunityPage__WEBPACK_IMPORTED_MODULE_1__);let __WEBPACK_DEFAULT_EXPORT__={title:"@ferlab/Pages/Community/List",component:_ferlab_ui_core_pages_CommunityPage__WEBPACK_IMPORTED_MODULE_1___default(),decorators:[function(Story){return react__WEBPACK_IMPORTED_MODULE_0__.createElement(Story,null)}]};var props={handleActiveFilter:function handleActiveFilter(searchParams){console.log("searchParams",searchParams)},options:{roles:[{value:"research",label:"Researcher"},{value:"health",label:"Healthcare Professional"},{value:"patient",label:"Patient/Family Member"},{value:"community",label:"Community Member"}]},handlePageChange:function handlePageChange(page){console.log("page",page)},activeFilter:{},pageSize:5,totalPage:10,loading:!1,totalMembers:100,renderMember:function renderMember(activeFilter,item){return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div",null,item.last_name," ",item.last_name)},users:[1,2,3,4,5,6,7,8,9,10].map(function(value){return{accepted_terms:!0,areas_of_interest:["bladder exstrophy-epispadias complex","congenital diaphragmatic hernia"],commercial_use_reason:"true",completed_registration:!0,config:{},creation_date:new Date("2020-05-12T23:50:21.817Z"),email:"email_".concat(value,"@gmail.com"),first_name:"First_name ".concat(value),id:"".concat(value),keycloak_id:"keycloak_".concat(value),last_name:"Last_name ".concat(value),linkedin:"linked.com",roles:["Research","Patient"],understand_disclaimer:!0,updated_date:new Date("2020-05-12T23:50:21.817Z"),website:"website.com"}})},CommunityMembersPageStory=function CommunityMembersPageStory(){return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ferlab_ui_core_pages_CommunityPage__WEBPACK_IMPORTED_MODULE_1___default(),props)};CommunityMembersPageStory.parameters={...CommunityMembersPageStory.parameters,docs:{...CommunityMembersPageStory.parameters?.docs,source:{originalSource:"() => <CommunityMembersPage {...props} />",...CommunityMembersPageStory.parameters?.docs?.source}}};let __namedExportsOrder=["CommunityMembersPageStory"]}}]);
-//# sourceMappingURL=Pages-CommunityPage-CommunityMembers-stories.ee6aa678.iframe.bundle.js.map
+//# sourceMappingURL=Pages-CommunityPage-CommunityMembers-stories.8aec7108.iframe.bundle.js.map

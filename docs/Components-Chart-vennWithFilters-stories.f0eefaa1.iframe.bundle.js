@@ -41,6 +41,12 @@
 ._hGECYXVYXIbmF6i5_00 {
     width: 100%;
 }
+/* Force the native "+ N ..." rest indicator to match the custom tags height (22px) */
+._hGECYXVYXIbmF6i5_00 .ant-select-selection-item {
+    height: 22px;
+    line-height: 20px;
+    margin-block: 0;
+}
 
 .IPPRIvxdTQdJpMr6fkc7 {
     color: var(--gray-9);
@@ -56,8 +62,11 @@
 }
 
 .hvLUT9t3eYNq1IWCJRmg {
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    height: 22px;
+    line-height: 1;
+    margin-block: 0;
     background-color: var(--blue-8);
     color: var(--gray-1);
     margin-right: 3px !important;
@@ -83,7 +92,7 @@
 .S3Byv6h17Oq3UA4nPxxH button {
     padding: 4px 8px;
 }
-`,"",{version:3,sources:["webpack://./../packages/ui/core/components/Charts/Venn/VennChartWithFilters/index.module.css"],names:[],mappings:"AAAA;IACI,aAAa;IACb,SAAS;IACT,sBAAsB;AAC1B;;AAEA;IACI,aAAa;IACb,2BAA2B;IAC3B,qBAAqB;IACrB,SAAS;IACT,mCAAmC;AACvC;AACA;IACI,aAAa;IACb,gBAAgB;IAChB,sBAAsB;IACtB,uBAAuB;IACvB,WAAW;AACf;AACA;IACI,aAAa;IACb,gBAAgB;IAChB,sBAAsB;IACtB,uBAAuB;IACvB,WAAW;AACf;AACA;IACI,mBAAmB;AACvB;AACA;IACI,WAAW;AACf;;AAEA;IACI,oBAAoB;AACxB;AACA;IACI,+BAA+B;AACnC;;AAEA;IACI,iBAAiB;IACjB,oBAAoB;IACpB,eAAe;AACnB;;AAEA;IACI,aAAa;IACb,mBAAmB;IACnB,+BAA+B;IAC/B,oBAAoB;IACpB,4BAA4B;AAChC;AACA;IACI,oBAAoB;AACxB;AACA;IACI,gBAAgB;IAChB,gBAAgB;IAChB,uBAAuB;AAC3B;;AAEA;IACI,kBAAkB;IAClB,+BAA+B;IAC/B,yBAAyB;IACzB,aAAa;IACb,aAAa;IACb,uBAAuB;AAC3B;;AAEA;IACI,gBAAgB;AACpB",sourcesContent:[`.vennChart {
+`,"",{version:3,sources:["webpack://./../packages/ui/core/components/Charts/Venn/VennChartWithFilters/index.module.css"],names:[],mappings:"AAAA;IACI,aAAa;IACb,SAAS;IACT,sBAAsB;AAC1B;;AAEA;IACI,aAAa;IACb,2BAA2B;IAC3B,qBAAqB;IACrB,SAAS;IACT,mCAAmC;AACvC;AACA;IACI,aAAa;IACb,gBAAgB;IAChB,sBAAsB;IACtB,uBAAuB;IACvB,WAAW;AACf;AACA;IACI,aAAa;IACb,gBAAgB;IAChB,sBAAsB;IACtB,uBAAuB;IACvB,WAAW;AACf;AACA;IACI,mBAAmB;AACvB;AACA;IACI,WAAW;AACf;AACA,qFAAqF;AACrF;IACI,YAAY;IACZ,iBAAiB;IACjB,eAAe;AACnB;;AAEA;IACI,oBAAoB;AACxB;AACA;IACI,+BAA+B;AACnC;;AAEA;IACI,iBAAiB;IACjB,oBAAoB;IACpB,eAAe;AACnB;;AAEA;IACI,oBAAoB;IACpB,mBAAmB;IACnB,YAAY;IACZ,cAAc;IACd,eAAe;IACf,+BAA+B;IAC/B,oBAAoB;IACpB,4BAA4B;AAChC;AACA;IACI,oBAAoB;AACxB;AACA;IACI,gBAAgB;IAChB,gBAAgB;IAChB,uBAAuB;AAC3B;;AAEA;IACI,kBAAkB;IAClB,+BAA+B;IAC/B,yBAAyB;IACzB,aAAa;IACb,aAAa;IACb,uBAAuB;AAC3B;;AAEA;IACI,gBAAgB;AACpB",sourcesContent:[`.vennChart {
     display: flex;
     gap: 24px;
     flex-direction: column;
@@ -116,6 +125,12 @@
 .select {
     width: 100%;
 }
+/* Force the native "+ N ..." rest indicator to match the custom tags height (22px) */
+.select :global(.ant-select-selection-item) {
+    height: 22px;
+    line-height: 20px;
+    margin-block: 0;
+}
 
 .labelOption {
     color: var(--gray-9);
@@ -131,8 +146,11 @@
 }
 
 .filterTag {
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    height: 22px;
+    line-height: 1;
+    margin-block: 0;
     background-color: var(--blue-8);
     color: var(--gray-1);
     margin-right: 3px !important;
@@ -405,4 +423,4 @@
     }} />
         </div>
     </>`,...VennChartWithThreeSetsWithInvalidValues.parameters?.docs?.source}}};let __namedExportsOrder=["VennLoading","VennChartWithTwoSets","VennChartWithThreeSets","VennChartWithThreeSetsWithInvalidValues"]}}]);
-//# sourceMappingURL=Components-Chart-vennWithFilters-stories.c63bc723.iframe.bundle.js.map
+//# sourceMappingURL=Components-Chart-vennWithFilters-stories.f0eefaa1.iframe.bundle.js.map
