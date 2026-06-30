@@ -1,3 +1,6 @@
+### 10.35.7 2026-06-30
+- fix: SJIP-1577 update select tag render style
+
 ### 10.35.6 2026-03-31
 - feat: CLIN-5758 add tooltip option status tag
 
